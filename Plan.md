@@ -436,3 +436,24 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 25: Signature Card Art And Martial VFX Pass
+
+- [x] Re-read PRD, core gameplay, chapter-one, and Zhao Yun / Diao Chan character docs before visual implementation.
+- [x] Add dedicated card-art manifest entries for the new Zhao Yun and Diao Chan archetype cards instead of falling back to generic type art.
+- [x] Generate project-local ink-pass PNG runtime assets for the new card illustrations.
+- [x] Add signature VFX manifest entries and transparent runtime PNG effects for 七进七出、枪围如墙、惊鸿一击、离间.
+- [x] Emit source-aware combat visual events for signature martial cards so DOM/Phaser adapters can render card-specific effects without adding gameplay rules to renderer code.
+- [x] Add regression tests for card art assets, VFX manifest entries, and signature-card visual events.
+- [x] Verify desktop combat screenshots for top bars, center duel, bottom hand, energy separation, and attack-strip layout.
+
+Verification:
+
+```bash
+npm test -- tests/data/content.test.ts tests/combat/combat-system.test.ts
+npm run typecheck
+npm run build
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+npm test
+npm run test:e2e
+```

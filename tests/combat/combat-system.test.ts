@@ -111,6 +111,17 @@ const vanish: CardDefinition = {
   exhaust: true
 };
 
+const signatureSpearArt: CardDefinition = {
+  id: "signature-spear-art",
+  name: "七进七出",
+  cost: 1,
+  rarity: "uncommon",
+  target: "enemy",
+  types: ["attack"],
+  effects: [{ action: "damage", amount: 4 }]
+} as CardDefinition;
+(signatureSpearArt as CardDefinition & { visualCue: string }).visualCue = "zhao-seven-entries";
+
 const zhaoYun: CharacterDefinition = {
   id: "zhaoyun",
   name: "赵云",
@@ -138,7 +149,7 @@ const bandit: EnemyDefinition = {
   intents: [{ type: "attack", damage: 8, hits: 1 }]
 };
 
-const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, vanish];
+const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, vanish, signatureSpearArt];
 
 function startCombat(character: CharacterDefinition, starterDeck = character.starterDeck): CombatState {
   return createCombat({
@@ -370,6 +381,26 @@ describe("combat system", () => {
     expect(state.piles.hand).toHaveLength(4);
     expect(state.piles.exhaust.some((item) => item.definitionId === "vanish")).toBe(true);
     expect(state.combatLog).toContain("断招");
+  });
+
+  it("emits source-aware visual cues when a signature martial card is played", () => {
+    const state = startCombat(zhaoYun, ["signature-spear-art", "guard", "guard", "guard", "guard"]);
+    const card = state.piles.hand.find((item) => item.definitionId === "signature-spear-art");
+
+    playCard(state, card?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.combatLog).toContain("七进七出");
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          kind: "trigger",
+          target: "center",
+          label: "七进七出",
+          sourceCardId: "signature-spear-art",
+          visualCue: "zhao-seven-entries"
+        })
+      ])
+    );
   });
 
   it("lets Diao Chan charm reduce incoming enemy attack damage", () => {

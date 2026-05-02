@@ -3,7 +3,7 @@ import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById } from "../game/content/events";
 import { relicsById } from "../game/content/relics";
-import { cardArtById, combatPortraitsById, combatSpriteSheetsById } from "../game/content/visuals";
+import { cardArtById, combatPortraitsById, combatSpriteSheetsById, signatureVfxByCue } from "../game/content/visuals";
 import {
   clearSavedGame,
   hasSavedGame,
@@ -980,6 +980,10 @@ function createCombatVfxLayer(combat: CombatState): HTMLElement {
 }
 
 function getCombatVfxClass(event: CombatVisualEvent): string | undefined {
+  if (event.visualCue) {
+    return signatureVfxByCue[event.visualCue]?.className;
+  }
+
   if (event.kind === "damage") {
     return "combat-vfx-slash";
   }
@@ -1000,6 +1004,10 @@ function getCombatVfxClass(event: CombatVisualEvent): string | undefined {
 }
 
 function getCombatVfxTestId(event: CombatVisualEvent): string {
+  if (event.visualCue) {
+    return signatureVfxByCue[event.visualCue]?.testId ?? "combat-vfx-signature";
+  }
+
   if (event.kind === "damage") {
     return "combat-vfx-slash";
   }

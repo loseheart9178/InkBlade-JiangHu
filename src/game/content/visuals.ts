@@ -1,3 +1,5 @@
+import type { CardVisualCueId, CombatVisualTone } from "../systems/combat/types";
+
 export interface CombatPortraitDefinition {
   id: string;
   assetPath: string;
@@ -25,6 +27,16 @@ export interface CombatSpriteSheetDefinition {
 export interface BattlefieldAssetDefinition {
   id: string;
   assetPath: string;
+  alt: string;
+}
+
+export interface SignatureVfxDefinition {
+  id: CardVisualCueId;
+  cardId: string;
+  assetPath: string;
+  className: string;
+  testId: string;
+  tone: CombatVisualTone;
   alt: string;
 }
 
@@ -93,6 +105,12 @@ export const combatPortraitsById: Record<string, CombatPortraitDefinition> = Obj
 
 export const cardArtList: CardArtDefinition[] = [
   {
+    id: "zhao_break_spear",
+    assetPath: "/assets/generated/cards/zhao-break-spear-ink-pass.png",
+    alt: "Zhao Yun breaking spear ink card art",
+    accent: "red"
+  },
+  {
     id: "zhao_strike",
     assetPath: "/assets/generated/cards/card-red-spear-gpt.png",
     alt: "Spear strike ink card art",
@@ -105,6 +123,36 @@ export const cardArtList: CardArtDefinition[] = [
     accent: "gold"
   },
   {
+    id: "zhao_river_guard",
+    assetPath: "/assets/generated/cards/zhao-river-guard-ink-pass.png",
+    alt: "Zhao Yun river guard ink card art",
+    accent: "teal"
+  },
+  {
+    id: "zhao_seven_entries",
+    assetPath: "/assets/generated/cards/zhao-seven-entries-ink-pass.png",
+    alt: "Zhao Yun seven entries spear rush ink card art",
+    accent: "gold"
+  },
+  {
+    id: "zhao_white_horse_breakout",
+    assetPath: "/assets/generated/cards/zhao-white-horse-breakout-ink-pass.png",
+    alt: "White horse breakout ink card art",
+    accent: "teal"
+  },
+  {
+    id: "zhao_return_spear",
+    assetPath: "/assets/generated/cards/zhao-return-spear-ink-pass.png",
+    alt: "Return spear counter ink card art",
+    accent: "teal"
+  },
+  {
+    id: "zhao_spear_wall",
+    assetPath: "/assets/generated/cards/zhao-spear-wall-ink-pass.png",
+    alt: "Spear wall guard ink card art",
+    accent: "teal"
+  },
+  {
     id: "diao_charm",
     assetPath: "/assets/generated/cards/card-red-ribbon-gpt.png",
     alt: "Charm ribbon ink card art",
@@ -114,6 +162,36 @@ export const cardArtList: CardArtDefinition[] = [
     id: "diao_closed_moon",
     assetPath: "/assets/generated/cards/card-meditation-guard-gpt.png",
     alt: "Closed moon dance ink card art",
+    accent: "teal"
+  },
+  {
+    id: "diao_lotus_blade",
+    assetPath: "/assets/generated/cards/diao-lotus-blade-ink-pass.png",
+    alt: "Diao Chan lotus hidden blade ink card art",
+    accent: "red"
+  },
+  {
+    id: "diao_jinghong_strike",
+    assetPath: "/assets/generated/cards/diao-jinghong-strike-ink-pass.png",
+    alt: "Diao Chan swan-strike ribbon ink card art",
+    accent: "red"
+  },
+  {
+    id: "diao_flying_sleeves",
+    assetPath: "/assets/generated/cards/diao-flying-sleeves-ink-pass.png",
+    alt: "Diao Chan flying sleeves ink card art",
+    accent: "teal"
+  },
+  {
+    id: "diao_lijian",
+    assetPath: "/assets/generated/cards/diao-lijian-ink-pass.png",
+    alt: "Diao Chan discord charm ink card art",
+    accent: "red"
+  },
+  {
+    id: "diao_mirror_flower",
+    assetPath: "/assets/generated/cards/diao-mirror-flower-ink-pass.png",
+    alt: "Diao Chan mirror flower ink card art",
     accent: "teal"
   },
   {
@@ -157,6 +235,49 @@ export const cardArtList: CardArtDefinition[] = [
 export const cardArtById: Record<string, CardArtDefinition> = Object.fromEntries(
   cardArtList.map((art) => [art.id, art])
 );
+
+export const signatureVfxList: SignatureVfxDefinition[] = [
+  {
+    id: "zhao-seven-entries",
+    cardId: "zhao_seven_entries",
+    assetPath: "/assets/generated/vfx/zhao-seven-entries-trail.png",
+    className: "combat-vfx-seven-entries",
+    testId: "combat-vfx-signature-zhao-seven-entries",
+    tone: "gold",
+    alt: "Seven spear afterimages in gold and ink"
+  },
+  {
+    id: "zhao-spear-wall",
+    cardId: "zhao_spear_wall",
+    assetPath: "/assets/generated/vfx/zhao-spear-wall-ward.png",
+    className: "combat-vfx-spear-wall",
+    testId: "combat-vfx-signature-zhao-spear-wall",
+    tone: "teal",
+    alt: "Circular spear wall guard ink effect"
+  },
+  {
+    id: "diao-jinghong-strike",
+    cardId: "diao_jinghong_strike",
+    assetPath: "/assets/generated/vfx/diao-jinghong-ribbon.png",
+    className: "combat-vfx-jinghong-strike",
+    testId: "combat-vfx-signature-diao-jinghong-strike",
+    tone: "red",
+    alt: "Crimson ribbon slash with petal ink"
+  },
+  {
+    id: "diao-lijian",
+    cardId: "diao_lijian",
+    assetPath: "/assets/generated/vfx/diao-lijian-moon.png",
+    className: "combat-vfx-lijian",
+    testId: "combat-vfx-signature-diao-lijian",
+    tone: "red",
+    alt: "Moon fan charm seal in crimson ink"
+  }
+];
+
+export const signatureVfxByCue: Record<CardVisualCueId, SignatureVfxDefinition> = Object.fromEntries(
+  signatureVfxList.map((effect) => [effect.id, effect])
+) as Record<CardVisualCueId, SignatureVfxDefinition>;
 
 export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   {

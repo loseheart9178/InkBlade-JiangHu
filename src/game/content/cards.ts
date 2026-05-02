@@ -727,6 +727,7 @@ export const cardList: CardDefinition[] = [
     target: "enemy",
     character: "zhaoyun",
     archetypes: ["zhao-spear-chain"],
+    visualCue: "zhao-seven-entries",
     types: ["attack"],
     effects: [
       { action: "damage", amount: 4 },
@@ -801,6 +802,7 @@ export const cardList: CardDefinition[] = [
     target: "self",
     character: "zhaoyun",
     archetypes: ["zhao-guardian-counter"],
+    visualCue: "zhao-spear-wall",
     types: ["skill"],
     effects: [
       { action: "block", amount: 13 },
@@ -873,6 +875,7 @@ export const cardList: CardDefinition[] = [
     target: "enemy",
     character: "diaochan",
     archetypes: ["diao-dance-chain"],
+    visualCue: "diao-jinghong-strike",
     types: ["attack"],
     effects: [
       { action: "damage", amount: 14 },
@@ -919,6 +922,7 @@ export const cardList: CardDefinition[] = [
     target: "enemy",
     character: "diaochan",
     archetypes: ["diao-charm-control"],
+    visualCue: "diao-lijian",
     types: ["skill"],
     effects: [
       { action: "applyStatus", status: "charm", amount: 4 },

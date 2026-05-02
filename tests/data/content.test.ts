@@ -3,7 +3,12 @@ import { characterList } from "../../src/game/content/characters";
 import { enemyList } from "../../src/game/content/enemies";
 import { eventList } from "../../src/game/content/events";
 import { relicList } from "../../src/game/content/relics";
-import { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsById } from "../../src/game/content/visuals";
+import * as visuals from "../../src/game/content/visuals";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsById } = visuals;
 
 const supportedActions = new Set([
   "damage",
@@ -209,10 +214,73 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png");
   });
+
+  it("binds new archetype cards to dedicated ink-wash card art assets", () => {
+    const dedicatedCardArtIds = [
+      "zhao_seven_entries",
+      "zhao_white_horse_breakout",
+      "zhao_return_spear",
+      "zhao_spear_wall",
+      "zhao_break_spear",
+      "zhao_river_guard",
+      "diao_jinghong_strike",
+      "diao_flying_sleeves",
+      "diao_lijian",
+      "diao_mirror_flower",
+      "diao_lotus_blade"
+    ];
+
+    for (const cardId of dedicatedCardArtIds) {
+      const card = cardsById[cardId];
+      const art = cardArtById[cardId];
+
+      expect(card).toBeDefined();
+      expect(art).toBeDefined();
+      expect(art.assetPath).toMatch(/^\/assets\/generated\/cards\/.+\.png$/);
+      expect(art.assetPath).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
+      expectAssetPathToExist(art.assetPath);
+    }
+  });
+
+  it("declares signature card VFX cues for key role-defining martial arts", () => {
+    const signatureVfxByCue = (
+      visuals as typeof visuals & {
+        signatureVfxByCue?: Record<string, { cardId: string; className: string; testId: string; assetPath: string }>;
+      }
+    ).signatureVfxByCue;
+
+    expect(signatureVfxByCue).toBeDefined();
+    expect(cardsById.zhao_seven_entries).toMatchObject({ visualCue: "zhao-seven-entries" });
+    expect(cardsById.zhao_spear_wall).toMatchObject({ visualCue: "zhao-spear-wall" });
+    expect(cardsById.diao_jinghong_strike).toMatchObject({ visualCue: "diao-jinghong-strike" });
+    expect(cardsById.diao_lijian).toMatchObject({ visualCue: "diao-lijian" });
+
+    for (const [cueId, cardId] of Object.entries({
+      "zhao-seven-entries": "zhao_seven_entries",
+      "zhao-spear-wall": "zhao_spear_wall",
+      "diao-jinghong-strike": "diao_jinghong_strike",
+      "diao-lijian": "diao_lijian"
+    })) {
+      const vfx = signatureVfxByCue?.[cueId];
+
+      expect(vfx).toMatchObject({
+        cardId,
+        className: expect.stringMatching(/^combat-vfx-/),
+        testId: expect.stringMatching(/^combat-vfx-signature-/)
+      });
+      expect(vfx?.assetPath).toMatch(/^\/assets\/generated\/vfx\/.+\.png$/);
+      expectAssetPathToExist(vfx?.assetPath ?? "");
+    }
+  });
 });
 
 function getArchetypeCardIds(archetypeId: string): string[] {
   return cardList
     .filter((card) => ((card as { archetypes?: string[] }).archetypes ?? []).includes(archetypeId))
     .map((card) => card.id);
+}
+
+function expectAssetPathToExist(assetPath: string): void {
+  const absolute = join(dirname(fileURLToPath(import.meta.url)), "../../public", assetPath.replace(/^\//, ""));
+  expect(existsSync(absolute)).toBe(true);
 }

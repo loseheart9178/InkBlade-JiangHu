@@ -9,6 +9,7 @@ import type {
   CardEffect,
   CardInstance,
   CardType,
+  CardVisualCueId,
   CombatState,
   CreateCombatInput,
   EnemyDefinition,
@@ -158,6 +159,7 @@ export function playCard(state: CombatState, cardInstanceId: string, targetId: s
   }
 
   applyCharacterCardHooks(state, definition, target?.id ?? "player");
+  pushSignatureCardVisualEvent(state, definition);
 
   if (definition.exhaust) {
     state.piles.exhaust.push(card);
@@ -408,6 +410,23 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
     triggerBodyRelics(state);
     triggerJinghongDanceMethod(state);
   }
+}
+
+function pushSignatureCardVisualEvent(state: CombatState, definition: CardDefinition): void {
+  if (!definition.visualCue) {
+    return;
+  }
+
+  state.combatLog.push(definition.name);
+  pushVisualEvent(state, "trigger", "center", definition.name, getVisualCueTone(definition.visualCue), undefined, definition.id, definition.visualCue);
+}
+
+function getVisualCueTone(cue: CardVisualCueId): CombatVisualTone {
+  if (cue.startsWith("diao-")) {
+    return "red";
+  }
+
+  return cue === "zhao-spear-wall" ? "teal" : "gold";
 }
 
 function applyComboHooks(state: CombatState, targetId: string, attackAfterExhaustedCard: boolean): void {
@@ -794,7 +813,9 @@ function pushVisualEvent(
   target: CombatVisualTarget,
   label: string,
   tone: CombatVisualTone,
-  amount?: number
+  amount?: number,
+  sourceCardId?: string,
+  visualCue?: CardVisualCueId
 ): void {
   state.visualEvents.push({
     id: state.nextVisualEventId,
@@ -802,7 +823,9 @@ function pushVisualEvent(
     target,
     label,
     tone,
-    amount
+    amount,
+    sourceCardId,
+    visualCue
   });
   state.nextVisualEventId += 1;
 

@@ -522,6 +522,7 @@ Viewed latest desktop and mobile screenshots under test-results and adjusted com
 - [x] Fix playable character art identity and pause mobile adaptation in favor of desktop polish.
 - [x] Add reusable generated-art workflow skill and desktop combat layout regressions.
 - [x] Deepen Zhao Yun and Diao Chan archetype card pools and reward recommendations.
+- [x] Add dedicated archetype card art assets and source-aware signature martial VFX.
 
 ### 2026-05-02 18:59 Asia/Shanghai
 
@@ -1164,6 +1165,73 @@ Result: 7 test files passed, 76 tests passed.
 npm run build
 Result: TypeScript and Vite build passed.
 Note: Vite repeated the expected Phaser bundle size warning.
+```
+
+### 2026-05-03 07:31 Asia/Shanghai
+
+Current state:
+
+- Completed module 5: 专属卡图与招式演出美术 Pass.
+- Re-read before this visual/content implementation:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Added dedicated card-art manifest entries and project-local ink-pass PNG assets for:
+  - 赵云：破军枪、截江守势、七进七出、白马突围、回马枪、枪围如墙.
+  - 貂蝉：莲步藏锋、惊鸿一击、飞袖连环、离间、镜中花.
+- Added transparent signature VFX assets and manifest entries for:
+  - `zhao-seven-entries-trail.png`
+  - `zhao-spear-wall-ward.png`
+  - `diao-jinghong-ribbon.png`
+  - `diao-lijian-moon.png`
+- Added `visualCue` metadata to 七进七出、枪围如墙、惊鸿一击、离间.
+- Combat now emits source-aware trigger visual events with `sourceCardId` and `visualCue`, while UI adapters map those cues to CSS/VFX presentation.
+- Added regression coverage for dedicated card art, asset existence, signature VFX manifest entries, and signature card combat events.
+
+Decisions:
+
+- The pass binds visual identity through `src/game/content/visuals.ts` first, keeping renderer code as an adapter for class names, placement, and animation.
+- Card/VFX runtime files are versioned PNG assets that can be replaced by later higher-fidelity GPT Image 2 outputs without changing combat or reward logic.
+- Desktop remains the only layout target for this pass; mobile visual adaptation is still paused.
+
+Verification:
+
+```text
+npm test -- tests/data/content.test.ts tests/combat/combat-system.test.ts
+First run failed as expected before implementation.
+Red failures covered missing dedicated archetype card art, missing signature VFX manifest, and missing source-aware visual events.
+
+npm test -- tests/data/content.test.ts tests/combat/combat-system.test.ts
+Result after implementation: 2 test files passed, 45 tests passed.
+
+npm run typecheck
+First run failed because tests/data/content.test.ts introduced Node file existence checks without Node type declarations.
+Added dev dependency `@types/node`.
+Second run passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed.
+Reviewed desktop screenshots:
+`test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png`
+`test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-diaochan-desktop.png`
+
+npm test
+Result: 9 test files passed, 90 tests passed.
+
+npm run test:e2e
+Result: 9 Playwright tests passed.
+Covered: visual smoke, playable flow, shop, elite heart method, event/rest, Diao role event, save/continue, and full first-chapter victory.
 ```
 
 ### 2026-05-03 06:59 Asia/Shanghai

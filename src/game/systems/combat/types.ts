@@ -4,6 +4,7 @@ export type TargetKind = "enemy" | "self" | "none";
 export type StatusId = "charm" | "weak" | "vulnerable" | "dodge" | "guard" | "ink";
 export type MindState = "none" | "ning" | "nu" | "bei" | "mei" | "luan" | "wu";
 export type CardArchetypeId = "zhao-spear-chain" | "zhao-guardian-counter" | "diao-dance-chain" | "diao-charm-control";
+export type CardVisualCueId = "zhao-seven-entries" | "zhao-spear-wall" | "diao-jinghong-strike" | "diao-lijian";
 
 export type CardEffect =
   | { action: "damage"; amount: number }
@@ -27,6 +28,7 @@ export interface CardDefinition {
   temporary?: boolean;
   character?: string;
   archetypes?: CardArchetypeId[];
+  visualCue?: CardVisualCueId;
   description?: string;
   flavor?: string;
   upgrade?: {
@@ -129,6 +131,8 @@ export interface CombatVisualEvent {
   label: string;
   tone: CombatVisualTone;
   amount?: number;
+  sourceCardId?: string;
+  visualCue?: CardVisualCueId;
 }
 
 export type ComboEffect =

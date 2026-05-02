@@ -757,6 +757,35 @@ button {
   filter: blur(0.15px) drop-shadow(0 0 12px rgba(17, 17, 17, 0.24));
 }
 
+.combat-vfx-seven-entries,
+.combat-vfx-spear-wall,
+.combat-vfx-jinghong-strike,
+.combat-vfx-lijian {
+  width: clamp(260px, 26vw, 460px);
+  height: clamp(142px, 16vw, 250px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter: drop-shadow(0 0 16px rgba(17, 17, 17, 0.22));
+  animation: signature-vfx-bloom 880ms ease-out both;
+}
+
+.combat-vfx-seven-entries {
+  background-image: url("/assets/generated/vfx/zhao-seven-entries-trail.png");
+}
+
+.combat-vfx-spear-wall {
+  background-image: url("/assets/generated/vfx/zhao-spear-wall-ward.png");
+}
+
+.combat-vfx-jinghong-strike {
+  background-image: url("/assets/generated/vfx/diao-jinghong-ribbon.png");
+}
+
+.combat-vfx-lijian {
+  background-image: url("/assets/generated/vfx/diao-lijian-moon.png");
+}
+
 .game-message {
   position: absolute;
   right: 50%;
@@ -1659,5 +1688,28 @@ button {
   100% {
     opacity: 0;
     scale: 1.32;
+  }
+}
+
+@keyframes signature-vfx-bloom {
+  0% {
+    opacity: 0;
+    scale: 0.72;
+    rotate: -4deg;
+  }
+
+  24% {
+    opacity: 0.94;
+  }
+
+  62% {
+    opacity: 0.78;
+    scale: 1.02;
+  }
+
+  100% {
+    opacity: 0;
+    scale: 1.16;
+    rotate: 5deg;
   }
 }

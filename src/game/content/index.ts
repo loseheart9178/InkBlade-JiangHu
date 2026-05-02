@@ -3,4 +3,14 @@ export { characterList, charactersById } from "./characters";
 export { enemyList, enemiesById } from "./enemies";
 export { eventList, eventsById } from "./events";
 export { relicList, relicsById } from "./relics";
-export { battlefieldAssets, cardArtById, cardArtList, combatPortraitList, combatPortraitsById, combatSpriteSheetList, combatSpriteSheetsById } from "./visuals";
+export {
+  battlefieldAssets,
+  cardArtById,
+  cardArtList,
+  combatPortraitList,
+  combatPortraitsById,
+  combatSpriteSheetList,
+  combatSpriteSheetsById,
+  signatureVfxByCue,
+  signatureVfxList
+} from "./visuals";
