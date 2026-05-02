@@ -14,7 +14,7 @@ import {
   type SaveableScreen
 } from "../game/systems/save/save";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
-import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent } from "../game/systems/combat/types";
+import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
 import {
   addRelic,
   claimBattleSpoils,
@@ -272,7 +272,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   field.innerHTML = `
     <div class="combatant combatant--player ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
       <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
-      <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
+      <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}${formatStatusBadges(combat.player.statuses)}</div>
       <div class="combat-standee combat-standee--player combat-standee--${playerPortrait.accent} ${playerIsAttacking ? "is-attacking" : ""}">
         ${playerSprite ? `<div class="combat-sprite combat-sprite--player is-attacking" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>` : ""}
         <img class="combat-standee-art" data-testid="combat-standee-player" src="${getStandeePath(playerPortrait)}" alt="${playerPortrait.alt}">
@@ -281,7 +281,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     <div class="duel-mark">对决</div>
     <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
       <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
-      <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
+      <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block}${formatStatusBadges(enemy.statuses)}</div>
       <div class="combat-standee combat-standee--enemy combat-standee--${enemyPortrait.accent} ${enemyIsAttacking ? "is-attacking" : ""}">
         ${enemySprite ? `<div class="combat-sprite combat-sprite--enemy is-attacking" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>` : ""}
         <img class="combat-standee-art" data-testid="combat-standee-enemy" src="${getStandeePath(enemyPortrait)}" alt="${enemyPortrait.alt}">
@@ -762,14 +762,52 @@ function createMeter(testId: string, label: string, value: number, max: number, 
 function createIntent(intent: CombatState["enemies"][number]["currentIntent"]): HTMLElement {
   const box = document.createElement("div");
   box.className = "intent-box";
+  box.dataset.testid = "intent";
+  box.title = describeIntent(intent);
   if (intent.type === "attack") {
     box.textContent = intent.hits > 1 ? `杀意 ${intent.damage}x${intent.hits}` : `杀意 ${intent.damage}`;
   } else if (intent.type === "block") {
     box.textContent = `运功 ${intent.block}`;
+  } else if (intent.type === "special") {
+    box.textContent = intent.name;
   } else {
     box.textContent = "观望";
   }
   return box;
+}
+
+function describeIntent(intent: CombatState["enemies"][number]["currentIntent"]): string {
+  if (intent.type === "attack") {
+    return intent.hits > 1 ? `造成${intent.damage}点伤害，共${intent.hits}段。` : `造成${intent.damage}点伤害。`;
+  }
+
+  if (intent.type === "block") {
+    return `获得${intent.block}点护甲。`;
+  }
+
+  if (intent.type === "special") {
+    return intent.effects.map((effect) => {
+      if (effect.action === "damage") {
+        return effect.hits && effect.hits > 1 ? `造成${effect.amount}点伤害，共${effect.hits}段` : `造成${effect.amount}点伤害`;
+      }
+
+      if (effect.action === "block") {
+        return `获得${effect.amount}点护甲`;
+      }
+
+      if (effect.action === "applyStatus") {
+        return `${effect.target === "player" ? "玩家" : "自身"}获得${formatStatus(effect.status)} ${effect.amount}`;
+      }
+
+      if (effect.action === "gainInk") {
+        return `玩家获得墨痕 ${effect.amount}`;
+      }
+
+      return `回复${effect.amount}点生命`;
+    }).join("，") + "。";
+  }
+
+  return "本回合不行动。";
 }
 
 function createPileCounter(label: string, count: number): HTMLElement {
@@ -975,7 +1013,7 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
 }
 
 function hasRecentVisual(combat: CombatState, target: "player" | "enemy", kind: string): boolean {
-  return combat.visualEvents.slice(-3).some((event) => event.target === target && event.kind === kind);
+  return combat.visualEvents.slice(-6).some((event) => event.target === target && event.kind === kind);
 }
 
 function getCombatPortrait(id: string) {
@@ -1132,6 +1170,17 @@ function getEventScene(eventId: string): { key: string; mark: string; kicker: st
   }
 
   return { key: "ferry", mark: "渡", kicker: "黑雨渡口" };
+}
+
+function formatStatusBadges(statuses: Partial<Record<StatusId, number>>): string {
+  const entries = (Object.entries(statuses) as Array<[StatusId, number | undefined]>)
+    .filter(([, amount]) => (amount ?? 0) > 0);
+
+  if (entries.length === 0) {
+    return "";
+  }
+
+  return ` · ${entries.map(([status, amount]) => `${formatStatus(status)} ${amount}`).join(" · ")}`;
 }
 
 function formatRarity(rarity: string): string {

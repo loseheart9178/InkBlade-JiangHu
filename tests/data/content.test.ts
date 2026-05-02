@@ -58,6 +58,45 @@ describe("content data", () => {
     }
   });
 
+  it("gives first chapter enemies distinct mechanics and a gentler-to-harder pacing curve", () => {
+    const enemies = Object.fromEntries(enemyList.map((enemy) => [enemy.id, enemy]));
+
+    expect(enemies.enemy_ink_bandit.maxHp).toBeLessThanOrEqual(32);
+    expect(enemies.enemy_ink_bandit.intents[0]).toMatchObject({ type: "attack" });
+
+    expect(enemies.enemy_faceless_soldier.intents.some((intent) => intent.type === "attack" && "hits" in intent && intent.hits >= 2)).toBe(true);
+
+    expect(enemies.enemy_paper_umbrella.intents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "special",
+          name: "纸伞迷魂"
+        })
+      ])
+    );
+
+    expect(enemies.elite_sword_echo.intents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "special", name: "剑心蓄势" }),
+        expect.objectContaining({ type: "attack", damage: expect.any(Number), hits: 1 })
+      ])
+    );
+
+    expect(enemies.elite_blood_banner.intents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "special", name: "血旗号令" })
+      ])
+    );
+
+    expect(enemies.boss_ink_dongzhuo.maxHp).toBeGreaterThanOrEqual(124);
+    expect(enemies.boss_ink_dongzhuo.intents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "special", name: "宫宴压迫" }),
+        expect.objectContaining({ type: "special", name: "吞噬权柄" })
+      ])
+    );
+  });
+
   it("defines first slice relics and events from the PRD scope", () => {
     expect(relicList.map((relic) => relic.id)).toEqual(
       expect.arrayContaining(["relic_white_dragon_tassel", "relic_closed_moon_sachet", "relic_old_wooden_sword", "relic_black_paper_umbrella"])

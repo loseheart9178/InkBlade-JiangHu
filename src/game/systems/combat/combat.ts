@@ -7,6 +7,7 @@ import type {
   CombatState,
   CreateCombatInput,
   EnemyDefinition,
+  EnemyIntentEffect,
   EnemyIntent,
   EnemyState,
   MindState,
@@ -277,6 +278,11 @@ function getPlayerDamageAmount(state: CombatState, definition: CardDefinition, c
     amount += 2;
   }
 
+  if ((state.player.statuses.weak ?? 0) > 0) {
+    amount = Math.floor(amount * 0.75);
+    state.player.statuses.weak = Math.max(0, (state.player.statuses.weak ?? 0) - 1);
+  }
+
   if (hasRelic(state, "relic_old_wooden_sword") && isBasicAttack(definition)) {
     amount += 2;
   }
@@ -311,6 +317,11 @@ function damagePlayer(state: CombatState, rawAmount: number): void {
     const reduced = Math.min(4 * (state.player.statuses.guard ?? 0), amount);
     amount -= reduced;
     state.player.statuses.guard = 0;
+  }
+
+  if ((state.player.statuses.vulnerable ?? 0) > 0) {
+    amount = Math.floor(amount * 1.5);
+    state.player.statuses.vulnerable = Math.max(0, (state.player.statuses.vulnerable ?? 0) - 1);
   }
 
   const blocked = Math.min(state.player.block, amount);
@@ -390,16 +401,56 @@ function executeEnemyIntents(state: CombatState): void {
 
     const intent = enemy.currentIntent;
     if (intent.type === "attack") {
-      for (let hit = 0; hit < intent.hits; hit += 1) {
-        damagePlayer(state, getModifiedEnemyDamage(enemy, intent.damage));
-      }
+      executeEnemyAttack(state, enemy, intent.damage, intent.hits);
     }
 
     if (intent.type === "block") {
       enemy.block += intent.block;
+      pushVisualEvent(state, "block", "enemy", `+${intent.block} 护甲`, "teal", intent.block);
+    }
+
+    if (intent.type === "special") {
+      state.combatLog.push(intent.name);
+      pushVisualEvent(state, "trigger", "enemy", intent.name, "gold");
+      for (const effect of intent.effects) {
+        executeEnemyIntentEffect(state, enemy, effect);
+      }
     }
 
     advanceIntent(enemy);
+  }
+}
+
+function executeEnemyIntentEffect(state: CombatState, enemy: EnemyState, effect: EnemyIntentEffect): void {
+  if (effect.action === "damage") {
+    executeEnemyAttack(state, enemy, effect.amount, effect.hits ?? 1);
+    return;
+  }
+
+  if (effect.action === "block") {
+    enemy.block += effect.amount;
+    pushVisualEvent(state, "block", "enemy", `+${effect.amount} 护甲`, "teal", effect.amount);
+    return;
+  }
+
+  if (effect.action === "applyStatus") {
+    applyStatus(state, effect.target === "player" ? "player" : enemy.id, effect.status, effect.amount);
+    return;
+  }
+
+  if (effect.action === "gainInk") {
+    state.player.inkMarks += effect.amount;
+    pushVisualEvent(state, "ink", "player", `墨痕 +${effect.amount}`, "ink", effect.amount);
+    triggerInkRelics(state, effect.amount);
+    return;
+  }
+
+  healEnemy(state, enemy, effect.amount);
+}
+
+function executeEnemyAttack(state: CombatState, enemy: EnemyState, damage: number, hits: number): void {
+  for (let hit = 0; hit < hits; hit += 1) {
+    damagePlayer(state, getModifiedEnemyDamage(enemy, damage));
   }
 }
 
@@ -408,7 +459,19 @@ function getModifiedEnemyDamage(enemy: EnemyState, baseDamage: number): number {
   const weak = enemy.statuses.weak ?? 0;
   const charmMultiplier = Math.max(0.5, 1 - charm * 0.05);
   const weakMultiplier = weak > 0 ? 0.75 : 1;
+  if (weak > 0) {
+    enemy.statuses.weak = Math.max(0, weak - 1);
+  }
   return Math.floor(baseDamage * charmMultiplier * weakMultiplier);
+}
+
+function healEnemy(state: CombatState, enemy: EnemyState, amount: number): void {
+  const before = enemy.hp;
+  enemy.hp = Math.min(enemy.maxHp, enemy.hp + Math.max(0, amount));
+  const healed = enemy.hp - before;
+  if (healed > 0) {
+    pushVisualEvent(state, "resource", "enemy", `回复 +${healed}`, "gold", healed);
+  }
 }
 
 function advanceIntent(enemy: EnemyState): void {

@@ -11,10 +11,11 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "墨化山贼",
     role: "normal",
     chapter: "luoshui",
-    maxHp: 30,
+    maxHp: 28,
     intents: [
-      { type: "attack", damage: 7, hits: 1 },
-      { type: "block", block: 5 }
+      { type: "attack", damage: 6, hits: 1 },
+      { type: "block", block: 5 },
+      { type: "attack", damage: 8, hits: 1 }
     ]
   },
   {
@@ -22,9 +23,10 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "无面兵卒",
     role: "normal",
     chapter: "luoshui",
-    maxHp: 26,
+    maxHp: 30,
     intents: [
       { type: "attack", damage: 4, hits: 2 },
+      { type: "block", block: 4 },
       { type: "attack", damage: 6, hits: 1 }
     ]
   },
@@ -33,10 +35,19 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "纸伞女鬼",
     role: "normal",
     chapter: "luoshui",
-    maxHp: 30,
+    maxHp: 34,
     intents: [
-      { type: "attack", damage: 5, hits: 1 },
-      { type: "block", block: 6 }
+      {
+        type: "special",
+        name: "纸伞迷魂",
+        effects: [
+          { action: "applyStatus", target: "player", status: "weak", amount: 1 },
+          { action: "damage", amount: 5, hits: 1 },
+          { action: "gainInk", amount: 1 }
+        ]
+      },
+      { type: "block", block: 7 },
+      { type: "attack", damage: 7, hits: 1 }
     ]
   },
   {
@@ -44,11 +55,18 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "剑痴残影",
     role: "elite",
     chapter: "luoshui",
-    maxHp: 82,
+    maxHp: 88,
     intents: [
-      { type: "attack", damage: 10, hits: 1 },
-      { type: "block", block: 12 },
-      { type: "attack", damage: 18, hits: 1 }
+      { type: "attack", damage: 9, hits: 1 },
+      {
+        type: "special",
+        name: "剑心蓄势",
+        effects: [
+          { action: "block", amount: 10 },
+          { action: "applyStatus", target: "player", status: "vulnerable", amount: 1 }
+        ]
+      },
+      { type: "attack", damage: 22, hits: 1 }
     ]
   },
   {
@@ -56,11 +74,19 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "血旗都尉",
     role: "elite",
     chapter: "luoshui",
-    maxHp: 72,
+    maxHp: 92,
     intents: [
-      { type: "block", block: 12 },
+      {
+        type: "special",
+        name: "血旗号令",
+        effects: [
+          { action: "block", amount: 14 },
+          { action: "applyStatus", target: "player", status: "vulnerable", amount: 1 }
+        ]
+      },
       { type: "attack", damage: 7, hits: 2 },
-      { type: "attack", damage: 14, hits: 1 }
+      { type: "block", block: 10 },
+      { type: "attack", damage: 15, hits: 1 }
     ]
   },
   {
@@ -68,12 +94,36 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "墨影董卓",
     role: "boss",
     chapter: "luoshui",
-    maxHp: 96,
+    maxHp: 132,
     intents: [
-      { type: "attack", damage: 9, hits: 1 },
-      { type: "block", block: 12 },
-      { type: "attack", damage: 5, hits: 2 },
-      { type: "attack", damage: 16, hits: 1 }
+      {
+        type: "special",
+        name: "宫宴压迫",
+        effects: [
+          { action: "damage", amount: 7, hits: 1 },
+          { action: "applyStatus", target: "player", status: "vulnerable", amount: 1 },
+          { action: "gainInk", amount: 1 }
+        ]
+      },
+      { type: "block", block: 14 },
+      {
+        type: "special",
+        name: "吞噬权柄",
+        effects: [
+          { action: "damage", amount: 5, hits: 2 },
+          { action: "heal", amount: 8 },
+          { action: "gainInk", amount: 1 }
+        ]
+      },
+      { type: "attack", damage: 18, hits: 1 },
+      {
+        type: "special",
+        name: "墨宫倾塌",
+        effects: [
+          { action: "damage", amount: 7, hits: 3 },
+          { action: "applyStatus", target: "player", status: "weak", amount: 1 }
+        ]
+      }
     ]
   }
 ];

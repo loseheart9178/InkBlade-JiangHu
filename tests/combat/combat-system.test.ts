@@ -413,4 +413,106 @@ describe("combat system", () => {
 
     expect(state.player.hp).toBe(72);
   });
+
+  it("executes special enemy intents with status, damage, ink, and combat log cues", () => {
+    const paperUmbrella = {
+      id: "paper",
+      name: "纸伞女鬼",
+      maxHp: 34,
+      intents: [
+        {
+          type: "special",
+          name: "纸伞迷魂",
+          effects: [
+            { action: "applyStatus", target: "player", status: "weak", amount: 1 },
+            { action: "damage", amount: 5, hits: 1 },
+            { action: "gainInk", amount: 1 }
+          ]
+        }
+      ]
+    } as unknown as EnemyDefinition;
+    const state = createCombat({
+      character: zhaoYun,
+      cards: allCards,
+      enemies: [paperUmbrella],
+      rngSeed: 13,
+      shuffleDeck: false
+    });
+
+    endPlayerTurn(state);
+
+    expect(state.player.statuses.weak).toBe(1);
+    expect(state.player.hp).toBe(77);
+    expect(state.player.inkMarks).toBe(1);
+    expect(state.combatLog).toContain("纸伞迷魂");
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ kind: "status", target: "player", label: "虚弱 +1" }),
+        expect.objectContaining({ kind: "ink", target: "player", label: "墨痕 +1" })
+      ])
+    );
+  });
+
+  it("makes player weak reduce the next attack and then clear one weak stack", () => {
+    const hexingEnemy = {
+      id: "hex",
+      name: "纸伞女鬼",
+      maxHp: 30,
+      intents: [
+        {
+          type: "special",
+          name: "纸伞迷魂",
+          effects: [{ action: "applyStatus", target: "player", status: "weak", amount: 1 }]
+        }
+      ]
+    } as unknown as EnemyDefinition;
+    const state = createCombat({
+      character: zhaoYun,
+      cards: allCards,
+      enemies: [hexingEnemy],
+      rngSeed: 14,
+      shuffleDeck: false
+    });
+
+    endPlayerTurn(state);
+    const card = state.piles.hand.find((item) => item.definitionId === "strike");
+    playCard(state, card?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(26);
+    expect(state.player.statuses.weak).toBe(0);
+  });
+
+  it("lets boss feast intents heal the enemy while pressuring the player with ink", () => {
+    const dongZhuo = {
+      id: "boss",
+      name: "墨影董卓",
+      maxHp: 132,
+      intents: [
+        {
+          type: "special",
+          name: "吞噬权柄",
+          effects: [
+            { action: "damage", amount: 8, hits: 1 },
+            { action: "heal", amount: 10 },
+            { action: "gainInk", amount: 2 }
+          ]
+        }
+      ]
+    } as unknown as EnemyDefinition;
+    const state = createCombat({
+      character: zhaoYun,
+      cards: allCards,
+      enemies: [dongZhuo],
+      rngSeed: 15,
+      shuffleDeck: false
+    });
+    state.enemies[0].hp = 100;
+
+    endPlayerTurn(state);
+
+    expect(state.player.hp).toBe(74);
+    expect(state.player.inkMarks).toBe(2);
+    expect(state.enemies[0].hp).toBe(110);
+    expect(state.combatLog).toContain("吞噬权柄");
+  });
 });

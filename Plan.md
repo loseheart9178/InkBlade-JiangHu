@@ -354,3 +354,26 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 21: Enemy Mechanics And Chapter One Combat Pacing
+
+- [x] Extend enemy intents with data-driven special actions that can combine damage, block, status, ink pressure, and healing.
+- [x] Make player weak and vulnerable statuses affect combat outcomes instead of only appearing in status text.
+- [x] Give first-chapter enemies distinct mechanics:
+  - 墨化山贼: first-safe attack/block teaching cadence,
+  - 无面兵卒: low-pressure multi-hit cadence,
+  - 纸伞女鬼: weak plus ink-pressure disruption,
+  - 剑痴残影: charge/readiness into heavy strike,
+  - 血旗都尉: armor and vulnerability pressure,
+  - 墨影董卓: boss specials for 宫宴压迫, 吞噬权柄, and 墨宫倾塌.
+- [x] Tune first-chapter enemy health upward by tier while preserving the MVP completion route.
+- [x] Surface special enemy intents and richer player/enemy status lines in the combat HUD.
+- [x] Add unit, data, and browser tests for special intent execution, status impact, enemy identity mechanics, and Boss pressure feedback.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

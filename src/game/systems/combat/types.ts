@@ -60,7 +60,15 @@ export interface CharacterDefinition {
 export type EnemyIntent =
   | { type: "attack"; damage: number; hits: number }
   | { type: "block"; block: number }
-  | { type: "idle" };
+  | { type: "idle" }
+  | { type: "special"; name: string; effects: EnemyIntentEffect[] };
+
+export type EnemyIntentEffect =
+  | { action: "damage"; amount: number; hits?: number }
+  | { action: "block"; amount: number }
+  | { action: "applyStatus"; target: "player" | "self"; status: StatusId; amount: number }
+  | { action: "gainInk"; amount: number }
+  | { action: "heal"; amount: number };
 
 export interface EnemyDefinition {
   id: string;

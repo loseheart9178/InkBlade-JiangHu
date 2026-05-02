@@ -801,3 +801,74 @@ npm run test:e2e
 Result: 7 Playwright tests passed.
 Covered: visual smoke, combat VFX/card chrome assertions, playable battle/reward flow, shop relic, event-rest upgrade, Diao Chan relic start, reload/continue save, boss sprite playback, and full first-chapter victory.
 ```
+
+### 2026-05-03 00:20 Asia/Shanghai
+
+Current state:
+
+- Completed the "enemy mechanics and chapter-one combat pacing" module.
+- Re-read for this pass before gameplay changes:
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/chapters/chapter_01.md`
+- Added a data-driven enemy special intent model. Special intents can now combine:
+  - enemy damage,
+  - enemy block,
+  - status application to player or self,
+  - player ink-mark pressure,
+  - enemy healing.
+- Player-side negative statuses now matter mechanically:
+  - `weak` reduces the player's next attack and consumes one stack,
+  - `vulnerable` increases the next incoming hit and consumes one stack.
+- First-chapter enemies now have clearer roles:
+  - 墨化山贼 remains the gentle first fight with attack/block cadence,
+  - 无面兵卒 teaches multi-hit pressure,
+  - 纸伞女鬼 applies 虚弱 and 墨痕 through `纸伞迷魂`,
+  - 剑痴残影 uses `剑心蓄势` before a heavier strike,
+  - 血旗都尉 uses `血旗号令` for armor plus 易伤 pressure,
+  - 墨影董卓 has `宫宴压迫`, `吞噬权柄`, and `墨宫倾塌` as readable Boss specials.
+- Combat HUD now shows special intent names and richer status lines for both sides.
+- Fixed a feedback regression found by Playwright: special Boss actions could push damage events out of the recent visual-event window before the DOM rendered the enemy attack strip. The recent visual scan now checks the last six events, so multi-effect specials still trigger attack animation.
+
+Decisions:
+
+- I kept this as a single-enemy MVP deepening pass. The content docs mention summoning and multi-enemy pressure, but the current DOM combat view and targeting flow are still optimized around one active enemy. Blood-flag "summon" is represented as armor/status pressure for now.
+- Boss HP was raised to 132 rather than the PRD's full 220-280 first-chapter target. The current MVP card pool and automated route remain short-form, so 132 gives a longer Boss without turning the test route into a grind.
+- Status stacks are lightweight charges rather than full duration counters. That fits the current minimal state model and avoids a larger status-duration migration.
+
+Verification:
+
+```text
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+First run: failed as expected before implementation.
+Red failures covered missing special intent execution, missing player weak damage reduction, missing Boss heal/ink pressure, and missing first-chapter enemy mechanic data.
+
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+Result after implementation: 2 test files passed, 32 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+First run: failed because Boss special feedback did not keep the enemy attack strip visible after multi-effect events.
+Result after feedback fix: 6 Playwright tests passed.
+
+npm test
+Result: 5 test files passed, 52 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: visual smoke, combat VFX/card chrome assertions, playable flows, save/continue, Boss special intent text, Boss attack strip playback, player ink pressure, and full first-chapter victory.
+
+Additional visual check:
+Reviewed desktop combat screenshots and a Boss mechanics screenshot at `test-results/boss-dongzhuo-mechanics.png`. New status text remains readable and does not obstruct the bottom hand.
+```
