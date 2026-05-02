@@ -15,6 +15,7 @@ import {
 } from "../game/systems/save/save";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
+import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import {
   addRelic,
   claimBattleSpoils,
@@ -400,6 +401,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   const comboHint = getComboRewardHint(run);
   const comboPrimaryCardId = getComboRewardPrimaryCardId(run);
   const rewardReasons = createCardRewardReasonMap(run, state.rewardCards);
+  const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
   if (comboHint) {
     panel.append(createRewardComboHint(comboHint));
   }
@@ -424,6 +426,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
       <small class="card-type-line">${formatTypes(card.types)}</small>
       ${createCardKeywordRowMarkup(card)}
       <span class="card-description">${card.description ?? ""}</span>
+      <span class="reward-archetype-role" data-testid="reward-archetype-role">${getCardArchetypeRole(card, archetypeAnalysis)}</span>
       <span class="reward-reason" data-testid="reward-reason">${rewardReasons[card.id] ?? ""}</span>
     `;
     button.addEventListener("click", () => {
@@ -708,11 +711,13 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
   const status = document.createElement("div");
   status.className = "run-status";
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
+  const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
   status.innerHTML = `
     <span>生命 ${run.hp}/${run.maxHp}</span>
     <span>铜钱 ${run.gold}</span>
     <span>牌组 ${run.deck.length}</span>
     <span data-testid="run-relics">法宝 ${relicNames}</span>
+    <span data-testid="run-archetype">流派 ${archetypeAnalysis.summary}</span>
     <em>${message}</em>
   `;
 
@@ -1004,6 +1009,7 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
   }
 
   const run = state.run;
+  const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
   const overlay = document.createElement("div");
   overlay.className = "deck-overlay";
   overlay.dataset.testid = "deck-viewer";
@@ -1025,6 +1031,15 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
   });
   header.append(title, close);
 
+  const summary = document.createElement("div");
+  summary.className = "deck-archetype-summary";
+  summary.dataset.testid = "deck-archetype-summary";
+  const visibleScores = archetypeAnalysis.scores.filter((score) => score.cardCount > 0).slice(0, 3);
+  summary.innerHTML = `
+    <strong>当前流派：${archetypeAnalysis.summary}</strong>
+    <span>${visibleScores.length > 0 ? visibleScores.map((score) => `${score.label} ${score.cardCount}`).join(" · ") : "多拿带有流派标签的武学后会开始成型。"}</span>
+  `;
+
   const list = document.createElement("div");
   list.className = "deck-card-list";
   for (const entry of run.deck) {
@@ -1044,9 +1059,13 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
     list.append(item);
   }
 
-  panel.append(header, list);
+  panel.append(header, summary, list);
   overlay.append(panel);
   host.append(overlay);
+}
+
+function getRunCardDefinitions(run: RunState): CardDefinition[] {
+  return run.deck.map((entry) => cardsById[entry.cardId]).filter((card): card is CardDefinition => Boolean(card));
 }
 
 function hasRecentVisual(combat: CombatState, target: "player" | "enemy", kind: string): boolean {

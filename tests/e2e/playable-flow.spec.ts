@@ -4,8 +4,10 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await startRun(page, "zhaoyun");
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("run-archetype")).toContainText("流派");
   await page.getByTestId("deck-open").click();
   await expect(page.getByTestId("deck-viewer")).toBeVisible();
+  await expect(page.getByTestId("deck-archetype-summary")).toContainText("当前流派");
   await expect(page.getByTestId("deck-card")).toHaveCount(10);
   await expect(page.getByTestId("deck-viewer")).toContainText("枪击");
   await page.getByTestId("deck-close").click();
@@ -25,6 +27,7 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("reward-combo-hint")).toContainText("招式回响");
   await expect(page.getByTestId("reward-card").first()).toHaveAttribute("data-combo-biased", "true");
   await expect(page.getByTestId("reward-reason").first()).toContainText("流派");
+  await expect(page.getByTestId("reward-archetype-role").first()).toContainText(/主线强化|副线补强|通用补短/);
   await page.getByTestId("reward-card").first().click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
 });

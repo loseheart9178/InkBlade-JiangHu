@@ -1068,3 +1068,49 @@ Additional visual check:
 Reviewed `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png` and `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-diaochan-desktop.png`.
 Desktop combat layout remains stable: top bars, center duel, bottom hand, and left energy orb still follow the current reference direction.
 ```
+
+### 2026-05-03 02:42 Asia/Shanghai
+
+Current state:
+
+- Started the five-module long-running development pass on branch `codex/next-major-modules`.
+- Re-read before implementation:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Completed module 1: 流派成型反馈与牌组诊断 MVP.
+- Added the reusable pure deck analysis system `src/game/systems/deck/archetype.ts`.
+- Run status now shows current deck direction, the deck viewer shows an archetype summary, and reward cards show `主线强化` / `副线补强` / `通用补短`.
+
+Decisions:
+
+- The archetype analyzer stays purely data-driven from `CardDefinition.archetypes`, so future 心法 and reward systems can reuse it without depending on UI code.
+- Starter-only decks show `尚未成型`; this is intentional because starter cards do not yet define a committed build.
+
+Verification:
+
+```text
+npm test -- tests/deck/archetype-system.test.ts
+First run: failed as expected because the new deck archetype module did not exist.
+
+npm test -- tests/deck/archetype-system.test.ts
+Result after implementation: 1 test file passed, 3 tests passed.
+
+npm test -- tests/deck/archetype-system.test.ts tests/run/run-system.test.ts
+Result: 2 test files passed, 23 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+Result: 6 Playwright tests passed.
+Covered: run archetype status, deck archetype summary, reward archetype role labels, shop, event/rest, save/continue, Boss mechanics, and first-chapter victory.
+```
