@@ -67,6 +67,25 @@ describe("content data", () => {
     expect(cardsById.common_zhuiying.types).toEqual(["body", "attack"]);
   });
 
+  it("tags Zhao Yun and Diao Chan cards into clear build archetypes", () => {
+    expect(getArchetypeCardIds("zhao-spear-chain")).toEqual(
+      expect.arrayContaining(["zhao_white_dragon", "zhao_qixing_spear", "zhao_seven_entries", "zhao_white_horse_breakout"])
+    );
+    expect(getArchetypeCardIds("zhao-guardian-counter")).toEqual(
+      expect.arrayContaining(["zhao_guardian", "zhao_river_guard", "zhao_return_spear", "zhao_spear_wall"])
+    );
+    expect(getArchetypeCardIds("diao-dance-chain")).toEqual(
+      expect.arrayContaining(["diao_lingbo", "diao_step_lotus", "diao_jinghong_strike", "diao_flying_sleeves"])
+    );
+    expect(getArchetypeCardIds("diao-charm-control")).toEqual(
+      expect.arrayContaining(["diao_charm", "diao_red_ribbon", "diao_lijian", "diao_mirror_flower"])
+    );
+
+    for (const archetypeId of ["zhao-spear-chain", "zhao-guardian-counter", "diao-dance-chain", "diao-charm-control"]) {
+      expect(getArchetypeCardIds(archetypeId).length).toBeGreaterThanOrEqual(4);
+    }
+  });
+
   it("defines first chapter enemies including elites and the Dong Zhuo boss", () => {
     expect(enemyList.length).toBeGreaterThanOrEqual(5);
     expect(enemyList.some((enemy) => enemy.id === "boss_ink_dongzhuo")).toBe(true);
@@ -191,3 +210,9 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png");
   });
 });
+
+function getArchetypeCardIds(archetypeId: string): string[] {
+  return cardList
+    .filter((card) => ((card as { archetypes?: string[] }).archetypes ?? []).includes(archetypeId))
+    .map((card) => card.id);
+}

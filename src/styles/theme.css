@@ -1103,6 +1103,19 @@ button {
   line-height: 1.2;
 }
 
+.reward-reason {
+  display: block;
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid rgba(183, 53, 42, 0.22);
+  border-radius: 5px;
+  color: #5f1d18;
+  background: rgba(255, 252, 239, 0.58);
+  font-size: 11px;
+  line-height: 1.28;
+  text-align: center;
+}
+
 .deck-overlay {
   position: absolute;
   inset: 0;

@@ -415,3 +415,24 @@ npm run test:e2e -- tests/e2e/playable-flow.spec.ts
 npm test
 npm run test:e2e
 ```
+
+## Milestone 24: Character Archetypes And Card Pool Deepening
+
+- [x] Add explicit card archetype tags for Zhao Yun's 连斩枪势 / 护主防反 and Diao Chan's 舞势连击 / 魅惑控制 builds.
+- [x] Expand the first-slice character card pool with archetype support cards:
+  - 赵云：七进七出、白马突围、回马枪、枪围如墙.
+  - 貂蝉：惊鸿一击、飞袖连环、离间、镜中花.
+- [x] Teach combo-aware rewards to prefer the matching character archetype when a recent combo implies a build direction.
+- [x] Add reward reason text so reward cards explain their archetype or support role.
+- [x] Cover archetype tagging, reward reason selection, and browser reward UI with tests.
+
+Verification:
+
+```bash
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+npm run typecheck
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+npm test
+npm run build
+npm run test:e2e
+```

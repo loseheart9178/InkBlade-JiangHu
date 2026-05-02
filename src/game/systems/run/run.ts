@@ -1,14 +1,34 @@
 import { cardsById } from "../../content/cards";
 import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
-import type { CardDefinition } from "../combat/types";
+import type { CardArchetypeId, CardDefinition } from "../combat/types";
 import type { BattleSpoils, CardRewardDraft, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
 
 const RELIC_REWARD_POOL = ["relic_old_wooden_sword", "relic_black_paper_umbrella"];
-const ZHAO_REWARD_POOL = ["zhao_thrust", "zhao_guardian", "zhao_white_dragon", "zhao_break_spear", "zhao_river_guard"];
-const DIAO_REWARD_POOL = ["diao_hongyan", "diao_glance", "diao_red_ribbon", "diao_step_lotus", "diao_lotus_blade"];
-const ELITE_ZHAO_REWARD_POOL = ["zhao_qixing_spear", "zhao_break_spear", "zhao_single_rider"];
-const ELITE_DIAO_REWARD_POOL = ["diao_closed_moon", "diao_step_lotus", "diao_red_ribbon"];
+const ZHAO_REWARD_POOL = [
+  "zhao_thrust",
+  "zhao_guardian",
+  "zhao_white_dragon",
+  "zhao_white_horse_breakout",
+  "zhao_return_spear",
+  "zhao_break_spear",
+  "zhao_river_guard",
+  "zhao_spear_wall",
+  "zhao_seven_entries"
+];
+const DIAO_REWARD_POOL = [
+  "diao_hongyan",
+  "diao_glance",
+  "diao_red_ribbon",
+  "diao_flying_sleeves",
+  "diao_lijian",
+  "diao_step_lotus",
+  "diao_lotus_blade",
+  "diao_mirror_flower",
+  "diao_jinghong_strike"
+];
+const ELITE_ZHAO_REWARD_POOL = ["zhao_qixing_spear", "zhao_seven_entries", "zhao_spear_wall", "zhao_break_spear", "zhao_single_rider"];
+const ELITE_DIAO_REWARD_POOL = ["diao_closed_moon", "diao_jinghong_strike", "diao_mirror_flower", "diao_step_lotus", "diao_red_ribbon"];
 const COMMON_REWARD_POOL = [
   "common_pifeng",
   "common_duanzhu",
@@ -21,12 +41,49 @@ const COMMON_REWARD_POOL = [
   "common_mirror_armor"
 ];
 
+const ARCHETYPE_LABELS: Record<CardArchetypeId, string> = {
+  "zhao-spear-chain": "连斩枪势流",
+  "zhao-guardian-counter": "护主防反流",
+  "diao-dance-chain": "舞势连击流",
+  "diao-charm-control": "魅惑控制流"
+};
+
+const COMBO_ARCHETYPE_PREFERENCES: Record<string, Partial<Record<string, CardArchetypeId>>> = {
+  zhaoyun: {
+    lianzhan: "zhao-spear-chain",
+    duanzhao: "zhao-spear-chain",
+    xinren: "zhao-spear-chain",
+    moxi: "zhao-spear-chain",
+    xushi: "zhao-guardian-counter",
+    jingshou: "zhao-guardian-counter",
+    gushou: "zhao-guardian-counter"
+  },
+  diaochan: {
+    lianzhan: "diao-dance-chain",
+    zhuiying: "diao-dance-chain",
+    duanzhao: "diao-dance-chain",
+    moxi: "diao-dance-chain",
+    xushi: "diao-charm-control",
+    jingshou: "diao-charm-control",
+    xinren: "diao-charm-control",
+    gushou: "diao-charm-control"
+  }
+};
+
 interface ComboRewardRule {
   id: string;
   name: string;
   hint: string;
   byCharacter?: Partial<Record<string, string[]>>;
   cardIds: string[];
+}
+
+interface ComboRewardBias {
+  comboId: string;
+  comboName: string;
+  hint: string;
+  primaryCardId: string;
+  candidateCardIds: string[];
 }
 
 const COMBO_REWARD_RULES: ComboRewardRule[] = [
@@ -36,17 +93,17 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     hint: "奖励池偏向低费攻击与连击抽牌。",
     byCharacter: {
       zhaoyun: ["zhao_white_dragon"],
-      diaochan: ["diao_sleeve_blade"]
+      diaochan: ["diao_sleeve_blade", "diao_jinghong_strike"]
     },
-    cardIds: ["common_feishi", "zhao_qixing_spear"]
+    cardIds: ["common_feishi", "zhao_seven_entries", "zhao_qixing_spear"]
   },
   {
     id: "xushi",
     name: "蓄势",
     hint: "奖励池偏向技法起手和攻势衔接。",
     byCharacter: {
-      zhaoyun: ["zhao_river_guard"],
-      diaochan: ["diao_red_ribbon"]
+      zhaoyun: ["zhao_river_guard", "zhao_return_spear"],
+      diaochan: ["diao_red_ribbon", "diao_lijian"]
     },
     cardIds: ["common_tuna", "common_gedang"]
   },
@@ -56,20 +113,28 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     hint: "奖励池偏向身法入攻和位移追击。",
     byCharacter: {
       diaochan: ["diao_lotus_blade"],
-      zhaoyun: ["zhao_thrust"]
+      zhaoyun: ["zhao_thrust", "zhao_white_horse_breakout"]
     },
-    cardIds: ["common_zhuiying", "common_qingshen"]
+    cardIds: ["common_zhuiying", "diao_flying_sleeves", "common_qingshen"]
   },
   {
     id: "jingshou",
     name: "静守",
     hint: "奖励池偏向心境防守与稳态护甲。",
+    byCharacter: {
+      zhaoyun: ["zhao_spear_wall"],
+      diaochan: ["diao_mirror_flower"]
+    },
     cardIds: ["mind_jingxin", "common_mirror_armor", "common_tuna"]
   },
   {
     id: "xinren",
     name: "心刃",
     hint: "奖励池偏向心境切入与攻势爆发。",
+    byCharacter: {
+      zhaoyun: ["zhao_seven_entries"],
+      diaochan: ["diao_lijian"]
+    },
     cardIds: ["mind_nuzhan", "common_feishi", "zhao_white_dragon"]
   },
   {
@@ -77,8 +142,8 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     name: "固守",
     hint: "奖励池偏向连续技法与高护甲牌。",
     byCharacter: {
-      zhaoyun: ["zhao_guardian"],
-      diaochan: ["diao_glance"]
+      zhaoyun: ["zhao_guardian", "zhao_spear_wall"],
+      diaochan: ["diao_glance", "diao_mirror_flower"]
     },
     cardIds: ["common_mirror_armor", "common_gedang"]
   },
@@ -158,12 +223,15 @@ export function createCardRewardDraft(run: RunState, nodeType: MapNodeType = "ba
   addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
   addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + cards.length + 1, 3);
 
+  const rewardCards = cards.slice(0, 3);
+
   return {
-    cards: cards.slice(0, 3),
+    cards: rewardCards,
     comboId: comboBias?.comboId,
     comboName: comboBias?.comboName,
     comboHint: comboBias?.hint,
-    comboPrimaryCardId: comboBias?.primaryCardId
+    comboPrimaryCardId: comboBias?.primaryCardId,
+    reasons: createCardRewardReasonMap(run, rewardCards)
   };
 }
 
@@ -177,6 +245,18 @@ export function getComboRewardHint(run: RunState): string | undefined {
 
 export function getComboRewardPrimaryCardId(run: RunState): string | undefined {
   return getComboRewardBias(run)?.primaryCardId;
+}
+
+export function createCardRewardReasonMap(run: RunState, cards: CardDefinition[]): Record<string, string> {
+  const comboBias = getComboRewardBias(run);
+  const preferredArchetype = comboBias ? getComboPreferredArchetype(run.characterId, comboBias.comboId) : undefined;
+  const reasons: Record<string, string> = {};
+
+  for (const card of cards) {
+    reasons[card.id] = createCardRewardReason(card, comboBias, preferredArchetype);
+  }
+
+  return reasons;
 }
 
 export function addRelic(run: RunState, relicId: string): boolean {
@@ -297,7 +377,7 @@ export function upgradeDeckCard(run: RunState, instanceId: string): boolean {
   return true;
 }
 
-function getComboRewardBias(run: RunState): { comboId: string; comboName: string; hint: string; primaryCardId: string; candidateCardIds: string[] } | undefined {
+function getComboRewardBias(run: RunState): ComboRewardBias | undefined {
   normalizeRunComboFields(run);
   const rule = getLatestComboRewardRule(run.lastCombatComboTriggers);
   if (!rule) {
@@ -317,6 +397,48 @@ function getComboRewardBias(run: RunState): { comboId: string; comboName: string
     primaryCardId,
     candidateCardIds
   };
+}
+
+function getComboPreferredArchetype(characterId: string, comboId: string): CardArchetypeId | undefined {
+  return COMBO_ARCHETYPE_PREFERENCES[characterId]?.[comboId];
+}
+
+function createCardRewardReason(
+  card: CardDefinition,
+  comboBias: ComboRewardBias | undefined,
+  preferredArchetype: CardArchetypeId | undefined
+): string {
+  const cardArchetypes = card.archetypes ?? [];
+
+  if (preferredArchetype && cardArchetypes.includes(preferredArchetype)) {
+    return `推荐：契合${ARCHETYPE_LABELS[preferredArchetype]}这一流派，承接${comboBias?.comboName ?? "当前"}招式。`;
+  }
+
+  if (cardArchetypes.length > 0) {
+    return `推荐：补强${ARCHETYPE_LABELS[cardArchetypes[0]]}这一流派。`;
+  }
+
+  if (comboBias && comboBias.candidateCardIds.includes(card.id)) {
+    return `推荐：承接${comboBias.comboName}招式回响，补足当前流派节奏。`;
+  }
+
+  if (card.types.includes("attack")) {
+    return "推荐：补足输出密度，保持流派进攻节奏。";
+  }
+
+  if (card.types.includes("body")) {
+    return "推荐：补足身法起手，帮助流派招式链转动。";
+  }
+
+  if (card.types.includes("mind")) {
+    return "推荐：补足心境入口，增加流派攻防转向。";
+  }
+
+  if (card.rarity === "ink" || card.types.includes("ink")) {
+    return "推荐：墨灾高收益入口，注意墨痕代价。";
+  }
+
+  return "推荐：补足防御与过牌，稳住第一章流派节奏。";
 }
 
 function getLatestComboRewardRule(comboTriggers: string[]): ComboRewardRule | undefined {

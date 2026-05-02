@@ -3,6 +3,7 @@ import {
   addRelic,
   claimBattleSpoils,
   createCardRewardDraft,
+  createCardRewardReasonMap,
   createRun,
   getAvailableNodes,
   getComboRewardHint,
@@ -127,6 +128,7 @@ describe("run system", () => {
     recordRunCombatCombos(run, ["xushi", "lianzhan"]);
 
     const draft = createCardRewardDraft(run, "battle");
+    const reasons = (draft as unknown as { reasons: Record<string, string> }).reasons;
 
     expect(draft.comboId).toBe("lianzhan");
     expect(draft.comboName).toBe("连斩");
@@ -134,6 +136,7 @@ describe("run system", () => {
     expect(draft.cards[0].id).toBe("zhao_white_dragon");
     expect(draft.cards.map((card) => card.id)).toContain("common_feishi");
     expect(new Set(draft.cards.map((card) => card.id)).size).toBe(3);
+    expect(reasons[draft.cards[0].id]).toContain("连斩枪势流");
     expect(getComboRewardHint(run)).toContain("连斩");
   });
 
@@ -142,10 +145,28 @@ describe("run system", () => {
     recordRunCombatCombos(run, ["zhuiying"]);
 
     const draft = createCardRewardDraft(run, "battle");
+    const reasons = createCardRewardReasonMap(run, draft.cards);
 
     expect(draft.comboId).toBe("zhuiying");
     expect(draft.cards[0].id).toBe("diao_lotus_blade");
     expect(draft.cards.map((card) => card.id)).toContain("common_zhuiying");
+    expect(reasons[draft.cards[0].id]).toContain("舞势连击流");
+  });
+
+  it("uses archetype tags to recommend defensive and charm build rewards", () => {
+    const zhaoRun = createRun("zhaoyun");
+    recordRunCombatCombos(zhaoRun, ["xushi"]);
+    const zhaoDraft = createCardRewardDraft(zhaoRun, "battle");
+
+    expect((zhaoDraft.cards[0] as { archetypes?: string[] }).archetypes).toContain("zhao-guardian-counter");
+    expect((zhaoDraft as unknown as { reasons: Record<string, string> }).reasons[zhaoDraft.cards[0].id]).toContain("护主防反流");
+
+    const diaoRun = createRun("diaochan");
+    recordRunCombatCombos(diaoRun, ["xushi"]);
+    const diaoDraft = createCardRewardDraft(diaoRun, "battle");
+
+    expect((diaoDraft.cards[0] as { archetypes?: string[] }).archetypes).toContain("diao-charm-control");
+    expect((diaoDraft as unknown as { reasons: Record<string, string> }).reasons[diaoDraft.cards[0].id]).toContain("魅惑控制流");
   });
 
   it("keeps ink cards out of ordinary rewards unless the ink combo was used", () => {

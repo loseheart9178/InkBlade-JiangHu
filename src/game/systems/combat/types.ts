@@ -3,6 +3,7 @@ export type CardRarity = "starter" | "common" | "uncommon" | "rare" | "event" | 
 export type TargetKind = "enemy" | "self" | "none";
 export type StatusId = "charm" | "weak" | "vulnerable" | "dodge" | "guard" | "ink";
 export type MindState = "none" | "ning" | "nu" | "bei" | "mei" | "luan" | "wu";
+export type CardArchetypeId = "zhao-spear-chain" | "zhao-guardian-counter" | "diao-dance-chain" | "diao-charm-control";
 
 export type CardEffect =
   | { action: "damage"; amount: number }
@@ -25,6 +26,7 @@ export interface CardDefinition {
   exhaust?: boolean;
   temporary?: boolean;
   character?: string;
+  archetypes?: CardArchetypeId[];
   description?: string;
   flavor?: string;
   upgrade?: {

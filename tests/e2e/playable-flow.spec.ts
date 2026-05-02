@@ -24,6 +24,7 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("screen-reward")).toBeVisible();
   await expect(page.getByTestId("reward-combo-hint")).toContainText("招式回响");
   await expect(page.getByTestId("reward-card").first()).toHaveAttribute("data-combo-biased", "true");
+  await expect(page.getByTestId("reward-reason").first()).toContainText("流派");
   await page.getByTestId("reward-card").first().click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
 });

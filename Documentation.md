@@ -521,6 +521,7 @@ Viewed latest desktop and mobile screenshots under test-results and adjusted com
 - [x] Clean up generated-art visual regressions for Diao Chan, combat overlays, and hand-card art scale.
 - [x] Fix playable character art identity and pause mobile adaptation in favor of desktop polish.
 - [x] Add reusable generated-art workflow skill and desktop combat layout regressions.
+- [x] Deepen Zhao Yun and Diao Chan archetype card pools and reward recommendations.
 
 ### 2026-05-02 18:59 Asia/Shanghai
 
@@ -1002,4 +1003,68 @@ Covered: visual smoke, playable flow, reward combo hint, save/continue, boss mec
 Additional visual check:
 Reviewed `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png`.
 The combat layout remains readable after reward-system changes; standees, energy orb, and bottom hand still preserve the desktop reference spacing.
+```
+
+### 2026-05-03 02:16 Asia/Shanghai
+
+Current state:
+
+- Completed the "character archetypes and card pool deepening" module.
+- Re-read for this pass before gameplay, reward, and card-pool changes:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Added explicit archetype metadata for the first four role builds:
+  - 赵云：连斩枪势流、护主防反流.
+  - 貂蝉：舞势连击流、魅惑控制流.
+- Expanded the character card pool with eight archetype support cards:
+  - 赵云：七进七出、白马突围、回马枪、枪围如墙.
+  - 貂蝉：惊鸿一击、飞袖连环、离间、镜中花.
+- Reward drafting now maps recent combo signals into character archetype preferences, so 蓄势/固守 can bias toward defensive/control builds while 连斩/追影 can bias toward attack/dance builds.
+- Reward cards now show a short recommendation reason that names the matching flow or explains the support role.
+
+Decisions:
+
+- I treated archetypes as card metadata and reward explanation first, not a full heart-method UI. This gives immediate deckbuilding clarity while leaving the heavier 心法 acquisition system for a later milestone.
+- Combo rewards still use the latest combat combo as the strongest deterministic signal. This keeps reward behavior readable in the current MVP and avoids hidden probability tables.
+- New cards reuse existing card-art fallbacks for now. A later art pass can create dedicated card illustrations without touching the gameplay and reward contracts.
+
+Verification:
+
+```text
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+First run: failed as expected before implementation.
+Red failures covered missing archetype tags, missing reward reason helpers, and missing archetype reward reasons.
+
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+Result after implementation: 2 test files passed, 32 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+First run after UI wiring: failed because reward reason text did not explicitly contain `流派`.
+Result after copy fix: 6 Playwright tests passed.
+
+npm test
+Result: 5 test files passed, 67 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: visual smoke, playable reward flow with `流派` reason text, shop, event/rest, save/continue, Boss mechanics, and full first-chapter victory.
+
+Additional visual check:
+Reviewed `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png` and `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-diaochan-desktop.png`.
+Desktop combat layout remains stable: top bars, center duel, bottom hand, and left energy orb still follow the current reference direction.
 ```

@@ -46,6 +46,7 @@ export interface CardRewardDraft {
   comboName?: string;
   comboHint?: string;
   comboPrimaryCardId?: string;
+  reasons: Record<string, string>;
 }
 
 export interface BattleSpoils {

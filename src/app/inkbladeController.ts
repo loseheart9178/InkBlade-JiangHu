@@ -19,6 +19,7 @@ import {
   addRelic,
   claimBattleSpoils,
   createCardRewardDraft,
+  createCardRewardReasonMap,
   createRun,
   getAvailableNodes,
   getComboRewardHint,
@@ -398,6 +399,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   panel.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);
   const comboPrimaryCardId = getComboRewardPrimaryCardId(run);
+  const rewardReasons = createCardRewardReasonMap(run, state.rewardCards);
   if (comboHint) {
     panel.append(createRewardComboHint(comboHint));
   }
@@ -422,6 +424,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
       <small class="card-type-line">${formatTypes(card.types)}</small>
       ${createCardKeywordRowMarkup(card)}
       <span class="card-description">${card.description ?? ""}</span>
+      <span class="reward-reason" data-testid="reward-reason">${rewardReasons[card.id] ?? ""}</span>
     `;
     button.addEventListener("click", () => {
       takeCardReward(run, card);

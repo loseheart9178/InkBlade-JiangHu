@@ -65,6 +65,7 @@ export const cardList: CardDefinition[] = [
     rarity: "common",
     target: "enemy",
     character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
     types: ["attack"],
     effects: [
       { action: "damage", amount: 8 },
@@ -86,6 +87,7 @@ export const cardList: CardDefinition[] = [
     rarity: "common",
     target: "enemy",
     character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
     types: ["attack"],
     effects: [
       { action: "damage", amount: 6 },
@@ -122,6 +124,7 @@ export const cardList: CardDefinition[] = [
     rarity: "common",
     target: "self",
     character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
     types: ["skill"],
     effects: [
       { action: "block", amount: 8 },
@@ -143,6 +146,7 @@ export const cardList: CardDefinition[] = [
     rarity: "common",
     target: "self",
     character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
     types: ["skill"],
     effects: [
       { action: "gainResource", amount: 1 },
@@ -164,6 +168,7 @@ export const cardList: CardDefinition[] = [
     rarity: "uncommon",
     target: "enemy",
     character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
     types: ["attack"],
     effects: [
       { action: "damage", amount: 16 },
@@ -185,6 +190,7 @@ export const cardList: CardDefinition[] = [
     rarity: "rare",
     target: "self",
     character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
     types: ["skill"],
     effects: [
       { action: "block", amount: 14 },
@@ -238,6 +244,7 @@ export const cardList: CardDefinition[] = [
     rarity: "starter",
     target: "enemy",
     character: "diaochan",
+    archetypes: ["diao-charm-control"],
     types: ["skill"],
     effects: [
       { action: "applyStatus", status: "charm", amount: 2 },
@@ -260,6 +267,7 @@ export const cardList: CardDefinition[] = [
     target: "self",
     character: "diaochan",
     retain: true,
+    archetypes: ["diao-dance-chain"],
     types: ["body"],
     effects: [
       { action: "block", amount: 4 },
@@ -283,6 +291,7 @@ export const cardList: CardDefinition[] = [
     rarity: "common",
     target: "enemy",
     character: "diaochan",
+    archetypes: ["diao-charm-control"],
     types: ["attack"],
     effects: [{ action: "damage", amount: 8 }],
     description: "造成8点伤害。若目标有魅惑，后续版本会追加伤害。",
@@ -314,6 +323,7 @@ export const cardList: CardDefinition[] = [
     target: "enemy",
     character: "diaochan",
     exhaust: true,
+    archetypes: ["diao-dance-chain"],
     types: ["attack"],
     effects: [{ action: "damage", amount: 4 }],
     description: "造成4点伤害。消耗。",
@@ -329,6 +339,7 @@ export const cardList: CardDefinition[] = [
     rarity: "common",
     target: "self",
     character: "diaochan",
+    archetypes: ["diao-charm-control"],
     types: ["skill"],
     effects: [
       { action: "applyStatus", status: "dodge", amount: 1 },
@@ -350,6 +361,7 @@ export const cardList: CardDefinition[] = [
     rarity: "uncommon",
     target: "enemy",
     character: "diaochan",
+    archetypes: ["diao-charm-control"],
     types: ["skill"],
     effects: [
       { action: "applyStatus", status: "charm", amount: 3 },
@@ -373,6 +385,7 @@ export const cardList: CardDefinition[] = [
     character: "diaochan",
     retain: true,
     exhaust: true,
+    archetypes: ["diao-dance-chain"],
     types: ["body"],
     effects: [{ action: "gainResource", amount: 2 }],
     description: "获得2舞势。保留，消耗。",
@@ -665,6 +678,7 @@ export const cardList: CardDefinition[] = [
     rarity: "rare",
     target: "enemy",
     character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
     types: ["attack"],
     effects: [
       { action: "damage", amount: 9 },
@@ -688,6 +702,7 @@ export const cardList: CardDefinition[] = [
     rarity: "uncommon",
     target: "self",
     character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
     types: ["skill"],
     effects: [
       { action: "block", amount: 12 },
@@ -705,12 +720,111 @@ export const cardList: CardDefinition[] = [
     }
   },
   {
+    id: "zhao_seven_entries",
+    name: "七进七出",
+    cost: 2,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 4 },
+      { action: "damage", amount: 4 },
+      { action: "damage", amount: 4 },
+      { action: "damage", amount: 4 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成4点伤害四次，获得1枪势。适合连续破阵。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 5 },
+        { action: "damage", amount: 5 },
+        { action: "damage", amount: 5 },
+        { action: "damage", amount: 5 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成5点伤害四次，获得1枪势。适合连续破阵。"
+    }
+  },
+  {
+    id: "zhao_white_horse_breakout",
+    name: "白马突围",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
+    types: ["skill"],
+    effects: [
+      { action: "gainResource", amount: 1 },
+      { action: "draw", amount: 1 },
+      { action: "block", amount: 3 }
+    ],
+    description: "获得1枪势，抽1张牌，获得3点护甲。为下一轮突进蓄路。",
+    upgrade: {
+      effects: [
+        { action: "gainResource", amount: 1 },
+        { action: "draw", amount: 2 },
+        { action: "block", amount: 4 }
+      ],
+      description: "获得1枪势，抽2张牌，获得4点护甲。为下一轮突进蓄路。"
+    }
+  },
+  {
+    id: "zhao_return_spear",
+    name: "回马枪",
+    cost: 1,
+    rarity: "common",
+    target: "enemy",
+    character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
+    types: ["skill", "attack"],
+    effects: [
+      { action: "block", amount: 5 },
+      { action: "damage", amount: 6 }
+    ],
+    description: "获得5点护甲，造成6点伤害。守势中藏反击。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 7 },
+        { action: "damage", amount: 8 }
+      ],
+      description: "获得7点护甲，造成8点伤害。守势中藏反击。"
+    }
+  },
+  {
+    id: "zhao_spear_wall",
+    name: "枪围如墙",
+    cost: 2,
+    rarity: "uncommon",
+    target: "self",
+    character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 13 },
+      { action: "applyStatus", status: "guard", amount: 1 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得13点护甲、1层护主和1枪势。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 17 },
+        { action: "applyStatus", status: "guard", amount: 2 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "获得17点护甲、2层护主和1枪势。"
+    }
+  },
+  {
     id: "diao_closed_moon",
     name: "闭月回风",
     cost: 2,
     rarity: "rare",
     target: "enemy",
     character: "diaochan",
+    archetypes: ["diao-charm-control"],
     types: ["skill", "body"],
     effects: [
       { action: "applyStatus", status: "charm", amount: 5 },
@@ -734,6 +848,7 @@ export const cardList: CardDefinition[] = [
     rarity: "uncommon",
     target: "enemy",
     character: "diaochan",
+    archetypes: ["diao-dance-chain"],
     types: ["attack", "body"],
     effects: [
       { action: "damage", amount: 7 },
@@ -748,6 +863,99 @@ export const cardList: CardDefinition[] = [
         { action: "gainResource", amount: 1 }
       ],
       description: "造成10点伤害，施加1层魅惑，获得1舞势。"
+    }
+  },
+  {
+    id: "diao_jinghong_strike",
+    name: "惊鸿一击",
+    cost: 2,
+    rarity: "rare",
+    target: "enemy",
+    character: "diaochan",
+    archetypes: ["diao-dance-chain"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 14 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成14点伤害，获得1舞势。舞势流的终结手。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 18 },
+        { action: "gainResource", amount: 2 }
+      ],
+      description: "造成18点伤害，获得2舞势。舞势流的终结手。"
+    }
+  },
+  {
+    id: "diao_flying_sleeves",
+    name: "飞袖连环",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "diaochan",
+    archetypes: ["diao-dance-chain"],
+    types: ["body"],
+    effects: [
+      { action: "block", amount: 4 },
+      { action: "gainResource", amount: 1 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "获得4点护甲和1舞势，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 6 },
+        { action: "gainResource", amount: 1 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "获得6点护甲和1舞势，抽1张牌。"
+    }
+  },
+  {
+    id: "diao_lijian",
+    name: "离间",
+    cost: 1,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "diaochan",
+    archetypes: ["diao-charm-control"],
+    types: ["skill"],
+    effects: [
+      { action: "applyStatus", status: "charm", amount: 4 },
+      { action: "applyStatus", status: "weak", amount: 1 }
+    ],
+    description: "施加4层魅惑和1层虚弱。",
+    upgrade: {
+      effects: [
+        { action: "applyStatus", status: "charm", amount: 5 },
+        { action: "applyStatus", status: "weak", amount: 1 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "施加5层魅惑和1层虚弱，抽1张牌。"
+    }
+  },
+  {
+    id: "diao_mirror_flower",
+    name: "镜中花",
+    cost: 2,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "diaochan",
+    archetypes: ["diao-charm-control"],
+    types: ["skill"],
+    effects: [
+      { action: "applyStatus", status: "charm", amount: 2 },
+      { action: "block", amount: 10 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "施加2层魅惑，获得10点护甲，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "applyStatus", status: "charm", amount: 3 },
+        { action: "block", amount: 13 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "施加3层魅惑，获得13点护甲，抽1张牌。"
     }
   },
   {
