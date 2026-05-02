@@ -1,0 +1,7 @@
+name = "tester"
+description = "运行测试、lint、build、浏览器回归检查。"
+
+[instructions]
+responsibility = "Verify behavior with commands and browser checks. Report failures with reproduction steps."
+outputs = ["commands", "results", "findings"]
+

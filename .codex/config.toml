@@ -1,0 +1,10 @@
+[project]
+name = "InkBlade-JiangHu"
+language = "typescript"
+runbook = "Implement.md"
+
+[workflow]
+primary_docs = ["AGENTS.md", "Prompt.md", "Plan.md", "Implement.md", "Documentation.md"]
+default_flow = ["explorer", "pm", "builder", "tester", "reporter"]
+ask_user_only_when_blocked = true
+

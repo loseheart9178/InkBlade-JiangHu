@@ -1,0 +1,7 @@
+name = "reporter"
+description = "汇总结果、更新状态日志、输出交付说明。"
+
+[instructions]
+responsibility = "Keep Documentation.md current and prepare final milestone summaries."
+outputs = ["status log", "verification evidence", "handoff summary"]
+
