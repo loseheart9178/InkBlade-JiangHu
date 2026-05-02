@@ -164,6 +164,56 @@ npm run test:e2e
 Result: 2 Playwright tests passed.
 ```
 
+### 2026-05-02 14:40 Asia/Shanghai
+
+Current state:
+
+- Roguelike progression depth pass implemented.
+- Combat now accepts current run HP, run relics, and upgraded deck instances.
+- Active relic support added:
+  - 白龙枪缨 triggers once per combat on Zhao Yun's first 破阵.
+  - 闭月香囊 applies charm and weak at combat start.
+  - 旧木剑 increases starter/basic attack damage.
+  - 黑纸伞 grants block when ink marks are gained.
+- Run system now tracks relics and supports add-once relic acquisition, card removal, upgrade candidates, and card upgrades.
+- Shop now sells cards, sells relics, disables owned relics, and offers a remove-card service.
+- Rest site now offers healing or card upgrade.
+- Browser coverage expanded for:
+  - first battle reward loop,
+  - shop relic purchase,
+  - event route into rest upgrade,
+  - Diao Chan starting relic status at combat start,
+  - desktop/mobile visual smoke screenshots.
+
+Decisions:
+
+- Upgraded cards use the first-slice rule "damage or block +3" and are shown with a `+` marker in hand.
+- Combat creates card instance ids from the current run deck order; upgraded run cards are mapped into those combat instance ids at battle start.
+- Shop services are deterministic in the first slice: remove-card targets the first starter card while the deck is above five cards.
+- Character-specific event mind effects are recorded in reward history for now; persistent overworld mind state is deferred.
+
+Remaining limitations:
+
+- Relic trigger display is still text/status driven rather than animated.
+- Generated character art and card art are still deferred behind the procedural ink battlefield and CSS cards.
+- Multi-enemy combat and manual targeting are not implemented yet.
+- Persistent save/load is not implemented yet.
+
+Verification:
+
+```text
+npm test
+Result: 4 test files passed, 29 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 5 Playwright tests passed.
+Covered: boot, character select, first battle, reward, shop relic purchase, event-rest upgrade, Diao Chan starting relic, desktop screenshot, mobile screenshot.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -174,3 +224,4 @@ Result: 2 Playwright tests passed.
 - [x] Implement data slice.
 - [x] Implement UI and Phaser presentation.
 - [x] Run automated and browser verification.
+- [x] Add active relics, shop services, rest upgrades, and expanded E2E coverage.

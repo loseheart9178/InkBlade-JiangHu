@@ -112,6 +112,8 @@ export interface CombatState {
   cardDefinitions: Record<string, CardDefinition>;
   character: CharacterDefinition;
   combatLog: string[];
+  relicIds: string[];
+  relicMemory: Partial<Record<string, boolean>>;
   playedCardTypesThisTurn: CardType[];
   attacksPlayedThisTurn: number;
   nextInstanceNumber: number;
@@ -120,8 +122,11 @@ export interface CombatState {
 export interface CreateCombatInput {
   character: CharacterDefinition;
   cards: CardDefinition[];
+  playerHp?: number;
+  upgradedCardInstanceIds?: string[];
   enemies: EnemyDefinition[];
   rngSeed: number;
+  relicIds?: string[];
   shuffleDeck?: boolean;
 }
 

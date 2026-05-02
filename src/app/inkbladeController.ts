@@ -2,21 +2,29 @@ import { cardList, cardsById } from "../game/content/cards";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById, type GameEventChoice } from "../game/content/events";
+import { relicsById } from "../game/content/relics";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CombatState } from "../game/systems/combat/types";
 import {
+  addRelic,
   createRun,
   getAvailableNodes,
   getCurrentNode,
-  getRunDeckCardDefinitions,
+  getUpgradeCandidates,
   healRun,
+  removeDeckCard,
   takeCardReward,
   travelToNode,
+  upgradeDeckCard,
   type MapNode,
   type RunState
 } from "../game/systems/run";
 
 type Screen = "title" | "map" | "combat" | "reward" | "event" | "shop" | "rest" | "victory" | "defeat";
+
+const SHOP_CARD_PRICE = 35;
+const SHOP_REMOVE_PRICE = 50;
+const SHOP_RELIC_IDS = ["relic_old_wooden_sword", "relic_black_paper_umbrella"];
 
 interface ControllerState {
   screen: Screen;
@@ -130,8 +138,21 @@ function enterNode(state: ControllerState, node: MapNode): void {
     return;
   }
 
-  if (node.type === "event" || node.type === "shop" || node.type === "rest") {
-    state.screen = node.type;
+  if (node.type === "event") {
+    state.message = "黑雨敲船，旧事浮上水面。";
+    state.screen = "event";
+    return;
+  }
+
+  if (node.type === "shop") {
+    state.message = "游商把残页、药囊和旧剑谱排在茶桌上。";
+    state.screen = "shop";
+    return;
+  }
+
+  if (node.type === "rest") {
+    state.message = "残佛无言，雨声洗去一身墨气。";
+    state.screen = "rest";
   }
 }
 
@@ -146,7 +167,10 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
       starterDeck: run.deck.map((entry) => entry.cardId)
     },
     cards: cardList,
+    playerHp: run.hp,
     enemies: [enemy],
+    relicIds: [...run.relicIds],
+    upgradedCardInstanceIds: getUpgradedCombatInstanceIds(run),
     rngSeed: run.deck.length + run.rewardHistory.length + 17,
     shuffleDeck: true
   });
@@ -175,12 +199,12 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     <div class="combatant combatant--player">
       <div class="portrait-ring portrait-ring--red">${combat.player.name.slice(0, 1)}</div>
       <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
-      <div class="status-line">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
+      <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
     </div>
     <div class="duel-mark">对决</div>
     <div class="combatant combatant--enemy">
       <div class="portrait-ring portrait-ring--teal">${enemy.name.slice(0, 1)}</div>
-      <div class="status-line">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
+      <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
     </div>
   `;
 
@@ -199,11 +223,14 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     const cardButton = document.createElement("button");
     cardButton.type = "button";
     cardButton.className = `combat-card card-type-${definition.types[0]}`;
+    if (card.upgraded) {
+      cardButton.classList.add("is-upgraded");
+    }
     cardButton.dataset.testid = `card-${card.instanceId}`;
     cardButton.disabled = definition.cost > combat.player.energy;
     cardButton.innerHTML = `
       <span class="card-cost">${definition.cost}</span>
-      <strong>${definition.name}</strong>
+      <strong>${definition.name}${card.upgraded ? " +" : ""}</strong>
       <small>${formatTypes(definition.types)}</small>
       <span>${definition.description ?? ""}</span>
     `;
@@ -313,12 +340,14 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   panel.append(createMessage(event.description));
 
   for (const choice of event.choices) {
-    panel.append(createAction(choice.label, choice.summary, () => {
+    const action = createAction(choice.label, choice.summary, () => {
       applyEventChoice(run, choice);
       state.message = `${event.title}：${choice.label}`;
       state.screen = "map";
       render();
-    }));
+    });
+    action.dataset.testid = `event-choice-${choice.id}`;
+    panel.append(action);
   }
 
   host.append(panel);
@@ -341,40 +370,103 @@ function applyEventChoice(run: RunState, choice: GameEventChoice): void {
       run.hp = Math.max(1, run.hp - effect.hpLoss);
     }
   }
+
+  if (effect.type === "mind") {
+    run.rewardHistory.push(`mind:${effect.mind}:${effect.amount}`);
+  }
 }
 
 function renderShop(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
   const panel = createPanel("screen-shop", "茶亭游商");
   panel.classList.add("shop-screen");
-  panel.append(createRunStatus(run, "游商把残页、药囊和旧剑谱排在茶桌上。"));
+  panel.append(createRunStatus(run, state.message));
 
   const shopCards = [cardsById.common_pifeng, cardsById.common_tuna, cardsById.ink_moren];
   const list = document.createElement("div");
   list.className = "shop-list";
 
   for (const card of shopCards) {
-    const button = createAction(card.name, `${card.description ?? ""} 价格35`, () => {
-      if (run.gold < 35) {
+    const button = createAction(card.name, `${card.description ?? ""} 价格${SHOP_CARD_PRICE}`, () => {
+      if (run.gold < SHOP_CARD_PRICE) {
         state.message = "铜钱不足。";
         render();
         return;
       }
 
-      run.gold -= 35;
+      run.gold -= SHOP_CARD_PRICE;
       takeCardReward(run, card);
       state.message = `购得${card.name}。`;
       render();
     });
+    button.dataset.testid = `shop-card-${card.id}`;
     list.append(button);
   }
+
+  const relicList = document.createElement("div");
+  relicList.className = "shop-list shop-list--relics";
+  for (const relicId of SHOP_RELIC_IDS) {
+    const relic = relicsById[relicId];
+    const owned = run.relicIds.includes(relic.id);
+    const button = createAction(relic.name, `${relic.description} 价格${relic.price}`, () => {
+      if (owned) {
+        state.message = `已持有${relic.name}。`;
+        render();
+        return;
+      }
+
+      if (run.gold < relic.price) {
+        state.message = "铜钱不足。";
+        render();
+        return;
+      }
+
+      run.gold -= relic.price;
+      addRelic(run, relic.id);
+      state.message = `购得法宝：${relic.name}。`;
+      render();
+    });
+    button.dataset.testid = `shop-relic-${relic.id}`;
+    button.disabled = owned;
+    relicList.append(button);
+  }
+
+  const serviceList = document.createElement("div");
+  serviceList.className = "shop-list shop-list--services";
+  const removable = getShopRemovalCandidate(run);
+  const removeButton = createAction(
+    "洗去旧招",
+    removable ? `删去${cardsById[removable.cardId].name}，价格${SHOP_REMOVE_PRICE}` : "牌组过薄，暂不可删牌。",
+    () => {
+      if (!removable) {
+        state.message = "牌组过薄，暂不可删牌。";
+        render();
+        return;
+      }
+
+      if (run.gold < SHOP_REMOVE_PRICE) {
+        state.message = "铜钱不足。";
+        render();
+        return;
+      }
+
+      run.gold -= SHOP_REMOVE_PRICE;
+      removeDeckCard(run, removable.instanceId);
+      state.message = `删去${cardsById[removable.cardId].name}。`;
+      render();
+    }
+  );
+  removeButton.dataset.testid = "shop-remove-card";
+  removeButton.disabled = !removable;
+  serviceList.append(removeButton);
 
   const leave = createAction("离开茶亭", "继续行旅", () => {
     state.message = "茶香在身后淡去。";
     state.screen = "map";
     render();
   });
-  panel.append(list, leave);
+  leave.dataset.testid = "shop-leave";
+  panel.append(list, relicList, serviceList, leave);
   host.append(panel);
 }
 
@@ -382,7 +474,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-rest", "废寺静修");
   panel.classList.add("rest-screen");
-  panel.append(createRunStatus(run, "残佛无言，雨声洗去一身墨气。"));
+  panel.append(createRunStatus(run, state.message));
 
   const heal = createAction("调息疗伤", "回复最大生命30%", () => {
     const healed = healRun(run, Math.ceil(run.maxHp * 0.3));
@@ -390,7 +482,28 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
     state.screen = "map";
     render();
   });
-  panel.append(heal);
+  heal.dataset.testid = "rest-heal";
+
+  const candidate = getUpgradeCandidates(run)[0];
+  const upgrade = createAction(
+    "磨砺招式",
+    candidate ? `精修${cardsById[candidate.cardId].name}：伤害或护甲+3。` : "所有招式都已精修。",
+    () => {
+      if (!candidate) {
+        state.message = "暂无可精修的招式。";
+        render();
+        return;
+      }
+
+      upgradeDeckCard(run, candidate.instanceId);
+      state.message = `精修${cardsById[candidate.cardId].name}。`;
+      state.screen = "map";
+      render();
+    }
+  );
+  upgrade.dataset.testid = "rest-upgrade-card";
+  upgrade.disabled = !candidate;
+  panel.append(heal, upgrade);
   host.append(panel);
 }
 
@@ -437,10 +550,12 @@ function createPanel(testId: string, title: string): HTMLElement {
 function createRunStatus(run: RunState, message: string): HTMLElement {
   const status = document.createElement("div");
   status.className = "run-status";
+  const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
   status.innerHTML = `
     <span>生命 ${run.hp}/${run.maxHp}</span>
     <span>铜钱 ${run.gold}</span>
     <span>牌组 ${run.deck.length}</span>
+    <span data-testid="run-relics">法宝 ${relicNames}</span>
     <em>${message}</em>
   `;
   return status;
@@ -494,6 +609,18 @@ function createAction(title: string, body: string, onClick: () => void): HTMLBut
   button.innerHTML = `<strong>${title}</strong><span>${body}</span>`;
   button.addEventListener("click", onClick);
   return button;
+}
+
+function getUpgradedCombatInstanceIds(run: RunState): string[] {
+  return run.deck.flatMap((entry, index) => entry.upgraded ? [`starter-${index + 1}`] : []);
+}
+
+function getShopRemovalCandidate(run: RunState): RunState["deck"][number] | undefined {
+  if (run.deck.length <= 5) {
+    return undefined;
+  }
+
+  return run.deck.find((entry) => cardsById[entry.cardId].rarity === "starter") ?? run.deck[0];
 }
 
 function formatTypes(types: string[]): string {

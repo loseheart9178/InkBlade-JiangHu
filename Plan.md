@@ -103,3 +103,21 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 6: Roguelike Progression Depth
+
+- [x] Add active relic trigger support for starting relics and shop relics.
+- [x] Persist run relics into combat and show them in run status.
+- [x] Persist current run HP into combat setup.
+- [x] Add deck card upgrades and pass upgraded instances into combat.
+- [x] Add shop relic purchase and card removal service.
+- [x] Add rest-site card upgrade choice.
+- [x] Cover shop, event-rest, and starting relic flows with Playwright.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

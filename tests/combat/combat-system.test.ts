@@ -119,6 +119,17 @@ function startCombat(character: CharacterDefinition, starterDeck = character.sta
   });
 }
 
+function startCombatWithRelics(character: CharacterDefinition, relicIds: string[], starterDeck = character.starterDeck): CombatState {
+  return createCombat({
+    character: { ...character, starterDeck },
+    cards: allCards,
+    enemies: [bandit],
+    rngSeed: 7,
+    relicIds,
+    shuffleDeck: false
+  });
+}
+
 describe("combat system", () => {
   it("draws through discard when the draw pile is short", () => {
     const state = startCombat(zhaoYun, ["strike"]);
@@ -234,6 +245,90 @@ describe("combat system", () => {
     expect(state.phase).toBe("won");
     expect(state.player.hp).toBe(80);
     expect(state.combatLog).toContain("墨痕结算");
+  });
+
+  it("applies Diao Chan starting relic charm at combat start", () => {
+    const state = startCombatWithRelics(diaoChan, ["relic_closed_moon_sachet"]);
+
+    expect(state.enemies[0].statuses.charm).toBe(2);
+  });
+
+  it("makes old wooden sword increase starter attack damage", () => {
+    const state = startCombatWithRelics(zhaoYun, ["relic_old_wooden_sword"]);
+    const card = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, card?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(22);
+  });
+
+  it("makes black paper umbrella grant block when gaining ink", () => {
+    const inkCard: CardDefinition = {
+      id: "ink-test",
+      name: "墨试",
+      cost: 0,
+      rarity: "ink",
+      target: "self",
+      types: ["skill", "ink"],
+      effects: [{ action: "gainInk", amount: 1 }]
+    };
+    const state = createCombat({
+      character: { ...diaoChan, starterDeck: ["ink-test", "strike", "guard", "charm", "shadow-step"] },
+      cards: [...allCards, inkCard],
+      enemies: [bandit],
+      rngSeed: 4,
+      relicIds: ["relic_black_paper_umbrella"],
+      shuffleDeck: false
+    });
+    const card = state.piles.hand.find((item) => item.definitionId === "ink-test");
+
+    playCard(state, card?.instanceId ?? "", "player");
+
+    expect(state.player.inkMarks).toBe(1);
+    expect(state.player.block).toBe(2);
+  });
+
+  it("makes white dragon tassel reward the first Zhao Yun break-formation", () => {
+    const state = startCombatWithRelics(zhaoYun, ["relic_white_dragon_tassel"], ["strike", "strike", "strike", "strike", "guard"]);
+    const attacks = state.piles.hand.filter((item) => item.definitionId === "strike");
+
+    playCard(state, attacks[0].instanceId, state.enemies[0].id);
+    playCard(state, attacks[1].instanceId, state.enemies[0].id);
+    playCard(state, attacks[2].instanceId, state.enemies[0].id);
+
+    expect(state.player.energy).toBe(1);
+    expect(state.piles.hand.length).toBeGreaterThan(1);
+    expect(state.combatLog).toContain("白龙枪缨");
+  });
+
+  it("applies upgraded card instance damage bonus in combat", () => {
+    const state = createCombat({
+      character: { ...zhaoYun, starterDeck: ["strike", "guard", "guard", "guard", "guard"] },
+      cards: allCards,
+      enemies: [bandit],
+      rngSeed: 3,
+      upgradedCardInstanceIds: ["starter-1"],
+      shuffleDeck: false
+    });
+    const card = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, card?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(21);
+  });
+
+  it("starts combat from the current run hp when supplied", () => {
+    const state = createCombat({
+      character: zhaoYun,
+      cards: allCards,
+      enemies: [bandit],
+      playerHp: 42,
+      rngSeed: 3,
+      shuffleDeck: false
+    });
+
+    expect(state.player.hp).toBe(42);
+    expect(state.player.maxHp).toBe(82);
   });
 
   it("cycles through enemy behavior table intents", () => {

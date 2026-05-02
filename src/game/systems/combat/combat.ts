@@ -17,10 +17,15 @@ import type {
 export function createCombat(input: CreateCombatInput): CombatState {
   const rng = createRng(input.rngSeed);
   const cardDefinitions = Object.fromEntries(input.cards.map((card) => [card.id, card]));
-  const draw = input.character.starterDeck.map((definitionId, index) => ({
-    instanceId: `starter-${index + 1}`,
-    definitionId
-  }));
+  const upgradedIds = new Set(input.upgradedCardInstanceIds ?? []);
+  const draw = input.character.starterDeck.map((definitionId, index) => {
+    const instanceId = `starter-${index + 1}`;
+    return {
+      instanceId,
+      definitionId,
+      upgraded: upgradedIds.has(instanceId)
+    };
+  });
 
   if (input.shuffleDeck ?? true) {
     shuffleInPlace(draw, rng);
@@ -37,7 +42,7 @@ export function createCombat(input: CreateCombatInput): CombatState {
       id: "player",
       name: input.character.name,
       characterId: input.character.id,
-      hp: input.character.maxHp,
+      hp: input.playerHp ?? input.character.maxHp,
       maxHp: input.character.maxHp,
       block: 0,
       statuses: {},
@@ -69,11 +74,14 @@ export function createCombat(input: CreateCombatInput): CombatState {
       exhaust: []
     },
     combatLog: [],
+    relicIds: input.relicIds ?? [],
+    relicMemory: {},
     playedCardTypesThisTurn: [],
     attacksPlayedThisTurn: 0,
     nextInstanceNumber: draw.length + 1
   };
 
+  applyCombatStartRelics(state);
   drawCards(state, state.player.drawPerTurn, rng);
   return state;
 }
@@ -121,7 +129,7 @@ export function playCard(state: CombatState, cardInstanceId: string, targetId: s
   state.piles.hand.splice(handIndex, 1);
 
   for (const effect of definition.effects) {
-    applyEffect(state, effect, target?.id ?? "player");
+    applyEffect(state, definition, card, effect, target?.id ?? "player");
   }
 
   for (const type of definition.types) {
@@ -192,13 +200,13 @@ function resolveTarget(state: CombatState, target: CardDefinition["target"], tar
   return undefined;
 }
 
-function applyEffect(state: CombatState, effect: CardEffect, targetId: string): void {
+function applyEffect(state: CombatState, definition: CardDefinition, card: CardInstance, effect: CardEffect, targetId: string): void {
   switch (effect.action) {
     case "damage":
-      damageEnemy(state, targetId, getPlayerDamageAmount(state, effect.amount));
+      damageEnemy(state, targetId, getPlayerDamageAmount(state, definition, card, effect.amount));
       break;
     case "block":
-      state.player.block += getPlayerBlockAmount(state, effect.amount);
+      state.player.block += getPlayerBlockAmount(state, card, effect.amount);
       break;
     case "draw":
       drawCards(state, effect.amount, createRng(state.turn * 101 + state.nextInstanceNumber));
@@ -211,6 +219,7 @@ function applyEffect(state: CombatState, effect: CardEffect, targetId: string): 
       break;
     case "gainInk":
       state.player.inkMarks += effect.amount;
+      triggerInkRelics(state, effect.amount);
       break;
     case "setMind":
       setMind(state, effect.mind, effect.amount ?? 1);
@@ -230,17 +239,29 @@ function damageEnemy(state: CombatState, enemyId: string, rawAmount: number): vo
   enemy.hp = Math.max(0, enemy.hp - (amount - blocked));
 }
 
-function getPlayerDamageAmount(state: CombatState, baseAmount: number): number {
+function getPlayerDamageAmount(state: CombatState, definition: CardDefinition, card: CardInstance, baseAmount: number): number {
   let amount = baseAmount;
+  if (card.upgraded) {
+    amount += 3;
+  }
+
   if (state.player.mind === "nu") {
+    amount += 2;
+  }
+
+  if (hasRelic(state, "relic_old_wooden_sword") && isBasicAttack(definition)) {
     amount += 2;
   }
 
   return amount;
 }
 
-function getPlayerBlockAmount(state: CombatState, baseAmount: number): number {
+function getPlayerBlockAmount(state: CombatState, card: CardInstance, baseAmount: number): number {
   let amount = baseAmount;
+  if (card.upgraded) {
+    amount += 3;
+  }
+
   if (state.player.mind === "ning") {
     amount += 2;
   }
@@ -296,6 +317,7 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
     damageEnemy(state, targetId, 4);
     gainResource(state, 1);
     state.combatLog.push("破阵");
+    triggerBreakFormationRelics(state);
   }
 
   if (state.character.id === "diaochan" && definition.types.includes("body")) {
@@ -377,6 +399,50 @@ function updateCombatOutcome(state: CombatState): void {
     settleInkMarks(state);
     state.phase = "won";
   }
+}
+
+function applyCombatStartRelics(state: CombatState): void {
+  if (hasRelic(state, "relic_closed_moon_sachet")) {
+    const enemy = state.enemies.find((item) => item.hp > 0);
+    if (enemy) {
+      enemy.statuses.charm = (enemy.statuses.charm ?? 0) + 2;
+      if (state.enemies.length === 1) {
+        enemy.statuses.weak = (enemy.statuses.weak ?? 0) + 1;
+      }
+      state.combatLog.push("闭月香囊");
+    }
+  }
+}
+
+function triggerInkRelics(state: CombatState, inkAmount: number): void {
+  if (inkAmount > 0 && hasRelic(state, "relic_black_paper_umbrella")) {
+    state.player.block += 2;
+    state.combatLog.push("黑纸伞");
+  }
+}
+
+function triggerBreakFormationRelics(state: CombatState): void {
+  if (!hasRelic(state, "relic_white_dragon_tassel") || state.relicMemory.relic_white_dragon_tassel) {
+    return;
+  }
+
+  state.player.energy += 1;
+  drawCards(state, 1, createRng(state.turn * 211 + state.nextInstanceNumber));
+  state.relicMemory.relic_white_dragon_tassel = true;
+  state.combatLog.push("白龙枪缨");
+}
+
+function hasRelic(state: CombatState, relicId: string): boolean {
+  return state.relicIds.includes(relicId);
+}
+
+function isBasicAttack(definition: CardDefinition): boolean {
+  return definition.types.includes("attack") && (
+    definition.rarity === "starter" ||
+    definition.id === "strike" ||
+    definition.id === "zhao_strike" ||
+    definition.id === "diao_strike"
+  );
 }
 
 function settleInkMarks(state: CombatState): void {

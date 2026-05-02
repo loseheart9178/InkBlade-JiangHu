@@ -1,5 +1,6 @@
 import { cardsById } from "../../content/cards";
 import { charactersById } from "../../content/characters";
+import { relicsById } from "../../content/relics";
 import type { CardDefinition } from "../combat/types";
 import type { MapNode, RunState } from "./types";
 
@@ -20,12 +21,30 @@ export function createRun(characterId: string): RunState {
     maxHp: character.maxHp,
     gold: 99,
     deck,
+    relicIds: [getStartingRelicId(characterId)],
     mapNodes: createChapterOneMap(),
     currentNodeId: "start",
     visitedNodeIds: [],
     nextDeckInstanceNumber: deck.length + 1,
     rewardHistory: []
   };
+}
+
+export function addRelic(run: RunState, relicId: string): boolean {
+  if (!relicsById[relicId]) {
+    throw new Error(`Unknown relic: ${relicId}`);
+  }
+
+  if (run.relicIds.includes(relicId)) {
+    return false;
+  }
+
+  run.relicIds.push(relicId);
+  return true;
+}
+
+export function hasRunRelic(run: RunState, relicId: string): boolean {
+  return run.relicIds.includes(relicId);
 }
 
 export function getCurrentNode(run: RunState): MapNode {
@@ -93,6 +112,20 @@ export function getRunDeckCardDefinitions(run: RunState): CardDefinition[] {
   });
 }
 
+export function getUpgradeCandidates(run: RunState): RunState["deck"] {
+  return run.deck.filter((entry) => !entry.upgraded);
+}
+
+export function upgradeDeckCard(run: RunState, instanceId: string): boolean {
+  const entry = run.deck.find((item) => item.instanceId === instanceId);
+  if (!entry || entry.upgraded) {
+    return false;
+  }
+
+  entry.upgraded = true;
+  return true;
+}
+
 function getNode(run: RunState, nodeId: string): MapNode {
   const node = run.mapNodes.find((item) => item.id === nodeId);
   if (!node) {
@@ -100,6 +133,14 @@ function getNode(run: RunState, nodeId: string): MapNode {
   }
 
   return node;
+}
+
+function getStartingRelicId(characterId: string): string {
+  if (characterId === "diaochan") {
+    return "relic_closed_moon_sachet";
+  }
+
+  return "relic_white_dragon_tassel";
 }
 
 function createChapterOneMap(): MapNode[] {
@@ -165,4 +206,3 @@ function createChapterOneMap(): MapNode[] {
     }
   ];
 }
-

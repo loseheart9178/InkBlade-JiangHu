@@ -22,6 +22,7 @@ export interface RunState {
   maxHp: number;
   gold: number;
   deck: RunDeckEntry[];
+  relicIds: string[];
   mapNodes: MapNode[];
   currentNodeId: string;
   visitedNodeIds: string[];
@@ -32,4 +33,3 @@ export interface RunState {
 export interface CardReward {
   cards: CardDefinition[];
 }
-

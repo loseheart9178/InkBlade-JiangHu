@@ -207,15 +207,18 @@ button {
 }
 
 .map-node:not(:disabled):hover,
-.choice-action:hover,
-.reward-card:hover,
-.combat-controls button:hover {
+.choice-action:hover:not(:disabled),
+.reward-card:hover:not(:disabled),
+.combat-controls button:hover:not(:disabled) {
   border-color: #b7352a;
   color: #f6ecd5;
   background: #2c2924;
 }
 
-.map-node:disabled {
+.map-node:disabled,
+.choice-action:disabled,
+.reward-card:disabled,
+.combat-controls button:disabled {
   cursor: default;
   opacity: 0.42;
 }
@@ -375,6 +378,12 @@ button {
   transform: none;
 }
 
+.combat-card.is-upgraded {
+  box-shadow:
+    0 10px 22px rgba(17, 17, 17, 0.15),
+    inset 0 0 0 3px rgba(212, 90, 60, 0.2);
+}
+
 .card-cost {
   position: absolute;
   top: -12px;
@@ -432,6 +441,14 @@ button {
   justify-content: center;
   gap: 14px;
   flex-wrap: wrap;
+}
+
+.shop-list--relics .choice-action {
+  border-color: rgba(47, 124, 110, 0.58);
+}
+
+.shop-list--services .choice-action {
+  border-color: rgba(183, 53, 42, 0.58);
 }
 
 .reward-card,
