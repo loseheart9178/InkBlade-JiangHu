@@ -330,6 +330,7 @@ button {
   border-radius: 50%;
   color: #f6ecd5;
   font-size: clamp(46px, 6vw, 84px);
+  overflow: hidden;
   box-shadow: 0 10px 40px rgba(17, 17, 17, 0.18);
 }
 
@@ -339,6 +340,18 @@ button {
 
 .portrait-ring--teal {
   background: radial-gradient(circle, #2f7c6e, #2c2924);
+}
+
+.portrait-ring--ink {
+  background: radial-gradient(circle, #4b4640, #111);
+}
+
+.portrait-art {
+  width: 118%;
+  height: 118%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  filter: contrast(1.08) saturate(0.92);
 }
 
 .duel-mark {

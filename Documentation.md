@@ -313,6 +313,41 @@ Result: 5 Playwright tests passed.
 Covered: existing browser flows plus combat floating feedback for 闭月香囊.
 ```
 
+### 2026-05-02 15:04 Asia/Shanghai
+
+Current state:
+
+- Added first-pass repo-local combat art assets under `public/assets/characters/`.
+- Added `src/game/content/visuals.ts` as the stable combat portrait manifest.
+- Combat now renders art assets for:
+  - 赵云,
+  - 貂蝉,
+  - 墨化山贼,
+  - 无面兵卒,
+  - 纸伞女鬼,
+  - 剑痴残影,
+  - 墨影董卓.
+- Browser tests now assert that Zhao Yun and 墨化山贼 portrait images are actually referenced in combat.
+
+Decision:
+
+- This pass uses deterministic SVG assets that match the preview's ink-wash direction and are easy to version. Higher-fidelity GPT-generated PNG/WebP portraits can replace these files later through the same manifest without changing combat rules.
+
+Verification:
+
+```text
+npm test -- --run tests/data/content.test.ts
+Result: 1 test file passed, 6 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+Result: 4 Playwright tests passed.
+Covered: playable flow plus combat portrait asset references.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -327,3 +362,4 @@ Covered: existing browser flows plus combat floating feedback for 闭月香囊.
 - [x] Add deterministic battle spoils, boss reward bridge, and deck viewer.
 - [x] Add combat log feedback to the battle HUD.
 - [x] Add combat visual events and floating battle feedback.
+- [x] Add first-pass ink-wash combat portrait assets.

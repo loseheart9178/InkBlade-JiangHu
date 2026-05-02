@@ -3,6 +3,7 @@ import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById, type GameEventChoice } from "../game/content/events";
 import { relicsById } from "../game/content/relics";
+import { combatPortraitsById } from "../game/content/visuals";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CombatState } from "../game/systems/combat/types";
 import {
@@ -200,6 +201,8 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const run = requireRun(state);
   const combat = requireCombat(state);
   const enemy = combat.enemies[0];
+  const playerPortrait = getCombatPortrait(combat.player.characterId);
+  const enemyPortrait = getCombatPortrait(enemy.definitionId);
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
   panel.classList.add("combat-screen");
 
@@ -215,13 +218,17 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   field.className = "combat-field";
   field.innerHTML = `
     <div class="combatant combatant--player ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
-      <div class="portrait-ring portrait-ring--red">${combat.player.name.slice(0, 1)}</div>
+      <div class="portrait-ring portrait-ring--${playerPortrait.accent}">
+        <img class="portrait-art" data-testid="combat-portrait-player" src="${playerPortrait.assetPath}" alt="${playerPortrait.alt}">
+      </div>
       <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
       <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
     </div>
     <div class="duel-mark">对决</div>
     <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
-      <div class="portrait-ring portrait-ring--teal">${enemy.name.slice(0, 1)}</div>
+      <div class="portrait-ring portrait-ring--${enemyPortrait.accent}">
+        <img class="portrait-art" data-testid="combat-portrait-enemy" src="${enemyPortrait.assetPath}" alt="${enemyPortrait.alt}">
+      </div>
       <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
     </div>
   `;
@@ -777,6 +784,14 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
 
 function hasRecentVisual(combat: CombatState, target: "player" | "enemy", kind: string): boolean {
   return combat.visualEvents.slice(-3).some((event) => event.target === target && event.kind === kind);
+}
+
+function getCombatPortrait(id: string) {
+  return combatPortraitsById[id] ?? {
+    assetPath: "/assets/characters/ink-bandit.svg",
+    alt: "Ink silhouette",
+    accent: "ink" as const
+  };
 }
 
 function getUpgradedCombatInstanceIds(run: RunState): string[] {

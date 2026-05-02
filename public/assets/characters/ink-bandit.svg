@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" role="img" aria-label="Ink bandit portrait">
+  <rect width="320" height="420" fill="#e8d7b6"/>
+  <path d="M44 348c75-38 158-40 234-1-62 39-171 38-234 1Z" fill="#111" opacity=".18"/>
+  <path d="M154 58c44 24 54 57 31 98 45 30 66 91 52 178-45 22-105 23-153 0-10-90 12-150 63-180-26-43-24-75 7-96Z" fill="#171615"/>
+  <path d="M123 107c26-21 61-19 82 7-7 32-45 49-76 28-16-11-18-23-6-35Z" fill="#efe2c3" opacity=".18"/>
+  <path d="M79 189c49 24 98 31 164 9" fill="none" stroke="#2c2924" stroke-width="16" stroke-linecap="round"/>
+  <path d="M65 126c42-32 119-42 199-11" fill="none" stroke="#111" stroke-width="16" stroke-linecap="round" opacity=".42"/>
+  <path d="M120 227c36 17 69 17 102 0 2 35-8 72-31 110-27 9-54 8-82-2-16-44-12-80 11-108Z" fill="#2c2924"/>
+  <path d="M95 80c-22 64-33 138-31 222" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" opacity=".36"/>
+  <path d="M256 88c-21 68-27 138-17 211" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round" opacity=".34"/>
+</svg>

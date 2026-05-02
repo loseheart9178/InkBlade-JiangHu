@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" role="img" aria-label="Paper umbrella ghost portrait">
+  <rect width="320" height="420" fill="#e8d7b6"/>
+  <path d="M43 348c71-46 168-42 232 6-68 34-163 35-232-6Z" fill="#111" opacity=".13"/>
+  <path d="M72 112c52-49 131-54 190-4-51 18-116 19-190 4Z" fill="#2c2924"/>
+  <path d="M74 117c59 23 124 22 187-3-23 32-50 47-83 47-37 0-72-14-104-44Z" fill="#9fcbbd" opacity=".72"/>
+  <path d="M161 69v293" stroke="#2c2924" stroke-width="7" stroke-linecap="round"/>
+  <path d="M151 137c35 9 55 39 60 88 14 44 7 82-21 114-23 13-47 13-73-1-19-36-23-74-12-113 8-50 24-79 46-88Z" fill="#f6ecd5"/>
+  <path d="M105 187c47 35 86 36 119 2 14 45 7 94-20 147-31 17-63 17-96 0-18-51-19-100-3-149Z" fill="#2f7c6e" opacity=".76"/>
+  <path d="M77 185c43 13 61 47 53 101" fill="none" stroke="#2f7c6e" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+  <path d="M242 182c-45 14-66 50-64 107" fill="none" stroke="#2f7c6e" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+</svg>

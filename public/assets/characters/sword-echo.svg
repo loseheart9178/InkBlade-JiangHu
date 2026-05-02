@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" role="img" aria-label="Sword echo portrait">
+  <rect width="320" height="420" fill="#e8d7b6"/>
+  <path d="M47 351c62-45 169-43 227 4-69 35-164 35-227-4Z" fill="#111" opacity=".16"/>
+  <path d="M159 49c43 30 48 63 16 100 42 35 61 96 48 184-43 21-91 22-139 3-18-83-3-144 45-183-21-45-11-78 30-104Z" fill="#191817"/>
+  <path d="M121 111c28-21 63-18 86 8-9 29-42 43-75 29-19-12-23-24-11-37Z" fill="#efe2c3" opacity=".26"/>
+  <path d="M93 198c36 31 80 35 134 11 14 42 7 84-19 125-36 13-73 12-111-3-17-47-18-91-4-133Z" fill="#2c2924"/>
+  <path d="M250 58 79 344" stroke="#111" stroke-width="10" stroke-linecap="round"/>
+  <path d="M258 50 88 334" stroke="#f6ecd5" stroke-width="2" stroke-linecap="round" opacity=".72"/>
+  <path d="M75 137c50-34 120-43 206-24" fill="none" stroke="#b7352a" stroke-width="8" stroke-linecap="round" opacity=".52"/>
+  <path d="M75 154c60 21 122 21 186 0" fill="none" stroke="#111" stroke-width="13" stroke-linecap="round" opacity=".34"/>
+</svg>

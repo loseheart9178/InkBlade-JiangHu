@@ -155,3 +155,18 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 9: First Art Asset Pass
+
+- [x] Add a combat portrait manifest for playable characters and first-chapter enemies.
+- [x] Add repo-local ink-wash SVG portraits for Zhao Yun, Diao Chan, normal enemies, elite, and boss.
+- [x] Replace initial-letter combat portraits with actual art assets.
+- [x] Verify content registry and browser combat image references.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

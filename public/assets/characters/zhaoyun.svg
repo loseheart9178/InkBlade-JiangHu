@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420" role="img" aria-label="Zhao Yun ink portrait">
+  <defs>
+    <radialGradient id="wash" cx="50%" cy="42%" r="58%">
+      <stop offset="0" stop-color="#f6ecd5"/>
+      <stop offset="1" stop-color="#d8c7a3"/>
+    </radialGradient>
+    <linearGradient id="red" x1="0" x2="1">
+      <stop offset="0" stop-color="#7f1f1a"/>
+      <stop offset="1" stop-color="#d45a3c"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="420" fill="url(#wash)"/>
+  <path d="M45 346c70-42 162-37 232 3-54 40-169 44-232-3Z" fill="#111" opacity=".16"/>
+  <path d="M172 54c28 22 30 50 9 81 38 30 55 75 49 138-34 27-95 30-140 1-8-65 10-111 50-140-18-35-9-63 32-80Z" fill="#2c2924"/>
+  <path d="M143 94c27-8 55 0 72 21-14 28-52 38-78 17-11-14-9-27 6-38Z" fill="#efe2c3" opacity=".86"/>
+  <path d="M116 162c37 30 85 29 121 1 16 61 11 119-15 174-39 23-89 23-128-1-15-57-9-115 22-174Z" fill="#f6ecd5"/>
+  <path d="M101 173c33 42 79 59 139 42-6 38-14 78-25 121-35 14-73 13-114-2-10-57-10-111 0-161Z" fill="url(#red)" opacity=".84"/>
+  <path d="M173 55c-25 38-62 65-113 83 46-9 85-21 116-37 36 22 67 34 94 35-39-24-68-51-97-81Z" fill="#111"/>
+  <path d="M230 64 78 358" stroke="#1b1a18" stroke-width="8" stroke-linecap="round"/>
+  <path d="M239 54 88 348" stroke="#f6ecd5" stroke-width="2" stroke-linecap="round" opacity=".65"/>
+  <path d="M81 119c38 32 96 52 171 61" fill="none" stroke="#b7352a" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+  <path d="M53 84c53-22 123-31 213 0" fill="none" stroke="#111" stroke-width="10" stroke-linecap="round" opacity=".18"/>
+</svg>

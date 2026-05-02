@@ -3,6 +3,7 @@ import { characterList } from "../../src/game/content/characters";
 import { enemyList } from "../../src/game/content/enemies";
 import { eventList } from "../../src/game/content/events";
 import { relicList } from "../../src/game/content/relics";
+import { combatPortraitsById } from "../../src/game/content/visuals";
 
 const supportedActions = new Set([
   "damage",
@@ -67,6 +68,23 @@ describe("content data", () => {
 
     for (const event of eventList) {
       expect(event.choices.length).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it("maps playable characters and first chapter enemies to combat portrait assets", () => {
+    const expectedIds = [
+      "zhaoyun",
+      "diaochan",
+      "enemy_ink_bandit",
+      "enemy_faceless_soldier",
+      "enemy_paper_umbrella",
+      "elite_sword_echo",
+      "boss_ink_dongzhuo"
+    ];
+
+    for (const id of expectedIds) {
+      expect(combatPortraitsById[id]).toBeDefined();
+      expect(combatPortraitsById[id].assetPath).toMatch(/^\/assets\/characters\/.+\.svg$/);
     }
   });
 });
