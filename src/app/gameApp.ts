@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { createAppShell } from "./appShell";
+import { createInkbladeController } from "./inkbladeController";
 import { createPhaserConfig } from "./phaserConfig";
 
 export interface MountedGameApp {
@@ -10,15 +11,24 @@ export interface MountedGameApp {
 export function mountGameApp(root: HTMLElement): MountedGameApp {
   const shell = createAppShell(root);
   let game: Phaser.Game | undefined;
+  const controller = createInkbladeController(shell.hudHost);
+  let selectedCharacterId = "zhaoyun";
+
+  shell.hudHost.querySelectorAll<HTMLButtonElement>("[data-character-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedCharacterId = button.dataset.characterId ?? "zhaoyun";
+      shell.hudHost.querySelectorAll("[data-character-id]").forEach((item) => item.classList.remove("is-selected"));
+      button.classList.add("is-selected");
+    });
+  });
 
   const start = () => {
     if (!game) {
       game = new Phaser.Game(createPhaserConfig(shell.phaserHost));
       shell.root.classList.add("is-running");
-      shell.startButton.textContent = "行旅中";
-      shell.startButton.disabled = true;
     }
 
+    controller.startRun(selectedCharacterId);
     return game;
   };
 
@@ -29,4 +39,3 @@ export function mountGameApp(root: HTMLElement): MountedGameApp {
     start
   };
 }
-

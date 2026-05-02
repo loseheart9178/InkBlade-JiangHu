@@ -27,12 +27,30 @@ export function createAppShell(root: HTMLElement): AppShell {
   const subtitle = document.createElement("p");
   subtitle.textContent = "以墨为刃，以心为牌";
 
+  const characterSelect = document.createElement("div");
+  characterSelect.className = "character-select";
+
+  const zhaoButton = document.createElement("button");
+  zhaoButton.type = "button";
+  zhaoButton.dataset.characterId = "zhaoyun";
+  zhaoButton.dataset.testid = "character-zhaoyun";
+  zhaoButton.className = "character-choice is-selected";
+  zhaoButton.textContent = "赵云";
+
+  const diaoButton = document.createElement("button");
+  diaoButton.type = "button";
+  diaoButton.dataset.characterId = "diaochan";
+  diaoButton.dataset.testid = "character-diaochan";
+  diaoButton.className = "character-choice";
+  diaoButton.textContent = "貂蝉";
+
   const startButton = document.createElement("button");
   startButton.type = "button";
   startButton.dataset.testid = "start-run";
   startButton.textContent = "入江湖";
 
-  menu.append(title, subtitle, startButton);
+  characterSelect.append(zhaoButton, diaoButton);
+  menu.append(title, subtitle, characterSelect, startButton);
   hudHost.append(menu);
   root.append(phaserHost, hudHost);
 
@@ -43,4 +61,3 @@ export function createAppShell(root: HTMLElement): AppShell {
     startButton
   };
 }
-

@@ -165,6 +165,7 @@ function createEnemyState(definition: EnemyDefinition, index: number): EnemyStat
     maxHp: definition.maxHp,
     block: 0,
     statuses: {},
+    intents: definition.intents.length > 0 ? definition.intents : [{ type: "idle" }],
     intentIndex: 0,
     currentIntent: definition.intents[0] ?? { type: "idle" }
   };
@@ -332,13 +333,7 @@ function getModifiedEnemyDamage(enemy: EnemyState, baseDamage: number): number {
 
 function advanceIntent(enemy: EnemyState): void {
   enemy.intentIndex += 1;
-  const definitionIntentCount = 1;
-  const intents = getEnemyIntentsFromCurrent(enemy, definitionIntentCount);
-  enemy.currentIntent = intents[enemy.intentIndex % intents.length] ?? enemy.currentIntent;
-}
-
-function getEnemyIntentsFromCurrent(enemy: EnemyState, _fallbackCount: number): EnemyIntent[] {
-  return [enemy.currentIntent];
+  enemy.currentIntent = enemy.intents[enemy.intentIndex % enemy.intents.length] ?? enemy.currentIntent;
 }
 
 function beginPlayerTurn(state: CombatState): void {
@@ -364,4 +359,3 @@ function updateCombatOutcome(state: CombatState): void {
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
-

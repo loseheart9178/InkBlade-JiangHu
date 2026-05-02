@@ -80,6 +80,29 @@ button {
   color: #2c2924;
 }
 
+.character-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 22px;
+}
+
+.character-choice {
+  min-width: 96px;
+  min-height: 42px;
+  border: 1px solid rgba(44, 41, 36, 0.34);
+  border-radius: 6px;
+  color: #2c2924;
+  background: rgba(246, 236, 213, 0.76);
+  cursor: pointer;
+}
+
+.character-choice.is-selected {
+  border-color: #b7352a;
+  color: #f6ecd5;
+  background: #b7352a;
+}
+
 .title-screen h1 {
   margin: 0;
   font-size: clamp(48px, 8vw, 96px);
@@ -113,6 +136,371 @@ button {
 }
 
 .inkblade-app.is-running .title-screen {
-  opacity: 0.72;
+  display: none;
 }
 
+.game-panel {
+  position: absolute;
+  inset: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  color: #2c2924;
+}
+
+.game-panel h2 {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 3px 22px 7px;
+  border-image: linear-gradient(90deg, transparent, rgba(44, 41, 36, 0.8), transparent) 1;
+  border-bottom: 2px solid;
+  font-size: clamp(24px, 3vw, 38px);
+  letter-spacing: 0;
+}
+
+.run-status,
+.combat-topbar,
+.combat-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.run-status span,
+.run-status em,
+.pile-counter,
+.intent-box,
+.resource-pill,
+.status-line {
+  padding: 6px 10px;
+  border: 1px solid rgba(44, 41, 36, 0.28);
+  border-radius: 6px;
+  background: rgba(246, 236, 213, 0.78);
+  box-shadow: inset 0 0 18px rgba(44, 41, 36, 0.04);
+}
+
+.run-status em {
+  font-style: normal;
+}
+
+.route-map {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 14px;
+  width: min(780px, 92vw);
+  margin: auto;
+}
+
+.map-node,
+.choice-action,
+.reward-card,
+.combat-controls button {
+  min-height: 48px;
+  border: 1px solid rgba(44, 41, 36, 0.42);
+  border-radius: 6px;
+  color: #2c2924;
+  background: rgba(246, 236, 213, 0.86);
+  cursor: pointer;
+}
+
+.map-node:not(:disabled):hover,
+.choice-action:hover,
+.reward-card:hover,
+.combat-controls button:hover {
+  border-color: #b7352a;
+  color: #f6ecd5;
+  background: #2c2924;
+}
+
+.map-node:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.map-node.is-current {
+  opacity: 1;
+  border-color: #2f7c6e;
+  color: #f6ecd5;
+  background: #2f7c6e;
+}
+
+.map-node.is-visited {
+  text-decoration: line-through;
+}
+
+.combat-screen {
+  inset: 0;
+  padding: 14px 20px 18px;
+}
+
+.combat-topbar {
+  justify-content: space-between;
+}
+
+.combat-meter {
+  min-width: min(340px, 42vw);
+  padding: 8px 12px;
+  border: 1px solid rgba(44, 41, 36, 0.32);
+  border-radius: 6px;
+  background: rgba(246, 236, 213, 0.78);
+}
+
+.combat-meter span,
+.combat-meter strong,
+.combat-meter small {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.meter-track {
+  height: 12px;
+  margin-top: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(44, 41, 36, 0.34);
+  background: rgba(44, 41, 36, 0.16);
+}
+
+.meter-track i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #7f1f1a, #d45a3c);
+}
+
+.intent-box {
+  min-width: 126px;
+  text-align: center;
+  color: #f6ecd5;
+  background: #2c2924;
+}
+
+.combat-field {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 38vh;
+  padding: 8px 6vw;
+}
+
+.combatant {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.portrait-ring {
+  display: grid;
+  width: clamp(116px, 15vw, 180px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 5px solid rgba(44, 41, 36, 0.52);
+  border-radius: 50%;
+  color: #f6ecd5;
+  font-size: clamp(46px, 6vw, 84px);
+  box-shadow: 0 10px 40px rgba(17, 17, 17, 0.18);
+}
+
+.portrait-ring--red {
+  background: radial-gradient(circle, #b7352a, #2c2924);
+}
+
+.portrait-ring--teal {
+  background: radial-gradient(circle, #2f7c6e, #2c2924);
+}
+
+.duel-mark {
+  padding: 12px 18px;
+  color: #f6ecd5;
+  background: radial-gradient(circle, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.16));
+  font-size: clamp(28px, 4vw, 54px);
+}
+
+.game-message {
+  align-self: center;
+  margin: 0;
+  padding: 8px 14px;
+  border-left: 4px solid #b7352a;
+  background: rgba(246, 236, 213, 0.74);
+}
+
+.hand-zone {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 8px;
+  min-height: 188px;
+  margin-top: auto;
+}
+
+.energy-orb {
+  display: grid;
+  flex: 0 0 96px;
+  place-items: center;
+  align-self: center;
+  aspect-ratio: 1;
+  border: 4px solid rgba(185, 214, 194, 0.8);
+  border-radius: 50%;
+  color: #f6ecd5;
+  background: radial-gradient(circle, #2f7c6e, #111);
+  font-size: 32px;
+}
+
+.combat-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  gap: 5px;
+  width: clamp(112px, 10vw, 152px);
+  min-height: 178px;
+  padding: 12px 10px;
+  border: 2px solid rgba(44, 41, 36, 0.45);
+  border-radius: 7px;
+  color: #2c2924;
+  background: rgba(246, 236, 213, 0.9);
+  box-shadow: 0 10px 22px rgba(17, 17, 17, 0.15);
+  cursor: pointer;
+}
+
+.combat-card:hover {
+  transform: translateY(-8px);
+}
+
+.combat-card:disabled {
+  cursor: default;
+  filter: grayscale(0.75);
+  opacity: 0.52;
+  transform: none;
+}
+
+.card-cost {
+  position: absolute;
+  top: -12px;
+  left: -10px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  color: #f6ecd5;
+  background: #2c2924;
+}
+
+.combat-card strong,
+.reward-card strong,
+.choice-action strong {
+  font-size: 18px;
+}
+
+.combat-card small {
+  color: #b7352a;
+}
+
+.combat-card span:last-child,
+.reward-card span,
+.choice-action span {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.card-type-attack {
+  border-color: rgba(183, 53, 42, 0.72);
+}
+
+.card-type-skill {
+  border-color: rgba(47, 124, 110, 0.58);
+}
+
+.card-type-body {
+  border-color: rgba(108, 159, 123, 0.72);
+}
+
+.card-type-ink {
+  border-color: rgba(17, 17, 17, 0.82);
+  background: linear-gradient(145deg, rgba(246, 236, 213, 0.92), rgba(17, 17, 17, 0.18));
+}
+
+.combat-controls {
+  justify-content: flex-end;
+}
+
+.reward-cards,
+.shop-list {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.reward-card,
+.choice-action {
+  display: grid;
+  gap: 8px;
+  width: min(240px, 82vw);
+  padding: 14px;
+  text-align: left;
+}
+
+.event-screen,
+.shop-screen,
+.rest-screen,
+.reward-screen,
+.result-screen {
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 820px) {
+  .route-map {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .combat-topbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+
+  .combat-meter {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .intent-box {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    justify-self: center;
+    max-width: 148px;
+  }
+
+  .combat-field {
+    position: relative;
+    grid-template-columns: 1fr 1fr;
+    min-height: 30vh;
+    padding: 0;
+  }
+
+  .duel-mark {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  .portrait-ring {
+    width: 116px;
+  }
+
+  .hand-zone {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .combat-card {
+    flex: 0 0 132px;
+  }
+}

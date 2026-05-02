@@ -212,4 +212,28 @@ describe("combat system", () => {
 
     expect(state.piles.hand.some((item) => item.definitionId === "retain-guard")).toBe(true);
   });
+
+  it("cycles through enemy behavior table intents", () => {
+    const alternatingEnemy: EnemyDefinition = {
+      id: "alternating",
+      name: "无面兵卒",
+      maxHp: 40,
+      intents: [
+        { type: "attack", damage: 8, hits: 1 },
+        { type: "attack", damage: 2, hits: 1 }
+      ]
+    };
+    const state = createCombat({
+      character: zhaoYun,
+      cards: allCards,
+      enemies: [alternatingEnemy],
+      rngSeed: 9,
+      shuffleDeck: false
+    });
+
+    endPlayerTurn(state);
+    endPlayerTurn(state);
+
+    expect(state.player.hp).toBe(72);
+  });
 });

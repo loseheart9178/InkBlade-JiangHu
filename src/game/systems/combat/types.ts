@@ -91,6 +91,7 @@ export interface PlayerState extends CombatantState {
 
 export interface EnemyState extends CombatantState {
   definitionId: string;
+  intents: EnemyIntent[];
   intentIndex: number;
   currentIntent: EnemyIntent;
 }
@@ -127,4 +128,3 @@ export interface CreateCombatInput {
 export type PlayCardResult =
   | { ok: true; state: CombatState }
   | { ok: false; state: CombatState; reason: "card-not-found" | "not-enough-energy" | "invalid-target" | "combat-ended" };
-

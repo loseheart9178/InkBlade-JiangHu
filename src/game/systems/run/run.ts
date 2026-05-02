@@ -1,0 +1,168 @@
+import { cardsById } from "../../content/cards";
+import { charactersById } from "../../content/characters";
+import type { CardDefinition } from "../combat/types";
+import type { MapNode, RunState } from "./types";
+
+export function createRun(characterId: string): RunState {
+  const character = charactersById[characterId];
+  if (!character) {
+    throw new Error(`Unknown character: ${characterId}`);
+  }
+
+  const deck = character.starterDeck.map((cardId, index) => ({
+    instanceId: `run-card-${index + 1}`,
+    cardId
+  }));
+
+  return {
+    characterId,
+    hp: character.maxHp,
+    maxHp: character.maxHp,
+    gold: 99,
+    deck,
+    mapNodes: createChapterOneMap(),
+    currentNodeId: "start",
+    visitedNodeIds: [],
+    nextDeckInstanceNumber: deck.length + 1,
+    rewardHistory: []
+  };
+}
+
+export function getCurrentNode(run: RunState): MapNode {
+  const node = run.mapNodes.find((item) => item.id === run.currentNodeId);
+  if (!node) {
+    throw new Error(`Current node missing: ${run.currentNodeId}`);
+  }
+
+  return node;
+}
+
+export function getAvailableNodes(run: RunState): MapNode[] {
+  const current = getCurrentNode(run);
+  return current.connections.map((id) => getNode(run, id));
+}
+
+export function travelToNode(run: RunState, nodeId: string): RunState {
+  const current = getCurrentNode(run);
+  if (!current.connections.includes(nodeId)) {
+    throw new Error(`Cannot travel from ${current.id} to ${nodeId}`);
+  }
+
+  if (!run.visitedNodeIds.includes(current.id)) {
+    run.visitedNodeIds.push(current.id);
+  }
+
+  run.currentNodeId = nodeId;
+  return run;
+}
+
+export function takeCardReward(run: RunState, card: CardDefinition): RunState {
+  run.deck.push({
+    instanceId: `run-card-${run.nextDeckInstanceNumber}`,
+    cardId: card.id
+  });
+  run.nextDeckInstanceNumber += 1;
+  run.rewardHistory.push(card.id);
+  return run;
+}
+
+export function healRun(run: RunState, amount: number): number {
+  const before = run.hp;
+  run.hp = Math.min(run.maxHp, run.hp + amount);
+  return run.hp - before;
+}
+
+export function removeDeckCard(run: RunState, instanceId: string): boolean {
+  const index = run.deck.findIndex((entry) => entry.instanceId === instanceId);
+  if (index < 0) {
+    return false;
+  }
+
+  run.deck.splice(index, 1);
+  return true;
+}
+
+export function getRunDeckCardDefinitions(run: RunState): CardDefinition[] {
+  return run.deck.map((entry) => {
+    const card = cardsById[entry.cardId];
+    if (!card) {
+      throw new Error(`Unknown run deck card: ${entry.cardId}`);
+    }
+
+    return card;
+  });
+}
+
+function getNode(run: RunState, nodeId: string): MapNode {
+  const node = run.mapNodes.find((item) => item.id === nodeId);
+  if (!node) {
+    throw new Error(`Map node missing: ${nodeId}`);
+  }
+
+  return node;
+}
+
+function createChapterOneMap(): MapNode[] {
+  return [
+    {
+      id: "start",
+      type: "start",
+      label: "黑雨渡口",
+      connections: ["battle-1", "event-1"]
+    },
+    {
+      id: "battle-1",
+      type: "battle",
+      label: "墨化山贼",
+      enemyId: "enemy_ink_bandit",
+      connections: ["shop-1", "elite-1"]
+    },
+    {
+      id: "event-1",
+      type: "event",
+      label: "黑雨渡口",
+      connections: ["battle-2", "rest-1"]
+    },
+    {
+      id: "shop-1",
+      type: "shop",
+      label: "茶亭游商",
+      connections: ["battle-2"]
+    },
+    {
+      id: "elite-1",
+      type: "elite",
+      label: "剑痴残影",
+      enemyId: "elite_sword_echo",
+      connections: ["rest-1"]
+    },
+    {
+      id: "battle-2",
+      type: "battle",
+      label: "无面兵卒",
+      enemyId: "enemy_faceless_soldier",
+      connections: ["rest-1", "battle-3"]
+    },
+    {
+      id: "rest-1",
+      type: "rest",
+      label: "废寺静修",
+      connections: ["battle-3"]
+    },
+    {
+      id: "battle-3",
+      type: "battle",
+      label: "纸伞女鬼",
+      enemyId: "enemy_paper_umbrella",
+      connections: ["boss"]
+    },
+    {
+      id: "boss",
+      type: "boss",
+      label: "墨影董卓",
+      enemyId: "boss_ink_dongzhuo",
+      connections: []
+    }
+  ];
+}
+

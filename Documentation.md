@@ -80,6 +80,54 @@ Result: TypeScript and Vite build passed.
 Note: Vite repeated the Phaser bundle size warning.
 ```
 
+### 2026-05-02 13:42 Asia/Shanghai
+
+Current state:
+
+- First playable browser loop implemented.
+- Data slice added:
+  - 30+ executable cards including Zhao Yun, Diao Chan, common, mind, and ink cards.
+  - Zhao Yun and Diao Chan character definitions with starter decks.
+  - First chapter enemies including normal enemies, elites, and 墨影董卓.
+- Run system added with a fixed first-chapter route map, travel validation, card rewards, healing, and deck mutation.
+- DOM UI now supports:
+  - character selection
+  - route map
+  - combat HUD and hand cards
+  - battle rewards
+  - event choice
+  - shop purchases
+  - rest healing
+  - victory/defeat restart
+- Playwright smoke tests added for playable flow and desktop/mobile screenshot capture.
+
+Decisions:
+
+- First map is fixed rather than procedural so tests and playtesting are stable.
+- Combat UI auto-targets the first enemy for the first slice. Manual target selection is deferred until multi-enemy combat.
+- Rest currently implements healing only. Card upgrade data/UX is deferred.
+- Shop implements card purchases only. Relics and remove-card service are deferred.
+- Procedural Phaser silhouettes and CSS card frames stand in for production/generated art.
+
+Verification:
+
+```text
+npm test
+Result: 4 test files passed, 17 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 2 Playwright tests passed.
+Covered: boot, character select, map, battle entry, card play loop, reward selection, desktop screenshot, mobile screenshot.
+
+Screenshots:
+test-results/visual-smoke-captures-desk-5ddde-le-combat-smoke-screenshots-chromium/combat-desktop.png
+test-results/visual-smoke-captures-desk-5ddde-le-combat-smoke-screenshots-chromium/combat-mobile.png
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -87,6 +135,6 @@ Note: Vite repeated the Phaser bundle size warning.
 - [x] Initialize repository baseline.
 - [x] Scaffold app and test harness.
 - [x] Implement combat simulation.
-- [ ] Implement data slice.
-- [ ] Implement UI and Phaser presentation.
-- [ ] Run automated and browser verification.
+- [x] Implement data slice.
+- [x] Implement UI and Phaser presentation.
+- [x] Run automated and browser verification.
