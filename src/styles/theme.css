@@ -1,0 +1,118 @@
+:root {
+  color: #2c2924;
+  background: #efe2c3;
+  font-family:
+    "Noto Serif SC",
+    "Source Han Serif SC",
+    "SimSun",
+    serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+.inkblade-app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(183, 53, 42, 0.11), transparent 24%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(44, 41, 36, 0.07)),
+    #efe2c3;
+}
+
+.inkblade-app::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background-image:
+    linear-gradient(rgba(44, 41, 36, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 41, 36, 0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mix-blend-mode: multiply;
+}
+
+.phaser-host {
+  position: absolute;
+  inset: 0;
+}
+
+.hud-host {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hud-host button {
+  pointer-events: auto;
+}
+
+.title-screen {
+  position: absolute;
+  top: 9vh;
+  left: 8vw;
+  max-width: min(480px, 86vw);
+  padding-left: 24px;
+  border-left: 5px solid #b7352a;
+  color: #2c2924;
+}
+
+.title-screen h1 {
+  margin: 0;
+  font-size: clamp(48px, 8vw, 96px);
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+
+.title-screen p {
+  margin: 16px 0 28px;
+  font-size: clamp(18px, 2.3vw, 28px);
+}
+
+.title-screen button {
+  min-width: 136px;
+  min-height: 44px;
+  border: 1px solid rgba(44, 41, 36, 0.5);
+  border-radius: 6px;
+  color: #f6ecd5;
+  background: #2c2924;
+  box-shadow: 0 8px 24px rgba(17, 17, 17, 0.18);
+  cursor: pointer;
+}
+
+.title-screen button:hover:not(:disabled) {
+  background: #b7352a;
+}
+
+.title-screen button:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.inkblade-app.is-running .title-screen {
+  opacity: 0.72;
+}
+
