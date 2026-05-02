@@ -170,3 +170,19 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 10: Deeper Card System
+
+- [x] Add card-specific upgrade data with upgraded effects and upgraded descriptions.
+- [x] Use upgraded effects in combat instead of relying only on a generic `+3` rule.
+- [x] Show upgraded cost and description in hand cards and deck viewer.
+- [x] Add new uncommon/rare Zhao Yun, Diao Chan, common, and ink cards.
+- [x] Split normal and elite reward pools so elite rewards offer stronger cards.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

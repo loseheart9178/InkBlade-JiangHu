@@ -27,6 +27,11 @@ export interface CardDefinition {
   character?: string;
   description?: string;
   flavor?: string;
+  upgrade?: {
+    cost?: number;
+    effects?: CardEffect[];
+    description?: string;
+  };
 }
 
 export interface CardInstance {

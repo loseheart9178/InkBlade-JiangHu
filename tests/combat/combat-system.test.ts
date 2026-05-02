@@ -348,6 +348,34 @@ describe("combat system", () => {
     expect(state.enemies[0].hp).toBe(21);
   });
 
+  it("uses card-specific upgraded effects when a card defines them", () => {
+    const preciseStrike: CardDefinition = {
+      id: "precise-strike",
+      name: "定式",
+      cost: 1,
+      rarity: "common",
+      target: "enemy",
+      types: ["attack"],
+      effects: [{ action: "damage", amount: 4 }],
+      upgrade: {
+        effects: [{ action: "damage", amount: 11 }],
+        description: "造成11点伤害。"
+      }
+    };
+    const state = createCombat({
+      character: { ...zhaoYun, starterDeck: ["precise-strike", "guard", "guard", "guard", "guard"] },
+      cards: [...allCards, preciseStrike],
+      enemies: [bandit],
+      rngSeed: 3,
+      upgradedCardInstanceIds: ["starter-1"],
+      shuffleDeck: false
+    });
+
+    playCard(state, state.piles.hand[0].instanceId, state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(19);
+  });
+
   it("starts combat from the current run hp when supplied", () => {
     const state = createCombat({
       character: zhaoYun,

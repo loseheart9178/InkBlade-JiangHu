@@ -348,6 +348,41 @@ Result: 4 Playwright tests passed.
 Covered: playable flow plus combat portrait asset references.
 ```
 
+### 2026-05-02 15:11 Asia/Shanghai
+
+Current state:
+
+- Card upgrades now support card-specific upgraded effects, cost, and description data.
+- Combat uses upgraded effects when present; generic upgrade bonus remains a fallback for cards without explicit upgrade data.
+- Hand cards and deck viewer show upgraded descriptions and upgraded costs.
+- Added new reward cards:
+  - 七星枪影,
+  - 截江守势,
+  - 闭月回风,
+  - 莲步藏锋,
+  - 镜甲,
+  - 洛水墨潮.
+- Elite reward pools now lean toward stronger character cards and high-impact common/ink options.
+
+Decision:
+
+- Upgrades are now part of card content data rather than a UI-only display trick. This keeps card text, deck viewer, and combat resolution aligned.
+
+Verification:
+
+```text
+npm test
+Result: 4 test files passed, 37 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 5 Playwright tests passed.
+Covered: existing browser flows plus upgraded card description in deck viewer.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -363,3 +398,4 @@ Covered: playable flow plus combat portrait asset references.
 - [x] Add combat log feedback to the battle HUD.
 - [x] Add combat visual events and floating battle feedback.
 - [x] Add first-pass ink-wash combat portrait assets.
+- [x] Add card-specific upgrades, more cards, and stronger elite reward pools.

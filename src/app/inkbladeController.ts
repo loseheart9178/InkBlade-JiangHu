@@ -253,12 +253,12 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       cardButton.classList.add("is-upgraded");
     }
     cardButton.dataset.testid = `card-${card.instanceId}`;
-    cardButton.disabled = definition.cost > combat.player.energy;
+    cardButton.disabled = getDisplayCost(definition, card.upgraded) > combat.player.energy;
     cardButton.innerHTML = `
-      <span class="card-cost">${definition.cost}</span>
+      <span class="card-cost">${getDisplayCost(definition, card.upgraded)}</span>
       <strong>${definition.name}${card.upgraded ? " +" : ""}</strong>
       <small>${formatTypes(definition.types)}</small>
-      <span>${definition.description ?? ""}</span>
+      <span>${getDisplayDescription(definition, card.upgraded)}</span>
     `;
     cardButton.addEventListener("click", () => {
       const targetId = definition.target === "enemy" ? enemy.id : "player";
@@ -316,7 +316,7 @@ function handleCombatAfterAction(state: ControllerState): void {
       return;
     }
 
-    state.rewardCards = createRewardCards(run);
+    state.rewardCards = createRewardCards(run, node.type);
     state.screen = "reward";
     state.message = "战斗胜利，选择一式武学。";
   }
@@ -580,12 +580,19 @@ function renderResult(host: HTMLElement, state: ControllerState, render: () => v
   host.append(panel);
 }
 
-function createRewardCards(run: RunState): CardDefinition[] {
-  const zhao = [cardsById.zhao_thrust, cardsById.zhao_guardian, cardsById.zhao_white_dragon, cardsById.zhao_break_spear];
-  const diao = [cardsById.diao_hongyan, cardsById.diao_glance, cardsById.diao_red_ribbon, cardsById.diao_step_lotus];
-  const common = [cardsById.common_pifeng, cardsById.common_gedang, cardsById.mind_jingxin, cardsById.ink_modian];
+function createRewardCards(run: RunState, nodeType: MapNode["type"] = "battle"): CardDefinition[] {
+  const zhao = [cardsById.zhao_thrust, cardsById.zhao_guardian, cardsById.zhao_white_dragon, cardsById.zhao_break_spear, cardsById.zhao_river_guard];
+  const diao = [cardsById.diao_hongyan, cardsById.diao_glance, cardsById.diao_red_ribbon, cardsById.diao_step_lotus, cardsById.diao_lotus_blade];
+  const eliteZhao = [cardsById.zhao_qixing_spear, cardsById.zhao_break_spear, cardsById.zhao_single_rider];
+  const eliteDiao = [cardsById.diao_closed_moon, cardsById.diao_step_lotus, cardsById.diao_red_ribbon];
+  const common = [cardsById.common_pifeng, cardsById.common_gedang, cardsById.mind_jingxin, cardsById.ink_modian, cardsById.common_mirror_armor, cardsById.ink_luoshui_tide];
   const rolePool = run.characterId === "zhaoyun" ? zhao : diao;
+  const elitePool = run.characterId === "zhaoyun" ? eliteZhao : eliteDiao;
   const offset = run.rewardHistory.length % rolePool.length;
+
+  if (nodeType === "elite") {
+    return [elitePool[offset % elitePool.length], rolePool[(offset + 1) % rolePool.length], common[(offset + 2) % common.length]];
+  }
 
   return [rolePool[offset], common[offset % common.length], common[(offset + 1) % common.length]];
 }
@@ -769,10 +776,10 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
     item.className = `deck-card card-type-${card.types[0]}`;
     item.dataset.testid = "deck-card";
     item.innerHTML = `
-      <span class="card-cost">${card.cost}</span>
+      <span class="card-cost">${getDisplayCost(card, entry.upgraded)}</span>
       <strong>${card.name}${entry.upgraded ? " +" : ""}</strong>
       <small>${formatTypes(card.types)}</small>
-      <span>${card.description ?? ""}</span>
+      <span>${getDisplayDescription(card, entry.upgraded)}</span>
     `;
     list.append(item);
   }
@@ -792,6 +799,14 @@ function getCombatPortrait(id: string) {
     alt: "Ink silhouette",
     accent: "ink" as const
   };
+}
+
+function getDisplayCost(card: CardDefinition, upgraded?: boolean): number {
+  return upgraded && card.upgrade?.cost !== undefined ? card.upgrade.cost : card.cost;
+}
+
+function getDisplayDescription(card: CardDefinition, upgraded?: boolean): string {
+  return upgraded && card.upgrade?.description ? card.upgrade.description : card.description ?? "";
 }
 
 function getUpgradedCombatInstanceIds(run: RunState): string[] {

@@ -121,7 +121,8 @@ export function playCard(state: CombatState, cardInstanceId: string, targetId: s
 
   const card = state.piles.hand[handIndex];
   const definition = getCardDefinition(state, card);
-  if (state.player.energy < definition.cost) {
+  const cost = getCardCost(definition, card);
+  if (state.player.energy < cost) {
     return { ok: false, state, reason: "not-enough-energy" };
   }
 
@@ -130,10 +131,10 @@ export function playCard(state: CombatState, cardInstanceId: string, targetId: s
     return { ok: false, state, reason: "invalid-target" };
   }
 
-  state.player.energy -= definition.cost;
+  state.player.energy -= cost;
   state.piles.hand.splice(handIndex, 1);
 
-  for (const effect of definition.effects) {
+  for (const effect of getCardEffects(definition, card)) {
     applyEffect(state, definition, card, effect, target?.id ?? "player");
   }
 
@@ -191,6 +192,14 @@ function getCardDefinition(state: CombatState, card: CardInstance): CardDefiniti
   }
 
   return definition;
+}
+
+function getCardCost(definition: CardDefinition, card: CardInstance): number {
+  return card.upgraded && definition.upgrade?.cost !== undefined ? definition.upgrade.cost : definition.cost;
+}
+
+function getCardEffects(definition: CardDefinition, card: CardInstance): CardEffect[] {
+  return card.upgraded && definition.upgrade?.effects ? definition.upgrade.effects : definition.effects;
 }
 
 function resolveTarget(state: CombatState, target: CardDefinition["target"], targetId: string) {
@@ -260,7 +269,7 @@ function damageEnemy(state: CombatState, enemyId: string, rawAmount: number): vo
 
 function getPlayerDamageAmount(state: CombatState, definition: CardDefinition, card: CardInstance, baseAmount: number): number {
   let amount = baseAmount;
-  if (card.upgraded) {
+  if (card.upgraded && !definition.upgrade?.effects) {
     amount += 3;
   }
 
@@ -277,7 +286,8 @@ function getPlayerDamageAmount(state: CombatState, definition: CardDefinition, c
 
 function getPlayerBlockAmount(state: CombatState, card: CardInstance, baseAmount: number): number {
   let amount = baseAmount;
-  if (card.upgraded) {
+  const definition = getCardDefinition(state, card);
+  if (card.upgraded && !definition.upgrade?.effects) {
     amount += 3;
   }
 

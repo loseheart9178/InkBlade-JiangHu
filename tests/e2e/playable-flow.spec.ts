@@ -59,6 +59,7 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await expect(page.getByText("精修枪击。")).toBeVisible();
   await page.getByTestId("deck-open").click();
   await expect(page.getByTestId("deck-viewer")).toContainText("枪击 +");
+  await expect(page.getByTestId("deck-viewer")).toContainText("造成9点伤害");
   await page.getByTestId("deck-close").click();
 });
 

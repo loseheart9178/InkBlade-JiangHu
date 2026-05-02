@@ -17,7 +17,7 @@ const supportedActions = new Set([
 
 describe("content data", () => {
   it("ships a first slice card pool with common, Zhao Yun, and Diao Chan cards", () => {
-    expect(cardList.length).toBeGreaterThanOrEqual(24);
+    expect(cardList.length).toBeGreaterThanOrEqual(34);
     expect(cardList.some((card) => card.character === "zhaoyun")).toBe(true);
     expect(cardList.some((card) => card.character === "diaochan")).toBe(true);
     expect(cardList.some((card) => card.types.includes("ink"))).toBe(true);
