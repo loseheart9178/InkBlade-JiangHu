@@ -337,3 +337,20 @@ npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
 npm test
 npm run test:e2e
 ```
+
+## Milestone 20: Combat Presentation, Card HUD, Enemy Identity, And Chapter Event Polish
+
+- [x] Add persistent ink-wash VFX adapters for damage slashes, guard/status sigils, ink spread, and trigger seals from combat visual events.
+- [x] Refine hand/reward/deck card chrome with type badges, rarity marks, keyword chips, and cleaner brush-paper card hierarchy.
+- [x] Create distinct transparent standees and attack sprite strips for 纸伞女鬼, 剑痴残影, 血旗都尉, and 墨影董卓.
+- [x] Route boss/enemy attack animation playback to identity-specific sprite strips instead of shared placeholder art.
+- [x] Rework the first-chapter event screen into a desktop scene presentation with ink battlefield vignette, event mark, story copy, and brush choices.
+- [x] Add unit and browser regression checks for new assets, VFX DOM, card metadata chrome, event scene layout, and boss attack strip playback.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

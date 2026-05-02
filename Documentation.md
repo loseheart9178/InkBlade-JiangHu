@@ -723,3 +723,81 @@ npm run test:e2e
 Result: 7 Playwright tests passed.
 Covered: visual smoke, playable battle/reward flow, shop relic, event-rest upgrade, Diao Chan relic start, reload/continue save, and full first-chapter victory.
 ```
+
+### 2026-05-02 23:45 Asia/Shanghai
+
+Current state:
+
+- Completed the next four polish modules in order:
+  - combat presentation,
+  - card/HUD readability,
+  - enemy and Boss visual identity,
+  - first-chapter event presentation.
+- Re-read for this pass before feature/UI/art changes:
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Added a combat VFX layer driven by the existing pure combat visual-event stream:
+  - red/teal/ink damage slashes,
+  - guard/status/resource sigils,
+  - ink spread cues,
+  - trigger seal cues.
+- Refined card presentation across hand, reward, and deck overlays:
+  - card type badges,
+  - rarity marks,
+  - keyword chips derived from card type/effects,
+  - clearer description hierarchy and brush-paper spacing.
+- Created and wired distinct enemy visual assets:
+  - `paper-umbrella-standee-gpt-v2-cutout.png`
+  - `sword-echo-standee-gpt-v2-cutout.png`
+  - `blood-banner-standee-gpt-v2-cutout.png`
+  - `ink-dongzhuo-boss-standee-gpt-v2-cutout.png`
+  - matching four-frame attack strips under `public/assets/sprites/`.
+- Boss and enemy attacks now route to identity-specific sprite strips. Browser coverage directly checks the Dong Zhuo boss standee and boss attack strip during the chapter completion route.
+- Rebuilt the event screen into a first-chapter scene presentation with an ink battlefield vignette, event seal mark, story copy, and brush-choice column.
+- Rechecked desktop screenshots:
+  - combat cards no longer collide with idle standees,
+  - the energy orb stays separated from the first card,
+  - Zhao Yun/Diao Chan desktop combat screenshots retain the reference-like top HUD, central duel, and bottom hand structure,
+  - the 长坂回声 event screen reads as a dedicated chapter scene rather than a plain button list.
+
+Decisions:
+
+- Enemy identity assets were derived from approved in-project generated cutouts and overpainted with strong readable motifs. This keeps style continuity while giving each first-chapter enemy a separate silhouette language.
+- The combat VFX layer remains a renderer adapter only. It reads `combat.visualEvents` and does not add gameplay rules to the UI.
+- Card keyword chips are generated from existing card data rather than new card metadata, so the current data model stays stable for this polish pass.
+- Mobile adaptation remains paused by user direction and project rule; visual QA here is desktop-first.
+
+Verification:
+
+```text
+npm test -- tests/data/content.test.ts
+Result: 1 test file passed, 9 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed after adjusting standee height to keep idle art above the hand zone.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+Result: 6 Playwright tests passed, including boss standee and boss attack-strip regression checks.
+
+npm test
+Result: 5 test files passed, 48 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: visual smoke, combat VFX/card chrome assertions, playable battle/reward flow, shop relic, event-rest upgrade, Diao Chan relic start, reload/continue save, boss sprite playback, and full first-chapter victory.
+```

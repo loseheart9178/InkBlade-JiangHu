@@ -47,6 +47,9 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await startRun(page, "zhaoyun");
   await page.getByTestId("map-node-event-1").click();
   await expect(page.getByTestId("screen-event")).toBeVisible();
+  await expect(page.getByTestId("event-hero")).toBeVisible();
+  await expect(page.getByTestId("event-scene")).toHaveClass(/event-scene--changban/);
+  await expect(page.locator("[data-testid^='event-choice-']")).toHaveCount(2);
   await page.getByTestId("event-choice-carve_names").click();
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
@@ -107,6 +110,10 @@ test("can complete the first chapter through the event and rest route", async ({
   await page.getByTestId("reward-card").first().click();
 
   await page.getByTestId("map-node-boss").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /ink-dongzhuo-boss-standee-gpt-v2-cutout\.png$/);
+  await page.getByTestId("end-turn").click();
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /ink-dongzhuo-boss-attack-strip-gpt-v2\.png/);
   await winVisibleCombat(page, 140, "screen-boss-reward");
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await page.getByTestId("boss-reward-continue").click();

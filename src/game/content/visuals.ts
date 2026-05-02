@@ -59,29 +59,29 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "enemy_paper_umbrella",
-    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
-    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
+    assetPath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
     alt: "Paper umbrella ghost in teal ink",
     accent: "teal"
   },
   {
     id: "elite_sword_echo",
-    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
-    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
+    assetPath: "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
     alt: "Sword echo elite ink silhouette",
     accent: "red"
   },
   {
     id: "elite_blood_banner",
-    assetPath: "/assets/generated/ink-dongzhuo-standee-gpt.png",
-    standeePath: "/assets/generated/ink-dongzhuo-standee-gpt-cutout.png",
+    assetPath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
     alt: "Blood banner officer ink silhouette",
     accent: "red"
   },
   {
     id: "boss_ink_dongzhuo",
-    assetPath: "/assets/generated/ink-dongzhuo-standee-gpt.png",
-    standeePath: "/assets/generated/ink-dongzhuo-standee-gpt-cutout.png",
+    assetPath: "/assets/generated/ink-dongzhuo-boss-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/ink-dongzhuo-boss-standee-gpt-v2-cutout.png",
     alt: "Ink shadow Dong Zhuo boss silhouette",
     accent: "ink"
   }
@@ -184,8 +184,32 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
     anchor: "bottom-center"
   },
   {
-    id: "ink_dongzhuo_attack",
-    assetPath: "/assets/sprites/ink-dongzhuo-attack-strip-gpt-v2.png",
+    id: "paper_umbrella_attack",
+    assetPath: "/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "sword_echo_attack",
+    assetPath: "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "blood_banner_attack",
+    assetPath: "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "ink_dongzhuo_boss_attack",
+    assetPath: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,

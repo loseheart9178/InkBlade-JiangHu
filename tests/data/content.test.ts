@@ -90,6 +90,13 @@ describe("content data", () => {
     }
   });
 
+  it("gives the paper umbrella, sword echo, blood banner, and Dong Zhuo distinct standees", () => {
+    expect(combatPortraitsById.enemy_paper_umbrella.standeePath).toBe("/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.elite_sword_echo.standeePath).toBe("/assets/generated/sword-echo-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.elite_blood_banner.standeePath).toBe("/assets/generated/blood-banner-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.boss_ink_dongzhuo.standeePath).toBe("/assets/generated/ink-dongzhuo-boss-standee-gpt-v2-cutout.png");
+  });
+
   it("binds generated standees to the correct playable character identities", () => {
     expect(combatPortraitsById.zhaoyun.assetPath).toBe("/assets/generated/zhaoyun-standee-gpt-v2-cutout.png");
     expect(combatPortraitsById.zhaoyun.standeePath).toBe("/assets/generated/zhaoyun-standee-gpt-v2-cutout.png");
@@ -116,7 +123,13 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.diaochan_attack.assetPath).toBe("/assets/sprites/diaochan-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.ink_bandit_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.ink_bandit_attack.assetPath).toBe("/assets/sprites/ink-bandit-attack-strip-gpt-v2.png");
-    expect(combatSpriteSheetsById.ink_dongzhuo_attack.frameCount).toBeGreaterThanOrEqual(4);
-    expect(combatSpriteSheetsById.ink_dongzhuo_attack.assetPath).toBe("/assets/sprites/ink-dongzhuo-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.paper_umbrella_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.paper_umbrella_attack.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.sword_echo_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.sword_echo_attack.assetPath).toBe("/assets/sprites/sword-echo-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.blood_banner_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.blood_banner_attack.assetPath).toBe("/assets/sprites/blood-banner-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png");
   });
 });

@@ -14,7 +14,7 @@ import {
   type SaveableScreen
 } from "../game/systems/save/save";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
-import type { CardDefinition, CombatState } from "../game/systems/combat/types";
+import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent } from "../game/systems/combat/types";
 import {
   addRelic,
   claimBattleSpoils,
@@ -288,7 +288,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       </div>
     </div>
   `;
-  field.append(createCombatFloatLayer(combat));
+  field.append(createCombatVfxLayer(combat), createCombatFloatLayer(combat));
 
   const hand = document.createElement("div");
   hand.className = "hand-zone";
@@ -312,10 +312,12 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     cardButton.disabled = getDisplayCost(definition, card.upgraded) > combat.player.energy;
     cardButton.innerHTML = `
       ${createCardArtMarkup(definition)}
+      ${createCardChromeMarkup(definition)}
       <span class="card-cost">${getDisplayCost(definition, card.upgraded)}</span>
       <strong>${definition.name}${card.upgraded ? " +" : ""}</strong>
-      <small>${formatTypes(definition.types)}</small>
-      <span>${getDisplayDescription(definition, card.upgraded)}</span>
+      <small class="card-type-line">${formatTypes(definition.types)}</small>
+      ${createCardKeywordRowMarkup(definition)}
+      <span class="card-description">${getDisplayDescription(definition, card.upgraded)}</span>
     `;
     cardButton.addEventListener("click", () => {
       const targetId = definition.target === "enemy" ? enemy.id : "player";
@@ -394,7 +396,14 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
     button.type = "button";
     button.className = `reward-card card-type-${card.types[0]}`;
     button.dataset.testid = "reward-card";
-    button.innerHTML = `${createCardArtMarkup(card)}<strong>${card.name}</strong><span>${card.description ?? ""}</span>`;
+    button.innerHTML = `
+      ${createCardArtMarkup(card)}
+      ${createCardChromeMarkup(card)}
+      <strong>${card.name}</strong>
+      <small class="card-type-line">${formatTypes(card.types)}</small>
+      ${createCardKeywordRowMarkup(card)}
+      <span class="card-description">${card.description ?? ""}</span>
+    `;
     button.addEventListener("click", () => {
       takeCardReward(run, card);
       state.message = `获得${card.name}。`;
@@ -424,10 +433,32 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const run = requireRun(state);
   const current = getCurrentNode(run);
   const event = eventsById[current.eventId ?? "event_black_rain_ferry"];
+  const eventScene = getEventScene(event.id);
   const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
-  panel.append(createMessage(event.description));
+
+  const layout = document.createElement("div");
+  layout.className = "event-layout";
+  const hero = document.createElement("section");
+  hero.className = "event-hero";
+  hero.dataset.testid = "event-hero";
+  hero.innerHTML = `
+    <div class="event-scene event-scene--${eventScene.key}" data-testid="event-scene" aria-hidden="true">
+      <span class="event-scene-mark">${eventScene.mark}</span>
+      <span class="event-scene-brush event-scene-brush--one"></span>
+      <span class="event-scene-brush event-scene-brush--two"></span>
+    </div>
+    <div class="event-copy">
+      <span class="event-kicker">${eventScene.kicker}</span>
+      <h3>${event.title}</h3>
+      <p>${event.description}</p>
+    </div>
+  `;
+  layout.append(hero);
+
+  const choices = document.createElement("div");
+  choices.className = "event-choices";
 
   for (const choice of event.choices) {
     const action = createAction(choice.label, choice.summary, () => {
@@ -436,10 +467,13 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
       state.screen = "map";
       render();
     });
+    action.classList.add("choice-action--event");
     action.dataset.testid = `event-choice-${choice.id}`;
-    panel.append(action);
+    choices.append(action);
   }
 
+  layout.append(choices);
+  panel.append(layout);
   host.append(panel);
 }
 
@@ -788,6 +822,63 @@ function createCombatFloatLayer(combat: CombatState): HTMLElement {
   return layer;
 }
 
+function createCombatVfxLayer(combat: CombatState): HTMLElement {
+  const layer = document.createElement("div");
+  layer.className = "combat-vfx-layer";
+  layer.dataset.testid = "combat-vfx-layer";
+
+  for (const event of combat.visualEvents.slice(-8)) {
+    const effectClass = getCombatVfxClass(event);
+    if (!effectClass) {
+      continue;
+    }
+
+    const item = document.createElement("span");
+    item.className = `combat-vfx ${effectClass} combat-vfx--${event.target} combat-vfx--${event.tone}`;
+    item.dataset.testid = getCombatVfxTestId(event);
+    item.setAttribute("aria-hidden", "true");
+    layer.append(item);
+  }
+
+  return layer;
+}
+
+function getCombatVfxClass(event: CombatVisualEvent): string | undefined {
+  if (event.kind === "damage") {
+    return "combat-vfx-slash";
+  }
+
+  if (event.kind === "block" || event.kind === "status" || event.kind === "resource") {
+    return "combat-vfx-sigil";
+  }
+
+  if (event.kind === "ink" || event.tone === "ink") {
+    return "combat-vfx-ink";
+  }
+
+  if (event.kind === "trigger") {
+    return "combat-vfx-seal";
+  }
+
+  return undefined;
+}
+
+function getCombatVfxTestId(event: CombatVisualEvent): string {
+  if (event.kind === "damage") {
+    return "combat-vfx-slash";
+  }
+
+  if (event.kind === "block" || event.kind === "status" || event.kind === "resource") {
+    return "combat-vfx-sigil";
+  }
+
+  if (event.kind === "ink" || event.tone === "ink") {
+    return "combat-vfx-ink";
+  }
+
+  return "combat-vfx-seal";
+}
+
 function createAction(title: string, body: string, onClick: () => void): HTMLButtonElement {
   const button = document.createElement("button");
   button.type = "button";
@@ -868,10 +959,12 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
     item.dataset.testid = "deck-card";
     item.innerHTML = `
       ${createCardArtMarkup(card)}
+      ${createCardChromeMarkup(card)}
       <span class="card-cost">${getDisplayCost(card, entry.upgraded)}</span>
       <strong>${card.name}${entry.upgraded ? " +" : ""}</strong>
-      <small>${formatTypes(card.types)}</small>
-      <span>${getDisplayDescription(card, entry.upgraded)}</span>
+      <small class="card-type-line">${formatTypes(card.types)}</small>
+      ${createCardKeywordRowMarkup(card)}
+      <span class="card-description">${getDisplayDescription(card, entry.upgraded)}</span>
     `;
     list.append(item);
   }
@@ -907,8 +1000,20 @@ function getCombatSprite(id: string) {
     return combatSpriteSheetsById.diaochan_attack;
   }
 
-  if (id === "boss_ink_dongzhuo" || id === "elite_blood_banner") {
-    return combatSpriteSheetsById.ink_dongzhuo_attack;
+  if (id === "enemy_paper_umbrella") {
+    return combatSpriteSheetsById.paper_umbrella_attack;
+  }
+
+  if (id === "elite_sword_echo") {
+    return combatSpriteSheetsById.sword_echo_attack;
+  }
+
+  if (id === "elite_blood_banner") {
+    return combatSpriteSheetsById.blood_banner_attack;
+  }
+
+  if (id === "boss_ink_dongzhuo") {
+    return combatSpriteSheetsById.ink_dongzhuo_boss_attack;
   }
 
   return combatSpriteSheetsById.ink_bandit_attack;
@@ -917,6 +1022,80 @@ function getCombatSprite(id: string) {
 function createCardArtMarkup(card: CardDefinition): string {
   const art = getCardArt(card);
   return `<span class="card-art card-art--${art.accent}"><img data-testid="card-art" src="${art.assetPath}" alt="${art.alt}"></span>`;
+}
+
+function createCardChromeMarkup(card: CardDefinition): string {
+  return `
+    <span class="card-chrome-row">
+      <span class="card-type-badge card-type-badge--${card.types[0]}" data-testid="card-type-badge">${formatTypes(card.types)}</span>
+      <span class="card-rarity-mark card-rarity-mark--${card.rarity}" data-testid="card-rarity-mark">${formatRarity(card.rarity)}</span>
+    </span>
+  `;
+}
+
+function createCardKeywordRowMarkup(card: CardDefinition): string {
+  const labels = getCardKeywordLabels(card);
+  return `<span class="card-keyword-row" data-testid="card-keyword-row">${labels.map((label) => `<i>${label}</i>`).join("")}</span>`;
+}
+
+function getCardKeywordLabels(card: CardDefinition): string[] {
+  const labels = new Set<string>();
+
+  for (const type of card.types) {
+    if (type === "attack") {
+      labels.add("伤害");
+    } else if (type === "skill") {
+      labels.add("技法");
+    } else if (type === "body") {
+      labels.add("身法");
+    } else if (type === "mind") {
+      labels.add("心境");
+    } else if (type === "ink") {
+      labels.add("墨痕");
+    }
+  }
+
+  for (const effect of card.effects) {
+    labels.add(formatEffectKeyword(effect));
+  }
+
+  if (card.retain) {
+    labels.add("保留");
+  }
+
+  if (card.exhaust) {
+    labels.add("消耗");
+  }
+
+  return Array.from(labels).filter(Boolean).slice(0, 4);
+}
+
+function formatEffectKeyword(effect: CardEffect): string {
+  if (effect.action === "damage") {
+    return "破势";
+  }
+
+  if (effect.action === "block") {
+    return "护甲";
+  }
+
+  if (effect.action === "draw") {
+    return "抽牌";
+  }
+
+  if (effect.action === "gainResource") {
+    return "蓄势";
+  }
+
+  if (effect.action === "gainInk") {
+    return "墨痕";
+  }
+
+  if (effect.action === "setMind") {
+    return `入${formatMind(effect.mind)}`;
+  }
+
+  return formatStatus(effect.status);
 }
 
 function getCardArt(card: CardDefinition) {
@@ -941,6 +1120,44 @@ function getShopRemovalCandidate(run: RunState): RunState["deck"][number] | unde
   }
 
   return run.deck.find((entry) => cardsById[entry.cardId].rarity === "starter") ?? run.deck[0];
+}
+
+function getEventScene(eventId: string): { key: string; mark: string; kicker: string } {
+  if (eventId === "event_changban_echo") {
+    return { key: "changban", mark: "忠", kicker: "长坂回声" };
+  }
+
+  if (eventId === "event_palace_lantern_banquet") {
+    return { key: "palace", mark: "舞", kicker: "宫灯旧宴" };
+  }
+
+  return { key: "ferry", mark: "渡", kicker: "黑雨渡口" };
+}
+
+function formatRarity(rarity: string): string {
+  const names: Record<string, string> = {
+    starter: "初",
+    common: "凡",
+    uncommon: "奇",
+    rare: "绝",
+    event: "缘",
+    ink: "墨",
+    status: "态",
+    curse: "咒"
+  };
+  return names[rarity] ?? rarity;
+}
+
+function formatStatus(status: string): string {
+  const names: Record<string, string> = {
+    charm: "魅惑",
+    weak: "虚弱",
+    vulnerable: "易伤",
+    dodge: "闪避",
+    guard: "护主",
+    ink: "墨化"
+  };
+  return names[status] ?? status;
 }
 
 function formatTypes(types: string[]): string {
