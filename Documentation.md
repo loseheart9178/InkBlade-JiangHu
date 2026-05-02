@@ -128,6 +128,42 @@ test-results/visual-smoke-captures-desk-5ddde-le-combat-smoke-screenshots-chromi
 test-results/visual-smoke-captures-desk-5ddde-le-combat-smoke-screenshots-chromium/combat-mobile.png
 ```
 
+### 2026-05-02 13:49 Asia/Shanghai
+
+Reviewer follow-up:
+
+- Independent Tester/Reporter found that mind/ink were visible but too light mechanically, and that relic/event data was missing.
+- Added gameplay impact:
+  - 怒 mind state increases player attack damage.
+  - 宁 mind state increases block.
+  - 墨痕 now causes post-battle life loss on victory.
+- Added content data:
+  - `src/game/content/relics.ts`
+  - `src/game/content/events.ts`
+  - Exports from `src/game/content/index.ts`
+- Event UI now reads `event_black_rain_ferry` from content data.
+
+Remaining limitations:
+
+- Relics are data-only in this pass; their trigger engine is not yet implemented.
+- Character-specific event routing is not yet connected to map nodes.
+- Phaser is still a procedural battlefield layer, not a full state-driven presenter.
+- Multi-enemy targeting and manual target selection are deferred.
+
+Verification:
+
+```text
+npm test
+Result: 4 test files passed, 20 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 2 Playwright tests passed.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.

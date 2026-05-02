@@ -62,7 +62,7 @@ npm run build
 - [x] Add characters: Zhao Yun and Diao Chan.
 - [x] Add starter decks and at least 24 cards total across common and character pools.
 - [x] Add enemies: 墨化山贼, 无面兵卒, 纸伞女鬼, 剑痴残影, 墨影董卓.
-- [ ] Add relics: 白龙枪缨, 闭月香囊, 旧木剑, 黑纸伞.
+- [x] Add relics: 白龙枪缨, 闭月香囊, 旧木剑, 黑纸伞 as data definitions.
 - [x] Add events: 黑雨渡口, 长坂回声, 宫灯旧宴 as first UI/event flow placeholders.
 - [x] Add map node pools and reward rules.
 

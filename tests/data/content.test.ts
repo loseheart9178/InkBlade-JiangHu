@@ -1,6 +1,8 @@
 import { cardList, cardsById } from "../../src/game/content/cards";
 import { characterList } from "../../src/game/content/characters";
 import { enemyList } from "../../src/game/content/enemies";
+import { eventList } from "../../src/game/content/events";
+import { relicList } from "../../src/game/content/relics";
 
 const supportedActions = new Set([
   "damage",
@@ -54,5 +56,17 @@ describe("content data", () => {
       expect(enemy.intents.length).toBeGreaterThan(0);
     }
   });
-});
 
+  it("defines first slice relics and events from the PRD scope", () => {
+    expect(relicList.map((relic) => relic.id)).toEqual(
+      expect.arrayContaining(["relic_white_dragon_tassel", "relic_closed_moon_sachet", "relic_old_wooden_sword", "relic_black_paper_umbrella"])
+    );
+    expect(eventList.map((event) => event.id)).toEqual(
+      expect.arrayContaining(["event_black_rain_ferry", "event_changban_echo", "event_palace_lantern_banquet"])
+    );
+
+    for (const event of eventList) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2);
+    }
+  });
+});

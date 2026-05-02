@@ -213,6 +213,29 @@ describe("combat system", () => {
     expect(state.piles.hand.some((item) => item.definitionId === "retain-guard")).toBe(true);
   });
 
+  it("makes anger mind state increase player attack damage", () => {
+    const state = startCombat(zhaoYun);
+    state.player.mind = "nu";
+    const card = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, card?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(22);
+  });
+
+  it("settles ink marks as post-battle life loss on victory", () => {
+    const state = startCombat(zhaoYun);
+    state.player.inkMarks = 2;
+    state.enemies[0].hp = 1;
+    const card = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, card?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.phase).toBe("won");
+    expect(state.player.hp).toBe(80);
+    expect(state.combatLog).toContain("墨痕结算");
+  });
+
   it("cycles through enemy behavior table intents", () => {
     const alternatingEnemy: EnemyDefinition = {
       id: "alternating",

@@ -1,6 +1,7 @@
 import { cardList, cardsById } from "../game/content/cards";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
+import { eventsById, type GameEventChoice } from "../game/content/events";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CombatState } from "../game/systems/combat/types";
 import {
@@ -306,26 +307,40 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
 
 function renderEvent(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
-  const panel = createPanel("screen-event", "黑雨渡口");
+  const event = eventsById.event_black_rain_ferry;
+  const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
-  panel.append(createMessage("船板上有墨水倒流，像一行未写完的命。"));
+  panel.append(createMessage(event.description));
 
-  const safe = createAction("检查船舱", "获得30铜钱", () => {
-    run.gold += 30;
-    state.message = "你在旧船票下找到30枚铜钱。";
-    state.screen = "map";
-    render();
-  });
-  const ink = createAction("触碰黑雨", "获得墨点，失去3点生命", () => {
-    takeCardReward(run, cardsById.ink_modian);
-    run.hp = Math.max(1, run.hp - 3);
-    state.message = "墨色钻入指尖，牌组中多了一点阴影。";
-    state.screen = "map";
-    render();
-  });
+  for (const choice of event.choices) {
+    panel.append(createAction(choice.label, choice.summary, () => {
+      applyEventChoice(run, choice);
+      state.message = `${event.title}：${choice.label}`;
+      state.screen = "map";
+      render();
+    }));
+  }
 
-  panel.append(safe, ink);
   host.append(panel);
+}
+
+function applyEventChoice(run: RunState, choice: GameEventChoice): void {
+  const effect = choice.effect;
+
+  if (effect.type === "gold") {
+    run.gold += effect.amount;
+  }
+
+  if (effect.type === "heal") {
+    healRun(run, effect.amount);
+  }
+
+  if (effect.type === "card") {
+    takeCardReward(run, cardsById[effect.cardId]);
+    if (effect.hpLoss) {
+      run.hp = Math.max(1, run.hp - effect.hpLoss);
+    }
+  }
 }
 
 function renderShop(host: HTMLElement, state: ControllerState, render: () => void): void {

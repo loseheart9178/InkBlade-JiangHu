@@ -195,10 +195,10 @@ function resolveTarget(state: CombatState, target: CardDefinition["target"], tar
 function applyEffect(state: CombatState, effect: CardEffect, targetId: string): void {
   switch (effect.action) {
     case "damage":
-      damageEnemy(state, targetId, effect.amount);
+      damageEnemy(state, targetId, getPlayerDamageAmount(state, effect.amount));
       break;
     case "block":
-      state.player.block += effect.amount;
+      state.player.block += getPlayerBlockAmount(state, effect.amount);
       break;
     case "draw":
       drawCards(state, effect.amount, createRng(state.turn * 101 + state.nextInstanceNumber));
@@ -228,6 +228,24 @@ function damageEnemy(state: CombatState, enemyId: string, rawAmount: number): vo
   const blocked = Math.min(enemy.block, amount);
   enemy.block -= blocked;
   enemy.hp = Math.max(0, enemy.hp - (amount - blocked));
+}
+
+function getPlayerDamageAmount(state: CombatState, baseAmount: number): number {
+  let amount = baseAmount;
+  if (state.player.mind === "nu") {
+    amount += 2;
+  }
+
+  return amount;
+}
+
+function getPlayerBlockAmount(state: CombatState, baseAmount: number): number {
+  let amount = baseAmount;
+  if (state.player.mind === "ning") {
+    amount += 2;
+  }
+
+  return amount;
 }
 
 function damagePlayer(state: CombatState, rawAmount: number): void {
@@ -346,14 +364,28 @@ function beginPlayerTurn(state: CombatState): void {
 }
 
 function updateCombatOutcome(state: CombatState): void {
+  if (state.phase !== "player") {
+    return;
+  }
+
   if (state.player.hp <= 0) {
     state.phase = "lost";
     return;
   }
 
   if (state.enemies.every((enemy) => enemy.hp <= 0)) {
+    settleInkMarks(state);
     state.phase = "won";
   }
+}
+
+function settleInkMarks(state: CombatState): void {
+  if (state.player.inkMarks <= 0) {
+    return;
+  }
+
+  state.player.hp = Math.max(1, state.player.hp - state.player.inkMarks);
+  state.combatLog.push("墨痕结算");
 }
 
 function clamp(value: number, min: number, max: number): number {
