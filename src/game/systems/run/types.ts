@@ -12,6 +12,8 @@ export interface MapNode {
   id: string;
   type: MapNodeType;
   label: string;
+  floor: number;
+  lane: number;
   enemyId?: string;
   eventId?: string;
   connections: string[];

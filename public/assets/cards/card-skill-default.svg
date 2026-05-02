@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" role="img" aria-label="Default skill card art">
+  <rect width="480" height="640" fill="#efe2c3"/>
+  <circle cx="240" cy="318" r="128" fill="none" stroke="#2f7c6e" stroke-width="18" opacity="0.82"/>
+  <path d="M132 322c72-66 144-66 216 0" fill="none" stroke="#111" stroke-width="14" stroke-linecap="round" opacity="0.45"/>
+  <path d="M174 408c45 28 90 28 135 0" fill="none" stroke="#7f1f1a" stroke-width="10" stroke-linecap="round" opacity="0.58"/>
+</svg>

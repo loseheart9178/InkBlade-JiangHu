@@ -74,6 +74,25 @@ test("Diao Chan starting relic applies charm and weak at combat start", async ({
   await expect(page.getByTestId("enemy-status")).toContainText("虚弱 1");
 });
 
+test("can continue a saved combat after a page reload", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByTestId("continue-run")).toBeDisabled();
+
+  await page.getByTestId("start-run").click();
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
+
+  await page.reload();
+  await expect(page.getByText("云水江湖")).toBeVisible();
+  await expect(page.getByTestId("continue-run")).toBeEnabled();
+  await page.getByTestId("continue-run").click();
+
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
+  await expect(page.getByTestId("energy")).toBeVisible();
+});
+
 test("can complete the first chapter through the event and rest route", async ({ page }) => {
   test.setTimeout(60_000);
   await startRun(page, "zhaoyun");

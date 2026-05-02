@@ -217,3 +217,50 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 13: Save And Continue Run System
+
+- [x] Add a versioned local save slot for controller snapshots.
+- [x] Persist map, reward, event, shop, rest, boss-reward, and in-combat states.
+- [x] Add title actions for continue run and clear save.
+- [x] Clear the continue slot after victory or defeat.
+- [x] Cover serialization, invalid save rejection, clearing, and browser reload/continue.
+
+Verification:
+
+```bash
+npm test -- --run tests/save/save-system.test.ts
+npm run test:e2e
+```
+
+## Milestone 14: Procedural Chapter Map Topology
+
+- [x] Add floor/lane metadata to map nodes.
+- [x] Generate a wider seeded chapter-one topology with optional side battles, late events, elite branches, rest/shop cross-links, and boss convergence.
+- [x] Preserve the MVP completion route: `event-1 -> rest-1 -> battle-3 -> boss`.
+- [x] Render the route as a left-to-right topology instead of a fixed three-column list.
+- [x] Cover seeded branch variation and forward-only connections with unit tests.
+
+Verification:
+
+```bash
+npm test -- --run tests/run/run-system.test.ts
+npm run build
+```
+
+## Milestone 15: Ink Art Asset And Battle Atmosphere Pass
+
+- [x] Add a Luoshui ink-wash battlefield asset and use it in Phaser.
+- [x] Add card art assets and a card-art manifest for featured cards and type fallbacks.
+- [x] Add attack sprite strips for Zhao Yun, Diao Chan, and enemy slashes.
+- [x] Add the missing 血旗都尉 portrait asset.
+- [x] Render card art in hand, reward, and deck views.
+- [x] Render combat sprite strips and verify sprite/card-art references in browser smoke tests.
+
+Verification:
+
+```bash
+npm test -- --run tests/data/content.test.ts
+npm run build
+npm run test:e2e
+```

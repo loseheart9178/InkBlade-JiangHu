@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" role="img" aria-label="Seven star spear shadows card art">
+  <rect width="480" height="640" fill="#efe2c3"/>
+  <g fill="#eebe5b" opacity="0.9">
+    <circle cx="122" cy="124" r="10"/><circle cx="186" cy="92" r="8"/><circle cx="245" cy="130" r="11"/><circle cx="312" cy="84" r="8"/><circle cx="370" cy="132" r="10"/><circle cx="282" cy="204" r="7"/><circle cx="180" cy="214" r="9"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M70 518L404 118" stroke="#2c2924" stroke-width="22" opacity="0.2"/>
+    <path d="M62 430L390 164" stroke="#7f1f1a" stroke-width="12"/>
+    <path d="M120 528L432 256" stroke="#7f1f1a" stroke-width="10" opacity="0.72"/>
+    <path d="M47 324L342 88" stroke="#111" stroke-width="7" opacity="0.52"/>
+  </g>
+  <path d="M165 388c75-44 137-45 189-1-66 45-129 45-189 1z" fill="#111" opacity="0.64"/>
+</svg>

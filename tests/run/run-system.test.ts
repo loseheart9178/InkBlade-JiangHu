@@ -20,7 +20,7 @@ describe("run system", () => {
     expect(run.deck).toHaveLength(10);
     expect(run.relicIds).toEqual(["relic_white_dragon_tassel"]);
     expect(run.currentNodeId).toBe("start");
-    expect(getAvailableNodes(run).map((node) => node.type)).toEqual(["battle", "event"]);
+    expect(getAvailableNodes(run).map((node) => node.type)).toEqual(expect.arrayContaining(["battle", "event"]));
   });
 
   it("assigns character-specific event nodes for the first route event", () => {
@@ -38,6 +38,47 @@ describe("run system", () => {
     expect(baseRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_sword_echo");
     expect(variantRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_blood_banner");
     expect(variantRun.mapSeed).toBe(1);
+  });
+
+  it("builds a procedural chapter topology with floors, lanes, and forward connections", () => {
+    const run = createRun("zhaoyun", { mapSeed: 9 });
+    const start = run.mapNodes.find((node) => node.id === "start");
+    const boss = run.mapNodes.find((node) => node.id === "boss");
+
+    expect(start?.floor).toBe(0);
+    expect(start?.connections.length).toBeGreaterThanOrEqual(2);
+    expect(boss?.type).toBe("boss");
+    expect(boss?.connections).toEqual([]);
+    expect(run.mapNodes.length).toBeGreaterThan(9);
+
+    const floors = new Map<number, number>();
+    for (const node of run.mapNodes) {
+      floors.set(node.floor, (floors.get(node.floor) ?? 0) + 1);
+      for (const connectionId of node.connections) {
+        const next = run.mapNodes.find((item) => item.id === connectionId);
+        expect(next).toBeDefined();
+        expect(next!.floor).toBeGreaterThan(node.floor);
+      }
+    }
+
+    expect(floors.get(1)).toBeGreaterThanOrEqual(2);
+    expect(floors.get(2)).toBeGreaterThanOrEqual(2);
+    expect(boss?.floor).toBe(Math.max(...run.mapNodes.map((node) => node.floor)));
+  });
+
+  it("changes optional branches for different map seeds while preserving the main route", () => {
+    const runA = createRun("zhaoyun", { mapSeed: 2 });
+    const runB = createRun("zhaoyun", { mapSeed: 5 });
+
+    expect(runA.mapNodes.map((node) => `${node.id}:${node.type}:${node.enemyId ?? node.eventId ?? ""}`)).not.toEqual(
+      runB.mapNodes.map((node) => `${node.id}:${node.type}:${node.enemyId ?? node.eventId ?? ""}`)
+    );
+    expect(runA.mapNodes.some((node) => node.id === "event-1")).toBe(true);
+    expect(runA.mapNodes.some((node) => node.id === "rest-1")).toBe(true);
+    expect(runA.mapNodes.some((node) => node.id === "battle-3")).toBe(true);
+    expect(runB.mapNodes.some((node) => node.id === "event-1")).toBe(true);
+    expect(runB.mapNodes.some((node) => node.id === "rest-1")).toBe(true);
+    expect(runB.mapNodes.some((node) => node.id === "battle-3")).toBe(true);
   });
 
   it("gives Diao Chan her starting relic", () => {
@@ -59,7 +100,7 @@ describe("run system", () => {
 
     expect(run.currentNodeId).toBe("battle-1");
     expect(run.visitedNodeIds).toContain("start");
-    expect(getAvailableNodes(run).map((node) => node.id)).toEqual(["shop-1", "elite-1"]);
+    expect(getAvailableNodes(run).map((node) => node.id)).toEqual(["shop-1", "battle-2"]);
   });
 
   it("adds selected reward cards to the permanent deck", () => {

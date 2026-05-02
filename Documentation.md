@@ -449,6 +449,53 @@ Result: 6 Playwright tests passed.
 Covered: full first-chapter victory route plus previous playable, shop, rest, relic, deck, and visual smoke flows.
 ```
 
+### 2026-05-02 16:17 Asia/Shanghai
+
+Current state:
+
+- Save and continue system implemented.
+  - Added a versioned local save slot under `src/game/systems/save/`.
+  - Controller snapshots now persist run, combat, reward cards, pending spoils, current screen, deck state, relics, HP, map progress, and message.
+  - Title screen now supports `继续行旅` and `清除存档`.
+  - Victory and defeat clear the continue slot.
+- Chapter-one map topology expanded.
+  - Map nodes now include floor/lane metadata.
+  - The map is generated as a seeded branching topology with side battles, late events, optional elite branches, shop/rest cross-links, and boss convergence.
+  - The previous MVP completion path remains valid for browser acceptance.
+  - Route UI now lays nodes left-to-right by topology instead of a fixed simple grid.
+- Water-ink art and battle atmosphere pass implemented.
+  - Added `public/assets/environment/luoshui-battlefield.svg` and loaded it in Phaser.
+  - Added card art SVGs and manifest entries for featured cards and type fallbacks.
+  - Added attack sequence strips for Zhao Yun, Diao Chan, and enemy slashes.
+  - Added missing 血旗都尉 portrait.
+  - Hand, reward, and deck views now render card art.
+  - Combat view now renders sprite-strip figures in addition to circular portraits.
+
+Decisions:
+
+- Save format is a small versioned JSON envelope around serializable system state. Invalid JSON and future schema versions are ignored rather than crashing the title screen.
+- The procedural map keeps stable node ids for acceptance tests and player-readable continuity, while seed variation changes optional branches, enemy/event selections, and labels.
+- Art assets are repo-local SVGs for this pass. The manifest boundary is ready for GPT Image generated PNG/WebP replacements later without changing combat or run rules.
+- Sprite strips are 4-frame transparent SVG strips with CSS step animation. This gives immediate wuxia motion language while staying deterministic and cheap in the browser.
+
+Verification:
+
+```text
+npm test
+Result: 5 test files passed, 46 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: previous playable flows, full first-chapter victory, reload/continue from combat, card-art references, sprite-strip references, and desktop/mobile visual screenshots.
+
+Additional visual check:
+Viewed latest desktop and mobile screenshots under test-results and adjusted combat layout so status/resource pills no longer collide with the hand cards.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -467,3 +514,6 @@ Covered: full first-chapter victory route plus previous playable, shop, rest, re
 - [x] Add card-specific upgrades, more cards, and stronger elite reward pools.
 - [x] Add character-specific events and deterministic map variants.
 - [x] Verify complete first-chapter MVP victory route.
+- [x] Add save and continue game system.
+- [x] Add procedural chapter map topology.
+- [x] Add ink-wash battle art, card art, and attack sprite-strip presentation.

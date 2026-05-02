@@ -184,66 +184,133 @@ function getBattleGold(nodeType: MapNodeType): number {
 function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
   const firstEvent = getCharacterEventNode(characterId);
   const eliteEnemyId = mapSeed % 2 === 0 ? "elite_sword_echo" : "elite_blood_banner";
+  const secondEliteEnemyId = mapSeed % 5 === 0 ? "elite_blood_banner" : "elite_sword_echo";
+  const secondBattleEnemyId = mapSeed % 4 === 1 ? "enemy_paper_umbrella" : "enemy_faceless_soldier";
   const thirdBattleEnemyId = mapSeed % 3 === 2 ? "enemy_faceless_soldier" : "enemy_paper_umbrella";
+  const sideBattleEnemyId = mapSeed % 2 === 0 ? "enemy_ink_bandit" : "enemy_faceless_soldier";
+  const lateEventId = mapSeed % 2 === 0 ? "event_black_rain_ferry" : firstEvent.eventId;
 
   return [
     {
       id: "start",
       type: "start",
       label: "黑雨渡口",
-      connections: ["battle-1", "event-1"]
+      floor: 0,
+      lane: 1,
+      connections: ["battle-1", "event-1", "battle-side-1"]
     },
     {
       id: "battle-1",
       type: "battle",
       label: "墨化山贼",
+      floor: 1,
+      lane: 0,
       enemyId: "enemy_ink_bandit",
-      connections: ["shop-1", "elite-1"]
+      connections: ["shop-1", "battle-2"]
     },
     {
       id: "event-1",
       type: "event",
       label: firstEvent.label,
+      floor: 1,
+      lane: 1,
       eventId: firstEvent.eventId,
       connections: ["battle-2", "rest-1"]
+    },
+    {
+      id: "battle-side-1",
+      type: "battle",
+      label: sideBattleEnemyId === "enemy_ink_bandit" ? "雨巷山贼" : "无面游兵",
+      floor: 1,
+      lane: 2,
+      enemyId: sideBattleEnemyId,
+      connections: ["event-2", "shop-1"]
     },
     {
       id: "shop-1",
       type: "shop",
       label: "茶亭游商",
-      connections: ["battle-2"]
+      floor: 2,
+      lane: 0,
+      connections: ["elite-1", "rest-1"]
+    },
+    {
+      id: "battle-2",
+      type: "battle",
+      label: secondBattleEnemyId === "enemy_paper_umbrella" ? "纸伞巡夜" : "无面兵卒",
+      floor: 2,
+      lane: 1,
+      enemyId: secondBattleEnemyId,
+      connections: ["rest-1", "battle-3"]
+    },
+    {
+      id: "event-2",
+      type: "event",
+      label: lateEventId === "event_black_rain_ferry" ? "黑雨渡口" : firstEvent.label,
+      floor: 2,
+      lane: 2,
+      eventId: lateEventId,
+      connections: ["battle-2b", "rest-1"]
     },
     {
       id: "elite-1",
       type: "elite",
       label: eliteEnemyId === "elite_sword_echo" ? "剑痴残影" : "血旗都尉",
+      floor: 3,
+      lane: 0,
       enemyId: eliteEnemyId,
-      connections: ["rest-1"]
-    },
-    {
-      id: "battle-2",
-      type: "battle",
-      label: "无面兵卒",
-      enemyId: "enemy_faceless_soldier",
-      connections: ["rest-1", "battle-3"]
+      connections: ["elite-2", "battle-3"]
     },
     {
       id: "rest-1",
       type: "rest",
       label: "废寺静修",
-      connections: ["battle-3"]
+      floor: 3,
+      lane: 1,
+      connections: ["battle-3", "event-3"]
+    },
+    {
+      id: "battle-2b",
+      type: "battle",
+      label: "墨潮伏兵",
+      floor: 3,
+      lane: 2,
+      enemyId: mapSeed % 3 === 0 ? "enemy_paper_umbrella" : "enemy_ink_bandit",
+      connections: ["battle-3", "event-3"]
+    },
+    {
+      id: "elite-2",
+      type: "elite",
+      label: secondEliteEnemyId === "elite_sword_echo" ? "剑痴残影" : "血旗都尉",
+      floor: 4,
+      lane: 0,
+      enemyId: secondEliteEnemyId,
+      connections: ["boss"]
     },
     {
       id: "battle-3",
       type: "battle",
       label: thirdBattleEnemyId === "enemy_paper_umbrella" ? "纸伞女鬼" : "无面伏兵",
+      floor: 4,
+      lane: 1,
       enemyId: thirdBattleEnemyId,
+      connections: ["boss"]
+    },
+    {
+      id: "event-3",
+      type: "event",
+      label: "墨碑听潮",
+      floor: 4,
+      lane: 2,
+      eventId: "event_black_rain_ferry",
       connections: ["boss"]
     },
     {
       id: "boss",
       type: "boss",
       label: "墨影董卓",
+      floor: 5,
+      lane: 1,
       enemyId: "boss_ink_dongzhuo",
       connections: []
     }

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" role="img" aria-label="Charm ribbon card art">
+  <rect width="480" height="640" fill="#efe2c3"/>
+  <path d="M72 324c72-122 164-126 276-12 45 46 72 50 91 12" fill="none" stroke="#2f7c6e" stroke-width="24" stroke-linecap="round" opacity="0.78"/>
+  <path d="M46 410c117-91 224-89 321 5" fill="none" stroke="#7f1f1a" stroke-width="11" stroke-linecap="round" opacity="0.55"/>
+  <circle cx="238" cy="246" r="54" fill="#111" opacity="0.72"/>
+  <path d="M188 253c33 31 69 31 108 0" fill="none" stroke="#efe2c3" stroke-width="8" stroke-linecap="round"/>
+  <path d="M142 160c48-42 100-54 157-36" fill="none" stroke="#111" stroke-width="13" stroke-linecap="round" opacity="0.35"/>
+</svg>

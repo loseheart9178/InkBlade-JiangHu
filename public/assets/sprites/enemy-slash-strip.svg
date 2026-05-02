@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 256" role="img" aria-label="Enemy slash sprite strip">
+  <defs>
+    <g id="enemy">
+      <circle cx="124" cy="62" r="22" fill="#111" opacity="0.85"/>
+      <path d="M102 86c-42 39-50 82-24 129 50 19 91 8 125-34-8-51-41-83-101-95z" fill="#111" opacity="0.72"/>
+    </g>
+  </defs>
+  <g transform="translate(0 0)">
+    <use href="#enemy"/>
+    <path d="M54 162c50-30 100-31 150-4" stroke="#111" stroke-width="11" stroke-linecap="round" fill="none"/>
+  </g>
+  <g transform="translate(256 0)">
+    <use href="#enemy" transform="translate(-10 -4)"/>
+    <path d="M48 158c58-67 119-84 183-51" stroke="#7f1f1a" stroke-width="13" stroke-linecap="round" fill="none"/>
+  </g>
+  <g transform="translate(512 0)">
+    <use href="#enemy" transform="translate(-24 -2)"/>
+    <path d="M39 178c80-105 151-128 214-70" stroke="#7f1f1a" stroke-width="17" stroke-linecap="round" fill="none"/>
+  </g>
+  <g transform="translate(768 0)">
+    <use href="#enemy" transform="translate(0 4)"/>
+    <path d="M62 172c62-35 116-36 164-4" stroke="#111" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.5"/>
+  </g>
+</svg>

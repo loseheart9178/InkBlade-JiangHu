@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Luoshui ink-wash mountain battlefield">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#efe2c3"/>
+      <stop offset="0.62" stop-color="#d7c8a9"/>
+      <stop offset="1" stop-color="#b8ad94"/>
+    </linearGradient>
+    <filter id="bleed">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="4" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="18"/>
+    </filter>
+    <filter id="paper">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="11"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.14"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" filter="url(#paper)" opacity="0.55"/>
+  <g filter="url(#bleed)" opacity="0.55">
+    <path d="M-40 560c180-210 280-238 420-56 88-190 190-325 330-84 120-180 260-230 404-28 99-150 221-178 365-6 65 78 116 118 168 138v420H-40z" fill="#2c2924" opacity="0.25"/>
+    <path d="M180 614c135-120 260-147 410-35 194-171 344-149 510 6 110-95 224-117 348-20v335H180z" fill="#111" opacity="0.13"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M200 690c258-68 470-68 663 2 177 64 337 53 555-32" stroke="#2c2924" stroke-width="12" opacity="0.22"/>
+    <path d="M391 747c215-41 474-34 762 25" stroke="#7f1f1a" stroke-width="6" opacity="0.24"/>
+    <path d="M652 628c78 48 160 48 245 0" stroke="#2f7c6e" stroke-width="7" opacity="0.32"/>
+  </g>
+  <g opacity="0.68">
+    <path d="M78 478c59-137 114-222 169-256-30 91-30 192-11 301" fill="#111" opacity="0.72"/>
+    <path d="M103 306c76 35 145 38 212 7" fill="none" stroke="#111" stroke-width="19" stroke-linecap="round"/>
+    <path d="M1350 258c-64 96-82 197-55 302" fill="none" stroke="#111" stroke-width="26" stroke-linecap="round"/>
+    <path d="M1245 333c113 20 196 3 257-51" fill="none" stroke="#111" stroke-width="19" stroke-linecap="round"/>
+  </g>
+  <g fill="#111" opacity="0.55">
+    <path d="M740 188c28-28 56-28 84 0-30-12-58-12-84 0z"/>
+    <path d="M906 242c24-24 48-24 72 0-26-10-50-10-72 0z"/>
+    <path d="M1070 192c20-20 41-20 61 0-22-9-42-9-61 0z"/>
+  </g>
+  <g opacity="0.58">
+    <circle cx="746" cy="700" r="88" fill="none" stroke="#2c2924" stroke-width="4"/>
+    <circle cx="746" cy="700" r="54" fill="none" stroke="#2c2924" stroke-width="2"/>
+    <path d="M618 700h256M746 572v256" stroke="#2c2924" stroke-width="2"/>
+  </g>
+  <g fill="#111" opacity="0.22">
+    <circle cx="118" cy="632" r="21"/>
+    <circle cx="1480" cy="670" r="28"/>
+    <circle cx="1320" cy="176" r="16"/>
+    <circle cx="484" cy="196" r="13"/>
+    <circle cx="860" cy="86" r="10"/>
+  </g>
+</svg>

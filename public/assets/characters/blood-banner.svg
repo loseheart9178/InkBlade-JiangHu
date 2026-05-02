@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Blood banner officer ink portrait">
+  <defs>
+    <radialGradient id="paper" cx="50%" cy="42%" r="62%">
+      <stop offset="0%" stop-color="#f6ecd5"/>
+      <stop offset="100%" stop-color="#bcae93"/>
+    </radialGradient>
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="4" seed="19"/>
+      <feDisplacementMap in="SourceGraphic" scale="6"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="url(#paper)"/>
+  <circle cx="256" cy="256" r="226" fill="#221f1b" opacity="0.08"/>
+  <g filter="url(#rough)">
+    <path d="M242 88c-48 23-67 72-58 126-34 21-60 67-68 129 43 34 95 58 151 59 62 1 113-26 151-66-8-66-42-111-83-130 10-51-25-100-93-118z" fill="#181512" opacity="0.88"/>
+    <path d="M205 178c30-16 72-18 105-1 2 45-14 82-51 109-39-26-56-62-54-108z" fill="#efe2c3" opacity="0.88"/>
+    <path d="M203 183c26 20 80 19 106-1" fill="none" stroke="#7f1f1a" stroke-width="11" stroke-linecap="round" opacity="0.78"/>
+    <path d="M124 118c70 30 142 23 220-10 31-13 52-5 75 11-52 57-170 67-295-1z" fill="#7f1f1a" opacity="0.9"/>
+    <path d="M352 76c28 42 38 87 30 137 41-18 65-44 78-74-42 10-77-6-108-63z" fill="#b7352a" opacity="0.88"/>
+    <path d="M119 348c62-58 174-76 275-7" fill="none" stroke="#7f1f1a" stroke-width="18" stroke-linecap="round" opacity="0.7"/>
+    <path d="M152 381c46-42 139-60 229-16" fill="none" stroke="#2c2924" stroke-width="10" stroke-linecap="round" opacity="0.58"/>
+    <path d="M96 410c98 41 227 58 337-10" fill="none" stroke="#111" stroke-width="8" stroke-linecap="round" opacity="0.38"/>
+  </g>
+</svg>

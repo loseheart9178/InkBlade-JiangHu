@@ -3,6 +3,8 @@ export interface AppShell {
   phaserHost: HTMLDivElement;
   hudHost: HTMLDivElement;
   startButton: HTMLButtonElement;
+  continueButton: HTMLButtonElement;
+  clearSaveButton: HTMLButtonElement;
 }
 
 export function createAppShell(root: HTMLElement): AppShell {
@@ -49,8 +51,22 @@ export function createAppShell(root: HTMLElement): AppShell {
   startButton.dataset.testid = "start-run";
   startButton.textContent = "入江湖";
 
+  const continueButton = document.createElement("button");
+  continueButton.type = "button";
+  continueButton.dataset.testid = "continue-run";
+  continueButton.textContent = "继续行旅";
+
+  const clearSaveButton = document.createElement("button");
+  clearSaveButton.type = "button";
+  clearSaveButton.dataset.testid = "clear-save";
+  clearSaveButton.textContent = "清除存档";
+
+  const titleActions = document.createElement("div");
+  titleActions.className = "title-actions";
+  titleActions.append(startButton, continueButton, clearSaveButton);
+
   characterSelect.append(zhaoButton, diaoButton);
-  menu.append(title, subtitle, characterSelect, startButton);
+  menu.append(title, subtitle, characterSelect, titleActions);
   hudHost.append(menu);
   root.append(phaserHost, hudHost);
 
@@ -58,6 +74,8 @@ export function createAppShell(root: HTMLElement): AppShell {
     root,
     phaserHost,
     hudHost,
-    startButton
+    startButton,
+    continueButton,
+    clearSaveButton
   };
 }

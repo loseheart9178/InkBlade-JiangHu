@@ -3,7 +3,16 @@ import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById, type GameEventChoice } from "../game/content/events";
 import { relicsById } from "../game/content/relics";
-import { combatPortraitsById } from "../game/content/visuals";
+import { cardArtById, combatPortraitsById, combatSpriteSheetsById } from "../game/content/visuals";
+import {
+  clearSavedGame,
+  hasSavedGame,
+  loadSavedGame,
+  saveGameState,
+  type ControllerSaveSnapshot,
+  type GameStorage,
+  type SaveableScreen
+} from "../game/systems/save/save";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CombatState } from "../game/systems/combat/types";
 import {
@@ -39,7 +48,11 @@ interface ControllerState {
   message: string;
 }
 
-export function createInkbladeController(host: HTMLElement) {
+interface ControllerOptions {
+  storage?: GameStorage;
+}
+
+export function createInkbladeController(host: HTMLElement, options: ControllerOptions = {}) {
   const state: ControllerState = {
     screen: "title",
     rewardCards: [],
@@ -53,52 +66,60 @@ export function createInkbladeController(host: HTMLElement) {
     if (state.screen === "map") {
       renderMap(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "combat") {
       renderCombat(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "reward") {
       renderReward(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "event") {
       renderEvent(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "shop") {
       renderShop(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "rest") {
       renderRest(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "bossReward") {
       renderBossReward(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "victory" || state.screen === "defeat") {
       renderResult(host, state, render);
+      clearSavedGame(options.storage);
     }
   };
 
   return {
     startRun(characterId: string) {
-      state.run = createRun(characterId);
+      state.run = createRun(characterId, { mapSeed: generateMapSeed() });
       state.combat = undefined;
       state.rewardCards = [];
       state.pendingSpoils = undefined;
@@ -106,6 +127,28 @@ export function createInkbladeController(host: HTMLElement) {
       state.message = `${charactersById[characterId].name}踏入洛水黑雨。`;
       state.screen = "map";
       render();
+    },
+    continueRun() {
+      const saved = loadSavedGame(options.storage);
+      if (!saved) {
+        return false;
+      }
+
+      state.run = saved.run;
+      state.combat = saved.combat;
+      state.rewardCards = saved.rewardCardIds.map((id) => cardsById[id]).filter((card): card is CardDefinition => Boolean(card));
+      state.pendingSpoils = saved.pendingSpoils;
+      state.deckOpen = false;
+      state.message = saved.message || "旧存档已续上。";
+      state.screen = saved.screen;
+      render();
+      return true;
+    },
+    hasSavedRun() {
+      return hasSavedGame(options.storage);
+    },
+    clearSavedRun() {
+      clearSavedGame(options.storage);
     }
   };
 }
@@ -121,14 +164,20 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
 
   const path = document.createElement("div");
   path.className = "route-map";
+  path.style.setProperty("--map-columns", `${Math.max(...run.mapNodes.map((node) => node.floor)) + 1}`);
 
   for (const node of run.mapNodes) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `map-node map-node--${node.type}`;
     button.dataset.testid = `map-node-${node.id}`;
-    button.textContent = node.label;
+    button.dataset.floor = `${node.floor}`;
+    button.dataset.lane = `${node.lane}`;
+    button.style.gridColumn = `${node.floor + 1}`;
+    button.style.gridRow = `${node.lane + 1}`;
+    button.innerHTML = `<span class="map-node-icon">${getMapNodeIcon(node.type)}</span><strong>${node.label}</strong><small>${formatMapNodeMeta(node)}</small>`;
     button.disabled = !available.some((item) => item.id === node.id);
+    button.title = node.connections.length > 0 ? `通向：${node.connections.map((id) => getMapNodeLabel(run, id)).join("、")}` : "本章首领";
 
     if (node.id === current.id) {
       button.classList.add("is-current");
@@ -203,6 +252,10 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const enemy = combat.enemies[0];
   const playerPortrait = getCombatPortrait(combat.player.characterId);
   const enemyPortrait = getCombatPortrait(enemy.definitionId);
+  const playerSprite = getCombatSprite(combat.player.characterId);
+  const enemySprite = getCombatSprite(enemy.definitionId);
+  const playerIsAttacking = hasRecentVisual(combat, "enemy", "damage");
+  const enemyIsAttacking = hasRecentVisual(combat, "player", "damage");
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
   panel.classList.add("combat-screen");
 
@@ -218,18 +271,21 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   field.className = "combat-field";
   field.innerHTML = `
     <div class="combatant combatant--player ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
+      <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
+      <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
+      <div class="combat-sprite combat-sprite--player ${playerIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>
       <div class="portrait-ring portrait-ring--${playerPortrait.accent}">
         <img class="portrait-art" data-testid="combat-portrait-player" src="${playerPortrait.assetPath}" alt="${playerPortrait.alt}">
       </div>
-      <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
-      <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
     </div>
     <div class="duel-mark">对决</div>
     <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
+      <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
+      <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
+      <div class="combat-sprite combat-sprite--enemy ${enemyIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>
       <div class="portrait-ring portrait-ring--${enemyPortrait.accent}">
         <img class="portrait-art" data-testid="combat-portrait-enemy" src="${enemyPortrait.assetPath}" alt="${enemyPortrait.alt}">
       </div>
-      <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
     </div>
   `;
   field.append(createCombatFloatLayer(combat));
@@ -255,6 +311,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     cardButton.dataset.testid = `card-${card.instanceId}`;
     cardButton.disabled = getDisplayCost(definition, card.upgraded) > combat.player.energy;
     cardButton.innerHTML = `
+      ${createCardArtMarkup(definition)}
       <span class="card-cost">${getDisplayCost(definition, card.upgraded)}</span>
       <strong>${definition.name}${card.upgraded ? " +" : ""}</strong>
       <small>${formatTypes(definition.types)}</small>
@@ -337,7 +394,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
     button.type = "button";
     button.className = `reward-card card-type-${card.types[0]}`;
     button.dataset.testid = "reward-card";
-    button.innerHTML = `<strong>${card.name}</strong><span>${card.description ?? ""}</span>`;
+    button.innerHTML = `${createCardArtMarkup(card)}<strong>${card.name}</strong><span>${card.description ?? ""}</span>`;
     button.addEventListener("click", () => {
       takeCardReward(run, card);
       state.message = `获得${card.name}。`;
@@ -737,6 +794,36 @@ function createAction(title: string, body: string, onClick: () => void): HTMLBut
   return button;
 }
 
+function getMapNodeIcon(type: MapNode["type"]): string {
+  const icons: Record<MapNode["type"], string> = {
+    start: "渡",
+    battle: "战",
+    elite: "煞",
+    event: "事",
+    shop: "商",
+    rest: "息",
+    boss: "魇"
+  };
+  return icons[type];
+}
+
+function formatMapNodeMeta(node: MapNode): string {
+  const names: Record<MapNode["type"], string> = {
+    start: "起点",
+    battle: "寻常战",
+    elite: "精英",
+    event: "奇遇",
+    shop: "游商",
+    rest: "静修",
+    boss: "首领"
+  };
+  return `${names[node.type]} · 第${node.floor + 1}程`;
+}
+
+function getMapNodeLabel(run: RunState, nodeId: string): string {
+  return run.mapNodes.find((node) => node.id === nodeId)?.label ?? nodeId;
+}
+
 function openDeck(state: ControllerState, render: () => void): void {
   state.deckOpen = true;
   render();
@@ -777,6 +864,7 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
     item.className = `deck-card card-type-${card.types[0]}`;
     item.dataset.testid = "deck-card";
     item.innerHTML = `
+      ${createCardArtMarkup(card)}
       <span class="card-cost">${getDisplayCost(card, entry.upgraded)}</span>
       <strong>${card.name}${entry.upgraded ? " +" : ""}</strong>
       <small>${formatTypes(card.types)}</small>
@@ -800,6 +888,27 @@ function getCombatPortrait(id: string) {
     alt: "Ink silhouette",
     accent: "ink" as const
   };
+}
+
+function getCombatSprite(id: string) {
+  if (id === "zhaoyun") {
+    return combatSpriteSheetsById.zhaoyun_attack;
+  }
+
+  if (id === "diaochan") {
+    return combatSpriteSheetsById.diaochan_attack;
+  }
+
+  return combatSpriteSheetsById.enemy_slash;
+}
+
+function createCardArtMarkup(card: CardDefinition): string {
+  const art = getCardArt(card);
+  return `<span class="card-art card-art--${art.accent}"><img data-testid="card-art" src="${art.assetPath}" alt="${art.alt}"></span>`;
+}
+
+function getCardArt(card: CardDefinition) {
+  return cardArtById[card.id] ?? cardArtById[`type_${card.types[0]}`] ?? cardArtById.type_skill;
 }
 
 function getDisplayCost(card: CardDefinition, upgraded?: boolean): number {
@@ -857,6 +966,36 @@ function explainPlayFailure(reason: string): string {
   }
 
   return "此招暂不可用。";
+}
+
+function persistControllerState(state: ControllerState, storage: GameStorage | undefined): void {
+  if (!state.run || !isSaveableScreen(state.screen)) {
+    return;
+  }
+
+  if (state.screen === "combat" && !state.combat) {
+    return;
+  }
+
+  const snapshot: ControllerSaveSnapshot = {
+    screen: state.screen,
+    run: state.run,
+    combat: state.screen === "combat" ? state.combat : undefined,
+    rewardCardIds: state.rewardCards.map((card) => card.id),
+    pendingSpoils: state.pendingSpoils,
+    deckOpen: state.deckOpen,
+    message: state.message
+  };
+
+  saveGameState(storage, snapshot);
+}
+
+function isSaveableScreen(screen: Screen): screen is SaveableScreen {
+  return screen === "map" || screen === "combat" || screen === "reward" || screen === "event" || screen === "shop" || screen === "rest" || screen === "bossReward";
+}
+
+function generateMapSeed(): number {
+  return Math.floor(Date.now() % 100_000);
 }
 
 function requireRun(state: ControllerState): RunState {

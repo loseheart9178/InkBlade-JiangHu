@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" role="img" aria-label="Default attack card art">
+  <rect width="480" height="640" fill="#efe2c3"/>
+  <path d="M68 490L410 142" stroke="#7f1f1a" stroke-width="24" stroke-linecap="round"/>
+  <path d="M318 124l105-38-42 101z" fill="#2c2924"/>
+  <path d="M88 216c90 34 178 31 264-9" fill="none" stroke="#111" stroke-width="14" stroke-linecap="round" opacity="0.28"/>
+</svg>

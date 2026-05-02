@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" role="img" aria-label="Luoshui ink tide card art">
+  <rect width="480" height="640" fill="#efe2c3"/>
+  <path d="M-20 430c83-76 163-83 241-20 82 66 172 57 271-28v268H-20z" fill="#111" opacity="0.82"/>
+  <path d="M-10 378c86-55 167-51 242 10 70 56 153 51 249-17" fill="none" stroke="#2f7c6e" stroke-width="22" stroke-linecap="round" opacity="0.82"/>
+  <path d="M64 292c95 37 195 31 302-18" fill="none" stroke="#2c2924" stroke-width="12" stroke-linecap="round" opacity="0.38"/>
+  <circle cx="344" cy="168" r="62" fill="#111" opacity="0.18"/>
+  <circle cx="138" cy="166" r="24" fill="#111" opacity="0.28"/>
+  <circle cx="224" cy="236" r="18" fill="#111" opacity="0.28"/>
+</svg>

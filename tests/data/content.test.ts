@@ -3,7 +3,7 @@ import { characterList } from "../../src/game/content/characters";
 import { enemyList } from "../../src/game/content/enemies";
 import { eventList } from "../../src/game/content/events";
 import { relicList } from "../../src/game/content/relics";
-import { combatPortraitsById } from "../../src/game/content/visuals";
+import { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsById } from "../../src/game/content/visuals";
 
 const supportedActions = new Set([
   "damage",
@@ -79,6 +79,7 @@ describe("content data", () => {
       "enemy_faceless_soldier",
       "enemy_paper_umbrella",
       "elite_sword_echo",
+      "elite_blood_banner",
       "boss_ink_dongzhuo"
     ];
 
@@ -86,5 +87,17 @@ describe("content data", () => {
       expect(combatPortraitsById[id]).toBeDefined();
       expect(combatPortraitsById[id].assetPath).toMatch(/^\/assets\/characters\/.+\.svg$/);
     }
+  });
+
+  it("maps featured cards, battlefield, and attack sprite strips to art assets", () => {
+    for (const cardId of ["zhao_strike", "zhao_qixing_spear", "diao_charm", "diao_closed_moon", "ink_luoshui_tide"]) {
+      expect(cardArtById[cardId]).toBeDefined();
+      expect(cardArtById[cardId].assetPath).toMatch(/^\/assets\/cards\/.+\.svg$/);
+    }
+
+    expect(battlefieldAssets.luoshui.assetPath).toMatch(/^\/assets\/environment\/.+\.svg$/);
+    expect(combatSpriteSheetsById.zhaoyun_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.diaochan_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.enemy_slash.frameWidth).toBeGreaterThan(0);
   });
 });

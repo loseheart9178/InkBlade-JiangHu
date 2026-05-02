@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 640" role="img" aria-label="Closed moon dance card art">
+  <rect width="480" height="640" fill="#efe2c3"/>
+  <circle cx="286" cy="158" r="86" fill="#2f7c6e" opacity="0.2"/>
+  <path d="M333 72c-42 64-31 126 33 184-103-10-161-61-174-153 31-25 77-35 141-31z" fill="#efe2c3" opacity="0.9"/>
+  <path d="M70 418c70-81 154-113 253-96 50 9 85 2 106-22" fill="none" stroke="#2f7c6e" stroke-width="18" stroke-linecap="round"/>
+  <path d="M84 506c103-64 204-81 302-51" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round" opacity="0.48"/>
+  <path d="M202 342c32-58 73-88 123-90-13 70-47 120-103 149z" fill="#7f1f1a" opacity="0.55"/>
+</svg>
