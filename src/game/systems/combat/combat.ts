@@ -11,7 +11,10 @@ import type {
   EnemyState,
   MindState,
   PlayCardResult,
-  StatusId
+  StatusId,
+  CombatVisualEventKind,
+  CombatVisualTarget,
+  CombatVisualTone
 } from "./types";
 
 export function createCombat(input: CreateCombatInput): CombatState {
@@ -74,11 +77,13 @@ export function createCombat(input: CreateCombatInput): CombatState {
       exhaust: []
     },
     combatLog: [],
+    visualEvents: [],
     relicIds: input.relicIds ?? [],
     relicMemory: {},
     playedCardTypesThisTurn: [],
     attacksPlayedThisTurn: 0,
-    nextInstanceNumber: draw.length + 1
+    nextInstanceNumber: draw.length + 1,
+    nextVisualEventId: 1
   };
 
   applyCombatStartRelics(state);
@@ -206,19 +211,26 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
       damageEnemy(state, targetId, getPlayerDamageAmount(state, definition, card, effect.amount));
       break;
     case "block":
-      state.player.block += getPlayerBlockAmount(state, card, effect.amount);
+      {
+        const amount = getPlayerBlockAmount(state, card, effect.amount);
+        state.player.block += amount;
+        pushVisualEvent(state, "block", "player", `+${amount} 护甲`, "teal", amount);
+      }
       break;
     case "draw":
       drawCards(state, effect.amount, createRng(state.turn * 101 + state.nextInstanceNumber));
+      pushVisualEvent(state, "draw", "player", `抽牌 +${effect.amount}`, "neutral", effect.amount);
       break;
     case "gainResource":
       gainResource(state, effect.amount);
+      pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +${effect.amount}`, "gold", effect.amount);
       break;
     case "applyStatus":
       applyStatus(state, targetId, effect.status, effect.amount);
       break;
     case "gainInk":
       state.player.inkMarks += effect.amount;
+      pushVisualEvent(state, "ink", "player", `墨痕 +${effect.amount}`, "ink", effect.amount);
       triggerInkRelics(state, effect.amount);
       break;
     case "setMind":
@@ -235,8 +247,15 @@ function damageEnemy(state: CombatState, enemyId: string, rawAmount: number): vo
 
   const amount = Math.max(0, rawAmount);
   const blocked = Math.min(enemy.block, amount);
+  const beforeHp = enemy.hp;
   enemy.block -= blocked;
   enemy.hp = Math.max(0, enemy.hp - (amount - blocked));
+  const dealt = beforeHp - enemy.hp;
+  if (dealt > 0) {
+    pushVisualEvent(state, "damage", "enemy", `-${dealt}`, "red", dealt);
+  } else if (amount > 0) {
+    pushVisualEvent(state, "block", "enemy", "护甲挡下", "neutral");
+  }
 }
 
 function getPlayerDamageAmount(state: CombatState, definition: CardDefinition, card: CardInstance, baseAmount: number): number {
@@ -274,6 +293,7 @@ function damagePlayer(state: CombatState, rawAmount: number): void {
 
   if ((state.player.statuses.dodge ?? 0) > 0) {
     state.player.statuses.dodge = Math.max(0, (state.player.statuses.dodge ?? 0) - 1);
+    pushVisualEvent(state, "status", "player", "闪避", "teal");
     return;
   }
 
@@ -284,8 +304,15 @@ function damagePlayer(state: CombatState, rawAmount: number): void {
   }
 
   const blocked = Math.min(state.player.block, amount);
+  const beforeHp = state.player.hp;
   state.player.block -= blocked;
   state.player.hp = Math.max(0, state.player.hp - (amount - blocked));
+  const dealt = beforeHp - state.player.hp;
+  if (dealt > 0) {
+    pushVisualEvent(state, "damage", "player", `-${dealt}`, "red", dealt);
+  } else if (amount > 0) {
+    pushVisualEvent(state, "block", "player", "护甲挡下", "neutral");
+  }
 }
 
 function gainResource(state: CombatState, amount: number): void {
@@ -299,12 +326,14 @@ function applyStatus(state: CombatState, targetId: string, status: StatusId, amo
   }
 
   target.statuses[status] = (target.statuses[status] ?? 0) + amount;
+  pushVisualEvent(state, "status", targetId === "player" ? "player" : "enemy", `${formatStatus(status)} +${amount}`, status === "ink" ? "ink" : "teal", amount);
 }
 
 function setMind(state: CombatState, mind: MindState, amount: number): void {
   state.player.mind = mind;
   if (mind !== "none") {
     state.player.mindTendency[mind] += amount;
+    pushVisualEvent(state, "status", "player", `心境：${formatMind(mind)}`, "gold", amount);
   }
 }
 
@@ -317,6 +346,7 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
     damageEnemy(state, targetId, 4);
     gainResource(state, 1);
     state.combatLog.push("破阵");
+    pushVisualEvent(state, "trigger", "center", "破阵", "gold");
     triggerBreakFormationRelics(state);
   }
 
@@ -383,6 +413,7 @@ function beginPlayerTurn(state: CombatState): void {
   state.playedCardTypesThisTurn = [];
   state.attacksPlayedThisTurn = 0;
   drawCards(state, state.player.drawPerTurn - state.piles.hand.length, createRng(state.turn * 1009));
+  pushVisualEvent(state, "turn", "center", `回合 ${state.turn}`, "neutral");
 }
 
 function updateCombatOutcome(state: CombatState): void {
@@ -410,6 +441,7 @@ function applyCombatStartRelics(state: CombatState): void {
         enemy.statuses.weak = (enemy.statuses.weak ?? 0) + 1;
       }
       state.combatLog.push("闭月香囊");
+      pushVisualEvent(state, "trigger", "enemy", "闭月香囊", "gold");
     }
   }
 }
@@ -418,6 +450,7 @@ function triggerInkRelics(state: CombatState, inkAmount: number): void {
   if (inkAmount > 0 && hasRelic(state, "relic_black_paper_umbrella")) {
     state.player.block += 2;
     state.combatLog.push("黑纸伞");
+    pushVisualEvent(state, "block", "player", "+2 护甲", "ink", 2);
   }
 }
 
@@ -430,6 +463,7 @@ function triggerBreakFormationRelics(state: CombatState): void {
   drawCards(state, 1, createRng(state.turn * 211 + state.nextInstanceNumber));
   state.relicMemory.relic_white_dragon_tassel = true;
   state.combatLog.push("白龙枪缨");
+  pushVisualEvent(state, "trigger", "player", "白龙枪缨", "gold");
 }
 
 function hasRelic(state: CombatState, relicId: string): boolean {
@@ -452,6 +486,55 @@ function settleInkMarks(state: CombatState): void {
 
   state.player.hp = Math.max(1, state.player.hp - state.player.inkMarks);
   state.combatLog.push("墨痕结算");
+  pushVisualEvent(state, "ink", "player", `墨痕 -${state.player.inkMarks}`, "ink", state.player.inkMarks);
+}
+
+function pushVisualEvent(
+  state: CombatState,
+  kind: CombatVisualEventKind,
+  target: CombatVisualTarget,
+  label: string,
+  tone: CombatVisualTone,
+  amount?: number
+): void {
+  state.visualEvents.push({
+    id: state.nextVisualEventId,
+    kind,
+    target,
+    label,
+    tone,
+    amount
+  });
+  state.nextVisualEventId += 1;
+
+  if (state.visualEvents.length > 12) {
+    state.visualEvents.splice(0, state.visualEvents.length - 12);
+  }
+}
+
+function formatStatus(status: StatusId): string {
+  const names: Record<StatusId, string> = {
+    charm: "魅惑",
+    weak: "虚弱",
+    vulnerable: "易伤",
+    dodge: "闪避",
+    guard: "护主",
+    ink: "墨"
+  };
+  return names[status];
+}
+
+function formatMind(mind: MindState): string {
+  const names: Record<MindState, string> = {
+    none: "无",
+    ning: "宁",
+    nu: "怒",
+    bei: "悲",
+    mei: "魅",
+    luan: "乱",
+    wu: "悟"
+  };
+  return names[mind];
 }
 
 function clamp(value: number, min: number, max: number): number {

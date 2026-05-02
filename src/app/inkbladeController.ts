@@ -214,17 +214,18 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const field = document.createElement("div");
   field.className = "combat-field";
   field.innerHTML = `
-    <div class="combatant combatant--player">
+    <div class="combatant combatant--player ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
       <div class="portrait-ring portrait-ring--red">${combat.player.name.slice(0, 1)}</div>
       <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
       <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
     </div>
     <div class="duel-mark">对决</div>
-    <div class="combatant combatant--enemy">
+    <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
       <div class="portrait-ring portrait-ring--teal">${enemy.name.slice(0, 1)}</div>
       <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
     </div>
   `;
+  field.append(createCombatFloatLayer(combat));
 
   const hand = document.createElement("div");
   hand.className = "hand-zone";
@@ -696,6 +697,22 @@ function createCombatLog(combat: CombatState): HTMLElement {
   return log;
 }
 
+function createCombatFloatLayer(combat: CombatState): HTMLElement {
+  const layer = document.createElement("div");
+  layer.className = "combat-float-layer";
+  layer.dataset.testid = "combat-floats";
+
+  for (const event of combat.visualEvents.slice(-6)) {
+    const item = document.createElement("span");
+    item.className = `visual-float visual-float--${event.target} visual-float--${event.tone}`;
+    item.dataset.testid = "combat-float";
+    item.textContent = event.label;
+    layer.append(item);
+  }
+
+  return layer;
+}
+
 function createAction(title: string, body: string, onClick: () => void): HTMLButtonElement {
   const button = document.createElement("button");
   button.type = "button";
@@ -756,6 +773,10 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
   panel.append(header, list);
   overlay.append(panel);
   host.append(overlay);
+}
+
+function hasRecentVisual(combat: CombatState, target: "player" | "enemy", kind: string): boolean {
+  return combat.visualEvents.slice(-3).some((event) => event.target === target && event.kind === kind);
 }
 
 function getUpgradedCombatInstanceIds(run: RunState): string[] {

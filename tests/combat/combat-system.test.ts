@@ -177,6 +177,37 @@ describe("combat system", () => {
     expect(state.piles.discard.some((item) => item.instanceId === card?.instanceId)).toBe(true);
   });
 
+  it("emits readable visual events for player damage and block", () => {
+    const state = startCombat(zhaoYun);
+    const strikeCard = state.piles.hand.find((item) => item.definitionId === "strike");
+    const guardCard = state.piles.hand.find((item) => item.definitionId === "guard");
+
+    playCard(state, strikeCard?.instanceId ?? "", state.enemies[0].id);
+    playCard(state, guardCard?.instanceId ?? "", "player");
+
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ kind: "damage", target: "enemy", label: "-6" }),
+        expect.objectContaining({ kind: "block", target: "player", label: "+7 护甲" })
+      ])
+    );
+  });
+
+  it("emits visual events for status applications and incoming enemy damage", () => {
+    const state = startCombat(diaoChan);
+    const charmCard = state.piles.hand.find((item) => item.definitionId === "charm");
+
+    playCard(state, charmCard?.instanceId ?? "", state.enemies[0].id);
+    endPlayerTurn(state);
+
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ kind: "status", target: "enemy", label: "魅惑 +2" }),
+        expect.objectContaining({ kind: "damage", target: "player", label: "-7" })
+      ])
+    );
+  });
+
   it("resolves enemy attack intents through block and starts the next player turn", () => {
     const state = startCombat(zhaoYun);
     const card = state.piles.hand.find((item) => item.definitionId === "guard");

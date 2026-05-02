@@ -145,6 +145,8 @@ npm run test:e2e
 - [x] Render recent combat log entries in the battle HUD.
 - [x] Surface relic and character trigger names such as 闭月香囊 and 破阵.
 - [x] Add browser assertion that a starting relic trigger appears in combat feedback.
+- [x] Add combat visual event stream for damage, block, status, resource, ink, draw, trigger, and turn cues.
+- [x] Render battle floating text, hit shudder, guard glow, and active-card press feedback.
 
 Verification:
 

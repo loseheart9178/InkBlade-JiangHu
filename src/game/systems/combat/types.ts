@@ -103,6 +103,19 @@ export interface CombatPiles {
   exhaust: CardInstance[];
 }
 
+export type CombatVisualEventKind = "damage" | "block" | "status" | "resource" | "ink" | "draw" | "trigger" | "turn";
+export type CombatVisualTarget = "player" | "enemy" | "center";
+export type CombatVisualTone = "red" | "teal" | "ink" | "gold" | "neutral";
+
+export interface CombatVisualEvent {
+  id: number;
+  kind: CombatVisualEventKind;
+  target: CombatVisualTarget;
+  label: string;
+  tone: CombatVisualTone;
+  amount?: number;
+}
+
 export interface CombatState {
   turn: number;
   phase: "player" | "won" | "lost";
@@ -112,11 +125,13 @@ export interface CombatState {
   cardDefinitions: Record<string, CardDefinition>;
   character: CharacterDefinition;
   combatLog: string[];
+  visualEvents: CombatVisualEvent[];
   relicIds: string[];
   relicMemory: Partial<Record<string, boolean>>;
   playedCardTypesThisTurn: CardType[];
   attacksPlayedThisTurn: number;
   nextInstanceNumber: number;
+  nextVisualEventId: number;
 }
 
 export interface CreateCombatInput {
