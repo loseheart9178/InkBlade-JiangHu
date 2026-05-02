@@ -55,13 +55,38 @@ Result: TypeScript and Vite build passed.
 Note: Vite warned that the Phaser bundle chunk exceeds 500 kB. This is expected for the first prototype and does not block the milestone.
 ```
 
+### 2026-05-02 13:26 Asia/Shanghai
+
+Current state:
+
+- Pure TypeScript combat module added under `src/game/systems/combat/`.
+- Deterministic RNG utility added under `src/game/core/rng.ts`.
+- Combat tests added for deck cycling, energy validation, card execution, enemy intent, Zhao Yun break-formation, Diao Chan charm, and retain.
+
+Decisions:
+
+- Combat functions mutate a serializable `CombatState` in place for the first prototype. This keeps UI integration simple; higher-level undo/history can wrap state cloning later.
+- Character-specific hooks are centralized in combat execution for now and should be extracted once more characters or relics add trigger complexity.
+- Enemy intents currently support the single-intent loop needed by first tests; richer behavior tables will be extended with data-slice tests.
+
+Verification:
+
+```text
+npm test -- --run tests/combat/combat-system.test.ts
+Result: 1 test file passed, 7 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
 - [x] Translate image-based long-run guidance into repository runbooks.
 - [x] Initialize repository baseline.
 - [x] Scaffold app and test harness.
-- [ ] Implement combat simulation.
+- [x] Implement combat simulation.
 - [ ] Implement data slice.
 - [ ] Implement UI and Phaser presentation.
 - [ ] Run automated and browser verification.
