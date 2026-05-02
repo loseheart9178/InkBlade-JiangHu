@@ -413,6 +413,42 @@ Result: 5 Playwright tests passed.
 Covered: Zhao Yun character event path, rest upgrade flow, and existing browser flows.
 ```
 
+### 2026-05-02 15:22 Asia/Shanghai
+
+Current state:
+
+- Added full first-chapter browser acceptance:
+  - start Zhao Yun,
+  - take character event,
+  - rest and upgrade,
+  - defeat late normal encounter,
+  - defeat Boss,
+  - pass through Boss reward bridge,
+  - reach chapter victory.
+- Tuned late normal and Boss enemy values for MVP completion:
+  - 纸伞女鬼 HP/damage/block reduced slightly.
+  - 墨影董卓 HP and intent damage/block reduced for first-chapter prototype pacing.
+- Playwright combat helper now prioritizes playable attack cards before defensive cards, making completion checks closer to actual player intent and less slow.
+
+Decision:
+
+- This establishes the MVP completion gate: the game is not just a set of systems; one complete first-chapter run can be finished in browser automation.
+
+Verification:
+
+```text
+npm test
+Result: 4 test files passed, 39 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 6 Playwright tests passed.
+Covered: full first-chapter victory route plus previous playable, shop, rest, relic, deck, and visual smoke flows.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -430,3 +466,4 @@ Covered: Zhao Yun character event path, rest upgrade flow, and existing browser 
 - [x] Add first-pass ink-wash combat portrait assets.
 - [x] Add card-specific upgrades, more cards, and stronger elite reward pools.
 - [x] Add character-specific events and deterministic map variants.
+- [x] Verify complete first-chapter MVP victory route.

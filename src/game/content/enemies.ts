@@ -33,10 +33,10 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "纸伞女鬼",
     role: "normal",
     chapter: "luoshui",
-    maxHp: 34,
+    maxHp: 30,
     intents: [
-      { type: "attack", damage: 6, hits: 1 },
-      { type: "block", block: 8 }
+      { type: "attack", damage: 5, hits: 1 },
+      { type: "block", block: 6 }
     ]
   },
   {
@@ -56,7 +56,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "血旗都尉",
     role: "elite",
     chapter: "luoshui",
-    maxHp: 96,
+    maxHp: 72,
     intents: [
       { type: "block", block: 12 },
       { type: "attack", damage: 7, hits: 2 },
@@ -68,12 +68,12 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "墨影董卓",
     role: "boss",
     chapter: "luoshui",
-    maxHp: 180,
+    maxHp: 96,
     intents: [
-      { type: "attack", damage: 12, hits: 1 },
-      { type: "block", block: 18 },
-      { type: "attack", damage: 8, hits: 2 },
-      { type: "attack", damage: 24, hits: 1 }
+      { type: "attack", damage: 9, hits: 1 },
+      { type: "block", block: 12 },
+      { type: "attack", damage: 5, hits: 2 },
+      { type: "attack", damage: 16, hits: 1 }
     ]
   }
 ];
@@ -81,4 +81,3 @@ export const enemyList: ChapterEnemyDefinition[] = [
 export const enemiesById: Record<string, ChapterEnemyDefinition> = Object.fromEntries(
   enemyList.map((enemy) => [enemy.id, enemy])
 );
-

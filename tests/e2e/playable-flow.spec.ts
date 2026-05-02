@@ -74,6 +74,26 @@ test("Diao Chan starting relic applies charm and weak at combat start", async ({
   await expect(page.getByTestId("enemy-status")).toContainText("虚弱 1");
 });
 
+test("can complete the first chapter through the event and rest route", async ({ page }) => {
+  test.setTimeout(60_000);
+  await startRun(page, "zhaoyun");
+  await page.getByTestId("map-node-event-1").click();
+  await page.getByTestId("event-choice-carve_names").click();
+
+  await page.getByTestId("map-node-rest-1").click();
+  await page.getByTestId("rest-upgrade-card").click();
+
+  await page.getByTestId("map-node-battle-3").click();
+  await winVisibleCombat(page, 80);
+  await page.getByTestId("reward-card").first().click();
+
+  await page.getByTestId("map-node-boss").click();
+  await winVisibleCombat(page, 140, "screen-boss-reward");
+  await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
+  await page.getByTestId("boss-reward-continue").click();
+  await expect(page.getByTestId("screen-victory")).toBeVisible();
+});
+
 async function startRun(page: Page, characterId: "zhaoyun" | "diaochan"): Promise<void> {
   await page.goto("/");
   await expect(page.getByText("云水江湖")).toBeVisible();
@@ -81,25 +101,32 @@ async function startRun(page: Page, characterId: "zhaoyun" | "diaochan"): Promis
   await page.getByTestId("start-run").click();
 }
 
-async function winVisibleCombat(page: Page): Promise<void> {
-  for (let step = 0; step < 36; step += 1) {
-    if (await page.getByTestId("screen-reward").isVisible().catch(() => false)) {
+async function winVisibleCombat(page: Page, maxSteps = 36, targetScreen = "screen-reward"): Promise<void> {
+  for (let step = 0; step < maxSteps; step += 1) {
+    if (await page.getByTestId(targetScreen).isVisible().catch(() => false)) {
       return;
     }
 
     const playable = page.locator(".combat-card:not([disabled])");
+    const attack = playable.filter({ hasText: "攻" });
+    const attackCount = await attack.count();
+    if (attackCount > 0) {
+      await attack.first().click();
+      continue;
+    }
+
     const count = await playable.count();
     if (count > 0) {
       await playable.first().click();
       continue;
     }
 
-    if (await page.getByTestId("screen-reward").isVisible().catch(() => false)) {
+    if (await page.getByTestId(targetScreen).isVisible().catch(() => false)) {
       return;
     }
 
     await page.getByTestId("end-turn").click();
   }
 
-  await expect(page.getByTestId("screen-reward")).toBeVisible();
+  await expect(page.getByTestId(targetScreen)).toBeVisible();
 }

@@ -202,3 +202,18 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 12: MVP Completion Gate
+
+- [x] Add browser acceptance for a full first-chapter route ending in victory.
+- [x] Tune late normal and boss combat for MVP-completable pacing.
+- [x] Make browser combat helper prefer playable attack cards for stable chapter completion verification.
+- [x] Verify first chapter victory screen after Boss reward bridge.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```
