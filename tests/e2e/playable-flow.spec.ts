@@ -47,10 +47,10 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await startRun(page, "zhaoyun");
   await page.getByTestId("map-node-event-1").click();
   await expect(page.getByTestId("screen-event")).toBeVisible();
-  await page.getByTestId("event-choice-inspect_cabin").click();
+  await page.getByTestId("event-choice-carve_names").click();
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
-  await expect(page.getByText("黑雨渡口：检查船舱")).toBeVisible();
+  await expect(page.getByText("长坂回声：刻下无名者")).toBeVisible();
   await page.getByTestId("map-node-rest-1").click();
   await expect(page.getByTestId("screen-rest")).toBeVisible();
   await page.getByTestId("rest-upgrade-card").click();

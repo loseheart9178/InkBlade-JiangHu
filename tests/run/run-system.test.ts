@@ -23,6 +23,23 @@ describe("run system", () => {
     expect(getAvailableNodes(run).map((node) => node.type)).toEqual(["battle", "event"]);
   });
 
+  it("assigns character-specific event nodes for the first route event", () => {
+    const zhaoRun = createRun("zhaoyun");
+    const diaoRun = createRun("diaochan");
+
+    expect(zhaoRun.mapNodes.find((node) => node.id === "event-1")?.eventId).toBe("event_changban_echo");
+    expect(diaoRun.mapNodes.find((node) => node.id === "event-1")?.eventId).toBe("event_palace_lantern_banquet");
+  });
+
+  it("creates deterministic route variants from a map seed", () => {
+    const baseRun = createRun("zhaoyun", { mapSeed: 0 });
+    const variantRun = createRun("zhaoyun", { mapSeed: 1 });
+
+    expect(baseRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_sword_echo");
+    expect(variantRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_blood_banner");
+    expect(variantRun.mapSeed).toBe(1);
+  });
+
   it("gives Diao Chan her starting relic", () => {
     const run = createRun("diaochan");
 

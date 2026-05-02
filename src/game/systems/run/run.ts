@@ -2,15 +2,16 @@ import { cardsById } from "../../content/cards";
 import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardDefinition } from "../combat/types";
-import type { BattleSpoils, MapNode, MapNodeType, RunState } from "./types";
+import type { BattleSpoils, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
 
 const RELIC_REWARD_POOL = ["relic_old_wooden_sword", "relic_black_paper_umbrella"];
 
-export function createRun(characterId: string): RunState {
+export function createRun(characterId: string, options: CreateRunOptions = {}): RunState {
   const character = charactersById[characterId];
   if (!character) {
     throw new Error(`Unknown character: ${characterId}`);
   }
+  const mapSeed = options.mapSeed ?? 0;
 
   const deck = character.starterDeck.map((cardId, index) => ({
     instanceId: `run-card-${index + 1}`,
@@ -19,12 +20,13 @@ export function createRun(characterId: string): RunState {
 
   return {
     characterId,
+    mapSeed,
     hp: character.maxHp,
     maxHp: character.maxHp,
     gold: 99,
     deck,
     relicIds: [getStartingRelicId(characterId)],
-    mapNodes: createChapterOneMap(),
+    mapNodes: createChapterOneMap(characterId, mapSeed),
     currentNodeId: "start",
     visitedNodeIds: [],
     nextDeckInstanceNumber: deck.length + 1,
@@ -179,7 +181,11 @@ function getBattleGold(nodeType: MapNodeType): number {
   return nodeType === "battle" ? 12 : 0;
 }
 
-function createChapterOneMap(): MapNode[] {
+function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
+  const firstEvent = getCharacterEventNode(characterId);
+  const eliteEnemyId = mapSeed % 2 === 0 ? "elite_sword_echo" : "elite_blood_banner";
+  const thirdBattleEnemyId = mapSeed % 3 === 2 ? "enemy_faceless_soldier" : "enemy_paper_umbrella";
+
   return [
     {
       id: "start",
@@ -197,7 +203,8 @@ function createChapterOneMap(): MapNode[] {
     {
       id: "event-1",
       type: "event",
-      label: "黑雨渡口",
+      label: firstEvent.label,
+      eventId: firstEvent.eventId,
       connections: ["battle-2", "rest-1"]
     },
     {
@@ -209,8 +216,8 @@ function createChapterOneMap(): MapNode[] {
     {
       id: "elite-1",
       type: "elite",
-      label: "剑痴残影",
-      enemyId: "elite_sword_echo",
+      label: eliteEnemyId === "elite_sword_echo" ? "剑痴残影" : "血旗都尉",
+      enemyId: eliteEnemyId,
       connections: ["rest-1"]
     },
     {
@@ -229,8 +236,8 @@ function createChapterOneMap(): MapNode[] {
     {
       id: "battle-3",
       type: "battle",
-      label: "纸伞女鬼",
-      enemyId: "enemy_paper_umbrella",
+      label: thirdBattleEnemyId === "enemy_paper_umbrella" ? "纸伞女鬼" : "无面伏兵",
+      enemyId: thirdBattleEnemyId,
       connections: ["boss"]
     },
     {
@@ -241,4 +248,16 @@ function createChapterOneMap(): MapNode[] {
       connections: []
     }
   ];
+}
+
+function getCharacterEventNode(characterId: string): { label: string; eventId: string } {
+  if (characterId === "zhaoyun") {
+    return { label: "长坂回声", eventId: "event_changban_echo" };
+  }
+
+  if (characterId === "diaochan") {
+    return { label: "宫灯旧宴", eventId: "event_palace_lantern_banquet" };
+  }
+
+  return { label: "黑雨渡口", eventId: "event_black_rain_ferry" };
 }

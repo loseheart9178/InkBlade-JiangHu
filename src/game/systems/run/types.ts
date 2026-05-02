@@ -13,11 +13,13 @@ export interface MapNode {
   type: MapNodeType;
   label: string;
   enemyId?: string;
+  eventId?: string;
   connections: string[];
 }
 
 export interface RunState {
   characterId: string;
+  mapSeed: number;
   hp: number;
   maxHp: number;
   gold: number;
@@ -37,4 +39,8 @@ export interface CardReward {
 export interface BattleSpoils {
   gold: number;
   relicId?: string;
+}
+
+export interface CreateRunOptions {
+  mapSeed?: number;
 }

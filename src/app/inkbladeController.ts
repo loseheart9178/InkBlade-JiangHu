@@ -365,7 +365,8 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
 
 function renderEvent(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
-  const event = eventsById.event_black_rain_ferry;
+  const current = getCurrentNode(run);
+  const event = eventsById[current.eventId ?? "event_black_rain_ferry"];
   const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));

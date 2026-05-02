@@ -186,3 +186,19 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 11: Map And Event Expansion
+
+- [x] Add `eventId` to map nodes.
+- [x] Route Zhao Yun to 长坂回声 and Diao Chan to 宫灯旧宴.
+- [x] Render events from the current map node instead of a fixed event.
+- [x] Add deterministic `mapSeed` support for route/enemy variants.
+- [x] Verify character events and seeded route variants.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

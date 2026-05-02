@@ -383,6 +383,36 @@ Result: 5 Playwright tests passed.
 Covered: existing browser flows plus upgraded card description in deck viewer.
 ```
 
+### 2026-05-02 15:16 Asia/Shanghai
+
+Current state:
+
+- Map nodes now carry optional `eventId`.
+- Zhao Yun's first event route now uses 长坂回声.
+- Diao Chan's first event route now uses 宫灯旧宴.
+- Event UI renders the event attached to the current map node instead of always using 黑雨渡口.
+- `createRun` now accepts deterministic map options with `mapSeed`.
+- Seeded route variants currently alter elite enemy selection and late normal battle selection.
+
+Decision:
+
+- The seeded map work is intentionally narrow: deterministic enemy/node variants first, then fuller procedural topology later. This preserves E2E stability while opening the door to roguelike route variety.
+
+Verification:
+
+```text
+npm test -- --run tests/run/run-system.test.ts
+Result: 1 test file passed, 13 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 5 Playwright tests passed.
+Covered: Zhao Yun character event path, rest upgrade flow, and existing browser flows.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -399,3 +429,4 @@ Covered: existing browser flows plus upgraded card description in deck viewer.
 - [x] Add combat visual events and floating battle feedback.
 - [x] Add first-pass ink-wash combat portrait assets.
 - [x] Add card-specific upgrades, more cards, and stronger elite reward pools.
+- [x] Add character-specific events and deterministic map variants.
