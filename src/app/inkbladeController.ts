@@ -281,7 +281,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     endTurn
   );
 
-  panel.append(top, field, createMessage(state.message), hand, controls);
+  panel.append(top, field, createMessage(state.message), createCombatLog(combat), hand, controls);
   host.append(panel);
 
   run.hp = combat.player.hp;
@@ -674,6 +674,26 @@ function createMessage(message: string): HTMLElement {
   element.className = "game-message";
   element.textContent = message;
   return element;
+}
+
+function createCombatLog(combat: CombatState): HTMLElement {
+  const log = document.createElement("div");
+  log.className = "combat-log";
+  log.dataset.testid = "combat-log";
+  const entries = combat.combatLog.slice(-4);
+
+  if (entries.length === 0) {
+    log.textContent = "雨声未歇，招式待发。";
+    return log;
+  }
+
+  for (const entry of entries) {
+    const item = document.createElement("span");
+    item.textContent = entry;
+    log.append(item);
+  }
+
+  return log;
 }
 
 function createAction(title: string, body: string, onClick: () => void): HTMLButtonElement {

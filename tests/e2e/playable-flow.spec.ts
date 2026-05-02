@@ -65,6 +65,7 @@ test("Diao Chan starting relic applies charm and weak at combat start", async ({
   await expect(page.getByTestId("run-relics")).toContainText("闭月香囊");
   await page.getByTestId("map-node-battle-1").click();
   await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("combat-log")).toContainText("闭月香囊");
   await expect(page.getByTestId("enemy-status")).toContainText("魅惑 2");
   await expect(page.getByTestId("enemy-status")).toContainText("虚弱 1");
 });

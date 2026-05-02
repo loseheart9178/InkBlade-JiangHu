@@ -248,6 +248,33 @@ Result: 5 Playwright tests passed.
 Covered: boot, character select, map deck viewer, first battle, reward, shop relic purchase, event-rest upgrade with deck `+` marker, Diao Chan starting relic, desktop screenshot, mobile screenshot.
 ```
 
+### 2026-05-02 14:50 Asia/Shanghai
+
+Current state:
+
+- Combat HUD now renders recent `combatLog` entries.
+- Existing trigger names such as 闭月香囊, 白龙枪缨, 黑纸伞, 破阵, and 墨痕结算 can be surfaced without adding new rule code.
+- Playwright now asserts that Diao Chan's starting relic trigger is visible when combat starts.
+
+Decision:
+
+- Feedback is currently textual and compact so it does not compete with the playfield. Animation and sound can layer on this stable log later.
+
+Verification:
+
+```text
+npm test
+Result: 4 test files passed, 33 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 5 Playwright tests passed.
+Covered: previous browser flows plus combat log visibility for 闭月香囊.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -260,3 +287,4 @@ Covered: boot, character select, map deck viewer, first battle, reward, shop rel
 - [x] Run automated and browser verification.
 - [x] Add active relics, shop services, rest upgrades, and expanded E2E coverage.
 - [x] Add deterministic battle spoils, boss reward bridge, and deck viewer.
+- [x] Add combat log feedback to the battle HUD.

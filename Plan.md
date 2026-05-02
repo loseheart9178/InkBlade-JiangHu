@@ -139,3 +139,17 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 8: Combat Feedback Layer
+
+- [x] Render recent combat log entries in the battle HUD.
+- [x] Surface relic and character trigger names such as 闭月香囊 and 破阵.
+- [x] Add browser assertion that a starting relic trigger appears in combat feedback.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

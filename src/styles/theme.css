@@ -343,6 +343,28 @@ button {
   background: rgba(246, 236, 213, 0.74);
 }
 
+.combat-log {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  min-height: 34px;
+  flex-wrap: wrap;
+  color: #2c2924;
+}
+
+.combat-log span,
+.combat-log {
+  padding: 6px 10px;
+  border: 1px solid rgba(44, 41, 36, 0.24);
+  border-radius: 6px;
+  background: rgba(246, 236, 213, 0.72);
+}
+
+.combat-log span {
+  color: #f6ecd5;
+  background: #2c2924;
+}
+
 .spoils-summary {
   align-self: center;
   padding: 8px 14px;
