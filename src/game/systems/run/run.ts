@@ -181,6 +181,7 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     gold: 99,
     deck,
     relicIds: [getStartingRelicId(characterId)],
+    methodIds: [],
     mapNodes: createChapterOneMap(characterId, mapSeed),
     currentNodeId: "start",
     visitedNodeIds: [],

@@ -27,6 +27,7 @@ export interface RunState {
   gold: number;
   deck: RunDeckEntry[];
   relicIds: string[];
+  methodIds: string[];
   mapNodes: MapNode[];
   currentNodeId: string;
   visitedNodeIds: string[];

@@ -49,6 +49,29 @@ test("shops can add relics after the first battle", async ({ page }) => {
   await expect(page.getByTestId("screen-map")).toBeVisible();
 });
 
+test("elite victories can award and persist a heart method", async ({ page }) => {
+  test.setTimeout(60_000);
+  await startRun(page, "zhaoyun");
+  await page.getByTestId("map-node-battle-1").click();
+  await winVisibleCombat(page);
+  await page.getByTestId("reward-card").first().click();
+
+  await page.getByTestId("map-node-shop-1").click();
+  await page.getByTestId("shop-leave").click();
+  await page.getByTestId("map-node-elite-1").click();
+  await winVisibleCombat(page, 120, "screen-method-reward");
+
+  await expect(page.getByTestId("screen-method-reward")).toBeVisible();
+  await expect(page.locator("[data-testid^='method-choice-']")).toHaveCount(2);
+  await page.locator("[data-testid^='method-choice-']").first().click();
+
+  await expect(page.getByTestId("screen-reward")).toBeVisible();
+  await expect(page.getByTestId("run-methods")).not.toContainText("未定");
+  await page.getByTestId("deck-open").click();
+  await expect(page.getByTestId("deck-method-summary")).not.toContainText("未定");
+  await page.getByTestId("deck-close").click();
+});
+
 test("event route can upgrade a deck card at rest", async ({ page }) => {
   await startRun(page, "zhaoyun");
   await page.getByTestId("map-node-event-1").click();
@@ -123,7 +146,9 @@ test("can complete the first chapter through the event and rest route", async ({
   await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /ink-dongzhuo-boss-attack-strip-gpt-v2\.png/);
   await expect(page.getByTestId("combat-log")).toContainText("宫宴压迫");
   await expect(page.getByTestId("player-status")).toContainText("墨痕 1");
-  await winVisibleCombat(page, 140, "screen-boss-reward");
+  await winVisibleCombat(page, 140, "screen-method-reward");
+  await expect(page.getByTestId("screen-method-reward")).toBeVisible();
+  await page.locator("[data-testid^='method-choice-']").first().click();
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await page.getByTestId("boss-reward-continue").click();
   await expect(page.getByTestId("screen-victory")).toBeVisible();

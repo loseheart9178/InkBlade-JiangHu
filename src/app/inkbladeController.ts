@@ -16,6 +16,7 @@ import {
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
+import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
 import {
   addRelic,
   claimBattleSpoils,
@@ -38,7 +39,7 @@ import {
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "event" | "shop" | "rest" | "bossReward" | "victory" | "defeat";
+type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "event" | "shop" | "rest" | "bossReward" | "victory" | "defeat";
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -84,6 +85,13 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
 
     if (state.screen === "reward") {
       renderReward(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
+      return;
+    }
+
+    if (state.screen === "methodReward") {
+      renderMethodReward(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
       persistControllerState(state, options.storage);
       return;
@@ -244,6 +252,7 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
     playerHp: run.hp,
     enemies: [enemy],
     relicIds: [...run.relicIds],
+    methodIds: [...(run.methodIds ?? [])],
     upgradedCardInstanceIds: getUpgradedCombatInstanceIds(run),
     rngSeed: run.deck.length + run.rewardHistory.length + 17,
     shuffleDeck: true
@@ -380,8 +389,20 @@ function handleCombatAfterAction(state: ControllerState): void {
     state.pendingSpoils = claimBattleSpoils(run, node.type);
 
     if (node.type === "boss") {
+      if (shouldOfferMethodReward(run)) {
+        state.screen = "methodReward";
+        state.message = "黑雨将散，先定一门心法。";
+        return;
+      }
+
       state.screen = "bossReward";
       state.message = "墨影董卓崩散，洛水重映天光。";
+      return;
+    }
+
+    if (node.type === "elite" && shouldOfferMethodReward(run)) {
+      state.screen = "methodReward";
+      state.message = "精英战后，残卷显出可修心法。";
       return;
     }
 
@@ -389,6 +410,59 @@ function handleCombatAfterAction(state: ControllerState): void {
     state.screen = "reward";
     state.message = "战斗胜利，选择一式武学。";
   }
+}
+
+function renderMethodReward(host: HTMLElement, state: ControllerState, render: () => void): void {
+  const run = requireRun(state);
+  const node = getCurrentNode(run);
+  const draft = createMethodRewardDraft(run);
+  const panel = createPanel("screen-method-reward", "心法");
+  panel.classList.add("method-reward-screen");
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createMessage(draft.reason));
+  panel.append(createSpoilsSummary(state.pendingSpoils));
+
+  const list = document.createElement("div");
+  list.className = "method-reward-list";
+
+  for (const method of draft.methods) {
+    const button = createAction(method.name, `${method.description} ${method.triggerText}`, () => {
+      if (!claimMethodReward(run, method.id)) {
+        state.message = "这门心法暂不可修。";
+        render();
+        return;
+      }
+
+      state.message = `习得心法：${method.name}。`;
+      if (node.type === "boss") {
+        state.screen = "bossReward";
+      } else {
+        state.rewardCards = createCardRewardDraft(run, node.type).cards;
+        state.screen = "reward";
+      }
+      render();
+    });
+    button.classList.add("method-choice");
+    button.dataset.testid = `method-choice-${method.id}`;
+    list.append(button);
+  }
+
+  if (draft.methods.length === 0) {
+    const continueButton = createAction("继续", "没有新的心法可修，收起战利。", () => {
+      if (node.type === "boss") {
+        state.screen = "bossReward";
+      } else {
+        state.rewardCards = createCardRewardDraft(run, node.type).cards;
+        state.screen = "reward";
+      }
+      render();
+    });
+    continueButton.dataset.testid = "method-choice-continue";
+    list.append(continueButton);
+  }
+
+  panel.append(list);
+  host.append(panel);
 }
 
 function renderReward(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -711,12 +785,14 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
   const status = document.createElement("div");
   status.className = "run-status";
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
+  const methodNames = getRunMethods(run).map((method) => method.name).join("、") || "未定";
   const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
   status.innerHTML = `
     <span>生命 ${run.hp}/${run.maxHp}</span>
     <span>铜钱 ${run.gold}</span>
     <span>牌组 ${run.deck.length}</span>
     <span data-testid="run-relics">法宝 ${relicNames}</span>
+    <span data-testid="run-methods">心法 ${methodNames}</span>
     <span data-testid="run-archetype">流派 ${archetypeAnalysis.summary}</span>
     <em>${message}</em>
   `;
@@ -1010,6 +1086,7 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
 
   const run = state.run;
   const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
+  const methodNames = getRunMethods(run).map((method) => method.name).join("、") || "未定";
   const overlay = document.createElement("div");
   overlay.className = "deck-overlay";
   overlay.dataset.testid = "deck-viewer";
@@ -1038,6 +1115,7 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
   summary.innerHTML = `
     <strong>当前流派：${archetypeAnalysis.summary}</strong>
     <span>${visibleScores.length > 0 ? visibleScores.map((score) => `${score.label} ${score.cardCount}`).join(" · ") : "多拿带有流派标签的武学后会开始成型。"}</span>
+    <small data-testid="deck-method-summary">心法 ${methodNames}</small>
   `;
 
   const list = document.createElement("div");

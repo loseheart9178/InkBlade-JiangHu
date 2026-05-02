@@ -4,6 +4,7 @@ import { cardList } from "../../src/game/content/cards";
 import { charactersById } from "../../src/game/content/characters";
 import { enemiesById } from "../../src/game/content/enemies";
 import { createRun, takeCardReward, travelToNode, upgradeDeckCard } from "../../src/game/systems/run/run";
+import { claimMethodReward } from "../../src/game/systems/methods/methods";
 import {
   clearSavedGame,
   loadSavedGame,
@@ -36,6 +37,7 @@ describe("save system", () => {
     travelToNode(run, "event-1");
     takeCardReward(run, cardsById.zhao_thrust);
     upgradeDeckCard(run, run.deck[0].instanceId);
+    claimMethodReward(run, "method_dragon_spear_chain");
 
     const snapshot: ControllerSaveSnapshot = {
       screen: "reward",
@@ -53,6 +55,7 @@ describe("save system", () => {
     expect(loaded?.run.currentNodeId).toBe("event-1");
     expect(loaded?.run.mapSeed).toBe(7);
     expect(loaded?.run.deck[0].upgraded).toBe(true);
+    expect(loaded?.run.methodIds).toEqual(["method_dragon_spear_chain"]);
     expect(loaded?.rewardCardIds).toEqual(["zhao_thrust", "common_pifeng"]);
     expect(loaded?.pendingSpoils).toEqual({ gold: 12 });
   });

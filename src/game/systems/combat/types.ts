@@ -157,6 +157,8 @@ export interface CombatState {
   visualEvents: CombatVisualEvent[];
   relicIds: string[];
   relicMemory: Partial<Record<string, boolean>>;
+  methodIds: string[];
+  methodMemory: Partial<Record<string, boolean>>;
   playedCardTypesThisTurn: CardType[];
   comboTriggersThisTurn: string[];
   comboTriggersThisCombat: string[];
@@ -174,6 +176,7 @@ export interface CreateCombatInput {
   enemies: EnemyDefinition[];
   rngSeed: number;
   relicIds?: string[];
+  methodIds?: string[];
   shuffleDeck?: boolean;
 }
 

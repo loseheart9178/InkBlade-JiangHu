@@ -1114,3 +1114,54 @@ npm run test:e2e -- tests/e2e/playable-flow.spec.ts
 Result: 6 Playwright tests passed.
 Covered: run archetype status, deck archetype summary, reward archetype role labels, shop, event/rest, save/continue, Boss mechanics, and first-chapter victory.
 ```
+
+### 2026-05-03 03:02 Asia/Shanghai
+
+Current state:
+
+- Completed module 2: 心法系统 MVP 与流派定向成长.
+- Re-read before this module:
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Added four MVP heart methods:
+  - 赵云：龙胆连势、长坂守心.
+  - 貂蝉：惊鸿舞谱、倾城心诀.
+- Added method reward drafting, claiming, save persistence, run status display, deck viewer display, and the `methodReward` screen.
+- Elite victories now offer a first method before normal card rewards; Boss victory offers the method bridge if the run has not chosen one yet.
+- Combat now receives `methodIds` from the run and applies each method once per combat on its intended trigger.
+
+Decisions:
+
+- 心法 selection is character-limited for the MVP, then ordered by the current deck archetype. This keeps the first version readable and avoids cross-character edge cases.
+- I preserved the existing card reward and Boss reward flow by inserting 心法 as a bridge screen, not replacing rewards.
+
+Verification:
+
+```text
+npm test -- tests/methods/method-system.test.ts
+First run: failed as expected because the new methods system module did not exist.
+
+npm test -- tests/methods/method-system.test.ts
+Result after implementation: 1 test file passed, 6 tests passed.
+
+npm test -- tests/methods/method-system.test.ts tests/combat/combat-system.test.ts tests/save/save-system.test.ts
+Result: 3 test files passed, 40 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+First run: exposed that the existing full-chapter Boss test needed to choose the new Boss-bridge 心法 before expecting Boss reward.
+Result after test flow update: 7 Playwright tests passed.
+
+npm test
+Result: 7 test files passed, 76 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+```

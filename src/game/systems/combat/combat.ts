@@ -1,4 +1,5 @@
 import { createRng, shuffleInPlace, type Rng } from "../../core/rng";
+import { methodsById, type MethodId } from "../../content/methods";
 import { defaultComboRules, exhaustAttackComboRule } from "./combos";
 import type {
   CardDefinition,
@@ -84,6 +85,8 @@ export function createCombat(input: CreateCombatInput): CombatState {
     visualEvents: [],
     relicIds: input.relicIds ?? [],
     relicMemory: {},
+    methodIds: input.methodIds ?? [],
+    methodMemory: {},
     playedCardTypesThisTurn: [],
     comboTriggersThisTurn: [],
     comboTriggersThisCombat: [],
@@ -236,6 +239,7 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
         const amount = getPlayerBlockAmount(state, card, effect.amount);
         state.player.block += amount;
         pushVisualEvent(state, "block", "player", `+${amount} 护甲`, "teal", amount);
+        triggerChangbanGuardMethod(state);
       }
       break;
     case "draw":
@@ -248,6 +252,9 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
       break;
     case "applyStatus":
       applyStatus(state, targetId, effect.status, effect.amount);
+      if (effect.status === "charm" && targetId !== "player") {
+        triggerQingchengCharmMethod(state, targetId);
+      }
       break;
     case "gainInk":
       gainInk(state, effect.amount);
@@ -388,6 +395,7 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
 
   if (state.character.id === "diaochan" && definition.types.includes("body")) {
     gainResource(state, 1);
+    triggerJinghongDanceMethod(state);
   }
 }
 
@@ -426,6 +434,8 @@ function executeComboRule(state: CombatState, rule: ComboRule, targetId: string)
   for (const effect of rule.effects) {
     executeComboEffect(state, effect, targetId);
   }
+
+  triggerDragonSpearChainMethod(state, rule);
 }
 
 function executeComboEffect(state: CombatState, effect: ComboEffect, targetId: string): void {
@@ -617,6 +627,65 @@ function hasRelic(state: CombatState, relicId: string): boolean {
   return state.relicIds.includes(relicId);
 }
 
+function hasMethod(state: CombatState, methodId: MethodId): boolean {
+  return state.methodIds.includes(methodId);
+}
+
+function triggerMethodOnce(state: CombatState, methodId: MethodId, target: CombatVisualTarget, tone: CombatVisualTone): boolean {
+  if (!hasMethod(state, methodId) || state.methodMemory[methodId]) {
+    return false;
+  }
+
+  const method = methodsById[methodId];
+  state.methodMemory[methodId] = true;
+  state.combatLog.push(method.name);
+  pushVisualEvent(state, "trigger", target, method.name, tone);
+  return true;
+}
+
+function triggerDragonSpearChainMethod(state: CombatState, rule: ComboRule): void {
+  if (state.character.id !== "zhaoyun" || rule.id !== "lianzhan") {
+    return;
+  }
+
+  if (triggerMethodOnce(state, "method_dragon_spear_chain", "player", "gold")) {
+    gainResource(state, 1);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+  }
+}
+
+function triggerChangbanGuardMethod(state: CombatState): void {
+  if (state.character.id !== "zhaoyun") {
+    return;
+  }
+
+  if (triggerMethodOnce(state, "method_changban_guard", "player", "teal")) {
+    state.player.statuses.guard = (state.player.statuses.guard ?? 0) + 1;
+    pushVisualEvent(state, "status", "player", "护主 +1", "teal", 1);
+  }
+}
+
+function triggerJinghongDanceMethod(state: CombatState): void {
+  if (state.character.id !== "diaochan") {
+    return;
+  }
+
+  if (triggerMethodOnce(state, "method_jinghong_dance", "player", "gold")) {
+    gainResource(state, 1);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+  }
+}
+
+function triggerQingchengCharmMethod(state: CombatState, targetId: string): void {
+  if (state.character.id !== "diaochan") {
+    return;
+  }
+
+  if (triggerMethodOnce(state, "method_qingcheng_charm", "enemy", "teal")) {
+    applyStatus(state, targetId, "charm", 1);
+  }
+}
+
 function isBasicAttack(definition: CardDefinition): boolean {
   return definition.types.includes("attack") && (
     definition.rarity === "starter" ||
@@ -666,6 +735,14 @@ function ensureComboTracking(state: CombatState): void {
 
   if (!Array.isArray(state.comboTriggersThisCombat)) {
     state.comboTriggersThisCombat = [];
+  }
+
+  if (!Array.isArray(state.methodIds)) {
+    state.methodIds = [];
+  }
+
+  if (!state.methodMemory || typeof state.methodMemory !== "object") {
+    state.methodMemory = {};
   }
 
   if (typeof state.lastPlayedCardExhaustedThisTurn !== "boolean") {

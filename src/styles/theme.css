@@ -1047,6 +1047,7 @@ button {
 }
 
 .reward-cards,
+.method-reward-list,
 .shop-list {
   display: flex;
   justify-content: center;
@@ -1069,6 +1070,13 @@ button {
   width: min(240px, 82vw);
   padding: 14px;
   text-align: left;
+}
+
+.method-reward-list .choice-action {
+  border-color: rgba(47, 124, 110, 0.62);
+  background:
+    linear-gradient(145deg, rgba(246, 236, 213, 0.92), rgba(47, 124, 110, 0.1)),
+    rgba(246, 236, 213, 0.86);
 }
 
 .reward-combo-hint {
@@ -1194,6 +1202,11 @@ button {
 
 .deck-archetype-summary span {
   color: rgba(44, 41, 36, 0.74);
+  font-size: 13px;
+}
+
+.deck-archetype-summary small {
+  color: #5f1d18;
   font-size: 13px;
 }
 
