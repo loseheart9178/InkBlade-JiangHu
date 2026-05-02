@@ -85,17 +85,18 @@ describe("content data", () => {
 
     for (const id of expectedIds) {
       expect(combatPortraitsById[id]).toBeDefined();
-      expect(combatPortraitsById[id].assetPath).toMatch(/^\/assets\/characters\/.+\.svg$/);
+      expect(combatPortraitsById[id].assetPath).toMatch(/^\/assets\/generated\/.+\.png$/);
+      expect(combatPortraitsById[id].standeePath).toMatch(/^\/assets\/generated\/.+\.png$/);
     }
   });
 
   it("maps featured cards, battlefield, and attack sprite strips to art assets", () => {
     for (const cardId of ["zhao_strike", "zhao_qixing_spear", "diao_charm", "diao_closed_moon", "ink_luoshui_tide"]) {
       expect(cardArtById[cardId]).toBeDefined();
-      expect(cardArtById[cardId].assetPath).toMatch(/^\/assets\/cards\/.+\.svg$/);
+      expect(cardArtById[cardId].assetPath).toMatch(/^\/assets\/generated\/cards\/.+\.png$/);
     }
 
-    expect(battlefieldAssets.luoshui.assetPath).toMatch(/^\/assets\/environment\/.+\.svg$/);
+    expect(battlefieldAssets.luoshui.assetPath).toMatch(/^\/assets\/generated\/.+\.png$/);
     expect(combatSpriteSheetsById.zhaoyun_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.diaochan_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.enemy_slash.frameWidth).toBeGreaterThan(0);

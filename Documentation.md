@@ -517,3 +517,54 @@ Viewed latest desktop and mobile screenshots under test-results and adjusted com
 - [x] Add save and continue game system.
 - [x] Add procedural chapter map topology.
 - [x] Add ink-wash battle art, card art, and attack sprite-strip presentation.
+- [x] Replace placeholder art with GPT Image 2 generated reference-style assets.
+
+### 2026-05-02 18:59 Asia/Shanghai
+
+Current state:
+
+- Replaced the previous SVG-like placeholder art direction with GPT Image 2 generated raster assets that follow the user's provided preview more closely.
+- Generated and added project-local PNG assets:
+  - `public/assets/generated/luoshui-battlefield-gpt.png`
+  - `public/assets/generated/zhaoyun-standee-gpt.png`
+  - `public/assets/generated/diaochan-standee-gpt.png`
+  - `public/assets/generated/ink-bandit-standee-gpt.png`
+  - `public/assets/generated/ink-dongzhuo-standee-gpt.png`
+  - `public/assets/generated/card-sheet-gpt.png`
+  - six cropped card illustrations under `public/assets/generated/cards/`
+- Created cutout variants for the full-body standees by removing connected parchment background locally:
+  - `zhaoyun-standee-gpt-cutout.png`
+  - `diaochan-standee-gpt-cutout.png`
+  - `ink-bandit-standee-gpt-cutout.png`
+  - `ink-dongzhuo-standee-gpt-cutout.png`
+- Updated the art manifest so combat portraits, battlefield, standees, and card art now use the generated PNG assets.
+- Reworked combat UI toward the reference:
+  - large full-body duelants in the center field,
+  - generated portrait crops in top health bars,
+  - card hand layered over the lower field,
+  - existing sequence-frame strips retained as attack-motion overlays,
+  - generated card illustrations in hand/reward/deck surfaces.
+
+Decisions:
+
+- The built-in image generation path was used for GPT Image 2 style asset generation. Assets were copied into the repo so runtime does not depend on the Codex generated-image cache.
+- True transparent generation was not used; instead, the pass used local cutout processing against the parchment background. This preserves the painterly style while avoiding hard rectangular paper blocks in battle.
+- Normal enemies currently share the generated 墨化山贼 standee; boss/elite-heavy enemies use the generated 墨影董卓 standee. Dedicated paper ghost and sword echo generated standees remain future polish.
+
+Verification:
+
+```text
+npm test
+Result: 5 test files passed, 46 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: previous gameplay flows, reload/continue, full first-chapter victory, generated standee references, generated card-art references, and desktop/mobile visual screenshots.
+
+Additional visual check:
+Reviewed desktop and mobile screenshots after the art replacement. The battle now reads as a high-fidelity ink-wash wuxia screen rather than an SVG placeholder screen.
+```

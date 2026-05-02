@@ -262,9 +262,9 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const top = document.createElement("div");
   top.className = "combat-topbar";
   top.append(
-    createMeter("player-hp", combat.player.name, combat.player.hp, combat.player.maxHp, "朱砂"),
+    createMeter("player-hp", combat.player.name, combat.player.hp, combat.player.maxHp, "朱砂", playerPortrait.assetPath),
     createIntent(enemy.currentIntent),
-    createMeter("enemy-hp", enemy.name, enemy.hp, enemy.maxHp, "青墨")
+    createMeter("enemy-hp", enemy.name, enemy.hp, enemy.maxHp, "青墨", enemyPortrait.assetPath)
   );
 
   const field = document.createElement("div");
@@ -273,18 +273,18 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     <div class="combatant combatant--player ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
       <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
       <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
-      <div class="combat-sprite combat-sprite--player ${playerIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>
-      <div class="portrait-ring portrait-ring--${playerPortrait.accent}">
-        <img class="portrait-art" data-testid="combat-portrait-player" src="${playerPortrait.assetPath}" alt="${playerPortrait.alt}">
+      <div class="combat-standee combat-standee--player combat-standee--${playerPortrait.accent} ${playerIsAttacking ? "is-attacking" : ""}">
+        <div class="combat-sprite combat-sprite--player ${playerIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>
+        <img class="combat-standee-art" data-testid="combat-standee-player" src="${getStandeePath(playerPortrait)}" alt="${playerPortrait.alt}">
       </div>
     </div>
     <div class="duel-mark">对决</div>
     <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
       <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
       <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
-      <div class="combat-sprite combat-sprite--enemy ${enemyIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>
-      <div class="portrait-ring portrait-ring--${enemyPortrait.accent}">
-        <img class="portrait-art" data-testid="combat-portrait-enemy" src="${enemyPortrait.assetPath}" alt="${enemyPortrait.alt}">
+      <div class="combat-standee combat-standee--enemy combat-standee--${enemyPortrait.accent} ${enemyIsAttacking ? "is-attacking" : ""}">
+        <div class="combat-sprite combat-sprite--enemy ${enemyIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>
+        <img class="combat-standee-art" data-testid="combat-standee-enemy" src="${getStandeePath(enemyPortrait)}" alt="${enemyPortrait.alt}">
       </div>
     </div>
   `;
@@ -708,16 +708,19 @@ function createSpoilsSummary(spoils: BattleSpoils | undefined): HTMLElement {
   return summary;
 }
 
-function createMeter(testId: string, label: string, value: number, max: number, accent: string): HTMLElement {
+function createMeter(testId: string, label: string, value: number, max: number, accent: string, portraitPath?: string): HTMLElement {
   const meter = document.createElement("div");
   meter.className = "combat-meter";
   meter.dataset.testid = testId;
   const percent = Math.max(0, Math.min(100, (value / max) * 100));
   meter.innerHTML = `
-    <span>${label}</span>
-    <strong>${value}/${max}</strong>
-    <div class="meter-track"><i style="width: ${percent}%"></i></div>
-    <small>${accent}</small>
+    ${portraitPath ? `<img class="meter-avatar" data-testid="${testId}-portrait" src="${portraitPath}" alt="">` : ""}
+    <div class="meter-copy">
+      <span>${label}</span>
+      <strong>${value}/${max}</strong>
+      <div class="meter-track"><i style="width: ${percent}%"></i></div>
+      <small>${accent}</small>
+    </div>
   `;
   return meter;
 }
@@ -885,9 +888,14 @@ function hasRecentVisual(combat: CombatState, target: "player" | "enemy", kind: 
 function getCombatPortrait(id: string) {
   return combatPortraitsById[id] ?? {
     assetPath: "/assets/characters/ink-bandit.svg",
+    standeePath: "/assets/characters/ink-bandit.svg",
     alt: "Ink silhouette",
     accent: "ink" as const
   };
+}
+
+function getStandeePath(portrait: ReturnType<typeof getCombatPortrait>): string {
+  return portrait.standeePath ?? portrait.assetPath;
 }
 
 function getCombatSprite(id: string) {

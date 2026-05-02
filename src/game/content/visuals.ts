@@ -1,6 +1,7 @@
 export interface CombatPortraitDefinition {
   id: string;
   assetPath: string;
+  standeePath?: string;
   alt: string;
   accent: "red" | "teal" | "ink";
 }
@@ -30,49 +31,57 @@ export interface BattlefieldAssetDefinition {
 export const combatPortraitList: CombatPortraitDefinition[] = [
   {
     id: "zhaoyun",
-    assetPath: "/assets/characters/zhaoyun.svg",
+    assetPath: "/assets/generated/zhaoyun-standee-gpt.png",
+    standeePath: "/assets/generated/zhaoyun-standee-gpt-cutout.png",
     alt: "Ink-wash portrait of Zhao Yun with a spear",
     accent: "red"
   },
   {
     id: "diaochan",
-    assetPath: "/assets/characters/diaochan.svg",
+    assetPath: "/assets/generated/diaochan-standee-gpt.png",
+    standeePath: "/assets/generated/diaochan-standee-gpt-cutout.png",
     alt: "Ink-wash portrait of Diao Chan with flowing ribbons",
     accent: "teal"
   },
   {
     id: "enemy_ink_bandit",
-    assetPath: "/assets/characters/ink-bandit.svg",
+    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
+    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
     alt: "Ink-corrupted bandit silhouette",
     accent: "ink"
   },
   {
     id: "enemy_faceless_soldier",
-    assetPath: "/assets/characters/faceless-soldier.svg",
+    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
+    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
     alt: "Faceless soldier ink silhouette",
     accent: "ink"
   },
   {
     id: "enemy_paper_umbrella",
-    assetPath: "/assets/characters/paper-umbrella-ghost.svg",
+    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
+    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
     alt: "Paper umbrella ghost in teal ink",
     accent: "teal"
   },
   {
     id: "elite_sword_echo",
-    assetPath: "/assets/characters/sword-echo.svg",
+    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
+    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
     alt: "Sword echo elite ink silhouette",
     accent: "red"
   },
   {
     id: "elite_blood_banner",
-    assetPath: "/assets/characters/blood-banner.svg",
+    assetPath: "/assets/generated/ink-dongzhuo-standee-gpt.png",
+    standeePath: "/assets/generated/ink-dongzhuo-standee-gpt-cutout.png",
     alt: "Blood banner officer ink silhouette",
     accent: "red"
   },
   {
     id: "boss_ink_dongzhuo",
-    assetPath: "/assets/characters/ink-dongzhuo.svg",
+    assetPath: "/assets/generated/ink-dongzhuo-standee-gpt.png",
+    standeePath: "/assets/generated/ink-dongzhuo-standee-gpt-cutout.png",
     alt: "Ink shadow Dong Zhuo boss silhouette",
     accent: "ink"
   }
@@ -85,61 +94,61 @@ export const combatPortraitsById: Record<string, CombatPortraitDefinition> = Obj
 export const cardArtList: CardArtDefinition[] = [
   {
     id: "zhao_strike",
-    assetPath: "/assets/cards/zhao-strike.svg",
+    assetPath: "/assets/generated/cards/card-red-spear-gpt.png",
     alt: "Spear strike ink card art",
     accent: "red"
   },
   {
     id: "zhao_qixing_spear",
-    assetPath: "/assets/cards/zhao-qixing-spear.svg",
+    assetPath: "/assets/generated/cards/card-red-spear-gpt.png",
     alt: "Seven star spear shadow card art",
     accent: "gold"
   },
   {
     id: "diao_charm",
-    assetPath: "/assets/cards/diao-charm.svg",
+    assetPath: "/assets/generated/cards/card-red-ribbon-gpt.png",
     alt: "Charm ribbon ink card art",
     accent: "teal"
   },
   {
     id: "diao_closed_moon",
-    assetPath: "/assets/cards/diao-closed-moon.svg",
+    assetPath: "/assets/generated/cards/card-meditation-guard-gpt.png",
     alt: "Closed moon dance ink card art",
     accent: "teal"
   },
   {
     id: "ink_luoshui_tide",
-    assetPath: "/assets/cards/ink-luoshui-tide.svg",
+    assetPath: "/assets/generated/cards/card-ink-slash-gpt.png",
     alt: "Luoshui ink tide card art",
     accent: "ink"
   },
   {
     id: "type_attack",
-    assetPath: "/assets/cards/card-attack-default.svg",
+    assetPath: "/assets/generated/cards/card-red-spear-gpt.png",
     alt: "Default attack ink card art",
     accent: "red"
   },
   {
     id: "type_skill",
-    assetPath: "/assets/cards/card-skill-default.svg",
+    assetPath: "/assets/generated/cards/card-teal-dodge-gpt.png",
     alt: "Default skill ink card art",
     accent: "teal"
   },
   {
     id: "type_body",
-    assetPath: "/assets/cards/card-skill-default.svg",
+    assetPath: "/assets/generated/cards/card-teal-dodge-gpt.png",
     alt: "Default body skill ink card art",
     accent: "teal"
   },
   {
     id: "type_ink",
-    assetPath: "/assets/cards/card-ink-default.svg",
+    assetPath: "/assets/generated/cards/card-ink-slash-gpt.png",
     alt: "Default ink disaster card art",
     accent: "ink"
   },
   {
     id: "type_mind",
-    assetPath: "/assets/cards/card-skill-default.svg",
+    assetPath: "/assets/generated/cards/card-meditation-guard-gpt.png",
     alt: "Default mind card art",
     accent: "teal"
   }
@@ -183,7 +192,7 @@ export const combatSpriteSheetsById: Record<string, CombatSpriteSheetDefinition>
 export const battlefieldAssets: Record<"luoshui", BattlefieldAssetDefinition> = {
   luoshui: {
     id: "luoshui",
-    assetPath: "/assets/environment/luoshui-battlefield.svg",
+    assetPath: "/assets/generated/luoshui-battlefield-gpt.png",
     alt: "Luoshui ink-wash battlefield"
   }
 };

@@ -16,8 +16,8 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("energy")).toBeVisible();
   await expect(page.getByTestId("player-hp")).toContainText("赵云");
   await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
-  await expect(page.getByTestId("combat-portrait-player")).toHaveAttribute("src", /zhaoyun\.svg$/);
-  await expect(page.getByTestId("combat-portrait-enemy")).toHaveAttribute("src", /ink-bandit\.svg$/);
+  await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /zhaoyun-standee-gpt-cutout\.png$/);
+  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /ink-bandit-standee-gpt-cutout\.png$/);
 
   await winVisibleCombat(page);
 

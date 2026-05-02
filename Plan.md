@@ -264,3 +264,21 @@ npm test -- --run tests/data/content.test.ts
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 16: GPT Image 2 Reference-Style Art Replacement
+
+- [x] Generate a reference-style Luoshui battlefield with GPT Image 2.
+- [x] Generate full-body combat standees for Zhao Yun, Diao Chan, 墨化山贼, and 墨影董卓.
+- [x] Generate a six-panel wuxia card art sheet and crop it into individual game card art assets.
+- [x] Post-process standees to remove the light paper background for cleaner in-battle compositing.
+- [x] Replace SVG placeholder art references in combat, card art, and battlefield manifests with generated PNG assets.
+- [x] Rework combat layout toward the provided preview: large full-body duelants, portrait health bars, ink battlefield center, and card hand layered over the lower field.
+- [x] Verify desktop/mobile screenshots after the replacement pass.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```
