@@ -121,3 +121,21 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 7: Spoils And Deck Visibility
+
+- [x] Move battle spoils into the run system.
+- [x] Add normal, elite, and boss spoils rules.
+- [x] Award elite/boss relics from the next unowned relic pool.
+- [x] Add boss reward bridge screen before chapter victory.
+- [x] Add deck viewer overlay from map, reward, event, shop, rest, and boss reward screens.
+- [x] Show upgraded cards with `+` in combat and deck viewer.
+- [x] Cover spoils rules with unit tests and deck viewer with Playwright.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

@@ -2,7 +2,9 @@ import { cardsById } from "../../content/cards";
 import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardDefinition } from "../combat/types";
-import type { MapNode, RunState } from "./types";
+import type { BattleSpoils, MapNode, MapNodeType, RunState } from "./types";
+
+const RELIC_REWARD_POOL = ["relic_old_wooden_sword", "relic_black_paper_umbrella"];
 
 export function createRun(characterId: string): RunState {
   const character = charactersById[characterId];
@@ -45,6 +47,28 @@ export function addRelic(run: RunState, relicId: string): boolean {
 
 export function hasRunRelic(run: RunState, relicId: string): boolean {
   return run.relicIds.includes(relicId);
+}
+
+export function getNextRelicReward(run: RunState, pool: string[] = RELIC_REWARD_POOL): string | undefined {
+  return pool.find((relicId) => !run.relicIds.includes(relicId));
+}
+
+export function claimRelicReward(run: RunState, pool: string[] = RELIC_REWARD_POOL): string | undefined {
+  const relicId = getNextRelicReward(run, pool);
+  if (!relicId) {
+    return undefined;
+  }
+
+  addRelic(run, relicId);
+  return relicId;
+}
+
+export function claimBattleSpoils(run: RunState, nodeType: MapNodeType): BattleSpoils {
+  const gold = getBattleGold(nodeType);
+  const relicId = nodeType === "elite" || nodeType === "boss" ? claimRelicReward(run) : undefined;
+  run.gold += gold;
+
+  return relicId ? { gold, relicId } : { gold };
 }
 
 export function getCurrentNode(run: RunState): MapNode {
@@ -141,6 +165,18 @@ function getStartingRelicId(characterId: string): string {
   }
 
   return "relic_white_dragon_tassel";
+}
+
+function getBattleGold(nodeType: MapNodeType): number {
+  if (nodeType === "elite") {
+    return 25;
+  }
+
+  if (nodeType === "boss") {
+    return 50;
+  }
+
+  return nodeType === "battle" ? 12 : 0;
 }
 
 function createChapterOneMap(): MapNode[] {

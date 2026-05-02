@@ -186,6 +186,20 @@ button {
   font-style: normal;
 }
 
+.deck-open-button {
+  min-height: 34px;
+  border: 1px solid rgba(44, 41, 36, 0.36);
+  border-radius: 6px;
+  color: #f6ecd5;
+  background: #2c2924;
+  cursor: pointer;
+}
+
+.deck-open-button:hover {
+  border-color: #b7352a;
+  background: #b7352a;
+}
+
 .route-map {
   display: grid;
   grid-template-columns: repeat(3, minmax(120px, 1fr));
@@ -329,6 +343,15 @@ button {
   background: rgba(246, 236, 213, 0.74);
 }
 
+.spoils-summary {
+  align-self: center;
+  padding: 8px 14px;
+  border: 1px solid rgba(47, 124, 110, 0.46);
+  border-radius: 6px;
+  color: #f6ecd5;
+  background: rgba(47, 124, 110, 0.88);
+}
+
 .hand-zone {
   display: flex;
   align-items: stretch;
@@ -458,6 +481,79 @@ button {
   width: min(240px, 82vw);
   padding: 14px;
   text-align: left;
+}
+
+.deck-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  pointer-events: auto;
+  background: rgba(17, 17, 17, 0.48);
+}
+
+.deck-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(980px, 94vw);
+  max-height: min(760px, 88vh);
+  padding: 18px;
+  border: 1px solid rgba(44, 41, 36, 0.42);
+  border-radius: 8px;
+  background: rgba(239, 226, 195, 0.96);
+  box-shadow: 0 18px 54px rgba(17, 17, 17, 0.32);
+}
+
+.deck-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.deck-panel-header h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.deck-panel-header button {
+  min-height: 38px;
+  min-width: 72px;
+  border: 1px solid rgba(44, 41, 36, 0.48);
+  border-radius: 6px;
+  color: #f6ecd5;
+  background: #2c2924;
+  cursor: pointer;
+}
+
+.deck-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(154px, 1fr));
+  gap: 10px;
+  overflow: auto;
+  padding: 4px;
+}
+
+.deck-card {
+  position: relative;
+  display: grid;
+  gap: 5px;
+  min-height: 132px;
+  padding: 14px 10px 10px;
+  border: 2px solid rgba(44, 41, 36, 0.45);
+  border-radius: 7px;
+  background: rgba(246, 236, 213, 0.9);
+}
+
+.deck-card strong {
+  font-size: 17px;
+}
+
+.deck-card small {
+  color: #b7352a;
 }
 
 .event-screen,

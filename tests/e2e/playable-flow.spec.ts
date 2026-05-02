@@ -4,6 +4,12 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await startRun(page, "zhaoyun");
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
+  await page.getByTestId("deck-open").click();
+  await expect(page.getByTestId("deck-viewer")).toBeVisible();
+  await expect(page.getByTestId("deck-card")).toHaveCount(10);
+  await expect(page.getByTestId("deck-viewer")).toContainText("枪击");
+  await page.getByTestId("deck-close").click();
+  await expect(page.getByTestId("deck-viewer")).toBeHidden();
   await page.getByTestId("map-node-battle-1").click();
 
   await expect(page.getByTestId("screen-combat")).toBeVisible();
@@ -49,6 +55,9 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
   await expect(page.getByText("精修枪击。")).toBeVisible();
+  await page.getByTestId("deck-open").click();
+  await expect(page.getByTestId("deck-viewer")).toContainText("枪击 +");
+  await page.getByTestId("deck-close").click();
 });
 
 test("Diao Chan starting relic applies charm and weak at combat start", async ({ page }) => {

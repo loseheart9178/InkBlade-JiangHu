@@ -214,6 +214,40 @@ Result: 5 Playwright tests passed.
 Covered: boot, character select, first battle, reward, shop relic purchase, event-rest upgrade, Diao Chan starting relic, desktop screenshot, mobile screenshot.
 ```
 
+### 2026-05-02 14:48 Asia/Shanghai
+
+Current state:
+
+- Battle spoils are now run-system rules instead of UI button side effects.
+- Normal battles award 12 gold.
+- Elite battles award 25 gold plus the next unowned relic when available.
+- Boss battles award 50 gold plus the next unowned relic when available, then route through a `screen-boss-reward` bridge before final victory.
+- Reward screens show a spoils summary for gold/relic gains.
+- Deck viewer overlay is available from map, reward, event, shop, rest, and boss reward screens.
+- Deck viewer shows card cost, type, description, and upgraded `+` markers.
+- Rest upgrade flow is now browser-verified by opening the deck afterward and checking the upgraded marker.
+
+Decisions:
+
+- Elite and boss spoils use deterministic "next unowned relic" selection for this slice to keep tests stable.
+- The boss bridge is intentionally lightweight; richer boss card/relic choice is deferred until the chapter-end reward design is broader.
+- Long elite combat is covered at the run-system level for now instead of adding a brittle browser fight-through test.
+
+Verification:
+
+```text
+npm test
+Result: 4 test files passed, 33 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 5 Playwright tests passed.
+Covered: boot, character select, map deck viewer, first battle, reward, shop relic purchase, event-rest upgrade with deck `+` marker, Diao Chan starting relic, desktop screenshot, mobile screenshot.
+```
+
 ## Milestone Checklist
 
 - [x] Read existing PRD and system design documents.
@@ -225,3 +259,4 @@ Covered: boot, character select, first battle, reward, shop relic purchase, even
 - [x] Implement UI and Phaser presentation.
 - [x] Run automated and browser verification.
 - [x] Add active relics, shop services, rest upgrades, and expanded E2E coverage.
+- [x] Add deterministic battle spoils, boss reward bridge, and deck viewer.

@@ -7,6 +7,7 @@ import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/co
 import type { CardDefinition, CombatState } from "../game/systems/combat/types";
 import {
   addRelic,
+  claimBattleSpoils,
   createRun,
   getAvailableNodes,
   getCurrentNode,
@@ -16,11 +17,12 @@ import {
   takeCardReward,
   travelToNode,
   upgradeDeckCard,
+  type BattleSpoils,
   type MapNode,
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "event" | "shop" | "rest" | "victory" | "defeat";
+type Screen = "title" | "map" | "combat" | "reward" | "event" | "shop" | "rest" | "bossReward" | "victory" | "defeat";
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -31,6 +33,8 @@ interface ControllerState {
   run?: RunState;
   combat?: CombatState;
   rewardCards: CardDefinition[];
+  pendingSpoils?: BattleSpoils;
+  deckOpen: boolean;
   message: string;
 }
 
@@ -38,6 +42,7 @@ export function createInkbladeController(host: HTMLElement) {
   const state: ControllerState = {
     screen: "title",
     rewardCards: [],
+    deckOpen: false,
     message: ""
   };
 
@@ -46,6 +51,7 @@ export function createInkbladeController(host: HTMLElement) {
 
     if (state.screen === "map") {
       renderMap(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
       return;
     }
 
@@ -56,21 +62,31 @@ export function createInkbladeController(host: HTMLElement) {
 
     if (state.screen === "reward") {
       renderReward(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
       return;
     }
 
     if (state.screen === "event") {
       renderEvent(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
       return;
     }
 
     if (state.screen === "shop") {
       renderShop(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
       return;
     }
 
     if (state.screen === "rest") {
       renderRest(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
+      return;
+    }
+
+    if (state.screen === "bossReward") {
+      renderBossReward(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
       return;
     }
 
@@ -84,6 +100,8 @@ export function createInkbladeController(host: HTMLElement) {
       state.run = createRun(characterId);
       state.combat = undefined;
       state.rewardCards = [];
+      state.pendingSpoils = undefined;
+      state.deckOpen = false;
       state.message = `${charactersById[characterId].name}踏入洛水黑雨。`;
       state.screen = "map";
       render();
@@ -98,7 +116,7 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   const panel = createPanel("screen-map", "洛水残照");
   panel.classList.add("map-screen");
 
-  panel.append(createRunStatus(run, state.message));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
 
   const path = document.createElement("div");
   path.className = "route-map";
@@ -282,8 +300,10 @@ function handleCombatAfterAction(state: ControllerState): void {
 
   if (combat.phase === "won") {
     const node = getCurrentNode(run);
+    state.pendingSpoils = claimBattleSpoils(run, node.type);
+
     if (node.type === "boss") {
-      state.screen = "victory";
+      state.screen = "bossReward";
       state.message = "墨影董卓崩散，洛水重映天光。";
       return;
     }
@@ -298,7 +318,9 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   const run = requireRun(state);
   const panel = createPanel("screen-reward", "战利");
   panel.classList.add("reward-screen");
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
   panel.append(createMessage(state.message));
+  panel.append(createSpoilsSummary(state.pendingSpoils));
 
   const rewards = document.createElement("div");
   rewards.className = "reward-cards";
@@ -310,8 +332,8 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
     button.innerHTML = `<strong>${card.name}</strong><span>${card.description ?? ""}</span>`;
     button.addEventListener("click", () => {
       takeCardReward(run, card);
-      run.gold += 12;
-      state.message = `获得${card.name}，并拾得12枚铜钱。`;
+      state.message = `获得${card.name}。`;
+      state.pendingSpoils = undefined;
       state.screen = "map";
       render();
     });
@@ -320,10 +342,11 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
 
   const skip = document.createElement("button");
   skip.type = "button";
-  skip.textContent = "跳过，取15铜钱";
+  skip.textContent = "跳过，另取3铜钱";
   skip.addEventListener("click", () => {
-    run.gold += 15;
-    state.message = "你收起铜钱，继续前行。";
+    run.gold += 3;
+    state.message = "你收起额外铜钱，继续前行。";
+    state.pendingSpoils = undefined;
     state.screen = "map";
     render();
   });
@@ -337,6 +360,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const event = eventsById.event_black_rain_ferry;
   const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
   panel.append(createMessage(event.description));
 
   for (const choice of event.choices) {
@@ -380,7 +404,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-shop", "茶亭游商");
   panel.classList.add("shop-screen");
-  panel.append(createRunStatus(run, state.message));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
 
   const shopCards = [cardsById.common_pifeng, cardsById.common_tuna, cardsById.ink_moren];
   const list = document.createElement("div");
@@ -474,7 +498,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-rest", "废寺静修");
   panel.classList.add("rest-screen");
-  panel.append(createRunStatus(run, state.message));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
 
   const heal = createAction("调息疗伤", "回复最大生命30%", () => {
     const healed = healRun(run, Math.ceil(run.maxHp * 0.3));
@@ -507,6 +531,25 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   host.append(panel);
 }
 
+function renderBossReward(host: HTMLElement, state: ControllerState, render: () => void): void {
+  const run = requireRun(state);
+  const panel = createPanel("screen-boss-reward", "首领战利");
+  panel.classList.add("reward-screen");
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createMessage("黑雨退成残墨，洛水这一章已经写完。"));
+  panel.append(createSpoilsSummary(state.pendingSpoils));
+
+  const continueButton = createAction("收束本章", "带着战利离开洛水。", () => {
+    state.pendingSpoils = undefined;
+    state.screen = "victory";
+    state.message = "洛水重映天光，新的江湖仍在远处。";
+    render();
+  });
+  continueButton.dataset.testid = "boss-reward-continue";
+  panel.append(continueButton);
+  host.append(panel);
+}
+
 function renderResult(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = state.run;
   const panel = createPanel(state.screen === "victory" ? "screen-victory" : "screen-defeat", state.screen === "victory" ? "本章告捷" : "梦醒听雨亭");
@@ -519,6 +562,8 @@ function renderResult(host: HTMLElement, state: ControllerState, render: () => v
   restart.addEventListener("click", () => {
     state.run = createRun(run?.characterId ?? "zhaoyun");
     state.combat = undefined;
+    state.pendingSpoils = undefined;
+    state.deckOpen = false;
     state.message = "黑雨仍未停。";
     state.screen = "map";
     render();
@@ -547,7 +592,7 @@ function createPanel(testId: string, title: string): HTMLElement {
   return panel;
 }
 
-function createRunStatus(run: RunState, message: string): HTMLElement {
+function createRunStatus(run: RunState, message: string, onDeckClick?: () => void): HTMLElement {
   const status = document.createElement("div");
   status.className = "run-status";
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
@@ -558,7 +603,36 @@ function createRunStatus(run: RunState, message: string): HTMLElement {
     <span data-testid="run-relics">法宝 ${relicNames}</span>
     <em>${message}</em>
   `;
+
+  if (onDeckClick) {
+    const deckButton = document.createElement("button");
+    deckButton.type = "button";
+    deckButton.className = "deck-open-button";
+    deckButton.dataset.testid = "deck-open";
+    deckButton.textContent = "检视牌组";
+    deckButton.addEventListener("click", onDeckClick);
+    status.append(deckButton);
+  }
+
   return status;
+}
+
+function createSpoilsSummary(spoils: BattleSpoils | undefined): HTMLElement {
+  const summary = document.createElement("div");
+  summary.className = "spoils-summary";
+  summary.dataset.testid = "spoils-summary";
+
+  if (!spoils) {
+    summary.textContent = "战利已经入囊。";
+    return summary;
+  }
+
+  const parts = [`铜钱 +${spoils.gold}`];
+  if (spoils.relicId) {
+    parts.push(`法宝 ${relicsById[spoils.relicId]?.name ?? spoils.relicId}`);
+  }
+  summary.textContent = parts.join(" · ");
+  return summary;
 }
 
 function createMeter(testId: string, label: string, value: number, max: number, accent: string): HTMLElement {
@@ -609,6 +683,59 @@ function createAction(title: string, body: string, onClick: () => void): HTMLBut
   button.innerHTML = `<strong>${title}</strong><span>${body}</span>`;
   button.addEventListener("click", onClick);
   return button;
+}
+
+function openDeck(state: ControllerState, render: () => void): void {
+  state.deckOpen = true;
+  render();
+}
+
+function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, render: () => void): void {
+  if (!state.deckOpen || !state.run) {
+    return;
+  }
+
+  const run = state.run;
+  const overlay = document.createElement("div");
+  overlay.className = "deck-overlay";
+  overlay.dataset.testid = "deck-viewer";
+
+  const panel = document.createElement("section");
+  panel.className = "deck-panel";
+
+  const header = document.createElement("div");
+  header.className = "deck-panel-header";
+  const title = document.createElement("h2");
+  title.textContent = `牌组 ${run.deck.length}`;
+  const close = document.createElement("button");
+  close.type = "button";
+  close.dataset.testid = "deck-close";
+  close.textContent = "返回";
+  close.addEventListener("click", () => {
+    state.deckOpen = false;
+    render();
+  });
+  header.append(title, close);
+
+  const list = document.createElement("div");
+  list.className = "deck-card-list";
+  for (const entry of run.deck) {
+    const card = cardsById[entry.cardId];
+    const item = document.createElement("article");
+    item.className = `deck-card card-type-${card.types[0]}`;
+    item.dataset.testid = "deck-card";
+    item.innerHTML = `
+      <span class="card-cost">${card.cost}</span>
+      <strong>${card.name}${entry.upgraded ? " +" : ""}</strong>
+      <small>${formatTypes(card.types)}</small>
+      <span>${card.description ?? ""}</span>
+    `;
+    list.append(item);
+  }
+
+  panel.append(header, list);
+  overlay.append(panel);
+  host.append(overlay);
 }
 
 function getUpgradedCombatInstanceIds(run: RunState): string[] {

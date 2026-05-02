@@ -33,3 +33,8 @@ export interface RunState {
 export interface CardReward {
   cards: CardDefinition[];
 }
+
+export interface BattleSpoils {
+  gold: number;
+  relicId?: string;
+}
