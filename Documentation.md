@@ -518,6 +518,7 @@ Viewed latest desktop and mobile screenshots under test-results and adjusted com
 - [x] Add procedural chapter map topology.
 - [x] Add ink-wash battle art, card art, and attack sprite-strip presentation.
 - [x] Replace placeholder art with GPT Image 2 generated reference-style assets.
+- [x] Clean up generated-art visual regressions for Diao Chan, combat overlays, and hand-card art scale.
 
 ### 2026-05-02 18:59 Asia/Shanghai
 
@@ -567,4 +568,47 @@ Covered: previous gameplay flows, reload/continue, full first-chapter victory, g
 
 Additional visual check:
 Reviewed desktop and mobile screenshots after the art replacement. The battle now reads as a high-fidelity ink-wash wuxia screen rather than an SVG placeholder screen.
+```
+
+### 2026-05-02 20:11 Asia/Shanghai
+
+Current state:
+
+- Fixed the Diao Chan standee regression by using the original generated GPT Image asset for her in-battle standee instead of the locally cut out variant that removed pale body and costume regions.
+- Removed the legacy combat sprite-strip placeholder overlays from the combat DOM so the old red attacker figure no longer stacks on top of generated standee art.
+- Improved hand-card presentation:
+  - card artwork now uses contained scaling instead of hard cropping,
+  - card frames have a stronger paper/brush border treatment,
+  - card text is centered and tightened for the bottom hand area,
+  - combat controls were moved away from the hand-card row to reduce overlap.
+- Added browser assertions covering the regression points:
+  - no `combat-sprite-player` or `combat-sprite-enemy` nodes render,
+  - Diao Chan's mobile combat standee uses the intact generated asset,
+  - hand-card art uses `object-fit: contain`.
+
+Decisions:
+
+- Zhao Yun and enemy standees can keep the local cutout variants because screenshot review did not show missing-body regressions there.
+- Diao Chan keeps the original rectangular generated asset with a soft CSS edge mask rather than an alpha cutout, prioritizing body integrity over perfect background removal.
+- Full sequence-frame attacks should be rebuilt from generated art later as a dedicated animation asset pass; the old SVG strips are no longer suitable as overlays on high-fidelity GPT standees.
+
+Verification:
+
+```text
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed.
+
+npm test
+Result: 5 test files passed, 46 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: playable flows, reload/continue, full first-chapter victory, generated standee references, no legacy sprite overlays, card-art containment, and desktop/mobile visual screenshots.
+
+Additional visual check:
+Reviewed latest desktop and mobile screenshots. The old red placeholder overlay is gone, Diao Chan's body is intact on mobile, and hand-card artwork is no longer tightly cropped.
 ```

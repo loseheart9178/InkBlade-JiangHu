@@ -282,3 +282,18 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 17: Generated Art Regression Cleanup
+
+- [x] Fix the Diao Chan standee cutout regression so pale body and costume regions are not deleted.
+- [x] Remove legacy sprite-strip combat placeholders that overlapped the generated standee art.
+- [x] Rebalance hand-card art scale and card-frame details for clearer ink-wash cards.
+- [x] Add browser assertions for no legacy sprite overlays, intact Diao Chan standee reference, and contained card artwork.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

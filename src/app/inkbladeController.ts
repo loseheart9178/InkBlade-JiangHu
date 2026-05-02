@@ -3,7 +3,7 @@ import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById, type GameEventChoice } from "../game/content/events";
 import { relicsById } from "../game/content/relics";
-import { cardArtById, combatPortraitsById, combatSpriteSheetsById } from "../game/content/visuals";
+import { cardArtById, combatPortraitsById } from "../game/content/visuals";
 import {
   clearSavedGame,
   hasSavedGame,
@@ -252,8 +252,6 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const enemy = combat.enemies[0];
   const playerPortrait = getCombatPortrait(combat.player.characterId);
   const enemyPortrait = getCombatPortrait(enemy.definitionId);
-  const playerSprite = getCombatSprite(combat.player.characterId);
-  const enemySprite = getCombatSprite(enemy.definitionId);
   const playerIsAttacking = hasRecentVisual(combat, "enemy", "damage");
   const enemyIsAttacking = hasRecentVisual(combat, "player", "damage");
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
@@ -274,7 +272,6 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
       <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}</div>
       <div class="combat-standee combat-standee--player combat-standee--${playerPortrait.accent} ${playerIsAttacking ? "is-attacking" : ""}">
-        <div class="combat-sprite combat-sprite--player ${playerIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>
         <img class="combat-standee-art" data-testid="combat-standee-player" src="${getStandeePath(playerPortrait)}" alt="${playerPortrait.alt}">
       </div>
     </div>
@@ -283,7 +280,6 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
       <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block} · 魅惑 ${enemy.statuses.charm ?? 0} · 虚弱 ${enemy.statuses.weak ?? 0}</div>
       <div class="combat-standee combat-standee--enemy combat-standee--${enemyPortrait.accent} ${enemyIsAttacking ? "is-attacking" : ""}">
-        <div class="combat-sprite combat-sprite--enemy ${enemyIsAttacking ? "is-attacking" : ""}" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>
         <img class="combat-standee-art" data-testid="combat-standee-enemy" src="${getStandeePath(enemyPortrait)}" alt="${enemyPortrait.alt}">
       </div>
     </div>
@@ -896,18 +892,6 @@ function getCombatPortrait(id: string) {
 
 function getStandeePath(portrait: ReturnType<typeof getCombatPortrait>): string {
   return portrait.standeePath ?? portrait.assetPath;
-}
-
-function getCombatSprite(id: string) {
-  if (id === "zhaoyun") {
-    return combatSpriteSheetsById.zhaoyun_attack;
-  }
-
-  if (id === "diaochan") {
-    return combatSpriteSheetsById.diaochan_attack;
-  }
-
-  return combatSpriteSheetsById.enemy_slash;
 }
 
 function createCardArtMarkup(card: CardDefinition): string {

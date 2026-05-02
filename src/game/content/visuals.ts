@@ -39,7 +39,7 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   {
     id: "diaochan",
     assetPath: "/assets/generated/diaochan-standee-gpt.png",
-    standeePath: "/assets/generated/diaochan-standee-gpt-cutout.png",
+    standeePath: "/assets/generated/diaochan-standee-gpt.png",
     alt: "Ink-wash portrait of Diao Chan with flowing ribbons",
     accent: "teal"
   },
