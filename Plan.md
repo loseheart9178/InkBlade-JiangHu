@@ -377,3 +377,20 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 22: Combo Chain System MVP
+
+- [x] Add system-level combo definitions for the initial recommended chains.
+- [x] Track per-turn card type flow and once-per-turn combo triggers inside the combat system.
+- [x] Implement 连斩、蓄势、追影、静守、心刃、固守、墨袭, plus a lightweight 消耗→攻击 断招 hook.
+- [x] Reset combo tracking at player-turn start and normalize older saved combats that lack combo fields.
+- [x] Surface combo feedback through combat log, visual trigger events, and a desktop center combo trail.
+- [x] Cover combo damage, block, ink, draw, Zhao Yun break-formation coexistence, and desktop HUD visibility.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```

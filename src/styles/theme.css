@@ -563,11 +563,51 @@ button {
   filter: contrast(1.08) saturate(0.92);
 }
 
+.duel-column {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  align-self: center;
+  justify-items: center;
+  gap: 8px;
+  min-width: 150px;
+  pointer-events: none;
+}
+
 .duel-mark {
   padding: 12px 18px;
   color: #f6ecd5;
   background: radial-gradient(circle, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.16));
-  font-size: clamp(28px, 4vw, 54px);
+  font-size: 42px;
+  line-height: 1.05;
+}
+
+.combo-trail {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  min-width: 132px;
+  max-width: 220px;
+  padding: 7px 12px;
+  border: 1px solid rgba(246, 236, 213, 0.28);
+  border-radius: 6px;
+  color: #f6ecd5;
+  background: rgba(44, 41, 36, 0.68);
+  box-shadow: 0 10px 24px rgba(17, 17, 17, 0.18);
+}
+
+.combo-trail span {
+  color: rgba(246, 236, 213, 0.72);
+  font-size: 11px;
+}
+
+.combo-trail strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .combat-float-layer {

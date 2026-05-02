@@ -278,7 +278,10 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
         <img class="combat-standee-art" data-testid="combat-standee-player" src="${getStandeePath(playerPortrait)}" alt="${playerPortrait.alt}">
       </div>
     </div>
-    <div class="duel-mark">对决</div>
+    <div class="duel-column">
+      <div class="duel-mark">对决</div>
+      <div class="combo-trail" data-testid="combo-trail"><span>招式</span><strong>${formatComboTrail(combat)}</strong></div>
+    </div>
     <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
       <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
       <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block}${formatStatusBadges(enemy.statuses)}</div>
@@ -842,6 +845,30 @@ function createCombatLog(combat: CombatState): HTMLElement {
   }
 
   return log;
+}
+
+function formatComboTrail(combat: CombatState): string {
+  const comboNames = (combat.comboTriggersThisTurn ?? []).map(formatComboName).filter(Boolean);
+  if (comboNames.length > 0) {
+    return comboNames.slice(-2).join(" / ");
+  }
+
+  const recentTypes = combat.playedCardTypesThisTurn.slice(-4);
+  return recentTypes.length > 0 ? formatTypes(recentTypes) : "待发";
+}
+
+function formatComboName(comboId: string): string {
+  const names: Record<string, string> = {
+    lianzhan: "连斩",
+    xushi: "蓄势",
+    zhuiying: "追影",
+    jingshou: "静守",
+    xinren: "心刃",
+    gushou: "固守",
+    moxi: "墨袭",
+    duanzhao: "断招"
+  };
+  return names[comboId] ?? comboId;
 }
 
 function createCombatFloatLayer(combat: CombatState): HTMLElement {

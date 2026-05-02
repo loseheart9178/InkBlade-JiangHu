@@ -872,3 +872,70 @@ Covered: visual smoke, combat VFX/card chrome assertions, playable flows, save/c
 Additional visual check:
 Reviewed desktop combat screenshots and a Boss mechanics screenshot at `test-results/boss-dongzhuo-mechanics.png`. New status text remains readable and does not obstruct the bottom hand.
 ```
+
+### 2026-05-03 01:07 Asia/Shanghai
+
+Current state:
+
+- Completed the "combo chain system MVP" module.
+- Re-read for this pass before gameplay and HUD changes:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Added combat-system combo definitions and per-turn combo tracking for:
+  - 连斩: 攻击 -> 攻击 -> 攻击, extra damage.
+  - 蓄势: 技能 -> 攻击, extra damage.
+  - 追影: 身法 -> 攻击, block plus extra damage.
+  - 静守: 心境 -> 技能, block.
+  - 心刃: 心境 -> 攻击, extra damage.
+  - 固守: 技能 -> 技能 -> 技能, block.
+  - 墨袭: 墨灾 -> 攻击, extra damage plus 墨痕.
+  - 断招: exhausted card into attack, draw one card.
+- Combo rules now execute in `src/game/systems/combat/` and stay outside Phaser/DOM rendering.
+- Type history is checked as each card type is appended, so multi-type cards can trigger combos at the relevant step rather than only after all tags are recorded.
+- Each combo can trigger once per turn and resets at player-turn start.
+- Older saved combats without the new combo fields are normalized before card play or turn reset.
+- Combat UI now includes a desktop center combo trail that shows `待发`, the current turn's recent type flow, or the latest triggered combo names.
+
+Decisions:
+
+- Combo damage is treated as direct bonus damage and does not consume player weak stacks or inherit generic attack relic bonuses. This keeps "extra damage" readable and avoids accidental double-scaling.
+- Zhao Yun's third attack now naturally produces both 连斩 and 破阵; this matches the role fantasy of continuous spear pressure without moving Zhao's character hook into generic combo rules.
+- 断招 is implemented as a previous-card-exhausted hook rather than a new card type, preserving the current card data model.
+
+Verification:
+
+```text
+npm test -- tests/combat/combat-system.test.ts
+First run: failed as expected before implementation.
+Red failures covered missing 连斩, 蓄势, 追影, 静守, 心刃, 固守, and 墨袭 behavior.
+
+npm test -- tests/combat/combat-system.test.ts
+Result after implementation: 1 test file passed, 29 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm test
+Result: 5 test files passed, 59 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: visual smoke, combo-trail HUD visibility, playable flows, save/continue, boss mechanics feedback, and full first-chapter victory.
+
+Additional visual check:
+Reviewed `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png`.
+The center combo trail is visible, stays between the duelants, and does not overlap the bottom hand.
+```

@@ -80,6 +80,37 @@ const charm: CardDefinition = {
   ]
 };
 
+const mindFocus: CardDefinition = {
+  id: "mind-focus",
+  name: "静心",
+  cost: 0,
+  rarity: "common",
+  target: "self",
+  types: ["mind"],
+  effects: [{ action: "setMind", mind: "ning" }]
+};
+
+const inkPrep: CardDefinition = {
+  id: "ink-prep",
+  name: "墨引",
+  cost: 0,
+  rarity: "ink",
+  target: "self",
+  types: ["ink"],
+  effects: [{ action: "gainInk", amount: 1 }]
+};
+
+const vanish: CardDefinition = {
+  id: "vanish",
+  name: "隐锋",
+  cost: 0,
+  rarity: "common",
+  target: "self",
+  types: ["power"],
+  effects: [],
+  exhaust: true
+};
+
 const zhaoYun: CharacterDefinition = {
   id: "zhaoyun",
   name: "赵云",
@@ -107,7 +138,7 @@ const bandit: EnemyDefinition = {
   intents: [{ type: "attack", damage: 8, hits: 1 }]
 };
 
-const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm];
+const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, vanish];
 
 function startCombat(character: CharacterDefinition, starterDeck = character.starterDeck): CombatState {
   return createCombat({
@@ -230,9 +261,98 @@ describe("combat system", () => {
     playCard(state, attacks[1].instanceId, state.enemies[0].id);
     playCard(state, attacks[2].instanceId, state.enemies[0].id);
 
-    expect(state.enemies[0].hp).toBe(8);
+    expect(state.enemies[0].hp).toBe(4);
     expect(state.player.resource.value).toBe(1);
+    expect(state.combatLog).toContain("连斩");
     expect(state.combatLog).toContain("破阵");
+  });
+
+  it("triggers skill into attack combo for extra damage once per turn", () => {
+    const state = startCombat(zhaoYun, ["guard", "strike", "strike", "strike", "guard"]);
+    const guardCard = state.piles.hand.find((item) => item.definitionId === "guard");
+    const attackCard = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, guardCard?.instanceId ?? "", "player");
+    playCard(state, attackCard?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(21);
+    expect(state.combatLog).toContain("蓄势");
+    expect(state.visualEvents).toEqual(expect.arrayContaining([expect.objectContaining({ kind: "trigger", label: "蓄势" })]));
+  });
+
+  it("triggers body into attack combo with block and extra damage", () => {
+    const state = startCombat(diaoChan, ["shadow-step", "strike", "guard", "guard", "guard"]);
+    const bodyCard = state.piles.hand.find((item) => item.definitionId === "shadow-step");
+    const attackCard = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, bodyCard?.instanceId ?? "", "player");
+    playCard(state, attackCard?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(22);
+    expect(state.player.block).toBe(6);
+    expect(state.combatLog).toContain("追影");
+  });
+
+  it("triggers mind into skill combo as defensive follow-through", () => {
+    const state = startCombat(zhaoYun, ["mind-focus", "guard", "strike", "strike", "strike"]);
+    const mindCard = state.piles.hand.find((item) => item.definitionId === "mind-focus");
+    const guardCard = state.piles.hand.find((item) => item.definitionId === "guard");
+
+    playCard(state, mindCard?.instanceId ?? "", "player");
+    playCard(state, guardCard?.instanceId ?? "", "player");
+
+    expect(state.player.block).toBe(12);
+    expect(state.combatLog).toContain("静守");
+  });
+
+  it("triggers mind into attack combo for heart-blade damage", () => {
+    const state = startCombat(zhaoYun, ["mind-focus", "strike", "guard", "guard", "guard"]);
+    const mindCard = state.piles.hand.find((item) => item.definitionId === "mind-focus");
+    const attackCard = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, mindCard?.instanceId ?? "", "player");
+    playCard(state, attackCard?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(21);
+    expect(state.combatLog).toContain("心刃");
+  });
+
+  it("triggers three skills combo as stable guarding", () => {
+    const state = startCombat(zhaoYun, ["guard", "guard", "guard", "strike", "strike"]);
+    const skills = state.piles.hand.filter((item) => item.definitionId === "guard");
+
+    playCard(state, skills[0].instanceId, "player");
+    playCard(state, skills[1].instanceId, "player");
+    playCard(state, skills[2].instanceId, "player");
+
+    expect(state.player.block).toBe(27);
+    expect(state.combatLog).toContain("固守");
+  });
+
+  it("triggers ink into attack combo with extra damage and ink cost", () => {
+    const state = startCombat(zhaoYun, ["ink-prep", "strike", "guard", "guard", "guard"]);
+    const inkCard = state.piles.hand.find((item) => item.definitionId === "ink-prep");
+    const attackCard = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, inkCard?.instanceId ?? "", "player");
+    playCard(state, attackCard?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.enemies[0].hp).toBe(19);
+    expect(state.player.inkMarks).toBe(2);
+    expect(state.combatLog).toContain("墨袭");
+  });
+
+  it("triggers exhausted-card into attack combo to draw a card", () => {
+    const state = startCombat(zhaoYun, ["vanish", "strike", "guard", "guard", "guard", "strike"]);
+    const exhaustCard = state.piles.hand.find((item) => item.definitionId === "vanish");
+    const attackCard = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, exhaustCard?.instanceId ?? "", "player");
+    playCard(state, attackCard?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.piles.hand).toHaveLength(4);
+    expect(state.piles.exhaust.some((item) => item.definitionId === "vanish")).toBe(true);
+    expect(state.combatLog).toContain("断招");
   });
 
   it("lets Diao Chan charm reduce incoming enemy attack damage", () => {

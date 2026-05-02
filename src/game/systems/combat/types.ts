@@ -129,6 +129,20 @@ export interface CombatVisualEvent {
   amount?: number;
 }
 
+export type ComboEffect =
+  | { action: "damage"; amount: number }
+  | { action: "block"; amount: number }
+  | { action: "draw"; amount: number }
+  | { action: "gainInk"; amount: number };
+
+export interface ComboRule {
+  id: string;
+  name: string;
+  sequence: CardType[];
+  effects: ComboEffect[];
+  tone: CombatVisualTone;
+}
+
 export interface CombatState {
   turn: number;
   phase: "player" | "won" | "lost";
@@ -142,6 +156,8 @@ export interface CombatState {
   relicIds: string[];
   relicMemory: Partial<Record<string, boolean>>;
   playedCardTypesThisTurn: CardType[];
+  comboTriggersThisTurn: string[];
+  lastPlayedCardExhaustedThisTurn: boolean;
   attacksPlayedThisTurn: number;
   nextInstanceNumber: number;
   nextVisualEventId: number;

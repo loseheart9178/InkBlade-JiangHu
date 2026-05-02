@@ -1,6 +1,9 @@
 import { createRng, shuffleInPlace, type Rng } from "../../core/rng";
+import { defaultComboRules, exhaustAttackComboRule } from "./combos";
 import type {
   CardDefinition,
+  ComboEffect,
+  ComboRule,
   CardEffect,
   CardInstance,
   CardType,
@@ -82,6 +85,8 @@ export function createCombat(input: CreateCombatInput): CombatState {
     relicIds: input.relicIds ?? [],
     relicMemory: {},
     playedCardTypesThisTurn: [],
+    comboTriggersThisTurn: [],
+    lastPlayedCardExhaustedThisTurn: false,
     attacksPlayedThisTurn: 0,
     nextInstanceNumber: draw.length + 1,
     nextVisualEventId: 1
@@ -111,6 +116,8 @@ export function drawCards(state: CombatState, amount: number, rng: Rng): void {
 }
 
 export function playCard(state: CombatState, cardInstanceId: string, targetId: string): PlayCardResult {
+  ensureComboTracking(state);
+
   if (state.phase !== "player") {
     return { ok: false, state, reason: "combat-ended" };
   }
@@ -134,6 +141,7 @@ export function playCard(state: CombatState, cardInstanceId: string, targetId: s
 
   state.player.energy -= cost;
   state.piles.hand.splice(handIndex, 1);
+  const previousCardWasExhausted = state.lastPlayedCardExhaustedThisTurn;
 
   for (const effect of getCardEffects(definition, card)) {
     applyEffect(state, definition, card, effect, target?.id ?? "player");
@@ -141,6 +149,7 @@ export function playCard(state: CombatState, cardInstanceId: string, targetId: s
 
   for (const type of definition.types) {
     state.playedCardTypesThisTurn.push(type);
+    applyComboHooks(state, target?.id ?? "player", type === "attack" && previousCardWasExhausted);
   }
 
   applyCharacterCardHooks(state, definition, target?.id ?? "player");
@@ -151,6 +160,7 @@ export function playCard(state: CombatState, cardInstanceId: string, targetId: s
     state.piles.discard.push(card);
   }
 
+  state.lastPlayedCardExhaustedThisTurn = Boolean(definition.exhaust);
   updateCombatOutcome(state);
   return { ok: true, state };
 }
@@ -239,9 +249,7 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
       applyStatus(state, targetId, effect.status, effect.amount);
       break;
     case "gainInk":
-      state.player.inkMarks += effect.amount;
-      pushVisualEvent(state, "ink", "player", `墨痕 +${effect.amount}`, "ink", effect.amount);
-      triggerInkRelics(state, effect.amount);
+      gainInk(state, effect.amount);
       break;
     case "setMind":
       setMind(state, effect.mind, effect.amount ?? 1);
@@ -340,6 +348,12 @@ function gainResource(state: CombatState, amount: number): void {
   state.player.resource.value = clamp(state.player.resource.value + amount, 0, state.player.resource.max);
 }
 
+function gainInk(state: CombatState, amount: number): void {
+  state.player.inkMarks += amount;
+  pushVisualEvent(state, "ink", "player", `墨痕 +${amount}`, "ink", amount);
+  triggerInkRelics(state, amount);
+}
+
 function applyStatus(state: CombatState, targetId: string, status: StatusId, amount: number): void {
   const target = targetId === "player" ? state.player : state.enemies.find((enemy) => enemy.id === targetId);
   if (!target) {
@@ -374,6 +388,63 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
   if (state.character.id === "diaochan" && definition.types.includes("body")) {
     gainResource(state, 1);
   }
+}
+
+function applyComboHooks(state: CombatState, targetId: string, attackAfterExhaustedCard: boolean): void {
+  for (const rule of defaultComboRules) {
+    if (hasTriggeredCombo(state, rule.id) || !matchesComboSequence(state.playedCardTypesThisTurn, rule.sequence)) {
+      continue;
+    }
+
+    executeComboRule(state, rule, targetId);
+  }
+
+  if (attackAfterExhaustedCard && !hasTriggeredCombo(state, exhaustAttackComboRule.id)) {
+    executeComboRule(state, exhaustAttackComboRule, targetId);
+  }
+}
+
+function hasTriggeredCombo(state: CombatState, comboId: string): boolean {
+  return state.comboTriggersThisTurn.includes(comboId);
+}
+
+function matchesComboSequence(history: CardType[], sequence: CardType[]): boolean {
+  if (history.length < sequence.length) {
+    return false;
+  }
+
+  return sequence.every((type, index) => history[history.length - sequence.length + index] === type);
+}
+
+function executeComboRule(state: CombatState, rule: ComboRule, targetId: string): void {
+  state.comboTriggersThisTurn.push(rule.id);
+  state.combatLog.push(rule.name);
+  pushVisualEvent(state, "trigger", "center", rule.name, rule.tone);
+
+  for (const effect of rule.effects) {
+    executeComboEffect(state, effect, targetId);
+  }
+}
+
+function executeComboEffect(state: CombatState, effect: ComboEffect, targetId: string): void {
+  if (effect.action === "damage") {
+    damageEnemy(state, targetId, effect.amount);
+    return;
+  }
+
+  if (effect.action === "block") {
+    state.player.block += effect.amount;
+    pushVisualEvent(state, "block", "player", `+${effect.amount} 护甲`, "teal", effect.amount);
+    return;
+  }
+
+  if (effect.action === "draw") {
+    drawCards(state, effect.amount, createRng(state.turn * 307 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", `抽牌 +${effect.amount}`, "neutral", effect.amount);
+    return;
+  }
+
+  gainInk(state, effect.amount);
 }
 
 function discardNonRetainedCards(state: CombatState): void {
@@ -439,9 +510,7 @@ function executeEnemyIntentEffect(state: CombatState, enemy: EnemyState, effect:
   }
 
   if (effect.action === "gainInk") {
-    state.player.inkMarks += effect.amount;
-    pushVisualEvent(state, "ink", "player", `墨痕 +${effect.amount}`, "ink", effect.amount);
-    triggerInkRelics(state, effect.amount);
+    gainInk(state, effect.amount);
     return;
   }
 
@@ -480,10 +549,13 @@ function advanceIntent(enemy: EnemyState): void {
 }
 
 function beginPlayerTurn(state: CombatState): void {
+  ensureComboTracking(state);
   state.turn += 1;
   state.player.block = 0;
   state.player.energy = state.player.maxEnergy;
   state.playedCardTypesThisTurn = [];
+  state.comboTriggersThisTurn = [];
+  state.lastPlayedCardExhaustedThisTurn = false;
   state.attacksPlayedThisTurn = 0;
   drawCards(state, state.player.drawPerTurn - state.piles.hand.length, createRng(state.turn * 1009));
   pushVisualEvent(state, "turn", "center", `回合 ${state.turn}`, "neutral");
@@ -582,6 +654,16 @@ function pushVisualEvent(
 
   if (state.visualEvents.length > 12) {
     state.visualEvents.splice(0, state.visualEvents.length - 12);
+  }
+}
+
+function ensureComboTracking(state: CombatState): void {
+  if (!Array.isArray(state.comboTriggersThisTurn)) {
+    state.comboTriggersThisTurn = [];
+  }
+
+  if (typeof state.lastPlayedCardExhaustedThisTurn !== "boolean") {
+    state.lastPlayedCardExhaustedThisTurn = false;
   }
 }
 

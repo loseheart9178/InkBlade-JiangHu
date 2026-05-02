@@ -14,6 +14,7 @@ test("captures desktop combat smoke screenshots for Zhao Yun and Diao Chan", asy
   await expect(page.getByTestId("card-type-badge").first()).toBeVisible();
   await expect(page.getByTestId("card-rarity-mark").first()).toBeVisible();
   await expect(page.getByTestId("card-keyword-row").first()).toBeVisible();
+  await expect(page.getByTestId("combo-trail")).toContainText("待发");
 
   await expectDesktopCombatLayout(page);
 
@@ -24,6 +25,7 @@ test("captures desktop combat smoke screenshots for Zhao Yun and Diao Chan", asy
   await playableAttack.click();
   await expect(page.getByTestId("combat-sprite-player")).toHaveCSS("background-image", /zhaoyun-attack-strip-gpt-v2\.png/);
   await expect(page.getByTestId("combat-vfx-slash").first()).toBeVisible();
+  await expect(page.getByTestId("combo-trail")).toContainText("攻");
   await page.screenshot({ path: testInfo.outputPath("combat-zhaoyun-desktop.png"), fullPage: true });
 
   await page.goto("/");
