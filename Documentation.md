@@ -519,6 +519,7 @@ Viewed latest desktop and mobile screenshots under test-results and adjusted com
 - [x] Add ink-wash battle art, card art, and attack sprite-strip presentation.
 - [x] Replace placeholder art with GPT Image 2 generated reference-style assets.
 - [x] Clean up generated-art visual regressions for Diao Chan, combat overlays, and hand-card art scale.
+- [x] Fix playable character art identity and pause mobile adaptation in favor of desktop polish.
 
 ### 2026-05-02 18:59 Asia/Shanghai
 
@@ -611,4 +612,55 @@ Covered: playable flows, reload/continue, full first-chapter victory, generated 
 
 Additional visual check:
 Reviewed latest desktop and mobile screenshots. The old red placeholder overlay is gone, Diao Chan's body is intact on mobile, and hand-card artwork is no longer tightly cropped.
+```
+
+### 2026-05-02 21:20 Asia/Shanghai
+
+Current state:
+
+- Project rules now state the current platform priority is desktop browser first; mobile layout, touch controls, and mobile screenshot adaptation are paused unless the user explicitly asks to resume them.
+- Fixed the playable-character art identity bug:
+  - previous `zhaoyun` generated standee was a red female spear character and did not read as Zhao Yun,
+  - previous `diaochan` generated standee drifted toward the user's Cai Wenji/teal-side reference direction,
+  - new Zhao Yun source is a male silver-blue spear general,
+  - new Diao Chan source is a red-white dancer with fan and ribbons, with no guqin/pipa/instrument cues.
+- Added project-local source and transparent cutout assets:
+  - `public/assets/generated/zhaoyun-standee-gpt-v2-source.png`
+  - `public/assets/generated/zhaoyun-standee-gpt-v2-cutout.png`
+  - `public/assets/generated/diaochan-standee-gpt-v2-source.png`
+  - `public/assets/generated/diaochan-standee-gpt-v2-cutout.png`
+- Generated desktop attack sprite strips from the corrected cutouts:
+  - `public/assets/sprites/zhaoyun-attack-strip-gpt-v2.png`
+  - `public/assets/sprites/diaochan-attack-strip-gpt-v2.png`
+- Combat now renders the sprite strip layer only while an attack visual event is active. Idle standees no longer carry a permanent placeholder overlay.
+- Browser smoke coverage was changed to desktop-only and now captures separate Zhao Yun and Diao Chan desktop combat screenshots.
+
+Decisions:
+
+- The manifest binds both portrait and standee paths to transparent cutout assets, not raw chroma-key source images, so top portraits cannot show green backgrounds.
+- Correct role identity is now treated as data-contract coverage through `tests/data/content.test.ts`, while Playwright checks that the browser uses the corrected asset paths.
+- The new sprite strips are derived from the approved corrected cutouts, which keeps character identity stable across idle and attack frames.
+
+Verification:
+
+```text
+npm test -- --run tests/data/content.test.ts
+Result: 1 test file passed, 8 tests passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed.
+
+npm test
+Result: 5 test files passed, 47 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: desktop Zhao Yun/Diao Chan visual smoke, playable battle/reward flow, shop relic, event-rest upgrade, Diao Chan starting relic, reload/continue, and full first-chapter victory.
+
+Additional visual check:
+Reviewed the latest desktop Zhao Yun and Diao Chan screenshots. Zhao Yun now reads as a male spear general, Diao Chan reads as a red-white dancer, and no raw GPT/chroma-key background is visible.
 ```

@@ -21,8 +21,9 @@
 ## Engineering Standards
 
 - Stack: Phaser + TypeScript + Vite, with DOM HUD/menu overlay.
+- Current platform priority: desktop browser first. Do not spend implementation time on mobile layout, mobile input, or mobile screenshot adaptation unless the user explicitly reopens mobile support.
 - Tests: Vitest for deterministic simulation modules. Use test-first for gameplay rules and bug fixes.
-- Browser QA: run a local dev server and use Playwright or equivalent browser checks for boot, screenshots, input, and responsive layout.
+- Browser QA: run a local dev server and use Playwright or equivalent browser checks for boot, screenshots, input, and desktop layout. Mobile checks are paused unless explicitly requested.
 - File boundaries:
   - `src/game/systems/`: pure gameplay logic.
   - `src/game/data/`: declarative game content.
@@ -40,4 +41,3 @@ When finishing a milestone, report:
 2. Verification commands and results.
 3. Any known gaps or risks.
 4. Next milestone.
-

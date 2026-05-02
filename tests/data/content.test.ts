@@ -90,6 +90,19 @@ describe("content data", () => {
     }
   });
 
+  it("binds generated standees to the correct playable character identities", () => {
+    expect(combatPortraitsById.zhaoyun.assetPath).toBe("/assets/generated/zhaoyun-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.zhaoyun.standeePath).toBe("/assets/generated/zhaoyun-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.zhaoyun.alt).toContain("male");
+    expect(combatPortraitsById.zhaoyun.alt).toContain("Zhao Yun");
+
+    expect(combatPortraitsById.diaochan.assetPath).toBe("/assets/generated/diaochan-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.diaochan.standeePath).toBe("/assets/generated/diaochan-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.diaochan.alt).toContain("Diao Chan");
+    expect(combatPortraitsById.diaochan.alt).not.toContain("Cai Wenji");
+    expect(combatPortraitsById.diaochan.alt).not.toContain("guqin");
+  });
+
   it("maps featured cards, battlefield, and attack sprite strips to art assets", () => {
     for (const cardId of ["zhao_strike", "zhao_qixing_spear", "diao_charm", "diao_closed_moon", "ink_luoshui_tide"]) {
       expect(cardArtById[cardId]).toBeDefined();
@@ -98,7 +111,9 @@ describe("content data", () => {
 
     expect(battlefieldAssets.luoshui.assetPath).toMatch(/^\/assets\/generated\/.+\.png$/);
     expect(combatSpriteSheetsById.zhaoyun_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.zhaoyun_attack.assetPath).toBe("/assets/sprites/zhaoyun-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.diaochan_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.diaochan_attack.assetPath).toBe("/assets/sprites/diaochan-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.enemy_slash.frameWidth).toBeGreaterThan(0);
   });
 });

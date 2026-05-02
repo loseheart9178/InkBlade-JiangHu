@@ -6,6 +6,8 @@
 
 **Architecture:** Pure TypeScript systems own combat, cards, rewards, map, and run state. Phaser renders the battlefield and effects. DOM overlays render dense HUD, cards, rewards, character select, map, shop, rest, and event surfaces.
 
+**Current Platform Priority:** Desktop browser first. Mobile layout and touch adaptation are paused until the user explicitly requests mobile work again.
+
 **Tech Stack:** Vite, TypeScript, Phaser, Vitest, Playwright, CSS custom properties.
 
 ---
@@ -289,6 +291,24 @@ npm run test:e2e
 - [x] Remove legacy sprite-strip combat placeholders that overlapped the generated standee art.
 - [x] Rebalance hand-card art scale and card-frame details for clearer ink-wash cards.
 - [x] Add browser assertions for no legacy sprite overlays, intact Diao Chan standee reference, and contained card artwork.
+
+Verification:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+```
+
+## Milestone 18: Playable Character Art Identity Fix
+
+- [x] Record desktop-first scope in project rules and PRD.
+- [x] Replace the incorrect generated Zhao Yun standee with a male silver-blue spear general.
+- [x] Replace the incorrect Diao Chan/Cai Wenji-like standee with a red-white Diao Chan dancer asset.
+- [x] Cut out generated standees locally and bind combat portraits/standees to transparent assets.
+- [x] Generate matching desktop attack sprite strips from the corrected cutouts.
+- [x] Render sprite strips only during attack feedback so idle standees do not overlap placeholders.
+- [x] Add data and browser regression checks for identity-correct art assets.
 
 Verification:
 

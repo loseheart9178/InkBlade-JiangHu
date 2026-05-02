@@ -31,17 +31,17 @@ export interface BattlefieldAssetDefinition {
 export const combatPortraitList: CombatPortraitDefinition[] = [
   {
     id: "zhaoyun",
-    assetPath: "/assets/generated/zhaoyun-standee-gpt.png",
-    standeePath: "/assets/generated/zhaoyun-standee-gpt-cutout.png",
-    alt: "Ink-wash portrait of Zhao Yun with a spear",
-    accent: "red"
+    assetPath: "/assets/generated/zhaoyun-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/zhaoyun-standee-gpt-v2-cutout.png",
+    alt: "Ink-wash portrait of male Zhao Yun with a spear",
+    accent: "teal"
   },
   {
     id: "diaochan",
-    assetPath: "/assets/generated/diaochan-standee-gpt.png",
-    standeePath: "/assets/generated/diaochan-standee-gpt.png",
-    alt: "Ink-wash portrait of Diao Chan with flowing ribbons",
-    accent: "teal"
+    assetPath: "/assets/generated/diaochan-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/diaochan-standee-gpt-v2-cutout.png",
+    alt: "Ink-wash portrait of Diao Chan dancer with fan and flowing ribbons",
+    accent: "red"
   },
   {
     id: "enemy_ink_bandit",
@@ -161,18 +161,18 @@ export const cardArtById: Record<string, CardArtDefinition> = Object.fromEntries
 export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   {
     id: "zhaoyun_attack",
-    assetPath: "/assets/sprites/zhaoyun-attack-strip.svg",
+    assetPath: "/assets/sprites/zhaoyun-attack-strip-gpt-v2.png",
     frameCount: 4,
-    frameWidth: 256,
-    frameHeight: 256,
+    frameWidth: 512,
+    frameHeight: 512,
     anchor: "bottom-center"
   },
   {
     id: "diaochan_attack",
-    assetPath: "/assets/sprites/diaochan-attack-strip.svg",
+    assetPath: "/assets/sprites/diaochan-attack-strip-gpt-v2.png",
     frameCount: 4,
-    frameWidth: 256,
-    frameHeight: 256,
+    frameWidth: 512,
+    frameHeight: 512,
     anchor: "bottom-center"
   },
   {
