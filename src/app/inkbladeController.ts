@@ -18,6 +18,7 @@ import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, Status
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/systems/events/eventEffects";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
+import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
 import {
   addRelic,
   claimBattleSpoils,
@@ -44,7 +45,6 @@ type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "event" |
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
-const SHOP_RELIC_IDS = ["relic_old_wooden_sword", "relic_black_paper_umbrella"];
 
 interface ControllerState {
   screen: Screen;
@@ -606,10 +606,10 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
 
   const relicList = document.createElement("div");
   relicList.className = "shop-list shop-list--relics";
-  for (const relicId of SHOP_RELIC_IDS) {
+  for (const relicId of getShopRelicPool(run.characterId).slice(0, 3)) {
     const relic = relicsById[relicId];
     const owned = run.relicIds.includes(relic.id);
-    const button = createAction(relic.name, `${relic.description} 价格${relic.price}`, () => {
+    const button = createAction(relic.name, `${describeRelicSource(relic.id)}。${relic.description} 价格${relic.price}`, () => {
       if (owned) {
         state.message = `已持有${relic.name}。`;
         render();
@@ -802,6 +802,7 @@ function createSpoilsSummary(spoils: BattleSpoils | undefined): HTMLElement {
   const parts = [`铜钱 +${spoils.gold}`];
   if (spoils.relicId) {
     parts.push(`法宝 ${relicsById[spoils.relicId]?.name ?? spoils.relicId}`);
+    parts.push(describeRelicSource(spoils.relicId));
   }
   summary.textContent = parts.join(" · ");
   return summary;

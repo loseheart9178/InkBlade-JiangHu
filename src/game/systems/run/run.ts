@@ -2,9 +2,9 @@ import { cardsById } from "../../content/cards";
 import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardArchetypeId, CardDefinition } from "../combat/types";
+import { getRelicRewardPool, type RelicRewardSource } from "../relics/relicEffects";
 import type { BattleSpoils, CardRewardDraft, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
 
-const RELIC_REWARD_POOL = ["relic_old_wooden_sword", "relic_black_paper_umbrella"];
 const ZHAO_REWARD_POOL = [
   "zhao_thrust",
   "zhao_guardian",
@@ -298,11 +298,11 @@ export function hasRunRelic(run: RunState, relicId: string): boolean {
   return run.relicIds.includes(relicId);
 }
 
-export function getNextRelicReward(run: RunState, pool: string[] = RELIC_REWARD_POOL): string | undefined {
+export function getNextRelicReward(run: RunState, pool: string[] = getRelicRewardPool("elite", run.characterId)): string | undefined {
   return pool.find((relicId) => !run.relicIds.includes(relicId));
 }
 
-export function claimRelicReward(run: RunState, pool: string[] = RELIC_REWARD_POOL): string | undefined {
+export function claimRelicReward(run: RunState, pool: string[] = getRelicRewardPool("elite", run.characterId)): string | undefined {
   const relicId = getNextRelicReward(run, pool);
   if (!relicId) {
     return undefined;
@@ -314,7 +314,7 @@ export function claimRelicReward(run: RunState, pool: string[] = RELIC_REWARD_PO
 
 export function claimBattleSpoils(run: RunState, nodeType: MapNodeType): BattleSpoils {
   const gold = getBattleGold(nodeType);
-  const relicId = nodeType === "elite" || nodeType === "boss" ? claimRelicReward(run) : undefined;
+  const relicId = nodeType === "elite" || nodeType === "boss" ? claimRelicReward(run, getRelicRewardPool(getRelicSourceForNode(nodeType), run.characterId)) : undefined;
   run.gold += gold;
 
   return relicId ? { gold, relicId } : { gold };
@@ -543,6 +543,10 @@ function getBattleGold(nodeType: MapNodeType): number {
   }
 
   return nodeType === "battle" ? 12 : 0;
+}
+
+function getRelicSourceForNode(nodeType: MapNodeType): RelicRewardSource {
+  return nodeType === "boss" ? "boss" : "elite";
 }
 
 function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {

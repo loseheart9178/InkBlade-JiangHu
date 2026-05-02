@@ -1,5 +1,6 @@
 import { createRng, shuffleInPlace, type Rng } from "../../core/rng";
 import { methodsById, type MethodId } from "../../content/methods";
+import { relicsById } from "../../content/relics";
 import { defaultComboRules, exhaustAttackComboRule } from "./combos";
 import type {
   CardDefinition,
@@ -254,6 +255,7 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
       applyStatus(state, targetId, effect.status, effect.amount);
       if (effect.status === "charm" && targetId !== "player") {
         triggerQingchengCharmMethod(state, targetId);
+        triggerCharmThresholdRelics(state, targetId);
       }
       break;
     case "gainInk":
@@ -322,6 +324,7 @@ function getPlayerBlockAmount(state: CombatState, card: CardInstance, baseAmount
 
 function damagePlayer(state: CombatState, rawAmount: number): void {
   let amount = Math.max(0, rawAmount);
+  let guardReduced = 0;
 
   if ((state.player.statuses.dodge ?? 0) > 0) {
     state.player.statuses.dodge = Math.max(0, (state.player.statuses.dodge ?? 0) - 1);
@@ -332,6 +335,7 @@ function damagePlayer(state: CombatState, rawAmount: number): void {
   if ((state.player.statuses.guard ?? 0) > 0) {
     const reduced = Math.min(4 * (state.player.statuses.guard ?? 0), amount);
     amount -= reduced;
+    guardReduced = reduced;
     state.player.statuses.guard = 0;
   }
 
@@ -349,6 +353,10 @@ function damagePlayer(state: CombatState, rawAmount: number): void {
     pushVisualEvent(state, "damage", "player", `-${dealt}`, "red", dealt);
   } else if (amount > 0) {
     pushVisualEvent(state, "block", "player", "护甲挡下", "neutral");
+  }
+
+  if (guardReduced > 0) {
+    triggerGuardSuccessRelics(state);
   }
 }
 
@@ -377,12 +385,14 @@ function setMind(state: CombatState, mind: MindState, amount: number): void {
   if (mind !== "none") {
     state.player.mindTendency[mind] += amount;
     pushVisualEvent(state, "status", "player", `心境：${formatMind(mind)}`, "gold", amount);
+    triggerMindRelics(state);
   }
 }
 
 function applyCharacterCardHooks(state: CombatState, definition: CardDefinition, targetId: string): void {
   if (definition.types.includes("attack")) {
     state.attacksPlayedThisTurn += 1;
+    triggerThirdAttackRelics(state, targetId);
   }
 
   if (state.character.id === "zhaoyun" && definition.types.includes("attack") && state.attacksPlayedThisTurn === 3) {
@@ -395,6 +405,7 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
 
   if (state.character.id === "diaochan" && definition.types.includes("body")) {
     gainResource(state, 1);
+    triggerBodyRelics(state);
     triggerJinghongDanceMethod(state);
   }
 }
@@ -590,6 +601,12 @@ function updateCombatOutcome(state: CombatState): void {
 }
 
 function applyCombatStartRelics(state: CombatState): void {
+  if (hasRelic(state, "relic_red_lacquer_token")) {
+    state.player.block += 2;
+    state.combatLog.push("朱漆令");
+    pushVisualEvent(state, "block", "player", "+2 护甲", "gold", 2);
+  }
+
   if (hasRelic(state, "relic_closed_moon_sachet")) {
     const enemy = state.enemies.find((item) => item.hp > 0);
     if (enemy) {
@@ -609,6 +626,11 @@ function triggerInkRelics(state: CombatState, inkAmount: number): void {
     state.combatLog.push("黑纸伞");
     pushVisualEvent(state, "block", "player", "+2 护甲", "ink", 2);
   }
+
+  if (inkAmount > 0 && triggerRelicOnce(state, "relic_ink_washstone", "player", "ink")) {
+    drawCards(state, 1, createRng(state.turn * 419 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
 }
 
 function triggerBreakFormationRelics(state: CombatState): void {
@@ -625,6 +647,61 @@ function triggerBreakFormationRelics(state: CombatState): void {
 
 function hasRelic(state: CombatState, relicId: string): boolean {
   return state.relicIds.includes(relicId);
+}
+
+function triggerRelicOnce(state: CombatState, relicId: string, target: CombatVisualTarget, tone: CombatVisualTone): boolean {
+  if (!hasRelic(state, relicId) || state.relicMemory[relicId]) {
+    return false;
+  }
+
+  const relic = relicsById[relicId];
+  state.relicMemory[relicId] = true;
+  state.combatLog.push(relic?.name ?? relicId);
+  pushVisualEvent(state, "trigger", target, relic?.name ?? relicId, tone);
+  return true;
+}
+
+function triggerThirdAttackRelics(state: CombatState, targetId: string): void {
+  if (state.attacksPlayedThisTurn !== 3) {
+    return;
+  }
+
+  if (triggerRelicOnce(state, "relic_dragon_scale_tip", "enemy", "red")) {
+    damageEnemy(state, targetId, 3);
+  }
+}
+
+function triggerGuardSuccessRelics(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_changban_iron_seal", "player", "teal")) {
+    drawCards(state, 1, createRng(state.turn * 431 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
+}
+
+function triggerBodyRelics(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_lotus_step_bell", "player", "teal")) {
+    drawCards(state, 1, createRng(state.turn * 443 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
+}
+
+function triggerCharmThresholdRelics(state: CombatState, targetId: string): void {
+  const enemy = state.enemies.find((item) => item.id === targetId);
+  if (!enemy || (enemy.statuses.charm ?? 0) < 4) {
+    return;
+  }
+
+  if (triggerRelicOnce(state, "relic_half_moon_hairpin", "enemy", "teal")) {
+    enemy.statuses.vulnerable = (enemy.statuses.vulnerable ?? 0) + 1;
+    pushVisualEvent(state, "status", "enemy", "易伤 +1", "teal", 1);
+  }
+}
+
+function triggerMindRelics(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_silent_zither_string", "player", "gold")) {
+    state.player.block += 2;
+    pushVisualEvent(state, "block", "player", "+2 护甲", "gold", 2);
+  }
 }
 
 function hasMethod(state: CombatState, methodId: MethodId): boolean {
@@ -700,9 +777,15 @@ function settleInkMarks(state: CombatState): void {
     return;
   }
 
-  state.player.hp = Math.max(1, state.player.hp - state.player.inkMarks);
+  const reduction = hasRelic(state, "relic_clear_rain_charm") ? 1 : 0;
+  const inkLoss = Math.max(0, state.player.inkMarks - reduction);
+  state.player.hp = Math.max(1, state.player.hp - inkLoss);
   state.combatLog.push("墨痕结算");
-  pushVisualEvent(state, "ink", "player", `墨痕 -${state.player.inkMarks}`, "ink", state.player.inkMarks);
+  if (reduction > 0) {
+    state.combatLog.push("清雨符");
+    pushVisualEvent(state, "trigger", "player", "清雨符", "ink");
+  }
+  pushVisualEvent(state, "ink", "player", `墨痕 -${inkLoss}`, "ink", inkLoss);
 }
 
 function pushVisualEvent(

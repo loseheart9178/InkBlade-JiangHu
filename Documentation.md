@@ -1166,6 +1166,56 @@ Result: TypeScript and Vite build passed.
 Note: Vite repeated the expected Phaser bundle size warning.
 ```
 
+### 2026-05-03 06:59 Asia/Shanghai
+
+Current state:
+
+- Completed module 4: 法宝池与精英/Boss 奖励深化.
+- Re-read before this module:
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+- Expanded first-chapter relic content to 12 relics.
+- Added source-aware relic pools for elite, boss, and shop rewards in `src/game/systems/relics/relicEffects.ts`.
+- Elite/Boss spoils now draw from character-aware expanded pools instead of the old two-relic default.
+- Shop relics now come from the shared shop pool and show rarity/source text.
+- Added combat hooks for:
+  - 鳞锋枪尖：第三张攻击额外伤害.
+  - 长坂铁印：护主抵消后抽牌.
+  - 莲步铃：首次身法抽牌.
+  - 半月钗：魅惑阈值后施加易伤.
+  - 洗墨石、清雨符、朱漆令、无声琴弦：墨痕/开局/心境辅助.
+
+Decisions:
+
+- Relic source filtering lives outside the renderer so shop, elite, boss, and later treasure nodes can share the same pool logic.
+- I kept deterministic pool ordering for the MVP; this makes route rewards predictable in tests while still expanding the decision space.
+
+Verification:
+
+```text
+npm test -- tests/relics/relic-system.test.ts
+First run: failed as expected because the new relic effects system module did not exist.
+
+npm test -- tests/relics/relic-system.test.ts tests/combat/combat-system.test.ts tests/run/run-system.test.ts
+Result after implementation: 3 test files passed, 56 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+First full run hit a transient local `ERR_NO_BUFFER_SPACE` navigation failure.
+Targeted rerun of the affected elite test passed.
+Second full run passed: 8 Playwright tests passed.
+
+npm test
+Result: 9 test files passed, 87 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+```
+
 ### 2026-05-03 06:36 Asia/Shanghai
 
 Current state:

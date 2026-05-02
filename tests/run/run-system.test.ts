@@ -206,8 +206,8 @@ describe("run system", () => {
 
     const spoils = claimBattleSpoils(run, "elite");
 
-    expect(spoils).toEqual({ gold: 25, relicId: "relic_old_wooden_sword" });
-    expect(run.relicIds).toContain("relic_old_wooden_sword");
+    expect(spoils).toEqual({ gold: 25, relicId: "relic_dragon_scale_tip" });
+    expect(run.relicIds).toContain("relic_dragon_scale_tip");
   });
 
   it("claims boss spoils with boss-level gold and a relic when available", () => {
@@ -215,15 +215,25 @@ describe("run system", () => {
 
     const spoils = claimBattleSpoils(run, "boss");
 
-    expect(spoils).toEqual({ gold: 50, relicId: "relic_old_wooden_sword" });
+    expect(spoils).toEqual({ gold: 50, relicId: "relic_lotus_step_bell" });
     expect(run.gold).toBe(149);
-    expect(run.relicIds).toContain("relic_old_wooden_sword");
+    expect(run.relicIds).toContain("relic_lotus_step_bell");
   });
 
   it("falls back to gold-only spoils when relic pool is exhausted", () => {
     const run = createRun("zhaoyun");
-    addRelic(run, "relic_old_wooden_sword");
-    addRelic(run, "relic_black_paper_umbrella");
+    for (const relicId of [
+      "relic_dragon_scale_tip",
+      "relic_changban_iron_seal",
+      "relic_old_wooden_sword",
+      "relic_black_paper_umbrella",
+      "relic_ink_washstone",
+      "relic_clear_rain_charm",
+      "relic_red_lacquer_token",
+      "relic_silent_zither_string"
+    ]) {
+      addRelic(run, relicId);
+    }
 
     expect(getNextRelicReward(run)).toBeUndefined();
     expect(claimBattleSpoils(run, "elite")).toEqual({ gold: 25 });
