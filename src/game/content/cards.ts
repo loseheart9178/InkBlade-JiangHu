@@ -494,6 +494,44 @@ export const cardList: CardDefinition[] = [
     }
   },
   {
+    id: "common_feishi",
+    name: "飞石",
+    cost: 0,
+    rarity: "common",
+    target: "enemy",
+    exhaust: true,
+    types: ["attack"],
+    effects: [{ action: "damage", amount: 3 }],
+    description: "造成3点伤害。消耗。低费起手，适合接入连斩或断招。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 5 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "造成5点伤害，抽1张牌。消耗。"
+    }
+  },
+  {
+    id: "common_zhuiying",
+    name: "追影",
+    cost: 1,
+    rarity: "uncommon",
+    target: "enemy",
+    types: ["body", "attack"],
+    effects: [
+      { action: "block", amount: 3 },
+      { action: "damage", amount: 5 }
+    ],
+    description: "获得3点护甲，造成5点伤害。身法入攻，可自行成链。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 5 },
+        { action: "damage", amount: 7 }
+      ],
+      description: "获得5点护甲，造成7点伤害。身法入攻，可自行成链。"
+    }
+  },
+  {
     id: "mind_jingxin",
     name: "静心",
     cost: 1,

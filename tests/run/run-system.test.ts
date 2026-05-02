@@ -2,10 +2,13 @@ import { cardsById } from "../../src/game/content/cards";
 import {
   addRelic,
   claimBattleSpoils,
+  createCardRewardDraft,
   createRun,
   getAvailableNodes,
+  getComboRewardHint,
   getNextRelicReward,
   getUpgradeCandidates,
+  recordRunCombatCombos,
   removeDeckCard,
   takeCardReward,
   travelToNode,
@@ -109,6 +112,53 @@ describe("run system", () => {
     takeCardReward(run, cardsById.common_pifeng);
 
     expect(run.deck.at(-1)?.cardId).toBe("common_pifeng");
+  });
+
+  it("records combat combos for the next reward draft", () => {
+    const run = createRun("zhaoyun");
+
+    recordRunCombatCombos(run, ["xushi", "lianzhan"]);
+
+    expect(run.lastCombatComboTriggers).toEqual(["xushi", "lianzhan"]);
+  });
+
+  it("biases Zhao Yun normal card rewards toward the latest combo chain", () => {
+    const run = createRun("zhaoyun");
+    recordRunCombatCombos(run, ["xushi", "lianzhan"]);
+
+    const draft = createCardRewardDraft(run, "battle");
+
+    expect(draft.comboId).toBe("lianzhan");
+    expect(draft.comboName).toBe("连斩");
+    expect(draft.cards).toHaveLength(3);
+    expect(draft.cards[0].id).toBe("zhao_white_dragon");
+    expect(draft.cards.map((card) => card.id)).toContain("common_feishi");
+    expect(new Set(draft.cards.map((card) => card.id)).size).toBe(3);
+    expect(getComboRewardHint(run)).toContain("连斩");
+  });
+
+  it("biases Diao Chan rewards toward body-attack chain support", () => {
+    const run = createRun("diaochan");
+    recordRunCombatCombos(run, ["zhuiying"]);
+
+    const draft = createCardRewardDraft(run, "battle");
+
+    expect(draft.comboId).toBe("zhuiying");
+    expect(draft.cards[0].id).toBe("diao_lotus_blade");
+    expect(draft.cards.map((card) => card.id)).toContain("common_zhuiying");
+  });
+
+  it("keeps ink cards out of ordinary rewards unless the ink combo was used", () => {
+    const ordinary = createCardRewardDraft(createRun("zhaoyun"), "battle");
+    expect(ordinary.cards.some((card) => card.rarity === "ink")).toBe(false);
+
+    const run = createRun("zhaoyun");
+    recordRunCombatCombos(run, ["moxi"]);
+
+    const inkDraft = createCardRewardDraft(run, "battle");
+
+    expect(inkDraft.comboId).toBe("moxi");
+    expect(inkDraft.cards[0].rarity).toBe("ink");
   });
 
   it("adds relics once and refuses duplicates", () => {

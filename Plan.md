@@ -394,3 +394,24 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 23: Combo Chain Rewards And Card Pool Linkage
+
+- [x] Track combat-wide combo triggers so battle rewards can read the whole fight, while the HUD combo trail still resets per turn.
+- [x] Move card reward drafting into the run system instead of the controller.
+- [x] Add combo-aware reward rules for 连斩、蓄势、追影、静守、心刃、固守、墨袭、断招.
+- [x] Add first-slice combo support cards: 飞石 and 追影.
+- [x] Keep ordinary battle rewards free of ink-rarity cards unless the player used 墨袭.
+- [x] Surface reward bias in the reward screen with an 招式回响 hint and a highlighted primary card.
+- [x] Cover combat memory, reward drafting, card pool data, and browser reward UI with tests.
+
+Verification:
+
+```bash
+npm test -- tests/combat/combat-system.test.ts tests/run/run-system.test.ts tests/data/content.test.ts
+npm run typecheck
+npm run build
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+npm test
+npm run test:e2e
+```

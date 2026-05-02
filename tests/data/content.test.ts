@@ -48,6 +48,25 @@ describe("content data", () => {
     }
   });
 
+  it("adds common cards that explicitly support combo-chain rewards", () => {
+    expect(cardsById.common_feishi).toMatchObject({
+      name: "飞石",
+      cost: 0,
+      rarity: "common",
+      target: "enemy",
+      exhaust: true
+    });
+    expect(cardsById.common_feishi.types).toEqual(["attack"]);
+
+    expect(cardsById.common_zhuiying).toMatchObject({
+      name: "追影",
+      cost: 1,
+      rarity: "uncommon",
+      target: "enemy"
+    });
+    expect(cardsById.common_zhuiying.types).toEqual(["body", "attack"]);
+  });
+
   it("defines first chapter enemies including elites and the Dong Zhuo boss", () => {
     expect(enemyList.length).toBeGreaterThanOrEqual(5);
     expect(enemyList.some((enemy) => enemy.id === "boss_ink_dongzhuo")).toBe(true);

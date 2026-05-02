@@ -280,6 +280,23 @@ describe("combat system", () => {
     expect(state.visualEvents).toEqual(expect.arrayContaining([expect.objectContaining({ kind: "trigger", label: "蓄势" })]));
   });
 
+  it("keeps combat-wide combo memory after the turn combo trail resets", () => {
+    const state = startCombat(zhaoYun, ["guard", "strike", "guard", "guard", "guard", "strike"]);
+    const guardCard = state.piles.hand.find((item) => item.definitionId === "guard");
+    const attackCard = state.piles.hand.find((item) => item.definitionId === "strike");
+
+    playCard(state, guardCard?.instanceId ?? "", "player");
+    playCard(state, attackCard?.instanceId ?? "", state.enemies[0].id);
+
+    expect(state.comboTriggersThisTurn).toEqual(["xushi"]);
+    expect(state.comboTriggersThisCombat).toEqual(["xushi"]);
+
+    endPlayerTurn(state);
+
+    expect(state.comboTriggersThisTurn).toEqual([]);
+    expect(state.comboTriggersThisCombat).toEqual(["xushi"]);
+  });
+
   it("triggers body into attack combo with block and extra damage", () => {
     const state = startCombat(diaoChan, ["shadow-step", "strike", "guard", "guard", "guard"]);
     const bodyCard = state.piles.hand.find((item) => item.definitionId === "shadow-step");

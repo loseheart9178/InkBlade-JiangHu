@@ -86,6 +86,7 @@ export function createCombat(input: CreateCombatInput): CombatState {
     relicMemory: {},
     playedCardTypesThisTurn: [],
     comboTriggersThisTurn: [],
+    comboTriggersThisCombat: [],
     lastPlayedCardExhaustedThisTurn: false,
     attacksPlayedThisTurn: 0,
     nextInstanceNumber: draw.length + 1,
@@ -418,6 +419,7 @@ function matchesComboSequence(history: CardType[], sequence: CardType[]): boolea
 
 function executeComboRule(state: CombatState, rule: ComboRule, targetId: string): void {
   state.comboTriggersThisTurn.push(rule.id);
+  state.comboTriggersThisCombat.push(rule.id);
   state.combatLog.push(rule.name);
   pushVisualEvent(state, "trigger", "center", rule.name, rule.tone);
 
@@ -660,6 +662,10 @@ function pushVisualEvent(
 function ensureComboTracking(state: CombatState): void {
   if (!Array.isArray(state.comboTriggersThisTurn)) {
     state.comboTriggersThisTurn = [];
+  }
+
+  if (!Array.isArray(state.comboTriggersThisCombat)) {
+    state.comboTriggersThisCombat = [];
   }
 
   if (typeof state.lastPlayedCardExhaustedThisTurn !== "boolean") {

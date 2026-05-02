@@ -2,9 +2,99 @@ import { cardsById } from "../../content/cards";
 import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardDefinition } from "../combat/types";
-import type { BattleSpoils, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
+import type { BattleSpoils, CardRewardDraft, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
 
 const RELIC_REWARD_POOL = ["relic_old_wooden_sword", "relic_black_paper_umbrella"];
+const ZHAO_REWARD_POOL = ["zhao_thrust", "zhao_guardian", "zhao_white_dragon", "zhao_break_spear", "zhao_river_guard"];
+const DIAO_REWARD_POOL = ["diao_hongyan", "diao_glance", "diao_red_ribbon", "diao_step_lotus", "diao_lotus_blade"];
+const ELITE_ZHAO_REWARD_POOL = ["zhao_qixing_spear", "zhao_break_spear", "zhao_single_rider"];
+const ELITE_DIAO_REWARD_POOL = ["diao_closed_moon", "diao_step_lotus", "diao_red_ribbon"];
+const COMMON_REWARD_POOL = [
+  "common_pifeng",
+  "common_duanzhu",
+  "common_gedang",
+  "common_xieli",
+  "common_tuna",
+  "common_qingshen",
+  "mind_jingxin",
+  "mind_nuzhan",
+  "common_mirror_armor"
+];
+
+interface ComboRewardRule {
+  id: string;
+  name: string;
+  hint: string;
+  byCharacter?: Partial<Record<string, string[]>>;
+  cardIds: string[];
+}
+
+const COMBO_REWARD_RULES: ComboRewardRule[] = [
+  {
+    id: "lianzhan",
+    name: "连斩",
+    hint: "奖励池偏向低费攻击与连击抽牌。",
+    byCharacter: {
+      zhaoyun: ["zhao_white_dragon"],
+      diaochan: ["diao_sleeve_blade"]
+    },
+    cardIds: ["common_feishi", "zhao_qixing_spear"]
+  },
+  {
+    id: "xushi",
+    name: "蓄势",
+    hint: "奖励池偏向技法起手和攻势衔接。",
+    byCharacter: {
+      zhaoyun: ["zhao_river_guard"],
+      diaochan: ["diao_red_ribbon"]
+    },
+    cardIds: ["common_tuna", "common_gedang"]
+  },
+  {
+    id: "zhuiying",
+    name: "追影",
+    hint: "奖励池偏向身法入攻和位移追击。",
+    byCharacter: {
+      diaochan: ["diao_lotus_blade"],
+      zhaoyun: ["zhao_thrust"]
+    },
+    cardIds: ["common_zhuiying", "common_qingshen"]
+  },
+  {
+    id: "jingshou",
+    name: "静守",
+    hint: "奖励池偏向心境防守与稳态护甲。",
+    cardIds: ["mind_jingxin", "common_mirror_armor", "common_tuna"]
+  },
+  {
+    id: "xinren",
+    name: "心刃",
+    hint: "奖励池偏向心境切入与攻势爆发。",
+    cardIds: ["mind_nuzhan", "common_feishi", "zhao_white_dragon"]
+  },
+  {
+    id: "gushou",
+    name: "固守",
+    hint: "奖励池偏向连续技法与高护甲牌。",
+    byCharacter: {
+      zhaoyun: ["zhao_guardian"],
+      diaochan: ["diao_glance"]
+    },
+    cardIds: ["common_mirror_armor", "common_gedang"]
+  },
+  {
+    id: "moxi",
+    name: "墨袭",
+    hint: "奖励池打开墨灾特供牌，偏向墨痕攻势。",
+    cardIds: ["ink_modian", "mind_luanxin", "ink_moren", "ink_luoshui_tide"]
+  },
+  {
+    id: "duanzhao",
+    name: "断招",
+    hint: "奖励池偏向消耗牌和低费补牌。",
+    cardIds: ["common_feishi", "common_qingshen", "diao_sleeve_blade"]
+  }
+];
 
 export function createRun(characterId: string, options: CreateRunOptions = {}): RunState {
   const character = charactersById[characterId];
@@ -30,8 +120,63 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     currentNodeId: "start",
     visitedNodeIds: [],
     nextDeckInstanceNumber: deck.length + 1,
-    rewardHistory: []
+    rewardHistory: [],
+    lastCombatComboTriggers: [],
+    comboRewardHistory: []
   };
+}
+
+export function recordRunCombatCombos(run: RunState, comboTriggers: string[]): RunState {
+  normalizeRunComboFields(run);
+  run.lastCombatComboTriggers = comboTriggers.filter(Boolean);
+
+  if (run.lastCombatComboTriggers.length > 0) {
+    run.comboRewardHistory.push(...run.lastCombatComboTriggers);
+    if (run.comboRewardHistory.length > 24) {
+      run.comboRewardHistory.splice(0, run.comboRewardHistory.length - 24);
+    }
+  }
+
+  return run;
+}
+
+export function createCardRewardDraft(run: RunState, nodeType: MapNodeType = "battle"): CardRewardDraft {
+  normalizeRunComboFields(run);
+  const comboBias = getComboRewardBias(run);
+  const offset = run.rewardHistory.length;
+  const cards: CardDefinition[] = [];
+
+  if (comboBias) {
+    addCardsById(cards, comboBias.candidateCardIds.slice(0, 2));
+  }
+
+  if (nodeType === "elite" || nodeType === "boss") {
+    addRotatedCards(cards, getEliteRewardPool(run.characterId), offset, 1);
+  }
+
+  addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + (comboBias ? 1 : 0), 1);
+  addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
+  addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + cards.length + 1, 3);
+
+  return {
+    cards: cards.slice(0, 3),
+    comboId: comboBias?.comboId,
+    comboName: comboBias?.comboName,
+    comboHint: comboBias?.hint,
+    comboPrimaryCardId: comboBias?.primaryCardId
+  };
+}
+
+export function createRewardCards(run: RunState, nodeType: MapNodeType = "battle"): CardDefinition[] {
+  return createCardRewardDraft(run, nodeType).cards;
+}
+
+export function getComboRewardHint(run: RunState): string | undefined {
+  return getComboRewardBias(run)?.hint;
+}
+
+export function getComboRewardPrimaryCardId(run: RunState): string | undefined {
+  return getComboRewardBias(run)?.primaryCardId;
 }
 
 export function addRelic(run: RunState, relicId: string): boolean {
@@ -150,6 +295,81 @@ export function upgradeDeckCard(run: RunState, instanceId: string): boolean {
 
   entry.upgraded = true;
   return true;
+}
+
+function getComboRewardBias(run: RunState): { comboId: string; comboName: string; hint: string; primaryCardId: string; candidateCardIds: string[] } | undefined {
+  normalizeRunComboFields(run);
+  const rule = getLatestComboRewardRule(run.lastCombatComboTriggers);
+  if (!rule) {
+    return undefined;
+  }
+
+  const candidateCardIds = getComboCandidateCardIds(rule, run.characterId).filter((cardId) => Boolean(cardsById[cardId]));
+  const primaryCardId = candidateCardIds[0];
+  if (!primaryCardId) {
+    return undefined;
+  }
+
+  return {
+    comboId: rule.id,
+    comboName: rule.name,
+    hint: `招式回响：${rule.name}，${rule.hint}`,
+    primaryCardId,
+    candidateCardIds
+  };
+}
+
+function getLatestComboRewardRule(comboTriggers: string[]): ComboRewardRule | undefined {
+  for (let index = comboTriggers.length - 1; index >= 0; index -= 1) {
+    const rule = COMBO_REWARD_RULES.find((item) => item.id === comboTriggers[index]);
+    if (rule) {
+      return rule;
+    }
+  }
+
+  return undefined;
+}
+
+function getComboCandidateCardIds(rule: ComboRewardRule, characterId: string): string[] {
+  return [...(rule.byCharacter?.[characterId] ?? []), ...rule.cardIds];
+}
+
+function addCardsById(cards: CardDefinition[], cardIds: string[]): void {
+  for (const cardId of cardIds) {
+    const card = cardsById[cardId];
+    if (card && !cards.some((item) => item.id === card.id)) {
+      cards.push(card);
+    }
+  }
+}
+
+function addRotatedCards(cards: CardDefinition[], cardIds: string[], offset: number, desiredCount: number): void {
+  if (cardIds.length === 0 || cards.length >= desiredCount) {
+    return;
+  }
+
+  for (let index = 0; index < cardIds.length && cards.length < desiredCount; index += 1) {
+    const cardId = cardIds[(offset + index) % cardIds.length];
+    addCardsById(cards, [cardId]);
+  }
+}
+
+function getRoleRewardPool(characterId: string): string[] {
+  return characterId === "diaochan" ? DIAO_REWARD_POOL : ZHAO_REWARD_POOL;
+}
+
+function getEliteRewardPool(characterId: string): string[] {
+  return characterId === "diaochan" ? ELITE_DIAO_REWARD_POOL : ELITE_ZHAO_REWARD_POOL;
+}
+
+function normalizeRunComboFields(run: RunState): void {
+  if (!Array.isArray(run.lastCombatComboTriggers)) {
+    run.lastCombatComboTriggers = [];
+  }
+
+  if (!Array.isArray(run.comboRewardHistory)) {
+    run.comboRewardHistory = [];
+  }
 }
 
 function getNode(run: RunState, nodeId: string): MapNode {

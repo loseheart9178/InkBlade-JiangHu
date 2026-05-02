@@ -939,3 +939,67 @@ Additional visual check:
 Reviewed `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png`.
 The center combo trail is visible, stays between the duelants, and does not overlap the bottom hand.
 ```
+
+### 2026-05-03 01:41 Asia/Shanghai
+
+Current state:
+
+- Completed the "combo chain rewards and card pool linkage" module.
+- Re-read for this pass before gameplay, reward, and card-pool changes:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Added combat-wide combo memory via `comboTriggersThisCombat`, while keeping `comboTriggersThisTurn` as the per-turn HUD trail.
+- Moved reward drafting from the DOM controller into the run system.
+- Added combo-aware card reward rules for 连斩、蓄势、追影、静守、心刃、固守、墨袭、断招.
+- Added two common/uncommon card-pool support cards:
+  - 飞石: 0-cost exhausted attack for 连斩 / 断招 setups.
+  - 追影: 身法 / 攻击 hybrid card for the body-attack chain.
+- Adjusted ordinary reward drafting so ink-rarity cards do not appear from normal battle rewards unless the player used 墨袭.
+- Added reward-screen feedback: `招式回响` hint text plus a highlighted primary reward card.
+
+Decisions:
+
+- The reward system uses the latest triggered combo from the completed combat as the strongest signal. This keeps the MVP deterministic and easy to explain.
+- Combo-biased rewards reserve the first reward slot for the primary synergy card, then fill the remaining slots with a support combo card and normal role/common pools.
+- 墨袭 is treated as a special source that can open ink-rarity rewards, matching the PRD constraint that ink cards should not normally appear in ordinary rewards.
+
+Verification:
+
+```text
+npm test -- tests/combat/combat-system.test.ts tests/run/run-system.test.ts tests/data/content.test.ts
+First run: failed as expected before implementation.
+Red failures covered missing combat-wide combo memory, missing run reward APIs, and missing combo support cards.
+
+npm test -- tests/combat/combat-system.test.ts tests/run/run-system.test.ts tests/data/content.test.ts
+Result after implementation: 3 test files passed, 60 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+Result: 6 Playwright tests passed.
+Covered: first combat reward `招式回响` hint, combo-biased primary reward card, shop, event/rest, save/continue, and first-chapter victory route.
+
+npm test
+Result: 5 test files passed, 65 tests passed.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: visual smoke, playable flow, reward combo hint, save/continue, boss mechanics, and full first-chapter victory.
+
+Additional visual check:
+Reviewed `test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png`.
+The combat layout remains readable after reward-system changes; standees, energy orb, and bottom hand still preserve the desktop reference spacing.
+```

@@ -157,6 +157,7 @@ export interface CombatState {
   relicMemory: Partial<Record<string, boolean>>;
   playedCardTypesThisTurn: CardType[];
   comboTriggersThisTurn: string[];
+  comboTriggersThisCombat: string[];
   lastPlayedCardExhaustedThisTurn: boolean;
   attacksPlayedThisTurn: number;
   nextInstanceNumber: number;

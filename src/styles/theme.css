@@ -1071,6 +1071,38 @@ button {
   text-align: left;
 }
 
+.reward-combo-hint {
+  max-width: 720px;
+  padding: 9px 18px;
+  border: 1px solid rgba(183, 53, 42, 0.34);
+  border-radius: 999px;
+  color: #5f1d18;
+  background:
+    linear-gradient(90deg, rgba(183, 53, 42, 0.12), rgba(47, 124, 110, 0.1)),
+    rgba(246, 236, 213, 0.72);
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0 8px 22px rgba(17, 17, 17, 0.12);
+}
+
+.reward-card.is-combo-biased {
+  border-color: rgba(183, 53, 42, 0.9);
+  box-shadow:
+    0 12px 28px rgba(17, 17, 17, 0.2),
+    inset 0 0 0 3px rgba(183, 53, 42, 0.14);
+}
+
+.reward-combo-mark {
+  justify-self: center;
+  padding: 2px 8px;
+  border: 1px solid rgba(183, 53, 42, 0.34);
+  border-radius: 999px;
+  color: #b7352a;
+  background: rgba(255, 252, 239, 0.72);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
 .deck-overlay {
   position: absolute;
   inset: 0;

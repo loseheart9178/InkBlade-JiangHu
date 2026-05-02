@@ -18,11 +18,15 @@ import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, Status
 import {
   addRelic,
   claimBattleSpoils,
+  createCardRewardDraft,
   createRun,
   getAvailableNodes,
+  getComboRewardHint,
+  getComboRewardPrimaryCardId,
   getCurrentNode,
   getUpgradeCandidates,
   healRun,
+  recordRunCombatCombos,
   removeDeckCard,
   takeCardReward,
   travelToNode,
@@ -370,6 +374,7 @@ function handleCombatAfterAction(state: ControllerState): void {
 
   if (combat.phase === "won") {
     const node = getCurrentNode(run);
+    recordRunCombatCombos(run, combat.comboTriggersThisCombat ?? []);
     state.pendingSpoils = claimBattleSpoils(run, node.type);
 
     if (node.type === "boss") {
@@ -378,7 +383,7 @@ function handleCombatAfterAction(state: ControllerState): void {
       return;
     }
 
-    state.rewardCards = createRewardCards(run, node.type);
+    state.rewardCards = createCardRewardDraft(run, node.type).cards;
     state.screen = "reward";
     state.message = "战斗胜利，选择一式武学。";
   }
@@ -391,17 +396,28 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
   panel.append(createMessage(state.message));
   panel.append(createSpoilsSummary(state.pendingSpoils));
+  const comboHint = getComboRewardHint(run);
+  const comboPrimaryCardId = getComboRewardPrimaryCardId(run);
+  if (comboHint) {
+    panel.append(createRewardComboHint(comboHint));
+  }
 
   const rewards = document.createElement("div");
   rewards.className = "reward-cards";
   for (const card of state.rewardCards) {
+    const isComboBiased = card.id === comboPrimaryCardId;
     const button = document.createElement("button");
     button.type = "button";
     button.className = `reward-card card-type-${card.types[0]}`;
+    if (isComboBiased) {
+      button.classList.add("is-combo-biased");
+    }
     button.dataset.testid = "reward-card";
+    button.dataset.comboBiased = isComboBiased ? "true" : "false";
     button.innerHTML = `
       ${createCardArtMarkup(card)}
       ${createCardChromeMarkup(card)}
+      ${isComboBiased ? `<span class="reward-combo-mark">招式回响</span>` : ""}
       <strong>${card.name}</strong>
       <small class="card-type-line">${formatTypes(card.types)}</small>
       ${createCardKeywordRowMarkup(card)}
@@ -675,23 +691,6 @@ function renderResult(host: HTMLElement, state: ControllerState, render: () => v
   host.append(panel);
 }
 
-function createRewardCards(run: RunState, nodeType: MapNode["type"] = "battle"): CardDefinition[] {
-  const zhao = [cardsById.zhao_thrust, cardsById.zhao_guardian, cardsById.zhao_white_dragon, cardsById.zhao_break_spear, cardsById.zhao_river_guard];
-  const diao = [cardsById.diao_hongyan, cardsById.diao_glance, cardsById.diao_red_ribbon, cardsById.diao_step_lotus, cardsById.diao_lotus_blade];
-  const eliteZhao = [cardsById.zhao_qixing_spear, cardsById.zhao_break_spear, cardsById.zhao_single_rider];
-  const eliteDiao = [cardsById.diao_closed_moon, cardsById.diao_step_lotus, cardsById.diao_red_ribbon];
-  const common = [cardsById.common_pifeng, cardsById.common_gedang, cardsById.mind_jingxin, cardsById.ink_modian, cardsById.common_mirror_armor, cardsById.ink_luoshui_tide];
-  const rolePool = run.characterId === "zhaoyun" ? zhao : diao;
-  const elitePool = run.characterId === "zhaoyun" ? eliteZhao : eliteDiao;
-  const offset = run.rewardHistory.length % rolePool.length;
-
-  if (nodeType === "elite") {
-    return [elitePool[offset % elitePool.length], rolePool[(offset + 1) % rolePool.length], common[(offset + 2) % common.length]];
-  }
-
-  return [rolePool[offset], common[offset % common.length], common[(offset + 1) % common.length]];
-}
-
 function createPanel(testId: string, title: string): HTMLElement {
   const panel = document.createElement("section");
   panel.className = "game-panel";
@@ -743,6 +742,14 @@ function createSpoilsSummary(spoils: BattleSpoils | undefined): HTMLElement {
   }
   summary.textContent = parts.join(" · ");
   return summary;
+}
+
+function createRewardComboHint(hint: string): HTMLElement {
+  const element = document.createElement("div");
+  element.className = "reward-combo-hint";
+  element.dataset.testid = "reward-combo-hint";
+  element.textContent = hint;
+  return element;
 }
 
 function createMeter(testId: string, label: string, value: number, max: number, accent: string, portraitPath?: string): HTMLElement {

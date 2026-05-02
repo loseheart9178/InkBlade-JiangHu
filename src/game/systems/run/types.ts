@@ -32,10 +32,20 @@ export interface RunState {
   visitedNodeIds: string[];
   nextDeckInstanceNumber: number;
   rewardHistory: string[];
+  lastCombatComboTriggers: string[];
+  comboRewardHistory: string[];
 }
 
 export interface CardReward {
   cards: CardDefinition[];
+}
+
+export interface CardRewardDraft {
+  cards: CardDefinition[];
+  comboId?: string;
+  comboName?: string;
+  comboHint?: string;
+  comboPrimaryCardId?: string;
 }
 
 export interface BattleSpoils {
