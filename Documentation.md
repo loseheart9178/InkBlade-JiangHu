@@ -520,6 +520,7 @@ Viewed latest desktop and mobile screenshots under test-results and adjusted com
 - [x] Replace placeholder art with GPT Image 2 generated reference-style assets.
 - [x] Clean up generated-art visual regressions for Diao Chan, combat overlays, and hand-card art scale.
 - [x] Fix playable character art identity and pause mobile adaptation in favor of desktop polish.
+- [x] Add reusable generated-art workflow skill and desktop combat layout regressions.
 
 ### 2026-05-02 18:59 Asia/Shanghai
 
@@ -663,4 +664,62 @@ Covered: desktop Zhao Yun/Diao Chan visual smoke, playable battle/reward flow, s
 
 Additional visual check:
 Reviewed the latest desktop Zhao Yun and Diao Chan screenshots. Zhao Yun now reads as a male spear general, Diao Chan reads as a red-white dancer, and no raw GPT/chroma-key background is visible.
+```
+
+### 2026-05-02 22:50 Asia/Shanghai
+
+Current state:
+
+- Added reusable project skill `skills/inkblade-art-asset-pipeline/SKILL.md` for generated art workflows: docs re-read, prompt/style lock, source preservation, cutout, sprite-strip creation, manifest wiring, screenshot QA, and failure handling.
+- Updated project rules so future new feature work, story/copy changes, UI art generation, character/enemy art, and asset replacement must re-read relevant `docs/` settings before implementation and log the docs read.
+- Re-read for this pass:
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Fixed the enemy attack visual bug:
+  - generated enemy-specific transparent attack strips derived from existing GPT cutout standees,
+  - added `ink_bandit_attack` and `ink_dongzhuo_attack`,
+  - routed normal enemies to the bandit strip and Dong Zhuo-class enemies to the Dong Zhuo strip,
+  - removed the runtime dependency on the old black `enemy_slash` placeholder for enemy attacks.
+- Reworked the desktop combat layout toward the user reference:
+  - full-screen battlefield now has a DOM background fallback matching the generated Luoshui art,
+  - top meters stay in the reference-like top health bar zone,
+  - idle standees are constrained above the bottom hand,
+  - the energy orb is separated at the left bottom instead of sitting in the card row,
+  - hand cards occupy the bottom band with right-side combat controls.
+- Added browser regression checks for:
+  - enemy attack sprite path,
+  - player/enemy standee separation from the hand zone,
+  - energy-orb distance from the first card.
+
+Decisions:
+
+- Enemy strips were derived from the approved GPT-generated enemy cutouts rather than generated from scratch, preserving current enemy identity while removing the old black placeholder.
+- Layout work remains desktop-first; mobile adaptation is still paused by project rule and user direction.
+
+Verification:
+
+```text
+npm test -- --run tests/data/content.test.ts
+Result: 1 test file passed, 8 tests passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed.
+Screenshots reviewed:
+test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png
+test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-diaochan-desktop.png
+
+npm test
+Result: 5 test files passed, 47 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e
+Result: 7 Playwright tests passed.
+Covered: visual smoke, playable battle/reward flow, shop relic, event-rest upgrade, Diao Chan relic start, reload/continue save, and full first-chapter victory.
 ```

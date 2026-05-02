@@ -907,7 +907,11 @@ function getCombatSprite(id: string) {
     return combatSpriteSheetsById.diaochan_attack;
   }
 
-  return combatSpriteSheetsById.enemy_slash;
+  if (id === "boss_ink_dongzhuo" || id === "elite_blood_banner") {
+    return combatSpriteSheetsById.ink_dongzhuo_attack;
+  }
+
+  return combatSpriteSheetsById.ink_bandit_attack;
 }
 
 function createCardArtMarkup(card: CardDefinition): string {

@@ -6,7 +6,9 @@ Goal: independently complete the project according to `Prompt.md` and `Plan.md`.
 
 Work loop, repeat until all milestones are complete:
 
-1. Read `Prompt.md`, `Plan.md`, and current `Documentation.md`.
+1. Read `Prompt.md`, `Plan.md`, `Implement.md`, and current `Documentation.md`.
+   - For new feature development, story/copy setting, UI art generation, character/enemy art, or asset replacement, also re-read the relevant `docs/` files before implementation.
+   - Record the `docs/` files read in `Documentation.md` so later work can audit why a feature or asset made a specific direction choice.
 2. Execute the current milestone.
 3. Use git commits to record meaningful changes when a milestone is verified.
 4. Run all verification commands listed for the milestone.
@@ -38,4 +40,3 @@ Current assumptions:
 - The vertical slice targets browser first, not Unity/Godot, because the shared workspace can immediately run and verify a web prototype.
 - Phaser is the renderer. TypeScript systems are the source of truth.
 - Art can begin as procedural/SVG/CSS ink-wash assets and be replaced by generated or hand-authored art later.
-

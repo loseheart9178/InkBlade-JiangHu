@@ -317,3 +317,23 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 19: Desktop Combat Art Workflow And Layout Regression Fix
+
+- [x] Create a reusable project skill for the generated art asset workflow.
+- [x] Record the docs re-read requirement for future feature, story, UI, and art generation work.
+- [x] Add enemy-specific generated attack sprite strips for normal enemies and Dong Zhuo-class enemies.
+- [x] Route enemy attack visuals away from the legacy black placeholder strip.
+- [x] Rework desktop combat layout toward the user reference: top health bars, central standees, bottom hand, separated left energy orb, right-side controls.
+- [x] Add browser regression checks for enemy attack strips, standee/hand separation, and energy/card spacing.
+- [x] Review desktop screenshots against the provided combat reference.
+
+Verification:
+
+```bash
+npm test -- --run tests/data/content.test.ts
+npm run build
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+npm test
+npm run test:e2e
+```

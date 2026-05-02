@@ -176,11 +176,19 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
     anchor: "bottom-center"
   },
   {
-    id: "enemy_slash",
-    assetPath: "/assets/sprites/enemy-slash-strip.svg",
+    id: "ink_bandit_attack",
+    assetPath: "/assets/sprites/ink-bandit-attack-strip-gpt-v2.png",
     frameCount: 4,
-    frameWidth: 256,
-    frameHeight: 256,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "ink_dongzhuo_attack",
+    assetPath: "/assets/sprites/ink-dongzhuo-attack-strip-gpt-v2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
     anchor: "bottom-center"
   }
 ];

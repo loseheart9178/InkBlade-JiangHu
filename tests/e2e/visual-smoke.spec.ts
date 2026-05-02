@@ -12,6 +12,11 @@ test("captures desktop combat smoke screenshots for Zhao Yun and Diao Chan", asy
   await expect(page.getByTestId("card-art").first()).toHaveAttribute("src", /^\/assets\/generated\/cards\/.+\.png$/);
   await expect(page.getByTestId("card-art").first()).toHaveCSS("object-fit", "contain");
 
+  await expectDesktopCombatLayout(page);
+
+  await page.getByTestId("end-turn").click();
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /ink-bandit-attack-strip-gpt-v2\.png/);
+
   const playableAttack = page.locator(".combat-card:not([disabled])").filter({ hasText: "攻" }).first();
   await playableAttack.click();
   await expect(page.getByTestId("combat-sprite-player")).toHaveCSS("background-image", /zhaoyun-attack-strip-gpt-v2\.png/);
@@ -26,3 +31,21 @@ test("captures desktop combat smoke screenshots for Zhao Yun and Diao Chan", asy
   await expect(page.getByTestId("combat-sprite-player")).toHaveCount(0);
   await page.screenshot({ path: testInfo.outputPath("combat-diaochan-desktop.png"), fullPage: true });
 });
+
+async function expectDesktopCombatLayout(page: import("@playwright/test").Page) {
+  const playerStandee = await page.getByTestId("combat-standee-player").boundingBox();
+  const enemyStandee = await page.getByTestId("combat-standee-enemy").boundingBox();
+  const handZone = await page.getByTestId("hand-zone").boundingBox();
+  const energy = await page.getByTestId("energy").boundingBox();
+  const firstCard = await page.locator(".combat-card").first().boundingBox();
+
+  expect(playerStandee).not.toBeNull();
+  expect(enemyStandee).not.toBeNull();
+  expect(handZone).not.toBeNull();
+  expect(energy).not.toBeNull();
+  expect(firstCard).not.toBeNull();
+
+  expect(playerStandee!.y + playerStandee!.height).toBeLessThan(handZone!.y + 8);
+  expect(enemyStandee!.y + enemyStandee!.height).toBeLessThan(handZone!.y + 8);
+  expect(firstCard!.x - (energy!.x + energy!.width)).toBeGreaterThanOrEqual(28);
+}

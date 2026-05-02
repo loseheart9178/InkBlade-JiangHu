@@ -16,6 +16,7 @@ Read these first:
 3. `Plan.md`
 4. `Implement.md`
 5. `Documentation.md`
+6. Relevant `docs/` files whenever changing features, story/copy, UI, character/enemy art, or generated assets.
 
 ## Loop
 
@@ -31,7 +32,7 @@ Read these first:
 ## Guardrails
 
 - Preserve gameplay/renderer separation.
+- Re-read relevant `docs/` settings before feature, story, UI, or art work and log the docs read in `Documentation.md`.
 - Prefer tests for rules and browser checks for UX.
 - Keep visual style close to ink-wash wuxia: xuan paper, ink mountains, brush strokes, red and teal accents.
 - Avoid expanding scope into full EA content before the playable loop is proven.
-

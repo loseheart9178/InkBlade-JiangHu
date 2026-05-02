@@ -114,6 +114,9 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.zhaoyun_attack.assetPath).toBe("/assets/sprites/zhaoyun-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.diaochan_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.diaochan_attack.assetPath).toBe("/assets/sprites/diaochan-attack-strip-gpt-v2.png");
-    expect(combatSpriteSheetsById.enemy_slash.frameWidth).toBeGreaterThan(0);
+    expect(combatSpriteSheetsById.ink_bandit_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.ink_bandit_attack.assetPath).toBe("/assets/sprites/ink-bandit-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.ink_dongzhuo_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.ink_dongzhuo_attack.assetPath).toBe("/assets/sprites/ink-dongzhuo-attack-strip-gpt-v2.png");
   });
 });

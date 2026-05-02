@@ -7,6 +7,7 @@
 ## Collaboration Rules
 
 - Read `Prompt.md`, `Plan.md`, `Implement.md`, and `Documentation.md` before implementation work.
+- Before new feature work, story/copy changes, UI art generation, character/enemy art generation, or asset replacement, re-read the relevant `docs/` source files for PRD, gameplay, world/chapter, and character/enemy settings, then record the docs read in `Documentation.md`.
 - Keep gameplay rules outside renderer code. Phaser scenes adapt state to visuals; TypeScript systems own combat, cards, map, rewards, and persistence.
 - Prefer data-driven content under `src/game/data/` for cards, enemies, characters, relics, events, and map node pools.
 - Build in small milestones. Each milestone must update `Documentation.md` with progress, decisions, verification, failures, and next step.
