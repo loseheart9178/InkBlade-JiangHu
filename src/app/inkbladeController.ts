@@ -1,7 +1,7 @@
 import { cardList, cardsById } from "../game/content/cards";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
-import { eventsById, type GameEventChoice } from "../game/content/events";
+import { eventsById } from "../game/content/events";
 import { relicsById } from "../game/content/relics";
 import { cardArtById, combatPortraitsById, combatSpriteSheetsById } from "../game/content/visuals";
 import {
@@ -16,6 +16,7 @@ import {
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
+import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/systems/events/eventEffects";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
 import {
   addRelic,
@@ -559,9 +560,9 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const choices = document.createElement("div");
   choices.className = "event-choices";
 
-  for (const choice of event.choices) {
+  for (const choice of getAvailableEventChoices(event, run.characterId)) {
     const action = createAction(choice.label, choice.summary, () => {
-      applyEventChoice(run, choice);
+      applyEventChoiceEffects(run, choice);
       state.message = `${event.title}：${choice.label}`;
       state.screen = "map";
       render();
@@ -574,29 +575,6 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   layout.append(choices);
   panel.append(layout);
   host.append(panel);
-}
-
-function applyEventChoice(run: RunState, choice: GameEventChoice): void {
-  const effect = choice.effect;
-
-  if (effect.type === "gold") {
-    run.gold += effect.amount;
-  }
-
-  if (effect.type === "heal") {
-    healRun(run, effect.amount);
-  }
-
-  if (effect.type === "card") {
-    takeCardReward(run, cardsById[effect.cardId]);
-    if (effect.hpLoss) {
-      run.hp = Math.max(1, run.hp - effect.hpLoss);
-    }
-  }
-
-  if (effect.type === "mind") {
-    run.rewardHistory.push(`mind:${effect.mind}:${effect.amount}`);
-  }
 }
 
 function renderShop(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -793,6 +771,7 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
     <span>牌组 ${run.deck.length}</span>
     <span data-testid="run-relics">法宝 ${relicNames}</span>
     <span data-testid="run-methods">心法 ${methodNames}</span>
+    <span data-testid="run-mind-tendencies">心境 ${formatRunMindTendencies(run)}</span>
     <span data-testid="run-archetype">流派 ${archetypeAnalysis.summary}</span>
     <em>${message}</em>
   `;
@@ -1366,6 +1345,19 @@ function formatMind(mind: string): string {
     wu: "悟"
   };
   return names[mind] ?? mind;
+}
+
+function formatRunMindTendencies(run: RunState): string {
+  const tendencies = run.mindTendencies ?? {
+    ning: 0,
+    nu: 0,
+    bei: 0,
+    mei: 0,
+    luan: 0,
+    wu: 0
+  };
+  const visible = Object.entries(tendencies).filter(([, amount]) => amount > 0);
+  return visible.length > 0 ? visible.map(([mind, amount]) => `${formatMind(mind)}${amount}`).join(" / ") : "未定";
 }
 
 function explainPlayFailure(reason: string): string {

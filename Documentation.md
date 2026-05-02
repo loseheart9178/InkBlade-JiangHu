@@ -1165,3 +1165,50 @@ npm run build
 Result: TypeScript and Vite build passed.
 Note: Vite repeated the expected Phaser bundle size warning.
 ```
+
+### 2026-05-03 06:36 Asia/Shanghai
+
+Current state:
+
+- Completed module 3: 第一章事件池、心境倾向与角色剧情深化.
+- Re-read before this module:
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Expanded 第一章事件池 to 10+ events, including 洛水照影、断枪古祠、绛灯夜市、雨洗墨碑、渔叟旧歌、荒营兵库、无声石桥、红袖残书、黑莲池.
+- Replaced the old single event effect with typed multi-effect choices: gold, heal, hp loss, card add, starter removal, upgrade, mind tendency, and ink-card offers.
+- Added run-level 心境倾向 `宁/怒/悲/魅/乱/悟` and surfaced it in the run status.
+- Added role-specific event choices for 赵云 and 貂蝉, with browser coverage for both.
+- Late event nodes now vary across seeds from a larger event pool.
+
+Decisions:
+
+- Event copy stays concise and consequence-forward, so choices read like roguelike decisions instead of long story panels.
+- Ink event rewards use the same permanent deck path as card rewards, but are represented by `inkCardOffer` so later UI can separate danger rewards visually.
+
+Verification:
+
+```text
+npm test -- tests/events/event-system.test.ts
+First run: failed as expected because the new event effects system module did not exist.
+
+npm test -- tests/events/event-system.test.ts tests/run/run-system.test.ts
+Result after implementation: 2 test files passed, 25 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+Result: 8 Playwright tests passed.
+Covered: Zhao event choice, Diao role-specific event choice, mind tendency display, shops, heart methods, save/continue, Boss route, and first-chapter victory.
+
+npm test
+Result: 8 test files passed, 81 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+```

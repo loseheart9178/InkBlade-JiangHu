@@ -41,6 +41,19 @@ const COMMON_REWARD_POOL = [
   "common_mirror_armor"
 ];
 
+const LATE_EVENT_POOL = [
+  "event_black_rain_ferry",
+  "event_luoshui_mirror",
+  "event_broken_spear_shrine",
+  "event_silk_lantern_market",
+  "event_rain_washed_tablet",
+  "event_fisher_old_song",
+  "event_deserted_armory",
+  "event_silent_bridge",
+  "event_red_sleeve_letter",
+  "event_black_lotus_pool"
+];
+
 const ARCHETYPE_LABELS: Record<CardArchetypeId, string> = {
   "zhao-spear-chain": "连斩枪势流",
   "zhao-guardian-counter": "护主防反流",
@@ -182,6 +195,14 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     deck,
     relicIds: [getStartingRelicId(characterId)],
     methodIds: [],
+    mindTendencies: {
+      ning: 0,
+      nu: 0,
+      bei: 0,
+      mei: 0,
+      luan: 0,
+      wu: 0
+    },
     mapNodes: createChapterOneMap(characterId, mapSeed),
     currentNodeId: "start",
     visitedNodeIds: [],
@@ -531,7 +552,7 @@ function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
   const secondBattleEnemyId = mapSeed % 4 === 1 ? "enemy_paper_umbrella" : "enemy_faceless_soldier";
   const thirdBattleEnemyId = mapSeed % 3 === 2 ? "enemy_faceless_soldier" : "enemy_paper_umbrella";
   const sideBattleEnemyId = mapSeed % 2 === 0 ? "enemy_ink_bandit" : "enemy_faceless_soldier";
-  const lateEventId = mapSeed % 2 === 0 ? "event_black_rain_ferry" : firstEvent.eventId;
+  const lateEventId = LATE_EVENT_POOL[Math.abs(mapSeed) % LATE_EVENT_POOL.length];
 
   return [
     {

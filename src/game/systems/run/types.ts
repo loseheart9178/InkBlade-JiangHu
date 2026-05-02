@@ -1,4 +1,4 @@
-import type { CardDefinition } from "../combat/types";
+import type { CardDefinition, MindState } from "../combat/types";
 
 export type MapNodeType = "start" | "battle" | "elite" | "event" | "shop" | "rest" | "boss";
 
@@ -28,6 +28,7 @@ export interface RunState {
   deck: RunDeckEntry[];
   relicIds: string[];
   methodIds: string[];
+  mindTendencies: Record<Exclude<MindState, "none">, number>;
   mapNodes: MapNode[];
   currentNodeId: string;
   visitedNodeIds: string[];

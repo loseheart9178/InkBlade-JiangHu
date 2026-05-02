@@ -79,10 +79,12 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await expect(page.getByTestId("event-hero")).toBeVisible();
   await expect(page.getByTestId("event-scene")).toHaveClass(/event-scene--changban/);
   await expect(page.locator("[data-testid^='event-choice-']")).toHaveCount(2);
+  await expect(page.getByTestId("event-choice-guard_cry")).toBeVisible();
   await page.getByTestId("event-choice-carve_names").click();
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
   await expect(page.getByText("长坂回声：刻下无名者")).toBeVisible();
+  await expect(page.getByTestId("run-mind-tendencies")).toContainText("宁1");
   await page.getByTestId("map-node-rest-1").click();
   await expect(page.getByTestId("screen-rest")).toBeVisible();
   await page.getByTestId("rest-upgrade-card").click();
@@ -104,6 +106,15 @@ test("Diao Chan starting relic applies charm and weak at combat start", async ({
   await expect(page.getByTestId("combat-floats")).toContainText("闭月香囊");
   await expect(page.getByTestId("enemy-status")).toContainText("魅惑 2");
   await expect(page.getByTestId("enemy-status")).toContainText("虚弱 1");
+});
+
+test("Diao Chan sees palace role choices on the first event route", async ({ page }) => {
+  await startRun(page, "diaochan");
+  await page.getByTestId("map-node-event-1").click();
+
+  await expect(page.getByTestId("screen-event")).toBeVisible();
+  await expect(page.getByTestId("event-choice-dance_again")).toBeVisible();
+  await expect(page.getByTestId("event-choice-guard_cry")).toBeHidden();
 });
 
 test("can continue a saved combat after a page reload", async ({ page }) => {
