@@ -2,6 +2,42 @@
 
 ## Status Log
 
+### 2026-05-03 17:52 Asia/Shanghai
+
+Wave 3 accepted on `codex/next-major-modules`.
+
+Accepted integrations:
+
+- `fc8797b docs/art: queue final gpt2 assets` from `.worktrees/auton-art-debt-prep`.
+- `9ca14b2 feat: add zhuge liang mvp character` from `.worktrees/auton-zhugeliang-mvp`.
+- `3ecc143 feat: wire endings into profile and run summary` from `.worktrees/auton-profile-ending-ui`.
+
+Verification after the final profile/ending integration:
+
+```text
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts tests/run/run-system.test.ts
+Result: 3 test files passed, 34 tests passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "ending summary|profile summary"
+Result: 1 Playwright test passed.
+
+npm test
+Result: 13 test files passed, 132 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the expected large chunk warning.
+```
+
+Decisions:
+
+- Milestones 49 and 52 are complete; Milestone 50 remains the next asset-production gate.
+- Keep Milestone 51 alpha balance until the GPT Image 2 final asset pass and four-character run routes can be verified against the same build.
+- Reclaim Wave 3 worktrees after committing this acceptance ledger.
+
+Next step:
+
+- Start Wave 4 with disjoint worktrees for GPT Image 2 final assets, alpha balance/full-route playtest, and release-polish desktop QA.
+
 ### 2026-05-03 17:13 Asia/Shanghai
 
 Current state:
@@ -211,7 +247,7 @@ Next step:
 
 - Integrate this branch, then let the art-debt/final asset pass add Zhuge Liang visual debt and generated assets.
 
-### 2026-05-03 18:15 Asia/Shanghai
+### 2026-05-03 17:45 Asia/Shanghai
 
 Wave 3B Milestone 52: Profile, Ending, Save, And Run Summary Integration in `.worktrees/auton-profile-ending-ui` on branch `codex/auton-profile-ending-ui`.
 

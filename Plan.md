@@ -801,9 +801,9 @@ npm run build
 
 ## Milestone 49: Zhuge Liang MVP Character
 
-- [ ] Add 诸葛亮 character data, starter deck, 筹策 resource, 观星 MVP, 阵法 MVP, relic, and card pool.
-- [ ] Add character-select and combat smoke coverage.
-- [ ] Integrate after 蔡文姬 to avoid shared character/card/controller conflicts.
+- [x] Add 诸葛亮 character data, starter deck, 筹策 resource, 观星 MVP, 阵法 MVP, relic, and card pool.
+- [x] Add character-select and combat smoke coverage.
+- [x] Integrate after 蔡文姬 to avoid shared character/card/controller conflicts.
 
 Verification:
 
@@ -848,10 +848,10 @@ npm run test:e2e
 
 ## Milestone 52: Profile, Ending, Save, And Run Summary Integration
 
-- [ ] Wire final `endingReady` run state into deterministic ending evaluation.
-- [ ] Persist profile stats, character stats, unlocked endings, and unlocked fragments.
-- [ ] Replace debug run-summary sample data with real completed-run summary data.
-- [ ] Add browser coverage for ending/profile summary.
+- [x] Wire final `endingReady` run state into deterministic ending evaluation.
+- [x] Persist profile stats, character stats, unlocked endings, and unlocked fragments.
+- [x] Replace debug run-summary sample data with real completed-run summary data.
+- [x] Add browser coverage for ending/profile summary.
 
 Verification:
 
