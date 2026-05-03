@@ -1630,3 +1630,68 @@ Known gaps:
 - Several non-priority chapter-two and chapter-three enemies still use registered `*-ink-pass.png` art instead of final GPT Image 2 bespoke replacements.
 - Attack strips for later chapter enemies remain chapter-specific ink-pass strips; they no longer use the black placeholder, but a later dedicated GPT Image 2 sequence-frame pass can raise fidelity.
 - The advanced reward UI is functional and covered, but it can still receive a richer chapter-clear art treatment later.
+
+### 2026-05-03 15:05 Asia/Shanghai
+
+Current state:
+
+- User authorized autonomous long-running development, parallel worktrees, and subagent execution without further product check-ins unless externally blocked.
+- Re-read before planning:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/chapters/chapter_02.md`
+  - `docs/chapters/chapter_03.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Applied the worktree safety rule:
+  - Added `.worktrees` and `.worktrees/` to `.gitignore`.
+  - Verified `git check-ignore -q .worktrees`.
+  - Committed `ee99bf8 chore: ignore local worktrees`.
+- Created the autonomous alpha plan:
+  - `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+- Extended `Plan.md` with Milestones 42-51:
+  - Autonomous planning and worktree dispatch.
+  - Playtest lab and run simulator.
+  - Persistent profile and ending evaluator core.
+  - Art coverage audit and asset debt ledger.
+  - Desktop UI shells.
+  - Final chapter content spine.
+  - Cai Wenji MVP.
+  - Zhuge Liang MVP.
+  - GPT Image 2 final asset pass.
+  - Alpha balance and full-route playtest pass.
+
+Decisions:
+
+- Wave 1 will run four worktrees in parallel because their write surfaces are mostly independent:
+  - playtest tooling,
+  - profile/endings pure systems,
+  - art audit tooling,
+  - desktop UI shells.
+- Cai Wenji and Zhuge Liang are planned as sequential character integrations because both touch `cards.ts`, `characters.ts`, combat resource hooks, and controller selection UI.
+- GPT Image 2 final asset replacement waits until the asset audit and content surfaces stabilize, so generated art can target a known debt ledger rather than chasing moving filenames.
+
+Verification:
+
+```text
+git check-ignore -q .worktrees
+Initial result: not ignored.
+
+git check-ignore -q .worktrees
+Result after `.gitignore` patch: ignored.
+
+git commit -m "chore: ignore local worktrees"
+Result: commit ee99bf8 created.
+```
+
+Next step:
+
+- Create Wave 1 worktrees, baseline each one, then dispatch subagents with isolated write scopes.

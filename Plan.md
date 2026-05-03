@@ -695,3 +695,153 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 42: Autonomous Alpha Planning And Parallel Worktree Dispatch
+
+- [x] Record `.worktrees` ignore rules before creating local worktrees.
+- [x] Create the autonomous alpha plan at `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`.
+- [ ] Create Wave 1 worktrees for playtest tooling, profile/endings core, art audit tooling, and desktop UI shells.
+- [ ] Dispatch independent subagents into each Wave 1 worktree.
+- [ ] Baseline and verify each Wave 1 worktree before integration.
+
+Verification:
+
+```bash
+git check-ignore -q .worktrees
+npm test
+npm run build
+```
+
+## Milestone 43: Playtest Lab And Balance Instrumentation
+
+- [ ] Add a pure run simulator for deterministic enemy/route pacing checks.
+- [ ] Add chapter-level pacing summaries without Phaser or DOM dependencies.
+- [ ] Add tests that flag missing enemies, timeout-prone encounters, and unsafe damage spikes.
+
+Verification:
+
+```bash
+npm test -- tests/playtest/run-simulator.test.ts
+npm test
+npm run build
+```
+
+## Milestone 44: Persistent Profile And Ending Evaluator Core
+
+- [ ] Add a versioned persistent profile model for run stats, fragments, endings, and character stats.
+- [ ] Add deterministic ending evaluation for 清明封印、焚书、改命、心魔、隐藏清悟.
+- [ ] Keep profile and ending logic pure until UI integration.
+
+Verification:
+
+```bash
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts
+npm test
+npm run build
+```
+
+## Milestone 45: Art Coverage Audit And Asset Debt Ledger
+
+- [ ] Add an asset audit script that reports missing runtime files, source sheets, GPT2 assets, and remaining `*-ink-pass.png` debt.
+- [ ] Add data tests for remaining semantic art debt.
+- [ ] Update the reusable art pipeline skill with audit commands.
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+npm test
+npm run build
+```
+
+## Milestone 46: Desktop UI Shells For Settings, Run Summary, And Ending Surface
+
+- [ ] Add desktop settings shell from title.
+- [ ] Add run summary shell for future profile/endings integration.
+- [ ] Add Playwright coverage for the new UI shells.
+
+Verification:
+
+```bash
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "settings panel|run summary"
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+npm test
+npm run build
+```
+
+## Milestone 47: Final Chapter Content Spine
+
+- [ ] Add 墨渊照心 chapter metadata, events, final Boss shell, and logbook fragments.
+- [ ] Route third-chapter completion into final/ending evaluation instead of ordinary victory only.
+- [ ] Cover the final chapter content contract with unit tests.
+
+Verification:
+
+```bash
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+npm test
+npm run build
+```
+
+## Milestone 48: Cai Wenji MVP Character
+
+- [ ] Add 蔡文姬 character data, starter deck, 音律 resource, 余韵 MVP, relic, and card pool.
+- [ ] Add character-select and combat smoke coverage.
+- [ ] Preserve Zhao Yun / Diao Chan behavior.
+
+Verification:
+
+```bash
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "Cai Wenji"
+npm test
+npm run build
+```
+
+## Milestone 49: Zhuge Liang MVP Character
+
+- [ ] Add 诸葛亮 character data, starter deck, 筹策 resource, 观星 MVP, 阵法 MVP, relic, and card pool.
+- [ ] Add character-select and combat smoke coverage.
+- [ ] Integrate after 蔡文姬 to avoid shared character/card/controller conflicts.
+
+Verification:
+
+```bash
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "Zhuge Liang"
+npm test
+npm run build
+```
+
+## Milestone 50: GPT Image 2 Final Asset Pass
+
+- [ ] Replace remaining priority `*-ink-pass.png` standees, card faces, battlefields, and sprite strips with GPT Image 2 generated assets.
+- [ ] Preserve source sheets and crop runtime PNGs into semantic filenames.
+- [ ] Verify desktop screenshots after replacement.
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+npm test
+npm run build
+```
+
+## Milestone 51: Alpha Balance And Full Route Playtest Pass
+
+- [ ] Add deterministic route completion contracts through third chapter and final/ending shell.
+- [ ] Tune enemy, reward, method, and status pressure using simulator and browser runs.
+- [ ] Verify Zhao Yun and Diao Chan can both reach the alpha route target.
+
+Verification:
+
+```bash
+npm test -- tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+npm test
+npm run build
+npm run test:e2e
+```
