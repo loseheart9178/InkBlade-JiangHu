@@ -647,3 +647,51 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 39: GPT Image 2 Art Regression And Priority Asset Replacement
+
+- [x] Remove generic circular combat VFX overlays that looked like leftover red/white sequence-frame arcs on characters and enemies.
+- [x] Keep attack sprite strips mutually exclusive so an enemy attack strip does not remain after the player attacks.
+- [x] Generate and crop GPT Image 2 card art for priority visible cards: 截江守势、惊鸿一击、解穴、洗心、七进七出、涂史.
+- [x] Generate and crop GPT Image 2 standees for first-chapter normals, Dong Zhuo, second/third chapter priority enemies, and Chang'an enemies.
+- [x] Generate and crop GPT Image 2 battlefield art for 竹林听雨 and 长安墨城.
+- [x] Register all new art through `src/game/content/visuals.ts` and cover the paths with data and browser regression tests.
+
+Verification:
+
+```bash
+npm test -- tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+```
+
+## Milestone 40: Advanced Rewards UI And Logbook Screen
+
+- [x] Expose advanced chapter reward choices for rare card, relic, method upgrade, and cleanse support.
+- [x] Claim advanced rewards once per chapter and persist the claim in run reward history.
+- [x] Add a readable 墨录 screen from run status.
+- [x] Add first-chapter story fragment content for event and boss unlocks.
+- [x] Cover advanced reward claiming and logbook opening with Playwright.
+
+Verification:
+
+```bash
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "logbook opens|complete the first chapter"
+npm run typecheck
+```
+
+## Milestone 41: Chapter Two And Three Pacing Playtest Pass
+
+- [x] Add chapter-two and chapter-three enemy pacing bands for HP, burst damage, and status-card pressure.
+- [x] Retune 竹林听雨 normals, elites, and 琴魔·残音 as build checks without sudden burst spikes.
+- [x] Retune 长安墨城 normals, elites, and 墨书执笔官 for higher endurance plus controlled 涂史 pressure.
+- [x] Preserve Boss peak damage ceilings while increasing cross-chapter HP pacing.
+
+Verification:
+
+```bash
+npm test -- tests/data/content.test.ts
+npm test -- tests/roadmap/next-ten-modules.test.ts
+npm test
+npm run build
+npm run test:e2e
+```

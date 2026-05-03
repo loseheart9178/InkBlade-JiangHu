@@ -6,7 +6,7 @@ test("captures desktop combat smoke screenshots for Zhao Yun and Diao Chan", asy
   await page.getByTestId("map-node-battle-1").click();
   await expect(page.getByTestId("screen-combat")).toBeVisible();
   await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /zhaoyun-standee-gpt-v2-cutout\.png$/);
-  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /ink-bandit-standee-gpt-cutout\.png$/);
+  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-bandit-standee-cutout\.png$/);
   await expect(page.getByTestId("combat-sprite-player")).toHaveCount(0);
   await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
   await expect(page.getByTestId("card-art").first()).toHaveAttribute("src", /^\/assets\/generated\/cards\/.+\.png$/);
@@ -24,7 +24,11 @@ test("captures desktop combat smoke screenshots for Zhao Yun and Diao Chan", asy
   const playableAttack = page.locator(".combat-card:not([disabled])").filter({ hasText: "攻" }).first();
   await playableAttack.click();
   await expect(page.getByTestId("combat-sprite-player")).toHaveCSS("background-image", /zhaoyun-attack-strip-gpt-v2\.png/);
-  await expect(page.getByTestId("combat-vfx-slash").first()).toBeVisible();
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
+  await expect(page.getByTestId("combat-vfx-slash")).toHaveCount(0);
+  await expect(page.getByTestId("combat-vfx-sigil")).toHaveCount(0);
+  await expect(page.getByTestId("combat-vfx-seal")).toHaveCount(0);
+  await expect(page.getByTestId("combat-vfx-ink")).toHaveCount(0);
   await expect(page.getByTestId("combo-trail")).toContainText("攻");
   await page.screenshot({ path: testInfo.outputPath("combat-zhaoyun-desktop.png"), fullPage: true });
 

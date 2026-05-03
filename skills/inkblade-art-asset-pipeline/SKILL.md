@@ -31,7 +31,7 @@ Before any prompt writing, implementation, or UI placement:
 
 1. Define the asset brief from docs and current code usage.
 2. Generate or source the raster asset.
-3. Save the untouched source under `public/assets/generated/*-source.png` when practical.
+3. Save the untouched source under `public/assets/generated/sources/` or `public/assets/generated/*-source.png` when practical.
 4. Produce runtime assets:
    - Cutouts: `public/assets/generated/*-cutout.png`.
    - Sprite strips: `public/assets/sprites/*-attack-strip-*.png`.
@@ -46,6 +46,8 @@ Before any prompt writing, implementation, or UI placement:
 9. Update UI/CSS only as an adapter for placement, scale, z-index, animation, and readability.
 10. For long-running feature work that needs playable continuity before final bespoke art, create project-local `*-ink-pass.png` placeholders from approved in-repo ink assets, register them under the final semantic IDs, and document that they are replaceable by later GPT Image source/cutout files without code changes.
 11. Dedicated enemy attack strips must be registered per enemy family. Do not map new enemies back to generic black silhouettes or unrelated first-chapter strips once a chapter-specific asset slot exists.
+12. For GPT Image 2 sheet output, preserve the source sheet, crop each panel into semantic runtime filenames, and bind the manifest to the runtime crop rather than the sheet.
+13. Do not use generic circular slash/sigil overlays for ordinary damage, block, status, or trigger feedback. They can read as broken sequence-frame residue over standees; use floating text/log feedback unless a card has an explicit signature VFX cue.
 
 ## Verification
 

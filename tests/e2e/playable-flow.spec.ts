@@ -19,7 +19,7 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("player-hp")).toContainText("赵云");
   await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
   await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /zhaoyun-standee-gpt-v2-cutout\.png$/);
-  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /ink-bandit-standee-gpt-cutout\.png$/);
+  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-bandit-standee-cutout\.png$/);
 
   await winVisibleCombat(page);
 
@@ -97,6 +97,20 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await page.getByTestId("deck-close").click();
 });
 
+test("logbook opens from run status and shows unlocked story fragments", async ({ page }) => {
+  await startRun(page, "zhaoyun");
+  await page.getByTestId("map-node-event-1").click();
+  await page.getByTestId("event-choice-carve_names").click();
+
+  await expect(page.getByTestId("run-logbook")).toContainText("1");
+  await page.getByTestId("logbook-open").click();
+
+  await expect(page.getByTestId("screen-logbook")).toBeVisible();
+  await expect(page.getByTestId("logbook-entry").first()).toContainText(/长坂|洛水|黑雨|无名/);
+  await page.getByTestId("logbook-back").click();
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+});
+
 test("Diao Chan starting relic applies charm and weak at combat start", async ({ page }) => {
   await startRun(page, "diaochan");
   await expect(page.getByTestId("run-relics")).toContainText("闭月香囊");
@@ -151,7 +165,7 @@ test("can complete the first chapter through the event and rest route", async ({
 
   await page.getByTestId("map-node-boss").click();
   await expect(page.getByTestId("screen-combat")).toBeVisible();
-  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /ink-dongzhuo-boss-standee-gpt-v2-cutout\.png$/);
+  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-dongzhuo-boss-standee-cutout\.png$/);
   await expect(page.getByTestId("intent")).toContainText("宫宴压迫");
   await page.getByTestId("end-turn").click();
   await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /ink-dongzhuo-boss-attack-strip-gpt-v2\.png/);
@@ -162,6 +176,12 @@ test("can complete the first chapter through the event and rest route", async ({
   await page.locator("[data-testid^='method-choice-']").first().click();
   await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
   await expect(page.getByTestId("chapter-reward-choice")).toHaveCount(3);
+  await expect(page.getByTestId("advanced-reward-choice")).toHaveCount(4);
+  await page.getByTestId("advanced-reward-choice").first().click();
+  await expect(page.getByTestId("run-archetype")).toBeVisible();
+  await page.getByTestId("deck-open").click();
+  await expect(page.getByTestId("deck-viewer")).toContainText(/七星枪影|单骑救主|七进七出|枪围如墙/);
+  await page.getByTestId("deck-close").click();
   await page.getByTestId("chapter-reward-choice").first().click();
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await page.getByTestId("boss-reward-continue").click();

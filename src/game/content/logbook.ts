@@ -11,6 +11,30 @@ export interface LogbookEntryDefinition {
 
 export const logbookEntryList: LogbookEntryDefinition[] = [
   {
+    id: "fragment_black_rain_ferry",
+    title: "黑雨渡口",
+    body: "洛水倒映的不是天光，而是那些尚未被承认的旧梦。",
+    unlocks: { eventId: "event_black_rain_ferry" }
+  },
+  {
+    id: "fragment_changban_echo",
+    title: "长坂回声",
+    body: "白袍越过黑雨，仍听见身后有人唤他回头。守护不是救尽所有人，而是不让当下之人再被抹去。",
+    unlocks: { eventId: "event_changban_echo" }
+  },
+  {
+    id: "fragment_palace_lantern_banquet",
+    title: "宫灯旧宴",
+    body: "红灯再亮时，貂蝉不再被推入席间。她执起折扇，把旧宴改成自己的开场。",
+    unlocks: { eventId: "event_palace_lantern_banquet" }
+  },
+  {
+    id: "fragment_ink_dongzhuo",
+    title: "墨影董卓",
+    body: "权欲化作墨宫，吞下宴席、名将与美人。击破它时，洛水才第一次重映天光。",
+    unlocks: { bossId: "boss_ink_dongzhuo" }
+  },
+  {
     id: "fragment_bamboo_night_qin",
     title: "荒寺夜琴",
     body: "雨声盖不住断弦，真正留下来的不是曲谱，而是不肯被忘记的人。",

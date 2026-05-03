@@ -20,11 +20,13 @@ import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/syste
 import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
 import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
+import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import {
   addRelic,
   advanceToNextChapter,
   claimBattleSpoils,
   claimChapterReward,
+  claimMethodUpgrade,
   createChapterRewardChoices,
   createCardRewardDraft,
   createCardRewardReasonMap,
@@ -47,7 +49,7 @@ import {
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "victory" | "defeat";
+type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "logbook" | "victory" | "defeat";
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -139,6 +141,11 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       return;
     }
 
+    if (state.screen === "logbook") {
+      renderLogbook(host, state, render);
+      return;
+    }
+
     if (state.screen === "victory" || state.screen === "defeat") {
       renderResult(host, state, render);
       clearSavedGame(options.storage);
@@ -189,7 +196,7 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   const panel = createPanel("screen-map", chapter.mapTitle);
   panel.classList.add("map-screen");
 
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
 
   const path = document.createElement("div");
   path.className = "route-map";
@@ -283,8 +290,9 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const enemy = combat.enemies[0];
   const playerPortrait = getCombatPortrait(combat.player.characterId);
   const enemyPortrait = getCombatPortrait(enemy.definitionId);
-  const playerIsAttacking = hasRecentVisual(combat, "enemy", "damage");
-  const enemyIsAttacking = hasRecentVisual(combat, "player", "damage");
+  const latestDamageTarget = getLatestDamageTarget(combat);
+  const playerIsAttacking = latestDamageTarget === "enemy";
+  const enemyIsAttacking = latestDamageTarget === "player";
   const playerSprite = playerIsAttacking ? getCombatSprite(combat.player.characterId) : undefined;
   const enemySprite = enemyIsAttacking ? getCombatSprite(enemy.definitionId) : undefined;
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
@@ -436,7 +444,7 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
   const draft = createMethodRewardDraft(run);
   const panel = createPanel("screen-method-reward", "心法");
   panel.classList.add("method-reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
   panel.append(createMessage(draft.reason));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -487,7 +495,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   const run = requireRun(state);
   const panel = createPanel("screen-reward", "战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
   panel.append(createMessage(state.message));
   panel.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);
@@ -553,7 +561,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const eventScene = getEventScene(event.id);
   const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
 
   const layout = document.createElement("div");
   layout.className = "event-layout";
@@ -599,7 +607,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-shop", "茶亭游商");
   panel.classList.add("shop-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
 
   const shopCards = [cardsById.common_pifeng, cardsById.common_tuna, cardsById.ink_moren];
   const list = document.createElement("div");
@@ -693,7 +701,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-rest", "废寺静修");
   panel.classList.add("rest-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
 
   const heal = createAction("调息疗伤", "回复最大生命30%", () => {
     const healed = healRun(run, Math.ceil(run.maxHp * 0.3));
@@ -731,7 +739,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
   panel.classList.add("chapter-reward-screen", "reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
   panel.append(createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -751,7 +759,31 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
     choices.append(button);
   }
 
-  panel.append(choices);
+  const advancedDraft = createAdvancedRewardDraft(run, "boss");
+  const advancedClaimed = hasAdvancedRewardClaimed(run, chapter.id);
+  const advanced = document.createElement("div");
+  advanced.className = "advanced-reward-list";
+  advanced.append(createMessage(advancedDraft.reason));
+
+  for (const choice of advancedDraft.choices) {
+    const button = createAction(choice.title, choice.summary, () => {
+      if (advancedClaimed) {
+        state.message = "本章高阶战利已经入囊。";
+        render();
+        return;
+      }
+
+      state.message = claimAdvancedReward(run, choice, chapter.id);
+      render();
+    });
+    button.classList.add("advanced-reward-choice");
+    button.dataset.testid = "advanced-reward-choice";
+    button.dataset.choiceId = choice.id;
+    button.disabled = advancedClaimed;
+    advanced.append(button);
+  }
+
+  panel.append(choices, advanced);
   host.append(panel);
 }
 
@@ -761,7 +793,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   const nextChapter = getNextChapter(run);
   const panel = createPanel("screen-boss-reward", "首领战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
   panel.append(createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -778,6 +810,40 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   });
   continueButton.dataset.testid = "boss-reward-continue";
   panel.append(continueButton);
+  host.append(panel);
+}
+
+function renderLogbook(host: HTMLElement, state: ControllerState, render: () => void): void {
+  const run = requireRun(state);
+  const entries = getUnlockedLogbookEntries(run);
+  const panel = createPanel("screen-logbook", "墨录");
+  panel.classList.add("logbook-screen");
+  panel.append(createRunStatus(run, "已录下的江湖残页。", () => openDeck(state, render)));
+
+  const list = document.createElement("div");
+  list.className = "logbook-list";
+
+  if (entries.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "logbook-empty";
+    empty.textContent = "尚无残页。江湖还未把这一路写进墨里。";
+    list.append(empty);
+  }
+
+  for (const entry of entries) {
+    const item = document.createElement("article");
+    item.className = "logbook-entry";
+    item.dataset.testid = "logbook-entry";
+    item.innerHTML = `<strong>${entry.title}</strong><p>${entry.body}</p>`;
+    list.append(item);
+  }
+
+  const back = createAction("返回地图", "收起墨录，继续行旅。", () => {
+    state.screen = "map";
+    render();
+  });
+  back.dataset.testid = "logbook-back";
+  panel.append(list, back);
   host.append(panel);
 }
 
@@ -813,7 +879,7 @@ function createPanel(testId: string, title: string): HTMLElement {
   return panel;
 }
 
-function createRunStatus(run: RunState, message: string, onDeckClick?: () => void): HTMLElement {
+function createRunStatus(run: RunState, message: string, onDeckClick?: () => void, onLogbookClick?: () => void): HTMLElement {
   const status = document.createElement("div");
   status.className = "run-status";
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
@@ -844,6 +910,16 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
     status.append(deckButton);
   }
 
+  if (onLogbookClick) {
+    const logbookButton = document.createElement("button");
+    logbookButton.type = "button";
+    logbookButton.className = "deck-open-button logbook-open-button";
+    logbookButton.dataset.testid = "logbook-open";
+    logbookButton.textContent = "墨录";
+    logbookButton.addEventListener("click", onLogbookClick);
+    status.append(logbookButton);
+  }
+
   return status;
 }
 
@@ -864,6 +940,36 @@ function createSpoilsSummary(spoils: BattleSpoils | undefined): HTMLElement {
   }
   summary.textContent = parts.join(" · ");
   return summary;
+}
+
+function hasAdvancedRewardClaimed(run: RunState, chapterId: string): boolean {
+  return run.rewardHistory.some((entry) => entry.startsWith(`advancedReward:${chapterId}:`));
+}
+
+function claimAdvancedReward(run: RunState, choice: AdvancedRewardChoice, chapterId: string): string {
+  if (hasAdvancedRewardClaimed(run, chapterId)) {
+    return "本章高阶战利已经入囊。";
+  }
+
+  let message = "";
+
+  if ((choice.type === "rareCard" || choice.type === "cleanseCard") && choice.cardId && cardsById[choice.cardId]) {
+    takeCardReward(run, cardsById[choice.cardId]);
+    message = `高阶战利：获得${cardsById[choice.cardId].name}。`;
+  }
+
+  if (choice.type === "relic" && choice.relicId) {
+    const relic = relicsById[choice.relicId];
+    message = addRelic(run, choice.relicId) ? `高阶战利：获得法宝${relic?.name ?? choice.relicId}。` : `已持有${relic?.name ?? choice.relicId}。`;
+  }
+
+  if (choice.type === "methodUpgrade" && choice.methodId) {
+    const method = getRunMethods(run).find((item) => item.id === choice.methodId);
+    message = claimMethodUpgrade(run, choice.methodId) ? `高阶战利：${method?.name ?? "心法"}进境。` : "这门心法暂不可进境。";
+  }
+
+  run.rewardHistory.push(`advancedReward:${chapterId}:${choice.id}`);
+  return message || "高阶战利已经入囊。";
 }
 
 function createRewardComboHint(hint: string): HTMLElement {
@@ -1046,32 +1152,12 @@ function getCombatVfxClass(event: CombatVisualEvent): string | undefined {
     return signatureVfxByCue[event.visualCue]?.className;
   }
 
-  if (event.kind === "damage") {
-    return "combat-vfx-slash";
-  }
-
-  if (event.kind === "block" || event.kind === "status" || event.kind === "resource") {
-    return "combat-vfx-sigil";
-  }
-
-  if (event.kind === "ink" || event.tone === "ink") {
-    return "combat-vfx-ink";
-  }
-
-  if (event.kind === "trigger") {
-    return "combat-vfx-seal";
-  }
-
   return undefined;
 }
 
 function getCombatVfxTestId(event: CombatVisualEvent): string {
   if (event.visualCue) {
     return signatureVfxByCue[event.visualCue]?.testId ?? "combat-vfx-signature";
-  }
-
-  if (event.kind === "damage") {
-    return "combat-vfx-slash";
   }
 
   if (event.kind === "block" || event.kind === "status" || event.kind === "resource") {
@@ -1126,6 +1212,12 @@ function getMapNodeLabel(run: RunState, nodeId: string): string {
 
 function openDeck(state: ControllerState, render: () => void): void {
   state.deckOpen = true;
+  render();
+}
+
+function openLogbook(state: ControllerState, render: () => void): void {
+  state.deckOpen = false;
+  state.screen = "logbook";
   render();
 }
 
@@ -1198,6 +1290,17 @@ function getRunCardDefinitions(run: RunState): CardDefinition[] {
 
 function hasRecentVisual(combat: CombatState, target: "player" | "enemy", kind: string): boolean {
   return combat.visualEvents.slice(-6).some((event) => event.target === target && event.kind === kind);
+}
+
+function getLatestDamageTarget(combat: CombatState): "player" | "enemy" | undefined {
+  for (let index = combat.visualEvents.length - 1; index >= 0; index -= 1) {
+    const event = combat.visualEvents[index];
+    if (event.kind === "damage" && (event.target === "player" || event.target === "enemy")) {
+      return event.target;
+    }
+  }
+
+  return undefined;
 }
 
 function getCombatPortrait(id: string) {

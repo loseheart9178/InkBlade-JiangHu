@@ -1514,3 +1514,119 @@ Known gaps:
 - The new `*-ink-pass.png` assets are project-local playable placeholders derived from approved in-repo ink assets. A dedicated GPT Image source/cutout pass can replace them for higher fidelity.
 - The advanced reward draft has system coverage but is not yet a full standalone UI surface.
 - Logbook unlocks are recorded and counted, but the dedicated readable 墨录 screen is still a future UX module.
+
+### 2026-05-03 14:30 Asia/Shanghai
+
+Current state:
+
+- Continued the requested long task after the bug report and completed the next three modules:
+  - Module 1: 高质量 GPT Image 2 美术最终替换.
+  - Module 2: 进阶奖励 UI + 图鉴墨录界面.
+  - Module 3: 第二/三章战斗节奏与数值平衡 Playtest Pass.
+- Re-read before implementation:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/chapters/chapter_02.md`
+  - `docs/chapters/chapter_03.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+- Fixed the reported red/white curved-line visual bug:
+  - Removed generic circular combat VFX overlays for ordinary damage, block, status, ink, and trigger feedback.
+  - Preserved explicit signature-card VFX only.
+  - Changed attack strip selection to follow the latest damage target so enemy attack strips do not remain after the player attacks.
+- Replaced priority visible card faces with GPT Image 2 crops:
+  - `public/assets/generated/cards/gpt2-zhao-river-guard.png`
+  - `public/assets/generated/cards/gpt2-diao-jinghong-strike.png`
+  - `public/assets/generated/cards/gpt2-common-jiexue.png`
+  - `public/assets/generated/cards/gpt2-common-xixin.png`
+  - `public/assets/generated/cards/gpt2-zhao-seven-entries.png`
+  - `public/assets/generated/cards/gpt2-status-redacted-history.png`
+- Replaced priority first/second/third chapter standees and battlefields with GPT Image 2 crops:
+  - `public/assets/generated/gpt2-ink-bandit-standee-cutout.png`
+  - `public/assets/generated/gpt2-faceless-soldier-standee-cutout.png`
+  - `public/assets/generated/gpt2-paper-umbrella-ghost-standee-cutout.png`
+  - `public/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png`
+  - `public/assets/generated/gpt2-bamboo-wraith-standee-cutout.png`
+  - `public/assets/generated/gpt2-broken-scholar-standee-cutout.png`
+  - `public/assets/generated/gpt2-qin-demon-standee-cutout.png`
+  - `public/assets/generated/gpt2-ink-market-guard-standee-cutout.png`
+  - `public/assets/generated/gpt2-history-scribe-standee-cutout.png`
+  - `public/assets/generated/gpt2-nameless-citizen-standee-cutout.png`
+  - `public/assets/generated/gpt2-memory-stela-standee-cutout.png`
+  - `public/assets/generated/gpt2-scribe-officer-standee-cutout.png`
+  - `public/assets/generated/gpt2-bamboo-battlefield.png`
+  - `public/assets/generated/gpt2-changan-battlefield.png`
+- Preserved GPT Image 2 source sheets under `public/assets/generated/sources/`:
+  - `gpt2-priority-card-art-sheet.png`
+  - `gpt2-first-chapter-enemy-standee-sheet.png`
+  - `gpt2-bamboo-changan-battlefield-sheet.png`
+  - `gpt2-chapter-two-three-enemy-standee-sheet.png`
+  - `gpt2-changan-enemy-standee-sheet.png`
+- Added readable 墨录 screen and a `墨录` run-status entry point.
+- Added first-chapter logbook fragment content for 黑雨渡口、长坂回声、宫灯旧宴、墨影董卓.
+- Added an advanced chapter reward UI row with rare card, relic, method upgrade, and cleanse-support choices.
+- Added once-per-chapter advanced reward claiming through run reward history.
+- Tuned chapter-two and chapter-three pacing:
+  - 竹林小怪 now sit in the 40-48 HP band and all apply deck-pollution pressure.
+  - 竹林精英 now sit in the 116-126 HP band.
+  - 琴魔·残音 now has 168 HP with burst capped at 30.
+  - 长安小怪 now sit in the 48-54 HP band and all apply 涂史 pressure.
+  - 长安精英 now sit in the 124-132 HP band.
+  - 墨书执笔官 now has 196 HP with burst capped at 24.
+- Updated `skills/inkblade-art-asset-pipeline/SKILL.md` with the reusable GPT Image 2 sheet/crop workflow and the rule against generic circular ordinary-combat overlays.
+- Updated `Plan.md` with milestones 39-41 for this pass.
+
+Decisions:
+
+- Ordinary combat feedback now uses floating text, status lines, logs, and attack strips. Broad circular VFX are reserved for explicit signature-card effects because generic rings visually read as asset corruption over ink-wash standees.
+- GPT Image 2 source sheets are preserved separately from runtime crops, so future regeneration can be audited without changing manifest semantics.
+- Chapter-two and chapter-three tuning uses content data only; no renderer or UI code owns combat balance.
+
+Verification:
+
+```text
+npm test -- tests/data/content.test.ts
+First run failed before tuning on chapter-two/three pacing bands.
+
+npm test -- tests/data/content.test.ts
+Result after implementation: 1 test file passed, 18 tests passed.
+
+npm run typecheck
+Result: passed.
+
+npm test -- tests/roadmap/next-ten-modules.test.ts
+Result: 1 test file passed, 10 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "logbook opens|complete the first chapter"
+Result: 2 Playwright tests passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed.
+Reviewed desktop screenshots at:
+`test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-zhaoyun-desktop.png`
+`test-results/visual-smoke-captures-desk-cfbc0--for-Zhao-Yun-and-Diao-Chan-chromium/combat-diaochan-desktop.png`
+
+npm test
+Result: 10 test files passed, 109 tests passed.
+
+npm run test:e2e
+Result: 11 Playwright tests passed.
+```
+
+Known gaps:
+
+- Several non-priority chapter-two and chapter-three enemies still use registered `*-ink-pass.png` art instead of final GPT Image 2 bespoke replacements.
+- Attack strips for later chapter enemies remain chapter-specific ink-pass strips; they no longer use the black placeholder, but a later dedicated GPT Image 2 sequence-frame pass can raise fidelity.
+- The advanced reward UI is functional and covered, but it can still receive a richer chapter-clear art treatment later.

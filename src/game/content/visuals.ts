@@ -57,22 +57,22 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "enemy_ink_bandit",
-    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
-    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
+    assetPath: "/assets/generated/gpt2-ink-bandit-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-ink-bandit-standee-cutout.png",
     alt: "Ink-corrupted bandit silhouette",
     accent: "ink"
   },
   {
     id: "enemy_faceless_soldier",
-    assetPath: "/assets/generated/ink-bandit-standee-gpt.png",
-    standeePath: "/assets/generated/ink-bandit-standee-gpt-cutout.png",
+    assetPath: "/assets/generated/gpt2-faceless-soldier-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-faceless-soldier-standee-cutout.png",
     alt: "Faceless soldier ink silhouette",
     accent: "ink"
   },
   {
     id: "enemy_paper_umbrella",
-    assetPath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
-    standeePath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    assetPath: "/assets/generated/gpt2-paper-umbrella-ghost-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-paper-umbrella-ghost-standee-cutout.png",
     alt: "Paper umbrella ghost in teal ink",
     accent: "teal"
   },
@@ -92,22 +92,22 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "boss_ink_dongzhuo",
-    assetPath: "/assets/generated/ink-dongzhuo-boss-standee-gpt-v2-cutout.png",
-    standeePath: "/assets/generated/ink-dongzhuo-boss-standee-gpt-v2-cutout.png",
+    assetPath: "/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png",
     alt: "Ink shadow Dong Zhuo boss silhouette",
     accent: "ink"
   },
   {
     id: "enemy_bamboo_wraith",
-    assetPath: "/assets/generated/bamboo-wraith-standee-ink-pass.png",
-    standeePath: "/assets/generated/bamboo-wraith-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-bamboo-wraith-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-bamboo-wraith-standee-cutout.png",
     alt: "Rain bamboo wraith in teal ink",
     accent: "teal"
   },
   {
     id: "enemy_broken_scholar",
-    assetPath: "/assets/generated/broken-scholar-standee-ink-pass.png",
-    standeePath: "/assets/generated/broken-scholar-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-broken-scholar-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-broken-scholar-standee-cutout.png",
     alt: "Broken brush scholar ink apparition",
     accent: "ink"
   },
@@ -134,29 +134,29 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "boss_qin_demon_echo",
-    assetPath: "/assets/generated/qin-demon-standee-ink-pass.png",
-    standeePath: "/assets/generated/qin-demon-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-qin-demon-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-qin-demon-standee-cutout.png",
     alt: "Qin Demon Echo boss in cold teal ink",
     accent: "teal"
   },
   {
     id: "enemy_ink_market_guard",
-    assetPath: "/assets/generated/ink-market-guard-standee-ink-pass.png",
-    standeePath: "/assets/generated/ink-market-guard-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-ink-market-guard-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-ink-market-guard-standee-cutout.png",
     alt: "Ink market guard in Chang'an black and cinnabar",
     accent: "ink"
   },
   {
     id: "enemy_history_scribe",
-    assetPath: "/assets/generated/history-scribe-standee-ink-pass.png",
-    standeePath: "/assets/generated/history-scribe-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-history-scribe-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-history-scribe-standee-cutout.png",
     alt: "History scribe with red brush and ink scrolls",
     accent: "red"
   },
   {
     id: "enemy_nameless_citizen",
-    assetPath: "/assets/generated/nameless-citizen-standee-ink-pass.png",
-    standeePath: "/assets/generated/nameless-citizen-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-nameless-citizen-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-nameless-citizen-standee-cutout.png",
     alt: "Nameless masked citizen in ink robes",
     accent: "ink"
   },
@@ -169,15 +169,15 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "elite_memory_stela",
-    assetPath: "/assets/generated/memory-stela-standee-ink-pass.png",
-    standeePath: "/assets/generated/memory-stela-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-memory-stela-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-memory-stela-standee-cutout.png",
     alt: "White-robed memory stela elite in ink mist",
     accent: "teal"
   },
   {
     id: "boss_scribe_officer",
-    assetPath: "/assets/generated/scribe-officer-standee-ink-pass.png",
-    standeePath: "/assets/generated/scribe-officer-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-scribe-officer-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-scribe-officer-standee-cutout.png",
     alt: "Ink book scribe officer boss with cinnabar seal",
     accent: "red"
   }
@@ -208,13 +208,13 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "zhao_river_guard",
-    assetPath: "/assets/generated/cards/zhao-river-guard-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-zhao-river-guard.png",
     alt: "Zhao Yun river guard ink card art",
     accent: "teal"
   },
   {
     id: "zhao_seven_entries",
-    assetPath: "/assets/generated/cards/zhao-seven-entries-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-zhao-seven-entries.png",
     alt: "Zhao Yun seven entries spear rush ink card art",
     accent: "gold"
   },
@@ -256,7 +256,7 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "diao_jinghong_strike",
-    assetPath: "/assets/generated/cards/diao-jinghong-strike-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
     alt: "Diao Chan swan-strike ribbon ink card art",
     accent: "red"
   },
@@ -286,13 +286,13 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "common_jiexue",
-    assetPath: "/assets/generated/cards/common-jiexue-cleanse-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-common-jiexue.png",
     alt: "Acupoint cleanse card art in white ink and teal rain",
     accent: "teal"
   },
   {
     id: "common_xixin",
-    assetPath: "/assets/generated/cards/common-xixin-cleanse-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-common-xixin.png",
     alt: "Cleanse heart card art with clear rain and ink paper",
     accent: "teal"
   },
@@ -310,7 +310,7 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "status_redacted_history",
-    assetPath: "/assets/generated/cards/status-redacted-history-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-status-redacted-history.png",
     alt: "Redacted history status card with cinnabar brush marks",
     accent: "red"
   },
@@ -512,12 +512,12 @@ export const battlefieldAssets: Record<string, BattlefieldAssetDefinition> = {
   },
   bamboo: {
     id: "bamboo",
-    assetPath: "/assets/generated/bamboo-battlefield-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-bamboo-battlefield.png",
     alt: "Rain bamboo forest battlefield with qin echoes"
   },
   changan: {
     id: "changan",
-    assetPath: "/assets/generated/changan-battlefield-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-changan-battlefield.png",
     alt: "Chang'an ink city battlefield with red seals"
   }
 };

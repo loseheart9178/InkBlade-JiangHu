@@ -131,7 +131,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "雨竹幽魂",
     role: "normal",
     chapter: "bamboo",
-    maxHp: 38,
+    maxHp: 40,
     intents: [
       {
         type: "special",
@@ -150,7 +150,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "断笔书生",
     role: "normal",
     chapter: "bamboo",
-    maxHp: 42,
+    maxHp: 44,
     intents: [
       {
         type: "special",
@@ -169,7 +169,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "兵煞竹影",
     role: "normal",
     chapter: "bamboo",
-    maxHp: 44,
+    maxHp: 48,
     intents: [
       { type: "attack", damage: 5, hits: 2 },
       {
@@ -177,6 +177,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
         name: "阵脚不退",
         effects: [
           { action: "block", amount: 9 },
+          { action: "addCardToDiscard", cardId: "status_rain_chill", amount: 1 },
           { action: "applyStatus", target: "player", status: "vulnerable", amount: 1 }
         ]
       },
@@ -188,7 +189,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "琴魔残谱",
     role: "elite",
     chapter: "bamboo",
-    maxHp: 98,
+    maxHp: 118,
     intents: [
       {
         type: "special",
@@ -214,7 +215,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "兵煞竹阵",
     role: "elite",
     chapter: "bamboo",
-    maxHp: 104,
+    maxHp: 122,
     intents: [
       { type: "attack", damage: 7, hits: 3 },
       {
@@ -233,7 +234,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "琴魔·残音",
     role: "boss",
     chapter: "bamboo",
-    maxHp: 152,
+    maxHp: 168,
     intents: [
       {
         type: "special",
@@ -318,7 +319,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "墨市守卫",
     role: "normal",
     chapter: "changan",
-    maxHp: 48,
+    maxHp: 52,
     intents: [
       { type: "attack", damage: 8, hits: 1 },
       {
@@ -337,7 +338,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "逆史书吏",
     role: "normal",
     chapter: "changan",
-    maxHp: 46,
+    maxHp: 50,
     intents: [
       {
         type: "special",
@@ -356,7 +357,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "无名城民",
     role: "normal",
     chapter: "changan",
-    maxHp: 44,
+    maxHp: 48,
     intents: [
       { type: "attack", damage: 4, hits: 3 },
       {
@@ -364,6 +365,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
         name: "众口成史",
         effects: [
           { action: "block", amount: 10 },
+          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 },
           { action: "applyStatus", target: "player", status: "weak", amount: 1 }
         ]
       },
@@ -375,7 +377,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "吕布墨影",
     role: "elite",
     chapter: "changan",
-    maxHp: 118,
+    maxHp: 128,
     intents: [
       { type: "attack", damage: 9, hits: 2 },
       {
@@ -394,7 +396,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "白袍碑林",
     role: "elite",
     chapter: "changan",
-    maxHp: 112,
+    maxHp: 124,
     intents: [
       {
         type: "special",
@@ -420,7 +422,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "墨书执笔官",
     role: "boss",
     chapter: "changan",
-    maxHp: 176,
+    maxHp: 196,
     intents: [
       {
         type: "special",

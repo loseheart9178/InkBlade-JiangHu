@@ -136,6 +136,29 @@ describe("content data", () => {
     );
   });
 
+  it("keeps chapter two and three combat pacing in desktop vertical-slice bands", () => {
+    const chapterTwoNormal = enemyList.filter((enemy) => enemy.chapter === "bamboo" && enemy.role === "normal");
+    const chapterTwoElite = enemyList.filter((enemy) => enemy.chapter === "bamboo" && enemy.role === "elite");
+    const chapterThreeNormal = enemyList.filter((enemy) => enemy.chapter === "changan" && enemy.role === "normal");
+    const chapterThreeElite = enemyList.filter((enemy) => enemy.chapter === "changan" && enemy.role === "elite");
+
+    expect(chapterTwoNormal.every((enemy) => enemy.maxHp >= 40 && enemy.maxHp <= 48)).toBe(true);
+    expect(chapterTwoNormal.every((enemy) => getPeakIntentDamage(enemy) <= 12)).toBe(true);
+    expect(chapterTwoNormal.every((enemy) => enemy.intents.some(intentAddsStatusCard))).toBe(true);
+
+    expect(chapterTwoElite.every((enemy) => enemy.maxHp >= 116 && enemy.maxHp <= 126)).toBe(true);
+    expect(getPeakIntentDamage(enemyList.find((enemy) => enemy.id === "boss_qin_demon_echo")!)).toBeLessThanOrEqual(30);
+    expect(enemyList.find((enemy) => enemy.id === "boss_qin_demon_echo")?.maxHp).toBe(168);
+
+    expect(chapterThreeNormal.every((enemy) => enemy.maxHp >= 48 && enemy.maxHp <= 54)).toBe(true);
+    expect(chapterThreeNormal.every((enemy) => getPeakIntentDamage(enemy) <= 15)).toBe(true);
+    expect(chapterThreeNormal.every((enemy) => enemy.intents.some(intentAddsStatusCard))).toBe(true);
+
+    expect(chapterThreeElite.every((enemy) => enemy.maxHp >= 124 && enemy.maxHp <= 132)).toBe(true);
+    expect(enemyList.find((enemy) => enemy.id === "boss_scribe_officer")?.maxHp).toBe(196);
+    expect(getPeakIntentDamage(enemyList.find((enemy) => enemy.id === "boss_scribe_officer")!)).toBeLessThanOrEqual(24);
+  });
+
   it("gives first chapter enemies distinct mechanics and a gentler-to-harder pacing curve", () => {
     const enemies = Object.fromEntries(enemyList.map((enemy) => [enemy.id, enemy]));
 
@@ -212,10 +235,20 @@ describe("content data", () => {
   });
 
   it("gives the paper umbrella, sword echo, blood banner, and Dong Zhuo distinct standees", () => {
-    expect(combatPortraitsById.enemy_paper_umbrella.standeePath).toBe("/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.enemy_ink_bandit.standeePath).toBe("/assets/generated/gpt2-ink-bandit-standee-cutout.png");
+    expect(combatPortraitsById.enemy_faceless_soldier.standeePath).toBe("/assets/generated/gpt2-faceless-soldier-standee-cutout.png");
+    expect(combatPortraitsById.enemy_paper_umbrella.standeePath).toBe("/assets/generated/gpt2-paper-umbrella-ghost-standee-cutout.png");
     expect(combatPortraitsById.elite_sword_echo.standeePath).toBe("/assets/generated/sword-echo-standee-gpt-v2-cutout.png");
     expect(combatPortraitsById.elite_blood_banner.standeePath).toBe("/assets/generated/blood-banner-standee-gpt-v2-cutout.png");
-    expect(combatPortraitsById.boss_ink_dongzhuo.standeePath).toBe("/assets/generated/ink-dongzhuo-boss-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.boss_ink_dongzhuo.standeePath).toBe("/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png");
+    expect(new Set([
+      combatPortraitsById.enemy_ink_bandit.standeePath,
+      combatPortraitsById.enemy_faceless_soldier.standeePath,
+      combatPortraitsById.enemy_paper_umbrella.standeePath
+    ]).size).toBe(3);
+    for (const id of ["enemy_ink_bandit", "enemy_faceless_soldier", "enemy_paper_umbrella", "boss_ink_dongzhuo"]) {
+      expectAssetPathToExist(combatPortraitsById[id].standeePath ?? "");
+    }
   });
 
   it("binds generated standees to the correct playable character identities", () => {
@@ -281,6 +314,49 @@ describe("content data", () => {
     }
   });
 
+  it("uses GPT Image 2 card art for the currently visible priority card faces", () => {
+    const priorityCards = {
+      zhao_river_guard: "/assets/generated/cards/gpt2-zhao-river-guard.png",
+      diao_jinghong_strike: "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+      common_jiexue: "/assets/generated/cards/gpt2-common-jiexue.png",
+      common_xixin: "/assets/generated/cards/gpt2-common-xixin.png",
+      zhao_seven_entries: "/assets/generated/cards/gpt2-zhao-seven-entries.png",
+      status_redacted_history: "/assets/generated/cards/gpt2-status-redacted-history.png"
+    };
+
+    for (const [cardId, assetPath] of Object.entries(priorityCards)) {
+      expect(cardArtById[cardId]?.assetPath).toBe(assetPath);
+      expect(cardArtById[cardId]?.assetPath).not.toBe(cardArtById[`type_${cardsById[cardId].types[0]}`]?.assetPath);
+      expectAssetPathToExist(assetPath);
+    }
+  });
+
+  it("uses GPT Image 2 assets for the next priority chapter battlefields and enemies", () => {
+    const priorityBattlefields = {
+      bamboo: "/assets/generated/gpt2-bamboo-battlefield.png",
+      changan: "/assets/generated/gpt2-changan-battlefield.png"
+    };
+
+    for (const [battlefieldId, assetPath] of Object.entries(priorityBattlefields)) {
+      expect(battlefieldAssets[battlefieldId]?.assetPath).toBe(assetPath);
+      expectAssetPathToExist(assetPath);
+    }
+
+    const priorityStandees = {
+      enemy_bamboo_wraith: "/assets/generated/gpt2-bamboo-wraith-standee-cutout.png",
+      enemy_broken_scholar: "/assets/generated/gpt2-broken-scholar-standee-cutout.png",
+      boss_qin_demon_echo: "/assets/generated/gpt2-qin-demon-standee-cutout.png",
+      enemy_history_scribe: "/assets/generated/gpt2-history-scribe-standee-cutout.png",
+      boss_scribe_officer: "/assets/generated/gpt2-scribe-officer-standee-cutout.png"
+    };
+
+    for (const [enemyId, assetPath] of Object.entries(priorityStandees)) {
+      expect(combatPortraitsById[enemyId]?.standeePath).toBe(assetPath);
+      expect(combatPortraitsById[enemyId]?.assetPath).toBe(assetPath);
+      expectAssetPathToExist(assetPath);
+    }
+  });
+
   it("declares signature card VFX cues for key role-defining martial arts", () => {
     const signatureVfxByCue = (
       visuals as typeof visuals & {
@@ -322,4 +398,24 @@ function getArchetypeCardIds(archetypeId: string): string[] {
 function expectAssetPathToExist(assetPath: string): void {
   const absolute = join(dirname(fileURLToPath(import.meta.url)), "../../public", assetPath.replace(/^\//, ""));
   expect(existsSync(absolute)).toBe(true);
+}
+
+function getPeakIntentDamage(enemy: (typeof enemyList)[number]): number {
+  return Math.max(0, ...enemy.intents.map((intent) => {
+    if (intent.type === "attack") {
+      return intent.damage * intent.hits;
+    }
+
+    if (intent.type === "special") {
+      return intent.effects
+        .filter((effect): effect is { action: "damage"; amount: number; hits?: number } => effect.action === "damage")
+        .reduce((total, effect) => total + effect.amount * (effect.hits ?? 1), 0);
+    }
+
+    return 0;
+  }));
+}
+
+function intentAddsStatusCard(intent: (typeof enemyList)[number]["intents"][number]): boolean {
+  return intent.type === "special" && intent.effects.some((effect) => effect.action === "addCardToDiscard");
 }

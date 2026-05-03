@@ -1090,6 +1090,7 @@ button {
 .reward-cards,
 .method-reward-list,
 .chapter-reward-list,
+.advanced-reward-list,
 .shop-list {
   display: flex;
   justify-content: center;
@@ -1127,6 +1128,33 @@ button {
   background:
     linear-gradient(145deg, rgba(246, 236, 213, 0.94), rgba(183, 53, 42, 0.1)),
     rgba(246, 236, 213, 0.88);
+}
+
+.advanced-reward-list {
+  width: min(1040px, 94vw);
+  padding: 14px;
+  border: 1px solid rgba(47, 124, 110, 0.32);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(47, 124, 110, 0.1), rgba(183, 53, 42, 0.08)),
+    rgba(246, 236, 213, 0.62);
+}
+
+.advanced-reward-list .game-message {
+  width: 100%;
+}
+
+.advanced-reward-list .choice-action {
+  min-height: 118px;
+  border-color: rgba(47, 124, 110, 0.58);
+  background:
+    linear-gradient(145deg, rgba(246, 236, 213, 0.92), rgba(47, 124, 110, 0.12)),
+    rgba(246, 236, 213, 0.88);
+}
+
+.advanced-reward-list .choice-action:disabled {
+  opacity: 0.58;
+  cursor: default;
 }
 
 .reward-combo-hint {
@@ -1292,9 +1320,41 @@ button {
 .shop-screen,
 .rest-screen,
 .reward-screen,
+.logbook-screen,
 .result-screen {
   align-items: center;
   justify-content: center;
+}
+
+.logbook-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  width: min(1040px, 94vw);
+}
+
+.logbook-entry,
+.logbook-empty {
+  padding: 18px;
+  border: 1px solid rgba(44, 41, 36, 0.3);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(246, 236, 213, 0.92), rgba(47, 124, 110, 0.08)),
+    rgba(246, 236, 213, 0.86);
+  box-shadow: 0 12px 28px rgba(17, 17, 17, 0.16);
+}
+
+.logbook-entry strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #5f1d18;
+  font-size: 18px;
+}
+
+.logbook-entry p,
+.logbook-empty {
+  margin: 0;
+  line-height: 1.65;
 }
 
 .event-screen {
