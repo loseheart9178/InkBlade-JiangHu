@@ -700,9 +700,9 @@ npm run test:e2e
 
 - [x] Record `.worktrees` ignore rules before creating local worktrees.
 - [x] Create the autonomous alpha plan at `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`.
-- [ ] Create Wave 1 worktrees for playtest tooling, profile/endings core, art audit tooling, and desktop UI shells.
-- [ ] Dispatch independent subagents into each Wave 1 worktree.
-- [ ] Baseline and verify each Wave 1 worktree before integration.
+- [x] Create Wave 1 worktrees for playtest tooling, profile/endings core, art audit tooling, and desktop UI shells.
+- [x] Dispatch independent subagents into each Wave 1 worktree.
+- [x] Baseline and verify each Wave 1 worktree before integration.
 
 Verification:
 
@@ -714,9 +714,9 @@ npm run build
 
 ## Milestone 43: Playtest Lab And Balance Instrumentation
 
-- [ ] Add a pure run simulator for deterministic enemy/route pacing checks.
-- [ ] Add chapter-level pacing summaries without Phaser or DOM dependencies.
-- [ ] Add tests that flag missing enemies, timeout-prone encounters, and unsafe damage spikes.
+- [x] Add a pure run simulator for deterministic enemy/route pacing checks.
+- [x] Add chapter-level pacing summaries without Phaser or DOM dependencies.
+- [x] Add tests that flag missing enemies, timeout-prone encounters, and unsafe damage spikes.
 
 Verification:
 
@@ -728,9 +728,9 @@ npm run build
 
 ## Milestone 44: Persistent Profile And Ending Evaluator Core
 
-- [ ] Add a versioned persistent profile model for run stats, fragments, endings, and character stats.
-- [ ] Add deterministic ending evaluation for 清明封印、焚书、改命、心魔、隐藏清悟.
-- [ ] Keep profile and ending logic pure until UI integration.
+- [x] Add a versioned persistent profile model for run stats, fragments, endings, and character stats.
+- [x] Add deterministic ending evaluation for 清明封印、焚书、改命、心魔、隐藏清悟.
+- [x] Keep profile and ending logic pure until UI integration.
 
 Verification:
 
@@ -742,9 +742,9 @@ npm run build
 
 ## Milestone 45: Art Coverage Audit And Asset Debt Ledger
 
-- [ ] Add an asset audit script that reports missing runtime files, source sheets, GPT2 assets, and remaining `*-ink-pass.png` debt.
-- [ ] Add data tests for remaining semantic art debt.
-- [ ] Update the reusable art pipeline skill with audit commands.
+- [x] Add an asset audit script that reports missing runtime files, source sheets, GPT2 assets, and remaining `*-ink-pass.png` debt.
+- [x] Add data tests for remaining semantic art debt.
+- [x] Update the reusable art pipeline skill with audit commands.
 
 Verification:
 
@@ -757,9 +757,9 @@ npm run build
 
 ## Milestone 46: Desktop UI Shells For Settings, Run Summary, And Ending Surface
 
-- [ ] Add desktop settings shell from title.
-- [ ] Add run summary shell for future profile/endings integration.
-- [ ] Add Playwright coverage for the new UI shells.
+- [x] Add desktop settings shell from title.
+- [x] Add run summary shell for future profile/endings integration.
+- [x] Add Playwright coverage for the new UI shells.
 
 Verification:
 

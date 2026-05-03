@@ -2,6 +2,62 @@
 
 ## Status Log
 
+### 2026-05-03 16:18 Asia/Shanghai
+
+Current state:
+
+- Wave 1 autonomous work accepted and integrated into `codex/next-major-modules`.
+- Accepted commits:
+  - `f820f25` from Worker B / Aquinas: profile and ending evaluator core.
+  - `a75f202` from Worker A / Avicenna: deterministic run simulator.
+  - `bec0f34` from Worker C / Halley: generated asset audit ledger.
+  - `f31bc96` from Worker D / Harvey: desktop settings and run-summary shells.
+- Reclaimed worktrees:
+  - `.worktrees/auton-profile-endings`
+  - `.worktrees/auton-playtest-lab`
+  - `.worktrees/auton-art-audit`
+  - `.worktrees/auton-ui-shells`
+- The `close_agent` calls for the returned workers reported that the agent handles were already unavailable in this resumed session, so reclaim was completed by removing the corresponding worktrees after verification.
+- Updated `Plan.md` and `docs/superpowers/agent-runs/2026-05-03-wave1.md` to mark Milestones 42-46 complete.
+
+Verification after integration:
+
+```text
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts
+Result: 2 test files passed, 6 tests passed.
+
+npm test -- tests/playtest/run-simulator.test.ts
+Result: 1 test file passed, 3 tests passed.
+
+node scripts/audit-generated-assets.mjs
+Result: 86 runtime references, 0 missing files, 20 ink-pass debt entries, 31 GPT2 runtime assets, and 8 source sheets.
+
+npm test -- tests/data/content.test.ts
+Result: 1 test file passed, 19 tests passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "settings panel|run summary"
+Result: 2 Playwright tests passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed.
+
+npm test
+Result: 13 test files passed, 119 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the expected large Phaser bundle warning.
+```
+
+Known gaps:
+
+- Profile/endings are pure systems and still need save/controller/run-summary integration.
+- The asset ledger intentionally records 20 remaining ink-pass debt entries for the GPT Image 2 final asset pass.
+- Settings are controller-memory only; audio sliders are disabled placeholders until audio exists.
+
+Next step:
+
+- Start Wave 2 from Milestone 47 with final chapter content and Cai Wenji MVP as independent worktrees, then integrate one branch at a time.
+
 ### 2026-05-03 15:12 Asia/Shanghai
 
 Current state:
