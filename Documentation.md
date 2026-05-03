@@ -2,6 +2,44 @@
 
 ## Status Log
 
+### 2026-05-03 21:50 Asia/Shanghai
+
+Wave 5 post-MVP polish planning started under the user's autonomous execution mandate.
+
+Re-read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/chapters/final_chapter.md`
+
+Created:
+
+- `docs/superpowers/specs/2026-05-03-wave5-post-mvp-polish-design.md`
+- `docs/superpowers/plans/2026-05-03-wave5-post-mvp-polish.md`
+- `docs/superpowers/agent-runs/2026-05-03-wave5.md`
+
+Planned milestones:
+
+- Milestone 54: Dynamic Chapter Battlefields.
+- Milestone 55: Browser Final Boss Route.
+- Milestone 56: Persisted Settings And Procedural Feedback.
+- Milestone 57: Card Art Fallback Ledger.
+
+Decision:
+
+- Treat the user's "全权交由你自主规划任务、持续开发，无需请示" as approval to proceed from design to implementation without a confirmation stop.
+- Keep Wave 5 desktop-only. Mobile layout and touch input remain paused by project rule.
+- Defer bulk GPT Image 2 generation for low-priority filler cards until the fallback ledger identifies a clean queue.
+
+Next step:
+
+- Commit Wave 5 planning docs, create isolated worktrees, dispatch independent subagents, and begin integration in the planned order.
+
 ### 2026-05-03 21:37 Asia/Shanghai
 
 Wave 4 MVP closure integrated and verified on `codex/next-major-modules`.

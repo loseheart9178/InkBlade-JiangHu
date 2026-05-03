@@ -877,3 +877,63 @@ npm run typecheck
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 54: Dynamic Chapter Battlefields
+
+- [ ] Render chapter-specific battlefield assets in Phaser instead of always using 洛水.
+- [ ] Expose the current combat battlefield as a desktop QA attribute.
+- [ ] Add visual smoke coverage for non-Luoshui battlefield context.
+
+Verification:
+
+```bash
+npm test -- tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+npm test
+npm run build
+```
+
+## Milestone 55: Browser Final Boss Route
+
+- [ ] Add a debug-accessible final-chapter map route that enters `无名史官` combat.
+- [ ] Verify final boss victory flows into ending/profile summary.
+- [ ] Preserve existing direct ending-summary debug action.
+
+Verification:
+
+```bash
+npm test -- tests/run/run-system.test.ts tests/endings/ending-system.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "final boss route"
+npm test
+npm run build
+```
+
+## Milestone 56: Persisted Settings And Procedural Feedback
+
+- [ ] Persist desktop settings separately from run saves.
+- [ ] Enable volume controls and mute/reduced-motion settings.
+- [ ] Add lightweight procedural WebAudio feedback with no-op fallback.
+
+Verification:
+
+```bash
+npm test -- tests/app-shell.test.ts tests/save/save-system.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "settings"
+npm test
+npm run build
+```
+
+## Milestone 57: Card Art Fallback Ledger
+
+- [ ] Extend generated asset audit with non-blocking card fallback debt.
+- [ ] Update GPT Image 2 queue for the next low-priority card-art batch.
+- [ ] Keep missing runtime assets blocking and fallback art informational.
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+npm test
+npm run build
+```
