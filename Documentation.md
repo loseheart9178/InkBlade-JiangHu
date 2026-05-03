@@ -1406,3 +1406,111 @@ npm run test:e2e
 Result: 10 Playwright tests passed.
 Covered: visual smoke, playable flow, shop/relics, elite heart method, event/rest, save/continue, first-to-second chapter transition, and second-chapter first combat status pressure.
 ```
+
+### 2026-05-03 11:40 Asia/Shanghai
+
+Current state:
+
+- Completed the requested ten-module long task:
+  - Module 1: 第二章专属美术资产与琴魔战场演出 Pass.
+  - Module 2: 状态牌 / 净化 / 卡组污染反制系统.
+  - Module 3: 第二章事件池与角色剧情分支深化.
+  - Module 4: 琴魔·残音 Boss 多阶段战斗深化.
+  - Module 5: 第二章战斗节奏和平衡调参.
+  - Module 6: 心法升级与章间成长系统深化.
+  - Module 7: 高级奖励池与稀有牌 / 法宝联动.
+  - Module 8: 第三章“长安墨城”内容壳与跨章推进.
+  - Module 9: 图鉴 / 剧情残页 / 战后记录系统.
+  - Module 10: 开发者调试与内容验证工具.
+- Re-read before implementation:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/chapters/chapter_02.md`
+  - `docs/chapters/chapter_03.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- Added third chapter metadata for 长安墨城 and progression from 竹林听雨 to 长安墨城.
+- Added third-chapter route topology with 无面市集、逆写史街、白袍碑林、无面戏台、未央棋局 and 墨书执笔官 Boss.
+- Added third-chapter enemies:
+  - 墨市守卫
+  - 逆史书吏
+  - 无名城民
+  - 吕布墨影
+  - 白袍碑林
+  - 墨书执笔官
+- Added status counterplay:
+  - New cleanse cards 解穴 and 洗心.
+  - New status card 涂史.
+  - New combat effect `cleanseCards`.
+  - Cleanse removes status/curse cards from hand/discard/draw, moves them to exhaust, and reduces 琴魔·残音's status-draw block snowball.
+- Deepened 琴魔·残音 with data-driven HP phase tables:
+  - 悲声回环 at 70% HP.
+  - 绝响不散 at 35% HP.
+- Added 墨书执笔官 Boss loop with 记录、改写、定稿 pressure and 涂史 pollution.
+- Added chapter-two branch events:
+  - 断弦老人
+  - 无字竹简
+  - 白马失路
+  - 红尘旧客
+- Added chapter-three story events:
+  - 无面市集
+  - 逆写史街
+  - 白袍碑林
+  - 无面戏台
+  - 未央棋局
+- Added heart method levels and `claimMethodUpgrade`.
+- Upgraded combat hooks for 龙胆连势、长坂守心、惊鸿舞谱、倾城心诀.
+- Added advanced reward draft module for rare cards, relics, method upgrades, and cleanse fallback.
+- Added new relics:
+  - 清音玉
+  - 断弦
+  - 朱批印
+  - 记忆竹简
+- Added logbook fragment content and run-level event/boss/fragment tracking.
+- Controller now records event and boss logbook unlocks and displays unlocked 墨录 count in run status.
+- Added deterministic debug run factory for chapter/deck/relic/method/logbook validation.
+- Added dedicated visual manifest entries and project-local ink-pass runtime assets for bamboo/changan battlefields, second/third chapter enemies, cleanse/status cards, and chapter-specific enemy attack strips.
+- Updated `skills/inkblade-art-asset-pipeline/SKILL.md` with the reusable ink-pass asset registration workflow and the rule that new enemies should not fall back to black placeholder silhouettes once a semantic asset slot exists.
+
+Decisions:
+
+- The ten modules were implemented through pure systems/content plus thin DOM adapter changes. Combat rules remain in `src/game/systems/`.
+- The new chapter art assets are registered with final semantic filenames so later GPT Image source/cutout replacements can overwrite the runtime files without code changes.
+- Chapter-two rewards now insert a cleanse option while keeping at least two character-build cards in the visible draft.
+- Advanced reward draft is separate from the existing three-choice chapter reward UI so current browser flows remain stable while later UI can expose the richer pool.
+- Logbook is run-scoped and deterministic for MVP; future work can add a dedicated 墨录 screen without changing unlock data.
+
+Verification:
+
+```text
+npm test -- tests/roadmap/next-ten-modules.test.ts
+First run failed as expected before implementation:
+missing advanced reward, debug run, and logbook modules.
+
+npm test -- tests/roadmap/next-ten-modules.test.ts
+Result after implementation: 1 test file passed, 10 tests passed.
+
+npm test
+Result: 10 test files passed, 106 tests passed.
+
+npm run build
+First run failed on TypeScript narrowing for `cleanseCards` UI text and method id indexing in advanced rewards.
+Fixed both issues.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e
+Result: 10 Playwright tests passed.
+Covered: desktop visual smoke, playable flow, shop/relics, elite heart method, event/rest, save/continue, first-to-second chapter transition, and second-chapter status pressure.
+```
+
+Known gaps:
+
+- The new `*-ink-pass.png` assets are project-local playable placeholders derived from approved in-repo ink assets. A dedicated GPT Image source/cutout pass can replace them for higher fidelity.
+- The advanced reward draft has system coverage but is not yet a full standalone UI surface.
+- Logbook unlocks are recorded and counted, but the dedicated readable 墨录 screen is still a future UX module.

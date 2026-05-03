@@ -280,6 +280,8 @@ describe("run system", () => {
     for (const relicId of [
       "relic_dragon_scale_tip",
       "relic_changban_iron_seal",
+      "relic_broken_string",
+      "relic_memory_bamboo_slip",
       "relic_old_wooden_sword",
       "relic_black_paper_umbrella",
       "relic_ink_washstone",

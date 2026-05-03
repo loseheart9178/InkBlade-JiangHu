@@ -37,6 +37,8 @@ const COMMON_REWARD_POOL = [
   "common_xieli",
   "common_tuna",
   "common_qingshen",
+  "common_jiexue",
+  "common_xixin",
   "mind_jingxin",
   "mind_nuzhan",
   "common_mirror_armor"
@@ -56,6 +58,24 @@ const LATE_EVENT_POOL = [
   "event_silent_bridge",
   "event_red_sleeve_letter",
   "event_black_lotus_pool"
+];
+
+const BAMBOO_EVENT_POOL = [
+  "event_ruined_temple_night_qin",
+  "event_rain_tea_pavilion",
+  "event_bamboo_heart_question",
+  "event_broken_string_elder",
+  "event_wordless_bamboo_scroll",
+  "event_white_horse_lost_path",
+  "event_red_dust_guest"
+];
+
+const CHANGAN_EVENT_POOL = [
+  "event_nameless_market",
+  "event_rewritten_history_street",
+  "event_white_robed_stelae",
+  "event_faceless_stage",
+  "event_unfinished_chessboard"
 ];
 
 const ARCHETYPE_LABELS: Record<CardArchetypeId, string> = {
@@ -201,6 +221,12 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     deck,
     relicIds: [getStartingRelicId(characterId)],
     methodIds: [],
+    methodLevels: {},
+    logbook: {
+      eventIds: [],
+      bossIds: [],
+      fragmentIds: []
+    },
     mindTendencies: {
       ning: 0,
       nu: 0,
@@ -245,11 +271,15 @@ export function createCardRewardDraft(run: RunState, nodeType: MapNodeType = "ba
     addCardsById(cards, comboBias.candidateCardIds.slice(0, 2));
   }
 
+  if (run.chapterId === "bamboo" || run.chapterId === "changan") {
+    addRotatedCards(cards, ["common_jiexue", "common_xixin"], offset, 1);
+  }
+
   if (nodeType === "elite" || nodeType === "boss") {
     addRotatedCards(cards, getEliteRewardPool(run.characterId), offset, 1);
   }
 
-  if (run.chapterId === "bamboo") {
+  if (run.chapterId === "bamboo" || run.chapterId === "changan") {
     addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + (comboBias ? 1 : 0), 2);
     addRotatedCards(cards, getEliteRewardPool(run.characterId), offset + cards.length + 1, 3);
     addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
@@ -638,6 +668,36 @@ function normalizeRunChapterFields(run: RunState): void {
   }
 }
 
+export function claimMethodUpgrade(run: RunState, methodId: string): boolean {
+  normalizeRunMethodLevels(run);
+  if (!run.methodIds.includes(methodId)) {
+    return false;
+  }
+
+  const currentLevel = run.methodLevels?.[methodId] ?? 1;
+  if (currentLevel >= 2) {
+    return false;
+  }
+
+  run.methodLevels![methodId] = currentLevel + 1;
+  run.rewardHistory.push(`methodUpgrade:${methodId}:${currentLevel + 1}`);
+  return true;
+}
+
+export function normalizeRunMethodLevels(run: RunState): void {
+  if (!Array.isArray(run.methodIds)) {
+    run.methodIds = [];
+  }
+
+  if (!run.methodLevels || typeof run.methodLevels !== "object") {
+    run.methodLevels = {};
+  }
+
+  for (const methodId of run.methodIds) {
+    run.methodLevels[methodId] = Math.max(1, run.methodLevels[methodId] ?? 1);
+  }
+}
+
 function getAdvancedRewardCardId(run: RunState): string {
   const pool = run.characterId === "diaochan" ? DIAO_ADVANCED_REWARD_POOL : ZHAO_ADVANCED_REWARD_POOL;
   return pool.find((cardId) => !run.deck.some((entry) => entry.cardId === cardId)) ?? pool[0];
@@ -677,7 +737,15 @@ function getRelicSourceForNode(nodeType: MapNodeType): RelicRewardSource {
 }
 
 function createMapForChapter(chapterId: ChapterId, characterId: string, mapSeed: number): MapNode[] {
-  return chapterId === "bamboo" ? createChapterTwoMap(characterId, mapSeed) : createChapterOneMap(characterId, mapSeed);
+  if (chapterId === "bamboo") {
+    return createChapterTwoMap(characterId, mapSeed);
+  }
+
+  if (chapterId === "changan") {
+    return createChapterThreeMap(characterId, mapSeed);
+  }
+
+  return createChapterOneMap(characterId, mapSeed);
 }
 
 function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
@@ -818,6 +886,7 @@ function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
 
 function createChapterTwoMap(characterId: string, mapSeed: number): MapNode[] {
   const secondEventId = characterId === "zhaoyun" ? "event_bamboo_soldier_array" : "event_red_cloth_faceless";
+  const lateEventId = BAMBOO_EVENT_POOL[Math.abs(mapSeed + 3) % BAMBOO_EVENT_POOL.length];
   const firstBattleEnemyId = mapSeed % 3 === 0 ? "enemy_broken_scholar" : "enemy_bamboo_wraith";
   const secondBattleEnemyId = mapSeed % 2 === 0 ? "enemy_bamboo_wraith" : "enemy_broken_scholar";
   const sideBattleEnemyId = mapSeed % 5 === 0 ? "enemy_bamboo_soldier" : "enemy_broken_scholar";
@@ -918,7 +987,7 @@ function createChapterTwoMap(characterId: string, mapSeed: number): MapNode[] {
       floor: 3,
       lane: 2,
       enemyId: mapSeed % 4 === 0 ? "enemy_bamboo_soldier" : "enemy_bamboo_wraith",
-      connections: ["boss"]
+      connections: ["event-late", "boss"]
     },
     {
       id: "event-3",
@@ -930,12 +999,157 @@ function createChapterTwoMap(characterId: string, mapSeed: number): MapNode[] {
       connections: ["boss"]
     },
     {
+      id: "event-late",
+      type: "event",
+      label: lateEventId === "event_broken_string_elder" ? "断弦老人" : "竹雨旧闻",
+      floor: 4,
+      lane: 2,
+      eventId: lateEventId,
+      connections: ["boss"]
+    },
+    {
       id: "boss",
       type: "boss",
       label: "琴魔·残音",
       floor: 5,
       lane: 1,
       enemyId: "boss_qin_demon_echo",
+      connections: []
+    }
+  ];
+}
+
+function createChapterThreeMap(characterId: string, mapSeed: number): MapNode[] {
+  const firstBattleEnemyId = mapSeed % 2 === 0 ? "enemy_ink_market_guard" : "enemy_history_scribe";
+  const secondBattleEnemyId = mapSeed % 3 === 0 ? "enemy_nameless_citizen" : "enemy_history_scribe";
+  const sideBattleEnemyId = mapSeed % 5 === 0 ? "enemy_ink_market_guard" : "enemy_nameless_citizen";
+  const eliteEnemyId = mapSeed % 2 === 0 ? "elite_memory_stela" : "elite_lubu_shadow";
+  const secondEliteEnemyId = mapSeed % 4 === 0 ? "elite_lubu_shadow" : "elite_memory_stela";
+  const roleEventId = characterId === "zhaoyun" ? "event_white_robed_stelae" : "event_faceless_stage";
+  const lateEventId = CHANGAN_EVENT_POOL[Math.abs(mapSeed + 2) % CHANGAN_EVENT_POOL.length];
+
+  return [
+    {
+      id: "start",
+      type: "start",
+      label: "无面市集",
+      floor: 0,
+      lane: 1,
+      connections: ["event-1", "battle-1", "battle-side-1"]
+    },
+    {
+      id: "event-1",
+      type: "event",
+      label: "无面市集",
+      floor: 1,
+      lane: 0,
+      eventId: "event_nameless_market",
+      connections: ["battle-2", "shop-1"]
+    },
+    {
+      id: "battle-1",
+      type: "battle",
+      label: firstBattleEnemyId === "enemy_ink_market_guard" ? "墨市守卫" : "逆史书吏",
+      floor: 1,
+      lane: 1,
+      enemyId: firstBattleEnemyId,
+      connections: ["event-2", "battle-2"]
+    },
+    {
+      id: "battle-side-1",
+      type: "battle",
+      label: sideBattleEnemyId === "enemy_ink_market_guard" ? "朱契守卫" : "无名城民",
+      floor: 1,
+      lane: 2,
+      enemyId: sideBattleEnemyId,
+      connections: ["shop-1", "event-2"]
+    },
+    {
+      id: "shop-1",
+      type: "shop",
+      label: "墨城市肆",
+      floor: 2,
+      lane: 0,
+      connections: ["elite-1", "rest-1"]
+    },
+    {
+      id: "event-2",
+      type: "event",
+      label: "逆写史街",
+      floor: 2,
+      lane: 1,
+      eventId: "event_rewritten_history_street",
+      connections: ["battle-2", "rest-1"]
+    },
+    {
+      id: "battle-2",
+      type: "battle",
+      label: secondBattleEnemyId === "enemy_nameless_citizen" ? "无名城民" : "逆史书吏",
+      floor: 2,
+      lane: 2,
+      enemyId: secondBattleEnemyId,
+      connections: ["battle-3", "elite-1"]
+    },
+    {
+      id: "elite-1",
+      type: "elite",
+      label: eliteEnemyId === "elite_memory_stela" ? "白袍碑林" : "吕布墨影",
+      floor: 3,
+      lane: 0,
+      enemyId: eliteEnemyId,
+      connections: ["event-3", "boss"]
+    },
+    {
+      id: "rest-1",
+      type: "rest",
+      label: "城墙静修",
+      floor: 3,
+      lane: 1,
+      connections: ["battle-3", "event-3"]
+    },
+    {
+      id: "battle-3",
+      type: "battle",
+      label: "墨城巡史",
+      floor: 3,
+      lane: 2,
+      enemyId: mapSeed % 3 === 1 ? "enemy_ink_market_guard" : "enemy_history_scribe",
+      connections: ["elite-2", "event-late", "boss"]
+    },
+    {
+      id: "event-3",
+      type: "event",
+      label: roleEventId === "event_white_robed_stelae" ? "白袍碑林" : "无面戏台",
+      floor: 4,
+      lane: 0,
+      eventId: roleEventId,
+      connections: ["boss"]
+    },
+    {
+      id: "elite-2",
+      type: "elite",
+      label: secondEliteEnemyId === "elite_memory_stela" ? "白袍碑林" : "吕布墨影",
+      floor: 4,
+      lane: 1,
+      enemyId: secondEliteEnemyId,
+      connections: ["boss"]
+    },
+    {
+      id: "event-late",
+      type: "event",
+      label: lateEventId === "event_unfinished_chessboard" ? "未央棋局" : "墨城残页",
+      floor: 4,
+      lane: 2,
+      eventId: lateEventId,
+      connections: ["boss"]
+    },
+    {
+      id: "boss",
+      type: "boss",
+      label: "墨书执笔官",
+      floor: 5,
+      lane: 1,
+      enemyId: "boss_scribe_officer",
       connections: []
     }
   ];

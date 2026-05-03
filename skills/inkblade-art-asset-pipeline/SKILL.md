@@ -44,6 +44,8 @@ Before any prompt writing, implementation, or UI placement:
 7. Build sprite strips only from approved cutouts or approved source frames. Normalize frame canvas, anchor, and scale so idle and attack identity match.
 8. Update manifests, primarily `src/game/content/visuals.ts`, before touching renderer code.
 9. Update UI/CSS only as an adapter for placement, scale, z-index, animation, and readability.
+10. For long-running feature work that needs playable continuity before final bespoke art, create project-local `*-ink-pass.png` placeholders from approved in-repo ink assets, register them under the final semantic IDs, and document that they are replaceable by later GPT Image source/cutout files without code changes.
+11. Dedicated enemy attack strips must be registered per enemy family. Do not map new enemies back to generic black silhouettes or unrelated first-chapter strips once a chapter-specific asset slot exists.
 
 ## Verification
 

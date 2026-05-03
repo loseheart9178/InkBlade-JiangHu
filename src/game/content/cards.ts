@@ -672,6 +672,49 @@ export const cardList: CardDefinition[] = [
     }
   },
   {
+    id: "common_jiexue",
+    name: "解穴",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    types: ["skill"],
+    effects: [
+      { action: "cleanseCards", amount: 2 },
+      { action: "block", amount: 4 }
+    ],
+    description: "净化至多2张状态或诅咒牌，获得4点护甲。对抗竹林琴音污染的基础手段。",
+    upgrade: {
+      effects: [
+        { action: "cleanseCards", amount: 3 },
+        { action: "block", amount: 6 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "净化至多3张状态或诅咒牌，获得6点护甲，抽1张牌。"
+    }
+  },
+  {
+    id: "common_xixin",
+    name: "洗心",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    types: ["skill", "mind"],
+    effects: [
+      { action: "cleanseCards", amount: 3 },
+      { action: "setMind", mind: "ning", amount: 1 },
+      { action: "block", amount: 5 }
+    ],
+    description: "净化至多3张状态或诅咒牌，进入宁，获得5点护甲。",
+    upgrade: {
+      effects: [
+        { action: "cleanseCards", amount: 4 },
+        { action: "setMind", mind: "ning", amount: 1 },
+        { action: "block", amount: 8 }
+      ],
+      description: "净化至多4张状态或诅咒牌，进入宁，获得8点护甲。"
+    }
+  },
+  {
     id: "status_zayin",
     name: "杂音",
     cost: 1,
@@ -703,6 +746,20 @@ export const cardList: CardDefinition[] = [
     effects: [{ action: "gainInk", amount: 1 }],
     temporary: true,
     description: "打出：获得1层墨痕。琴声不肯散去。"
+  },
+  {
+    id: "status_redacted_history",
+    name: "涂史",
+    cost: 1,
+    rarity: "status",
+    target: "self",
+    types: ["skill", "ink"],
+    effects: [
+      { action: "gainInk", amount: 1 },
+      { action: "applyStatus", status: "vulnerable", amount: 1 }
+    ],
+    temporary: true,
+    description: "打出：获得1层墨痕和1层易伤。墨书执笔官改写过的残页。"
   },
   {
     id: "zhao_qixing_spear",

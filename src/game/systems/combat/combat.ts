@@ -88,6 +88,7 @@ export function createCombat(input: CreateCombatInput): CombatState {
     relicIds: input.relicIds ?? [],
     relicMemory: {},
     methodIds: input.methodIds ?? [],
+    methodLevels: { ...(input.methodLevels ?? {}) },
     methodMemory: {},
     playedCardTypesThisTurn: [],
     comboTriggersThisTurn: [],
@@ -199,6 +200,7 @@ function createEnemyState(definition: EnemyDefinition, index: number): EnemyStat
     block: 0,
     statuses: {},
     intents: definition.intents.length > 0 ? definition.intents : [{ type: "idle" }],
+    phaseIntents: definition.phaseIntents,
     intentIndex: 0,
     currentIntent: definition.intents[0] ?? { type: "idle" }
   };
@@ -264,6 +266,9 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
     case "gainInk":
       gainInk(state, effect.amount);
       break;
+    case "cleanseCards":
+      cleanseCards(state, effect.amount);
+      break;
     case "setMind":
       setMind(state, effect.mind, effect.amount ?? 1);
       break;
@@ -287,6 +292,8 @@ function damageEnemy(state: CombatState, enemyId: string, rawAmount: number): vo
   } else if (amount > 0) {
     pushVisualEvent(state, "block", "enemy", "护甲挡下", "neutral");
   }
+
+  refreshEnemyPhase(state, enemy);
 }
 
 function getPlayerDamageAmount(state: CombatState, definition: CardDefinition, card: CardInstance, baseAmount: number): number {
@@ -609,6 +616,45 @@ function addCardToDiscard(state: CombatState, cardId: string, amount: number): v
   pushVisualEvent(state, "status", "player", `${definition.name}入弃牌 +${amount}`, "ink", amount);
 }
 
+function cleanseCards(state: CombatState, amount: number): void {
+  if (amount <= 0) {
+    return;
+  }
+
+  let remaining = amount;
+  let removed = 0;
+  for (const pileName of ["hand", "discard", "draw"] as const) {
+    const pile = state.piles[pileName];
+    for (let index = pile.length - 1; index >= 0 && remaining > 0; index -= 1) {
+      const definition = state.cardDefinitions[pile[index].definitionId];
+      if (definition?.rarity !== "status" && definition?.rarity !== "curse") {
+        continue;
+      }
+
+      state.piles.exhaust.push(pile[index]);
+      pile.splice(index, 1);
+      remaining -= 1;
+      removed += 1;
+    }
+  }
+
+  if (removed <= 0) {
+    state.combatLog.push("清音解秽");
+    pushVisualEvent(state, "status", "player", "无秽可清", "teal");
+    return;
+  }
+
+  for (const enemy of state.enemies) {
+    if (enemy.definitionId === "boss_qin_demon_echo" && enemy.hp > 0) {
+      enemy.block = Math.max(0, enemy.block - removed * 4);
+    }
+  }
+
+  state.combatLog.push("清音解秽");
+  pushVisualEvent(state, "status", "player", `净化 ${removed}`, "teal", removed);
+  triggerCleanseRelics(state);
+}
+
 function handleCardDrawn(state: CombatState, card: CardInstance): void {
   const definition = getCardDefinition(state, card);
   if (definition.rarity !== "status" && definition.rarity !== "curse") {
@@ -616,6 +662,7 @@ function handleCardDrawn(state: CombatState, card: CardInstance): void {
   }
 
   triggerQinDemonStatusDraw(state);
+  triggerBrokenStringRelic(state);
 }
 
 function triggerQinDemonStatusDraw(state: CombatState): void {
@@ -632,6 +679,28 @@ function triggerQinDemonStatusDraw(state: CombatState): void {
 function advanceIntent(enemy: EnemyState): void {
   enemy.intentIndex += 1;
   enemy.currentIntent = enemy.intents[enemy.intentIndex % enemy.intents.length] ?? enemy.currentIntent;
+}
+
+function refreshEnemyPhase(state: CombatState, enemy: EnemyState): void {
+  if (!enemy.phaseIntents || enemy.hp <= 0) {
+    return;
+  }
+
+  const hpRatio = enemy.hp / enemy.maxHp;
+  const nextPhase = enemy.phaseIntents
+    .filter((phase) => hpRatio <= phase.thresholdHpRatio)
+    .sort((left, right) => left.thresholdHpRatio - right.thresholdHpRatio)[0];
+
+  if (!nextPhase || enemy.phase === nextPhase.phase) {
+    return;
+  }
+
+  enemy.phase = nextPhase.phase;
+  enemy.intents = nextPhase.intents.length > 0 ? nextPhase.intents : enemy.intents;
+  enemy.intentIndex = 0;
+  enemy.currentIntent = enemy.intents[0] ?? enemy.currentIntent;
+  state.combatLog.push(nextPhase.phase);
+  pushVisualEvent(state, "trigger", "enemy", nextPhase.phase, "gold");
 }
 
 function beginPlayerTurn(state: CombatState): void {
@@ -767,6 +836,26 @@ function triggerMindRelics(state: CombatState): void {
   }
 }
 
+function triggerCleanseRelics(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_qingyin_jade", "player", "teal")) {
+    state.player.block += 2;
+    drawCards(state, 1, createRng(state.turn * 467 + state.nextInstanceNumber));
+    pushVisualEvent(state, "block", "player", "+2 护甲", "teal", 2);
+  }
+}
+
+function triggerBrokenStringRelic(state: CombatState): void {
+  if (!triggerRelicOnce(state, "relic_broken_string", "enemy", "ink")) {
+    return;
+  }
+
+  const enemy = state.enemies.find((item) => item.hp > 0);
+  if (enemy) {
+    enemy.block = Math.max(0, enemy.block - 2);
+    pushVisualEvent(state, "block", "enemy", "护甲 -2", "ink", 2);
+  }
+}
+
 function hasMethod(state: CombatState, methodId: MethodId): boolean {
   return state.methodIds.includes(methodId);
 }
@@ -778,8 +867,9 @@ function triggerMethodOnce(state: CombatState, methodId: MethodId, target: Comba
 
   const method = methodsById[methodId];
   state.methodMemory[methodId] = true;
-  state.combatLog.push(method.name);
-  pushVisualEvent(state, "trigger", target, method.name, tone);
+  const label = getMethodLevel(state, methodId) >= 2 ? `${method.name}·进境` : method.name;
+  state.combatLog.push(label);
+  pushVisualEvent(state, "trigger", target, label, tone);
   return true;
 }
 
@@ -789,8 +879,9 @@ function triggerDragonSpearChainMethod(state: CombatState, rule: ComboRule): voi
   }
 
   if (triggerMethodOnce(state, "method_dragon_spear_chain", "player", "gold")) {
-    gainResource(state, 1);
-    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+    const amount = getMethodLevel(state, "method_dragon_spear_chain") >= 2 ? 2 : 1;
+    gainResource(state, amount);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +${amount}`, "gold", amount);
   }
 }
 
@@ -800,8 +891,9 @@ function triggerChangbanGuardMethod(state: CombatState): void {
   }
 
   if (triggerMethodOnce(state, "method_changban_guard", "player", "teal")) {
-    state.player.statuses.guard = (state.player.statuses.guard ?? 0) + 1;
-    pushVisualEvent(state, "status", "player", "护主 +1", "teal", 1);
+    const amount = getMethodLevel(state, "method_changban_guard") >= 2 ? 2 : 1;
+    state.player.statuses.guard = (state.player.statuses.guard ?? 0) + amount;
+    pushVisualEvent(state, "status", "player", `护主 +${amount}`, "teal", amount);
   }
 }
 
@@ -811,8 +903,9 @@ function triggerJinghongDanceMethod(state: CombatState): void {
   }
 
   if (triggerMethodOnce(state, "method_jinghong_dance", "player", "gold")) {
-    gainResource(state, 1);
-    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+    const amount = getMethodLevel(state, "method_jinghong_dance") >= 2 ? 2 : 1;
+    gainResource(state, amount);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +${amount}`, "gold", amount);
   }
 }
 
@@ -822,8 +915,12 @@ function triggerQingchengCharmMethod(state: CombatState, targetId: string): void
   }
 
   if (triggerMethodOnce(state, "method_qingcheng_charm", "enemy", "teal")) {
-    applyStatus(state, targetId, "charm", 1);
+    applyStatus(state, targetId, "charm", getMethodLevel(state, "method_qingcheng_charm") >= 2 ? 2 : 1);
   }
+}
+
+function getMethodLevel(state: CombatState, methodId: MethodId): number {
+  return Math.max(1, state.methodLevels?.[methodId] ?? 1);
 }
 
 function isBasicAttack(definition: CardDefinition): boolean {
@@ -889,6 +986,10 @@ function ensureComboTracking(state: CombatState): void {
 
   if (!Array.isArray(state.methodIds)) {
     state.methodIds = [];
+  }
+
+  if (!state.methodLevels || typeof state.methodLevels !== "object") {
+    state.methodLevels = {};
   }
 
   if (!state.methodMemory || typeof state.methodMemory !== "object") {

@@ -488,6 +488,248 @@ export const eventList: GameEventDefinition[] = [
         ]
       }
     ]
+  },
+  {
+    id: "event_broken_string_elder",
+    title: "断弦老人",
+    description: "老人坐在檐下补一根永远补不好的琴弦，说忘记也会留下声音。",
+    choices: [
+      {
+        id: "tie_the_string",
+        label: "替他系弦",
+        summary: "获得解穴，宁 +1。",
+        effects: [
+          { type: "card", cardId: "common_jiexue" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "listen_to_silence",
+        label: "听断弦无声",
+        summary: "获得洗心，悲 +1。",
+        effects: [
+          { type: "card", cardId: "common_xixin" },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_wordless_bamboo_scroll",
+    title: "无字竹简",
+    description: "竹简上的字被雨洗空，只有握住它时才听见旧人的名字。",
+    choices: [
+      {
+        id: "read_blank_scroll",
+        label: "读无字处",
+        summary: "升级一张牌，悟 +1。",
+        effects: [
+          { type: "upgrade" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      },
+      {
+        id: "keep_blank_scroll",
+        label: "收起竹简",
+        summary: "获得解穴，宁 +1。",
+        effects: [
+          { type: "card", cardId: "common_jiexue" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_white_horse_lost_path",
+    title: "白马失路",
+    character: "zhaoyun",
+    description: "雨中的白马不肯前行，它似乎记得另一条通往长坂的路。",
+    choices: [
+      {
+        id: "lead_horse_forward",
+        label: "牵马入雨",
+        summary: "赵云专属：获得白马突围，怒 +1。",
+        characterId: "zhaoyun",
+        effects: [
+          { type: "card", cardId: "zhao_white_horse_breakout" },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      },
+      {
+        id: "brush_mane_clear",
+        label: "拂去鬃上雨",
+        summary: "回复8点生命，宁 +1。",
+        effects: [
+          { type: "heal", amount: 8 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_red_dust_guest",
+    title: "红尘旧客",
+    character: "diaochan",
+    description: "茶亭里有位旧客低头拨弦，弦声却像从你袖中传出。",
+    choices: [
+      {
+        id: "answer_with_sleeves",
+        label: "以袖应弦",
+        summary: "貂蝉专属：获得惊鸿一击，魅 +1。",
+        characterId: "diaochan",
+        effects: [
+          { type: "card", cardId: "diao_jinghong_strike" },
+          { type: "mind", mind: "mei", amount: 1 }
+        ]
+      },
+      {
+        id: "fold_the_song",
+        label: "折起曲谱",
+        summary: "获得洗心，悟 +1。",
+        effects: [
+          { type: "card", cardId: "common_xixin" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_nameless_market",
+    title: "无面市集",
+    description: "长安城门内，摊主们都戴着空白面具，只收还未发生的故事。",
+    choices: [
+      {
+        id: "trade_future_name",
+        label: "典当未来名声",
+        summary: "获得40铜钱，乱 +1。",
+        effects: [
+          { type: "gold", amount: 40 },
+          { type: "mind", mind: "luan", amount: 1 }
+        ]
+      },
+      {
+        id: "buy_clean_charm",
+        label: "买清音符纸",
+        summary: "获得解穴，宁 +1。",
+        effects: [
+          { type: "card", cardId: "common_jiexue" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_rewritten_history_street",
+    title: "逆写史街",
+    description: "街边石板上的史句倒着流动，每走一步都有人替你改掉一段过去。",
+    choices: [
+      {
+        id: "scratch_false_line",
+        label: "划去伪史",
+        summary: "移除一张初始牌，悟 +1。",
+        effects: [
+          { type: "removeStarter" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      },
+      {
+        id: "accept_redaction",
+        label: "收下涂史",
+        summary: "获得涂史与30铜钱，乱 +1。",
+        effects: [
+          { type: "card", cardId: "status_redacted_history" },
+          { type: "gold", amount: 30 },
+          { type: "mind", mind: "luan", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_white_robed_stelae",
+    title: "白袍碑林",
+    description: "碑林尽头，白袍人的名字被墨覆住，只剩枪痕与舞步还亮着。",
+    choices: [
+      {
+        id: "trace_spear_marks",
+        label: "摹枪痕",
+        summary: "赵云专属：获得七进七出，悲 +1。",
+        characterId: "zhaoyun",
+        effects: [
+          { type: "card", cardId: "zhao_seven_entries" },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      },
+      {
+        id: "trace_dance_marks",
+        label: "摹舞步",
+        summary: "貂蝉专属：获得离间，悲 +1。",
+        characterId: "diaochan",
+        effects: [
+          { type: "card", cardId: "diao_lijian" },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      },
+      {
+        id: "wash_one_stone",
+        label: "洗净一碑",
+        summary: "获得洗心，宁 +1。",
+        effects: [
+          { type: "card", cardId: "common_xixin" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_faceless_stage",
+    title: "无面戏台",
+    description: "戏台上演着尚未发生的结局，台下的掌声像雨点一样冷。",
+    choices: [
+      {
+        id: "interrupt_the_play",
+        label: "打断戏文",
+        summary: "升级一张牌，怒 +1。",
+        effects: [
+          { type: "upgrade" },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      },
+      {
+        id: "watch_to_end",
+        label: "看完结局",
+        summary: "回复12点生命，悲 +1。",
+        effects: [
+          { type: "heal", amount: 12 },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_unfinished_chessboard",
+    title: "未央棋局",
+    description: "未央宫前摆着一局残局，黑白两色都像刚蘸过墨。",
+    choices: [
+      {
+        id: "take_black_move",
+        label: "落黑子",
+        summary: "获得洛水墨潮，失去5点生命，悟 +1。",
+        effects: [
+          { type: "inkCardOffer", cardId: "ink_luoshui_tide" },
+          { type: "hpLoss", amount: 5 },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      },
+      {
+        id: "take_white_move",
+        label: "落白子",
+        summary: "获得洗心，宁 +1。",
+        effects: [
+          { type: "card", cardId: "common_xixin" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
   }
 ];
 

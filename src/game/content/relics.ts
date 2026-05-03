@@ -128,6 +128,42 @@ export const relicList: RelicDefinition[] = [
     price: 82,
     triggerText: "每场战斗首次进入心境触发。",
     description: "每场战斗首次进入任意心境时，获得2点护甲。"
+  },
+  {
+    id: "relic_qingyin_jade",
+    name: "清音玉",
+    rarity: "rare",
+    sources: ["boss", "shop"],
+    price: 120,
+    triggerText: "净化状态牌时触发。",
+    description: "每场战斗首次净化状态或诅咒牌时，抽1张牌并获得2点护甲。"
+  },
+  {
+    id: "relic_broken_string",
+    name: "断弦",
+    rarity: "uncommon",
+    sources: ["elite", "boss"],
+    price: 88,
+    triggerText: "抽到状态牌时触发。",
+    description: "每场战斗首次抽到状态或诅咒牌时，敌人失去2点护甲。"
+  },
+  {
+    id: "relic_scribe_red_seal",
+    name: "朱批印",
+    rarity: "rare",
+    sources: ["boss"],
+    price: 130,
+    triggerText: "打出稀有牌后触发。",
+    description: "每场战斗首次打出稀有牌后，获得1点能量。"
+  },
+  {
+    id: "relic_memory_bamboo_slip",
+    name: "记忆竹简",
+    rarity: "uncommon",
+    sources: ["elite", "shop"],
+    price: 84,
+    triggerText: "进入新章节时适配成长。",
+    description: "章末奖励更容易出现心法进境与净化牌。"
   }
 ];
 

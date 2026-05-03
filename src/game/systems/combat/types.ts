@@ -13,6 +13,7 @@ export type CardEffect =
   | { action: "gainResource"; amount: number }
   | { action: "applyStatus"; status: StatusId; amount: number }
   | { action: "gainInk"; amount: number }
+  | { action: "cleanseCards"; amount: number }
   | { action: "setMind"; mind: MindState; amount?: number };
 
 export interface CardDefinition {
@@ -80,6 +81,13 @@ export interface EnemyDefinition {
   name: string;
   maxHp: number;
   intents: EnemyIntent[];
+  phaseIntents?: EnemyPhaseIntentDefinition[];
+}
+
+export interface EnemyPhaseIntentDefinition {
+  phase: string;
+  thresholdHpRatio: number;
+  intents: EnemyIntent[];
 }
 
 export interface CombatantState {
@@ -110,6 +118,8 @@ export interface PlayerState extends CombatantState {
 export interface EnemyState extends CombatantState {
   definitionId: string;
   intents: EnemyIntent[];
+  phaseIntents?: EnemyPhaseIntentDefinition[];
+  phase?: string;
   intentIndex: number;
   currentIntent: EnemyIntent;
 }
@@ -163,6 +173,7 @@ export interface CombatState {
   relicIds: string[];
   relicMemory: Partial<Record<string, boolean>>;
   methodIds: string[];
+  methodLevels: Record<string, number>;
   methodMemory: Partial<Record<string, boolean>>;
   playedCardTypesThisTurn: CardType[];
   comboTriggersThisTurn: string[];
@@ -182,6 +193,7 @@ export interface CreateCombatInput {
   rngSeed: number;
   relicIds?: string[];
   methodIds?: string[];
+  methodLevels?: Record<string, number>;
   shuffleDeck?: boolean;
 }
 

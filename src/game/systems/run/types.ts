@@ -31,6 +31,8 @@ export interface RunState {
   deck: RunDeckEntry[];
   relicIds: string[];
   methodIds: string[];
+  methodLevels?: Record<string, number>;
+  logbook?: RunLogbookState;
   mindTendencies: Record<Exclude<MindState, "none">, number>;
   mapNodes: MapNode[];
   currentNodeId: string;
@@ -40,6 +42,12 @@ export interface RunState {
   chapterRewardHistory: string[];
   lastCombatComboTriggers: string[];
   comboRewardHistory: string[];
+}
+
+export interface RunLogbookState {
+  eventIds: string[];
+  bossIds: string[];
+  fragmentIds: string[];
 }
 
 export interface CardReward {

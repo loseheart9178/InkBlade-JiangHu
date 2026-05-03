@@ -18,6 +18,7 @@ const supportedActions = new Set([
   "gainResource",
   "applyStatus",
   "gainInk",
+  "cleanseCards",
   "setMind"
 ]);
 
@@ -103,7 +104,7 @@ describe("content data", () => {
   });
 
   it("defines the second chapter content shell and Qin Demon status-card mechanics", () => {
-    expect(chapterList.map((chapter) => chapter.id)).toEqual(["luoshui", "bamboo"]);
+    expect(chapterList.map((chapter) => chapter.id)).toEqual(expect.arrayContaining(["luoshui", "bamboo", "changan"]));
     expect(chapterList[1]).toMatchObject({
       id: "bamboo",
       name: "竹林听雨",

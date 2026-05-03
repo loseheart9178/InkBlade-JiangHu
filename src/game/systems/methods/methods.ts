@@ -32,6 +32,7 @@ export function claimMethodReward(run: RunState, methodId: MethodId | string): b
   }
 
   run.methodIds.push(method.id);
+  run.methodLevels![method.id] = 1;
   run.rewardHistory.push(`method:${method.id}`);
   return true;
 }
@@ -49,5 +50,13 @@ export function shouldOfferMethodReward(run: RunState): boolean {
 export function normalizeRunMethods(run: RunState): void {
   if (!Array.isArray(run.methodIds)) {
     run.methodIds = [];
+  }
+
+  if (!run.methodLevels || typeof run.methodLevels !== "object") {
+    run.methodLevels = {};
+  }
+
+  for (const methodId of run.methodIds) {
+    run.methodLevels[methodId] = Math.max(1, run.methodLevels[methodId] ?? 1);
   }
 }

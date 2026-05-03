@@ -510,3 +510,140 @@ npm run test:e2e -- tests/e2e/playable-flow.spec.ts
 npm test
 npm run build
 ```
+
+## Milestone 29: Chapter Two Art And Qin Demon Battlefield Pass
+
+- [x] Register dedicated bamboo battlefield, Qin Demon, bamboo enemy standees, card art, and attack-strip asset paths.
+- [x] Replace second-chapter enemy sprite lookup fallbacks with dedicated sequence-frame entries.
+- [x] Add desktop combat background switching by chapter.
+- [x] Verify all new asset paths exist and browser visual smoke still passes.
+
+Verification:
+
+```bash
+npm test -- tests/roadmap/next-ten-modules.test.ts
+npm run build
+npm run test:e2e
+```
+
+## Milestone 30: Status Cards, Cleanse, And Pollution Counterplay
+
+- [x] Add 解穴 and 洗心 cleanse cards.
+- [x] Add `cleanseCards` combat effect outside renderer code.
+- [x] Let cleanse remove status/curse cards from combat piles and reduce Qin Demon status-draw snowball block.
+- [x] Add 清音玉 and 断弦 relic hooks for cleanse/status counterplay.
+
+Verification:
+
+```bash
+npm test -- tests/roadmap/next-ten-modules.test.ts
+npm test
+```
+
+## Milestone 31: Chapter Two Event Branch Deepening
+
+- [x] Add 断弦老人、无字竹简、白马失路、红尘旧客 events.
+- [x] Add late bamboo event variation to the second-chapter topology.
+- [x] Keep character-specific branch filtering through existing event choice rules.
+
+Verification:
+
+```bash
+npm test
+npm run build
+```
+
+## Milestone 32: Qin Demon Boss Phase Deepening
+
+- [x] Add data-driven enemy phase intent tables.
+- [x] Switch 琴魔·残音 into 悲声回环 and 绝响不散 phases by HP threshold.
+- [x] Emit combat log and visual trigger events on phase changes.
+
+Verification:
+
+```bash
+npm test -- tests/roadmap/next-ten-modules.test.ts
+npm test
+```
+
+## Milestone 33: Chapter Two Combat Pacing And Reward Balance
+
+- [x] Add cleanse cards to second/third chapter reward weighting.
+- [x] Preserve at least two character-build reward slots for chapter-two drafts.
+- [x] Add advanced reward draft choices for rare card, relic, method upgrade, and cleanse fallback.
+
+Verification:
+
+```bash
+npm test -- tests/run/run-system.test.ts tests/roadmap/next-ten-modules.test.ts
+```
+
+## Milestone 34: Heart Method Upgrade System
+
+- [x] Add run-level method level persistence.
+- [x] Add `claimMethodUpgrade`.
+- [x] Upgrade combat hooks for 龙胆连势、长坂守心、惊鸿舞谱、倾城心诀.
+- [x] Surface method进境 in run status.
+
+Verification:
+
+```bash
+npm test -- tests/methods/method-system.test.ts tests/roadmap/next-ten-modules.test.ts
+npm run build
+```
+
+## Milestone 35: Advanced Relics And Rare Reward Linkage
+
+- [x] Add 清音玉、断弦、朱批印、记忆竹简 relic definitions.
+- [x] Include new relics in elite, boss, and shop reward ordering.
+- [x] Add advanced reward draft module for rare cards, relics, method upgrades, and cleanse support.
+
+Verification:
+
+```bash
+npm test -- tests/relics/relic-system.test.ts tests/roadmap/next-ten-modules.test.ts
+npm test
+```
+
+## Milestone 36: Chapter Three Chang'an Ink City Shell
+
+- [x] Add 长安墨城 chapter metadata and second-to-third chapter transition.
+- [x] Add third-chapter enemies, elites, and 墨书执笔官 Boss.
+- [x] Add third-chapter route map with 无面市集、逆写史街、白袍碑林、无面戏台、未央棋局.
+- [x] Add third-chapter status card 涂史 and boss pressure loop.
+
+Verification:
+
+```bash
+npm test -- tests/roadmap/next-ten-modules.test.ts tests/run/run-system.test.ts
+npm run build
+```
+
+## Milestone 37: Logbook And Story Fragment System
+
+- [x] Add logbook content definitions.
+- [x] Add run-level event, boss, and fragment unlock tracking.
+- [x] Record event and boss fragments from controller flows.
+- [x] Surface unlocked fragment count in run status.
+
+Verification:
+
+```bash
+npm test -- tests/roadmap/next-ten-modules.test.ts
+npm run build
+```
+
+## Milestone 38: Developer Debug And Content Validation Tools
+
+- [x] Add deterministic debug run factory for chapter, deck, relic, method, method level, and logbook setup.
+- [x] Add roadmap regression tests covering the ten-module content contract.
+- [x] Preserve desktop-only layout focus and skip mobile-specific implementation.
+
+Verification:
+
+```bash
+npm test -- tests/roadmap/next-ten-modules.test.ts
+npm test
+npm run build
+npm run test:e2e
+```

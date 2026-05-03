@@ -337,6 +337,18 @@ button {
     url("/assets/generated/luoshui-battlefield-gpt.png") center / cover no-repeat;
 }
 
+.combat-screen--bamboo::before {
+  background:
+    linear-gradient(180deg, rgba(17, 17, 17, 0.12), rgba(239, 226, 195, 0.04) 38%, rgba(17, 17, 17, 0.25)),
+    url("/assets/generated/bamboo-battlefield-ink-pass.png") center / cover no-repeat;
+}
+
+.combat-screen--changan::before {
+  background:
+    linear-gradient(180deg, rgba(17, 17, 17, 0.18), rgba(92, 36, 49, 0.06) 42%, rgba(17, 17, 17, 0.3)),
+    url("/assets/generated/changan-battlefield-ink-pass.png") center / cover no-repeat;
+}
+
 .combat-screen > h2 {
   position: absolute;
   top: 6px;
@@ -415,7 +427,7 @@ button {
   position: absolute;
   top: 84px;
   right: 0;
-  bottom: 250px;
+  bottom: 268px;
   left: 0;
   z-index: 1;
   display: grid;
@@ -850,9 +862,9 @@ button {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   min-height: 210px;
-  padding: 0 246px 18px;
+  padding: 0 270px 18px;
 }
 
 .energy-orb {
@@ -1372,6 +1384,20 @@ button {
     radial-gradient(circle at 46% 76%, rgba(17, 17, 17, 0.24), transparent 22%),
     linear-gradient(180deg, rgba(47, 124, 110, 0.1), transparent 34%),
     url("/assets/generated/luoshui-battlefield-gpt.png") center / cover;
+}
+
+.event-scene--bamboo {
+  background:
+    radial-gradient(circle at 52% 38%, rgba(47, 124, 110, 0.28), transparent 20%),
+    linear-gradient(180deg, rgba(17, 17, 17, 0.16), transparent 42%),
+    url("/assets/generated/bamboo-battlefield-ink-pass.png") center / cover;
+}
+
+.event-scene--changan {
+  background:
+    radial-gradient(circle at 58% 44%, rgba(183, 53, 42, 0.24), transparent 20%),
+    linear-gradient(180deg, rgba(17, 17, 17, 0.2), transparent 36%),
+    url("/assets/generated/changan-battlefield-ink-pass.png") center / cover;
 }
 
 .event-scene-mark {

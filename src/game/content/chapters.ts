@@ -1,4 +1,4 @@
-export type ChapterId = "luoshui" | "bamboo";
+export type ChapterId = "luoshui" | "bamboo" | "changan";
 
 export interface ChapterDefinition {
   id: ChapterId;
@@ -32,7 +32,18 @@ export const chapterList: ChapterDefinition[] = [
     mapTitle: "第二章 · 竹林听雨",
     startLabel: "雨入竹林",
     bossEnemyId: "boss_qin_demon_echo",
-    bossVictoryCopy: "残谱碎成雨声，清音台的灯影指向长安。"
+    bossVictoryCopy: "残谱碎成雨声，清音台的灯影指向长安。",
+    nextChapterId: "changan"
+  },
+  {
+    id: "changan",
+    order: 3,
+    name: "长安墨城",
+    subtitle: "历史、权力与改写命运的代价。",
+    mapTitle: "第三章 · 长安墨城",
+    startLabel: "无面市集",
+    bossEnemyId: "boss_scribe_officer",
+    bossVictoryCopy: "执笔官的朱印裂开，城墙上的名字终于显形。"
   }
 ];
 

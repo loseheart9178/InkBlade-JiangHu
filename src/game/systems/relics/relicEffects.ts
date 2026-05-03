@@ -31,19 +31,25 @@ function getSourcePriority(relicId: string, source: RelicRewardSource): number {
     "relic_changban_iron_seal",
     "relic_lotus_step_bell",
     "relic_half_moon_hairpin",
+    "relic_broken_string",
+    "relic_memory_bamboo_slip",
     "relic_old_wooden_sword",
     "relic_black_paper_umbrella",
     "relic_ink_washstone",
     "relic_clear_rain_charm",
     "relic_red_lacquer_token",
-    "relic_silent_zither_string"
+    "relic_silent_zither_string",
+    "relic_qingyin_jade",
+    "relic_scribe_red_seal"
   ];
   const shopOrder = [
     "relic_old_wooden_sword",
     "relic_black_paper_umbrella",
     "relic_ink_washstone",
     "relic_clear_rain_charm",
-    "relic_red_lacquer_token"
+    "relic_red_lacquer_token",
+    "relic_memory_bamboo_slip",
+    "relic_qingyin_jade"
   ];
   const order = source === "shop" ? shopOrder : eliteOrder;
   const index = order.indexOf(relicId);

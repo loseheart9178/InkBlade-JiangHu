@@ -17,6 +17,7 @@ import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/co
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/systems/events/eventEffects";
+import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
 import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
 import {
@@ -267,6 +268,7 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
     enemies: [enemy],
     relicIds: [...run.relicIds],
     methodIds: [...(run.methodIds ?? [])],
+    methodLevels: { ...(run.methodLevels ?? {}) },
     upgradedCardInstanceIds: getUpgradedCombatInstanceIds(run),
     rngSeed: run.deck.length + run.rewardHistory.length + 17,
     shuffleDeck: true
@@ -287,6 +289,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const enemySprite = enemyIsAttacking ? getCombatSprite(enemy.definitionId) : undefined;
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
   panel.classList.add("combat-screen");
+  panel.classList.add(`combat-screen--${run.chapterId}`);
 
   const top = document.createElement("div");
   top.className = "combat-topbar";
@@ -403,6 +406,7 @@ function handleCombatAfterAction(state: ControllerState): void {
     state.pendingSpoils = claimBattleSpoils(run, node.type);
 
     if (node.type === "boss") {
+      recordLogbookBoss(run, node.enemyId ?? combat.enemies[0].definitionId);
       if (shouldOfferMethodReward(run)) {
         state.screen = "methodReward";
         state.message = "黑雨将散，先定一门心法。";
@@ -576,6 +580,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   for (const choice of getAvailableEventChoices(event, run.characterId)) {
     const action = createAction(choice.label, choice.summary, () => {
       applyEventChoiceEffects(run, choice);
+      recordLogbookEvent(run, event.id);
       state.message = `${event.title}：${choice.label}`;
       state.screen = "map";
       render();
@@ -812,7 +817,8 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
   const status = document.createElement("div");
   status.className = "run-status";
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
-  const methodNames = getRunMethods(run).map((method) => method.name).join("、") || "未定";
+  const methodNames = getRunMethods(run).map((method) => `${method.name}${(run.methodLevels?.[method.id] ?? 1) > 1 ? "·进境" : ""}`).join("、") || "未定";
+  const logbookCount = getUnlockedLogbookEntries(run).length;
   const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
   const chapter = getCurrentChapter(run);
   status.innerHTML = `
@@ -822,6 +828,7 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
     <span>牌组 ${run.deck.length}</span>
     <span data-testid="run-relics">法宝 ${relicNames}</span>
     <span data-testid="run-methods">心法 ${methodNames}</span>
+    <span data-testid="run-logbook">墨录 ${logbookCount}</span>
     <span data-testid="run-mind-tendencies">心境 ${formatRunMindTendencies(run)}</span>
     <span data-testid="run-archetype">流派 ${archetypeAnalysis.summary}</span>
     <em>${message}</em>
@@ -1231,16 +1238,28 @@ function getCombatSprite(id: string) {
     return combatSpriteSheetsById.ink_dongzhuo_boss_attack;
   }
 
-  if (id === "enemy_bamboo_wraith" || id === "elite_qin_score" || id === "boss_qin_demon_echo") {
-    return combatSpriteSheetsById.paper_umbrella_attack;
+  if (id === "enemy_bamboo_wraith" || id === "elite_qin_score") {
+    return combatSpriteSheetsById.bamboo_wraith_attack;
   }
 
   if (id === "enemy_broken_scholar") {
-    return combatSpriteSheetsById.sword_echo_attack;
+    return combatSpriteSheetsById.broken_scholar_attack;
   }
 
   if (id === "enemy_bamboo_soldier" || id === "elite_bamboo_phalanx") {
-    return combatSpriteSheetsById.blood_banner_attack;
+    return combatSpriteSheetsById.bamboo_soldier_attack;
+  }
+
+  if (id === "boss_qin_demon_echo") {
+    return combatSpriteSheetsById.qin_demon_attack;
+  }
+
+  if (id === "enemy_history_scribe" || id === "enemy_ink_market_guard" || id === "enemy_nameless_citizen" || id === "elite_memory_stela" || id === "elite_lubu_shadow") {
+    return combatSpriteSheetsById.history_scribe_attack;
+  }
+
+  if (id === "boss_scribe_officer") {
+    return combatSpriteSheetsById.scribe_officer_attack;
   }
 
   return combatSpriteSheetsById.ink_bandit_attack;
@@ -1322,6 +1341,10 @@ function formatEffectKeyword(effect: CardEffect): string {
     return `入${formatMind(effect.mind)}`;
   }
 
+  if (effect.action === "cleanseCards") {
+    return "净化";
+  }
+
   return formatStatus(effect.status);
 }
 
@@ -1356,6 +1379,14 @@ function getEventScene(eventId: string): { key: string; mark: string; kicker: st
 
   if (eventId === "event_palace_lantern_banquet") {
     return { key: "palace", mark: "舞", kicker: "宫灯旧宴" };
+  }
+
+  if (eventId.includes("bamboo") || eventId.includes("qin") || eventId.includes("string")) {
+    return { key: "bamboo", mark: "音", kicker: "竹林听雨" };
+  }
+
+  if (eventId.includes("history") || eventId.includes("market") || eventId.includes("chess") || eventId.includes("stelae") || eventId.includes("stage")) {
+    return { key: "changan", mark: "史", kicker: "长安墨城" };
   }
 
   return { key: "ferry", mark: "渡", kicker: "黑雨渡口" };
