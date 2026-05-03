@@ -27,7 +27,7 @@ import {
 
 describe("next ten module content contracts", () => {
   it("extends campaign progression through the Chang'an ink city shell", () => {
-    expect(chapterList.map((chapter) => chapter.id)).toEqual(["luoshui", "bamboo", "changan"]);
+    expect(chapterList.map((chapter) => chapter.id)).toEqual(expect.arrayContaining(["luoshui", "bamboo", "changan"]));
     expect(chaptersById.bamboo.nextChapterId).toBe("changan");
     expect(chaptersById.changan).toMatchObject({
       name: "长安墨城",

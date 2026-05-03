@@ -1,4 +1,4 @@
-export type ChapterId = "luoshui" | "bamboo" | "changan";
+export type ChapterId = "luoshui" | "bamboo" | "changan" | "moyuan";
 
 export interface ChapterDefinition {
   id: ChapterId;
@@ -43,7 +43,18 @@ export const chapterList: ChapterDefinition[] = [
     mapTitle: "第三章 · 长安墨城",
     startLabel: "无面市集",
     bossEnemyId: "boss_scribe_officer",
-    bossVictoryCopy: "执笔官的朱印裂开，城墙上的名字终于显形。"
+    bossVictoryCopy: "执笔官的朱印裂开，城墙上的名字终于显形。",
+    nextChapterId: "moyuan"
+  },
+  {
+    id: "moyuan",
+    order: 4,
+    name: "墨渊照心",
+    subtitle: "执念、记忆与夺回自己的笔。",
+    mapTitle: "终章 · 墨渊照心",
+    startLabel: "黑水镜",
+    bossEnemyId: "boss_nameless_historian",
+    bossVictoryCopy: "无名史官的笔落入黑水，墨书最后一页等待你的选择。"
   }
 ];
 

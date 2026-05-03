@@ -42,6 +42,13 @@ export interface RunState {
   chapterRewardHistory: string[];
   lastCombatComboTriggers: string[];
   comboRewardHistory: string[];
+  finalState?: RunFinalState;
+}
+
+export interface RunFinalState {
+  status: "inProgress" | "endingReady";
+  chapterId: ChapterId;
+  bossId?: string;
 }
 
 export interface RunLogbookState {

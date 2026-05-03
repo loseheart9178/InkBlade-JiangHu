@@ -12,6 +12,7 @@ import {
   getCurrentChapter,
   getComboRewardHint,
   getNextRelicReward,
+  getRunFinalState,
   getUpgradeCandidates,
   recordRunCombatCombos,
   removeDeckCard,
@@ -93,6 +94,31 @@ describe("run system", () => {
       expect.arrayContaining(["event_ruined_temple_night_qin", "event_rain_tea_pavilion"])
     );
     expect(getAvailableNodes(run).map((node) => node.type)).toEqual(expect.arrayContaining(["battle", "event"]));
+  });
+
+  it("advances from Chang'an into Moyuan and prepares an ending state after the final boss", () => {
+    const run = createRun("zhaoyun", { mapSeed: 7 });
+
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(run.chapterId).toBe("changan");
+
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(run.chapterId).toBe("moyuan");
+    expect(getCurrentChapter(run).name).toBe("墨渊照心");
+    expect(run.completedChapterIds).toEqual(["luoshui", "bamboo", "changan"]);
+    expect(run.mapNodes.find((node) => node.id === "boss")?.enemyId).toBe("boss_nameless_historian");
+    expect(run.mapNodes.map((node) => node.eventId).filter(Boolean)).toEqual(
+      expect.arrayContaining(["event_heart_mirror", "event_unwritten_page", "event_broken_brush_altar"])
+    );
+
+    expect(advanceToNextChapter(run)).toBe(false);
+    expect(getRunFinalState(run)).toMatchObject({
+      status: "endingReady",
+      chapterId: "moyuan",
+      bossId: "boss_nameless_historian"
+    });
+    expect(run.completedChapterIds).toContain("moyuan");
   });
 
   it("changes optional branches for different map seeds while preserving the main route", () => {

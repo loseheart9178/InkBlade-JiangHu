@@ -2,7 +2,7 @@ import type { EnemyDefinition } from "../systems/combat/types";
 
 export interface ChapterEnemyDefinition extends EnemyDefinition {
   role: "normal" | "elite" | "boss";
-  chapter: "luoshui" | "bamboo" | "changan";
+  chapter: "luoshui" | "bamboo" | "changan" | "moyuan";
 }
 
 export const enemyList: ChapterEnemyDefinition[] = [
@@ -446,6 +446,50 @@ export const enemyList: ChapterEnemyDefinition[] = [
         name: "定稿",
         effects: [
           { action: "damage", amount: 12, hits: 2 },
+          { action: "gainInk", amount: 2 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "boss_nameless_historian",
+    name: "无名史官",
+    role: "boss",
+    chapter: "moyuan",
+    maxHp: 260,
+    intents: [
+      {
+        type: "special",
+        name: "记录旧路",
+        effects: [
+          { action: "block", amount: 18 },
+          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 },
+          { action: "applyStatus", target: "player", status: "weak", amount: 1 }
+        ]
+      },
+      {
+        type: "special",
+        name: "改写手牌",
+        effects: [
+          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 2 },
+          { action: "damage", amount: 8, hits: 2 }
+        ]
+      },
+      {
+        type: "special",
+        name: "照心质问",
+        effects: [
+          { action: "applyStatus", target: "player", status: "weak", amount: 1 },
+          { action: "applyStatus", target: "player", status: "vulnerable", amount: 1 },
+          { action: "gainInk", amount: 1 }
+        ]
+      },
+      {
+        type: "special",
+        name: "定稿成灾",
+        effects: [
+          { action: "damage", amount: 10, hits: 3 },
+          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 },
           { action: "gainInk", amount: 2 }
         ]
       }

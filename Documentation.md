@@ -50,6 +50,92 @@ Next step:
 
 - Wait for Herschel and Epicurus to return commits, then review and integrate one worktree at a time.
 
+### 2026-05-03 16:26 Asia/Shanghai
+
+Worker 2A scope:
+
+- Worktree: `.worktrees/auton-final-chapter`
+- Branch: `codex/auton-final-chapter`
+- Milestone 47: Final Chapter Content Spine.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+
+Initial scope guard:
+
+- Add the `墨渊照心` final chapter content spine only.
+- Keep final gameplay transitions in pure run-system code and final content in `src/game/content/`.
+- Avoid Cai Wenji / Zhuge Liang character, card, combat resource, selector, and shared UI surfaces unless final chapter acceptance requires them.
+
+Implementation:
+
+- Added `墨渊照心` chapter metadata and routed `长安墨城` into the final chapter.
+- Added final chapter events:
+  - `event_heart_mirror`
+  - `event_unwritten_page`
+  - `event_broken_brush_altar`
+- Added final Boss shell `boss_nameless_historian` / `无名史官` with data-driven special intents:
+  - `记录旧路`
+  - `改写手牌`
+  - `照心质问`
+  - `定稿成灾`
+- Added final chapter logbook fragments for the new events and final Boss.
+- Added a pure run-system final route map and `endingReady` final state after the final Boss transition.
+- Updated roadmap tests so the older three-chapter contract allows the new final chapter while still preserving the first three chapter ids.
+
+TDD notes:
+
+```text
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+RED result before implementation: 2 test files failed as expected.
+Failures: missing `moyuan` chapter content and third-chapter completion returned false before entering final chapter.
+
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+GREEN result after implementation: 2 test files passed, 44 tests passed.
+```
+
+Correction note:
+
+- An earlier patch in this session accidentally targeted the parent workspace `D:\InkBlade-JiangHu` because the patch tool defaulted there. No revert was performed. The same intended changes were re-applied in this worktree using absolute worktree paths, and all subsequent implementation/verification happened only in `.worktrees/auton-final-chapter`.
+
+Verification:
+
+```text
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+Result: 2 test files passed, 44 tests passed.
+
+npm test
+Result: 13 test files passed, 121 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the expected large chunk warning.
+```
+
+Known gaps / risks:
+
+- The ending UI/profile integration remains a shell handoff; this milestone only exposes an ending-ready run state.
+- Final chapter uses existing card/status pressure and no generated final art assets.
+- Final Boss numbers are content-shell scale and should be tuned in Milestone 51 full-route balance.
+
+Next step:
+
+- Integrate this worktree, then wire ending-ready state into the ending surface/profile flow after the parallel content work is reconciled.
+
 ### 2026-05-03 16:18 Asia/Shanghai
 
 Current state:

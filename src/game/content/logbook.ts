@@ -69,6 +69,30 @@ export const logbookEntryList: LogbookEntryDefinition[] = [
     title: "墨书执笔官",
     body: "执笔官记录招式、改写手牌、定稿结局。战胜它，才算从史书边角走回人间。",
     unlocks: { bossId: "boss_scribe_officer" }
+  },
+  {
+    id: "fragment_heart_mirror",
+    title: "照心水镜",
+    body: "墨渊的水镜不审判胜负，只照见每一次选择之后仍在跳动的本心。",
+    unlocks: { eventId: "event_heart_mirror" }
+  },
+  {
+    id: "fragment_unwritten_page",
+    title: "未写之页",
+    body: "空白不是遗忘，而是把最后一笔还给仍愿向前的人。",
+    unlocks: { eventId: "event_unwritten_page" }
+  },
+  {
+    id: "fragment_broken_brush_altar",
+    title: "断笔祭坛",
+    body: "断笔供在祭坛上，提醒后来者：不是所有痛苦都需要被别人定稿。",
+    unlocks: { eventId: "event_broken_brush_altar" }
+  },
+  {
+    id: "fragment_nameless_historian",
+    title: "无名史官",
+    body: "他并非想毁灭江湖，只是不相信苦难会被记住。击败他之后，墨书才真正交回你的手中。",
+    unlocks: { bossId: "boss_nameless_historian" }
   }
 ];
 

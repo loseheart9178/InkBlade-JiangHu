@@ -730,6 +730,82 @@ export const eventList: GameEventDefinition[] = [
         ]
       }
     ]
+  },
+  {
+    id: "event_heart_mirror",
+    title: "照心水镜",
+    description: "黑水不映人形，只映你一路没有说出口的选择。",
+    choices: [
+      {
+        id: "look_for_calm",
+        label: "看向最平静处",
+        summary: "回复14点生命，宁 +1。",
+        effects: [
+          { type: "heal", amount: 14 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "close_eyes_walk",
+        label: "闭眼走过",
+        summary: "升级一张牌，悟 +1。",
+        effects: [
+          { type: "upgrade" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_unwritten_page",
+    title: "未写之页",
+    description: "一页空白悬在水上，笔锋停在你的名字之前。",
+    choices: [
+      {
+        id: "write_regret",
+        label: "写下遗憾",
+        summary: "获得洛水墨潮，失去6点生命，乱 +1。",
+        effects: [
+          { type: "inkCardOffer", cardId: "ink_luoshui_tide" },
+          { type: "hpLoss", amount: 6 },
+          { type: "mind", mind: "luan", amount: 1 }
+        ]
+      },
+      {
+        id: "fold_paper_boat",
+        label: "折成纸船",
+        summary: "回复16点生命，悲 +1。",
+        effects: [
+          { type: "heal", amount: 16 },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_broken_brush_altar",
+    title: "断笔祭坛",
+    description: "折断的朱笔供在残页之间，笔尖仍在滴下未干的墨。",
+    choices: [
+      {
+        id: "burn_bristles",
+        label: "焚去笔毫",
+        summary: "移除一张初始牌，怒 +1。",
+        effects: [
+          { type: "removeStarter" },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      },
+      {
+        id: "set_brush_down",
+        label: "放下断笔",
+        summary: "获得洗心，悟 +1。",
+        effects: [
+          { type: "card", cardId: "common_xixin" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
   }
 ];
 

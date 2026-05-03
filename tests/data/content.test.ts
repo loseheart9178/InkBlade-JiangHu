@@ -136,6 +136,35 @@ describe("content data", () => {
     );
   });
 
+  it("defines the final Moyuan chapter content spine", () => {
+    expect(chapterList.map((chapter) => chapter.id)).toEqual(expect.arrayContaining(["moyuan"]));
+    expect(chapterList.find((chapter) => chapter.id === "changan")).toMatchObject({
+      nextChapterId: "moyuan"
+    });
+    expect(chapterList.find((chapter) => chapter.id === "moyuan")).toMatchObject({
+      name: "墨渊照心",
+      bossEnemyId: "boss_nameless_historian"
+    });
+
+    expect(eventList.map((event) => event.id)).toEqual(
+      expect.arrayContaining(["event_heart_mirror", "event_unwritten_page", "event_broken_brush_altar"])
+    );
+
+    expect(enemyList.find((enemy) => enemy.id === "boss_nameless_historian")).toMatchObject({
+      name: "无名史官",
+      chapter: "moyuan",
+      role: "boss"
+    });
+    expect(enemyList.find((enemy) => enemy.id === "boss_nameless_historian")?.intents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "special", name: "记录旧路" }),
+        expect.objectContaining({ type: "special", name: "改写手牌" }),
+        expect.objectContaining({ type: "special", name: "照心质问" }),
+        expect.objectContaining({ type: "special", name: "定稿成灾" })
+      ])
+    );
+  });
+
   it("keeps chapter two and three combat pacing in desktop vertical-slice bands", () => {
     const chapterTwoNormal = enemyList.filter((enemy) => enemy.chapter === "bamboo" && enemy.role === "normal");
     const chapterTwoElite = enemyList.filter((enemy) => enemy.chapter === "bamboo" && enemy.role === "elite");

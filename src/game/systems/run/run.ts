@@ -4,7 +4,7 @@ import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardArchetypeId, CardDefinition } from "../combat/types";
 import { getRelicRewardPool, type RelicRewardSource } from "../relics/relicEffects";
-import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
+import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunFinalState, RunState } from "./types";
 
 const ZHAO_REWARD_POOL = [
   "zhao_thrust",
@@ -76,6 +76,12 @@ const CHANGAN_EVENT_POOL = [
   "event_white_robed_stelae",
   "event_faceless_stage",
   "event_unfinished_chessboard"
+];
+
+const MOYUAN_EVENT_POOL = [
+  "event_heart_mirror",
+  "event_unwritten_page",
+  "event_broken_brush_altar"
 ];
 
 const ARCHETYPE_LABELS: Record<CardArchetypeId, string> = {
@@ -242,7 +248,11 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     rewardHistory: [],
     chapterRewardHistory: [],
     lastCombatComboTriggers: [],
-    comboRewardHistory: []
+    comboRewardHistory: [],
+    finalState: {
+      status: "inProgress",
+      chapterId: "luoshui"
+    }
   };
 }
 
@@ -379,6 +389,9 @@ export function advanceToNextChapter(run: RunState): boolean {
   const current = getCurrentChapter(run);
   const next = getNextChapter(run);
   if (!next) {
+    if (current.id === "moyuan") {
+      markFinalChapterComplete(run, current);
+    }
     return false;
   }
 
@@ -391,7 +404,28 @@ export function advanceToNextChapter(run: RunState): boolean {
   run.currentNodeId = "start";
   run.visitedNodeIds = [];
   run.lastCombatComboTriggers = [];
+  run.finalState = {
+    status: "inProgress",
+    chapterId: next.id
+  };
   return true;
+}
+
+export function getRunFinalState(run: RunState): RunFinalState {
+  normalizeRunChapterFields(run);
+  const current = getCurrentChapter(run);
+  if (current.id === "moyuan" && run.completedChapterIds.includes("moyuan")) {
+    return {
+      status: "endingReady",
+      chapterId: "moyuan",
+      bossId: current.bossEnemyId
+    };
+  }
+
+  return run.finalState ?? {
+    status: "inProgress",
+    chapterId: run.chapterId
+  };
 }
 
 export function createChapterRewardChoices(run: RunState): ChapterRewardChoice[] {
@@ -666,6 +700,25 @@ function normalizeRunChapterFields(run: RunState): void {
   if (!Array.isArray(run.chapterRewardHistory)) {
     run.chapterRewardHistory = [];
   }
+
+  if (!run.finalState || typeof run.finalState !== "object") {
+    run.finalState = {
+      status: "inProgress",
+      chapterId: run.chapterId
+    };
+  }
+}
+
+function markFinalChapterComplete(run: RunState, chapter: ChapterDefinition): void {
+  if (!run.completedChapterIds.includes(chapter.id)) {
+    run.completedChapterIds.push(chapter.id);
+  }
+
+  run.finalState = {
+    status: "endingReady",
+    chapterId: chapter.id,
+    bossId: chapter.bossEnemyId
+  };
 }
 
 export function claimMethodUpgrade(run: RunState, methodId: string): boolean {
@@ -737,6 +790,10 @@ function getRelicSourceForNode(nodeType: MapNodeType): RelicRewardSource {
 }
 
 function createMapForChapter(chapterId: ChapterId, characterId: string, mapSeed: number): MapNode[] {
+  if (chapterId === "moyuan") {
+    return createFinalChapterMap(characterId, mapSeed);
+  }
+
   if (chapterId === "bamboo") {
     return createChapterTwoMap(characterId, mapSeed);
   }
@@ -1150,6 +1207,75 @@ function createChapterThreeMap(characterId: string, mapSeed: number): MapNode[] 
       floor: 5,
       lane: 1,
       enemyId: "boss_scribe_officer",
+      connections: []
+    }
+  ];
+}
+
+function createFinalChapterMap(characterId: string, mapSeed: number): MapNode[] {
+  const roleQuestionLabel = characterId === "diaochan" ? "倾城之影" : "无归白龙";
+  const roleQuestionEventId = MOYUAN_EVENT_POOL[Math.abs(mapSeed) % 2];
+
+  return [
+    {
+      id: "start",
+      type: "start",
+      label: "黑水镜",
+      floor: 0,
+      lane: 1,
+      connections: ["event-1", "event-2"]
+    },
+    {
+      id: "event-1",
+      type: "event",
+      label: "照心水镜",
+      floor: 1,
+      lane: 0,
+      eventId: "event_heart_mirror",
+      connections: ["rest-1", "event-3"]
+    },
+    {
+      id: "event-2",
+      type: "event",
+      label: "未写之页",
+      floor: 1,
+      lane: 2,
+      eventId: "event_unwritten_page",
+      connections: ["event-3", "rest-1"]
+    },
+    {
+      id: "rest-1",
+      type: "rest",
+      label: "漂页静修",
+      floor: 2,
+      lane: 0,
+      connections: ["event-4", "boss"]
+    },
+    {
+      id: "event-3",
+      type: "event",
+      label: roleQuestionLabel,
+      floor: 2,
+      lane: 1,
+      eventId: roleQuestionEventId,
+      connections: ["event-4", "boss"]
+    },
+    {
+      id: "event-4",
+      type: "event",
+      label: "断笔祭坛",
+      floor: 3,
+      lane: 1,
+      eventId: "event_broken_brush_altar",
+      connections: ["boss"]
+    },
+    {
+      id: "boss",
+      type: "boss",
+      label: "无名史官",
+      floor: 4,
+      lane: 1,
+      enemyId: "boss_nameless_historian",
       connections: []
     }
   ];
