@@ -772,9 +772,9 @@ npm run build
 
 ## Milestone 47: Final Chapter Content Spine
 
-- [ ] Add 墨渊照心 chapter metadata, events, final Boss shell, and logbook fragments.
-- [ ] Route third-chapter completion into final/ending evaluation instead of ordinary victory only.
-- [ ] Cover the final chapter content contract with unit tests.
+- [x] Add 墨渊照心 chapter metadata, events, final Boss shell, and logbook fragments.
+- [x] Route third-chapter completion into final/ending evaluation instead of ordinary victory only.
+- [x] Cover the final chapter content contract with unit tests.
 
 Verification:
 
@@ -786,9 +786,9 @@ npm run build
 
 ## Milestone 48: Cai Wenji MVP Character
 
-- [ ] Add 蔡文姬 character data, starter deck, 音律 resource, 余韵 MVP, relic, and card pool.
-- [ ] Add character-select and combat smoke coverage.
-- [ ] Preserve Zhao Yun / Diao Chan behavior.
+- [x] Add 蔡文姬 character data, starter deck, 音律 resource, 余韵 MVP, relic, and card pool.
+- [x] Add character-select and combat smoke coverage.
+- [x] Preserve Zhao Yun / Diao Chan behavior.
 
 Verification:
 

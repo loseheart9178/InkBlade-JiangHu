@@ -2,6 +2,52 @@
 
 ## Status Log
 
+### 2026-05-03 17:04 Asia/Shanghai
+
+Current state:
+
+- Wave 2 accepted and integrated into `codex/next-major-modules`.
+- Accepted commits:
+  - `c0c7a9d` from Herschel: final chapter content spine.
+  - `a24a5b0` from Epicurus: Cai Wenji MVP character.
+- Reclaimed worktrees:
+  - `.worktrees/auton-final-chapter`
+  - `.worktrees/auton-caiwenji-mvp`
+- Herschel was closed after acceptance. Epicurus had already disappeared from the current session's agent registry, so reclaim was completed by removing the corresponding worktree.
+- Updated `Plan.md` and `docs/superpowers/agent-runs/2026-05-03-wave2.md` to mark Milestones 47-48 complete.
+
+Verification after integration:
+
+```text
+npm test -- tests/data/content.test.ts tests/run/run-system.test.ts
+Result after final chapter integration: 2 test files passed, 44 tests passed.
+
+npm test -- tests/roadmap/next-ten-modules.test.ts
+Result after final chapter integration: 1 test file passed, 10 tests passed.
+
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+Result after Cai Wenji integration: 2 test files passed, 55 tests passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "Cai Wenji"
+Result: 1 Playwright test passed.
+
+npm test
+Result: 13 test files passed, 123 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the expected large bundle warning.
+```
+
+Known gaps:
+
+- Ending-ready state still needs UI/profile integration.
+- Cai Wenji uses existing fallback visuals and now adds explicit GPT Image 2 asset debt for future replacement.
+- Final Boss and Cai Wenji card tuning should be covered in the alpha-balance milestone.
+
+Next step:
+
+- Start the next autonomous plan/wave: Zhuge Liang MVP, profile-ending integration, and focused GPT Image 2 art debt prep can be split across isolated worktrees.
+
 ### 2026-05-03 16:25 Asia/Shanghai
 
 Current state:
