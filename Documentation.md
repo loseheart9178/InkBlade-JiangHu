@@ -2,6 +2,42 @@
 
 ## Status Log
 
+### 2026-05-03 23:58 Asia/Shanghai
+
+Wave 6 / Milestone 58 GPT Image 2 Starter And Common Card Art Batch started in `.worktrees/wave6-card-art-batch` on branch `codex/wave6-card-art-batch`.
+
+Re-read before art generation and asset replacement:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/art/gpt2-priority-queue.md`
+- `skills/inkblade-art-asset-pipeline/SKILL.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Scope guard:
+
+- Own only generated card runtime assets and sources, visual manifest bindings, generated asset audit ledger, card fallback data coverage, art queue notes, and this log.
+- Avoid controller, CSS, Phaser scene, and gameplay rule edits.
+
+Initial direction:
+
+- Target the starter readability batch and common foundation batch from `docs/art/gpt2-priority-queue.md`.
+- Preserve untouched source sheets under `public/assets/generated/sources/`.
+- Crop normalized semantic card faces under `public/assets/generated/cards/` and bind them through `cardArtList`.
+
 ### 2026-05-03 23:49 Asia/Shanghai
 
 Wave 6 EA-readiness planning started under the user's autonomous execution mandate.
@@ -51,6 +87,41 @@ Decision:
 Next step:
 
 - Commit Wave 6 planning docs, baseline main, create worktrees, and dispatch independent workers.
+
+### 2026-05-03 23:57 Asia/Shanghai
+
+Wave 6 worktrees created and dispatched.
+
+Baseline:
+
+```text
+Main `codex/next-major-modules` at `fce153f`.
+
+npm test
+Result: passed. 14 test files passed, 141 tests passed.
+
+npm run build
+Result: passed. TypeScript and Vite build completed; Vite repeated the existing non-blocking large chunk warning.
+
+Worktree quick baseline:
+wave6-boot-split: npm test passed, 14 files / 141 tests.
+wave6-card-art-batch: npm test passed, 14 files / 141 tests.
+wave6-final-choice: npm test passed, 14 files / 141 tests.
+wave6-compendium: npm test passed, 14 files / 141 tests.
+wave6-glossary: npm test passed, 14 files / 141 tests.
+```
+
+Dispatched:
+
+- Boole: `.worktrees/wave6-boot-split`, boot/build chunk polish.
+- Faraday: `.worktrees/wave6-card-art-batch`, GPT Image 2 starter/common card-art batch.
+- Kuhn: `.worktrees/wave6-final-choice`, final choice and character epilogue.
+- Mendel: `.worktrees/wave6-compendium`, desktop read-only compendium.
+- Singer: `.worktrees/wave6-glossary`, keyword and intent explanations.
+
+Next step:
+
+- Wait for the first worker result needed by the integration order, then independently verify and integrate it.
 
 ### 2026-05-03 23:41 Asia/Shanghai
 
