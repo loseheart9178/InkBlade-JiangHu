@@ -263,14 +263,14 @@ describe("content data", () => {
 
     expect(chapterTwoElite.every((enemy) => enemy.maxHp >= 116 && enemy.maxHp <= 126)).toBe(true);
     expect(getPeakIntentDamage(enemyList.find((enemy) => enemy.id === "boss_qin_demon_echo")!)).toBeLessThanOrEqual(30);
-    expect(enemyList.find((enemy) => enemy.id === "boss_qin_demon_echo")?.maxHp).toBe(168);
+    expect(enemyList.find((enemy) => enemy.id === "boss_qin_demon_echo")?.maxHp).toBe(88);
 
     expect(chapterThreeNormal.every((enemy) => enemy.maxHp >= 48 && enemy.maxHp <= 54)).toBe(true);
     expect(chapterThreeNormal.every((enemy) => getPeakIntentDamage(enemy) <= 15)).toBe(true);
     expect(chapterThreeNormal.every((enemy) => enemy.intents.some(intentAddsStatusCard))).toBe(true);
 
     expect(chapterThreeElite.every((enemy) => enemy.maxHp >= 124 && enemy.maxHp <= 132)).toBe(true);
-    expect(enemyList.find((enemy) => enemy.id === "boss_scribe_officer")?.maxHp).toBe(196);
+    expect(enemyList.find((enemy) => enemy.id === "boss_scribe_officer")?.maxHp).toBe(160);
     expect(getPeakIntentDamage(enemyList.find((enemy) => enemy.id === "boss_scribe_officer")!)).toBeLessThanOrEqual(24);
   });
 

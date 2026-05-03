@@ -234,13 +234,13 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "琴魔·残音",
     role: "boss",
     chapter: "bamboo",
-    maxHp: 168,
+    maxHp: 88,
     intents: [
       {
         type: "special",
         name: "断续残拍",
         effects: [
-          { action: "damage", amount: 6, hits: 2 },
+          { action: "damage", amount: 4, hits: 2 },
           { action: "addCardToDiscard", cardId: "status_zayin", amount: 1 },
           { action: "applyStatus", target: "player", status: "weak", amount: 1 }
         ]
@@ -249,17 +249,17 @@ export const enemyList: ChapterEnemyDefinition[] = [
         type: "special",
         name: "悲声回环",
         effects: [
-          { action: "block", amount: 16 },
-          { action: "addCardToDiscard", cardId: "status_canyin", amount: 2 },
-          { action: "heal", amount: 6 }
+          { action: "block", amount: 6 },
+          { action: "addCardToDiscard", cardId: "status_canyin", amount: 1 },
+          { action: "heal", amount: 1 }
         ]
       },
-      { type: "attack", damage: 10, hits: 2 },
+      { type: "attack", damage: 6, hits: 2 },
       {
         type: "special",
         name: "绝响不散",
         effects: [
-          { action: "damage", amount: 9, hits: 3 },
+          { action: "damage", amount: 6, hits: 2 },
           { action: "gainInk", amount: 1 },
           { action: "addCardToDiscard", cardId: "status_zayin", amount: 1 }
         ]
@@ -274,16 +274,16 @@ export const enemyList: ChapterEnemyDefinition[] = [
             type: "special",
             name: "悲声回环",
             effects: [
-              { action: "block", amount: 18 },
-              { action: "addCardToDiscard", cardId: "status_canyin", amount: 2 },
-              { action: "heal", amount: 7 }
+              { action: "block", amount: 8 },
+              { action: "addCardToDiscard", cardId: "status_canyin", amount: 1 },
+              { action: "heal", amount: 1 }
             ]
           },
           {
             type: "special",
             name: "断弦压心",
             effects: [
-              { action: "damage", amount: 8, hits: 2 },
+              { action: "damage", amount: 5, hits: 2 },
               { action: "applyStatus", target: "player", status: "weak", amount: 1 }
             ]
           }
@@ -297,7 +297,7 @@ export const enemyList: ChapterEnemyDefinition[] = [
             type: "special",
             name: "绝响不散",
             effects: [
-              { action: "damage", amount: 10, hits: 3 },
+              { action: "damage", amount: 6, hits: 2 },
               { action: "addCardToDiscard", cardId: "status_canyin", amount: 1 },
               { action: "gainInk", amount: 1 }
             ]
@@ -306,8 +306,8 @@ export const enemyList: ChapterEnemyDefinition[] = [
             type: "special",
             name: "乱拍催魂",
             effects: [
-              { action: "damage", amount: 7, hits: 2 },
-              { action: "addCardToDiscard", cardId: "status_zayin", amount: 2 }
+              { action: "damage", amount: 5, hits: 2 },
+              { action: "addCardToDiscard", cardId: "status_zayin", amount: 1 }
             ]
           }
         ]
@@ -422,13 +422,13 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "墨书执笔官",
     role: "boss",
     chapter: "changan",
-    maxHp: 196,
+    maxHp: 160,
     intents: [
       {
         type: "special",
         name: "记录",
         effects: [
-          { action: "block", amount: 16 },
+          { action: "block", amount: 12 },
           { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 }
         ]
       },
@@ -436,8 +436,8 @@ export const enemyList: ChapterEnemyDefinition[] = [
         type: "special",
         name: "改写",
         effects: [
-          { action: "damage", amount: 7, hits: 2 },
-          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 2 },
+          { action: "damage", amount: 6, hits: 2 },
+          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 },
           { action: "applyStatus", target: "player", status: "weak", amount: 1 }
         ]
       },
@@ -445,8 +445,8 @@ export const enemyList: ChapterEnemyDefinition[] = [
         type: "special",
         name: "定稿",
         effects: [
-          { action: "damage", amount: 12, hits: 2 },
-          { action: "gainInk", amount: 2 }
+          { action: "damage", amount: 10, hits: 2 },
+          { action: "gainInk", amount: 1 }
         ]
       }
     ]
@@ -456,13 +456,13 @@ export const enemyList: ChapterEnemyDefinition[] = [
     name: "无名史官",
     role: "boss",
     chapter: "moyuan",
-    maxHp: 260,
+    maxHp: 220,
     intents: [
       {
         type: "special",
         name: "记录旧路",
         effects: [
-          { action: "block", amount: 18 },
+          { action: "block", amount: 14 },
           { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 },
           { action: "applyStatus", target: "player", status: "weak", amount: 1 }
         ]
@@ -471,8 +471,8 @@ export const enemyList: ChapterEnemyDefinition[] = [
         type: "special",
         name: "改写手牌",
         effects: [
-          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 2 },
-          { action: "damage", amount: 8, hits: 2 }
+          { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 },
+          { action: "damage", amount: 7, hits: 2 }
         ]
       },
       {
@@ -488,9 +488,9 @@ export const enemyList: ChapterEnemyDefinition[] = [
         type: "special",
         name: "定稿成灾",
         effects: [
-          { action: "damage", amount: 10, hits: 3 },
+          { action: "damage", amount: 7, hits: 3 },
           { action: "addCardToDiscard", cardId: "status_redacted_history", amount: 1 },
-          { action: "gainInk", amount: 2 }
+          { action: "gainInk", amount: 1 }
         ]
       }
     ]

@@ -2,6 +2,72 @@
 
 ## Status Log
 
+### 2026-05-03 18:29 Asia/Shanghai
+
+Wave 4 Task 2 complete: deterministic alpha-balance simulator contracts for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang across luoshui, bamboo, changan, and moyuan.
+
+Progress:
+
+- Added playtest contracts that summarize all 76 normal character/chapter enemy matchups without missing enemies, non-victory outcomes, timeout-prone warnings, or unsafe-damage warnings.
+- Added deterministic full-route simulation through all four chapters with run-system travel, event/rest/shop/battle rewards, chapter advancement, combo recording, completion snapshots, and ending-ready final-state assertions.
+- Improved the debug simulator card heuristic for defense, cleansing, setup, pressure attacks, and upgraded card effects while keeping rules in systems/debug and out of renderer code.
+- Added alpha-only simulator growth for support cards, relics, methods, upgrades, and chapter-entry max HP so later-chapter contracts represent a progressed run instead of a bare starter deck.
+- Tuned data-driven Qin Demon, Scribe Officer, and Nameless Historian values to remove persistent timeout/unsafe-damage route warnings for the normal simulator surface.
+
+Decisions:
+
+- Kept all implementation inside owned debug simulator, playtest, data-test, enemy-content, and documentation files.
+- Did not touch generated assets, `src/game/content/visuals.ts`, renderer scenes, UI, or `tests/e2e`.
+- Restored Qin Demon to 88 alpha HP after a 116 HP check caused Diao Chan timeout and Zhuge Liang defeat in the normal all-character summary; this keeps the requested contract green while preserving the boss's status/phase identity for later retuning.
+
+Verification:
+
+- `npm test -- tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts` - passed, 3 files / 53 tests.
+- `npm test -- tests/combat/combat-system.test.ts` - passed, 1 file / 37 tests.
+- `npm test` - passed, 13 files / 134 tests.
+- `npm run build` - passed (`tsc --noEmit && vite build`), with the existing Vite chunk-size warning.
+
+Known gaps / risks:
+
+- The deterministic simulator is a balance contract and heuristic pilot, not an optimal player model.
+- Qin Demon HP is intentionally alpha-tuned low for route reliability and should be revisited once reward pacing, manual browser QA, and elite/boss difficulty targets are tightened.
+- Production build still reports the large chunk warning.
+
+Next step:
+
+- Wave 4 release QA should use the new route simulator contracts as a gate before browser/manual playtest polish.
+
+### 2026-05-03 18:11 Asia/Shanghai
+
+Wave 4 Task 2 start: Alpha Balance And Full Route Playtest in `.worktrees/wave4-alpha-balance` on branch `codex/wave4-alpha-balance`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-wave4-mvp-closure.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/chapters/final_chapter.md`
+
+Scope guard:
+
+- Own only simulator/debug contracts, playtest tests, data-driven cards/enemies/rewards/chapters tuning if needed, focused combat/data/run tests, and this log.
+- Avoid generated assets, `src/game/content/visuals.ts`, renderer/UI rules, and `tests/e2e` unless externally blocked.
+- Preserve character identities while making the normal deterministic simulator route free of missing enemies and persistent timeout or unsafe-damage warnings.
+
+Next step:
+
+- Add failing simulator/full-route contracts for four characters across 洛水残照、竹林听雨、长安墨城、墨渊照心, then tune pure systems/data to pass.
+
 ### 2026-05-03 17:58 Asia/Shanghai
 
 Wave 4 planning start.
