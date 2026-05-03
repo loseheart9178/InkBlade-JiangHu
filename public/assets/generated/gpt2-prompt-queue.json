@@ -1,0 +1,571 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "Wave 3C art debt prep",
+  "createdAt": "2026-05-03T17:25:00+08:00",
+  "purpose": "Executable GPT Image 2 prompt queue for replacing current ink-pass art debt and preparing Cai Wenji, Zhuge Liang, final boss, final battlefield, and priority card-face assets. This file does not represent generated output.",
+  "baselineAuditCommand": "node scripts/audit-generated-assets.mjs",
+  "baselineInkPassDebt": [
+    {
+      "kind": "cardArt",
+      "id": "diao_flying_sleeves",
+      "paths": [
+        "/assets/generated/cards/diao-flying-sleeves-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_lijian",
+      "paths": [
+        "/assets/generated/cards/diao-lijian-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_lotus_blade",
+      "paths": [
+        "/assets/generated/cards/diao-lotus-blade-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_mirror_flower",
+      "paths": [
+        "/assets/generated/cards/diao-mirror-flower-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "status_canyin",
+      "paths": [
+        "/assets/generated/cards/status-canyin-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "status_zayin",
+      "paths": [
+        "/assets/generated/cards/status-zayin-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_break_spear",
+      "paths": [
+        "/assets/generated/cards/zhao-break-spear-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_return_spear",
+      "paths": [
+        "/assets/generated/cards/zhao-return-spear-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_spear_wall",
+      "paths": [
+        "/assets/generated/cards/zhao-spear-wall-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_white_horse_breakout",
+      "paths": [
+        "/assets/generated/cards/zhao-white-horse-breakout-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_bamboo_phalanx",
+      "paths": [
+        "/assets/generated/bamboo-phalanx-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_lubu_shadow",
+      "paths": [
+        "/assets/generated/lubu-shadow-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_qin_score",
+      "paths": [
+        "/assets/generated/qin-score-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_bamboo_soldier",
+      "paths": [
+        "/assets/generated/bamboo-soldier-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "bamboo_soldier_attack",
+      "paths": [
+        "/assets/sprites/bamboo-soldier-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "bamboo_wraith_attack",
+      "paths": [
+        "/assets/sprites/bamboo-wraith-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "broken_scholar_attack",
+      "paths": [
+        "/assets/sprites/broken-scholar-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "history_scribe_attack",
+      "paths": [
+        "/assets/sprites/history-scribe-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "qin_demon_attack",
+      "paths": [
+        "/assets/sprites/qin-demon-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "scribe_officer_attack",
+      "paths": [
+        "/assets/sprites/scribe-officer-attack-strip-ink-pass.png"
+      ]
+    }
+  ],
+  "targets": [
+    {
+      "id": "card-diao-flying-sleeves",
+      "priority": 1,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "diao_flying_sleeves",
+      "destinationPath": "/assets/generated/cards/gpt2-diao-flying-sleeves.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Diao Chan's Flying Sleeves technique: a red and white dancer sweeps long silk sleeves through mist, ribbons forming blade-like arcs, palace lantern fragments and petals in the background, cinnabar and teal accents, xuan paper texture, premium 2D hand-painted roguelike card art, clear central action, no text.",
+      "negativePrompt": "photorealistic, 3D render, modern clothing, guqin, pipa, heavy armor, sci-fi, western fantasy, extra fingers, extra arms, watermark, text, logo, blurry, low resolution",
+      "cropAlphaSequenceInstructions": "Crop a 4:3 card-face panel around the sleeve arc and dancer silhouette. Preserve full ribbon motion, hands, face, and negative space for card chrome; no alpha needed for card face.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-diao-lijian",
+      "priority": 1,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "diao_lijian",
+      "destinationPath": "/assets/generated/cards/gpt2-diao-lijian.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Diao Chan's Lijian discord charm: crimson fan, moonlit palace screens, two shadow warriors turning against each other under red silk threads, elegant dancer in control, cinnabar seals and teal moonlight, xuan paper grain, premium 2D card art, dramatic but readable, no text.",
+      "negativePrompt": "photorealistic, 3D render, modern dress, erotic pose, guqin, pipa, sci-fi neon, western armor, extra limbs, bad hands, watermark, text, logo, muddy contrast",
+      "cropAlphaSequenceInstructions": "Crop to one clear card-face composition with Diao Chan, fan, red threads, and split enemy shadows. Keep contrast high around the focal fan; no transparent alpha required.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-diao-lotus-blade",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "diao_lotus_blade",
+      "destinationPath": "/assets/generated/cards/gpt2-diao-lotus-blade.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Diao Chan's Lotus Blade: a hidden blade flashes from a dancer sleeve across pale lotus petals, red-white costume, ink palace water, teal moon reflection, brush strokes and xuan paper texture, elegant lethal motion, premium hand-painted 2D roguelike card face, no text.",
+      "negativePrompt": "photorealistic, 3D render, modern outfit, oversexualized, guqin, pipa, gun, sci-fi, extra fingers, extra arms, watermark, text, logo, low detail",
+      "cropAlphaSequenceInstructions": "Crop tightly enough that the blade, sleeve, lotus petals, and face remain visible inside card art. Keep top and bottom margins for UI masking; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-diao-mirror-flower",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "diao_mirror_flower",
+      "destinationPath": "/assets/generated/cards/gpt2-diao-mirror-flower.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Diao Chan's Mirror Flower illusion: red-white dancer reflected in a cracked bronze mirror over black water, flower petals becoming ink copies, teal and cinnabar accents, paper grain, poetic and readable card composition, premium 2D hand-painted art, no text.",
+      "negativePrompt": "photorealistic, 3D render, modern makeup, cyberpunk, guqin, pipa, armor bulk, text, watermark, logo, malformed hands, extra body, blurry",
+      "cropAlphaSequenceInstructions": "Crop to emphasize mirror reflection and flower illusion while retaining Diao Chan identity. Avoid tiny face details; keep card-safe margins; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-status-canyin",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "status_canyin",
+      "destinationPath": "/assets/generated/cards/gpt2-status-canyin.png",
+      "sourcePrompt": "Chinese ink-wash status card illustration for Residual Echo: broken teal sound waves and fading qin-string lines ripple through rain on xuan paper, ghostly musical notation fragments, cold bamboo shadows, melancholic but readable negative status card art, premium 2D ink wash, no text.",
+      "negativePrompt": "photorealistic, 3D render, modern staff notation, western harp, neon equalizer, text, watermark, logo, extra objects, low resolution, muddy black rectangle",
+      "cropAlphaSequenceInstructions": "Crop as abstract 4:3 card face with clear broken sound-wave motif and empty edges for status card frame. No alpha; preserve paper texture.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-status-zayin",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "status_zayin",
+      "destinationPath": "/assets/generated/cards/gpt2-status-zayin.png",
+      "sourcePrompt": "Chinese ink-wash status card illustration for Noise: snapped guqin strings, jagged black ink vibration, scattered bamboo leaves, pale teal sound runes corrupted by dark ink, xuan paper texture, readable negative card face for a deckbuilding roguelike, premium hand-painted 2D, no text.",
+      "negativePrompt": "photorealistic, 3D render, western guitar, electronic speaker, neon, text, watermark, logo, modern objects, extra fingers, low contrast, blurry",
+      "cropAlphaSequenceInstructions": "Crop around snapped strings and jagged ink rhythm. Keep visual distinct from Residual Echo by using sharper black vibration marks; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-zhao-break-spear",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "zhao_break_spear",
+      "destinationPath": "/assets/generated/cards/gpt2-zhao-break-spear.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Zhao Yun breaking formation with a silver spear: male white-blue general thrusts through shield lines, white dragon spear trail, torn black banners, teal armor glints and cinnabar impact marks, xuan paper texture, premium 2D hand-painted card art, no text.",
+      "negativePrompt": "photorealistic, 3D render, female character, wrong weapon, sword only, gun, modern armor, sci-fi, extra limbs, bad hands, watermark, text, logo, blurry",
+      "cropAlphaSequenceInstructions": "Crop with spear trail diagonally crossing the card face and Zhao Yun clearly male. Preserve spear tip and torso; no alpha required for card face.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-zhao-return-spear",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "zhao_return_spear",
+      "destinationPath": "/assets/generated/cards/gpt2-zhao-return-spear.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Zhao Yun countering with Return Spear: male silver-blue spear general pivots in a defensive arc, shielded stance, river mist and torn flags, teal guard light and cinnabar slash impact, xuan paper texture, clear card composition, premium 2D hand-painted art, no text.",
+      "negativePrompt": "photorealistic, 3D render, female dancer, sword-only pose, modern uniform, heavy sci-fi armor, extra fingers, extra arms, watermark, text, logo, low resolution",
+      "cropAlphaSequenceInstructions": "Crop to show the pivot arc and guarded counterattack. Keep spear, face, and defensive posture readable at small card size; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-zhao-spear-wall",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "zhao_spear_wall",
+      "destinationPath": "/assets/generated/cards/gpt2-zhao-spear-wall.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Zhao Yun's Spear Wall: silver-blue male general plants multiple spear afterimages into a protective semicircle, teal shield ink, white dragon motif, enemy silhouettes halted by the barrier, xuan paper texture, premium 2D card art, no text.",
+      "negativePrompt": "photorealistic, 3D render, female character, magic staff, modern armor, sci-fi shield UI, extra limbs, bad hands, watermark, text, logo, blurry",
+      "cropAlphaSequenceInstructions": "Crop the semicircle of spear afterimages as the main shape. Leave enough border so card chrome does not cut off spear tips; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-zhao-white-horse-breakout",
+      "priority": 2,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "zhao_white_horse_breakout",
+      "destinationPath": "/assets/generated/cards/gpt2-zhao-white-horse-breakout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia card illustration for Zhao Yun's White Horse Breakout: male silver spear general and white horse charge through black rain and broken troops, white dragon trail, teal river mist, cinnabar banner sparks, xuan paper texture, dynamic premium 2D roguelike card face, no text.",
+      "negativePrompt": "photorealistic, 3D render, female rider, modern saddle, western cowboy, gun, sci-fi, extra horse legs, bad hands, text, watermark, logo, low detail",
+      "cropAlphaSequenceInstructions": "Crop with horse head, rider, spear, and charge direction visible. Avoid over-wide panorama; preserve card-scale readability; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "standee-elite-bamboo-phalanx",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "standee",
+      "semanticId": "elite_bamboo_phalanx",
+      "destinationPath": "/assets/generated/gpt2-bamboo-phalanx-standee-cutout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia full-body enemy standee for an elite bamboo phalanx: disciplined ink-corrupted soldiers merged into one shield-and-spear battle array, rain bamboo armor, teal-black robes, rigid military silhouette, xuan paper texture, transparent-background game-ready pose, premium 2D hand-painted style.",
+      "negativePrompt": "photorealistic, 3D render, modern soldier, gun, sci-fi armor, western knight, friendly hero, text, watermark, logo, cropped feet, missing hands, blurry",
+      "cropAlphaSequenceInstructions": "Cut out the full standee with transparent alpha. Preserve spear tips, shield edges, feet, and bamboo armor silhouette; leave bottom-center anchor padding for Phaser placement.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "standee-elite-lubu-shadow",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "standee",
+      "semanticId": "elite_lubu_shadow",
+      "destinationPath": "/assets/generated/gpt2-lubu-shadow-standee-cutout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia full-body enemy standee for Lu Bu's ink shadow: towering halberd warrior made of black ink and cinnabar fury, red plume shape, heavy battle aura, Chang'an ink-city mood, xuan paper texture, premium 2D game standee, transparent-background ready.",
+      "negativePrompt": "photorealistic, 3D render, modern armor, gun, friendly hero, tiny weapon, wrong weapon, text, watermark, logo, cropped feet, extra arms, low resolution",
+      "cropAlphaSequenceInstructions": "Cut out as full-height transparent standee. Preserve halberd, plume, boots, and shoulder silhouette; avoid paper rectangle remnants around dark ink edges.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "standee-elite-qin-score",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "standee",
+      "semanticId": "elite_qin_score",
+      "destinationPath": "/assets/generated/gpt2-qin-score-standee-cutout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia full-body enemy standee for a haunted qin score elite: floating damaged guqin manuscript and robed ghost musician, teal rain, broken strings, cold paper talismans, bamboo-night mood, xuan paper texture, premium 2D transparent-background game art.",
+      "negativePrompt": "photorealistic, 3D render, western harp, modern piano, cyberpunk, friendly portrait, text, watermark, logo, cropped instrument, extra limbs, blurry",
+      "cropAlphaSequenceInstructions": "Cut out the ghost, guqin fragments, and scroll silhouette with transparent alpha. Keep floating paper fragments within a 512x512-safe standee footprint.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "standee-enemy-bamboo-soldier",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "standee",
+      "semanticId": "enemy_bamboo_soldier",
+      "destinationPath": "/assets/generated/gpt2-bamboo-soldier-standee-cutout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia full-body enemy standee for a bamboo soldier: faceless rain-soaked soldier in bamboo-lamellar armor, spear or short blade, teal-gray palette, ink corruption at feet, readable normal enemy silhouette, xuan paper texture, premium 2D game cutout style.",
+      "negativePrompt": "photorealistic, 3D render, modern military, gun, sci-fi armor, western knight, text, watermark, logo, missing weapon, cropped feet, extra fingers, blurry",
+      "cropAlphaSequenceInstructions": "Cut out full body with transparent alpha and bottom-center anchor. Preserve weapon, shoulders, and feet; remove paper background cleanly from gray-green edges.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-bamboo-soldier-attack",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "combat-sprite-strip",
+      "semanticId": "bamboo_soldier_attack",
+      "destinationPath": "/assets/sprites/bamboo-soldier-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal attack sprite strip for a Chinese ink-wash bamboo soldier enemy, 512x512 per frame, transparent background, bottom-center anchor, frames show ready stance, forward step, spear slash, recoil finish, teal-gray bamboo armor, consistent silhouette and scale, premium 2D game animation sheet.",
+      "negativePrompt": "photorealistic, 3D render, paper background, inconsistent character, modern gun, text, watermark, logo, cropped weapon, cropped feet, extra limbs, blurry",
+      "cropAlphaSequenceInstructions": "Export as a 4-frame sequence strip, 2048x512 total, transparent alpha. Normalize feet on the same baseline and keep weapon inside each 512x512 frame.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-bamboo-wraith-attack",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "combat-sprite-strip",
+      "semanticId": "bamboo_wraith_attack",
+      "destinationPath": "/assets/sprites/bamboo-wraith-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal attack sprite strip for a Chinese ink-wash bamboo wraith, 512x512 per frame, transparent background, bottom-center anchor, teal ghost sleeves and rain bamboo mist, frames show drift, raised claw, sweeping ink slash, fading recovery, consistent standee identity and scale.",
+      "negativePrompt": "photorealistic, 3D render, paper rectangle, inconsistent face, modern outfit, text, watermark, logo, cropped sleeves, extra arms, low resolution",
+      "cropAlphaSequenceInstructions": "Export 4 frames at 2048x512 with transparent alpha. Keep ghost body centered and sleeve trails within frame; avoid residual background around pale teal edges.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-broken-scholar-attack",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "combat-sprite-strip",
+      "semanticId": "broken_scholar_attack",
+      "destinationPath": "/assets/sprites/broken-scholar-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal attack sprite strip for a Chinese ink-wash broken scholar enemy, 512x512 per frame, transparent background, bottom-center anchor, torn scholar robe, ink brush and paper shards, frames show brush raise, step forward, red-black brush strike, recoil, consistent silhouette.",
+      "negativePrompt": "photorealistic, 3D render, paper background, modern pen, western wizard, text, watermark, logo, cropped brush, missing hands, extra limbs, blurry",
+      "cropAlphaSequenceInstructions": "Export 2048x512 transparent strip. Align feet and robe hem across all frames; preserve brush tip and paper shards inside frame boundaries.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-history-scribe-attack",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "combat-sprite-strip",
+      "semanticId": "history_scribe_attack",
+      "destinationPath": "/assets/sprites/history-scribe-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal attack sprite strip for a Chang'an history scribe enemy, Chinese ink-wash 2D, 512x512 per frame, transparent background, red brush and black scrolls, frames show ready, scroll unfurl, cinnabar brush slash, recovery, consistent scale and bottom-center anchor.",
+      "negativePrompt": "photorealistic, 3D render, paper rectangle, modern office worker, book cover text, watermark, logo, cropped scroll, extra limbs, blurry, inconsistent costume",
+      "cropAlphaSequenceInstructions": "Export 2048x512 transparent sequence strip. Keep scroll arcs visible but contained; remove white paper background from scroll gaps where needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-qin-demon-attack",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "combat-sprite-strip",
+      "semanticId": "qin_demon_attack",
+      "destinationPath": "/assets/sprites/qin-demon-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal attack sprite strip for Qin Demon Echo boss, Chinese ink-wash 2D, 512x512 per frame, transparent background, cold teal guqin, ghost musician and broken strings, frames show calm pose, strings tense, sound-wave strike, lingering echo recovery, consistent boss identity.",
+      "negativePrompt": "photorealistic, 3D render, paper background, western harp, modern piano, text, watermark, logo, cropped instrument, extra arms, blurry, inconsistent scale",
+      "cropAlphaSequenceInstructions": "Export 2048x512 transparent strip. Preserve guqin width and sound-wave arc inside each frame; align seated or floating anchor consistently.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-scribe-officer-attack",
+      "priority": 3,
+      "category": "existing ink-pass debt",
+      "type": "combat-sprite-strip",
+      "semanticId": "scribe_officer_attack",
+      "destinationPath": "/assets/sprites/scribe-officer-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal attack sprite strip for the ink book scribe officer boss, Chinese ink-wash 2D, 512x512 per frame, transparent background, cinnabar seal, black book pages and brush, frames show book opens, seal gathers, page-slash attack, recovery, consistent red-black boss silhouette.",
+      "negativePrompt": "photorealistic, 3D render, paper rectangle, modern suit, sci-fi book, visible text, watermark, logo, cropped hands, extra arms, low resolution",
+      "cropAlphaSequenceInstructions": "Export 2048x512 transparent strip. Keep book and brush visible in all frames; remove rectangular paper fill behind page effects while preserving ink edges.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "standee-caiwenji",
+      "priority": 1,
+      "category": "Cai Wenji",
+      "type": "standee",
+      "semanticId": "caiwenji",
+      "destinationPath": "/assets/generated/gpt2-caiwenji-standee-cutout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia full-body game character standee, Cai Wenji as an elegant female guqin musician and scholar, pale cyan and white Han-dynasty robes, soft green scarf, holding an ancient guqin, glowing cyan sound waves and ink musical runes from the strings, calm sorrowful determined eyes, bamboo jade hairpin, xuan paper texture, premium 2D hand-painted game art, transparent-background ready.",
+      "negativePrompt": "photorealistic, 3D render, western harp, pipa, modern instrument, oversexualized, heavy armor, school uniform, cyberpunk, extra fingers, extra arms, watermark, text, logo, cropped feet, blurry",
+      "cropAlphaSequenceInstructions": "Cut out full body with transparent alpha. Preserve face, hands, guqin, sleeves, hairpin, scarf, and feet; remove pale paper background carefully so white-cyan robes are not erased.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-caiwenji-qin-attack",
+      "priority": 1,
+      "category": "Cai Wenji",
+      "type": "combat-sprite-strip",
+      "semanticId": "caiwenji_attack",
+      "destinationPath": "/assets/sprites/caiwenji-qin-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal attack and echo sprite strip for Cai Wenji, Chinese ink-wash 2D, 512x512 per frame, transparent background, bottom-center anchor, pale cyan robes and guqin, frames show calm pluck, sound wave forming, teal qin-wave strike, lingering echo recovery, consistent with full-body Cai Wenji standee.",
+      "negativePrompt": "photorealistic, 3D render, paper background, western harp, pipa, modern clothing, oversexualized pose, text, watermark, logo, cropped guqin, extra limbs, inconsistent face",
+      "cropAlphaSequenceInstructions": "Export 2048x512 transparent sequence strip. Align lower robe baseline, preserve guqin and hands, keep sound waves inside frames, and avoid deleting pale clothing during alpha cleanup.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-cai-qingxin-song",
+      "priority": 1,
+      "category": "Cai Wenji",
+      "type": "card-face",
+      "semanticId": "cai_qingxin_song",
+      "destinationPath": "/assets/generated/cards/gpt2-cai-qingxin-song.png",
+      "sourcePrompt": "Chinese ink-wash roguelike card illustration for Cai Wenji's Qingxin Song: elegant guqin musician in pale cyan robes plays a calm defensive melody, teal sound waves forming a protective paper shield, rain bamboo and floating score fragments, xuan paper texture, premium hand-painted 2D card face, no text.",
+      "negativePrompt": "photorealistic, 3D render, western harp, pipa, modern dress, heavy armor, text, watermark, logo, extra fingers, extra arms, blurry, low resolution",
+      "cropAlphaSequenceInstructions": "Crop 4:3 card face around guqin, teal shield wave, and calm profile. Preserve hand and instrument readability; no transparent alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-cai-hujia-beat",
+      "priority": 1,
+      "category": "Cai Wenji",
+      "type": "card-face",
+      "semanticId": "cai_hujia_beat",
+      "destinationPath": "/assets/generated/cards/gpt2-cai-hujia-beat.png",
+      "sourcePrompt": "Chinese ink-wash card illustration for Cai Wenji's Hujia Beat: ancient guqin strings release three rhythmic teal shockwaves through black rain, ghostly nomad-road memories and broken banners in the distance, pale cyan robes, melancholic strength, xuan paper grain, premium 2D roguelike card art, no text.",
+      "negativePrompt": "photorealistic, 3D render, western harp, modern speaker, neon equalizer, oversexualized, text, watermark, logo, extra hands, malformed instrument, blurry",
+      "cropAlphaSequenceInstructions": "Crop to show three distinct sound-wave beats and guqin identity. Leave safe margins for card frame; no alpha required.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-cai-final-song",
+      "priority": 1,
+      "category": "Cai Wenji",
+      "type": "card-face",
+      "semanticId": "cai_final_song",
+      "destinationPath": "/assets/generated/cards/gpt2-cai-final-song.png",
+      "sourcePrompt": "Chinese ink-wash card illustration for Cai Wenji's Final Song: five colored musical notes converge over an ancient guqin, teal and pale gold waves cleanse black ink, mournful souls become clear light, elegant scholar musician centered, xuan paper texture, premium 2D hand-painted card art, no text.",
+      "negativePrompt": "photorealistic, 3D render, western harp, pipa, modern music notes, rainbow neon, text, watermark, logo, extra fingers, extra arms, blurry, low detail",
+      "cropAlphaSequenceInstructions": "Crop around guqin, five-note convergence, and cleansing wave. Maintain clean focal contrast at card size; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "standee-zhugeliang",
+      "priority": 1,
+      "category": "Zhuge Liang",
+      "type": "standee",
+      "semanticId": "zhugeliang",
+      "destinationPath": "/assets/generated/gpt2-zhugeliang-standee-cutout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia full-body game character standee, Zhuge Liang as a calm male strategist and formation master, moon-white scholar robes with gray-blue cloak, white feather fan, floating astrolabe, Eight Trigrams formation diagram, bamboo slips and talismans, composed deep eyes, tied hair with scholar crown, pale gold starlight and ink eastern wind, premium 2D hand-painted game art, transparent-background ready.",
+      "negativePrompt": "photorealistic, 3D render, western wizard robe, sci-fi mage, heavy armor, modern suit, over-muscular, female character, text, watermark, logo, cropped feet, extra fingers, extra arms, blurry",
+      "cropAlphaSequenceInstructions": "Cut out full body with transparent alpha. Preserve feather fan, robe sleeves, crown, feet, astrolabe, talismans, and formation motifs; avoid paper rectangle residue in white robes.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-zhugeliang-formation",
+      "priority": 1,
+      "category": "Zhuge Liang",
+      "type": "combat-sprite-strip",
+      "semanticId": "zhugeliang_attack",
+      "destinationPath": "/assets/sprites/zhugeliang-formation-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal combat sprite strip for Zhuge Liang casting formation and borrowed wind, Chinese ink-wash 2D, 512x512 per frame, transparent background, bottom-center anchor, white feather fan and gray-blue robes, frames show calm stance, fan gesture, golden bagua formation and ink wind surge, recovery, consistent full-body identity.",
+      "negativePrompt": "photorealistic, 3D render, paper background, western magic staff, sci-fi symbols, modern suit, text, watermark, logo, cropped fan, cropped feet, extra arms, inconsistent face",
+      "cropAlphaSequenceInstructions": "Export 2048x512 transparent strip. Align feet and robe baseline, keep fan and formation within each frame, preserve pale robe edges during alpha cleanup.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-zhuge-guanxing",
+      "priority": 1,
+      "category": "Zhuge Liang",
+      "type": "card-face",
+      "semanticId": "zhuge_observe_stars",
+      "destinationPath": "/assets/generated/cards/gpt2-zhuge-observe-stars.png",
+      "sourcePrompt": "Chinese ink-wash roguelike card illustration for Zhuge Liang's Observe Stars: calm strategist in moon-white robes studies a floating astrolabe and star map, pale gold stars reflected in black ink water, bamboo slips and feather fan, gray-blue storm clouds, xuan paper texture, premium 2D hand-painted card face, no text.",
+      "negativePrompt": "photorealistic, 3D render, western wizard, sci-fi hologram, modern suit, text, watermark, logo, extra fingers, bad hands, blurry, low contrast",
+      "cropAlphaSequenceInstructions": "Crop to show astrolabe, star map, feather fan, and composed face. Preserve clear negative space for card frame; no alpha required.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-zhuge-eight-array",
+      "priority": 1,
+      "category": "Zhuge Liang",
+      "type": "card-face",
+      "semanticId": "zhuge_eight_array",
+      "destinationPath": "/assets/generated/cards/gpt2-zhuge-eight-array.png",
+      "sourcePrompt": "Chinese ink-wash card illustration for Zhuge Liang's Eight Array: glowing bagua formation spreads across a battlefield floor, paper talismans and bamboo slips orbit, strategist with feather fan commands calmly, pale gold and ink-blue tones, xuan paper texture, premium 2D roguelike card art, no text.",
+      "negativePrompt": "photorealistic, 3D render, sci-fi magic circle, western runes, modern outfit, heavy armor, text, watermark, logo, extra limbs, blurry, messy geometry",
+      "cropAlphaSequenceInstructions": "Crop to make the bagua formation the main readable shape while keeping Zhuge Liang and feather fan visible. No transparent alpha needed for card face.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-zhuge-borrow-wind",
+      "priority": 1,
+      "category": "Zhuge Liang",
+      "type": "card-face",
+      "semanticId": "zhuge_borrow_wind",
+      "destinationPath": "/assets/generated/cards/gpt2-zhuge-borrow-wind.png",
+      "sourcePrompt": "Chinese ink-wash card illustration for Zhuge Liang's Borrowed East Wind: white feather fan summons sweeping ink wind and pale gold starlight over war banners, calm strategist in moon-white robes, storm clouds opening above a mountain observatory, xuan paper texture, premium hand-painted 2D card art, no text.",
+      "negativePrompt": "photorealistic, 3D render, sci-fi tornado, western wizard, modern suit, text, watermark, logo, extra fingers, extra arms, low resolution, muddy wind shape",
+      "cropAlphaSequenceInstructions": "Crop around feather fan, wind surge, and mountain-observatory atmosphere. Keep wind directional and readable at card size; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "standee-final-boss-nameless-historian",
+      "priority": 1,
+      "category": "final boss",
+      "type": "standee",
+      "semanticId": "boss_nameless_historian",
+      "destinationPath": "/assets/generated/gpt2-nameless-historian-standee-cutout.png",
+      "sourcePrompt": "Chinese ink-wash wuxia full-body final boss standee, Nameless Historian as a tragic robed scribe, black and white layered scholar robes stained by cinnabar seals, long brush and open history scrolls, face partly shadowed, floating book pages, black-water mirror and red seal light, solemn not monstrous, premium 2D hand-painted transparent-background game art.",
+      "negativePrompt": "photorealistic, 3D render, modern suit, western necromancer, sci-fi armor, goofy villain, visible text, watermark, logo, cropped feet, extra arms, blurry, low resolution",
+      "cropAlphaSequenceInstructions": "Cut out full standee with transparent alpha. Preserve brush, scroll pages, sleeves, feet, and red seal silhouettes; remove pale paper background without erasing white robe edges.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "strip-final-boss-nameless-historian",
+      "priority": 1,
+      "category": "final boss",
+      "type": "combat-sprite-strip",
+      "semanticId": "nameless_historian_attack",
+      "destinationPath": "/assets/sprites/nameless-historian-attack-strip-gpt2.png",
+      "sourcePrompt": "Four-frame horizontal final boss attack sprite strip for the Nameless Historian, Chinese ink-wash 2D, 512x512 per frame, transparent background, bottom-center anchor, robed scribe with brush and floating scrolls, frames show still reading, brush raised, red-black rewritten-page slash, scrolls settle, consistent tragic boss identity.",
+      "negativePrompt": "photorealistic, 3D render, paper rectangle, modern suit, sci-fi book, visible text, watermark, logo, cropped brush, cropped feet, extra arms, inconsistent costume",
+      "cropAlphaSequenceInstructions": "Export 2048x512 transparent strip. Align feet or robe bottom across frames, keep brush and scroll arcs within frame, remove rectangular paper fill behind page effects.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "battlefield-final-moyuan",
+      "priority": 1,
+      "category": "final battlefield",
+      "type": "battlefield",
+      "semanticId": "moyuan",
+      "destinationPath": "/assets/generated/gpt2-moyuan-battlefield.png",
+      "sourcePrompt": "Chinese ink-wash final battlefield background for Moyuan Zhaoxin: vast black-water mirror on xuan paper, floating history pages, broken moon reflection, cinnabar cracks, distant book altar and white empty space, solemn final chapter atmosphere, no characters, no UI, wide 16:9 game battlefield, premium 2D hand-painted ink wash, high readability behind standees.",
+      "negativePrompt": "photorealistic, 3D render, modern city, cyberpunk, characters, UI, text, watermark, logo, cluttered details, dark unreadable center, blurry, low resolution",
+      "cropAlphaSequenceInstructions": "Crop to 16:9 battlefield background. Keep center readable for duel standees and bottom safe for card hand; no alpha, preserve paper texture and high-contrast black-water horizon.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-final-unwritten-page",
+      "priority": 1,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "event_unwritten_page",
+      "destinationPath": "/assets/generated/cards/gpt2-final-unwritten-page.png",
+      "sourcePrompt": "Chinese ink-wash final chapter card or event illustration for Unwritten Page: blank xuan paper floating above black water, brush hovering without touching, cinnabar cracks and pale moon reflection, choice and fate mood, premium 2D hand-painted roguelike card art, clean symbolic composition, no text.",
+      "negativePrompt": "photorealistic, 3D render, visible writing, typography, modern notebook, pen, UI, watermark, logo, hand with extra fingers, blurry, low contrast",
+      "cropAlphaSequenceInstructions": "Crop as 4:3 symbolic card face. Keep blank page and brush clear while avoiding actual readable characters; no alpha needed.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    },
+    {
+      "id": "card-final-heart-mirror",
+      "priority": 1,
+      "category": "card-face",
+      "type": "card-face",
+      "semanticId": "event_heart_mirror",
+      "destinationPath": "/assets/generated/cards/gpt2-final-heart-mirror.png",
+      "sourcePrompt": "Chinese ink-wash final chapter card or event illustration for Heart Mirror: black-water mirror reflecting four faint role symbols, guqin string, feather fan, spear, red sleeve, with cinnabar cracks and moon-white paper space, solemn introspective mood, premium 2D roguelike card art, no text.",
+      "negativePrompt": "photorealistic, 3D render, visible text, modern mirror, cluttered UI icons, watermark, logo, extra hands, blurry, low resolution, cartoonish",
+      "cropAlphaSequenceInstructions": "Crop to center the black-water mirror and four subtle role symbols. Keep symbols readable but not crowded; no alpha required.",
+      "verificationCommand": "node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts"
+    }
+  ]
+}

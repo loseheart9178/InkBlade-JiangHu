@@ -476,6 +476,74 @@ describe("content data", () => {
     expect(ledger.sourceSheets.length).toBeGreaterThan(0);
   });
 
+  it("ships a GPT Image 2 priority prompt queue for art debt replacement", () => {
+    const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
+    const queuePath = join(projectRoot, "public/assets/generated/gpt2-prompt-queue.json");
+    expect(existsSync(queuePath)).toBe(true);
+
+    const audit = JSON.parse(readFileSync(join(projectRoot, "public/assets/generated/asset-audit.json"), "utf8")) as {
+      inkPassDebt: Array<{ kind: string; id: string; paths: string[] }>;
+      promptQueue?: {
+        assetPath: string;
+        targetCount: number;
+        categories: Record<string, number>;
+      };
+    };
+    const queue = JSON.parse(readFileSync(queuePath, "utf8")) as {
+      schemaVersion: number;
+      generatedBy: string;
+      baselineInkPassDebt: Array<{ kind: string; id: string; paths: string[] }>;
+      targets: Array<{
+        id: string;
+        priority: number;
+        category: string;
+        type: string;
+        semanticId: string;
+        destinationPath: string;
+        sourcePrompt: string;
+        negativePrompt: string;
+        cropAlphaSequenceInstructions: string;
+        verificationCommand: string;
+      }>;
+    };
+
+    expect(queue.schemaVersion).toBe(1);
+    expect(queue.generatedBy).toBe("Wave 3C art debt prep");
+    expect(queue.baselineInkPassDebt).toEqual(audit.inkPassDebt);
+    expect(queue.baselineInkPassDebt).toHaveLength(20);
+    expect(audit.promptQueue).toMatchObject({
+      assetPath: "/assets/generated/gpt2-prompt-queue.json",
+      targetCount: queue.targets.length
+    });
+
+    const targetIds = queue.targets.map((target) => target.id);
+    expect(new Set(targetIds).size).toBe(targetIds.length);
+
+    const requiredCategories = ["Cai Wenji", "Zhuge Liang", "final boss", "final battlefield", "card-face"];
+    for (const category of requiredCategories) {
+      expect(queue.targets.some((target) => target.category === category)).toBe(true);
+      expect(audit.promptQueue?.categories[category]).toBeGreaterThan(0);
+    }
+
+    for (const target of queue.targets) {
+      expect(target.type).toMatch(/^(standee|combat-sprite-strip|card-face|battlefield)$/);
+      expect(target.semanticId.length).toBeGreaterThan(0);
+      expect(target.destinationPath).toMatch(/^\/assets\/(generated|sprites)\//);
+      expect(target.destinationPath).toMatch(/\.(png|webp)$/);
+      if (target.type === "card-face") {
+        expect(target.destinationPath).toMatch(/^\/assets\/generated\/cards\//);
+      }
+      if (target.type === "combat-sprite-strip") {
+        expect(target.destinationPath).toMatch(/^\/assets\/sprites\//);
+      }
+      expect(target.sourcePrompt.length).toBeGreaterThan(80);
+      expect(target.negativePrompt.length).toBeGreaterThan(20);
+      expect(target.cropAlphaSequenceInstructions.length).toBeGreaterThan(40);
+      expect(target.verificationCommand).toContain("node scripts/audit-generated-assets.mjs");
+      expect(target.verificationCommand).toContain("npm test -- tests/data/content.test.ts");
+    }
+  });
+
   it("declares signature card VFX cues for key role-defining martial arts", () => {
     const signatureVfxByCue = (
       visuals as typeof visuals & {

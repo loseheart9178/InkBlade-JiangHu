@@ -404,5 +404,23 @@
       "assetPath": "/assets/generated/zhaoyun-standee-gpt-v2-source.png",
       "bytes": 2347784
     }
-  ]
+  ],
+  "promptQueue": {
+    "assetPath": "/assets/generated/gpt2-prompt-queue.json",
+    "targetCount": 35,
+    "categories": {
+      "card-face": 12,
+      "existing ink-pass debt": 10,
+      "Cai Wenji": 5,
+      "Zhuge Liang": 5,
+      "final boss": 2,
+      "final battlefield": 1
+    },
+    "types": {
+      "card-face": 18,
+      "standee": 7,
+      "combat-sprite-strip": 9,
+      "battlefield": 1
+    }
+  }
 }

@@ -66,8 +66,29 @@ Use the ledger as the handoff for later art passes:
 - `inkPassDebt` is the semantic list of remaining non-final runtime assets; it may shrink over time, but new debt IDs should be intentional and documented.
 - `gpt2Runtime` shows currently registered GPT Image 2 runtime assets.
 - `sourceSheets` records preserved source sheets and source PNGs that support future crops and repairs.
+- `promptQueue` records the executable GPT Image 2 queue summary when `public/assets/generated/gpt2-prompt-queue.json` exists.
 
 Do not hand-edit the ledger to hide debt. Update `visuals.ts` or assets, rerun the audit command, and record the result in `Documentation.md`.
+
+## GPT Image 2 Prompt Queue
+
+When preparing an art replacement wave without generating images, write an executable queue to:
+
+```text
+public/assets/generated/gpt2-prompt-queue.json
+```
+
+Each target must include:
+
+- `type`: `standee`, `combat-sprite-strip`, `card-face`, or `battlefield`.
+- `semanticId`: the manifest/content id the future asset should bind to.
+- `destinationPath`: the intended runtime path under `/assets/generated/`, `/assets/generated/cards/`, or `/assets/sprites/`.
+- `sourcePrompt`: the positive GPT Image 2 prompt grounded in the PRD, world/chapter docs, and character/enemy docs.
+- `negativePrompt`: identity, style, artifact, and anatomy exclusions.
+- `cropAlphaSequenceInstructions`: crop, transparent alpha, or sprite-frame normalization instructions.
+- `verificationCommand`: at minimum `node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts`.
+
+For sprite strips, specify frame count, per-frame canvas size, total sheet size, transparent background, and bottom-center anchor. For standees, specify transparent alpha cleanup and protected identity details such as face, hands, weapon, sleeves, instrument, feet, and costume edges. For card faces and battlefields, specify card-safe or UI-safe crop margins.
 
 ## Verification
 

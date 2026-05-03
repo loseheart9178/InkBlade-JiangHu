@@ -7,6 +7,7 @@ const projectRoot = path.resolve(scriptDir, "..");
 const publicRoot = path.join(projectRoot, "public");
 const visualsPath = path.join(projectRoot, "src", "game", "content", "visuals.ts");
 const ledgerPath = path.join(publicRoot, "assets", "generated", "asset-audit.json");
+const promptQueuePath = path.join(publicRoot, "assets", "generated", "gpt2-prompt-queue.json");
 
 const visualsSource = readFileSync(visualsPath, "utf8");
 
@@ -52,6 +53,7 @@ const missing = runtimeFiles
 const inkPassDebt = groupBySemanticAsset(runtimeReferences.filter((reference) => reference.assetPath.includes("ink-pass")));
 const gpt2Runtime = groupBySemanticAsset(runtimeReferences.filter((reference) => isGpt2RuntimeAsset(reference.assetPath)));
 const sourceSheets = findSourceSheets(path.join(publicRoot, "assets", "generated"));
+const promptQueue = summarizePromptQueue(promptQueuePath);
 
 const ledger = {
   schemaVersion: 1,
@@ -67,7 +69,8 @@ const ledger = {
   missing,
   inkPassDebt,
   gpt2Runtime,
-  sourceSheets
+  sourceSheets,
+  promptQueue
 };
 
 mkdirSync(path.dirname(ledgerPath), { recursive: true });
@@ -80,7 +83,8 @@ console.log(
     `missing: ${missing.length}`,
     `ink-pass debt: ${inkPassDebt.length}`,
     `GPT2 runtime assets: ${gpt2Runtime.length}`,
-    `source sheets: ${sourceSheets.length}`
+    `source sheets: ${sourceSheets.length}`,
+    `prompt queue targets: ${promptQueue?.targetCount ?? 0}`
   ].join("\n")
 );
 
@@ -169,6 +173,32 @@ function findSourceSheets(rootDir) {
       bytes: statSync(filePath).size
     }))
     .sort((left, right) => left.assetPath.localeCompare(right.assetPath));
+}
+
+function summarizePromptQueue(filePath) {
+  if (!existsSync(filePath)) {
+    return null;
+  }
+
+  const queue = JSON.parse(readFileSync(filePath, "utf8"));
+  const targets = Array.isArray(queue.targets) ? queue.targets : [];
+  const categories = {};
+  const types = {};
+
+  for (const target of targets) {
+    const category = typeof target.category === "string" ? target.category : "uncategorized";
+    const type = typeof target.type === "string" ? target.type : "unknown";
+
+    categories[category] = (categories[category] ?? 0) + 1;
+    types[type] = (types[type] ?? 0) + 1;
+  }
+
+  return {
+    assetPath: toAssetPath(filePath),
+    targetCount: targets.length,
+    categories,
+    types
+  };
 }
 
 function walkFiles(rootDir) {

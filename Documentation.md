@@ -43,6 +43,92 @@ Next step:
 
 - Dispatch Zhuge Liang, profile/ending UI, and art-debt prep workers with disjoint write surfaces.
 
+### 2026-05-03 17:25 Asia/Shanghai
+
+Wave 3C start: Art Debt Prep And GPT Image 2 Prompt Queue in `.worktrees/auton-art-debt-prep` on branch `codex/auton-art-debt-prep`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-autonomous-mvp-continuation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/chapters/final_chapter.md`
+- `skills/inkblade-art-asset-pipeline/SKILL.md`
+
+Scope guard:
+
+- Prepare a GPT Image 2 asset-debt queue only; do not generate images in this worktree.
+- Keep existing combat mechanics, controller UI, run/profile/ending logic, and parallel worker surfaces untouched.
+- Treat the current 20 `ink-pass` audit entries as the baseline debt and add priority targets for蔡文姬、诸葛亮、终章、无名史官 as future-generation work.
+
+Initial audit context:
+
+- Existing `public/assets/generated/asset-audit.json` reports 86 runtime references, 0 missing files, 20 ink-pass debt entries, 31 GPT2 runtime assets, and 8 source sheets.
+
+Next step:
+
+- Add a failing content test for the prompt queue contract, then create the queue and refresh the audit ledger.
+
+TDD notes:
+
+```text
+npm test -- tests/data/content.test.ts
+RED result: failed as expected because `public/assets/generated/gpt2-prompt-queue.json` did not exist.
+
+npm test -- tests/data/content.test.ts
+Second RED result: failed as expected because `asset-audit.json` had no `promptQueue` summary before the audit script enhancement.
+```
+
+Implemented:
+
+- Added executable prompt queue `public/assets/generated/gpt2-prompt-queue.json`.
+- Preserved the current 20 semantic `ink-pass` debts in the queue baseline.
+- Added 35 generation targets covering current card/standee/sprite-strip debt plus Cai Wenji, Zhuge Liang, final Boss, final battlefield, and final chapter card-face priorities.
+- Enhanced `scripts/audit-generated-assets.mjs` so refreshed audit ledgers record prompt queue target count, categories, and target types.
+- Added content tests for queue existence, duplicate target prevention, runtime folder constraints, required categories, prompt fields, and audit/queue consistency.
+- Added human-readable handoff notes at `docs/art/gpt2-priority-queue.md`.
+- Updated `skills/inkblade-art-asset-pipeline/SKILL.md` with prompt queue requirements.
+
+Decisions:
+
+- Do not generate or crop images in this worker; all generated paths are future runtime destinations for the later GPT Image 2 wave.
+- Use stable semantic ids even for Zhuge Liang targets that may be introduced by the parallel character worker, so the queue remains a handoff contract rather than a manifest change.
+- Keep prompt verification narrow and repeatable with `node scripts/audit-generated-assets.mjs && npm test -- tests/data/content.test.ts` on every target.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. Ledger written with 86 runtime references, 0 missing files, 20 ink-pass debt entries, 31 GPT2 runtime assets, 8 source sheets, and 35 prompt queue targets.
+
+npm test -- tests/data/content.test.ts
+Result: 1 test file passed, 22 tests passed.
+
+npm test
+Result: 13 test files passed, 124 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the existing large chunk warning.
+```
+
+Known gaps / risks:
+
+- The queue includes future semantic targets for Zhuge Liang before the parallel Zhuge worker is integrated; later integration may need to align exact card ids while preserving the prompt intent.
+- The queue does not reduce `inkPassDebt`; it is intentionally a preparation ledger for the later asset generation wave.
+- No browser screenshot review was run because this worker did not bind new runtime assets or alter UI rendering.
+
+Next step:
+
+- Hand off the queue to the GPT Image 2 final asset worker, which should generate source sheets, crop runtime assets, update `visuals.ts`, rerun the audit, and review desktop visual smoke screenshots.
+
 ### 2026-05-03 17:08 Asia/Shanghai
 
 Current state:
