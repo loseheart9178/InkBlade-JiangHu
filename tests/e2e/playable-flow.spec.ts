@@ -68,6 +68,38 @@ test("ending summary records and persists profile summary", async ({ page }, tes
   await expect(page.getByTestId("profile-unlocked-endings")).toContainText("隐藏清悟");
 });
 
+test("final boss route reaches ending and profile summary", async ({ page }) => {
+  test.setTimeout(80_000);
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("debug-final-route").click();
+
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("run-chapter")).toContainText("墨渊照心");
+  await expect(page.getByText("黑水镜尽头只余无名史官")).toBeVisible();
+  await expect(page.getByTestId("map-node-boss")).toContainText("无名史官");
+  await page.getByTestId("map-node-boss").click();
+
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("enemy-hp")).toContainText("无名史官");
+
+  await winVisibleCombat(page, 120, "screen-chapter-reward");
+
+  await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
+  await page.getByTestId("chapter-reward-choice").first().click();
+  await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
+  await page.getByTestId("boss-reward-continue").click();
+
+  await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("ending-summary")).toBeVisible();
+  await expect(page.getByTestId("run-summary-character")).toContainText("赵云");
+  await expect(page.getByTestId("run-summary-chapters")).toContainText("4");
+  await expect(page.getByTestId("profile-total-runs")).toContainText("1");
+  await expect(page.getByTestId("profile-unlocked-endings")).not.toContainText("未解锁");
+});
+
 test("boots, enters a Zhao Yun battle, wins, and returns to the route map", async ({ page }) => {
   await startRun(page, "zhaoyun");
 

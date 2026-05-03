@@ -1,4 +1,5 @@
 import { cardsById } from "../../src/game/content/cards";
+import { createFinalBossDebugRun } from "../../src/game/systems/debug/debugRun";
 import {
   addRelic,
   advanceToNextChapter,
@@ -151,6 +152,20 @@ describe("run system", () => {
     });
     expect(snapshot?.completedChapterIds).toEqual(["luoshui", "bamboo", "changan", "moyuan"]);
     expect(snapshot?.unlockedFragmentIds).toEqual(["fragment_heart_mirror", "fragment_nameless_historian"]);
+  });
+
+  it("creates a browser debug run with the final boss route reachable", () => {
+    const run = createFinalBossDebugRun();
+
+    expect(run.chapterId).toBe("moyuan");
+    expect(run.currentNodeId).toBe("event-4");
+    expect(run.visitedNodeIds).toEqual(["start", "event-1", "rest-1", "event-4"]);
+    expect(run.mapNodes.find((node) => node.id === "boss")?.enemyId).toBe("boss_nameless_historian");
+    expect(getAvailableNodes(run).map((node) => node.id)).toContain("boss");
+
+    travelToNode(run, "boss");
+
+    expect(run.currentNodeId).toBe("boss");
   });
 
   it("changes optional branches for different map seeds while preserving the main route", () => {

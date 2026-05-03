@@ -30,10 +30,6 @@ TDD notes:
 - Added content coverage requiring every chapter id to have a dedicated battlefield asset.
 - Added visual smoke assertions for `data-battlefield` on Luoshui combat and a second-chapter Bamboo combat path before implementing the DOM/Phaser battlefield bridge.
 
-Next step:
-
-- Run the focused red checks, then wire `renderCombat` to dispatch `inkblade:set-battlefield` and teach `CombatScene` to preload and switch all battlefield assets.
-
 Implemented:
 
 - `renderCombat` now exposes `data-battlefield` with the current `run.chapterId`.
@@ -67,6 +63,53 @@ Known gaps / risks:
 Next step:
 
 - Commit Milestone 54 and hand off for Wave 5 integration before the browser final-boss route work.
+
+### 2026-05-03 22:36 Asia/Shanghai
+
+Wave 5 / Milestone 55 Browser Final Boss Route implementation in `.worktrees/wave5-final-route` on branch `codex/wave5-final-route`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-03-wave5-post-mvp-polish-design.md`
+- `docs/superpowers/plans/2026-05-03-wave5-post-mvp-polish.md`
+- `docs/chapters/final_chapter.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+
+Progress:
+
+- Added a RED/GREEN run-system contract for a debug `moyuan` run where `event-4` can reach `boss_nameless_historian`.
+- Added `createFinalBossDebugRun()` with Zhao Yun, a high-HP final chapter setup, dense attack cards, relics, and owned heart methods so browser QA can finish the final Boss without timing out or entering method reward.
+- Added a title debug action `debug-final-route` that opens the final chapter map without changing the existing `debug-ending-summary` shortcut.
+- Added Playwright coverage for title -> final route -> 无名史官 combat -> chapter reward -> Boss reward -> ending/profile run summary.
+
+TDD notes:
+
+```text
+npm test -- tests/run/run-system.test.ts
+RED result: failed as expected because createFinalBossDebugRun was not exported.
+
+npm test -- tests/run/run-system.test.ts
+GREEN result: passed, 1 file / 26 tests.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "final boss route"
+GREEN result: passed, 1 Chromium Playwright test.
+```
+
+Decisions:
+
+- Kept the route as a debug-accessible browser QA bridge, not a normal progression rule.
+- Seeded the run at `event-4` with visited nodes `start`, `event-1`, `rest-1`, and `event-4` so the Boss node is clickable through ordinary map availability.
+- Used Zhao Yun with upgraded final-route support rather than weakening `无名史官`, preserving content data and renderer boundaries for parallel workers.
+
+Next step:
+
+- Run the full Milestone 55 verification gate and commit `feat: add browser final boss route`.
 
 ### 2026-05-03 21:50 Asia/Shanghai
 

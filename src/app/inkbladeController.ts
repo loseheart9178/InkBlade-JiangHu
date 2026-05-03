@@ -18,6 +18,7 @@ import {
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
+import { createFinalBossDebugRun } from "../game/systems/debug/debugRun";
 import { endingsById, evaluateRunEnding, type EndingDefinition } from "../game/systems/endings/endings";
 import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/systems/events/eventEffects";
 import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
@@ -267,6 +268,26 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
       render();
     });
     actions.append(completed);
+  }
+
+  if (!actions.querySelector("[data-testid='debug-final-route']")) {
+    const finalRoute = document.createElement("button");
+    finalRoute.type = "button";
+    finalRoute.className = "title-debug-action";
+    finalRoute.dataset.testid = "debug-final-route";
+    finalRoute.textContent = "终章路线";
+    finalRoute.addEventListener("click", () => {
+      state.run = createFinalBossDebugRun();
+      state.combat = undefined;
+      state.pendingSpoils = undefined;
+      state.completedRunSummary = undefined;
+      state.rewardCards = [];
+      state.deckOpen = false;
+      state.screen = "map";
+      state.message = "墨渊照心已展开，黑水镜尽头只余无名史官。";
+      render();
+    });
+    actions.append(finalRoute);
   }
 }
 
