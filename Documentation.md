@@ -2,6 +2,45 @@
 
 ## Status Log
 
+### 2026-05-03 17:58 Asia/Shanghai
+
+Wave 4 planning start.
+
+Re-read before planning and dispatch:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/chapters/final_chapter.md`
+- `skills/inkblade-art-asset-pipeline/SKILL.md`
+- `docs/art/gpt2-priority-queue.md`
+- `public/assets/generated/gpt2-prompt-queue.json`
+- `C:/Users/loseheart/.codex/skills/.system/imagegen/SKILL.md`
+
+Created planning artifacts:
+
+- `docs/superpowers/plans/2026-05-03-wave4-mvp-closure.md`
+- `docs/superpowers/agent-runs/2026-05-03-wave4.md`
+
+Dispatch plan:
+
+- `wave4-gpt2-assets`: GPT Image 2 final asset pass, prompt queue execution, runtime crops, visual manifest, desktop visual smoke.
+- `wave4-alpha-balance`: four-character simulator/full-route balance without renderer or asset edits.
+- `wave4-release-qa`: desktop e2e coverage, screenshots, and alpha acceptance docs, integrated last.
+
+Next step:
+
+- Commit the Wave 4 plan, create worktrees, baseline them, and dispatch independent workers.
+
 ### 2026-05-03 17:52 Asia/Shanghai
 
 Wave 3 accepted on `codex/next-major-modules`.
