@@ -2,6 +2,54 @@
 
 ## Status Log
 
+### 2026-05-03 16:25 Asia/Shanghai
+
+Current state:
+
+- Started Wave 2 after Wave 1 acceptance.
+- Created and baselined:
+  - `.worktrees/auton-final-chapter` on branch `codex/auton-final-chapter`, assigned to Herschel for Milestone 47.
+  - `.worktrees/auton-caiwenji-mvp` on branch `codex/auton-caiwenji-mvp`, assigned to Epicurus for Milestone 48.
+- Created `docs/superpowers/agent-runs/2026-05-03-wave2.md` for the integration ledger.
+- Re-read for Wave 2 dispatch and future asset planning:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/chapters/chapter_02.md`
+  - `docs/chapters/chapter_03.md`
+  - `docs/chapters/final_chapter.md`
+  - `docs/character_settings/蔡文姬_角色设定文档.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+  - `skills/inkblade-art-asset-pipeline/SKILL.md`
+  - `C:/Users/loseheart/.codex/skills/.system/imagegen/SKILL.md`
+
+Verification:
+
+```text
+npm install
+Result: completed in both Wave 2 worktrees.
+
+npm test
+Result in `.worktrees/auton-final-chapter`: 13 test files passed, 119 tests passed.
+Result in `.worktrees/auton-caiwenji-mvp`: 13 test files passed, 119 tests passed.
+
+npm run build
+Result in both worktrees: TypeScript and Vite build passed. Vite repeated the expected chunk-size warning.
+```
+
+Next step:
+
+- Wait for Herschel and Epicurus to return commits, then review and integrate one worktree at a time.
+
 ### 2026-05-03 16:18 Asia/Shanghai
 
 Current state:
