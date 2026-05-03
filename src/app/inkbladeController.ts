@@ -7,7 +7,9 @@ import { cardArtById, combatPortraitsById, combatSpriteSheetsById, signatureVfxB
 import {
   clearSavedGame,
   hasSavedGame,
+  loadProfile,
   loadSavedGame,
+  saveProfile,
   saveGameState,
   type ControllerSaveSnapshot,
   type GameStorage,
@@ -16,9 +18,11 @@ import {
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
+import { endingsById, evaluateRunEnding, type EndingDefinition } from "../game/systems/endings/endings";
 import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/systems/events/eventEffects";
 import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
+import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile } from "../game/systems/profile/profile";
 import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import {
@@ -31,6 +35,7 @@ import {
   createCardRewardDraft,
   createCardRewardReasonMap,
   createRun,
+  createRunCompletionSnapshot,
   getAvailableNodes,
   getCurrentChapter,
   getNextChapter,
@@ -46,10 +51,11 @@ import {
   upgradeDeckCard,
   type BattleSpoils,
   type MapNode,
+  type RunCompletionSnapshot,
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "logbook" | "victory" | "defeat";
+type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "logbook" | "runSummary" | "victory" | "defeat";
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -69,11 +75,19 @@ interface ControllerState {
   pendingSpoils?: BattleSpoils;
   deckOpen: boolean;
   settings: SettingsState;
+  profile: PlayerProfile;
+  completedRunSummary?: CompletedRunSummaryView;
   message: string;
 }
 
 interface ControllerOptions {
   storage?: GameStorage;
+}
+
+interface CompletedRunSummaryView {
+  completion: RunCompletionSnapshot;
+  ending: EndingDefinition;
+  profile: PlayerProfile;
 }
 
 export function createInkbladeController(host: HTMLElement, options: ControllerOptions = {}) {
@@ -87,6 +101,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       masterVolume: 80,
       musicVolume: 70
     },
+    profile: loadProfile(options.storage) ?? createProfile(),
     message: ""
   };
 
@@ -101,7 +116,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     }
 
     if (state.screen === "combat") {
-      renderCombat(host, state, render);
+      renderCombat(host, state, render, options.storage);
       persistControllerState(state, options.storage);
       return;
     }
@@ -149,7 +164,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     }
 
     if (state.screen === "bossReward") {
-      renderBossReward(host, state, render);
+      renderBossReward(host, state, render, options.storage);
       renderDeckOverlayIfOpen(host, state, render);
       persistControllerState(state, options.storage);
       return;
@@ -160,13 +175,18 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       return;
     }
 
+    if (state.screen === "runSummary") {
+      renderRunSummary(host, state, render);
+      return;
+    }
+
     if (state.screen === "victory" || state.screen === "defeat") {
       renderResult(host, state, render);
       clearSavedGame(options.storage);
     }
   };
 
-  installTitleShellControls(host, state, render);
+  installTitleShellControls(host, state, render, options.storage);
 
   return {
     startRun(characterId: string) {
@@ -175,6 +195,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       state.rewardCards = [];
       state.pendingSpoils = undefined;
       state.deckOpen = false;
+      state.completedRunSummary = undefined;
       state.message = `${charactersById[characterId].name}踏入${getCurrentChapter(state.run).name}。`;
       state.screen = "map";
       render();
@@ -190,6 +211,8 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       state.rewardCards = saved.rewardCardIds.map((id) => cardsById[id]).filter((card): card is CardDefinition => Boolean(card));
       state.pendingSpoils = saved.pendingSpoils;
       state.deckOpen = false;
+      state.profile = loadProfile(options.storage) ?? state.profile;
+      state.completedRunSummary = undefined;
       state.message = saved.message || "旧存档已续上。";
       state.screen = saved.screen;
       render();
@@ -204,7 +227,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
   };
 }
 
-function installTitleShellControls(host: HTMLElement, state: ControllerState, render: () => void): void {
+function installTitleShellControls(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
   const title = host.querySelector<HTMLElement>(".title-screen");
   if (!title) {
     return;
@@ -227,9 +250,23 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
     summary.type = "button";
     summary.className = "title-debug-action";
     summary.dataset.testid = "debug-run-summary";
-    summary.textContent = "战报壳";
+    summary.textContent = "档案战报";
     summary.addEventListener("click", () => showRunSummaryShell(host, state, render));
     actions.append(summary);
+  }
+
+  if (!actions.querySelector("[data-testid='debug-ending-summary']")) {
+    const completed = document.createElement("button");
+    completed.type = "button";
+    completed.className = "title-debug-action";
+    completed.dataset.testid = "debug-ending-summary";
+    completed.textContent = "终章战报";
+    completed.addEventListener("click", () => {
+      state.run = createCompletedDebugRun();
+      completeRunWithEnding(state, storage);
+      render();
+    });
+    actions.append(completed);
   }
 }
 
@@ -278,36 +315,30 @@ function showSettingsShell(host: HTMLElement, state: ControllerState): void {
 
 function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: () => void): void {
   removeTitleShellOverlay(host);
-  const run = state.run ?? createRun("zhaoyun", { mapSeed: 46 });
   const panel = createPanel("screen-run-summary", "行旅结算");
   panel.classList.add("run-summary-screen", "title-shell-panel");
   panel.dataset.titleShellOverlay = "true";
 
   const note = document.createElement("p");
   note.className = "shell-note";
-  note.textContent = state.run ? "本次行旅暂结于此，后续会写入档案与结局。" : "调试战报样例，用于档案与结局接入前验证桌面外壳。";
+  note.textContent = "档案中的行旅与结局会保存在本机。";
 
   const stats = document.createElement("div");
   stats.className = "run-summary-stats";
-  const character = charactersById[run.characterId];
-  const chapter = getCurrentChapter(run);
-  const logbookCount = getUnlockedLogbookEntries(run).length;
   stats.append(
-    createRunSummaryStat("结果", state.screen === "defeat" ? "梦醒" : "调试样例"),
-    createRunSummaryStat("角色", character.name),
-    createRunSummaryStat("当前章节", chapter.name),
-    createRunSummaryStat("已过章节", `${run.completedChapterIds.length}`),
-    createRunSummaryStat("法宝", `${run.relicIds.length}`),
-    createRunSummaryStat("牌组", `${run.deck.length}`),
-    createRunSummaryStat("墨录残页", `${logbookCount}`),
-    createRunSummaryStat("铜钱", `${run.gold}`)
+    createRunSummaryStat("总行旅", `${state.profile.stats.totalRuns}`, "profile-total-runs"),
+    createRunSummaryStat("胜利", `${state.profile.stats.victories}`),
+    createRunSummaryStat("梦醒", `${state.profile.stats.defeats}`),
+    createRunSummaryStat("结局", formatUnlockedEndingTitles(state.profile), "profile-unlocked-endings"),
+    createRunSummaryStat("墨录残页", `${state.profile.unlockedFragments.length}`),
+    createRunSummaryStat("角色档案", `${Object.keys(state.profile.characterStats).length}`)
   );
 
   const actions = document.createElement("div");
   actions.className = "run-summary-actions";
   const back = createAction("返回标题", "收起战报，回到标题。", () => removeTitleShellOverlay(host));
   back.dataset.testid = "run-summary-back";
-  const logbook = createAction("打开墨录", state.run ? "查看本局已录残页。" : "调试样例尚未接入档案残页。", () => {
+  const logbook = createAction("打开墨录", state.run ? "查看本局已录残页。" : "当前没有正在进行的行旅。", () => {
     if (!state.run) {
       return;
     }
@@ -358,10 +389,10 @@ function createSettingRange(testId: string, title: string, value: number): HTMLE
   return row;
 }
 
-function createRunSummaryStat(label: string, value: string): HTMLElement {
+function createRunSummaryStat(label: string, value: string, testId?: string): HTMLElement {
   const row = document.createElement("div");
   row.className = "run-summary-stat";
-  row.dataset.testid = "run-summary-stat";
+  row.dataset.testid = testId ?? "run-summary-stat";
   row.innerHTML = `<span>${label}</span><strong>${value}</strong>`;
   return row;
 }
@@ -466,7 +497,7 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
   state.screen = "combat";
 }
 
-function renderCombat(host: HTMLElement, state: ControllerState, render: () => void): void {
+function renderCombat(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
   const run = requireRun(state);
   const combat = requireCombat(state);
   const enemy = combat.enemies[0];
@@ -548,7 +579,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       const targetId = definition.target === "enemy" ? enemy.id : "player";
       const result = playCard(combat, card.instanceId, targetId);
       state.message = result.ok ? `${definition.name}已出。` : explainPlayFailure(result.reason);
-      handleCombatAfterAction(state);
+      handleCombatAfterAction(state, storage);
       render();
     });
     hand.append(cardButton);
@@ -563,7 +594,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   endTurn.addEventListener("click", () => {
     endPlayerTurn(combat);
     state.message = "敌意落下，新的回合开始。";
-    handleCombatAfterAction(state);
+    handleCombatAfterAction(state, storage);
     render();
   });
   controls.append(
@@ -579,12 +610,13 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   run.hp = combat.player.hp;
 }
 
-function handleCombatAfterAction(state: ControllerState): void {
+function handleCombatAfterAction(state: ControllerState, storage: GameStorage | undefined): void {
   const run = requireRun(state);
   const combat = requireCombat(state);
   run.hp = combat.player.hp;
 
   if (combat.phase === "lost") {
+    recordDefeatIfNeeded(state, storage);
     state.screen = "defeat";
     state.message = "黑雨没过衣袂，本次行旅止于此处。";
     return;
@@ -969,7 +1001,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   host.append(panel);
 }
 
-function renderBossReward(host: HTMLElement, state: ControllerState, render: () => void): void {
+function renderBossReward(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
   const run = requireRun(state);
   const chapter = getCurrentChapter(run);
   const nextChapter = getNextChapter(run);
@@ -985,8 +1017,10 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
       state.screen = "map";
       state.message = `雨声渐近，${nextChapter?.name ?? "下一章"}展开。`;
     } else {
-      state.screen = "victory";
-      state.message = `${chapter.name}暂告一段落，新的江湖仍在远处。`;
+      if (!completeRunWithEnding(state, storage)) {
+        state.screen = "victory";
+        state.message = `${chapter.name}暂告一段落，新的江湖仍在远处。`;
+      }
     }
     render();
   });
@@ -1049,6 +1083,116 @@ function renderResult(host: HTMLElement, state: ControllerState, render: () => v
   });
   panel.append(restart);
   host.append(panel);
+}
+
+function renderRunSummary(host: HTMLElement, state: ControllerState, render: () => void): void {
+  const summary = state.completedRunSummary;
+  const panel = createPanel("screen-run-summary", "行旅结算");
+  panel.classList.add("run-summary-screen", "result-screen");
+
+  if (!summary) {
+    panel.append(createMessage("尚无可结算的行旅。"));
+    host.append(panel);
+    return;
+  }
+
+  const character = charactersById[summary.completion.characterId];
+  const ending = document.createElement("section");
+  ending.className = "ending-summary";
+  ending.dataset.testid = "ending-summary";
+  ending.innerHTML = `
+    <small data-testid="ending-id">${summary.ending.id}</small>
+    <h3 data-testid="ending-title">${summary.ending.title}</h3>
+    <p>${summary.ending.summary}</p>
+    <p>${summary.ending.body}</p>
+  `;
+
+  const stats = document.createElement("div");
+  stats.className = "run-summary-stats";
+  stats.append(
+    createRunSummaryStat("角色", character.name, "run-summary-character"),
+    createRunSummaryStat("已过章节", `${summary.completion.completedChapterIds.length}`, "run-summary-chapters"),
+    createRunSummaryStat("墨录残页", `${summary.completion.unlockedFragmentIds.length}`),
+    createRunSummaryStat("牌组", `${summary.completion.deckSize}`),
+    createRunSummaryStat("法宝", `${summary.completion.relicCount}`),
+    createRunSummaryStat("总行旅", `${summary.profile.stats.totalRuns}`, "profile-total-runs"),
+    createRunSummaryStat("已解锁结局", formatUnlockedEndingTitles(summary.profile), "profile-unlocked-endings")
+  );
+
+  const restart = createAction("再入江湖", "以同一角色重新开局。", () => {
+    state.run = createRun(summary.completion.characterId);
+    state.combat = undefined;
+    state.pendingSpoils = undefined;
+    state.rewardCards = [];
+    state.completedRunSummary = undefined;
+    state.deckOpen = false;
+    state.message = "黑雨仍未停。";
+    state.screen = "map";
+    render();
+  });
+
+  panel.append(createMessage(state.message), ending, stats, restart);
+  host.append(panel);
+}
+
+function completeRunWithEnding(state: ControllerState, storage: GameStorage | undefined): boolean {
+  const run = requireRun(state);
+  const completion = createRunCompletionSnapshot(run);
+  if (!completion) {
+    return false;
+  }
+
+  const ending = evaluateRunEnding(completion.finalState, run);
+  if (!ending) {
+    return false;
+  }
+
+  state.profile = recordCompletedRun(state.profile, {
+    characterId: completion.characterId,
+    victory: true,
+    endingId: ending.id,
+    chaptersCompleted: completion.completedChapterIds,
+    unlockedFragments: completion.unlockedFragmentIds
+  });
+  saveProfile(storage, state.profile);
+  clearSavedGame(storage);
+  state.completedRunSummary = {
+    completion,
+    ending,
+    profile: state.profile
+  };
+  state.screen = "runSummary";
+  state.message = `${charactersById[completion.characterId].name}抵达${ending.title}。`;
+  return true;
+}
+
+function recordDefeatIfNeeded(state: ControllerState, storage: GameStorage | undefined): void {
+  const run = requireRun(state);
+  state.profile = recordRunResult(state.profile, {
+    characterId: run.characterId,
+    victory: false,
+    chaptersCompleted: run.completedChapterIds
+  });
+  saveProfile(storage, state.profile);
+  clearSavedGame(storage);
+}
+
+function createCompletedDebugRun(): RunState {
+  const run = createRun("zhaoyun", { mapSeed: 52 });
+  run.mindTendencies = { ning: 5, nu: 0, bei: 0, mei: 0, luan: 0, wu: 8 };
+  recordLogbookEvent(run, "event_heart_mirror");
+  recordLogbookBoss(run, "boss_nameless_historian");
+
+  while (advanceToNextChapter(run)) {
+    // Advance through the deterministic chapter spine to the final state.
+  }
+
+  return run;
+}
+
+function formatUnlockedEndingTitles(profile: PlayerProfile): string {
+  const titles = profile.unlockedEndings.map((endingId) => endingsById[endingId as keyof typeof endingsById]?.title ?? endingId);
+  return titles.length > 0 ? titles.join("、") : "未解锁";
 }
 
 function createPanel(testId: string, title: string): HTMLElement {

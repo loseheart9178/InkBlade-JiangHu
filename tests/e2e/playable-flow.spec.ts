@@ -22,6 +22,30 @@ test("run summary shell opens from the title debug entry", async ({ page }) => {
   expect(statCount).toBeGreaterThan(2);
 });
 
+test("ending summary records and persists profile summary", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("debug-ending-summary").click();
+
+  await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("ending-summary")).toBeVisible();
+  await expect(page.getByTestId("ending-id")).toContainText("ending_hidden_wu");
+  await expect(page.getByTestId("ending-title")).toContainText("隐藏清悟");
+  await expect(page.getByTestId("run-summary-character")).toContainText("赵云");
+  await expect(page.getByTestId("run-summary-chapters")).toContainText("4");
+  await expect(page.getByTestId("profile-total-runs")).toContainText("1");
+  await expect(page.getByTestId("profile-unlocked-endings")).toContainText("隐藏清悟");
+
+  await page.reload();
+  await page.getByTestId("debug-run-summary").click();
+
+  await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("profile-total-runs")).toContainText("1");
+  await expect(page.getByTestId("profile-unlocked-endings")).toContainText("隐藏清悟");
+});
+
 test("boots, enters a Zhao Yun battle, wins, and returns to the route map", async ({ page }) => {
   await startRun(page, "zhaoyun");
 

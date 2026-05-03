@@ -4,7 +4,7 @@ import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardArchetypeId, CardDefinition } from "../combat/types";
 import { getRelicRewardPool, type RelicRewardSource } from "../relics/relicEffects";
-import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunFinalState, RunState } from "./types";
+import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunCompletionSnapshot, RunFinalState, RunState } from "./types";
 
 const ZHAO_REWARD_POOL = [
   "zhao_thrust",
@@ -479,6 +479,29 @@ export function getRunFinalState(run: RunState): RunFinalState {
   return run.finalState ?? {
     status: "inProgress",
     chapterId: run.chapterId
+  };
+}
+
+export function createRunCompletionSnapshot(run: RunState): RunCompletionSnapshot | undefined {
+  const finalState = getRunFinalState(run);
+  if (finalState.status !== "endingReady") {
+    return undefined;
+  }
+
+  return {
+    status: "completed",
+    characterId: run.characterId,
+    completedChapterIds: [...run.completedChapterIds],
+    unlockedFragmentIds: [...(run.logbook?.fragmentIds ?? [])],
+    finalState: {
+      ...finalState,
+      status: "endingReady"
+    },
+    deckSize: run.deck.length,
+    relicCount: run.relicIds.length,
+    gold: run.gold,
+    hp: run.hp,
+    maxHp: run.maxHp
   };
 }
 

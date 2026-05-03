@@ -1,8 +1,11 @@
 import type { CombatState } from "../combat/types";
+import { normalizeProfile, type PlayerProfile } from "../profile/profile";
 import type { BattleSpoils, RunState } from "../run/types";
 
 export const SAVE_STORAGE_KEY = "inkblade-jianghu:run-save:v1";
+export const PROFILE_STORAGE_KEY = "inkblade-jianghu:profile:v1";
 export const SAVE_SCHEMA_VERSION = 1;
+export const PROFILE_SCHEMA_VERSION = 1;
 
 export type SaveableScreen = "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward";
 
@@ -26,6 +29,12 @@ interface SaveEnvelope {
   version: typeof SAVE_SCHEMA_VERSION;
   savedAt: string;
   state: ControllerSaveSnapshot;
+}
+
+interface ProfileEnvelope {
+  version: typeof PROFILE_SCHEMA_VERSION;
+  savedAt: string;
+  profile: PlayerProfile;
 }
 
 export function saveGameState(storage: GameStorage | undefined, snapshot: ControllerSaveSnapshot): void {
@@ -66,11 +75,53 @@ export function clearSavedGame(storage: GameStorage | undefined): void {
   storage?.removeItem(SAVE_STORAGE_KEY);
 }
 
+export function saveProfile(storage: GameStorage | undefined, profile: PlayerProfile): void {
+  if (!storage) {
+    return;
+  }
+
+  storage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(createProfileEnvelope(normalizeProfile(profile))));
+}
+
+export function loadProfile(storage: GameStorage | undefined): PlayerProfile | undefined {
+  if (!storage) {
+    return undefined;
+  }
+
+  const raw = storage.getItem(PROFILE_STORAGE_KEY);
+  if (!raw) {
+    return undefined;
+  }
+
+  try {
+    const envelope = JSON.parse(raw) as Partial<ProfileEnvelope>;
+    if (envelope.version !== PROFILE_SCHEMA_VERSION || !envelope.profile) {
+      return undefined;
+    }
+
+    return normalizeProfile(envelope.profile);
+  } catch {
+    return undefined;
+  }
+}
+
+export function clearProfile(storage: GameStorage | undefined): void {
+  storage?.removeItem(PROFILE_STORAGE_KEY);
+}
+
 function createEnvelope(snapshot: ControllerSaveSnapshot): SaveEnvelope {
   return {
     version: SAVE_SCHEMA_VERSION,
     savedAt: new Date().toISOString(),
     state: snapshot
+  };
+}
+
+function createProfileEnvelope(profile: PlayerProfile): ProfileEnvelope {
+  return {
+    version: PROFILE_SCHEMA_VERSION,
+    savedAt: new Date().toISOString(),
+    profile
   };
 }
 

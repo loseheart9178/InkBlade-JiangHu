@@ -26,6 +26,10 @@ export interface RecordRunResultInput {
   chaptersCompleted?: readonly string[];
 }
 
+export interface RecordCompletedRunInput extends RecordRunResultInput {
+  unlockedFragments?: readonly string[];
+}
+
 export function createProfile(): PlayerProfile {
   return {
     version: PROFILE_VERSION,
@@ -55,6 +59,14 @@ export function recordRunResult(profile: PlayerProfile, result: RecordRunResultI
     },
     unlockedEndings: result.endingId ? addUnique(normalized.unlockedEndings, result.endingId) : [...normalized.unlockedEndings]
   };
+}
+
+export function recordCompletedRun(profile: PlayerProfile, result: RecordCompletedRunInput): PlayerProfile {
+  let next = recordRunResult(profile, result);
+  for (const fragmentId of result.unlockedFragments ?? []) {
+    next = unlockLogbookFragment(next, fragmentId);
+  }
+  return next;
 }
 
 export function unlockLogbookFragment(profile: PlayerProfile, fragmentId: string): PlayerProfile {

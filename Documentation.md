@@ -211,6 +211,83 @@ Next step:
 
 - Integrate this branch, then let the art-debt/final asset pass add Zhuge Liang visual debt and generated assets.
 
+### 2026-05-03 18:15 Asia/Shanghai
+
+Wave 3B Milestone 52: Profile, Ending, Save, And Run Summary Integration in `.worktrees/auton-profile-ending-ui` on branch `codex/auton-profile-ending-ui`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-autonomous-mvp-continuation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/final_chapter.md`
+
+Initial scope guard:
+
+- Wire existing final `endingReady` state into deterministic ending evaluation, profile persistence, and a real run summary / ending surface.
+- Keep rules in `src/game/systems/`; `src/app/inkbladeController.ts` should adapt completed run data to UI and browser storage.
+- Do not touch character/card balance, combat mechanics, generated art, or asset replacement surfaces owned by parallel workers.
+
+Implemented:
+
+- Added pure run completion snapshots for final `endingReady` runs.
+- Added a run-to-ending adapter that evaluates endings only after the run final state is ready.
+- Added completed-run profile recording for total runs, victories/defeats, per-character best chapter count, unlocked endings, and unlocked fragments.
+- Added a separate versioned profile localStorage slot beside the current-run save slot.
+- Replaced the title run-summary shell's sample data with persisted profile data.
+- Added a real completed-run debug helper that advances a deterministic run through `墨渊照心`, records the ending/profile, and renders the same summary surface used by a real final boss completion path.
+- Wired final boss reward continuation into ending evaluation, profile persistence, save clearing, and the real run summary / ending surface.
+- Styled the ending summary block with the existing paper, ink, red, and teal UI vocabulary.
+
+TDD notes:
+
+```text
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts tests/run/run-system.test.ts
+RED result before implementation: 3 files ran, 4 tests failed as expected because `recordCompletedRun`, `evaluateRunEnding`, and `createRunCompletionSnapshot` were missing.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "ending summary|profile summary"
+RED result before implementation: failed as expected because `debug-ending-summary` was missing.
+```
+
+Implementation decisions:
+
+- Ending selection remains deterministic and pure in `src/game/systems/endings/endings.ts`; the controller only passes the run final state and run data through the adapter.
+- Profile persistence uses `inkblade-jianghu:profile:v1`, separate from `inkblade-jianghu:run-save:v1`, so completed profile records survive after the active run save is cleared.
+- The debug ending helper is not sample data: it creates a normal run, advances through the chapter spine, records final logbook fragments, evaluates the real ending, persists profile data, and renders the real summary surface.
+
+Verification:
+
+```text
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts tests/run/run-system.test.ts
+Result: 3 test files passed, 34 tests passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "ending summary|profile summary"
+Result: 1 Playwright test passed.
+
+npm test
+Result: 13 test files passed, 127 tests passed.
+
+npm run build
+First run failed on TypeScript narrowing for `RunCompletionSnapshot.finalState`.
+Fix: return an explicitly narrowed `{ ...finalState, status: "endingReady" }` object.
+Final result: TypeScript and Vite build passed. Vite repeated the expected chunk-size warning.
+```
+
+Known gaps / risks:
+
+- Ending ink history is inferred from run reward/combo history until combat/run systems persist richer ink telemetry.
+- The final route browser helper verifies the completed summary path quickly; a later full-route balance/playtest milestone should still exercise manual or simulator-assisted completion through all chapters.
+
+Next step:
+
+- Integrate with Wave 3A/3C after their branches land, then use Milestone 51/53 to verify four-character route balance and final release polish.
+
 ### 2026-05-03 17:08 Asia/Shanghai
 
 Current state:

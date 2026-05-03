@@ -8,6 +8,7 @@ import {
   createChapterRewardChoices,
   createCardRewardReasonMap,
   createRun,
+  createRunCompletionSnapshot,
   getAvailableNodes,
   getCurrentChapter,
   getComboRewardHint,
@@ -119,6 +120,37 @@ describe("run system", () => {
       bossId: "boss_nameless_historian"
     });
     expect(run.completedChapterIds).toContain("moyuan");
+  });
+
+  it("creates a completed run snapshot for the ending summary surface", () => {
+    const run = createRun("diaochan", { mapSeed: 12 });
+    run.mindTendencies = { ning: 1, nu: 6, bei: 0, mei: 0, luan: 0, wu: 3 };
+    run.logbook = {
+      eventIds: ["event_heart_mirror"],
+      bossIds: ["boss_nameless_historian"],
+      fragmentIds: ["fragment_heart_mirror", "fragment_nameless_historian"]
+    };
+
+    expect(createRunCompletionSnapshot(run)).toBeUndefined();
+
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(false);
+
+    const snapshot = createRunCompletionSnapshot(run);
+
+    expect(snapshot).toMatchObject({
+      status: "completed",
+      characterId: "diaochan",
+      finalState: {
+        status: "endingReady",
+        chapterId: "moyuan",
+        bossId: "boss_nameless_historian"
+      }
+    });
+    expect(snapshot?.completedChapterIds).toEqual(["luoshui", "bamboo", "changan", "moyuan"]);
+    expect(snapshot?.unlockedFragmentIds).toEqual(["fragment_heart_mirror", "fragment_nameless_historian"]);
   });
 
   it("changes optional branches for different map seeds while preserving the main route", () => {

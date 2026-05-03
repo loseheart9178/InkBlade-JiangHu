@@ -1,5 +1,6 @@
 import { createDebugRun } from "../../src/game/systems/debug/debugRun";
-import { evaluateEnding } from "../../src/game/systems/endings/endings";
+import { evaluateEnding, evaluateRunEnding } from "../../src/game/systems/endings/endings";
+import { advanceToNextChapter, getRunFinalState } from "../../src/game/systems/run/run";
 
 describe("ending evaluator", () => {
   it("chooses a clear seal ending for low ink and calm/wu tendency", () => {
@@ -58,5 +59,18 @@ describe("ending evaluator", () => {
     });
 
     expect(ending.id).toBe("ending_burn_book");
+  });
+
+  it("evaluates an ending only after the final run state is ready", () => {
+    const run = createDebugRun({ characterId: "zhaoyun", chapterId: "moyuan" });
+    run.mindTendencies = { ning: 5, nu: 0, bei: 0, mei: 0, luan: 0, wu: 8 };
+
+    expect(evaluateRunEnding(getRunFinalState(run), run)).toBeUndefined();
+
+    expect(advanceToNextChapter(run)).toBe(false);
+    const ending = evaluateRunEnding(getRunFinalState(run), run);
+
+    expect(ending?.id).toBe("ending_hidden_wu");
+    expect(ending?.title).toBe("隐藏清悟");
   });
 });

@@ -57,6 +57,19 @@ export interface RunLogbookState {
   fragmentIds: string[];
 }
 
+export interface RunCompletionSnapshot {
+  status: "completed";
+  characterId: string;
+  completedChapterIds: ChapterId[];
+  unlockedFragmentIds: string[];
+  finalState: RunFinalState & { status: "endingReady" };
+  deckSize: number;
+  relicCount: number;
+  gold: number;
+  hp: number;
+  maxHp: number;
+}
+
 export interface CardReward {
   cards: CardDefinition[];
 }

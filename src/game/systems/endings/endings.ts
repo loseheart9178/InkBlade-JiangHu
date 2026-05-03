@@ -1,4 +1,6 @@
+import { cardsById } from "../../content/cards";
 import type { MindState } from "../combat/types";
+import type { RunFinalState, RunState } from "../run/types";
 
 export type EndingId =
   | "ending_clear_seal"
@@ -91,6 +93,32 @@ export function evaluateEnding(input: EndingEvaluationInput): EndingDefinition {
   }
 
   return ENDINGS.ending_clear_seal;
+}
+
+export function evaluateRunEnding(finalState: RunFinalState, run: RunState): EndingDefinition | undefined {
+  if (finalState.status !== "endingReady") {
+    return undefined;
+  }
+
+  return evaluateEnding(createEndingEvaluationInputFromRun(run));
+}
+
+export function createEndingEvaluationInputFromRun(run: RunState): EndingEvaluationInput {
+  return {
+    mindTendencies: normalizeMindTendencies(run.mindTendencies),
+    inkHistory: createInkHistoryFromRun(run)
+  };
+}
+
+function createInkHistoryFromRun(run: RunState): InkHistory {
+  const inkRewards = run.rewardHistory.filter((item) => cardsById[item]?.rarity === "ink" || item.startsWith("ink_")).length;
+  const inkComboTriggers = run.comboRewardHistory.filter((item) => item === "moxi").length;
+  const disasterCardsPlayed = inkRewards + inkComboTriggers;
+  return {
+    totalGained: disasterCardsPlayed * 2 + Math.max(0, run.mindTendencies?.luan ?? 0),
+    highestInCombat: Math.max(0, Math.min(9, inkRewards + inkComboTriggers)),
+    disasterCardsPlayed
+  };
 }
 
 function qualifiesForHiddenWu(mind: EndingEvaluationInput["mindTendencies"], ink: InkHistory): boolean {
