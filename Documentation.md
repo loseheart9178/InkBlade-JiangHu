@@ -41,6 +41,31 @@ Next step:
 
 - Commit the Wave 4 plan, create worktrees, baseline them, and dispatch independent workers.
 
+### 2026-05-03 18:07 Asia/Shanghai
+
+Wave 4 worktrees created from `1e93eaa docs: plan wave four mvp closure`:
+
+- `.worktrees/wave4-gpt2-assets` on `codex/wave4-gpt2-assets`.
+- `.worktrees/wave4-alpha-balance` on `codex/wave4-alpha-balance`.
+- `.worktrees/wave4-release-qa` on `codex/wave4-release-qa`.
+
+Baseline verification:
+
+```text
+npm install
+Result: completed in all three Wave 4 worktrees.
+
+npm test
+Result in each worktree: 13 test files passed, 132 tests passed.
+
+npm run build
+Result in each worktree: TypeScript and Vite build passed. Vite repeated the expected chunk-size warning.
+```
+
+Next step:
+
+- Dispatch the alpha-balance and release-QA workers; keep GPT Image 2 generation under PM/asset workflow because image generation is the gated art capability for this session.
+
 ### 2026-05-03 17:52 Asia/Shanghai
 
 Wave 3 accepted on `codex/next-major-modules`.
