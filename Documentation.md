@@ -129,6 +129,88 @@ Next step:
 
 - Hand off the queue to the GPT Image 2 final asset worker, which should generate source sheets, crop runtime assets, update `visuals.ts`, rerun the audit, and review desktop visual smoke screenshots.
 
+### 2026-05-03 18:00 Asia/Shanghai
+
+Milestone 49 start: Zhuge Liang MVP Character in `.worktrees/auton-zhugeliang-mvp` on branch `codex/auton-zhugeliang-mvp`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-autonomous-mvp-continuation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Quick Cai Wenji pattern comparison:
+
+- `caiwenji` is a data-driven character in `src/game/content/characters.ts` with a 10-card starter deck and generic resource metadata.
+- Cai Wenji cards use declarative `CardEffect` actions in `src/game/content/cards.ts`; the MVP-only `queueEcho` rule is owned by `src/game/systems/combat/combat.ts`.
+- Starting relics are assigned by character id in `src/game/systems/run/run.ts`; the combat HUD already reads resource names and values from generic character data.
+- Reward and archetype routing are pure TypeScript data/system changes, not renderer-owned rules.
+
+Scope guard:
+
+- This worker will add Zhuge Liang data, cards, starting relic, 筹策/观星/单 active formation support, reward/archetype routing, and focused unit/browser smoke coverage.
+- This worker will not edit profile/save/ending UI, generated art, visual asset manifests, or the asset debt ledger owned by parallel workers.
+
+Implemented:
+
+- Added `zhugeliang` as a selectable character with 66 max HP, 3 energy, 5 draw, `筹策 1/9`, and a 10-card starter deck.
+- Added `白羽扇` starting relic `relic_white_feather_fan`, assigned from run creation.
+- Added 13 Zhuge Liang cards, including MVP starter cards and the requested pool: 羽扇、观星、八阵、空城、借风、火阵、风阵、石阵、推演、计定、草船、星落.
+- Added pure combat support for `scry` / 观星 and a single `activeFormation` slot. New formations replace the previous one; 八阵/石阵 can grant turn-end block, 火阵 turn-end damage, and 风阵 turn-start draw.
+- Wired Zhuge reward pools, advanced reward cards, combo/archetype labels, and card keyword text.
+- Added browser smoke coverage for selecting Zhuge Liang, entering combat, and seeing 筹策.
+
+Decisions:
+
+- Keep 观星 MVP deterministic: inspect the top N draw-pile cards and move the first inspected card to the bottom, leaving the rest on top in order. This proves the control-card hook without adding a UI reorder modal yet.
+- Keep one active formation in combat state, matching the MVP rule that only one main formation can exist at a time.
+- Do not generate or register Zhuge Liang art in this worker; visual asset debt belongs to the parallel art-debt/final GPT Image pass.
+
+TDD notes:
+
+```text
+npm test -- tests/data/content.test.ts tests/combat/combat-system.test.ts
+RED result before implementation: 2 test files failed as expected.
+Failures: `zhugeliang` was absent from `characterList`, `relic_white_feather_fan` did not exist, `scry` had no feedback, `activeFormation` was undefined, and white feather fan did not trigger.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "Zhuge Liang"
+RED result before implementation: failed as expected because `character-zhugeliang` did not exist on the title screen.
+```
+
+Verification:
+
+```text
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+Result: 2 test files passed, 59 tests passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "Zhuge Liang"
+Result: 1 Playwright test passed.
+Note: one rerun initially saw a stale three-character title bundle on port 5173. Started the current worktree Vite server explicitly and reran successfully.
+
+npm test
+Result: 13 test files passed, 127 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the expected large bundle warning.
+```
+
+Known gaps / risks:
+
+- 观星 has deterministic MVP pile adjustment but not the future interactive card-order UI described in the PRD.
+- 阵法 has a single-slot MVP with lightweight ongoing effects; future multi-formation, 空城反制, and 借风 resource-spend depth remain later work.
+- Zhuge Liang uses existing visual fallbacks until the GPT Image 2 final asset pass creates dedicated standee/card/formation art.
+
+Next step:
+
+- Integrate this branch, then let the art-debt/final asset pass add Zhuge Liang visual debt and generated assets.
+
 ### 2026-05-03 17:08 Asia/Shanghai
 
 Current state:

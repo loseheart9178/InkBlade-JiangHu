@@ -165,6 +165,18 @@ test("Cai Wenji can be selected and enters combat with sound resource visible", 
   await expect(page.locator(".combat-card").filter({ hasText: /拂弦|宫音|清心曲/ }).first()).toBeVisible();
 });
 
+test("Zhuge Liang can be selected and enters combat with strategy resource visible", async ({ page }) => {
+  await startRun(page, "zhugeliang");
+  await expect(page.getByTestId("run-relics")).toContainText("白羽扇");
+
+  await page.getByTestId("map-node-battle-1").click();
+
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("player-hp")).toContainText("诸葛亮");
+  await expect(page.getByText(/筹策\s+1\/9|筹策\s+2\/9/)).toBeVisible();
+  await expect(page.locator(".combat-card").filter({ hasText: /羽扇|守势|观星|八阵/ }).first()).toBeVisible();
+});
+
 test("can continue a saved combat after a page reload", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByTestId("continue-run")).toBeDisabled();
@@ -249,7 +261,7 @@ test("can enter a second chapter combat and see status-card pressure", async ({ 
   await expect(page.getByTestId("combat-floats")).toContainText(/入弃牌|虚弱|易伤/);
 });
 
-async function startRun(page: Page, characterId: "zhaoyun" | "diaochan" | "caiwenji"): Promise<void> {
+async function startRun(page: Page, characterId: "zhaoyun" | "diaochan" | "caiwenji" | "zhugeliang"): Promise<void> {
   await page.goto("/");
   await expect(page.getByText("云水江湖")).toBeVisible();
   await page.getByTestId(`character-${characterId}`).click();

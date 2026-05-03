@@ -22,7 +22,8 @@ import type {
   StatusId,
   CombatVisualEventKind,
   CombatVisualTarget,
-  CombatVisualTone
+  CombatVisualTone,
+  FormationId
 } from "./types";
 
 export function createCombat(input: CreateCombatInput): CombatState {
@@ -182,6 +183,7 @@ export function endPlayerTurn(state: CombatState): CombatState {
   }
 
   discardNonRetainedCards(state);
+  triggerFormationTurnEnd(state);
   executeEnemyIntents(state);
   updateCombatOutcome(state);
 
@@ -257,6 +259,16 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
     case "gainResource":
       gainResource(state, effect.amount);
       pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +${effect.amount}`, "gold", effect.amount);
+      break;
+    case "scry":
+      scryTopCards(state, effect.amount);
+      break;
+    case "setFormation":
+      setFormation(state, effect.formation, effect.name, effect.duration, {
+        blockAtTurnEnd: effect.blockAtTurnEnd,
+        damageAtTurnEnd: effect.damageAtTurnEnd,
+        drawAtTurnStart: effect.drawAtTurnStart
+      });
       break;
     case "applyStatus":
       applyStatus(state, targetId, effect.status, effect.amount);
@@ -399,6 +411,42 @@ function queueEcho(state: CombatState, definition: CardDefinition, card: CardIns
   state.nextInstanceNumber += 1;
   state.combatLog.push("余韵");
   pushVisualEvent(state, "trigger", "player", "余韵", "teal");
+}
+
+function scryTopCards(state: CombatState, amount: number): number {
+  const count = Math.min(Math.max(0, amount), state.piles.draw.length);
+  if (count === 0) {
+    state.combatLog.push("观星");
+    pushVisualEvent(state, "trigger", "player", "观星", "gold");
+    return 0;
+  }
+
+  const inspected = state.piles.draw.splice(0, count);
+  const movedToBottom = inspected.splice(0, 1);
+  state.piles.draw.unshift(...inspected);
+  state.piles.draw.push(...movedToBottom);
+  state.combatLog.push("观星");
+  pushVisualEvent(state, "trigger", "player", "观星", "gold", count);
+  return movedToBottom.length;
+}
+
+function setFormation(
+  state: CombatState,
+  formation: FormationId,
+  name: string,
+  duration: number,
+  effects: { blockAtTurnEnd?: number; damageAtTurnEnd?: number; drawAtTurnStart?: number }
+): void {
+  state.activeFormation = {
+    id: formation,
+    name,
+    duration,
+    blockAtTurnEnd: effects.blockAtTurnEnd,
+    damageAtTurnEnd: effects.damageAtTurnEnd,
+    drawAtTurnStart: effects.drawAtTurnStart
+  };
+  state.combatLog.push(name);
+  pushVisualEvent(state, "trigger", "center", name, "gold");
 }
 
 function gainInk(state: CombatState, amount: number): void {
@@ -743,6 +791,7 @@ function beginPlayerTurn(state: CombatState): void {
   state.lastPlayedCardExhaustedThisTurn = false;
   state.attacksPlayedThisTurn = 0;
   triggerEchoQueue(state);
+  triggerFormationTurnStart(state);
   drawCards(state, state.player.drawPerTurn - state.piles.hand.length, createRng(state.turn * 1009));
   pushVisualEvent(state, "turn", "center", `回合 ${state.turn}`, "neutral");
 }
@@ -802,6 +851,14 @@ function updateCombatOutcome(state: CombatState): void {
 }
 
 function applyCombatStartRelics(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_white_feather_fan", "player", "gold")) {
+    const moved = scryTopCards(state, 3);
+    if (moved > 0) {
+      gainResource(state, 1);
+      pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+    }
+  }
+
   if (hasRelic(state, "relic_red_lacquer_token")) {
     state.player.block += 2;
     state.combatLog.push("朱漆令");
@@ -818,6 +875,45 @@ function applyCombatStartRelics(state: CombatState): void {
       state.combatLog.push("闭月香囊");
       pushVisualEvent(state, "trigger", "enemy", "闭月香囊", "gold");
     }
+  }
+}
+
+function triggerFormationTurnStart(state: CombatState): void {
+  const formation = state.activeFormation;
+  if (!formation || formation.duration <= 0) {
+    return;
+  }
+
+  if ((formation.drawAtTurnStart ?? 0) > 0) {
+    drawCards(state, formation.drawAtTurnStart ?? 0, createRng(state.turn * 461 + state.nextInstanceNumber));
+    state.combatLog.push(formation.name);
+    pushVisualEvent(state, "draw", "player", `抽牌 +${formation.drawAtTurnStart}`, "gold", formation.drawAtTurnStart);
+  }
+}
+
+function triggerFormationTurnEnd(state: CombatState): void {
+  const formation = state.activeFormation;
+  if (!formation || formation.duration <= 0) {
+    return;
+  }
+
+  if ((formation.blockAtTurnEnd ?? 0) > 0) {
+    state.player.block += formation.blockAtTurnEnd ?? 0;
+    state.combatLog.push(formation.name);
+    pushVisualEvent(state, "block", "player", `+${formation.blockAtTurnEnd} 护甲`, "gold", formation.blockAtTurnEnd);
+  }
+
+  if ((formation.damageAtTurnEnd ?? 0) > 0) {
+    const enemy = state.enemies.find((item) => item.hp > 0);
+    if (enemy) {
+      state.combatLog.push(formation.name);
+      damageEnemy(state, enemy.id, formation.damageAtTurnEnd ?? 0);
+    }
+  }
+
+  formation.duration -= 1;
+  if (formation.duration <= 0) {
+    state.activeFormation = undefined;
   }
 }
 
@@ -1006,7 +1102,8 @@ function isBasicAttack(definition: CardDefinition): boolean {
     definition.rarity === "starter" ||
     definition.id === "strike" ||
     definition.id === "zhao_strike" ||
-    definition.id === "diao_strike"
+    definition.id === "diao_strike" ||
+    definition.id === "zhuge_fan_strike"
   );
 }
 

@@ -20,6 +20,8 @@ const supportedActions = new Set([
   "gainInk",
   "cleanseCards",
   "queueEcho",
+  "scry",
+  "setFormation",
   "setMind"
 ]);
 
@@ -46,7 +48,7 @@ describe("content data", () => {
   });
 
   it("keeps every character starter deck reference valid", () => {
-    expect(characterList.map((character) => character.id)).toEqual(["zhaoyun", "diaochan", "caiwenji"]);
+    expect(characterList.map((character) => character.id)).toEqual(["zhaoyun", "diaochan", "caiwenji", "zhugeliang"]);
 
     for (const character of characterList) {
       expect(character.starterDeck).toHaveLength(10);
@@ -96,6 +98,46 @@ describe("content data", () => {
         "cai_soul_ferry",
         "cai_final_song"
       ])
+    );
+  });
+
+  it("defines Zhuge Liang as a playable MVP with strategy resource, starter relic, and card pool", () => {
+    const zhugeLiang = characterList.find((character) => character.id === "zhugeliang");
+    expect(zhugeLiang).toMatchObject({
+      id: "zhugeliang",
+      name: "诸葛亮",
+      maxHp: 66,
+      resource: {
+        id: "strategy",
+        name: "筹策",
+        max: 9,
+        initial: 1
+      }
+    });
+    expect(zhugeLiang?.starterDeck).toHaveLength(10);
+    expect(zhugeLiang?.starterDeck.filter((cardId) => cardId === "zhuge_fan_strike")).toHaveLength(4);
+    expect(zhugeLiang?.starterDeck.filter((cardId) => cardId === "zhuge_guard")).toHaveLength(4);
+    expect(zhugeLiang?.starterDeck).toEqual(expect.arrayContaining(["zhuge_observe_stars", "zhuge_small_eight_array"]));
+
+    expect(relicList).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "relic_white_feather_fan",
+          name: "白羽扇",
+          character: "zhugeliang"
+        })
+      ])
+    );
+
+    const zhugeCards = cardList.filter((card) => card.character === "zhugeliang");
+    expect(zhugeCards.length).toBeGreaterThanOrEqual(12);
+    expect(zhugeCards.filter((card) => ((card as { keywords?: string[] }).keywords ?? []).includes("scry")).length).toBeGreaterThanOrEqual(3);
+    expect(zhugeCards.filter((card) => ((card as { keywords?: string[] }).keywords ?? []).includes("formation")).length).toBeGreaterThanOrEqual(4);
+    expect(getArchetypeCardIds("zhuge-star-control")).toEqual(
+      expect.arrayContaining(["zhuge_observe_stars", "zhuge_deduction", "zhuge_plan_set", "zhuge_starfall"])
+    );
+    expect(getArchetypeCardIds("zhuge-formation-wind")).toEqual(
+      expect.arrayContaining(["zhuge_small_eight_array", "zhuge_fire_array", "zhuge_wind_array", "zhuge_stone_array"])
     );
   });
 

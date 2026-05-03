@@ -732,6 +732,302 @@ export const cardList: CardDefinition[] = [
     }
   },
   {
+    id: "zhuge_fan_strike",
+    name: "羽扇",
+    cost: 1,
+    rarity: "starter",
+    target: "enemy",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    types: ["attack"],
+    effects: [{ action: "damage", amount: 6 }],
+    description: "造成6点伤害。",
+    upgrade: {
+      effects: [{ action: "damage", amount: 9 }],
+      description: "造成9点伤害。"
+    }
+  },
+  {
+    id: "zhuge_guard",
+    name: "守势",
+    cost: 1,
+    rarity: "starter",
+    target: "self",
+    character: "zhugeliang",
+    types: ["skill"],
+    effects: [{ action: "block", amount: 5 }],
+    description: "获得5点护甲。",
+    upgrade: {
+      effects: [{ action: "block", amount: 8 }],
+      description: "获得8点护甲。"
+    }
+  },
+  {
+    id: "zhuge_observe_stars",
+    name: "观星",
+    cost: 0,
+    rarity: "starter",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    types: ["skill"],
+    effects: [
+      { action: "scry", amount: 3 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "观星3，获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "scry", amount: 4 },
+        { action: "gainResource", amount: 1 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "观星4，获得1筹策，抽1张牌。"
+    }
+  },
+  {
+    id: "zhuge_small_eight_array",
+    name: "八阵",
+    cost: 1,
+    rarity: "starter",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["formation"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 4 },
+      { action: "setFormation", formation: "eight", name: "八阵", duration: 3, blockAtTurnEnd: 2 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得4点护甲，布置八阵3回合：回合结束获得2点护甲。获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 6 },
+        { action: "setFormation", formation: "eight", name: "八阵", duration: 4, blockAtTurnEnd: 3 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "获得6点护甲，布置八阵4回合：回合结束获得3点护甲。获得1筹策。"
+    }
+  },
+  {
+    id: "zhuge_empty_city",
+    name: "空城",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 8 },
+      { action: "scry", amount: 2 }
+    ],
+    description: "获得8点护甲，观星2。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 11 },
+        { action: "scry", amount: 3 }
+      ],
+      description: "获得11点护甲，观星3。"
+    }
+  },
+  {
+    id: "zhuge_borrow_wind",
+    name: "借风",
+    cost: 2,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["scry"],
+    types: ["attack", "skill"],
+    effects: [
+      { action: "damage", amount: 14 },
+      { action: "scry", amount: 2 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "造成14点伤害，观星2，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 18 },
+        { action: "scry", amount: 3 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "造成18点伤害，观星3，抽1张牌。"
+    }
+  },
+  {
+    id: "zhuge_fire_array",
+    name: "火阵",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["formation"],
+    types: ["skill"],
+    effects: [
+      { action: "setFormation", formation: "fire", name: "火阵", duration: 3, damageAtTurnEnd: 3 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "布置火阵3回合：回合结束对随机敌人造成3点伤害。获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "setFormation", formation: "fire", name: "火阵", duration: 4, damageAtTurnEnd: 4 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "布置火阵4回合：回合结束对随机敌人造成4点伤害。获得1筹策。"
+    }
+  },
+  {
+    id: "zhuge_wind_array",
+    name: "风阵",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["formation"],
+    types: ["skill"],
+    effects: [
+      { action: "setFormation", formation: "wind", name: "风阵", duration: 3, drawAtTurnStart: 1 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "布置风阵3回合：回合开始抽1张牌。获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "setFormation", formation: "wind", name: "风阵", duration: 4, drawAtTurnStart: 1 },
+        { action: "gainResource", amount: 2 }
+      ],
+      description: "布置风阵4回合：回合开始抽1张牌。获得2筹策。"
+    }
+  },
+  {
+    id: "zhuge_stone_array",
+    name: "石阵",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["formation"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 6 },
+      { action: "setFormation", formation: "stone", name: "石阵", duration: 3, blockAtTurnEnd: 3 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得6点护甲，布置石阵3回合：回合结束获得3点护甲。获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 9 },
+        { action: "setFormation", formation: "stone", name: "石阵", duration: 4, blockAtTurnEnd: 4 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "获得9点护甲，布置石阵4回合：回合结束获得4点护甲。获得1筹策。"
+    }
+  },
+  {
+    id: "zhuge_deduction",
+    name: "推演",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    types: ["skill"],
+    effects: [
+      { action: "scry", amount: 3 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "观星3，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "scry", amount: 4 },
+        { action: "draw", amount: 1 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "观星4，抽1张牌，获得1筹策。"
+    }
+  },
+  {
+    id: "zhuge_plan_set",
+    name: "计定",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    retain: true,
+    types: ["skill"],
+    effects: [
+      { action: "gainResource", amount: 2 },
+      { action: "scry", amount: 2 }
+    ],
+    description: "获得2筹策，观星2。保留。",
+    upgrade: {
+      effects: [
+        { action: "gainResource", amount: 2 },
+        { action: "scry", amount: 3 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "获得2筹策，观星3，抽1张牌。保留。"
+    }
+  },
+  {
+    id: "zhuge_straw_boats",
+    name: "草船",
+    cost: 2,
+    rarity: "uncommon",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["formation"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 12 },
+      { action: "draw", amount: 1 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得12点护甲，抽1张牌，获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 16 },
+        { action: "draw", amount: 1 },
+        { action: "gainResource", amount: 2 }
+      ],
+      description: "获得16点护甲，抽1张牌，获得2筹策。"
+    }
+  },
+  {
+    id: "zhuge_starfall",
+    name: "星落",
+    cost: 3,
+    rarity: "rare",
+    target: "enemy",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 24 },
+      { action: "scry", amount: 4 }
+    ],
+    description: "造成24点伤害，观星4。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 30 },
+        { action: "scry", amount: 5 }
+      ],
+      description: "造成30点伤害，观星5。"
+    }
+  },
+  {
     id: "common_pifeng",
     name: "劈风",
     cost: 1,

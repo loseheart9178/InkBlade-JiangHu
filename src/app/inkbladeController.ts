@@ -1644,6 +1644,14 @@ function formatEffectKeyword(effect: CardEffect): string {
     return "余韵";
   }
 
+  if (effect.action === "scry") {
+    return "观星";
+  }
+
+  if (effect.action === "setFormation") {
+    return effect.name;
+  }
+
   return formatStatus(effect.status);
 }
 

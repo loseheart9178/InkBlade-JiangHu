@@ -75,6 +75,31 @@ export const characterList: CharacterDefinition[] = [
       "cai_gong_tone",
       "cai_qingxin_song"
     ]
+  },
+  {
+    id: "zhugeliang",
+    name: "诸葛亮",
+    maxHp: 66,
+    energyPerTurn: 3,
+    drawPerTurn: 5,
+    resource: {
+      id: "strategy",
+      name: "筹策",
+      max: 9,
+      initial: 1
+    },
+    starterDeck: [
+      "zhuge_fan_strike",
+      "zhuge_fan_strike",
+      "zhuge_fan_strike",
+      "zhuge_fan_strike",
+      "zhuge_guard",
+      "zhuge_guard",
+      "zhuge_guard",
+      "zhuge_guard",
+      "zhuge_observe_stars",
+      "zhuge_small_eight_array"
+    ]
   }
 ];
 

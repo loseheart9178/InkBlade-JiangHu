@@ -3,14 +3,33 @@ export type CardRarity = "starter" | "common" | "uncommon" | "rare" | "event" | 
 export type TargetKind = "enemy" | "self" | "none";
 export type StatusId = "charm" | "weak" | "vulnerable" | "dodge" | "guard" | "ink";
 export type MindState = "none" | "ning" | "nu" | "bei" | "mei" | "luan" | "wu";
-export type CardArchetypeId = "zhao-spear-chain" | "zhao-guardian-counter" | "diao-dance-chain" | "diao-charm-control" | "cai-qin-echo" | "cai-cleanse-melody";
+export type CardArchetypeId =
+  | "zhao-spear-chain"
+  | "zhao-guardian-counter"
+  | "diao-dance-chain"
+  | "diao-charm-control"
+  | "cai-qin-echo"
+  | "cai-cleanse-melody"
+  | "zhuge-star-control"
+  | "zhuge-formation-wind";
 export type CardVisualCueId = "zhao-seven-entries" | "zhao-spear-wall" | "diao-jinghong-strike" | "diao-lijian";
+export type FormationId = "eight" | "fire" | "wind" | "stone" | "empty";
 
 export type CardEffect =
   | { action: "damage"; amount: number }
   | { action: "block"; amount: number }
   | { action: "draw"; amount: number }
   | { action: "gainResource"; amount: number }
+  | { action: "scry"; amount: number }
+  | {
+      action: "setFormation";
+      formation: FormationId;
+      name: string;
+      duration: number;
+      blockAtTurnEnd?: number;
+      damageAtTurnEnd?: number;
+      drawAtTurnStart?: number;
+    }
   | { action: "applyStatus"; status: StatusId; amount: number }
   | { action: "gainInk"; amount: number }
   | { action: "cleanseCards"; amount: number }
@@ -156,6 +175,15 @@ export interface EchoQueueItem {
   effects: CardEffect[];
 }
 
+export interface ActiveFormationState {
+  id: FormationId;
+  name: string;
+  duration: number;
+  blockAtTurnEnd?: number;
+  damageAtTurnEnd?: number;
+  drawAtTurnStart?: number;
+}
+
 export type ComboEffect =
   | { action: "damage"; amount: number }
   | { action: "block"; amount: number }
@@ -186,6 +214,7 @@ export interface CombatState {
   methodLevels: Record<string, number>;
   methodMemory: Partial<Record<string, boolean>>;
   echoQueue: EchoQueueItem[];
+  activeFormation?: ActiveFormationState;
   playedCardTypesThisTurn: CardType[];
   comboTriggersThisTurn: string[];
   comboTriggersThisCombat: string[];

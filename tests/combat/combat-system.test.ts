@@ -147,6 +147,52 @@ const qinTone = {
   ]
 } as unknown as CardDefinition;
 
+const zhugeScry = {
+  id: "zhuge-scry",
+  name: "观星",
+  cost: 0,
+  rarity: "common",
+  target: "self",
+  character: "zhugeliang",
+  types: ["skill"],
+  keywords: ["scry"],
+  effects: [
+    { action: "scry", amount: 2 },
+    { action: "gainResource", amount: 1 }
+  ]
+} as unknown as CardDefinition;
+
+const zhugeEightFormation = {
+  id: "zhuge-eight-formation",
+  name: "八阵",
+  cost: 1,
+  rarity: "common",
+  target: "self",
+  character: "zhugeliang",
+  types: ["skill"],
+  keywords: ["formation"],
+  effects: [
+    { action: "block", amount: 4 },
+    { action: "setFormation", formation: "eight", name: "八阵", duration: 3, blockAtTurnEnd: 2 },
+    { action: "gainResource", amount: 1 }
+  ]
+} as unknown as CardDefinition;
+
+const zhugeFireFormation = {
+  id: "zhuge-fire-formation",
+  name: "火阵",
+  cost: 1,
+  rarity: "common",
+  target: "self",
+  character: "zhugeliang",
+  types: ["skill"],
+  keywords: ["formation"],
+  effects: [
+    { action: "setFormation", formation: "fire", name: "火阵", duration: 2, damageAtTurnEnd: 3 },
+    { action: "gainResource", amount: 1 }
+  ]
+} as unknown as CardDefinition;
+
 const zhaoYun: CharacterDefinition = {
   id: "zhaoyun",
   name: "赵云",
@@ -177,6 +223,16 @@ const caiWenji: CharacterDefinition = {
   starterDeck: ["qin-tone", "qin-tone", "qin-tone", "qin-tone", "guard"]
 };
 
+const zhugeLiang: CharacterDefinition = {
+  id: "zhugeliang",
+  name: "诸葛亮",
+  maxHp: 66,
+  drawPerTurn: 5,
+  energyPerTurn: 3,
+  resource: { id: "strategy", name: "筹策", max: 9, initial: 1 },
+  starterDeck: ["zhuge-scry", "zhuge-eight-formation", "zhuge-fire-formation", "strike", "guard", "heavy-strike", "retain-guard"]
+};
+
 const bandit: EnemyDefinition = {
   id: "bandit",
   name: "墨化山贼",
@@ -184,7 +240,23 @@ const bandit: EnemyDefinition = {
   intents: [{ type: "attack", damage: 8, hits: 1 }]
 };
 
-const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, statusNoise, vanish, signatureSpearArt, qinTone];
+const allCards = [
+  strike,
+  heavyStrike,
+  guard,
+  retainGuard,
+  shadowStep,
+  charm,
+  mindFocus,
+  inkPrep,
+  statusNoise,
+  vanish,
+  signatureSpearArt,
+  qinTone,
+  zhugeScry,
+  zhugeEightFormation,
+  zhugeFireFormation
+];
 
 function startCombat(character: CharacterDefinition, starterDeck = character.starterDeck): CombatState {
   return createCombat({
@@ -472,6 +544,58 @@ describe("combat system", () => {
       expect.arrayContaining([
         expect.objectContaining({ kind: "trigger", target: "player", label: "余韵" }),
         expect.objectContaining({ kind: "block", target: "player", label: "+2 护甲" })
+      ])
+    );
+  });
+
+  it("lets Zhuge Liang gain strategy and record scry feedback from observing stars", () => {
+    const state = startCombat(zhugeLiang);
+    const card = state.piles.hand.find((item) => item.definitionId === "zhuge-scry");
+
+    playCard(state, card?.instanceId ?? "", "player");
+
+    expect(state.player.resource.name).toBe("筹策");
+    expect(state.player.resource.value).toBe(2);
+    expect(state.combatLog).toContain("观星");
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ kind: "trigger", target: "player", label: "观星" })
+      ])
+    );
+    expect(state.piles.draw.map((item) => item.definitionId)).toEqual(["retain-guard", "heavy-strike"]);
+  });
+
+  it("lets Zhuge Liang keep exactly one active formation and replace it with a new one", () => {
+    const state = startCombat(zhugeLiang);
+    const eight = state.piles.hand.find((item) => item.definitionId === "zhuge-eight-formation");
+    const fire = state.piles.hand.find((item) => item.definitionId === "zhuge-fire-formation");
+
+    playCard(state, eight?.instanceId ?? "", "player");
+    expect((state as CombatState & { activeFormation?: { id: string; name: string; duration: number } }).activeFormation).toMatchObject({
+      id: "eight",
+      name: "八阵",
+      duration: 3
+    });
+
+    playCard(state, fire?.instanceId ?? "", "player");
+
+    expect((state as CombatState & { activeFormation?: { id: string; name: string; duration: number } }).activeFormation).toMatchObject({
+      id: "fire",
+      name: "火阵",
+      duration: 2
+    });
+    expect(state.combatLog.filter((entry) => entry.includes("阵"))).toEqual(["八阵", "火阵"]);
+  });
+
+  it("triggers Zhuge Liang white feather fan at combat start with a scry and strategy gain", () => {
+    const state = startCombatWithRelics(zhugeLiang, ["relic_white_feather_fan"]);
+
+    expect(state.player.resource.value).toBe(2);
+    expect(state.combatLog).toEqual(expect.arrayContaining(["白羽扇", "观星"]));
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ kind: "trigger", target: "player", label: "白羽扇" }),
+        expect.objectContaining({ kind: "trigger", target: "player", label: "观星" })
       ])
     );
   });
