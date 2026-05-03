@@ -34,6 +34,31 @@ test("settings panel opens from title and returns without starting a run", async
   await expect(page.getByTestId("screen-map")).toBeHidden();
 });
 
+test("settings persist reduced motion, mute, and volume controls after reload", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("settings-open").click();
+  await page.getByTestId("setting-reduced-motion").check();
+  await page.getByTestId("setting-fast-combat-text").check();
+  await page.getByTestId("setting-muted").check();
+  await page.getByTestId("setting-master-volume").fill("17");
+  await page.getByTestId("setting-music-volume").fill("29");
+
+  await expect(page.locator("#hud-host")).toHaveClass(/prefers-reduced-motion/);
+  await page.reload();
+
+  await expect(page.locator("#hud-host")).toHaveClass(/prefers-reduced-motion/);
+  await page.getByTestId("settings-open").click();
+  await expect(page.getByTestId("setting-reduced-motion")).toBeChecked();
+  await expect(page.getByTestId("setting-fast-combat-text")).toBeChecked();
+  await expect(page.getByTestId("setting-muted")).toBeChecked();
+  await expect(page.getByTestId("setting-master-volume")).toHaveValue("17");
+  await expect(page.getByTestId("setting-music-volume")).toHaveValue("29");
+  await expect(page.getByTestId("continue-run")).toBeDisabled();
+});
+
 test("run summary shell opens from the title debug entry", async ({ page }) => {
   await page.goto("/");
 

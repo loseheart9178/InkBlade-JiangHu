@@ -111,6 +111,57 @@ Next step:
 
 - Run the full Milestone 55 verification gate and commit `feat: add browser final boss route`.
 
+### 2026-05-03 23:06 Asia/Shanghai
+
+Wave 5 / Milestone 56 Persisted Settings And Procedural Feedback implementation in `.worktrees/wave5-settings-audio` on branch `codex/wave5-settings-audio`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-03-wave5-post-mvp-polish-design.md`
+- `docs/superpowers/plans/2026-05-03-wave5-post-mvp-polish.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+
+Implemented:
+
+- Added `src/app/settingsPersistence.ts` with typed desktop settings, normalization, and a separate localStorage key outside run/profile saves.
+- Added `src/app/audioFeedback.ts` with no-op safe WebAudio feedback for UI, card play, victory, and defeat cues.
+- Wired settings load/save into `createInkbladeController`, including reduced motion, fast combat text, mute, master volume, and music volume.
+- Enabled settings sliders and persisted changes immediately.
+- Added `tests/app-settings.test.ts` for settings persistence, normalization, jsdom-safe audio, and controller shell wiring.
+- Added desktop e2e coverage proving settings survive reload and do not create a false continue-run state.
+
+Verification:
+
+```text
+npm test -- tests/app-shell.test.ts tests/save/save-system.test.ts tests/app-settings.test.ts
+Result: passed. 3 test files passed, 9 tests passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "settings"
+Result: passed. 2 Chromium Playwright tests passed.
+
+npm test
+Result: passed. 14 test files passed, 138 tests passed.
+
+npm run build
+Result: passed. TypeScript and Vite build completed; Vite repeated the existing non-blocking large chunk warning.
+```
+
+Known gaps / risks:
+
+- Audio is intentionally lightweight procedural feedback, not final music or production sound design.
+- Browser e2e verifies persistence and no UI regression, not subjective audio playback because autoplay policies are browser-dependent.
+- This branch touches `inkbladeController.ts` and must be merged carefully after final-route and battlefield changes.
+
+Next step:
+
+- Commit Milestone 56 and integrate after the final boss route branch.
+
 ### 2026-05-03 21:50 Asia/Shanghai
 
 Wave 5 post-MVP polish planning started under the user's autonomous execution mandate.

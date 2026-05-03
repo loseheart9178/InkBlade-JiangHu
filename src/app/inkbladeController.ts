@@ -1,4 +1,6 @@
 import { cardList, cardsById } from "../game/content/cards";
+import { createAudioFeedback, type AudioFeedback } from "./audioFeedback";
+import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPersistence";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById } from "../game/content/events";
@@ -61,13 +63,6 @@ type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterR
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
 
-interface SettingsState {
-  reducedMotion: boolean;
-  fastCombatText: boolean;
-  masterVolume: number;
-  musicVolume: number;
-}
-
 interface ControllerState {
   screen: Screen;
   run?: RunState;
@@ -75,7 +70,7 @@ interface ControllerState {
   rewardCards: CardDefinition[];
   pendingSpoils?: BattleSpoils;
   deckOpen: boolean;
-  settings: SettingsState;
+  settings: DesktopSettings;
   profile: PlayerProfile;
   completedRunSummary?: CompletedRunSummaryView;
   message: string;
@@ -92,19 +87,17 @@ interface CompletedRunSummaryView {
 }
 
 export function createInkbladeController(host: HTMLElement, options: ControllerOptions = {}) {
+  const audioFeedback = createAudioFeedback(loadSettings(options.storage));
   const state: ControllerState = {
     screen: "title",
     rewardCards: [],
     deckOpen: false,
-    settings: {
-      reducedMotion: false,
-      fastCombatText: false,
-      masterVolume: 80,
-      musicVolume: 70
-    },
+    settings: loadSettings(options.storage),
     profile: loadProfile(options.storage) ?? createProfile(),
     message: ""
   };
+  audioFeedback.setSettings(state.settings);
+  applySettingsToHost(host, state.settings);
 
   const render = () => {
     host.innerHTML = "";
@@ -117,7 +110,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     }
 
     if (state.screen === "combat") {
-      renderCombat(host, state, render, options.storage);
+      renderCombat(host, state, render, options.storage, audioFeedback);
       persistControllerState(state, options.storage);
       return;
     }
@@ -187,10 +180,11 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     }
   };
 
-  installTitleShellControls(host, state, render, options.storage);
+  installTitleShellControls(host, state, render, options.storage, audioFeedback);
 
   return {
     startRun(characterId: string) {
+      audioFeedback.playUi();
       state.run = createRun(characterId, { mapSeed: generateMapSeed() });
       state.combat = undefined;
       state.rewardCards = [];
@@ -202,6 +196,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       render();
     },
     continueRun() {
+      audioFeedback.playUi();
       const saved = loadSavedGame(options.storage);
       if (!saved) {
         return false;
@@ -223,12 +218,16 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       return hasSavedGame(options.storage);
     },
     clearSavedRun() {
+      audioFeedback.playUi();
       clearSavedGame(options.storage);
+    },
+    dispose() {
+      audioFeedback.dispose();
     }
   };
 }
 
-function installTitleShellControls(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
+function installTitleShellControls(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
   const title = host.querySelector<HTMLElement>(".title-screen");
   if (!title) {
     return;
@@ -242,7 +241,10 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
     settings.type = "button";
     settings.dataset.testid = "settings-open";
     settings.textContent = "设置";
-    settings.addEventListener("click", () => showSettingsShell(host, state));
+    settings.addEventListener("click", () => {
+      audioFeedback.playUi();
+      showSettingsShell(host, state, storage, audioFeedback);
+    });
     actions.append(settings);
   }
 
@@ -252,7 +254,10 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
     summary.className = "title-debug-action";
     summary.dataset.testid = "debug-run-summary";
     summary.textContent = "档案战报";
-    summary.addEventListener("click", () => showRunSummaryShell(host, state, render));
+    summary.addEventListener("click", () => {
+      audioFeedback.playUi();
+      showRunSummaryShell(host, state, render);
+    });
     actions.append(summary);
   }
 
@@ -263,8 +268,10 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
     completed.dataset.testid = "debug-ending-summary";
     completed.textContent = "终章战报";
     completed.addEventListener("click", () => {
+      audioFeedback.playUi();
       state.run = createCompletedDebugRun();
       completeRunWithEnding(state, storage);
+      audioFeedback.playVictory();
       render();
     });
     actions.append(completed);
@@ -277,6 +284,7 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
     finalRoute.dataset.testid = "debug-final-route";
     finalRoute.textContent = "终章路线";
     finalRoute.addEventListener("click", () => {
+      audioFeedback.playUi();
       state.run = createFinalBossDebugRun();
       state.combat = undefined;
       state.pendingSpoils = undefined;
@@ -291,7 +299,7 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
   }
 }
 
-function showSettingsShell(host: HTMLElement, state: ControllerState): void {
+function showSettingsShell(host: HTMLElement, state: ControllerState, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
   removeTitleShellOverlay(host);
   const panel = createPanel("screen-settings", "设置");
   panel.classList.add("settings-screen", "title-shell-panel");
@@ -299,7 +307,15 @@ function showSettingsShell(host: HTMLElement, state: ControllerState): void {
 
   const note = document.createElement("p");
   note.className = "shell-note";
-  note.textContent = "桌面行旅设置先落下外壳，音频与持久化会随档案系统接入。";
+  note.textContent = "设置保存在本机，和当前行旅存档分开。";
+
+  const updateSettings = (patch: Partial<DesktopSettings>) => {
+    state.settings = { ...state.settings, ...patch };
+    saveSettings(storage, state.settings);
+    audioFeedback.setSettings(state.settings);
+    applySettingsToHost(host, state.settings);
+    audioFeedback.playUi();
+  };
 
   const settingsList = document.createElement("div");
   settingsList.className = "settings-list";
@@ -310,8 +326,7 @@ function showSettingsShell(host: HTMLElement, state: ControllerState): void {
       "压低非必要动效，保留关键战斗反馈。",
       state.settings.reducedMotion,
       (checked) => {
-        state.settings.reducedMotion = checked;
-        host.classList.toggle("prefers-reduced-motion", checked);
+        updateSettings({ reducedMotion: checked });
       }
     ),
     createSettingToggle(
@@ -320,14 +335,26 @@ function showSettingsShell(host: HTMLElement, state: ControllerState): void {
       "缩短战斗浮字停留时间，方便重复跑图。",
       state.settings.fastCombatText,
       (checked) => {
-        state.settings.fastCombatText = checked;
+        updateSettings({ fastCombatText: checked });
       }
     ),
-    createSettingRange("setting-master-volume", "主音量", state.settings.masterVolume),
-    createSettingRange("setting-music-volume", "音乐音量", state.settings.musicVolume)
+    createSettingToggle(
+      "setting-muted",
+      "静音",
+      "关闭所有程序音效反馈。",
+      state.settings.muted,
+      (checked) => {
+        updateSettings({ muted: checked });
+      }
+    ),
+    createSettingRange("setting-master-volume", "主音量", state.settings.masterVolume, (value) => updateSettings({ masterVolume: value })),
+    createSettingRange("setting-music-volume", "音乐音量", state.settings.musicVolume, (value) => updateSettings({ musicVolume: value }))
   );
 
-  const back = createAction("返回", "收起设置，留在标题。", () => removeTitleShellOverlay(host));
+  const back = createAction("返回", "收起设置，留在标题。", () => {
+    audioFeedback.playUi();
+    removeTitleShellOverlay(host);
+  });
   back.dataset.testid = "settings-back";
 
   panel.append(note, settingsList, back);
@@ -391,20 +418,24 @@ function createSettingToggle(testId: string, title: string, description: string,
   return row;
 }
 
-function createSettingRange(testId: string, title: string, value: number): HTMLElement {
+function createSettingRange(testId: string, title: string, value: number, onChange: (value: number) => void): HTMLElement {
   const row = document.createElement("label");
-  row.className = "settings-row settings-row--disabled";
+  row.className = "settings-row";
 
   const copy = document.createElement("span");
-  copy.innerHTML = `<strong>${title}</strong><small>音频系统接入后启用。</small>`;
+  copy.innerHTML = `<strong>${title}</strong><small>${value}%</small>`;
 
   const input = document.createElement("input");
   input.type = "range";
   input.min = "0";
   input.max = "100";
   input.value = `${value}`;
-  input.disabled = true;
   input.dataset.testid = testId;
+  input.addEventListener("input", () => {
+    const nextValue = Number(input.value);
+    copy.innerHTML = `<strong>${title}</strong><small>${nextValue}%</small>`;
+    onChange(nextValue);
+  });
 
   row.append(copy, input);
   return row;
@@ -420,6 +451,11 @@ function createRunSummaryStat(label: string, value: string, testId?: string): HT
 
 function removeTitleShellOverlay(host: HTMLElement): void {
   host.querySelectorAll<HTMLElement>("[data-title-shell-overlay='true']").forEach((item) => item.remove());
+}
+
+function applySettingsToHost(host: HTMLElement, settings: DesktopSettings): void {
+  host.classList.toggle("prefers-reduced-motion", settings.reducedMotion);
+  host.classList.toggle("prefers-fast-combat-text", settings.fastCombatText);
 }
 
 function renderMap(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -518,7 +554,7 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
   state.screen = "combat";
 }
 
-function renderCombat(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
+function renderCombat(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
   const run = requireRun(state);
   const combat = requireCombat(state);
   const enemy = combat.enemies[0];
@@ -601,7 +637,10 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       const targetId = definition.target === "enemy" ? enemy.id : "player";
       const result = playCard(combat, card.instanceId, targetId);
       state.message = result.ok ? `${definition.name}已出。` : explainPlayFailure(result.reason);
-      handleCombatAfterAction(state, storage);
+      if (result.ok) {
+        audioFeedback.playCard();
+      }
+      handleCombatAfterAction(state, storage, audioFeedback);
       render();
     });
     hand.append(cardButton);
@@ -614,9 +653,10 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   endTurn.dataset.testid = "end-turn";
   endTurn.textContent = "结束回合";
   endTurn.addEventListener("click", () => {
+    audioFeedback.playUi();
     endPlayerTurn(combat);
     state.message = "敌意落下，新的回合开始。";
-    handleCombatAfterAction(state, storage);
+    handleCombatAfterAction(state, storage, audioFeedback);
     render();
   });
   controls.append(
@@ -642,19 +682,21 @@ function dispatchBattlefieldChange(chapterId: RunState["chapterId"]): void {
   }));
 }
 
-function handleCombatAfterAction(state: ControllerState, storage: GameStorage | undefined): void {
+function handleCombatAfterAction(state: ControllerState, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
   const run = requireRun(state);
   const combat = requireCombat(state);
   run.hp = combat.player.hp;
 
   if (combat.phase === "lost") {
     recordDefeatIfNeeded(state, storage);
+    audioFeedback.playDefeat();
     state.screen = "defeat";
     state.message = "黑雨没过衣袂，本次行旅止于此处。";
     return;
   }
 
   if (combat.phase === "won") {
+    audioFeedback.playVictory();
     const node = getCurrentNode(run);
     recordRunCombatCombos(run, combat.comboTriggersThisCombat ?? []);
     state.pendingSpoils = claimBattleSpoils(run, node.type);
