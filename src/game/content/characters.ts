@@ -50,6 +50,31 @@ export const characterList: CharacterDefinition[] = [
       "diao_charm",
       "diao_lingbo"
     ]
+  },
+  {
+    id: "caiwenji",
+    name: "蔡文姬",
+    maxHp: 72,
+    energyPerTurn: 3,
+    drawPerTurn: 5,
+    resource: {
+      id: "sound",
+      name: "音律",
+      max: 10,
+      initial: 0
+    },
+    starterDeck: [
+      "cai_plain_strike",
+      "cai_plain_strike",
+      "cai_plain_strike",
+      "cai_plain_strike",
+      "cai_pluck_string",
+      "cai_pluck_string",
+      "cai_pluck_string",
+      "cai_pluck_string",
+      "cai_gong_tone",
+      "cai_qingxin_song"
+    ]
   }
 ];
 

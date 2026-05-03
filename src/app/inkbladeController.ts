@@ -1590,6 +1590,16 @@ function getCardKeywordLabels(card: CardDefinition): string[] {
     labels.add(formatEffectKeyword(effect));
   }
 
+  for (const keyword of card.keywords ?? []) {
+    if (keyword === "qin") {
+      labels.add("琴音");
+    } else if (keyword === "echo") {
+      labels.add("余韵");
+    } else if (keyword === "cleanse") {
+      labels.add("净化");
+    }
+  }
+
   if (card.retain) {
     labels.add("保留");
   }
@@ -1628,6 +1638,10 @@ function formatEffectKeyword(effect: CardEffect): string {
 
   if (effect.action === "cleanseCards") {
     return "净化";
+  }
+
+  if (effect.action === "queueEcho") {
+    return "余韵";
   }
 
   return formatStatus(effect.status);

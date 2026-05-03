@@ -19,6 +19,7 @@ const supportedActions = new Set([
   "applyStatus",
   "gainInk",
   "cleanseCards",
+  "queueEcho",
   "setMind"
 ]);
 
@@ -45,7 +46,7 @@ describe("content data", () => {
   });
 
   it("keeps every character starter deck reference valid", () => {
-    expect(characterList.map((character) => character.id)).toEqual(["zhaoyun", "diaochan"]);
+    expect(characterList.map((character) => character.id)).toEqual(["zhaoyun", "diaochan", "caiwenji"]);
 
     for (const character of characterList) {
       expect(character.starterDeck).toHaveLength(10);
@@ -53,6 +54,49 @@ describe("content data", () => {
         expect(cardsById[cardId]).toBeDefined();
       }
     }
+  });
+
+  it("defines Cai Wenji as a playable MVP with sound resource, starter relic, and card pool", () => {
+    const caiWenji = characterList.find((character) => character.id === "caiwenji");
+    expect(caiWenji).toMatchObject({
+      id: "caiwenji",
+      name: "蔡文姬",
+      maxHp: 72,
+      resource: {
+        id: "sound",
+        name: "音律",
+        max: 10,
+        initial: 0
+      }
+    });
+    expect(caiWenji?.starterDeck).toHaveLength(10);
+    expect(caiWenji?.starterDeck.filter((cardId) => cardId === "cai_pluck_string")).toHaveLength(4);
+    expect(caiWenji?.starterDeck.filter((cardId) => cardId === "cai_qingxin_song")).toHaveLength(1);
+
+    expect(relicList).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "relic_qingyu_qinhui",
+          name: "青玉琴徽",
+          character: "caiwenji"
+        })
+      ])
+    );
+
+    const caiCards = cardList.filter((card) => card.character === "caiwenji");
+    expect(caiCards.length).toBeGreaterThanOrEqual(12);
+    expect(caiCards.filter((card) => ((card as { keywords?: string[] }).keywords ?? []).includes("qin")).length).toBeGreaterThanOrEqual(6);
+    expect(caiCards.filter((card) => ((card as { keywords?: string[] }).keywords ?? []).includes("echo")).length).toBeGreaterThanOrEqual(3);
+    expect(caiCards.map((card) => card.id)).toEqual(
+      expect.arrayContaining([
+        "cai_gong_tone",
+        "cai_shang_tone",
+        "cai_hujia_beat",
+        "cai_echoing_melody",
+        "cai_soul_ferry",
+        "cai_final_song"
+      ])
+    );
   });
 
   it("adds common cards that explicitly support combo-chain rewards", () => {

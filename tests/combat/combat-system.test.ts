@@ -132,6 +132,21 @@ const signatureSpearArt: CardDefinition = {
 } as CardDefinition;
 (signatureSpearArt as CardDefinition & { visualCue: string }).visualCue = "zhao-seven-entries";
 
+const qinTone = {
+  id: "qin-tone",
+  name: "清心曲",
+  cost: 0,
+  rarity: "common",
+  target: "self",
+  character: "caiwenji",
+  types: ["skill"],
+  keywords: ["qin", "echo"],
+  effects: [
+    { action: "gainResource", amount: 1 },
+    { action: "queueEcho", effects: [{ action: "block", amount: 2 }] }
+  ]
+} as unknown as CardDefinition;
+
 const zhaoYun: CharacterDefinition = {
   id: "zhaoyun",
   name: "赵云",
@@ -152,6 +167,16 @@ const diaoChan: CharacterDefinition = {
   starterDeck: ["strike", "guard", "charm", "shadow-step", "retain-guard"]
 };
 
+const caiWenji: CharacterDefinition = {
+  id: "caiwenji",
+  name: "蔡文姬",
+  maxHp: 72,
+  drawPerTurn: 5,
+  energyPerTurn: 3,
+  resource: { id: "sound", name: "音律", max: 10, initial: 0 },
+  starterDeck: ["qin-tone", "qin-tone", "qin-tone", "qin-tone", "guard"]
+};
+
 const bandit: EnemyDefinition = {
   id: "bandit",
   name: "墨化山贼",
@@ -159,7 +184,7 @@ const bandit: EnemyDefinition = {
   intents: [{ type: "attack", damage: 8, hits: 1 }]
 };
 
-const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, statusNoise, vanish, signatureSpearArt];
+const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, statusNoise, vanish, signatureSpearArt, qinTone];
 
 function startCombat(character: CharacterDefinition, starterDeck = character.starterDeck): CombatState {
   return createCombat({
@@ -423,6 +448,32 @@ describe("combat system", () => {
     expect(state.enemies[0].statuses.charm).toBe(2);
     expect(state.player.hp).toBe(61);
     expect(state.player.resource.value).toBe(1);
+  });
+
+  it("lets Cai Wenji gain sound from qin cards and trigger at most three echoes next player turn", () => {
+    const state = startCombat(caiWenji);
+    const tones = state.piles.hand.filter((item) => item.definitionId === "qin-tone");
+
+    for (const card of tones) {
+      playCard(state, card.instanceId, "player");
+    }
+
+    expect(state.player.resource.name).toBe("音律");
+    expect(state.player.resource.value).toBe(4);
+    expect((state as CombatState & { echoQueue?: unknown[] }).echoQueue).toHaveLength(3);
+
+    endPlayerTurn(state);
+
+    expect(state.turn).toBe(2);
+    expect(state.player.block).toBe(6);
+    expect((state as CombatState & { echoQueue?: unknown[] }).echoQueue).toHaveLength(0);
+    expect(state.combatLog).toContain("余韵");
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ kind: "trigger", target: "player", label: "余韵" }),
+        expect.objectContaining({ kind: "block", target: "player", label: "+2 护甲" })
+      ])
+    );
   });
 
   it("retains cards with retain when the player ends the turn", () => {

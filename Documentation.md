@@ -136,6 +136,89 @@ Next step:
 
 - Integrate this worktree, then wire ending-ready state into the ending surface/profile flow after the parallel content work is reconciled.
 
+### 2026-05-03 17:05 Asia/Shanghai
+
+Milestone 48 start: Cai Wenji MVP Character in `.worktrees/auton-caiwenji-mvp` on branch `codex/auton-caiwenji-mvp`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+
+Quick implementation pattern comparison:
+
+- Zhao Yun and Diao Chan are data-driven entries in `src/game/content/characters.ts` with 10-card starter decks and generic resource metadata.
+- Their cards live in `src/game/content/cards.ts`; combat executes generic effects and keeps character-specific trigger hooks in `src/game/systems/combat/combat.ts`.
+- Starting relics are assigned by `src/game/systems/run/run.ts`; character selection and combat resource display already read generic character/resource data.
+
+Scope guard:
+
+- This worker will add蔡文姬 data, cards, starting relic, 音律/余韵 combat support, and focused unit/browser smoke coverage.
+- This worker will not edit final chapter, chapter routing, enemy/event/ending content unless a Cai Wenji acceptance test requires it.
+- No new art will be generated; Cai Wenji will use existing manifest fallback/assets and the remaining GPT Image 2 asset debt will be recorded.
+
+Implemented:
+
+- Added蔡文姬 to character select and run creation with 72 max HP, 3 energy, 5 draw, 0/10 音律, and a 10-card starter deck.
+- Added 13蔡文姬 cards in `src/game/content/cards.ts`, including starter 素击/拂弦/宫音/清心曲 and the MVP pool cards 清音、断弦、余韵、五音初起、胡笳一拍、静听、渡魂曲、净弦、商音、终曲.
+- Added `青玉琴徽` as starting relic `relic_qingyu_qinhui`.
+- Added pure combat support for `queueEcho`/余韵 with a save-safe max-three `echoQueue` that resolves at the next player-turn start.
+- Wired蔡文姬 reward pools, archetype labels, and title character buttons without touching final chapter, enemy, event, or ending routes.
+- Added desktop Playwright smoke coverage for selecting蔡文姬, entering combat, and seeing 音律.
+
+Decisions:
+
+- Keep蔡文姬 MVP within existing generic combat resources instead of adding renderer-owned rules.
+- Represent琴音/余韵 as `keywords` plus normal `skill`/`attack` types so existing combo-chain rules and card UI remain stable.
+- Implement the starting relic around the roadmap requirement: first cleanse or status/curse draw grants 音律.
+- Do not generate new蔡文姬 art in this worker; combat uses the current manifest fallback until the GPT Image 2 final asset pass replaces the art debt.
+
+TDD notes:
+
+```text
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+RED result: failed as expected because `caiwenji` was absent from `characterList`, `relic_qingyu_qinhui` did not exist, and `echoQueue` was undefined.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "Cai Wenji"
+RED result: failed as expected because `character-caiwenji` did not exist on the title screen.
+```
+
+Verification:
+
+```text
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+Result: 2 test files passed, 54 tests passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "Cai Wenji"
+Result: 1 Playwright test passed.
+Note: an old parent-workspace Vite process was initially serving port 5173; stopped it and reran against this worktree.
+
+npm test
+Result: 13 test files passed, 121 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the expected large bundle warning.
+```
+
+Known gaps / risks:
+
+- 蔡文姬 uses existing combat portrait fallback rather than a dedicated generated standee, card faces, or attack strip. This is intentional GPT Image 2 asset debt for the final asset pass.
+- 五音 and 终曲 are represented as MVP card content and resource play patterns, not the full future five-note set collection system.
+- `青玉琴徽` implements the roadmap trigger and may be tuned later to match the fuller character-doc version if desired.
+
+Next step:
+
+- Integrate this branch after review, then let the Zhuge Liang worker build on the expanded character/card/resource patterns.
+
 ### 2026-05-03 16:18 Asia/Shanghai
 
 Current state:

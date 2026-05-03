@@ -3,7 +3,7 @@ export type CardRarity = "starter" | "common" | "uncommon" | "rare" | "event" | 
 export type TargetKind = "enemy" | "self" | "none";
 export type StatusId = "charm" | "weak" | "vulnerable" | "dodge" | "guard" | "ink";
 export type MindState = "none" | "ning" | "nu" | "bei" | "mei" | "luan" | "wu";
-export type CardArchetypeId = "zhao-spear-chain" | "zhao-guardian-counter" | "diao-dance-chain" | "diao-charm-control";
+export type CardArchetypeId = "zhao-spear-chain" | "zhao-guardian-counter" | "diao-dance-chain" | "diao-charm-control" | "cai-qin-echo" | "cai-cleanse-melody";
 export type CardVisualCueId = "zhao-seven-entries" | "zhao-spear-wall" | "diao-jinghong-strike" | "diao-lijian";
 
 export type CardEffect =
@@ -14,6 +14,7 @@ export type CardEffect =
   | { action: "applyStatus"; status: StatusId; amount: number }
   | { action: "gainInk"; amount: number }
   | { action: "cleanseCards"; amount: number }
+  | { action: "queueEcho"; effects: CardEffect[] }
   | { action: "setMind"; mind: MindState; amount?: number };
 
 export interface CardDefinition {
@@ -29,6 +30,7 @@ export interface CardDefinition {
   temporary?: boolean;
   character?: string;
   archetypes?: CardArchetypeId[];
+  keywords?: string[];
   visualCue?: CardVisualCueId;
   description?: string;
   flavor?: string;
@@ -146,6 +148,14 @@ export interface CombatVisualEvent {
   visualCue?: CardVisualCueId;
 }
 
+export interface EchoQueueItem {
+  id: number;
+  sourceCardId: string;
+  sourceName: string;
+  targetId: string;
+  effects: CardEffect[];
+}
+
 export type ComboEffect =
   | { action: "damage"; amount: number }
   | { action: "block"; amount: number }
@@ -175,6 +185,7 @@ export interface CombatState {
   methodIds: string[];
   methodLevels: Record<string, number>;
   methodMemory: Partial<Record<string, boolean>>;
+  echoQueue: EchoQueueItem[];
   playedCardTypesThisTurn: CardType[];
   comboTriggersThisTurn: string[];
   comboTriggersThisCombat: string[];

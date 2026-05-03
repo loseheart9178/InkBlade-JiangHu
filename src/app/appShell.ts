@@ -1,3 +1,5 @@
+import { characterList } from "../game/content/characters";
+
 export interface AppShell {
   root: HTMLElement;
   phaserHost: HTMLDivElement;
@@ -32,19 +34,15 @@ export function createAppShell(root: HTMLElement): AppShell {
   const characterSelect = document.createElement("div");
   characterSelect.className = "character-select";
 
-  const zhaoButton = document.createElement("button");
-  zhaoButton.type = "button";
-  zhaoButton.dataset.characterId = "zhaoyun";
-  zhaoButton.dataset.testid = "character-zhaoyun";
-  zhaoButton.className = "character-choice is-selected";
-  zhaoButton.textContent = "赵云";
-
-  const diaoButton = document.createElement("button");
-  diaoButton.type = "button";
-  diaoButton.dataset.characterId = "diaochan";
-  diaoButton.dataset.testid = "character-diaochan";
-  diaoButton.className = "character-choice";
-  diaoButton.textContent = "貂蝉";
+  for (const [index, character] of characterList.entries()) {
+    const characterButton = document.createElement("button");
+    characterButton.type = "button";
+    characterButton.dataset.characterId = character.id;
+    characterButton.dataset.testid = `character-${character.id}`;
+    characterButton.className = index === 0 ? "character-choice is-selected" : "character-choice";
+    characterButton.textContent = character.name;
+    characterSelect.append(characterButton);
+  }
 
   const startButton = document.createElement("button");
   startButton.type = "button";
@@ -65,7 +63,6 @@ export function createAppShell(root: HTMLElement): AppShell {
   titleActions.className = "title-actions";
   titleActions.append(startButton, continueButton, clearSaveButton);
 
-  characterSelect.append(zhaoButton, diaoButton);
   menu.append(title, subtitle, characterSelect, titleActions);
   hudHost.append(menu);
   root.append(phaserHost, hudHost);

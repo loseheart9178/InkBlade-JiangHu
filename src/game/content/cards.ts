@@ -398,6 +398,340 @@ export const cardList: CardDefinition[] = [
     }
   },
   {
+    id: "cai_plain_strike",
+    name: "素击",
+    cost: 1,
+    rarity: "starter",
+    target: "enemy",
+    character: "caiwenji",
+    types: ["attack"],
+    effects: [{ action: "damage", amount: 6 }],
+    description: "造成6点伤害。",
+    upgrade: {
+      effects: [{ action: "damage", amount: 9 }],
+      description: "造成9点伤害。"
+    }
+  },
+  {
+    id: "cai_pluck_string",
+    name: "拂弦",
+    cost: 1,
+    rarity: "starter",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 5 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得5点护甲，获得1音律。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 8 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "获得8点护甲，获得1音律。"
+    }
+  },
+  {
+    id: "cai_gong_tone",
+    name: "宫音",
+    cost: 1,
+    rarity: "starter",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 5 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成5点伤害，获得1音律。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 8 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成8点伤害，获得1音律。"
+    }
+  },
+  {
+    id: "cai_qingxin_song",
+    name: "清心曲",
+    cost: 1,
+    rarity: "starter",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo", "cai-cleanse-melody"],
+    keywords: ["qin", "echo"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 5 },
+      { action: "gainResource", amount: 1 },
+      { action: "queueEcho", effects: [{ action: "block", amount: 3 }] }
+    ],
+    description: "获得5点护甲和1音律。余韵：下回合获得3点护甲。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 8 },
+        { action: "gainResource", amount: 1 },
+        { action: "queueEcho", effects: [{ action: "block", amount: 4 }] }
+      ],
+      description: "获得8点护甲和1音律。余韵：下回合获得4点护甲。"
+    }
+  },
+  {
+    id: "cai_clear_tone",
+    name: "清音",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin", "echo"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 6 },
+      { action: "gainResource", amount: 1 },
+      { action: "queueEcho", effects: [{ action: "block", amount: 3 }] }
+    ],
+    description: "获得6点护甲和1音律。余韵：下回合获得3点护甲。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 9 },
+        { action: "gainResource", amount: 1 },
+        { action: "queueEcho", effects: [{ action: "block", amount: 4 }] }
+      ],
+      description: "获得9点护甲和1音律。余韵：下回合获得4点护甲。"
+    }
+  },
+  {
+    id: "cai_broken_string",
+    name: "断弦",
+    cost: 1,
+    rarity: "common",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 7 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成7点伤害，获得1音律。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 10 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成10点伤害，获得1音律。"
+    }
+  },
+  {
+    id: "cai_echoing_melody",
+    name: "余韵",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin", "echo"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 4 },
+      { action: "gainResource", amount: 1 },
+      { action: "queueEcho", effects: [{ action: "block", amount: 4 }] }
+    ],
+    description: "获得4点护甲和1音律。余韵：下回合获得4点护甲。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 6 },
+        { action: "gainResource", amount: 1 },
+        { action: "queueEcho", effects: [{ action: "block", amount: 5 }] }
+      ],
+      description: "获得6点护甲和1音律。余韵：下回合获得5点护甲。"
+    }
+  },
+  {
+    id: "cai_five_tones_start",
+    name: "五音初起",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin"],
+    types: ["skill"],
+    effects: [
+      { action: "gainResource", amount: 2 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "获得2音律，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "gainResource", amount: 2 },
+        { action: "draw", amount: 2 }
+      ],
+      description: "获得2音律，抽2张牌。"
+    }
+  },
+  {
+    id: "cai_hujia_beat",
+    name: "胡笳一拍",
+    cost: 2,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin", "echo"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 5 },
+      { action: "damage", amount: 5 },
+      { action: "damage", amount: 5 },
+      { action: "gainResource", amount: 1 },
+      { action: "queueEcho", effects: [{ action: "damage", amount: 5 }] }
+    ],
+    description: "造成5点伤害3次，获得1音律。余韵：下回合造成5点伤害。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 6 },
+        { action: "damage", amount: 6 },
+        { action: "damage", amount: 6 },
+        { action: "gainResource", amount: 1 },
+        { action: "queueEcho", effects: [{ action: "damage", amount: 6 }] }
+      ],
+      description: "造成6点伤害3次，获得1音律。余韵：下回合造成6点伤害。"
+    }
+  },
+  {
+    id: "cai_listen_still",
+    name: "静听",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-cleanse-melody"],
+    keywords: ["qin"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 3 },
+      { action: "gainResource", amount: 1 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "获得3点护甲和1音律，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 5 },
+        { action: "gainResource", amount: 1 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "获得5点护甲和1音律，抽1张牌。"
+    }
+  },
+  {
+    id: "cai_soul_ferry",
+    name: "渡魂曲",
+    cost: 2,
+    rarity: "rare",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-cleanse-melody"],
+    keywords: ["qin"],
+    types: ["skill", "attack"],
+    effects: [
+      { action: "damage", amount: 10 },
+      { action: "applyStatus", status: "weak", amount: 2 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成10点伤害，施加2层虚弱，获得1音律。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 14 },
+        { action: "applyStatus", status: "weak", amount: 2 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成14点伤害，施加2层虚弱，获得1音律。"
+    }
+  },
+  {
+    id: "cai_clean_string",
+    name: "净弦",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-cleanse-melody"],
+    keywords: ["qin", "cleanse"],
+    types: ["skill"],
+    effects: [
+      { action: "cleanseCards", amount: 1 },
+      { action: "gainResource", amount: 1 },
+      { action: "block", amount: 4 }
+    ],
+    description: "净化1张状态或诅咒牌，获得1音律和4点护甲。",
+    upgrade: {
+      effects: [
+        { action: "cleanseCards", amount: 2 },
+        { action: "gainResource", amount: 1 },
+        { action: "block", amount: 6 }
+      ],
+      description: "净化2张状态或诅咒牌，获得1音律和6点护甲。"
+    }
+  },
+  {
+    id: "cai_shang_tone",
+    name: "商音",
+    cost: 1,
+    rarity: "common",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 4 },
+      { action: "damage", amount: 4 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成4点伤害2次，获得1音律。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 5 },
+        { action: "damage", amount: 5 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成5点伤害2次，获得1音律。"
+    }
+  },
+  {
+    id: "cai_final_song",
+    name: "终曲",
+    cost: 3,
+    rarity: "rare",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 24 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成24点伤害，获得1音律。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 30 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成30点伤害，获得1音律。"
+    }
+  },
+  {
     id: "common_pifeng",
     name: "劈风",
     cost: 1,

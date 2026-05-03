@@ -28,8 +28,20 @@ const DIAO_REWARD_POOL = [
   "diao_mirror_flower",
   "diao_jinghong_strike"
 ];
+const CAI_REWARD_POOL = [
+  "cai_clear_tone",
+  "cai_broken_string",
+  "cai_echoing_melody",
+  "cai_five_tones_start",
+  "cai_hujia_beat",
+  "cai_listen_still",
+  "cai_soul_ferry",
+  "cai_clean_string",
+  "cai_shang_tone"
+];
 const ELITE_ZHAO_REWARD_POOL = ["zhao_qixing_spear", "zhao_seven_entries", "zhao_spear_wall", "zhao_break_spear", "zhao_single_rider"];
 const ELITE_DIAO_REWARD_POOL = ["diao_closed_moon", "diao_jinghong_strike", "diao_mirror_flower", "diao_step_lotus", "diao_red_ribbon"];
+const ELITE_CAI_REWARD_POOL = ["cai_soul_ferry", "cai_final_song", "cai_hujia_beat", "cai_clean_string", "cai_five_tones_start"];
 const COMMON_REWARD_POOL = [
   "common_pifeng",
   "common_duanzhu",
@@ -46,6 +58,7 @@ const COMMON_REWARD_POOL = [
 
 const ZHAO_ADVANCED_REWARD_POOL = ["zhao_qixing_spear", "zhao_single_rider", "zhao_seven_entries", "zhao_spear_wall"];
 const DIAO_ADVANCED_REWARD_POOL = ["diao_closed_moon", "diao_jinghong_strike", "diao_step_lotus", "diao_lijian"];
+const CAI_ADVANCED_REWARD_POOL = ["cai_final_song", "cai_soul_ferry", "cai_hujia_beat", "cai_clean_string"];
 
 const LATE_EVENT_POOL = [
   "event_black_rain_ferry",
@@ -88,7 +101,9 @@ const ARCHETYPE_LABELS: Record<CardArchetypeId, string> = {
   "zhao-spear-chain": "连斩枪势流",
   "zhao-guardian-counter": "护主防反流",
   "diao-dance-chain": "舞势连击流",
-  "diao-charm-control": "魅惑控制流"
+  "diao-charm-control": "魅惑控制流",
+  "cai-qin-echo": "琴音余韵流",
+  "cai-cleanse-melody": "净弦清音流"
 };
 
 const COMBO_ARCHETYPE_PREFERENCES: Record<string, Partial<Record<string, CardArchetypeId>>> = {
@@ -110,6 +125,13 @@ const COMBO_ARCHETYPE_PREFERENCES: Record<string, Partial<Record<string, CardArc
     jingshou: "diao-charm-control",
     xinren: "diao-charm-control",
     gushou: "diao-charm-control"
+  },
+  caiwenji: {
+    xushi: "cai-qin-echo",
+    jingshou: "cai-qin-echo",
+    gushou: "cai-cleanse-melody",
+    duanzhao: "cai-qin-echo",
+    xinren: "cai-qin-echo"
   }
 };
 
@@ -136,7 +158,8 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     hint: "奖励池偏向低费攻击与连击抽牌。",
     byCharacter: {
       zhaoyun: ["zhao_white_dragon"],
-      diaochan: ["diao_sleeve_blade", "diao_jinghong_strike"]
+      diaochan: ["diao_sleeve_blade", "diao_jinghong_strike"],
+      caiwenji: ["cai_broken_string", "cai_shang_tone"]
     },
     cardIds: ["common_feishi", "zhao_seven_entries", "zhao_qixing_spear"]
   },
@@ -146,7 +169,8 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     hint: "奖励池偏向技法起手和攻势衔接。",
     byCharacter: {
       zhaoyun: ["zhao_river_guard", "zhao_return_spear"],
-      diaochan: ["diao_red_ribbon", "diao_lijian"]
+      diaochan: ["diao_red_ribbon", "diao_lijian"],
+      caiwenji: ["cai_clear_tone", "cai_echoing_melody"]
     },
     cardIds: ["common_tuna", "common_gedang"]
   },
@@ -166,7 +190,8 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     hint: "奖励池偏向心境防守与稳态护甲。",
     byCharacter: {
       zhaoyun: ["zhao_spear_wall"],
-      diaochan: ["diao_mirror_flower"]
+      diaochan: ["diao_mirror_flower"],
+      caiwenji: ["cai_qingxin_song", "cai_clean_string"]
     },
     cardIds: ["mind_jingxin", "common_mirror_armor", "common_tuna"]
   },
@@ -176,7 +201,8 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     hint: "奖励池偏向心境切入与攻势爆发。",
     byCharacter: {
       zhaoyun: ["zhao_seven_entries"],
-      diaochan: ["diao_lijian"]
+      diaochan: ["diao_lijian"],
+      caiwenji: ["cai_hujia_beat"]
     },
     cardIds: ["mind_nuzhan", "common_feishi", "zhao_white_dragon"]
   },
@@ -186,7 +212,8 @@ const COMBO_REWARD_RULES: ComboRewardRule[] = [
     hint: "奖励池偏向连续技法与高护甲牌。",
     byCharacter: {
       zhaoyun: ["zhao_guardian", "zhao_spear_wall"],
-      diaochan: ["diao_glance", "diao_mirror_flower"]
+      diaochan: ["diao_glance", "diao_mirror_flower"],
+      caiwenji: ["cai_clean_string", "cai_listen_still"]
     },
     cardIds: ["common_mirror_armor", "common_gedang"]
   },
@@ -671,11 +698,27 @@ function addRotatedCards(cards: CardDefinition[], cardIds: string[], offset: num
 }
 
 function getRoleRewardPool(characterId: string): string[] {
-  return characterId === "diaochan" ? DIAO_REWARD_POOL : ZHAO_REWARD_POOL;
+  if (characterId === "diaochan") {
+    return DIAO_REWARD_POOL;
+  }
+
+  if (characterId === "caiwenji") {
+    return CAI_REWARD_POOL;
+  }
+
+  return ZHAO_REWARD_POOL;
 }
 
 function getEliteRewardPool(characterId: string): string[] {
-  return characterId === "diaochan" ? ELITE_DIAO_REWARD_POOL : ELITE_ZHAO_REWARD_POOL;
+  if (characterId === "diaochan") {
+    return ELITE_DIAO_REWARD_POOL;
+  }
+
+  if (characterId === "caiwenji") {
+    return ELITE_CAI_REWARD_POOL;
+  }
+
+  return ELITE_ZHAO_REWARD_POOL;
 }
 
 function normalizeRunComboFields(run: RunState): void {
@@ -752,7 +795,11 @@ export function normalizeRunMethodLevels(run: RunState): void {
 }
 
 function getAdvancedRewardCardId(run: RunState): string {
-  const pool = run.characterId === "diaochan" ? DIAO_ADVANCED_REWARD_POOL : ZHAO_ADVANCED_REWARD_POOL;
+  const pool = run.characterId === "diaochan"
+    ? DIAO_ADVANCED_REWARD_POOL
+    : run.characterId === "caiwenji"
+      ? CAI_ADVANCED_REWARD_POOL
+      : ZHAO_ADVANCED_REWARD_POOL;
   return pool.find((cardId) => !run.deck.some((entry) => entry.cardId === cardId)) ?? pool[0];
 }
 
@@ -768,6 +815,10 @@ function getNode(run: RunState, nodeId: string): MapNode {
 function getStartingRelicId(characterId: string): string {
   if (characterId === "diaochan") {
     return "relic_closed_moon_sachet";
+  }
+
+  if (characterId === "caiwenji") {
+    return "relic_qingyu_qinhui";
   }
 
   return "relic_white_dragon_tassel";

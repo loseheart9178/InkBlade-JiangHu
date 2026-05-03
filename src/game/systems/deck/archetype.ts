@@ -4,7 +4,9 @@ export const ARCHETYPE_LABELS: Record<CardArchetypeId, string> = {
   "zhao-spear-chain": "连斩枪势流",
   "zhao-guardian-counter": "护主防反流",
   "diao-dance-chain": "舞势连击流",
-  "diao-charm-control": "魅惑控制流"
+  "diao-charm-control": "魅惑控制流",
+  "cai-qin-echo": "琴音余韵流",
+  "cai-cleanse-melody": "净弦清音流"
 };
 
 export type CardArchetypeRole = "主线强化" | "副线补强" | "通用补短";
@@ -26,7 +28,9 @@ const ARCHETYPE_ORDER: CardArchetypeId[] = [
   "zhao-spear-chain",
   "zhao-guardian-counter",
   "diao-dance-chain",
-  "diao-charm-control"
+  "diao-charm-control",
+  "cai-qin-echo",
+  "cai-cleanse-melody"
 ];
 
 export function analyzeDeckArchetypes(cards: CardDefinition[]): DeckArchetypeAnalysis {
@@ -34,7 +38,9 @@ export function analyzeDeckArchetypes(cards: CardDefinition[]): DeckArchetypeAna
     "zhao-spear-chain": 0,
     "zhao-guardian-counter": 0,
     "diao-dance-chain": 0,
-    "diao-charm-control": 0
+    "diao-charm-control": 0,
+    "cai-qin-echo": 0,
+    "cai-cleanse-melody": 0
   };
 
   for (const card of cards) {

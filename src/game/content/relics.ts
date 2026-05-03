@@ -4,7 +4,7 @@ export interface RelicDefinition {
   id: string;
   name: string;
   rarity: "common" | "uncommon" | "rare" | "boss";
-  character?: "zhaoyun" | "diaochan";
+  character?: "zhaoyun" | "diaochan" | "caiwenji";
   archetypeId?: CardArchetypeId;
   sources?: Array<"elite" | "boss" | "shop">;
   triggerText?: string;
@@ -30,6 +30,15 @@ export const relicList: RelicDefinition[] = [
     price: 0,
     triggerText: "战斗开始时生效。",
     description: "战斗开始时，随机敌人获得2层魅惑。"
+  },
+  {
+    id: "relic_qingyu_qinhui",
+    name: "青玉琴徽",
+    rarity: "boss",
+    character: "caiwenji",
+    price: 0,
+    triggerText: "首次净化或抽到状态牌时生效。",
+    description: "每场战斗第一次净化状态/诅咒牌或抽到状态/诅咒牌时，获得1音律。"
   },
   {
     id: "relic_old_wooden_sword",

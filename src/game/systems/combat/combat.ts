@@ -15,6 +15,7 @@ import type {
   EnemyDefinition,
   EnemyIntentEffect,
   EnemyIntent,
+  EchoQueueItem,
   EnemyState,
   MindState,
   PlayCardResult,
@@ -90,6 +91,7 @@ export function createCombat(input: CreateCombatInput): CombatState {
     methodIds: input.methodIds ?? [],
     methodLevels: { ...(input.methodLevels ?? {}) },
     methodMemory: {},
+    echoQueue: [],
     playedCardTypesThisTurn: [],
     comboTriggersThisTurn: [],
     comboTriggersThisCombat: [],
@@ -269,6 +271,9 @@ function applyEffect(state: CombatState, definition: CardDefinition, card: CardI
     case "cleanseCards":
       cleanseCards(state, effect.amount);
       break;
+    case "queueEcho":
+      queueEcho(state, definition, card, targetId, effect.effects);
+      break;
     case "setMind":
       setMind(state, effect.mind, effect.amount ?? 1);
       break;
@@ -372,6 +377,28 @@ function damagePlayer(state: CombatState, rawAmount: number): void {
 
 function gainResource(state: CombatState, amount: number): void {
   state.player.resource.value = clamp(state.player.resource.value + amount, 0, state.player.resource.max);
+}
+
+function queueEcho(state: CombatState, definition: CardDefinition, card: CardInstance, targetId: string, effects: CardEffect[]): void {
+  if (effects.length === 0) {
+    return;
+  }
+
+  ensureEchoQueue(state);
+  if (state.echoQueue.length >= 3) {
+    return;
+  }
+
+  state.echoQueue.push({
+    id: state.nextInstanceNumber,
+    sourceCardId: card.definitionId,
+    sourceName: definition.name,
+    targetId,
+    effects
+  });
+  state.nextInstanceNumber += 1;
+  state.combatLog.push("余韵");
+  pushVisualEvent(state, "trigger", "player", "余韵", "teal");
 }
 
 function gainInk(state: CombatState, amount: number): void {
@@ -653,6 +680,7 @@ function cleanseCards(state: CombatState, amount: number): void {
   state.combatLog.push("清音解秽");
   pushVisualEvent(state, "status", "player", `净化 ${removed}`, "teal", removed);
   triggerCleanseRelics(state);
+  triggerQingyuQinhui(state);
 }
 
 function handleCardDrawn(state: CombatState, card: CardInstance): void {
@@ -663,6 +691,7 @@ function handleCardDrawn(state: CombatState, card: CardInstance): void {
 
   triggerQinDemonStatusDraw(state);
   triggerBrokenStringRelic(state);
+  triggerQingyuQinhui(state);
 }
 
 function triggerQinDemonStatusDraw(state: CombatState): void {
@@ -705,6 +734,7 @@ function refreshEnemyPhase(state: CombatState, enemy: EnemyState): void {
 
 function beginPlayerTurn(state: CombatState): void {
   ensureComboTracking(state);
+  ensureEchoQueue(state);
   state.turn += 1;
   state.player.block = 0;
   state.player.energy = state.player.maxEnergy;
@@ -712,8 +742,47 @@ function beginPlayerTurn(state: CombatState): void {
   state.comboTriggersThisTurn = [];
   state.lastPlayedCardExhaustedThisTurn = false;
   state.attacksPlayedThisTurn = 0;
+  triggerEchoQueue(state);
   drawCards(state, state.player.drawPerTurn - state.piles.hand.length, createRng(state.turn * 1009));
   pushVisualEvent(state, "turn", "center", `回合 ${state.turn}`, "neutral");
+}
+
+function triggerEchoQueue(state: CombatState): void {
+  if (state.echoQueue.length === 0) {
+    return;
+  }
+
+  const queue = state.echoQueue.splice(0, 3);
+  state.combatLog.push("余韵");
+  pushVisualEvent(state, "trigger", "player", "余韵", "teal");
+
+  for (const echo of queue) {
+    const source = state.cardDefinitions[echo.sourceCardId];
+    if (!source) {
+      continue;
+    }
+
+    const card = {
+      instanceId: `echo-${echo.id}`,
+      definitionId: echo.sourceCardId
+    };
+    const targetId = resolveEchoTargetId(state, echo);
+    for (const effect of echo.effects) {
+      if (effect.action === "queueEcho") {
+        continue;
+      }
+      applyEffect(state, source, card, effect, targetId);
+    }
+  }
+}
+
+function resolveEchoTargetId(state: CombatState, echo: EchoQueueItem): string {
+  if (echo.targetId === "player") {
+    return "player";
+  }
+
+  const originalTarget = state.enemies.find((enemy) => enemy.id === echo.targetId && enemy.hp > 0);
+  return originalTarget?.id ?? state.enemies.find((enemy) => enemy.hp > 0)?.id ?? echo.targetId;
 }
 
 function updateCombatOutcome(state: CombatState): void {
@@ -842,6 +911,15 @@ function triggerCleanseRelics(state: CombatState): void {
     drawCards(state, 1, createRng(state.turn * 467 + state.nextInstanceNumber));
     pushVisualEvent(state, "block", "player", "+2 护甲", "teal", 2);
   }
+}
+
+function triggerQingyuQinhui(state: CombatState): void {
+  if (!triggerRelicOnce(state, "relic_qingyu_qinhui", "player", "teal")) {
+    return;
+  }
+
+  gainResource(state, 1);
+  pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
 }
 
 function triggerBrokenStringRelic(state: CombatState): void {
@@ -998,6 +1076,14 @@ function ensureComboTracking(state: CombatState): void {
 
   if (typeof state.lastPlayedCardExhaustedThisTurn !== "boolean") {
     state.lastPlayedCardExhaustedThisTurn = false;
+  }
+
+  ensureEchoQueue(state);
+}
+
+function ensureEchoQueue(state: CombatState): void {
+  if (!Array.isArray(state.echoQueue)) {
+    state.echoQueue = [];
   }
 }
 
