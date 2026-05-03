@@ -3,7 +3,7 @@ import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById } from "../game/content/events";
 import { relicsById } from "../game/content/relics";
-import { cardArtById, combatPortraitsById, combatSpriteSheetsById, signatureVfxByCue } from "../game/content/visuals";
+import { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsById, signatureVfxByCue } from "../game/content/visuals";
 import {
   clearSavedGame,
   hasSavedGame,
@@ -511,6 +511,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
   panel.classList.add("combat-screen");
   panel.classList.add(`combat-screen--${run.chapterId}`);
+  panel.dataset.battlefield = run.chapterId;
 
   const top = document.createElement("div");
   top.className = "combat-topbar";
@@ -606,8 +607,18 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
 
   panel.append(top, field, createMessage(state.message), createCombatLog(combat), hand, controls);
   host.append(panel);
+  dispatchBattlefieldChange(run.chapterId);
 
   run.hp = combat.player.hp;
+}
+
+function dispatchBattlefieldChange(chapterId: RunState["chapterId"]): void {
+  const battlefieldId = battlefieldAssets[chapterId] ? chapterId : "luoshui";
+  window.dispatchEvent(new CustomEvent("inkblade:set-battlefield", {
+    detail: {
+      chapterId: battlefieldId
+    }
+  }));
 }
 
 function handleCombatAfterAction(state: ControllerState, storage: GameStorage | undefined): void {

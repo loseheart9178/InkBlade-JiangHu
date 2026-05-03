@@ -2,6 +2,72 @@
 
 ## Status Log
 
+### 2026-05-03 22:03 Asia/Shanghai
+
+Milestone 54 start in `.worktrees/wave5-battlefields` on branch `codex/wave5-battlefields`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-03-wave5-post-mvp-polish-design.md`
+- `docs/superpowers/plans/2026-05-03-wave5-post-mvp-polish.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/final_chapter.md`
+
+Scope guard:
+
+- Own only dynamic battlefield rendering and QA attributes in `CombatScene`, minimal combat rendering/event dispatch in `inkbladeController`, content/data coverage, visual smoke coverage, and this log.
+- Keep gameplay rules in TypeScript systems and data; Phaser only adapts the active battlefield asset to the canvas.
+
+TDD notes:
+
+- Added content coverage requiring every chapter id to have a dedicated battlefield asset.
+- Added visual smoke assertions for `data-battlefield` on Luoshui combat and a second-chapter Bamboo combat path before implementing the DOM/Phaser battlefield bridge.
+
+Next step:
+
+- Run the focused red checks, then wire `renderCombat` to dispatch `inkblade:set-battlefield` and teach `CombatScene` to preload and switch all battlefield assets.
+
+Implemented:
+
+- `renderCombat` now exposes `data-battlefield` with the current `run.chapterId`.
+- `renderCombat` dispatches `inkblade:set-battlefield` with the active chapter id after the combat panel is rendered.
+- `CombatScene` preloads every registered `battlefieldAssets` entry and switches the active battlefield texture when the event arrives.
+- Visual smoke now verifies Luoshui combat context and a real second-chapter Bamboo combat context.
+
+Verification:
+
+```text
+npm test -- tests/data/content.test.ts
+First run after the data test passed because all four chapter battlefield assets were already registered.
+Final result: passed. 1 test file passed, 24 tests passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+RED result before implementation: failed as expected because `screen-combat` did not expose `data-battlefield` for Luoshui or Bamboo combat.
+Final result: passed. 2 Chromium Playwright tests passed.
+
+npm test
+Result: passed. 13 test files passed, 135 tests passed.
+
+npm run build
+Result: passed. TypeScript and Vite build completed; Vite repeated the existing non-blocking large chunk warning.
+```
+
+Known gaps / risks:
+
+- Visual smoke asserts the DOM battlefield context and exercises the DOM-to-Phaser event path, but does not pixel-diff the canvas background art.
+- The second-chapter visual smoke uses a deterministic chapter-one completion path, so it is heavier than the first-combat smoke.
+
+Next step:
+
+- Commit Milestone 54 and hand off for Wave 5 integration before the browser final-boss route work.
+
 ### 2026-05-03 21:50 Asia/Shanghai
 
 Wave 5 post-MVP polish planning started under the user's autonomous execution mandate.

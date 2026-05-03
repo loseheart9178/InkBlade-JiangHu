@@ -422,6 +422,19 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png");
   });
 
+  it("maps every chapter to a dedicated battlefield asset", () => {
+    expect(Object.keys(battlefieldAssets).sort()).toEqual(chapterList.map((chapter) => chapter.id).sort());
+
+    for (const chapter of chapterList) {
+      const battlefield = battlefieldAssets[chapter.id];
+
+      expect(battlefield).toBeDefined();
+      expect(battlefield.id).toBe(chapter.id);
+      expect(battlefield.assetPath).toMatch(/^\/assets\/generated\/.+\.png$/);
+      expectAssetPathToExist(battlefield.assetPath);
+    }
+  });
+
   it("binds new archetype cards to dedicated ink-wash card art assets", () => {
     const dedicatedCardArtIds = [
       "zhao_seven_entries",

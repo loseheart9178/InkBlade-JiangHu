@@ -35,6 +35,7 @@ test("captures desktop combat smoke screenshots for all four characters", async 
   for (const character of combatSmokeCharacters) {
     await startDesktopCombat(page, character.id);
 
+    await expect(page.getByTestId("screen-combat")).toHaveAttribute("data-battlefield", "luoshui");
     await expect(page.getByTestId("player-hp")).toContainText(character.label);
     await expect(page.getByText(character.resource)).toBeVisible();
     await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
@@ -70,6 +71,16 @@ test("captures desktop combat smoke screenshots for all four characters", async 
   }
 });
 
+test("captures a non-Luoshui chapter battlefield context", async ({ page }, testInfo) => {
+  test.setTimeout(80_000);
+  await reachSecondChapterCombat(page);
+
+  await expect(page.getByTestId("screen-combat")).toHaveAttribute("data-battlefield", "bamboo");
+  await expect(page.getByTestId("enemy-hp")).toContainText(/雨竹幽魂|断笔书生/);
+  await expectDesktopCombatLayout(page);
+  await capturePlaytestScreenshot(page, testInfo, "combat-bamboo-battlefield-desktop.png");
+});
+
 async function startDesktopCombat(page: Page, characterId: (typeof combatSmokeCharacters)[number]["id"]): Promise<void> {
   await page.goto("/");
   await page.evaluate(() => window.localStorage.clear());
@@ -79,6 +90,60 @@ async function startDesktopCombat(page: Page, characterId: (typeof combatSmokeCh
   await page.getByTestId("start-run").click();
   await page.getByTestId("map-node-battle-1").click();
   await expect(page.getByTestId("screen-combat")).toBeVisible();
+}
+
+async function reachSecondChapterCombat(page: Page): Promise<void> {
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+  await expect(page.getByTestId("screen-title")).toBeVisible();
+  await page.getByTestId("character-zhaoyun").click();
+  await page.getByTestId("start-run").click();
+  await page.getByTestId("map-node-event-1").click();
+  await page.getByTestId("event-choice-carve_names").click();
+  await page.getByTestId("map-node-rest-1").click();
+  await page.getByTestId("rest-upgrade-card").click();
+  await page.getByTestId("map-node-battle-3").click();
+  await winVisibleCombat(page, 80);
+  await page.getByTestId("reward-card").first().click();
+  await page.getByTestId("map-node-boss").click();
+  await winVisibleCombat(page, 150, "screen-method-reward");
+  await page.locator("[data-testid^='method-choice-']").first().click();
+  await page.getByTestId("chapter-reward-choice").first().click();
+  await page.getByTestId("boss-reward-continue").click();
+  await expect(page.getByTestId("run-chapter")).toContainText("竹林听雨");
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+}
+
+async function winVisibleCombat(page: Page, maxSteps = 36, targetScreen = "screen-reward"): Promise<void> {
+  for (let step = 0; step < maxSteps; step += 1) {
+    if (await page.getByTestId(targetScreen).isVisible().catch(() => false)) {
+      return;
+    }
+
+    const playable = page.locator(".combat-card:not([disabled])");
+    const attack = playable.filter({ hasText: "攻" });
+    const attackCount = await attack.count();
+    if (attackCount > 0) {
+      await attack.first().click();
+      continue;
+    }
+
+    const count = await playable.count();
+    if (count > 0) {
+      await playable.first().click();
+      continue;
+    }
+
+    if (await page.getByTestId(targetScreen).isVisible().catch(() => false)) {
+      return;
+    }
+
+    await page.getByTestId("end-turn").click();
+  }
+
+  await expect(page.getByTestId(targetScreen)).toBeVisible();
 }
 
 async function capturePlaytestScreenshot(page: Page, testInfo: TestInfo, fileName: string): Promise<void> {
