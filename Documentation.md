@@ -68,6 +68,94 @@ Next step:
 
 - Add failing simulator/full-route contracts for four characters across 洛水残照、竹林听雨、长安墨城、墨渊照心, then tune pure systems/data to pass.
 
+### 2026-05-03 18:11 Asia/Shanghai
+
+Wave 4 Task 3 start and complete: Desktop Release QA And Acceptance Evidence in `.worktrees/wave4-release-qa` on branch `codex/wave4-release-qa`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-wave4-mvp-closure.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/chapters/final_chapter.md`
+
+Scope guard:
+
+- Owned surfaces are `tests/e2e/**`, `docs/playtest/**`, and `Documentation.md`.
+- This worker will not generate assets, edit `src/game/content/visuals.ts`, or tune balance/content data.
+- App source test-id edits are deferred unless existing selectors cannot cover Task 3.
+
+Planned verification gate:
+
+```text
+node scripts/audit-generated-assets.mjs
+npm test
+npm run typecheck
+npm run build
+npm run test:e2e
+```
+
+Implemented:
+
+- Added a boot/title roster smoke test that verifies all four character choices before a run starts.
+- Expanded desktop visual smoke to cover Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang combat entry paths.
+- Attached Playwright screenshots for all four character combat states and the debug completed ending/profile summary.
+- Kept app source, generated assets, `src/game/content/visuals.ts`, and balance/content tuning files untouched.
+- Added `docs/playtest/alpha-acceptance.md` with runnable commands, playable scope, verification table, screenshot artifact names, and honest MVP gaps.
+
+Debug note:
+
+- Initial four-character visual smoke failed on Zhuge Liang because the current fallback silhouette standee sits about 15px lower than the generated character standees. This branch owns QA evidence rather than art replacement, so the smoke check now enforces bounded desktop separation and the fallback art gap is documented in the acceptance notes.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. Ledger output reported 86 runtime references, 0 missing files, 20 ink-pass debt entries, 31 GPT2 runtime assets, 8 source sheets, and 35 prompt queue targets.
+
+npm test
+Result: passed. 13 test files passed, 132 tests passed.
+
+npm run typecheck
+Result: passed. TypeScript completed with no errors.
+
+npm run build
+Result: passed. Vite built the production bundle and repeated the known non-blocking large chunk warning.
+
+npm run test:e2e
+Result: passed. 17 Chromium Playwright tests passed.
+```
+
+Screenshot review:
+
+```text
+test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-zhaoyun-desktop.png
+test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-diaochan-desktop.png
+test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-caiwenji-desktop.png
+test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-zhugeliang-desktop.png
+test-results/playable-flow-ending-summa-5f3d5-nd-persists-profile-summary-chromium/ending-profile-summary-desktop.png
+```
+
+Known gaps:
+
+- Asset audit still reports 20 `*-ink-pass.png` debt entries.
+- Cai Wenji and Zhuge Liang are playable and covered by screenshots, but their combat standees still use fallback silhouette art until the final asset pass replaces them.
+- Mobile layout/input, production audio, Steam packaging, full final-chapter played route, and deeper meta progression remain outside this desktop MVP QA gate.
+
+Next step:
+
+- Commit this Wave 4 release-QA evidence branch for integration after asset and balance branches.
+
 ### 2026-05-03 17:58 Asia/Shanghai
 
 Wave 4 planning start.

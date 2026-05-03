@@ -1,4 +1,25 @@
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Page, type TestInfo, test } from "@playwright/test";
+
+test("boots to title and exposes all four character choices before a run", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await expect(page.getByTestId("screen-title")).toBeVisible();
+  await expect(page.getByText("云水江湖")).toBeVisible();
+  await expect(page.getByTestId("character-zhaoyun")).toBeVisible();
+  await expect(page.getByTestId("character-diaochan")).toBeVisible();
+  await expect(page.getByTestId("character-caiwenji")).toBeVisible();
+  await expect(page.getByTestId("character-zhugeliang")).toBeVisible();
+  await expect(page.getByTestId("character-zhaoyun")).toHaveClass(/is-selected/);
+
+  await page.getByTestId("character-zhugeliang").click();
+
+  await expect(page.getByTestId("character-zhugeliang")).toHaveClass(/is-selected/);
+  await expect(page.getByTestId("start-run")).toBeEnabled();
+  await expect(page.getByTestId("continue-run")).toBeDisabled();
+  await expect(page.getByTestId("screen-map")).toBeHidden();
+});
 
 test("settings panel opens from title and returns without starting a run", async ({ page }) => {
   await page.goto("/");
@@ -22,7 +43,7 @@ test("run summary shell opens from the title debug entry", async ({ page }) => {
   expect(statCount).toBeGreaterThan(2);
 });
 
-test("ending summary records and persists profile summary", async ({ page }) => {
+test("ending summary records and persists profile summary", async ({ page }, testInfo) => {
   await page.goto("/");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
@@ -37,6 +58,7 @@ test("ending summary records and persists profile summary", async ({ page }) => 
   await expect(page.getByTestId("run-summary-chapters")).toContainText("4");
   await expect(page.getByTestId("profile-total-runs")).toContainText("1");
   await expect(page.getByTestId("profile-unlocked-endings")).toContainText("隐藏清悟");
+  await capturePlaytestScreenshot(page, testInfo, "ending-profile-summary-desktop.png");
 
   await page.reload();
   await page.getByTestId("debug-run-summary").click();
@@ -320,4 +342,11 @@ async function winVisibleCombat(page: Page, maxSteps = 36, targetScreen = "scree
   }
 
   await expect(page.getByTestId(targetScreen)).toBeVisible();
+}
+
+async function capturePlaytestScreenshot(page: Page, testInfo: TestInfo, fileName: string): Promise<void> {
+  const path = testInfo.outputPath(fileName);
+  const screenshot = await page.screenshot({ path, fullPage: true });
+  expect(screenshot.byteLength).toBeGreaterThan(25_000);
+  await testInfo.attach(fileName, { path, contentType: "image/png" });
 }
