@@ -4,5 +4,6 @@ playwright-report/
 test-results/
 coverage/
 .vite/
+.worktrees
+.worktrees/
 *.log
-
