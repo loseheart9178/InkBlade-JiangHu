@@ -40,7 +40,35 @@ test("captures desktop combat smoke screenshots for Zhao Yun and Diao Chan", asy
   await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /diaochan-standee-gpt-v2-cutout\.png$/);
   await expect(page.getByTestId("combat-sprite-player")).toHaveCount(0);
   await page.screenshot({ path: testInfo.outputPath("combat-diaochan-desktop.png"), fullPage: true });
+
+  await page.goto("/");
+  await page.getByTestId("character-caiwenji").click();
+  await page.getByTestId("start-run").click();
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /gpt2-caiwenji-standee-cutout\.png$/);
+  await expect(page.getByTestId("combat-sprite-player")).toHaveCount(0);
+  await clickPlayableAttack(page);
+  await expect(page.getByTestId("combat-sprite-player")).toHaveCSS("background-image", /caiwenji-qin-attack-strip-gpt2\.png/);
+  await page.screenshot({ path: testInfo.outputPath("combat-caiwenji-desktop.png"), fullPage: true });
+
+  await page.goto("/");
+  await page.getByTestId("character-zhugeliang").click();
+  await page.getByTestId("start-run").click();
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /gpt2-zhugeliang-standee-cutout\.png$/);
+  await expect(page.getByTestId("combat-sprite-player")).toHaveCount(0);
+  await clickPlayableAttack(page);
+  await expect(page.getByTestId("combat-sprite-player")).toHaveCSS("background-image", /zhugeliang-formation-strip-gpt2\.png/);
+  await page.screenshot({ path: testInfo.outputPath("combat-zhugeliang-desktop.png"), fullPage: true });
 });
+
+async function clickPlayableAttack(page: import("@playwright/test").Page) {
+  const playableAttack = page.locator(".combat-card:not([disabled])").filter({ hasText: "攻" }).first();
+  await expect(playableAttack).toBeVisible();
+  await playableAttack.click();
+}
 
 async function expectDesktopCombatLayout(page: import("@playwright/test").Page) {
   const playerStandee = await page.getByTestId("combat-standee-player").boundingBox();

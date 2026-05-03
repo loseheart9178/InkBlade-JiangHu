@@ -56,6 +56,20 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
     accent: "red"
   },
   {
+    id: "caiwenji",
+    assetPath: "/assets/generated/gpt2-caiwenji-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-caiwenji-standee-cutout.png",
+    alt: "Ink-wash portrait of Cai Wenji with guqin and teal sound waves",
+    accent: "teal"
+  },
+  {
+    id: "zhugeliang",
+    assetPath: "/assets/generated/gpt2-zhugeliang-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-zhugeliang-standee-cutout.png",
+    alt: "Ink-wash portrait of Zhuge Liang with feather fan and formation diagrams",
+    accent: "teal"
+  },
+  {
     id: "enemy_ink_bandit",
     assetPath: "/assets/generated/gpt2-ink-bandit-standee-cutout.png",
     standeePath: "/assets/generated/gpt2-ink-bandit-standee-cutout.png",
@@ -113,23 +127,23 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "enemy_bamboo_soldier",
-    assetPath: "/assets/generated/bamboo-soldier-standee-ink-pass.png",
-    standeePath: "/assets/generated/bamboo-soldier-standee-ink-pass.png",
-    alt: "Bamboo phalanx soldier ink shade",
+    assetPath: "/assets/generated/gpt2-bamboo-soldier-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-bamboo-soldier-standee-cutout.png",
+    alt: "Ink-corrupted bamboo soldier with spear and teal rain leaves",
     accent: "teal"
   },
   {
     id: "elite_qin_score",
-    assetPath: "/assets/generated/qin-score-standee-ink-pass.png",
-    standeePath: "/assets/generated/qin-score-standee-ink-pass.png",
-    alt: "Qin score elite surrounded by rain ink",
+    assetPath: "/assets/generated/gpt2-qin-score-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-qin-score-standee-cutout.png",
+    alt: "Haunted qin-score elite surrounded by broken music scrolls",
     accent: "teal"
   },
   {
     id: "elite_bamboo_phalanx",
-    assetPath: "/assets/generated/bamboo-phalanx-standee-ink-pass.png",
-    standeePath: "/assets/generated/bamboo-phalanx-standee-ink-pass.png",
-    alt: "Bamboo battle array elite ink soldier",
+    assetPath: "/assets/generated/gpt2-bamboo-phalanx-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-bamboo-phalanx-standee-cutout.png",
+    alt: "Bamboo phalanx commander with shield formation silhouettes",
     accent: "ink"
   },
   {
@@ -162,8 +176,8 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "elite_lubu_shadow",
-    assetPath: "/assets/generated/lubu-shadow-standee-ink-pass.png",
-    standeePath: "/assets/generated/lubu-shadow-standee-ink-pass.png",
+    assetPath: "/assets/generated/gpt2-lubu-shadow-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-lubu-shadow-standee-cutout.png",
     alt: "Lu Bu ink shadow with halberd",
     accent: "red"
   },
@@ -180,6 +194,13 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
     standeePath: "/assets/generated/gpt2-scribe-officer-standee-cutout.png",
     alt: "Ink book scribe officer boss with cinnabar seal",
     accent: "red"
+  },
+  {
+    id: "boss_nameless_historian",
+    assetPath: "/assets/generated/gpt2-nameless-historian-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-nameless-historian-standee-cutout.png",
+    alt: "Nameless Historian final boss with cinnabar brush and torn scrolls",
+    accent: "red"
   }
 ];
 
@@ -190,7 +211,7 @@ export const combatPortraitsById: Record<string, CombatPortraitDefinition> = Obj
 export const cardArtList: CardArtDefinition[] = [
   {
     id: "zhao_break_spear",
-    assetPath: "/assets/generated/cards/zhao-break-spear-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-zhao-break-spear.png",
     alt: "Zhao Yun breaking spear ink card art",
     accent: "red"
   },
@@ -220,19 +241,19 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "zhao_white_horse_breakout",
-    assetPath: "/assets/generated/cards/zhao-white-horse-breakout-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-zhao-white-horse-breakout.png",
     alt: "White horse breakout ink card art",
     accent: "teal"
   },
   {
     id: "zhao_return_spear",
-    assetPath: "/assets/generated/cards/zhao-return-spear-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-zhao-return-spear.png",
     alt: "Return spear counter ink card art",
     accent: "teal"
   },
   {
     id: "zhao_spear_wall",
-    assetPath: "/assets/generated/cards/zhao-spear-wall-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-zhao-spear-wall.png",
     alt: "Spear wall guard ink card art",
     accent: "teal"
   },
@@ -250,7 +271,7 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "diao_lotus_blade",
-    assetPath: "/assets/generated/cards/diao-lotus-blade-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-diao-lotus-blade.png",
     alt: "Diao Chan lotus hidden blade ink card art",
     accent: "red"
   },
@@ -262,19 +283,19 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "diao_flying_sleeves",
-    assetPath: "/assets/generated/cards/diao-flying-sleeves-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-diao-flying-sleeves.png",
     alt: "Diao Chan flying sleeves ink card art",
     accent: "teal"
   },
   {
     id: "diao_lijian",
-    assetPath: "/assets/generated/cards/diao-lijian-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-diao-lijian.png",
     alt: "Diao Chan discord charm ink card art",
     accent: "red"
   },
   {
     id: "diao_mirror_flower",
-    assetPath: "/assets/generated/cards/diao-mirror-flower-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-diao-mirror-flower.png",
     alt: "Diao Chan mirror flower ink card art",
     accent: "teal"
   },
@@ -298,15 +319,51 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "status_zayin",
-    assetPath: "/assets/generated/cards/status-zayin-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-status-zayin.png",
     alt: "Noise status card art with broken qin lines",
     accent: "ink"
   },
   {
     id: "status_canyin",
-    assetPath: "/assets/generated/cards/status-canyin-ink-pass.png",
+    assetPath: "/assets/generated/cards/gpt2-status-canyin.png",
     alt: "Echo status card art with cold teal sound waves",
     accent: "ink"
+  },
+  {
+    id: "cai_qingxin_song",
+    assetPath: "/assets/generated/cards/gpt2-cai-qingxin-song.png",
+    alt: "Cai Wenji Qingxin Song card art with teal cleansing guqin waves",
+    accent: "teal"
+  },
+  {
+    id: "cai_hujia_beat",
+    assetPath: "/assets/generated/cards/gpt2-cai-hujia-beat.png",
+    alt: "Cai Wenji Hujia Beat card art with sound blades",
+    accent: "teal"
+  },
+  {
+    id: "cai_final_song",
+    assetPath: "/assets/generated/cards/gpt2-cai-final-song.png",
+    alt: "Cai Wenji Final Song card art with luminous guqin chord",
+    accent: "gold"
+  },
+  {
+    id: "zhuge_observe_stars",
+    assetPath: "/assets/generated/cards/gpt2-zhuge-observe-stars.png",
+    alt: "Zhuge Liang Observe Stars card art with astrolabe and star trails",
+    accent: "gold"
+  },
+  {
+    id: "zhuge_small_eight_array",
+    assetPath: "/assets/generated/cards/gpt2-zhuge-eight-array.png",
+    alt: "Zhuge Liang Eight Array card art with bagua formation",
+    accent: "teal"
+  },
+  {
+    id: "zhuge_borrow_wind",
+    assetPath: "/assets/generated/cards/gpt2-zhuge-borrow-wind.png",
+    alt: "Zhuge Liang Borrow Wind card art with feather fan and eastern wind",
+    accent: "teal"
   },
   {
     id: "status_redacted_history",
@@ -411,6 +468,22 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
     anchor: "bottom-center"
   },
   {
+    id: "caiwenji_attack",
+    assetPath: "/assets/sprites/caiwenji-qin-attack-strip-gpt2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "zhugeliang_attack",
+    assetPath: "/assets/sprites/zhugeliang-formation-strip-gpt2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
     id: "ink_bandit_attack",
     assetPath: "/assets/sprites/ink-bandit-attack-strip-gpt-v2.png",
     frameCount: 4,
@@ -452,7 +525,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "bamboo_wraith_attack",
-    assetPath: "/assets/sprites/bamboo-wraith-attack-strip-ink-pass.png",
+    assetPath: "/assets/sprites/bamboo-wraith-attack-strip-gpt2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -460,7 +533,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "broken_scholar_attack",
-    assetPath: "/assets/sprites/broken-scholar-attack-strip-ink-pass.png",
+    assetPath: "/assets/sprites/broken-scholar-attack-strip-gpt2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -468,7 +541,31 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "bamboo_soldier_attack",
-    assetPath: "/assets/sprites/bamboo-soldier-attack-strip-ink-pass.png",
+    assetPath: "/assets/sprites/bamboo-soldier-attack-strip-gpt2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "qin_score_attack",
+    assetPath: "/assets/sprites/qin-score-attack-strip-gpt2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "bamboo_phalanx_attack",
+    assetPath: "/assets/sprites/bamboo-phalanx-attack-strip-gpt2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "lubu_shadow_attack",
+    assetPath: "/assets/sprites/lubu-shadow-attack-strip-gpt2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -476,7 +573,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "qin_demon_attack",
-    assetPath: "/assets/sprites/qin-demon-attack-strip-ink-pass.png",
+    assetPath: "/assets/sprites/qin-demon-attack-strip-gpt2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -484,7 +581,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "history_scribe_attack",
-    assetPath: "/assets/sprites/history-scribe-attack-strip-ink-pass.png",
+    assetPath: "/assets/sprites/history-scribe-attack-strip-gpt2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -492,7 +589,15 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "scribe_officer_attack",
-    assetPath: "/assets/sprites/scribe-officer-attack-strip-ink-pass.png",
+    assetPath: "/assets/sprites/scribe-officer-attack-strip-gpt2.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "nameless_historian_attack",
+    assetPath: "/assets/sprites/nameless-historian-attack-strip-gpt2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -519,5 +624,10 @@ export const battlefieldAssets: Record<string, BattlefieldAssetDefinition> = {
     id: "changan",
     assetPath: "/assets/generated/gpt2-changan-battlefield.png",
     alt: "Chang'an ink city battlefield with red seals"
+  },
+  moyuan: {
+    id: "moyuan",
+    assetPath: "/assets/generated/gpt2-moyuan-battlefield.png",
+    alt: "Moyuan black-water mirror battlefield with torn history pages"
   }
 };

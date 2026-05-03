@@ -2736,3 +2736,75 @@ Known gaps:
 Next step:
 
 - Hand off the verified Milestone 45 audit tooling and ledger for integration from `codex/auton-art-audit`.
+
+### 2026-05-03 21:07 Asia/Shanghai
+
+Wave 4 / Milestone 50 asset pass completed in `.worktrees/wave4-gpt2-assets`.
+
+Re-read before art generation and asset replacement:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-wave4-mvp-closure.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/art/gpt2-priority-queue.md`
+- `public/assets/generated/gpt2-prompt-queue.json`
+- `skills/inkblade-art-asset-pipeline/SKILL.md`
+
+What changed:
+
+- Generated and preserved GPT Image 2 source art for Cai Wenji, Zhuge Liang, enemy standees, final boss, priority player cards, priority enemy/final assets, and the `墨渊照心` battlefield under `public/assets/generated/sources/`.
+- Added runtime cutouts and crops under `public/assets/generated/`, `public/assets/generated/cards/`, and `public/assets/sprites/`.
+- Rebound `src/game/content/visuals.ts` so priority `*-ink-pass` art debt is replaced by semantic `gpt2-*` assets instead of being hidden behind fallback paths.
+- Added Cai Wenji, Zhuge Liang, final boss, and chapter elite sprite strips, with controller mappings for enemy/player attack animations.
+- Extended the desktop visual smoke test to cover Zhao Yun, Diao Chan, Cai Wenji, Zhuge Liang, and their attack-strip transitions.
+
+Decisions:
+
+- Kept untouched GPT Image 2 source sheets in `public/assets/generated/sources/`; runtime assets are cropped/cut out separately for manifest use.
+- Converted standees and attack strips through project-local post-processing so idle art and animation frames avoid the old red/white circular slash residue.
+- Used four-frame 512x512 transparent attack strips for new character/enemy animation coverage to match the existing Phaser loader contract.
+- The new `moyuan` battlefield asset is registered in the visual manifest for final-chapter use; the current combat scene still defaults its background by route until a later dynamic-background pass.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, GPT2 runtime assets 55, source sheets 20, prompt queue targets 35.
+
+npm test -- tests/data/content.test.ts
+Result: 1 test file passed, 23 tests passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Chromium test passed. Desktop combat screenshots captured for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang.
+
+npm test
+Result: 13 test files passed, 132 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected large Phaser bundle chunk-size warning.
+```
+
+Known gaps:
+
+- Some low-priority starter/filler cards still use type-level fallback art, but all tracked `ink-pass` runtime debt is cleared by the audit.
+- The final battlefield asset is available in the manifest and audit, while route-specific battlefield switching remains a later polish task.
+
+Next step:
+
+- Commit the asset branch, integrate it first into `codex/next-major-modules`, then run the same narrow asset verification before reclaiming the worktree.

@@ -330,6 +330,8 @@ describe("content data", () => {
     const expectedIds = [
       "zhaoyun",
       "diaochan",
+      "caiwenji",
+      "zhugeliang",
       "enemy_ink_bandit",
       "enemy_faceless_soldier",
       "enemy_paper_umbrella",
@@ -338,8 +340,12 @@ describe("content data", () => {
       "boss_ink_dongzhuo",
       "enemy_bamboo_wraith",
       "enemy_broken_scholar",
+      "enemy_bamboo_soldier",
       "elite_qin_score",
-      "boss_qin_demon_echo"
+      "elite_bamboo_phalanx",
+      "boss_qin_demon_echo",
+      "elite_lubu_shadow",
+      "boss_nameless_historian"
     ];
 
     for (const id of expectedIds) {
@@ -377,6 +383,16 @@ describe("content data", () => {
     expect(combatPortraitsById.diaochan.alt).toContain("Diao Chan");
     expect(combatPortraitsById.diaochan.alt).not.toContain("Cai Wenji");
     expect(combatPortraitsById.diaochan.alt).not.toContain("guqin");
+
+    expect(combatPortraitsById.caiwenji.assetPath).toBe("/assets/generated/gpt2-caiwenji-standee-cutout.png");
+    expect(combatPortraitsById.caiwenji.standeePath).toBe("/assets/generated/gpt2-caiwenji-standee-cutout.png");
+    expect(combatPortraitsById.caiwenji.alt).toContain("Cai Wenji");
+    expect(combatPortraitsById.caiwenji.alt).toContain("guqin");
+
+    expect(combatPortraitsById.zhugeliang.assetPath).toBe("/assets/generated/gpt2-zhugeliang-standee-cutout.png");
+    expect(combatPortraitsById.zhugeliang.standeePath).toBe("/assets/generated/gpt2-zhugeliang-standee-cutout.png");
+    expect(combatPortraitsById.zhugeliang.alt).toContain("Zhuge Liang");
+    expect(combatPortraitsById.zhugeliang.alt).toContain("formation");
   });
 
   it("maps featured cards, battlefield, and attack sprite strips to art assets", () => {
@@ -390,6 +406,10 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.zhaoyun_attack.assetPath).toBe("/assets/sprites/zhaoyun-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.diaochan_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.diaochan_attack.assetPath).toBe("/assets/sprites/diaochan-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.caiwenji_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.caiwenji_attack.assetPath).toBe("/assets/sprites/caiwenji-qin-attack-strip-gpt2.png");
+    expect(combatSpriteSheetsById.zhugeliang_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.zhugeliang_attack.assetPath).toBe("/assets/sprites/zhugeliang-formation-strip-gpt2.png");
     expect(combatSpriteSheetsById.ink_bandit_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.ink_bandit_attack.assetPath).toBe("/assets/sprites/ink-bandit-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.paper_umbrella_attack.frameCount).toBeGreaterThanOrEqual(4);
@@ -410,6 +430,12 @@ describe("content data", () => {
       "zhao_spear_wall",
       "zhao_break_spear",
       "zhao_river_guard",
+      "cai_qingxin_song",
+      "cai_hujia_beat",
+      "cai_final_song",
+      "zhuge_observe_stars",
+      "zhuge_small_eight_array",
+      "zhuge_borrow_wind",
       "diao_jinghong_strike",
       "diao_flying_sleeves",
       "diao_lijian",
@@ -436,6 +462,20 @@ describe("content data", () => {
       common_jiexue: "/assets/generated/cards/gpt2-common-jiexue.png",
       common_xixin: "/assets/generated/cards/gpt2-common-xixin.png",
       zhao_seven_entries: "/assets/generated/cards/gpt2-zhao-seven-entries.png",
+      zhao_break_spear: "/assets/generated/cards/gpt2-zhao-break-spear.png",
+      zhao_return_spear: "/assets/generated/cards/gpt2-zhao-return-spear.png",
+      zhao_spear_wall: "/assets/generated/cards/gpt2-zhao-spear-wall.png",
+      zhao_white_horse_breakout: "/assets/generated/cards/gpt2-zhao-white-horse-breakout.png",
+      diao_flying_sleeves: "/assets/generated/cards/gpt2-diao-flying-sleeves.png",
+      diao_lijian: "/assets/generated/cards/gpt2-diao-lijian.png",
+      diao_lotus_blade: "/assets/generated/cards/gpt2-diao-lotus-blade.png",
+      diao_mirror_flower: "/assets/generated/cards/gpt2-diao-mirror-flower.png",
+      cai_qingxin_song: "/assets/generated/cards/gpt2-cai-qingxin-song.png",
+      cai_hujia_beat: "/assets/generated/cards/gpt2-cai-hujia-beat.png",
+      cai_final_song: "/assets/generated/cards/gpt2-cai-final-song.png",
+      zhuge_observe_stars: "/assets/generated/cards/gpt2-zhuge-observe-stars.png",
+      zhuge_small_eight_array: "/assets/generated/cards/gpt2-zhuge-eight-array.png",
+      zhuge_borrow_wind: "/assets/generated/cards/gpt2-zhuge-borrow-wind.png",
       status_redacted_history: "/assets/generated/cards/gpt2-status-redacted-history.png"
     };
 
@@ -449,7 +489,8 @@ describe("content data", () => {
   it("uses GPT Image 2 assets for the next priority chapter battlefields and enemies", () => {
     const priorityBattlefields = {
       bamboo: "/assets/generated/gpt2-bamboo-battlefield.png",
-      changan: "/assets/generated/gpt2-changan-battlefield.png"
+      changan: "/assets/generated/gpt2-changan-battlefield.png",
+      moyuan: "/assets/generated/gpt2-moyuan-battlefield.png"
     };
 
     for (const [battlefieldId, assetPath] of Object.entries(priorityBattlefields)) {
@@ -460,9 +501,14 @@ describe("content data", () => {
     const priorityStandees = {
       enemy_bamboo_wraith: "/assets/generated/gpt2-bamboo-wraith-standee-cutout.png",
       enemy_broken_scholar: "/assets/generated/gpt2-broken-scholar-standee-cutout.png",
+      enemy_bamboo_soldier: "/assets/generated/gpt2-bamboo-soldier-standee-cutout.png",
+      elite_qin_score: "/assets/generated/gpt2-qin-score-standee-cutout.png",
+      elite_bamboo_phalanx: "/assets/generated/gpt2-bamboo-phalanx-standee-cutout.png",
       boss_qin_demon_echo: "/assets/generated/gpt2-qin-demon-standee-cutout.png",
       enemy_history_scribe: "/assets/generated/gpt2-history-scribe-standee-cutout.png",
-      boss_scribe_officer: "/assets/generated/gpt2-scribe-officer-standee-cutout.png"
+      elite_lubu_shadow: "/assets/generated/gpt2-lubu-shadow-standee-cutout.png",
+      boss_scribe_officer: "/assets/generated/gpt2-scribe-officer-standee-cutout.png",
+      boss_nameless_historian: "/assets/generated/gpt2-nameless-historian-standee-cutout.png"
     };
 
     for (const [enemyId, assetPath] of Object.entries(priorityStandees)) {
@@ -473,34 +519,8 @@ describe("content data", () => {
   });
 
   it("tracks remaining non-final ink-pass art debt by semantic asset id", () => {
-    const allowedInkPassDebt = new Set([
-      "cardArt:diao_flying_sleeves",
-      "cardArt:diao_lijian",
-      "cardArt:diao_lotus_blade",
-      "cardArt:diao_mirror_flower",
-      "cardArt:status_canyin",
-      "cardArt:status_zayin",
-      "cardArt:zhao_break_spear",
-      "cardArt:zhao_return_spear",
-      "cardArt:zhao_spear_wall",
-      "cardArt:zhao_white_horse_breakout",
-      "combatPortrait:elite_bamboo_phalanx",
-      "combatPortrait:elite_lubu_shadow",
-      "combatPortrait:elite_qin_score",
-      "combatPortrait:enemy_bamboo_soldier",
-      "combatSpriteSheet:bamboo_soldier_attack",
-      "combatSpriteSheet:bamboo_wraith_attack",
-      "combatSpriteSheet:broken_scholar_attack",
-      "combatSpriteSheet:history_scribe_attack",
-      "combatSpriteSheet:qin_demon_attack",
-      "combatSpriteSheet:scribe_officer_attack"
-    ]);
     const semanticDebt = collectInkPassDebt();
-
-    for (const debtId of semanticDebt.map((entry) => `${entry.kind}:${entry.id}`)) {
-      expect(allowedInkPassDebt.has(debtId)).toBe(true);
-    }
-    expect(semanticDebt.length).toBeLessThanOrEqual(allowedInkPassDebt.size);
+    expect(semanticDebt).toEqual([]);
 
     const ledgerPath = join(dirname(fileURLToPath(import.meta.url)), "../../public/assets/generated/asset-audit.json");
     expect(existsSync(ledgerPath)).toBe(true);
@@ -551,8 +571,8 @@ describe("content data", () => {
 
     expect(queue.schemaVersion).toBe(1);
     expect(queue.generatedBy).toBe("Wave 3C art debt prep");
-    expect(queue.baselineInkPassDebt).toEqual(audit.inkPassDebt);
     expect(queue.baselineInkPassDebt).toHaveLength(20);
+    expect(audit.inkPassDebt.length).toBeLessThan(queue.baselineInkPassDebt.length);
     expect(audit.promptQueue).toMatchObject({
       assetPath: "/assets/generated/gpt2-prompt-queue.json",
       targetCount: queue.targets.length

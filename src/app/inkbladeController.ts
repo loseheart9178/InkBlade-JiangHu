@@ -1651,6 +1651,14 @@ function getCombatSprite(id: string) {
     return combatSpriteSheetsById.diaochan_attack;
   }
 
+  if (id === "caiwenji") {
+    return combatSpriteSheetsById.caiwenji_attack;
+  }
+
+  if (id === "zhugeliang") {
+    return combatSpriteSheetsById.zhugeliang_attack;
+  }
+
   if (id === "enemy_paper_umbrella") {
     return combatSpriteSheetsById.paper_umbrella_attack;
   }
@@ -1667,28 +1675,44 @@ function getCombatSprite(id: string) {
     return combatSpriteSheetsById.ink_dongzhuo_boss_attack;
   }
 
-  if (id === "enemy_bamboo_wraith" || id === "elite_qin_score") {
+  if (id === "enemy_bamboo_wraith") {
     return combatSpriteSheetsById.bamboo_wraith_attack;
+  }
+
+  if (id === "elite_qin_score") {
+    return combatSpriteSheetsById.qin_score_attack;
   }
 
   if (id === "enemy_broken_scholar") {
     return combatSpriteSheetsById.broken_scholar_attack;
   }
 
-  if (id === "enemy_bamboo_soldier" || id === "elite_bamboo_phalanx") {
+  if (id === "enemy_bamboo_soldier") {
     return combatSpriteSheetsById.bamboo_soldier_attack;
+  }
+
+  if (id === "elite_bamboo_phalanx") {
+    return combatSpriteSheetsById.bamboo_phalanx_attack;
   }
 
   if (id === "boss_qin_demon_echo") {
     return combatSpriteSheetsById.qin_demon_attack;
   }
 
-  if (id === "enemy_history_scribe" || id === "enemy_ink_market_guard" || id === "enemy_nameless_citizen" || id === "elite_memory_stela" || id === "elite_lubu_shadow") {
+  if (id === "elite_lubu_shadow") {
+    return combatSpriteSheetsById.lubu_shadow_attack;
+  }
+
+  if (id === "enemy_history_scribe" || id === "enemy_ink_market_guard" || id === "enemy_nameless_citizen" || id === "elite_memory_stela") {
     return combatSpriteSheetsById.history_scribe_attack;
   }
 
   if (id === "boss_scribe_officer") {
     return combatSpriteSheetsById.scribe_officer_attack;
+  }
+
+  if (id === "boss_nameless_historian") {
+    return combatSpriteSheetsById.nameless_historian_attack;
   }
 
   return combatSpriteSheetsById.ink_bandit_attack;
