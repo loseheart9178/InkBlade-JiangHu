@@ -49,11 +49,32 @@ Before any prompt writing, implementation, or UI placement:
 12. For GPT Image 2 sheet output, preserve the source sheet, crop each panel into semantic runtime filenames, and bind the manifest to the runtime crop rather than the sheet.
 13. Do not use generic circular slash/sigil overlays for ordinary damage, block, status, or trigger feedback. They can read as broken sequence-frame residue over standees; use floating text/log feedback unless a card has an explicit signature VFX cue.
 
+## Asset Debt Ledger
+
+After every GPT Image 2 replacement pass, refresh the generated asset ledger before claiming art coverage:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+```
+
+The script scans `src/game/content/visuals.ts` for `/assets/generated` and `/assets/sprites` runtime references, verifies the files under `public/`, and writes `public/assets/generated/asset-audit.json`.
+
+Use the ledger as the handoff for later art passes:
+
+- `missing` is blocking runtime breakage and must be empty before commit.
+- `inkPassDebt` is the semantic list of remaining non-final runtime assets; it may shrink over time, but new debt IDs should be intentional and documented.
+- `gpt2Runtime` shows currently registered GPT Image 2 runtime assets.
+- `sourceSheets` records preserved source sheets and source PNGs that support future crops and repairs.
+
+Do not hand-edit the ledger to hide debt. Update `visuals.ts` or assets, rerun the audit command, and record the result in `Documentation.md`.
+
 ## Verification
 
 Run the narrowest checks first, then full verification before claiming completion:
 
 ```bash
+node scripts/audit-generated-assets.mjs
 npm test -- --run tests/data/content.test.ts
 npm run build
 npm run test:e2e -- tests/e2e/visual-smoke.spec.ts

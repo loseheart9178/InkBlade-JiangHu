@@ -5,7 +5,7 @@ import { enemyList } from "../../src/game/content/enemies";
 import { eventList } from "../../src/game/content/events";
 import { relicList } from "../../src/game/content/relics";
 import * as visuals from "../../src/game/content/visuals";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -357,6 +357,52 @@ describe("content data", () => {
     }
   });
 
+  it("tracks remaining non-final ink-pass art debt by semantic asset id", () => {
+    const allowedInkPassDebt = new Set([
+      "cardArt:diao_flying_sleeves",
+      "cardArt:diao_lijian",
+      "cardArt:diao_lotus_blade",
+      "cardArt:diao_mirror_flower",
+      "cardArt:status_canyin",
+      "cardArt:status_zayin",
+      "cardArt:zhao_break_spear",
+      "cardArt:zhao_return_spear",
+      "cardArt:zhao_spear_wall",
+      "cardArt:zhao_white_horse_breakout",
+      "combatPortrait:elite_bamboo_phalanx",
+      "combatPortrait:elite_lubu_shadow",
+      "combatPortrait:elite_qin_score",
+      "combatPortrait:enemy_bamboo_soldier",
+      "combatSpriteSheet:bamboo_soldier_attack",
+      "combatSpriteSheet:bamboo_wraith_attack",
+      "combatSpriteSheet:broken_scholar_attack",
+      "combatSpriteSheet:history_scribe_attack",
+      "combatSpriteSheet:qin_demon_attack",
+      "combatSpriteSheet:scribe_officer_attack"
+    ]);
+    const semanticDebt = collectInkPassDebt();
+
+    for (const debtId of semanticDebt.map((entry) => `${entry.kind}:${entry.id}`)) {
+      expect(allowedInkPassDebt.has(debtId)).toBe(true);
+    }
+    expect(semanticDebt.length).toBeLessThanOrEqual(allowedInkPassDebt.size);
+
+    const ledgerPath = join(dirname(fileURLToPath(import.meta.url)), "../../public/assets/generated/asset-audit.json");
+    expect(existsSync(ledgerPath)).toBe(true);
+
+    const ledger = JSON.parse(readFileSync(ledgerPath, "utf8")) as {
+      missing: unknown[];
+      inkPassDebt: Array<{ kind: string; id: string }>;
+      gpt2Runtime: unknown[];
+      sourceSheets: unknown[];
+    };
+
+    expect(ledger.missing).toEqual([]);
+    expect(ledger.inkPassDebt).toEqual(semanticDebt);
+    expect(ledger.gpt2Runtime.length).toBeGreaterThan(0);
+    expect(ledger.sourceSheets.length).toBeGreaterThan(0);
+  });
+
   it("declares signature card VFX cues for key role-defining martial arts", () => {
     const signatureVfxByCue = (
       visuals as typeof visuals & {
@@ -418,4 +464,35 @@ function getPeakIntentDamage(enemy: (typeof enemyList)[number]): number {
 
 function intentAddsStatusCard(intent: (typeof enemyList)[number]["intents"][number]): boolean {
   return intent.type === "special" && intent.effects.some((effect) => effect.action === "addCardToDiscard");
+}
+
+function collectInkPassDebt(): Array<{ kind: string; id: string; paths: string[] }> {
+  return [
+    ...Object.values(combatPortraitsById)
+      .map((portrait) => ({
+        kind: "combatPortrait",
+        id: portrait.id,
+        paths: [...new Set([portrait.assetPath, portrait.standeePath ?? ""].filter((assetPath) => assetPath.includes("ink-pass")))].sort()
+      })),
+    ...Object.values(cardArtById)
+      .map((art) => ({
+        kind: "cardArt",
+        id: art.id,
+        paths: art.assetPath.includes("ink-pass") ? [art.assetPath] : []
+      })),
+    ...Object.values(combatSpriteSheetsById)
+      .map((sheet) => ({
+        kind: "combatSpriteSheet",
+        id: sheet.id,
+        paths: sheet.assetPath.includes("ink-pass") ? [sheet.assetPath] : []
+      })),
+    ...Object.values(battlefieldAssets)
+      .map((asset) => ({
+        kind: "battlefield",
+        id: asset.id,
+        paths: asset.assetPath.includes("ink-pass") ? [asset.assetPath] : []
+      }))
+  ]
+    .filter((entry) => entry.paths.length > 0)
+    .sort((left, right) => `${left.kind}:${left.id}`.localeCompare(`${right.kind}:${right.id}`));
 }

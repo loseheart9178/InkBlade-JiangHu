@@ -1,0 +1,408 @@
+{
+  "schemaVersion": 1,
+  "visualManifest": "src/game/content/visuals.ts",
+  "summary": {
+    "runtimeReferenceCount": 86,
+    "uniqueRuntimeFileCount": 61,
+    "missingCount": 0,
+    "inkPassDebtCount": 20,
+    "gpt2RuntimeCount": 31,
+    "sourceSheetCount": 8
+  },
+  "missing": [],
+  "inkPassDebt": [
+    {
+      "kind": "cardArt",
+      "id": "diao_flying_sleeves",
+      "paths": [
+        "/assets/generated/cards/diao-flying-sleeves-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_lijian",
+      "paths": [
+        "/assets/generated/cards/diao-lijian-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_lotus_blade",
+      "paths": [
+        "/assets/generated/cards/diao-lotus-blade-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_mirror_flower",
+      "paths": [
+        "/assets/generated/cards/diao-mirror-flower-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "status_canyin",
+      "paths": [
+        "/assets/generated/cards/status-canyin-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "status_zayin",
+      "paths": [
+        "/assets/generated/cards/status-zayin-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_break_spear",
+      "paths": [
+        "/assets/generated/cards/zhao-break-spear-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_return_spear",
+      "paths": [
+        "/assets/generated/cards/zhao-return-spear-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_spear_wall",
+      "paths": [
+        "/assets/generated/cards/zhao-spear-wall-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_white_horse_breakout",
+      "paths": [
+        "/assets/generated/cards/zhao-white-horse-breakout-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_bamboo_phalanx",
+      "paths": [
+        "/assets/generated/bamboo-phalanx-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_lubu_shadow",
+      "paths": [
+        "/assets/generated/lubu-shadow-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_qin_score",
+      "paths": [
+        "/assets/generated/qin-score-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_bamboo_soldier",
+      "paths": [
+        "/assets/generated/bamboo-soldier-standee-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "bamboo_soldier_attack",
+      "paths": [
+        "/assets/sprites/bamboo-soldier-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "bamboo_wraith_attack",
+      "paths": [
+        "/assets/sprites/bamboo-wraith-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "broken_scholar_attack",
+      "paths": [
+        "/assets/sprites/broken-scholar-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "history_scribe_attack",
+      "paths": [
+        "/assets/sprites/history-scribe-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "qin_demon_attack",
+      "paths": [
+        "/assets/sprites/qin-demon-attack-strip-ink-pass.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "scribe_officer_attack",
+      "paths": [
+        "/assets/sprites/scribe-officer-attack-strip-ink-pass.png"
+      ]
+    }
+  ],
+  "gpt2Runtime": [
+    {
+      "kind": "battlefield",
+      "id": "bamboo",
+      "paths": [
+        "/assets/generated/gpt2-bamboo-battlefield.png"
+      ]
+    },
+    {
+      "kind": "battlefield",
+      "id": "changan",
+      "paths": [
+        "/assets/generated/gpt2-changan-battlefield.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_jiexue",
+      "paths": [
+        "/assets/generated/cards/gpt2-common-jiexue.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_xixin",
+      "paths": [
+        "/assets/generated/cards/gpt2-common-xixin.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_jinghong_strike",
+      "paths": [
+        "/assets/generated/cards/gpt2-diao-jinghong-strike.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "status_redacted_history",
+      "paths": [
+        "/assets/generated/cards/gpt2-status-redacted-history.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_river_guard",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-river-guard.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_seven_entries",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-seven-entries.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "boss_ink_dongzhuo",
+      "paths": [
+        "/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "boss_qin_demon_echo",
+      "paths": [
+        "/assets/generated/gpt2-qin-demon-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "boss_scribe_officer",
+      "paths": [
+        "/assets/generated/gpt2-scribe-officer-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "diaochan",
+      "paths": [
+        "/assets/generated/diaochan-standee-gpt-v2-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_blood_banner",
+      "paths": [
+        "/assets/generated/blood-banner-standee-gpt-v2-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_memory_stela",
+      "paths": [
+        "/assets/generated/gpt2-memory-stela-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "elite_sword_echo",
+      "paths": [
+        "/assets/generated/sword-echo-standee-gpt-v2-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_bamboo_wraith",
+      "paths": [
+        "/assets/generated/gpt2-bamboo-wraith-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_broken_scholar",
+      "paths": [
+        "/assets/generated/gpt2-broken-scholar-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_faceless_soldier",
+      "paths": [
+        "/assets/generated/gpt2-faceless-soldier-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_history_scribe",
+      "paths": [
+        "/assets/generated/gpt2-history-scribe-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_ink_bandit",
+      "paths": [
+        "/assets/generated/gpt2-ink-bandit-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_ink_market_guard",
+      "paths": [
+        "/assets/generated/gpt2-ink-market-guard-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_nameless_citizen",
+      "paths": [
+        "/assets/generated/gpt2-nameless-citizen-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "enemy_paper_umbrella",
+      "paths": [
+        "/assets/generated/gpt2-paper-umbrella-ghost-standee-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatPortrait",
+      "id": "zhaoyun",
+      "paths": [
+        "/assets/generated/zhaoyun-standee-gpt-v2-cutout.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "blood_banner_attack",
+      "paths": [
+        "/assets/sprites/blood-banner-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "diaochan_attack",
+      "paths": [
+        "/assets/sprites/diaochan-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "ink_bandit_attack",
+      "paths": [
+        "/assets/sprites/ink-bandit-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "ink_dongzhuo_boss_attack",
+      "paths": [
+        "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "paper_umbrella_attack",
+      "paths": [
+        "/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "sword_echo_attack",
+      "paths": [
+        "/assets/sprites/sword-echo-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "zhaoyun_attack",
+      "paths": [
+        "/assets/sprites/zhaoyun-attack-strip-gpt-v2.png"
+      ]
+    }
+  ],
+  "sourceSheets": [
+    {
+      "assetPath": "/assets/generated/card-sheet-gpt.png",
+      "bytes": 3574413
+    },
+    {
+      "assetPath": "/assets/generated/diaochan-standee-gpt-v2-source.png",
+      "bytes": 2262740
+    },
+    {
+      "assetPath": "/assets/generated/sources/gpt2-bamboo-changan-battlefield-sheet.png",
+      "bytes": 2988787
+    },
+    {
+      "assetPath": "/assets/generated/sources/gpt2-changan-enemy-standee-sheet.png",
+      "bytes": 2145943
+    },
+    {
+      "assetPath": "/assets/generated/sources/gpt2-chapter-two-three-enemy-standee-sheet.png",
+      "bytes": 2273546
+    },
+    {
+      "assetPath": "/assets/generated/sources/gpt2-first-chapter-enemy-standee-sheet.png",
+      "bytes": 2297117
+    },
+    {
+      "assetPath": "/assets/generated/sources/gpt2-priority-card-art-sheet.png",
+      "bytes": 3447883
+    },
+    {
+      "assetPath": "/assets/generated/zhaoyun-standee-gpt-v2-source.png",
+      "bytes": 2347784
+    }
+  ]
+}

@@ -1715,6 +1715,7 @@ Docs re-read before implementation:
 - `docs/yunshui_game_prd_v1.md`
 - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
 - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
 - `docs/chapters/chapter_01.md`
 - `docs/chapters/chapter_02.md`
 - `docs/chapters/chapter_03.md`
@@ -1836,3 +1837,80 @@ Known gaps:
 Next step:
 
 - Integrate this worktree after review, then use the simulator in Milestone 51 for full-route balance contracts and tuning.
+
+### 2026-05-03 15:12 Asia/Shanghai
+
+Milestone 45 start: Art Coverage Audit And Asset Debt Ledger.
+
+Re-read before implementation in `.worktrees/auton-art-audit`:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `skills/inkblade-art-asset-pipeline/SKILL.md`
+
+Scope guard:
+
+- This worker will only create the generated asset audit script and ledger, add semantic art debt data coverage, update the art pipeline skill, and record milestone results here.
+- No GPT Image asset generation or renderer/style/combat-system changes in this worktree.
+
+Current state:
+
+- Added `scripts/audit-generated-assets.mjs`.
+- Generated `public/assets/generated/asset-audit.json`.
+- Added semantic art-debt data coverage to `tests/data/content.test.ts`.
+- Updated `skills/inkblade-art-asset-pipeline/SKILL.md` with the debt-ledger workflow.
+
+Decisions:
+
+- The audit script scans `src/game/content/visuals.ts` as text for `/assets/generated` and `/assets/sprites` references so it stays independent of TypeScript compilation and renderer code.
+- `missing` is treated as blocking runtime breakage; current result is empty.
+- `inkPassDebt` is grouped by semantic manifest kind and id, allowing debt to shrink without forcing immediate full replacement.
+- GPT Image 2 runtime detection includes both `gpt2-*` and existing `*-gpt-v2*` runtime naming.
+- Source sheets include files under `public/assets/generated/sources/` plus source/sheet PNGs preserved at the generated root.
+
+Verification:
+
+```text
+npm test -- tests/data/content.test.ts
+First run after adding the debt test failed as expected:
+1 failed, 18 passed. Failure was missing `public/assets/generated/asset-audit.json`.
+
+node scripts/audit-generated-assets.mjs
+Result: passed. Ledger written with 86 runtime references, 0 missing files, 20 ink-pass debt entries, 31 GPT2 runtime assets, and 8 source sheets.
+
+npm test -- tests/data/content.test.ts
+Result: 1 test file passed, 19 tests passed.
+Additional refinement: ledger path comparison initially failed because portrait `assetPath` and `standeePath` can point to the same file. The data test now de-duplicates semantic paths to match the audit ledger.
+
+npm test
+Result: 10 test files passed, 110 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected large chunk warning for the Phaser bundle.
+```
+
+Known gaps:
+
+- The ledger intentionally records 20 remaining `ink-pass` runtime assets; this milestone audits and tracks the debt instead of generating replacements.
+- Future GPT Image 2 final asset work should use `asset-audit.json` as the priority handoff and rerun the audit after manifest changes.
+
+Next step:
+
+- Hand off the verified Milestone 45 audit tooling and ledger for integration from `codex/auton-art-audit`.
