@@ -551,6 +551,42 @@ describe("content data", () => {
     expect(ledger.sourceSheets.length).toBeGreaterThan(0);
   });
 
+  it("tracks non-blocking card art fallback debt separately from missing runtime art", () => {
+    const expectedFallbackDebt = collectCardFallbackDebt();
+    expect(expectedFallbackDebt.cards.length).toBeGreaterThan(0);
+    expect(expectedFallbackDebt.cards.map((card) => card.id)).toEqual(expect.arrayContaining(["zhao_guard", "diao_strike", "common_pifeng"]));
+
+    const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
+    const ledger = JSON.parse(readFileSync(join(projectRoot, "public/assets/generated/asset-audit.json"), "utf8")) as {
+      summary: {
+        missingCount: number;
+        cardFallbackDebtCount?: number;
+      };
+      missing: unknown[];
+      cardFallbackDebt?: {
+        totalCount: number;
+        byCharacter: Array<{ character: string; count: number }>;
+        byType: Array<{ type: string; count: number }>;
+        byRarity: Array<{ rarity: string; count: number }>;
+        cards: Array<{
+          id: string;
+          name: string;
+          character: string;
+          type: string;
+          rarity: string;
+          fallbackArtId: string;
+          fallbackAssetPath: string;
+          reason: "missing-card-art-id" | "shared-type-asset";
+        }>;
+      };
+    };
+
+    expect(ledger.missing).toEqual([]);
+    expect(ledger.summary.missingCount).toBe(0);
+    expect(ledger.summary.cardFallbackDebtCount).toBe(expectedFallbackDebt.cards.length);
+    expect(ledger.cardFallbackDebt).toEqual(expectedFallbackDebt);
+  });
+
   it("ships a GPT Image 2 priority prompt queue for art debt replacement", () => {
     const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
     const queuePath = join(projectRoot, "public/assets/generated/gpt2-prompt-queue.json");
@@ -711,4 +747,71 @@ function collectInkPassDebt(): Array<{ kind: string; id: string; paths: string[]
   ]
     .filter((entry) => entry.paths.length > 0)
     .sort((left, right) => `${left.kind}:${left.id}`.localeCompare(`${right.kind}:${right.id}`));
+}
+
+function collectCardFallbackDebt(): {
+  totalCount: number;
+  byCharacter: Array<{ character: string; count: number }>;
+  byType: Array<{ type: string; count: number }>;
+  byRarity: Array<{ rarity: string; count: number }>;
+  cards: Array<{
+    id: string;
+    name: string;
+    character: string;
+    type: string;
+    rarity: string;
+    fallbackArtId: string;
+    fallbackAssetPath: string;
+    reason: "missing-card-art-id" | "shared-type-asset";
+  }>;
+} {
+  const cards = cardList
+    .map((card) => {
+      const primaryType = card.types[0] ?? "unknown";
+      const fallbackArtId = `type_${primaryType}`;
+      const directArt = cardArtById[card.id];
+      const fallbackArt = cardArtById[fallbackArtId];
+      const usesTypeFallback = !directArt;
+      const usesSharedTypeAsset = Boolean(directArt && fallbackArt && directArt.assetPath === fallbackArt.assetPath);
+
+      if (!usesTypeFallback && !usesSharedTypeAsset) {
+        return null;
+      }
+
+      return {
+        id: card.id,
+        name: card.name,
+        character: card.character ?? "common",
+        type: primaryType,
+        rarity: card.rarity,
+        fallbackArtId,
+        fallbackAssetPath: fallbackArt?.assetPath ?? "",
+        reason: usesTypeFallback ? "missing-card-art-id" as const : "shared-type-asset" as const
+      };
+    })
+    .filter((entry): entry is NonNullable<typeof entry> => entry !== null)
+    .sort((left, right) => left.id.localeCompare(right.id));
+
+  return {
+    totalCount: cards.length,
+    byCharacter: summarizeCardFallbackDebt(cards, "character"),
+    byType: summarizeCardFallbackDebt(cards, "type"),
+    byRarity: summarizeCardFallbackDebt(cards, "rarity"),
+    cards
+  };
+}
+
+function summarizeCardFallbackDebt<T extends "character" | "type" | "rarity">(
+  cards: Array<Record<T, string>>,
+  key: T
+): Array<Record<T, string> & { count: number }> {
+  const counts = new Map<string, number>();
+
+  for (const card of cards) {
+    counts.set(card[key], (counts.get(card[key]) ?? 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([value, count]) => ({ [key]: value, count }) as Record<T, string> & { count: number })
+    .sort((left, right) => left[key].localeCompare(right[key]));
 }

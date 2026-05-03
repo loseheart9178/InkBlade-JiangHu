@@ -162,6 +162,72 @@ Next step:
 
 - Commit Milestone 56 and integrate after the final boss route branch.
 
+### 2026-05-03 22:05 Asia/Shanghai
+
+Wave 5 / Milestone 57 start: Card Art Fallback Ledger in `.worktrees/wave5-card-art-ledger` on branch `codex/wave5-card-art-ledger`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-03-wave5-post-mvp-polish-design.md`
+- `docs/superpowers/plans/2026-05-03-wave5-post-mvp-polish.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/final_chapter.md`
+- `docs/art/gpt2-priority-queue.md`
+
+Scope guard:
+
+- Own only `scripts/audit-generated-assets.mjs`, `public/assets/generated/asset-audit.json`, `docs/art/gpt2-priority-queue.md`, `tests/data/content.test.ts`, and this log.
+- Keep missing generated runtime files blocking.
+- Treat card art using type-level or shared fallback art as non-blocking GPT Image 2 backlog.
+
+Next step:
+
+- Add a failing content test for `cardFallbackDebt`, then extend the audit script and refresh the ledger/docs.
+
+### 2026-05-03 23:22 Asia/Shanghai
+
+Wave 5 / Milestone 57 complete in `.worktrees/wave5-card-art-ledger`.
+
+Implemented:
+
+- Extended `scripts/audit-generated-assets.mjs` with a `cardFallbackDebt` section that parses `cards.ts` and `visuals.ts`.
+- Kept `missing` generated runtime files as blocking while tracking cards that rely on type-level or shared fallback card art as non-blocking GPT Image 2 backlog.
+- Refreshed `public/assets/generated/asset-audit.json` with `cardFallbackDebtCount: 56`.
+- Updated `docs/art/gpt2-priority-queue.md` with the next low-priority card-art batches: starter readability, common foundation, character identity filler, and ink/mind cleanup.
+- Added content coverage proving the audit ledger matches the current data-driven card pool and keeps runtime `missing` empty.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 55, source sheets 20, prompt queue targets 35.
+
+npm test -- tests/data/content.test.ts
+Result: passed. 1 test file passed, 24 tests passed.
+
+npm test
+Result: passed. 13 test files passed, 135 tests passed.
+
+npm run build
+Result: passed. TypeScript and Vite build completed; Vite repeated the existing non-blocking large chunk warning.
+```
+
+Known gaps / risks:
+
+- This milestone does not generate new card art; it creates an auditable backlog for the next GPT Image 2 batch.
+- The fallback count is expected to change whenever new dedicated `cardArtById` entries are added or existing shared asset paths are replaced.
+
+Next step:
+
+- Commit Milestone 57, integrate it into `codex/next-major-modules`, then run the full Wave 5 acceptance gate.
+
 ### 2026-05-03 21:50 Asia/Shanghai
 
 Wave 5 post-MVP polish planning started under the user's autonomous execution mandate.

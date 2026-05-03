@@ -6,10 +6,12 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDir, "..");
 const publicRoot = path.join(projectRoot, "public");
 const visualsPath = path.join(projectRoot, "src", "game", "content", "visuals.ts");
+const cardsPath = path.join(projectRoot, "src", "game", "content", "cards.ts");
 const ledgerPath = path.join(publicRoot, "assets", "generated", "asset-audit.json");
 const promptQueuePath = path.join(publicRoot, "assets", "generated", "gpt2-prompt-queue.json");
 
 const visualsSource = readFileSync(visualsPath, "utf8");
+const cardsSource = readFileSync(cardsPath, "utf8");
 
 const manifestSections = [
   ["combatPortrait", "combatPortraitList"],
@@ -54,20 +56,24 @@ const inkPassDebt = groupBySemanticAsset(runtimeReferences.filter((reference) =>
 const gpt2Runtime = groupBySemanticAsset(runtimeReferences.filter((reference) => isGpt2RuntimeAsset(reference.assetPath)));
 const sourceSheets = findSourceSheets(path.join(publicRoot, "assets", "generated"));
 const promptQueue = summarizePromptQueue(promptQueuePath);
+const cardFallbackDebt = summarizeCardFallbackDebt(cardsSource, visualsSource);
 
 const ledger = {
   schemaVersion: 1,
   visualManifest: "src/game/content/visuals.ts",
+  cardManifest: "src/game/content/cards.ts",
   summary: {
     runtimeReferenceCount: runtimeReferences.length,
     uniqueRuntimeFileCount: runtimeFiles.length,
     missingCount: missing.length,
     inkPassDebtCount: inkPassDebt.length,
     gpt2RuntimeCount: gpt2Runtime.length,
-    sourceSheetCount: sourceSheets.length
+    sourceSheetCount: sourceSheets.length,
+    cardFallbackDebtCount: cardFallbackDebt.totalCount
   },
   missing,
   inkPassDebt,
+  cardFallbackDebt,
   gpt2Runtime,
   sourceSheets,
   promptQueue
@@ -82,6 +88,7 @@ console.log(
     `runtime references: ${runtimeReferences.length}`,
     `missing: ${missing.length}`,
     `ink-pass debt: ${inkPassDebt.length}`,
+    `card fallback debt: ${cardFallbackDebt.totalCount}`,
     `GPT2 runtime assets: ${gpt2Runtime.length}`,
     `source sheets: ${sourceSheets.length}`,
     `prompt queue targets: ${promptQueue?.targetCount ?? 0}`
@@ -199,6 +206,195 @@ function summarizePromptQueue(filePath) {
     categories,
     types
   };
+}
+
+function summarizeCardFallbackDebt(cardSource, visualSource) {
+  const cards = extractCards(cardSource);
+  const cardArtById = extractCardArt(visualSource);
+  const debtCards = cards
+    .map((card) => {
+      const primaryType = card.types[0] ?? "unknown";
+      const fallbackArtId = `type_${primaryType}`;
+      const directArt = cardArtById.get(card.id);
+      const fallbackArt = cardArtById.get(fallbackArtId);
+      const usesTypeFallback = !directArt;
+      const usesSharedTypeAsset = Boolean(directArt && fallbackArt && directArt.assetPath === fallbackArt.assetPath);
+
+      if (!usesTypeFallback && !usesSharedTypeAsset) {
+        return null;
+      }
+
+      return {
+        id: card.id,
+        name: card.name,
+        character: card.character ?? "common",
+        type: primaryType,
+        rarity: card.rarity,
+        fallbackArtId,
+        fallbackAssetPath: fallbackArt?.assetPath ?? "",
+        reason: usesTypeFallback ? "missing-card-art-id" : "shared-type-asset"
+      };
+    })
+    .filter(Boolean)
+    .sort((left, right) => left.id.localeCompare(right.id));
+
+  return {
+    totalCount: debtCards.length,
+    byCharacter: summarizeBy(debtCards, "character"),
+    byType: summarizeBy(debtCards, "type"),
+    byRarity: summarizeBy(debtCards, "rarity"),
+    cards: debtCards
+  };
+}
+
+function extractCards(source) {
+  return splitTopLevelObjects(extractArrayLiteral(source, "cardList")).map((objectSource) => ({
+    id: readStringProperty(objectSource, "id"),
+    name: readStringProperty(objectSource, "name"),
+    character: readStringProperty(objectSource, "character", false),
+    rarity: readStringProperty(objectSource, "rarity"),
+    types: readStringArrayProperty(objectSource, "types")
+  }));
+}
+
+function extractCardArt(source) {
+  const artById = new Map();
+
+  for (const objectSource of splitTopLevelObjects(extractArrayLiteral(source, "cardArtList"))) {
+    const id = readStringProperty(objectSource, "id");
+    artById.set(id, {
+      id,
+      assetPath: readStringProperty(objectSource, "assetPath")
+    });
+  }
+
+  return artById;
+}
+
+function extractArrayLiteral(source, exportName) {
+  const declarationIndex = source.indexOf(`export const ${exportName}`);
+
+  if (declarationIndex < 0) {
+    throw new Error(`Could not find ${exportName}`);
+  }
+
+  const assignmentIndex = source.indexOf("=", declarationIndex);
+
+  if (assignmentIndex < 0) {
+    throw new Error(`Could not find ${exportName} assignment`);
+  }
+
+  const arrayStart = source.indexOf("[", assignmentIndex);
+
+  if (arrayStart < 0) {
+    throw new Error(`Could not find ${exportName} array start`);
+  }
+
+  const arrayEnd = findMatchingBracket(source, arrayStart, "[", "]");
+  return source.slice(arrayStart + 1, arrayEnd);
+}
+
+function splitTopLevelObjects(arraySource) {
+  const objects = [];
+  let index = 0;
+
+  while (index < arraySource.length) {
+    const objectStart = arraySource.indexOf("{", index);
+
+    if (objectStart < 0) {
+      break;
+    }
+
+    const objectEnd = findMatchingBracket(arraySource, objectStart, "{", "}");
+    objects.push(arraySource.slice(objectStart, objectEnd + 1));
+    index = objectEnd + 1;
+  }
+
+  return objects;
+}
+
+function findMatchingBracket(source, startIndex, openToken, closeToken) {
+  let depth = 0;
+  let quote = null;
+  let escaped = false;
+
+  for (let index = startIndex; index < source.length; index += 1) {
+    const char = source[index];
+
+    if (quote) {
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+
+      if (char === "\\") {
+        escaped = true;
+        continue;
+      }
+
+      if (char === quote) {
+        quote = null;
+      }
+
+      continue;
+    }
+
+    if (char === "\"" || char === "'" || char === "`") {
+      quote = char;
+      continue;
+    }
+
+    if (char === openToken) {
+      depth += 1;
+      continue;
+    }
+
+    if (char === closeToken) {
+      depth -= 1;
+
+      if (depth === 0) {
+        return index;
+      }
+    }
+  }
+
+  throw new Error(`Could not match ${openToken}${closeToken} bracket`);
+}
+
+function readStringProperty(objectSource, propertyName, required = true) {
+  const match = objectSource.match(new RegExp(`\\b${propertyName}:\\s*"([^"]*)"`));
+
+  if (match) {
+    return match[1];
+  }
+
+  if (required) {
+    throw new Error(`Missing string property ${propertyName}`);
+  }
+
+  return undefined;
+}
+
+function readStringArrayProperty(objectSource, propertyName) {
+  const match = objectSource.match(new RegExp(`\\b${propertyName}:\\s*\\[([^\\]]*)\\]`));
+
+  if (!match) {
+    throw new Error(`Missing string array property ${propertyName}`);
+  }
+
+  return [...match[1].matchAll(/"([^"]+)"/g)].map((entry) => entry[1]);
+}
+
+function summarizeBy(entries, key) {
+  const counts = new Map();
+
+  for (const entry of entries) {
+    counts.set(entry[key], (counts.get(entry[key]) ?? 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([value, count]) => ({ [key]: value, count }))
+    .sort((left, right) => left[key].localeCompare(right[key]));
 }
 
 function walkFiles(rootDir) {
