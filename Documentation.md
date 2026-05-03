@@ -1695,3 +1695,85 @@ Result: commit ee99bf8 created.
 Next step:
 
 - Create Wave 1 worktrees, baseline each one, then dispatch subagents with isolated write scopes.
+
+### 2026-05-03 15:11 Asia/Shanghai
+
+Worker B scope:
+
+- Worktree: `.worktrees/auton-profile-endings`
+- Branch: `codex/auton-profile-endings`
+- Milestone 44: Profile, Meta Records, And Ending Evaluator Core.
+
+Docs re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Initial decisions:
+
+- Keep Milestone 44 pure: no controller, DOM, Phaser, or localStorage integration.
+- Implement profile records as versioned data plus pure update helpers.
+- Implement ending evaluation as deterministic world-ending selection using mind tendencies and ink history.
+
+Implemented:
+
+- Added `src/game/systems/profile/profile.ts` with a versioned profile model, total/victory/defeat stats, per-character stats, unlocked fragments, unlocked endings, and pure immutable update helpers.
+- Added `src/game/systems/endings/endings.ts` with five readable world ending definitions and deterministic priority evaluation:
+  - hidden wu,
+  - heart demon,
+  - rewrite fate,
+  - burn book,
+  - clear seal.
+- Added focused Vitest coverage for profile recording/unlocks and ending selection across all five world ending ids.
+- Did not touch controller, UI, renderer, save integration, or run types.
+
+TDD notes:
+
+```text
+npm test -- tests/profile/profile-system.test.ts
+RED result: failed because ../../src/game/systems/profile/profile did not exist.
+
+npm test -- tests/endings/ending-system.test.ts
+RED result: failed because ../../src/game/systems/endings/endings did not exist.
+
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts
+GREEN result: 2 test files passed, 6 tests passed.
+```
+
+Verification:
+
+```text
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts
+Result: 2 test files passed, 6 tests passed.
+
+npm test
+Result: 12 test files passed, 115 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite emitted the existing chunk-size warning for the large Phaser/application bundle.
+```
+
+Known gaps / risks:
+
+- Profile persistence and ending UI/controller integration are intentionally deferred to later milestones.
+- Ending conditions currently use only mind tendencies and ink history, so future final-chapter event choices can extend the input without changing renderer code.
+
+Next step:
+
+- Integrate this pure core with future run summary/profile save and ending surface work after Milestone 44 is accepted.
