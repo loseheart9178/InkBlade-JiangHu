@@ -1,4 +1,5 @@
 import { cardList, cardsById } from "../../src/game/content/cards";
+import { chapterList } from "../../src/game/content/chapters";
 import { characterList } from "../../src/game/content/characters";
 import { enemyList } from "../../src/game/content/enemies";
 import { eventList } from "../../src/game/content/events";
@@ -101,6 +102,39 @@ describe("content data", () => {
     }
   });
 
+  it("defines the second chapter content shell and Qin Demon status-card mechanics", () => {
+    expect(chapterList.map((chapter) => chapter.id)).toEqual(["luoshui", "bamboo"]);
+    expect(chapterList[1]).toMatchObject({
+      id: "bamboo",
+      name: "竹林听雨",
+      bossEnemyId: "boss_qin_demon_echo"
+    });
+
+    expect(cardsById.status_zayin).toMatchObject({
+      name: "杂音",
+      rarity: "status",
+      target: "self"
+    });
+    expect(cardsById.status_rain_chill).toMatchObject({
+      name: "雨寒",
+      rarity: "status",
+      target: "self"
+    });
+
+    const enemies = Object.fromEntries(enemyList.map((enemy) => [enemy.id, enemy]));
+    expect(enemies.enemy_bamboo_wraith).toMatchObject({ chapter: "bamboo", role: "normal" });
+    expect(enemies.enemy_broken_scholar).toMatchObject({ chapter: "bamboo", role: "normal" });
+    expect(enemies.elite_qin_score).toMatchObject({ chapter: "bamboo", role: "elite" });
+    expect(enemies.boss_qin_demon_echo).toMatchObject({ chapter: "bamboo", role: "boss", name: "琴魔·残音" });
+    expect(enemies.boss_qin_demon_echo.intents).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: "special", name: "断续残拍" }),
+        expect.objectContaining({ type: "special", name: "悲声回环" }),
+        expect.objectContaining({ type: "special", name: "绝响不散" })
+      ])
+    );
+  });
+
   it("gives first chapter enemies distinct mechanics and a gentler-to-harder pacing curve", () => {
     const enemies = Object.fromEntries(enemyList.map((enemy) => [enemy.id, enemy]));
 
@@ -162,7 +196,11 @@ describe("content data", () => {
       "enemy_paper_umbrella",
       "elite_sword_echo",
       "elite_blood_banner",
-      "boss_ink_dongzhuo"
+      "boss_ink_dongzhuo",
+      "enemy_bamboo_wraith",
+      "enemy_broken_scholar",
+      "elite_qin_score",
+      "boss_qin_demon_echo"
     ];
 
     for (const id of expectedIds) {

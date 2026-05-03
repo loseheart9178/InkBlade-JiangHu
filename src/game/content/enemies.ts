@@ -2,7 +2,7 @@ import type { EnemyDefinition } from "../systems/combat/types";
 
 export interface ChapterEnemyDefinition extends EnemyDefinition {
   role: "normal" | "elite" | "boss";
-  chapter: "luoshui";
+  chapter: "luoshui" | "bamboo";
 }
 
 export const enemyList: ChapterEnemyDefinition[] = [
@@ -122,6 +122,145 @@ export const enemyList: ChapterEnemyDefinition[] = [
         effects: [
           { action: "damage", amount: 7, hits: 3 },
           { action: "applyStatus", target: "player", status: "weak", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "enemy_bamboo_wraith",
+    name: "雨竹幽魂",
+    role: "normal",
+    chapter: "bamboo",
+    maxHp: 38,
+    intents: [
+      {
+        type: "special",
+        name: "雨竹寒声",
+        effects: [
+          { action: "addCardToDiscard", cardId: "status_rain_chill", amount: 1 },
+          { action: "damage", amount: 5, hits: 1 }
+        ]
+      },
+      { type: "attack", damage: 4, hits: 2 },
+      { type: "block", block: 7 }
+    ]
+  },
+  {
+    id: "enemy_broken_scholar",
+    name: "断笔书生",
+    role: "normal",
+    chapter: "bamboo",
+    maxHp: 42,
+    intents: [
+      {
+        type: "special",
+        name: "断笔污卷",
+        effects: [
+          { action: "addCardToDiscard", cardId: "status_zayin", amount: 2 },
+          { action: "applyStatus", target: "player", status: "weak", amount: 1 }
+        ]
+      },
+      { type: "attack", damage: 9, hits: 1 },
+      { type: "block", block: 8 }
+    ]
+  },
+  {
+    id: "enemy_bamboo_soldier",
+    name: "兵煞竹影",
+    role: "normal",
+    chapter: "bamboo",
+    maxHp: 44,
+    intents: [
+      { type: "attack", damage: 5, hits: 2 },
+      {
+        type: "special",
+        name: "阵脚不退",
+        effects: [
+          { action: "block", amount: 9 },
+          { action: "applyStatus", target: "player", status: "vulnerable", amount: 1 }
+        ]
+      },
+      { type: "attack", damage: 12, hits: 1 }
+    ]
+  },
+  {
+    id: "elite_qin_score",
+    name: "琴魔残谱",
+    role: "elite",
+    chapter: "bamboo",
+    maxHp: 98,
+    intents: [
+      {
+        type: "special",
+        name: "残谱回环",
+        effects: [
+          { action: "addCardToDiscard", cardId: "status_zayin", amount: 2 },
+          { action: "block", amount: 12 }
+        ]
+      },
+      {
+        type: "special",
+        name: "断弦压心",
+        effects: [
+          { action: "damage", amount: 8, hits: 2 },
+          { action: "applyStatus", target: "player", status: "weak", amount: 1 }
+        ]
+      },
+      { type: "attack", damage: 18, hits: 1 }
+    ]
+  },
+  {
+    id: "elite_bamboo_phalanx",
+    name: "兵煞竹阵",
+    role: "elite",
+    chapter: "bamboo",
+    maxHp: 104,
+    intents: [
+      { type: "attack", damage: 7, hits: 3 },
+      {
+        type: "special",
+        name: "竹阵合围",
+        effects: [
+          { action: "block", amount: 14 },
+          { action: "addCardToDiscard", cardId: "status_rain_chill", amount: 1 }
+        ]
+      },
+      { type: "attack", damage: 20, hits: 1 }
+    ]
+  },
+  {
+    id: "boss_qin_demon_echo",
+    name: "琴魔·残音",
+    role: "boss",
+    chapter: "bamboo",
+    maxHp: 152,
+    intents: [
+      {
+        type: "special",
+        name: "断续残拍",
+        effects: [
+          { action: "damage", amount: 6, hits: 2 },
+          { action: "addCardToDiscard", cardId: "status_zayin", amount: 1 },
+          { action: "applyStatus", target: "player", status: "weak", amount: 1 }
+        ]
+      },
+      {
+        type: "special",
+        name: "悲声回环",
+        effects: [
+          { action: "block", amount: 16 },
+          { action: "addCardToDiscard", cardId: "status_canyin", amount: 2 },
+          { action: "heal", amount: 6 }
+        ]
+      },
+      { type: "attack", damage: 10, hits: 2 },
+      {
+        type: "special",
+        name: "绝响不散",
+        effects: [
+          { action: "damage", amount: 9, hits: 3 },
+          { action: "gainInk", amount: 1 },
+          { action: "addCardToDiscard", cardId: "status_zayin", amount: 1 }
         ]
       }
     ]

@@ -1330,3 +1330,79 @@ npm run build
 Result: TypeScript and Vite build passed.
 Note: Vite repeated the expected Phaser bundle size warning.
 ```
+
+### 2026-05-03 10:58 Asia/Shanghai
+
+Current state:
+
+- Completed the requested three-module long task:
+  - Module 1: 第二章内容雏形与跨章推进.
+  - Module 2: 第二章敌人机制与状态牌深化.
+  - Module 3: 跨章构筑成长与高级奖励系统.
+- Re-read before implementation:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_02.md`
+  - `docs/superpowers/plans/2026-05-03-next-major-modules-roadmap.md`
+- Added chapter metadata and run-state chapter fields for 洛水残照 and 竹林听雨.
+- Added a second-chapter procedural route map with 荒寺夜琴、雨中茶亭、竹林问心、兵煞竹阵/红衣无面, bamboo battles, elites, shop/rest, and 琴魔·残音 Boss.
+- First-chapter Boss flow now goes through chapter reward, Boss summary, then advances into 竹林听雨 instead of ending immediately.
+- Added status cards 杂音、雨寒、残音 and enemy intent effect `addCardToDiscard`.
+- Added second-chapter enemies:
+  - 雨竹幽魂
+  - 断笔书生
+  - 兵煞竹影
+  - 琴魔残谱
+  - 兵煞竹阵
+  - 琴魔·残音
+- 琴魔·残音 now gains block through 悲声回环 when status/curse cards are drawn.
+- Added chapter-end advanced reward choices:
+  - 清雨洗髓: maximum HP growth and heal.
+  - 残页点化: upgrade first eligible deck card.
+  - 高阶武学: deterministic rare character card.
+- Second-chapter card rewards now weight more strongly toward character-specific build pieces.
+- Save/continue screen whitelist now includes `chapterReward`.
+- Second-chapter enemies currently reuse existing ink-wash generated standees/sprite strips as placeholders; dedicated second-chapter GPT Image 2 asset pass remains a future art milestone.
+
+Decisions:
+
+- Cross-chapter progression is implemented in the run system, not the controller, so future chapters can reuse the same `advanceToNextChapter` path.
+- The second chapter is playable as a content shell with real mechanics, while high-fidelity bamboo/Qin Demon art is deliberately deferred to the next art pass.
+- Status-card pollution stays data-driven through enemy intent effects, leaving room for future draw-time, hand-time, or cleanse interactions.
+- Chapter-end growth is deterministic for MVP testing and can later become rarity-weighted or choice-pooled.
+
+Verification so far:
+
+```text
+npm test -- tests/run/run-system.test.ts tests/combat/combat-system.test.ts tests/data/content.test.ts
+First run failed as expected before implementation.
+Red failures covered missing chapters module, missing cross-chapter APIs, missing status-card enemy action, and missing Qin Demon status draw response.
+
+npm test -- tests/run/run-system.test.ts tests/combat/combat-system.test.ts tests/data/content.test.ts
+Result after implementation: 3 test files passed, 71 tests passed.
+
+npm run typecheck
+Result: TypeScript typecheck passed.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+Result: 9 Playwright tests passed.
+Covered: chapter reward screen, first-to-second chapter transition, second-chapter map display, and second-chapter first combat status-card pressure.
+
+npm test
+Result: 9 test files passed, 96 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected Phaser bundle size warning.
+
+npm run test:e2e
+Result: 10 Playwright tests passed.
+Covered: visual smoke, playable flow, shop/relics, elite heart method, event/rest, save/continue, first-to-second chapter transition, and second-chapter first combat status pressure.
+```

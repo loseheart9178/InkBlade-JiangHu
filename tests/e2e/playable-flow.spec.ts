@@ -160,9 +160,39 @@ test("can complete the first chapter through the event and rest route", async ({
   await winVisibleCombat(page, 140, "screen-method-reward");
   await expect(page.getByTestId("screen-method-reward")).toBeVisible();
   await page.locator("[data-testid^='method-choice-']").first().click();
+  await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
+  await expect(page.getByTestId("chapter-reward-choice")).toHaveCount(3);
+  await page.getByTestId("chapter-reward-choice").first().click();
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await page.getByTestId("boss-reward-continue").click();
-  await expect(page.getByTestId("screen-victory")).toBeVisible();
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("run-chapter")).toContainText("竹林听雨");
+  await expect(page.getByTestId("map-node-boss")).toContainText("琴魔");
+});
+
+test("can enter a second chapter combat and see status-card pressure", async ({ page }) => {
+  test.setTimeout(80_000);
+  await startRun(page, "zhaoyun");
+  await page.getByTestId("map-node-event-1").click();
+  await page.getByTestId("event-choice-carve_names").click();
+  await page.getByTestId("map-node-rest-1").click();
+  await page.getByTestId("rest-upgrade-card").click();
+  await page.getByTestId("map-node-battle-3").click();
+  await winVisibleCombat(page, 80);
+  await page.getByTestId("reward-card").first().click();
+  await page.getByTestId("map-node-boss").click();
+  await winVisibleCombat(page, 150, "screen-method-reward");
+  await page.locator("[data-testid^='method-choice-']").first().click();
+  await page.getByTestId("chapter-reward-choice").first().click();
+  await page.getByTestId("boss-reward-continue").click();
+
+  await expect(page.getByTestId("run-chapter")).toContainText("竹林听雨");
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("enemy-hp")).toContainText(/雨竹幽魂|断笔书生/);
+  await page.getByTestId("end-turn").click();
+  await expect(page.getByTestId("combat-log")).toContainText(/雨竹寒声|断笔污卷/);
+  await expect(page.getByTestId("combat-floats")).toContainText(/入弃牌|虚弱|易伤/);
 });
 
 async function startRun(page: Page, characterId: "zhaoyun" | "diaochan"): Promise<void> {

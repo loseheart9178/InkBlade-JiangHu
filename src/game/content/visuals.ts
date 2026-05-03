@@ -96,6 +96,48 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
     standeePath: "/assets/generated/ink-dongzhuo-boss-standee-gpt-v2-cutout.png",
     alt: "Ink shadow Dong Zhuo boss silhouette",
     accent: "ink"
+  },
+  {
+    id: "enemy_bamboo_wraith",
+    assetPath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    alt: "Rain bamboo wraith in teal ink",
+    accent: "teal"
+  },
+  {
+    id: "enemy_broken_scholar",
+    assetPath: "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
+    alt: "Broken brush scholar ink apparition",
+    accent: "ink"
+  },
+  {
+    id: "enemy_bamboo_soldier",
+    assetPath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
+    alt: "Bamboo phalanx soldier ink shade",
+    accent: "teal"
+  },
+  {
+    id: "elite_qin_score",
+    assetPath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    alt: "Qin score elite surrounded by rain ink",
+    accent: "teal"
+  },
+  {
+    id: "elite_bamboo_phalanx",
+    assetPath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
+    alt: "Bamboo battle array elite ink soldier",
+    accent: "ink"
+  },
+  {
+    id: "boss_qin_demon_echo",
+    assetPath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    standeePath: "/assets/generated/paper-umbrella-standee-gpt-v2-cutout.png",
+    alt: "Qin Demon Echo boss in cold teal ink",
+    accent: "teal"
   }
 ];
 

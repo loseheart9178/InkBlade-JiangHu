@@ -117,6 +117,7 @@ export function drawCards(state: CombatState, amount: number, rng: Rng): void {
     const card = state.piles.draw.shift();
     if (card) {
       state.piles.hand.push(card);
+      handleCardDrawn(state, card);
     }
   }
 }
@@ -551,6 +552,11 @@ function executeEnemyIntentEffect(state: CombatState, enemy: EnemyState, effect:
     return;
   }
 
+  if (effect.action === "addCardToDiscard") {
+    addCardToDiscard(state, effect.cardId, effect.amount);
+    return;
+  }
+
   if (effect.action === "gainInk") {
     gainInk(state, effect.amount);
     return;
@@ -583,6 +589,44 @@ function healEnemy(state: CombatState, enemy: EnemyState, amount: number): void 
   if (healed > 0) {
     pushVisualEvent(state, "resource", "enemy", `回复 +${healed}`, "gold", healed);
   }
+}
+
+function addCardToDiscard(state: CombatState, cardId: string, amount: number): void {
+  const definition = state.cardDefinitions[cardId];
+  if (!definition || amount <= 0) {
+    return;
+  }
+
+  for (let index = 0; index < amount; index += 1) {
+    state.piles.discard.push({
+      instanceId: `generated-${state.nextInstanceNumber}`,
+      definitionId: cardId
+    });
+    state.nextInstanceNumber += 1;
+  }
+
+  state.combatLog.push(definition.name);
+  pushVisualEvent(state, "status", "player", `${definition.name}入弃牌 +${amount}`, "ink", amount);
+}
+
+function handleCardDrawn(state: CombatState, card: CardInstance): void {
+  const definition = getCardDefinition(state, card);
+  if (definition.rarity !== "status" && definition.rarity !== "curse") {
+    return;
+  }
+
+  triggerQinDemonStatusDraw(state);
+}
+
+function triggerQinDemonStatusDraw(state: CombatState): void {
+  const qinDemon = state.enemies.find((enemy) => enemy.definitionId === "boss_qin_demon_echo" && enemy.hp > 0);
+  if (!qinDemon) {
+    return;
+  }
+
+  qinDemon.block += 4;
+  state.combatLog.push("悲声回环");
+  pushVisualEvent(state, "block", "enemy", "+4 护甲", "teal", 4);
 }
 
 function advanceIntent(enemy: EnemyState): void {

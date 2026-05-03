@@ -345,6 +345,149 @@ export const eventList: GameEventDefinition[] = [
         ]
       }
     ]
+  },
+  {
+    id: "event_ruined_temple_night_qin",
+    title: "荒寺夜琴",
+    description: "雨落荒寺，断续琴声从没有人的殿中传来。",
+    choices: [
+      {
+        id: "listen_all_night",
+        label: "静听一夜",
+        summary: "获得杂音，宁 +1，回复8点生命。",
+        effects: [
+          { type: "card", cardId: "status_zayin" },
+          { type: "mind", mind: "ning", amount: 1 },
+          { type: "heal", amount: 8 }
+        ]
+      },
+      {
+        id: "follow_qin_sound",
+        label: "追寻琴声",
+        summary: "获得飞石，失去3点生命，悟 +1。",
+        effects: [
+          { type: "card", cardId: "common_feishi" },
+          { type: "hpLoss", amount: 3 },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_rain_tea_pavilion",
+    title: "雨中茶亭",
+    description: "棋盘摆在茶桌上，棋子每落一枚，雨声便轻一分。",
+    choices: [
+      {
+        id: "finish_the_game",
+        label: "续完棋局",
+        summary: "升级一张牌，悟 +1。",
+        effects: [
+          { type: "upgrade" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      },
+      {
+        id: "drink_warm_tea",
+        label: "饮下温茶",
+        summary: "回复10点生命，宁 +1。",
+        effects: [
+          { type: "heal", amount: 10 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_bamboo_heart_question",
+    title: "竹林问心",
+    description: "竹影里站着另一个你，问的问题却像从很久以前传来。",
+    choices: [
+      {
+        id: "answer_with_grief",
+        label: "承认悲伤",
+        summary: "获得静心，悲 +2。",
+        effects: [
+          { type: "card", cardId: "mind_jingxin" },
+          { type: "mind", mind: "bei", amount: 2 }
+        ]
+      },
+      {
+        id: "answer_with_action",
+        label: "以行动回答",
+        summary: "获得一张角色武学，怒 +1。",
+        characterId: "zhaoyun",
+        effects: [
+          { type: "card", cardId: "zhao_white_horse_breakout" },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      },
+      {
+        id: "answer_with_dance",
+        label: "以舞回答",
+        summary: "获得一张角色武学，魅 +1。",
+        characterId: "diaochan",
+        effects: [
+          { type: "card", cardId: "diao_flying_sleeves" },
+          { type: "mind", mind: "mei", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_bamboo_soldier_array",
+    title: "兵煞竹阵",
+    character: "zhaoyun",
+    description: "竹林深处，无面兵卒一列列站起，像等你再次突围。",
+    choices: [
+      {
+        id: "white_robe_enter",
+        label: "白袍入阵",
+        summary: "赵云专属：获得枪围如墙，失去4点生命，宁 +1。",
+        characterId: "zhaoyun",
+        effects: [
+          { type: "card", cardId: "zhao_spear_wall" },
+          { type: "hpLoss", amount: 4 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "remember_names",
+        label: "记住无名者",
+        summary: "回复8点生命，悲 +1。",
+        effects: [
+          { type: "heal", amount: 8 },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_red_cloth_faceless",
+    title: "红衣无面",
+    character: "diaochan",
+    description: "红衣舞者没有面孔，动作却与你一模一样。",
+    choices: [
+      {
+        id: "dance_with_shadow",
+        label: "与影共舞",
+        summary: "貂蝉专属：获得离间，魅 +1。",
+        characterId: "diaochan",
+        effects: [
+          { type: "card", cardId: "diao_lijian" },
+          { type: "mind", mind: "mei", amount: 1 }
+        ]
+      },
+      {
+        id: "cut_red_cloth",
+        label: "斩断红绫",
+        summary: "升级一张牌，悟 +1。",
+        effects: [
+          { type: "upgrade" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
   }
 ];
 

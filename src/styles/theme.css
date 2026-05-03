@@ -1077,6 +1077,7 @@ button {
 
 .reward-cards,
 .method-reward-list,
+.chapter-reward-list,
 .shop-list {
   display: flex;
   justify-content: center;
@@ -1106,6 +1107,14 @@ button {
   background:
     linear-gradient(145deg, rgba(246, 236, 213, 0.92), rgba(47, 124, 110, 0.1)),
     rgba(246, 236, 213, 0.86);
+}
+
+.chapter-reward-list .choice-action {
+  min-height: 142px;
+  border-color: rgba(183, 53, 42, 0.54);
+  background:
+    linear-gradient(145deg, rgba(246, 236, 213, 0.94), rgba(183, 53, 42, 0.1)),
+    rgba(246, 236, 213, 0.88);
 }
 
 .reward-combo-hint {

@@ -71,6 +71,7 @@ export type EnemyIntentEffect =
   | { action: "damage"; amount: number; hits?: number }
   | { action: "block"; amount: number }
   | { action: "applyStatus"; target: "player" | "self"; status: StatusId; amount: number }
+  | { action: "addCardToDiscard"; cardId: string; amount: number }
   | { action: "gainInk"; amount: number }
   | { action: "heal"; amount: number };
 

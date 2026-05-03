@@ -1,9 +1,10 @@
 import { cardsById } from "../../content/cards";
+import { chaptersById, type ChapterDefinition, type ChapterId } from "../../content/chapters";
 import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardArchetypeId, CardDefinition } from "../combat/types";
 import { getRelicRewardPool, type RelicRewardSource } from "../relics/relicEffects";
-import type { BattleSpoils, CardRewardDraft, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
+import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunState } from "./types";
 
 const ZHAO_REWARD_POOL = [
   "zhao_thrust",
@@ -40,6 +41,9 @@ const COMMON_REWARD_POOL = [
   "mind_nuzhan",
   "common_mirror_armor"
 ];
+
+const ZHAO_ADVANCED_REWARD_POOL = ["zhao_qixing_spear", "zhao_single_rider", "zhao_seven_entries", "zhao_spear_wall"];
+const DIAO_ADVANCED_REWARD_POOL = ["diao_closed_moon", "diao_jinghong_strike", "diao_step_lotus", "diao_lijian"];
 
 const LATE_EVENT_POOL = [
   "event_black_rain_ferry",
@@ -188,6 +192,8 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
 
   return {
     characterId,
+    chapterId: "luoshui",
+    completedChapterIds: [],
     mapSeed,
     hp: character.maxHp,
     maxHp: character.maxHp,
@@ -208,6 +214,7 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     visitedNodeIds: [],
     nextDeckInstanceNumber: deck.length + 1,
     rewardHistory: [],
+    chapterRewardHistory: [],
     lastCombatComboTriggers: [],
     comboRewardHistory: []
   };
@@ -228,6 +235,7 @@ export function recordRunCombatCombos(run: RunState, comboTriggers: string[]): R
 }
 
 export function createCardRewardDraft(run: RunState, nodeType: MapNodeType = "battle"): CardRewardDraft {
+  normalizeRunChapterFields(run);
   normalizeRunComboFields(run);
   const comboBias = getComboRewardBias(run);
   const offset = run.rewardHistory.length;
@@ -241,9 +249,15 @@ export function createCardRewardDraft(run: RunState, nodeType: MapNodeType = "ba
     addRotatedCards(cards, getEliteRewardPool(run.characterId), offset, 1);
   }
 
-  addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + (comboBias ? 1 : 0), 1);
-  addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
-  addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + cards.length + 1, 3);
+  if (run.chapterId === "bamboo") {
+    addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + (comboBias ? 1 : 0), 2);
+    addRotatedCards(cards, getEliteRewardPool(run.characterId), offset + cards.length + 1, 3);
+    addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
+  } else {
+    addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + (comboBias ? 1 : 0), 1);
+    addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
+    addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + cards.length + 1, 3);
+  }
 
   const rewardCards = cards.slice(0, 3);
 
@@ -318,6 +332,100 @@ export function claimBattleSpoils(run: RunState, nodeType: MapNodeType): BattleS
   run.gold += gold;
 
   return relicId ? { gold, relicId } : { gold };
+}
+
+export function getCurrentChapter(run: RunState): ChapterDefinition {
+  normalizeRunChapterFields(run);
+  return chaptersById[run.chapterId];
+}
+
+export function getNextChapter(run: RunState): ChapterDefinition | undefined {
+  const current = getCurrentChapter(run);
+  return current.nextChapterId ? chaptersById[current.nextChapterId] : undefined;
+}
+
+export function advanceToNextChapter(run: RunState): boolean {
+  normalizeRunChapterFields(run);
+  const current = getCurrentChapter(run);
+  const next = getNextChapter(run);
+  if (!next) {
+    return false;
+  }
+
+  if (!run.completedChapterIds.includes(current.id)) {
+    run.completedChapterIds.push(current.id);
+  }
+
+  run.chapterId = next.id;
+  run.mapNodes = createMapForChapter(next.id, run.characterId, run.mapSeed);
+  run.currentNodeId = "start";
+  run.visitedNodeIds = [];
+  run.lastCombatComboTriggers = [];
+  return true;
+}
+
+export function createChapterRewardChoices(run: RunState): ChapterRewardChoice[] {
+  normalizeRunChapterFields(run);
+  const chapter = getCurrentChapter(run);
+  const chapterKey = chapter.id;
+  const rareCardId = getAdvancedRewardCardId(run);
+
+  return [
+    {
+      id: `${chapterKey}-max-hp`,
+      type: "maxHp",
+      title: "清雨洗髓",
+      summary: "最大生命 +6，并回复6点生命。",
+      amount: 6
+    },
+    {
+      id: `${chapterKey}-upgrade`,
+      type: "upgrade",
+      title: "残页点化",
+      summary: "升级牌组中第一张尚未精修的牌。"
+    },
+    {
+      id: `${chapterKey}-rare-card`,
+      type: "card",
+      title: "高阶武学",
+      summary: `获得${cardsById[rareCardId]?.name ?? "一式高阶武学"}。`,
+      cardId: rareCardId
+    }
+  ];
+}
+
+export function claimChapterReward(run: RunState, choiceId: string): ChapterRewardChoice | undefined {
+  normalizeRunChapterFields(run);
+  const choice = createChapterRewardChoices(run).find((item) => item.id === choiceId);
+  if (!choice) {
+    return undefined;
+  }
+
+  if (choice.type === "maxHp") {
+    const amount = choice.amount ?? 0;
+    run.maxHp += amount;
+    run.hp = Math.min(run.maxHp, run.hp + amount);
+  }
+
+  if (choice.type === "upgrade") {
+    const candidate = getUpgradeCandidates(run)[0];
+    if (candidate) {
+      upgradeDeckCard(run, candidate.instanceId);
+    }
+  }
+
+  if (choice.type === "card" && choice.cardId) {
+    const card = cardsById[choice.cardId];
+    if (card) {
+      takeCardReward(run, card);
+    }
+  }
+
+  if (!run.chapterRewardHistory.includes(choice.id)) {
+    run.chapterRewardHistory.push(choice.id);
+  }
+  run.rewardHistory.push(`chapterReward:${choice.id}`);
+  return choice;
 }
 
 export function getCurrentNode(run: RunState): MapNode {
@@ -516,6 +624,25 @@ function normalizeRunComboFields(run: RunState): void {
   }
 }
 
+function normalizeRunChapterFields(run: RunState): void {
+  if (!run.chapterId || !chaptersById[run.chapterId]) {
+    run.chapterId = "luoshui";
+  }
+
+  if (!Array.isArray(run.completedChapterIds)) {
+    run.completedChapterIds = [];
+  }
+
+  if (!Array.isArray(run.chapterRewardHistory)) {
+    run.chapterRewardHistory = [];
+  }
+}
+
+function getAdvancedRewardCardId(run: RunState): string {
+  const pool = run.characterId === "diaochan" ? DIAO_ADVANCED_REWARD_POOL : ZHAO_ADVANCED_REWARD_POOL;
+  return pool.find((cardId) => !run.deck.some((entry) => entry.cardId === cardId)) ?? pool[0];
+}
+
 function getNode(run: RunState, nodeId: string): MapNode {
   const node = run.mapNodes.find((item) => item.id === nodeId);
   if (!node) {
@@ -547,6 +674,10 @@ function getBattleGold(nodeType: MapNodeType): number {
 
 function getRelicSourceForNode(nodeType: MapNodeType): RelicRewardSource {
   return nodeType === "boss" ? "boss" : "elite";
+}
+
+function createMapForChapter(chapterId: ChapterId, characterId: string, mapSeed: number): MapNode[] {
+  return chapterId === "bamboo" ? createChapterTwoMap(characterId, mapSeed) : createChapterOneMap(characterId, mapSeed);
 }
 
 function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
@@ -680,6 +811,131 @@ function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
       floor: 5,
       lane: 1,
       enemyId: "boss_ink_dongzhuo",
+      connections: []
+    }
+  ];
+}
+
+function createChapterTwoMap(characterId: string, mapSeed: number): MapNode[] {
+  const secondEventId = characterId === "zhaoyun" ? "event_bamboo_soldier_array" : "event_red_cloth_faceless";
+  const firstBattleEnemyId = mapSeed % 3 === 0 ? "enemy_broken_scholar" : "enemy_bamboo_wraith";
+  const secondBattleEnemyId = mapSeed % 2 === 0 ? "enemy_bamboo_wraith" : "enemy_broken_scholar";
+  const sideBattleEnemyId = mapSeed % 5 === 0 ? "enemy_bamboo_soldier" : "enemy_broken_scholar";
+  const eliteEnemyId = mapSeed % 2 === 0 ? "elite_qin_score" : "elite_bamboo_phalanx";
+
+  return [
+    {
+      id: "start",
+      type: "start",
+      label: "雨入竹林",
+      floor: 0,
+      lane: 1,
+      connections: ["battle-1", "event-1", "battle-side-1"]
+    },
+    {
+      id: "battle-1",
+      type: "battle",
+      label: firstBattleEnemyId === "enemy_broken_scholar" ? "断笔书生" : "雨竹幽魂",
+      floor: 1,
+      lane: 0,
+      enemyId: firstBattleEnemyId,
+      connections: ["event-2", "battle-2"]
+    },
+    {
+      id: "event-1",
+      type: "event",
+      label: "荒寺夜琴",
+      floor: 1,
+      lane: 1,
+      eventId: "event_ruined_temple_night_qin",
+      connections: ["battle-2", "rest-1", "event-tea"]
+    },
+    {
+      id: "battle-side-1",
+      type: "battle",
+      label: sideBattleEnemyId === "enemy_bamboo_soldier" ? "兵煞竹影" : "断笔书生",
+      floor: 1,
+      lane: 2,
+      enemyId: sideBattleEnemyId,
+      connections: ["shop-1", "event-2"]
+    },
+    {
+      id: "event-2",
+      type: "event",
+      label: secondEventId === "event_bamboo_soldier_array" ? "兵煞竹阵" : "红衣无面",
+      floor: 2,
+      lane: 0,
+      eventId: secondEventId,
+      connections: ["elite-1", "battle-2"]
+    },
+    {
+      id: "battle-2",
+      type: "battle",
+      label: secondBattleEnemyId === "enemy_broken_scholar" ? "雨亭书生" : "竹雨亡魂",
+      floor: 2,
+      lane: 1,
+      enemyId: secondBattleEnemyId,
+      connections: ["rest-1", "battle-3"]
+    },
+    {
+      id: "shop-1",
+      type: "shop",
+      label: "茶亭游商",
+      floor: 2,
+      lane: 2,
+      connections: ["battle-3", "rest-1"]
+    },
+    {
+      id: "event-tea",
+      type: "event",
+      label: "雨中茶亭",
+      floor: 2,
+      lane: 3,
+      eventId: "event_rain_tea_pavilion",
+      connections: ["battle-3", "rest-1"]
+    },
+    {
+      id: "elite-1",
+      type: "elite",
+      label: eliteEnemyId === "elite_qin_score" ? "琴魔残谱" : "兵煞竹阵",
+      floor: 3,
+      lane: 0,
+      enemyId: eliteEnemyId,
+      connections: ["event-3", "boss"]
+    },
+    {
+      id: "rest-1",
+      type: "rest",
+      label: "荒寺静修",
+      floor: 3,
+      lane: 1,
+      connections: ["battle-3", "event-3"]
+    },
+    {
+      id: "battle-3",
+      type: "battle",
+      label: "清音台残影",
+      floor: 3,
+      lane: 2,
+      enemyId: mapSeed % 4 === 0 ? "enemy_bamboo_soldier" : "enemy_bamboo_wraith",
+      connections: ["boss"]
+    },
+    {
+      id: "event-3",
+      type: "event",
+      label: "竹林问心",
+      floor: 4,
+      lane: 1,
+      eventId: "event_bamboo_heart_question",
+      connections: ["boss"]
+    },
+    {
+      id: "boss",
+      type: "boss",
+      label: "琴魔·残音",
+      floor: 5,
+      lane: 1,
+      enemyId: "boss_qin_demon_echo",
       connections: []
     }
   ];

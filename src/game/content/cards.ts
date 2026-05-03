@@ -672,6 +672,39 @@ export const cardList: CardDefinition[] = [
     }
   },
   {
+    id: "status_zayin",
+    name: "杂音",
+    cost: 1,
+    rarity: "status",
+    target: "self",
+    types: ["skill"],
+    effects: [{ action: "applyStatus", status: "weak", amount: 1 }],
+    temporary: true,
+    description: "打出：获得1层虚弱。来自琴魔与雨声的污染。"
+  },
+  {
+    id: "status_rain_chill",
+    name: "雨寒",
+    cost: 1,
+    rarity: "status",
+    target: "self",
+    types: ["skill"],
+    effects: [{ action: "applyStatus", status: "vulnerable", amount: 1 }],
+    temporary: true,
+    description: "打出：获得1层易伤。雨声把旧伤重新写开。"
+  },
+  {
+    id: "status_canyin",
+    name: "残音",
+    cost: 1,
+    rarity: "status",
+    target: "self",
+    types: ["skill", "ink"],
+    effects: [{ action: "gainInk", amount: 1 }],
+    temporary: true,
+    description: "打出：获得1层墨痕。琴声不肯散去。"
+  },
+  {
     id: "zhao_qixing_spear",
     name: "七星枪影",
     cost: 2,

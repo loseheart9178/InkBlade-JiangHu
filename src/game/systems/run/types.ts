@@ -1,4 +1,5 @@
 import type { CardDefinition, MindState } from "../combat/types";
+import type { ChapterId } from "../../content/chapters";
 
 export type MapNodeType = "start" | "battle" | "elite" | "event" | "shop" | "rest" | "boss";
 
@@ -21,6 +22,8 @@ export interface MapNode {
 
 export interface RunState {
   characterId: string;
+  chapterId: ChapterId;
+  completedChapterIds: ChapterId[];
   mapSeed: number;
   hp: number;
   maxHp: number;
@@ -34,6 +37,7 @@ export interface RunState {
   visitedNodeIds: string[];
   nextDeckInstanceNumber: number;
   rewardHistory: string[];
+  chapterRewardHistory: string[];
   lastCombatComboTriggers: string[];
   comboRewardHistory: string[];
 }
@@ -54,6 +58,17 @@ export interface CardRewardDraft {
 export interface BattleSpoils {
   gold: number;
   relicId?: string;
+}
+
+export type ChapterRewardType = "maxHp" | "upgrade" | "card";
+
+export interface ChapterRewardChoice {
+  id: string;
+  type: ChapterRewardType;
+  title: string;
+  summary: string;
+  amount?: number;
+  cardId?: string;
 }
 
 export interface CreateRunOptions {

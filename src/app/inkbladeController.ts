@@ -21,11 +21,16 @@ import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferM
 import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
 import {
   addRelic,
+  advanceToNextChapter,
   claimBattleSpoils,
+  claimChapterReward,
+  createChapterRewardChoices,
   createCardRewardDraft,
   createCardRewardReasonMap,
   createRun,
   getAvailableNodes,
+  getCurrentChapter,
+  getNextChapter,
   getComboRewardHint,
   getComboRewardPrimaryCardId,
   getCurrentNode,
@@ -41,7 +46,7 @@ import {
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "event" | "shop" | "rest" | "bossReward" | "victory" | "defeat";
+type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "victory" | "defeat";
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -98,6 +103,13 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       return;
     }
 
+    if (state.screen === "chapterReward") {
+      renderChapterReward(host, state, render);
+      renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
+      return;
+    }
+
     if (state.screen === "event") {
       renderEvent(host, state, render);
       renderDeckOverlayIfOpen(host, state, render);
@@ -139,7 +151,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       state.rewardCards = [];
       state.pendingSpoils = undefined;
       state.deckOpen = false;
-      state.message = `${charactersById[characterId].name}踏入洛水黑雨。`;
+      state.message = `${charactersById[characterId].name}踏入${getCurrentChapter(state.run).name}。`;
       state.screen = "map";
       render();
     },
@@ -170,9 +182,10 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
 
 function renderMap(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
+  const chapter = getCurrentChapter(run);
   const current = getCurrentNode(run);
   const available = getAvailableNodes(run);
-  const panel = createPanel("screen-map", "洛水残照");
+  const panel = createPanel("screen-map", chapter.mapTitle);
   panel.classList.add("map-screen");
 
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
@@ -396,8 +409,8 @@ function handleCombatAfterAction(state: ControllerState): void {
         return;
       }
 
-      state.screen = "bossReward";
-      state.message = "墨影董卓崩散，洛水重映天光。";
+      state.screen = "chapterReward";
+      state.message = `${getCurrentChapter(run).bossVictoryCopy} 选择一项章末成长。`;
       return;
     }
 
@@ -436,7 +449,7 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
 
       state.message = `习得心法：${method.name}。`;
       if (node.type === "boss") {
-        state.screen = "bossReward";
+        state.screen = "chapterReward";
       } else {
         state.rewardCards = createCardRewardDraft(run, node.type).cards;
         state.screen = "reward";
@@ -451,7 +464,7 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
   if (draft.methods.length === 0) {
     const continueButton = createAction("继续", "没有新的心法可修，收起战利。", () => {
       if (node.type === "boss") {
-        state.screen = "bossReward";
+        state.screen = "chapterReward";
       } else {
         state.rewardCards = createCardRewardDraft(run, node.type).cards;
         state.screen = "reward";
@@ -708,18 +721,54 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   host.append(panel);
 }
 
+function renderChapterReward(host: HTMLElement, state: ControllerState, render: () => void): void {
+  const run = requireRun(state);
+  const chapter = getCurrentChapter(run);
+  const panel = createPanel("screen-chapter-reward", "章末悟境");
+  panel.classList.add("chapter-reward-screen", "reward-screen");
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
+  panel.append(createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`));
+  panel.append(createSpoilsSummary(state.pendingSpoils));
+
+  const choices = document.createElement("div");
+  choices.className = "chapter-reward-list";
+
+  for (const choice of createChapterRewardChoices(run)) {
+    const button = createAction(choice.title, choice.summary, () => {
+      const claimed = claimChapterReward(run, choice.id);
+      state.message = claimed ? `章末成长：${claimed.title}。` : "这项成长暂不可得。";
+      state.screen = "bossReward";
+      render();
+    });
+    button.classList.add("chapter-reward-choice");
+    button.dataset.testid = "chapter-reward-choice";
+    button.dataset.choiceId = choice.id;
+    choices.append(button);
+  }
+
+  panel.append(choices);
+  host.append(panel);
+}
+
 function renderBossReward(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
+  const chapter = getCurrentChapter(run);
+  const nextChapter = getNextChapter(run);
   const panel = createPanel("screen-boss-reward", "首领战利");
   panel.classList.add("reward-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render)));
-  panel.append(createMessage("黑雨退成残墨，洛水这一章已经写完。"));
+  panel.append(createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
-  const continueButton = createAction("收束本章", "带着战利离开洛水。", () => {
+  const continueButton = createAction(nextChapter ? "前往下一章" : "收束本章", nextChapter ? `带着章末成长进入${nextChapter.name}。` : "带着战利离开此地。", () => {
     state.pendingSpoils = undefined;
-    state.screen = "victory";
-    state.message = "洛水重映天光，新的江湖仍在远处。";
+    if (advanceToNextChapter(run)) {
+      state.screen = "map";
+      state.message = `雨声渐近，${nextChapter?.name ?? "下一章"}展开。`;
+    } else {
+      state.screen = "victory";
+      state.message = `${chapter.name}暂告一段落，新的江湖仍在远处。`;
+    }
     render();
   });
   continueButton.dataset.testid = "boss-reward-continue";
@@ -765,7 +814,9 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
   const methodNames = getRunMethods(run).map((method) => method.name).join("、") || "未定";
   const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
+  const chapter = getCurrentChapter(run);
   status.innerHTML = `
+    <span data-testid="run-chapter">章节 ${chapter.name}</span>
     <span>生命 ${run.hp}/${run.maxHp}</span>
     <span>铜钱 ${run.gold}</span>
     <span>牌组 ${run.deck.length}</span>
@@ -871,6 +922,10 @@ function describeIntent(intent: CombatState["enemies"][number]["currentIntent"])
 
       if (effect.action === "applyStatus") {
         return `${effect.target === "player" ? "玩家" : "自身"}获得${formatStatus(effect.status)} ${effect.amount}`;
+      }
+
+      if (effect.action === "addCardToDiscard") {
+        return `加入${effect.amount}张状态牌到弃牌堆`;
       }
 
       if (effect.action === "gainInk") {
@@ -1176,6 +1231,18 @@ function getCombatSprite(id: string) {
     return combatSpriteSheetsById.ink_dongzhuo_boss_attack;
   }
 
+  if (id === "enemy_bamboo_wraith" || id === "elite_qin_score" || id === "boss_qin_demon_echo") {
+    return combatSpriteSheetsById.paper_umbrella_attack;
+  }
+
+  if (id === "enemy_broken_scholar") {
+    return combatSpriteSheetsById.sword_echo_attack;
+  }
+
+  if (id === "enemy_bamboo_soldier" || id === "elite_bamboo_phalanx") {
+    return combatSpriteSheetsById.blood_banner_attack;
+  }
+
   return combatSpriteSheetsById.ink_bandit_attack;
 }
 
@@ -1404,7 +1471,7 @@ function persistControllerState(state: ControllerState, storage: GameStorage | u
 }
 
 function isSaveableScreen(screen: Screen): screen is SaveableScreen {
-  return screen === "map" || screen === "combat" || screen === "reward" || screen === "event" || screen === "shop" || screen === "rest" || screen === "bossReward";
+  return screen === "map" || screen === "combat" || screen === "reward" || screen === "methodReward" || screen === "chapterReward" || screen === "event" || screen === "shop" || screen === "rest" || screen === "bossReward";
 }
 
 function generateMapSeed(): number {

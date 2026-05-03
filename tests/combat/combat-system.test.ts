@@ -100,6 +100,16 @@ const inkPrep: CardDefinition = {
   effects: [{ action: "gainInk", amount: 1 }]
 };
 
+const statusNoise: CardDefinition = {
+  id: "status_zayin",
+  name: "杂音",
+  cost: 1,
+  rarity: "status",
+  target: "self",
+  types: ["skill"],
+  effects: [{ action: "applyStatus", status: "weak", amount: 1 }]
+};
+
 const vanish: CardDefinition = {
   id: "vanish",
   name: "隐锋",
@@ -149,7 +159,7 @@ const bandit: EnemyDefinition = {
   intents: [{ type: "attack", damage: 8, hits: 1 }]
 };
 
-const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, vanish, signatureSpearArt];
+const allCards = [strike, heavyStrike, guard, retainGuard, shadowStep, charm, mindFocus, inkPrep, statusNoise, vanish, signatureSpearArt];
 
 function startCombat(character: CharacterDefinition, starterDeck = character.starterDeck): CombatState {
   return createCombat({
@@ -682,5 +692,63 @@ describe("combat system", () => {
     expect(state.player.inkMarks).toBe(2);
     expect(state.enemies[0].hp).toBe(110);
     expect(state.combatLog).toContain("吞噬权柄");
+  });
+
+  it("lets second chapter enemies pollute the discard pile with status cards", () => {
+    const brokenScholar = {
+      id: "broken-scholar",
+      name: "断笔书生",
+      maxHp: 42,
+      intents: [
+        {
+          type: "special",
+          name: "断笔污卷",
+          effects: [
+            { action: "addCardToDiscard", cardId: "status_zayin", amount: 2 },
+            { action: "applyStatus", target: "player", status: "weak", amount: 1 }
+          ]
+        }
+      ]
+    } as unknown as EnemyDefinition;
+    const state = createCombat({
+      character: zhaoYun,
+      cards: allCards,
+      enemies: [brokenScholar],
+      rngSeed: 22,
+      shuffleDeck: false
+    });
+
+    endPlayerTurn(state);
+
+    const statusCount = [...state.piles.draw, ...state.piles.hand, ...state.piles.discard]
+      .filter((card) => card.definitionId === "status_zayin").length;
+
+    expect(statusCount).toBe(2);
+    expect(state.combatLog).toContain("断笔污卷");
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([expect.objectContaining({ kind: "status", target: "player", label: "杂音入弃牌 +2" })])
+    );
+  });
+
+  it("makes Qin Demon Echo gain block when status cards are drawn", () => {
+    const qinDemon = {
+      id: "boss_qin_demon_echo",
+      name: "琴魔·残音",
+      maxHp: 150,
+      intents: [{ type: "idle" }]
+    } as unknown as EnemyDefinition;
+    const state = createCombat({
+      character: { ...zhaoYun, starterDeck: ["status_zayin", "strike", "guard", "guard", "guard"] },
+      cards: allCards,
+      enemies: [qinDemon],
+      rngSeed: 23,
+      shuffleDeck: false
+    });
+
+    expect(state.enemies[0].block).toBe(4);
+    expect(state.combatLog).toContain("悲声回环");
+    expect(state.visualEvents).toEqual(
+      expect.arrayContaining([expect.objectContaining({ kind: "block", target: "enemy", label: "+4 护甲" })])
+    );
   });
 });

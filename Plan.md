@@ -457,3 +457,56 @@ npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
 npm test
 npm run test:e2e
 ```
+
+## Milestone 26: Chapter Two Shell And Cross-Chapter Progression
+
+- [x] Add chapter metadata for 洛水残照 and 竹林听雨.
+- [x] Persist current chapter and completed chapter history in run state.
+- [x] Generate a second-chapter route map with bamboo battle, event, rest, shop, elite, and Boss nodes.
+- [x] Advance from first-chapter Boss rewards into the second chapter instead of ending the run immediately.
+- [x] Surface the current chapter in run status and map title.
+- [x] Cover second-chapter map topology and browser chapter transition with tests.
+
+Verification:
+
+```bash
+npm test -- tests/run/run-system.test.ts tests/data/content.test.ts
+npm run typecheck
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+```
+
+## Milestone 27: Chapter Two Enemy Mechanics And Status-Card Pressure
+
+- [x] Add status cards 杂音、雨寒、残音 as temporary deck pollution.
+- [x] Extend enemy intents with a data-driven `addCardToDiscard` effect.
+- [x] Add second-chapter normal enemies, elites, and 琴魔·残音 Boss.
+- [x] Implement 琴魔·残音's 悲声回环 hook: drawing status/curse cards grants Boss block.
+- [x] Bind second-chapter enemies to existing ink-wash standee and attack-strip placeholders until dedicated art is generated.
+- [x] Cover status-card pollution, Qin Demon status draw response, enemy data, and browser feedback with tests.
+
+Verification:
+
+```bash
+npm test -- tests/combat/combat-system.test.ts tests/data/content.test.ts
+npm run typecheck
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+```
+
+## Milestone 28: Cross-Chapter Growth And Advanced Rewards
+
+- [x] Add chapter-end reward choices: maximum HP growth, deck upgrade, or rare character card.
+- [x] Route Boss victories through chapter reward, Boss reward summary, then next-chapter transition or victory.
+- [x] Make second-chapter card rewards weight more strongly toward character-specific build pieces.
+- [x] Preserve chapter reward state through the save whitelist.
+- [x] Style chapter reward choices with existing brush-paper action controls.
+- [x] Cover chapter rewards with unit and browser tests.
+
+Verification:
+
+```bash
+npm test -- tests/run/run-system.test.ts
+npm run typecheck
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts
+npm test
+npm run build
+```

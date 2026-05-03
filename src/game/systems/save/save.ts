@@ -4,7 +4,7 @@ import type { BattleSpoils, RunState } from "../run/types";
 export const SAVE_STORAGE_KEY = "inkblade-jianghu:run-save:v1";
 export const SAVE_SCHEMA_VERSION = 1;
 
-export type SaveableScreen = "map" | "combat" | "reward" | "methodReward" | "event" | "shop" | "rest" | "bossReward";
+export type SaveableScreen = "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward";
 
 export interface GameStorage {
   getItem(key: string): string | null;
@@ -91,7 +91,7 @@ function isSaveableSnapshot(value: unknown): value is ControllerSaveSnapshot {
 }
 
 function isSaveableScreen(screen: unknown): screen is SaveableScreen {
-  return screen === "map" || screen === "combat" || screen === "reward" || screen === "methodReward" || screen === "event" || screen === "shop" || screen === "rest" || screen === "bossReward";
+  return screen === "map" || screen === "combat" || screen === "reward" || screen === "methodReward" || screen === "chapterReward" || screen === "event" || screen === "shop" || screen === "rest" || screen === "bossReward";
 }
 
 function isRunStateLike(run: unknown): run is RunState {

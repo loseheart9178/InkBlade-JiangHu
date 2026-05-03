@@ -1,11 +1,15 @@
 import { cardsById } from "../../src/game/content/cards";
 import {
   addRelic,
+  advanceToNextChapter,
   claimBattleSpoils,
+  claimChapterReward,
   createCardRewardDraft,
+  createChapterRewardChoices,
   createCardRewardReasonMap,
   createRun,
   getAvailableNodes,
+  getCurrentChapter,
   getComboRewardHint,
   getNextRelicReward,
   getUpgradeCandidates,
@@ -21,6 +25,8 @@ describe("run system", () => {
     const run = createRun("zhaoyun");
 
     expect(run.characterId).toBe("zhaoyun");
+    expect(run.chapterId).toBe("luoshui");
+    expect(getCurrentChapter(run).name).toBe("洛水残照");
     expect(run.deck).toHaveLength(10);
     expect(run.relicIds).toEqual(["relic_white_dragon_tassel"]);
     expect(run.currentNodeId).toBe("start");
@@ -68,6 +74,25 @@ describe("run system", () => {
     expect(floors.get(1)).toBeGreaterThanOrEqual(2);
     expect(floors.get(2)).toBeGreaterThanOrEqual(2);
     expect(boss?.floor).toBe(Math.max(...run.mapNodes.map((node) => node.floor)));
+  });
+
+  it("advances from Luoshui into the second chapter with a fresh bamboo route map", () => {
+    const run = createRun("zhaoyun", { mapSeed: 4 });
+    run.currentNodeId = "boss";
+
+    const advanced = advanceToNextChapter(run);
+
+    expect(advanced).toBe(true);
+    expect(run.chapterId).toBe("bamboo");
+    expect(getCurrentChapter(run).name).toBe("竹林听雨");
+    expect(run.completedChapterIds).toContain("luoshui");
+    expect(run.currentNodeId).toBe("start");
+    expect(run.visitedNodeIds).toEqual([]);
+    expect(run.mapNodes.find((node) => node.id === "boss")?.enemyId).toBe("boss_qin_demon_echo");
+    expect(run.mapNodes.map((node) => node.eventId).filter(Boolean)).toEqual(
+      expect.arrayContaining(["event_ruined_temple_night_qin", "event_rain_tea_pavilion"])
+    );
+    expect(getAvailableNodes(run).map((node) => node.type)).toEqual(expect.arrayContaining(["battle", "event"]));
   });
 
   it("changes optional branches for different map seeds while preserving the main route", () => {
@@ -138,6 +163,16 @@ describe("run system", () => {
     expect(new Set(draft.cards.map((card) => card.id)).size).toBe(3);
     expect(reasons[draft.cards[0].id]).toContain("连斩枪势流");
     expect(getComboRewardHint(run)).toContain("连斩");
+  });
+
+  it("weights second chapter card rewards toward character build pieces", () => {
+    const run = createRun("diaochan");
+    expect(advanceToNextChapter(run)).toBe(true);
+
+    const draft = createCardRewardDraft(run, "battle");
+
+    expect(draft.cards).toHaveLength(3);
+    expect(draft.cards.filter((card) => card.character === "diaochan").length).toBeGreaterThanOrEqual(2);
   });
 
   it("biases Diao Chan rewards toward body-attack chain support", () => {
@@ -218,6 +253,26 @@ describe("run system", () => {
     expect(spoils).toEqual({ gold: 50, relicId: "relic_lotus_step_bell" });
     expect(run.gold).toBe(149);
     expect(run.relicIds).toContain("relic_lotus_step_bell");
+  });
+
+  it("creates and claims chapter reward choices for cross-chapter growth", () => {
+    const run = createRun("zhaoyun");
+    const originalMaxHp = run.maxHp;
+
+    const choices = createChapterRewardChoices(run);
+    const maxHpChoice = choices.find((choice) => choice.type === "maxHp");
+    const rareCardChoice = choices.find((choice) => choice.type === "card");
+
+    expect(choices.map((choice) => choice.type)).toEqual(expect.arrayContaining(["maxHp", "upgrade", "card"]));
+    expect(rareCardChoice?.cardId).toBe("zhao_qixing_spear");
+    expect(maxHpChoice).toBeDefined();
+
+    const claimed = claimChapterReward(run, maxHpChoice?.id ?? "");
+
+    expect(claimed?.title).toContain("洗髓");
+    expect(run.maxHp).toBe(originalMaxHp + 6);
+    expect(run.hp).toBe(run.maxHp);
+    expect(run.chapterRewardHistory).toContain(maxHpChoice?.id);
   });
 
   it("falls back to gold-only spoils when relic pool is exhausted", () => {
