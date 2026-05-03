@@ -937,3 +937,80 @@ npm test -- tests/data/content.test.ts
 npm test
 npm run build
 ```
+
+## Milestone 58: GPT Image 2 Starter And Common Card Art Batch
+
+- [ ] Generate dedicated GPT Image 2 style card faces for the starter readability and common foundation fallback batches.
+- [ ] Preserve source sheets and crop semantic runtime PNGs under `public/assets/generated/cards/`.
+- [ ] Bind new `cardArtList` entries and shrink non-blocking card fallback debt while keeping runtime missing files at 0.
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+npm test
+npm run build
+```
+
+## Milestone 59: Final Choice And Character Epilogue
+
+- [ ] Add a final-choice screen after defeating `无名史官`.
+- [ ] Add eligible world-ending choices and character epilogue definitions for all four MVP characters.
+- [ ] Persist selected world ending and character epilogue into profile/run summary.
+
+Verification:
+
+```bash
+npm test -- tests/endings/ending-system.test.ts tests/profile/profile-system.test.ts tests/run/run-system.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "final boss route"
+npm test
+npm run build
+```
+
+## Milestone 60: Desktop Compendium
+
+- [ ] Add a read-only `墨录图鉴` for cards, relics, enemies, combos, and story fragments.
+- [ ] Open the compendium from title and run status without losing the current run screen.
+- [ ] Add compact desktop tabs and filters for category, character, rarity, and chapter.
+
+Verification:
+
+```bash
+npm test -- tests/compendium/compendium-system.test.ts tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "compendium|墨录图鉴"
+npm test
+npm run build
+```
+
+## Milestone 61: Keyword And Intent Glossary
+
+- [ ] Add data-driven glossary definitions for shipped statuses, card types, resources, combos, and enemy intents.
+- [ ] Surface desktop tooltip metadata on cards, enemy intents, and combo trail entries.
+- [ ] Cover glossary completeness and visual tooltip attributes with tests.
+
+Verification:
+
+```bash
+npm test -- tests/data/content.test.ts
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+npm test
+npm run build
+```
+
+## Milestone 62: Boot Performance Split
+
+- [ ] Dynamically split the game runtime boot after the root shell mounts.
+- [ ] Preserve jsdom app-shell and browser boot behavior.
+- [ ] Review and document Vite chunk output, removing or isolating the existing large chunk warning where practical.
+
+Verification:
+
+```bash
+npm test -- tests/app-shell.test.ts
+npm run typecheck
+npm run build
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "boots"
+npm test
+```

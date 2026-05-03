@@ -2,6 +2,56 @@
 
 ## Status Log
 
+### 2026-05-03 23:49 Asia/Shanghai
+
+Wave 6 EA-readiness planning started under the user's autonomous execution mandate.
+
+Re-read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/art/gpt2-priority-queue.md`
+- `skills/inkblade-art-asset-pipeline/SKILL.md`
+
+Created:
+
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/superpowers/agent-runs/2026-05-03-wave6.md`
+
+Planned milestones:
+
+- Milestone 58: GPT Image 2 Starter And Common Card Art Batch.
+- Milestone 59: Final Choice And Character Epilogue.
+- Milestone 60: Desktop Compendium.
+- Milestone 61: Keyword And Intent Glossary.
+- Milestone 62: Boot Performance Split.
+
+Decision:
+
+- Treat the user's repeated "全权交由你自主规划任务、持续开发，无需请示" as prior approval for the Wave 6 design and plan.
+- Keep Wave 6 desktop-first. Mobile layout and touch input remain paused by project rule.
+- Use subagent/worktree ownership for parallel implementation, with controller/style conflicts resolved during integration instead of blocking dispatch.
+
+Next step:
+
+- Commit Wave 6 planning docs, baseline main, create worktrees, and dispatch independent workers.
+
 ### 2026-05-03 23:41 Asia/Shanghai
 
 Wave 5 post-MVP polish fully integrated and accepted on `codex/next-major-modules`.
