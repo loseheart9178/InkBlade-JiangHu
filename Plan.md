@@ -880,9 +880,9 @@ npm run test:e2e
 
 ## Milestone 54: Dynamic Chapter Battlefields
 
-- [ ] Render chapter-specific battlefield assets in Phaser instead of always using 洛水.
-- [ ] Expose the current combat battlefield as a desktop QA attribute.
-- [ ] Add visual smoke coverage for non-Luoshui battlefield context.
+- [x] Render chapter-specific battlefield assets in Phaser instead of always using 洛水.
+- [x] Expose the current combat battlefield as a desktop QA attribute.
+- [x] Add visual smoke coverage for non-Luoshui battlefield context.
 
 Verification:
 
@@ -895,9 +895,9 @@ npm run build
 
 ## Milestone 55: Browser Final Boss Route
 
-- [ ] Add a debug-accessible final-chapter map route that enters `无名史官` combat.
-- [ ] Verify final boss victory flows into ending/profile summary.
-- [ ] Preserve existing direct ending-summary debug action.
+- [x] Add a debug-accessible final-chapter map route that enters `无名史官` combat.
+- [x] Verify final boss victory flows into ending/profile summary.
+- [x] Preserve existing direct ending-summary debug action.
 
 Verification:
 
@@ -910,9 +910,9 @@ npm run build
 
 ## Milestone 56: Persisted Settings And Procedural Feedback
 
-- [ ] Persist desktop settings separately from run saves.
-- [ ] Enable volume controls and mute/reduced-motion settings.
-- [ ] Add lightweight procedural WebAudio feedback with no-op fallback.
+- [x] Persist desktop settings separately from run saves.
+- [x] Enable volume controls and mute/reduced-motion settings.
+- [x] Add lightweight procedural WebAudio feedback with no-op fallback.
 
 Verification:
 
@@ -925,9 +925,9 @@ npm run build
 
 ## Milestone 57: Card Art Fallback Ledger
 
-- [ ] Extend generated asset audit with non-blocking card fallback debt.
-- [ ] Update GPT Image 2 queue for the next low-priority card-art batch.
-- [ ] Keep missing runtime assets blocking and fallback art informational.
+- [x] Extend generated asset audit with non-blocking card fallback debt.
+- [x] Update GPT Image 2 queue for the next low-priority card-art batch.
+- [x] Keep missing runtime assets blocking and fallback art informational.
 
 Verification:
 

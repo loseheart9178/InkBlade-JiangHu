@@ -44,11 +44,11 @@ Before implementation, each worker must re-read and record in `Documentation.md`
 - Modify: `tests/data/content.test.ts`
 - Modify: `Documentation.md`
 
-- [ ] Add a failing data test that requires `battlefieldAssets` to include every chapter ID.
-- [ ] Update `CombatScene` to preload all `battlefieldAssets`, keep the active background image, and listen for `inkblade:set-battlefield` events with `{ chapterId }`.
-- [ ] Update `renderCombat` to set `data-battlefield="${run.chapterId}"` and dispatch the battlefield event after render.
-- [ ] Extend visual smoke so at least one non-Luoshui route asserts the battlefield data attribute and captures a screenshot.
-- [ ] Run:
+- [x] Add a failing data test that requires `battlefieldAssets` to include every chapter ID.
+- [x] Update `CombatScene` to preload all `battlefieldAssets`, keep the active background image, and listen for `inkblade:set-battlefield` events with `{ chapterId }`.
+- [x] Update `renderCombat` to set `data-battlefield="${run.chapterId}"` and dispatch the battlefield event after render.
+- [x] Extend visual smoke so at least one non-Luoshui route asserts the battlefield data attribute and captures a screenshot.
+- [x] Run:
 
 ```bash
 npm test -- tests/data/content.test.ts
@@ -66,11 +66,11 @@ npm run build
 - Modify: `tests/run/run-system.test.ts`
 - Modify: `Documentation.md`
 
-- [ ] Add a failing run-system/debug test for a `moyuan` debug run with `boss_nameless_historian` reachable from the map.
-- [ ] Add a title debug action `debug-final-route` that starts a final-chapter route on the map instead of directly showing the ending summary.
-- [ ] Add e2e coverage for title -> final route -> final boss node -> `无名史官` combat -> victory -> ending/profile summary.
-- [ ] Keep the existing `debug-ending-summary` action intact for direct profile QA.
-- [ ] Run:
+- [x] Add a failing run-system/debug test for a `moyuan` debug run with `boss_nameless_historian` reachable from the map.
+- [x] Add a title debug action `debug-final-route` that starts a final-chapter route on the map instead of directly showing the ending summary.
+- [x] Add e2e coverage for title -> final route -> final boss node -> `无名史官` combat -> victory -> ending/profile summary.
+- [x] Keep the existing `debug-ending-summary` action intact for direct profile QA.
+- [x] Run:
 
 ```bash
 npm test -- tests/run/run-system.test.ts tests/endings/ending-system.test.ts
@@ -90,12 +90,12 @@ npm run build
 - Modify: `tests/e2e/playable-flow.spec.ts`
 - Modify: `Documentation.md`
 
-- [ ] Add failing tests for settings persistence: reduced motion, fast combat text, master volume, music volume, and mute survive reload.
-- [ ] Add `audioFeedback.ts` with a no-op safe WebAudio adapter exposing `playUi`, `playCard`, `playVictory`, `setSettings`, and `dispose`.
-- [ ] Enable the settings sliders and add a mute toggle in the settings shell.
-- [ ] Persist settings separately from run saves and apply reduced-motion class on load.
-- [ ] Trigger lightweight feedback on title actions, card play, victory, defeat, and settings changes.
-- [ ] Run:
+- [x] Add failing tests for settings persistence: reduced motion, fast combat text, master volume, music volume, and mute survive reload.
+- [x] Add `audioFeedback.ts` with a no-op safe WebAudio adapter exposing `playUi`, `playCard`, `playVictory`, `setSettings`, and `dispose`.
+- [x] Enable the settings sliders and add a mute toggle in the settings shell.
+- [x] Persist settings separately from run saves and apply reduced-motion class on load.
+- [x] Trigger lightweight feedback on title actions, card play, victory, defeat, and settings changes.
+- [x] Run:
 
 ```bash
 npm test -- tests/app-shell.test.ts tests/save/save-system.test.ts
@@ -113,10 +113,10 @@ npm run build
 - Modify: `tests/data/content.test.ts`
 - Modify: `Documentation.md`
 
-- [ ] Add a failing data test that expects `asset-audit.json` to report `cardFallbackDebt` without treating it as missing runtime art.
-- [ ] Update `scripts/audit-generated-assets.mjs` to compare every card ID to `cardArtById` and record cards using type-level fallback art.
-- [ ] Update `docs/art/gpt2-priority-queue.md` with the next GPT Image 2 queue grouped by character, type, and rarity.
-- [ ] Run:
+- [x] Add a failing data test that expects `asset-audit.json` to report `cardFallbackDebt` without treating it as missing runtime art.
+- [x] Update `scripts/audit-generated-assets.mjs` to compare every card ID to `cardArtById` and record cards using type-level fallback art.
+- [x] Update `docs/art/gpt2-priority-queue.md` with the next GPT Image 2 queue grouped by character, type, and rarity.
+- [x] Run:
 
 ```bash
 node scripts/audit-generated-assets.mjs

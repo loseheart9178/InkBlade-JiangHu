@@ -2,6 +2,56 @@
 
 ## Status Log
 
+### 2026-05-03 23:41 Asia/Shanghai
+
+Wave 5 post-MVP polish fully integrated and accepted on `codex/next-major-modules`.
+
+Integrated commits:
+
+- `f47d91c feat: add dynamic chapter battlefields`
+- `d4e3e3a feat: add browser final boss route`
+- `99eee21 feat: persist settings and audio feedback`
+- `5c09daf test: add card art fallback ledger`
+
+What changed:
+
+- Combat now switches Phaser battlefield art by chapter and exposes `data-battlefield` for desktop QA.
+- The title screen has a debug-accessible final-chapter route that enters `无名史官` combat and flows into ending/profile summary after victory.
+- Desktop settings persist outside run saves, including reduced motion, mute, master volume, and music volume.
+- Lightweight procedural WebAudio feedback is wired with jsdom/browser-safe no-op fallbacks.
+- Generated asset audit now separates blocking missing runtime files from non-blocking card-art fallback debt.
+- All Wave 5 worktrees were reclaimed after verification.
+
+Final verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 55, source sheets 20, prompt queue targets 35.
+
+npm test
+Result: passed. 14 test files passed, 141 tests passed.
+
+npm run typecheck
+Result: passed. TypeScript completed with no errors.
+
+npm run build
+Result: passed. TypeScript and Vite build completed; Vite repeated the existing non-blocking large chunk warning.
+
+npm run test:e2e
+Result: passed. 20 Chromium Playwright tests passed.
+```
+
+Known gaps / risks:
+
+- The 56-card fallback ledger is intentionally non-blocking; it is the next GPT Image 2 card-art queue, not a runtime bug.
+- Audio remains lightweight procedural feedback rather than production music or final sound design.
+- Desktop Chromium remains the active QA target; mobile adaptation is still paused by project rule.
+- Vite still reports the existing large chunk warning for the Phaser/application bundle.
+
+Next step:
+
+- Start Wave 6 planning for the next autonomous development batch, using the card fallback ledger and alpha QA results as the priority inputs.
+
 ### 2026-05-03 22:03 Asia/Shanghai
 
 Milestone 54 start in `.worktrees/wave5-battlefields` on branch `codex/wave5-battlefields`.
