@@ -2,6 +2,80 @@
 
 ## Status Log
 
+### 2026-05-03 15:12 Asia/Shanghai
+
+Current state:
+
+- Worker D started Milestone 46 in worktree `.worktrees/auton-ui-shells` on branch `codex/auton-ui-shells`.
+- Re-read before implementation:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+  - `docs/yunshui_game_prd_v1.md` UI/art/settings/run-loop sections
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md` UI, reward, and run-loop sections
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md` UI atmosphere, run, and ending-direction sections
+- Read current implementation surfaces:
+  - `src/app/inkbladeController.ts`
+  - `src/styles/theme.css`
+  - `tests/e2e/playable-flow.spec.ts`
+  - `tests/e2e/visual-smoke.spec.ts`
+
+Decisions:
+
+- Keep Milestone 46 as desktop-only DOM shell work.
+- Do not touch pure profile/endings modules, run simulator, art scripts, generated assets, or content tuning.
+- Since title markup is owned by `appShell.ts` outside this worker scope, attach title-only settings/debug controls from `inkbladeController.ts` without editing the shell file.
+
+Progress:
+
+- Added Playwright coverage for the title settings shell and title debug run-summary shell.
+- Added title controls:
+  - `settings-open`
+  - `debug-run-summary`
+  - `screen-title` marker on the existing title surface
+- Added a desktop settings shell with:
+  - `screen-settings`
+  - `setting-reduced-motion`
+  - fast combat text toggle
+  - disabled MVP audio sliders
+  - `settings-back`
+- Added a run summary shell with `screen-run-summary`, repeated `run-summary-stat` rows, return-to-title action, and a disabled logbook action until a real run/profile context exists.
+- Styled both shells with the existing paper, ink, red, and teal vocabulary without mobile-specific layout work.
+
+Known gaps:
+
+- Settings are in controller memory only; persistence should land with the profile/settings storage integration.
+- Run summary uses a debug sample from title when no run exists; profile/endings integration should replace that with real run result data and enable the logbook action.
+- Volume controls are intentionally disabled placeholders because audio is not wired in this milestone.
+
+Verification:
+
+```text
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "settings panel|run summary"
+RED result before implementation: failed as expected because `screen-title`, `settings-open`, and `debug-run-summary` were missing.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "settings panel|run summary"
+GREEN result after implementation: 2 Playwright tests passed.
+
+Note: the first green rerun was accidentally served by an old parent-workspace Vite process on port 5173 because Playwright reuses existing servers. Stopped that stale dev server and reran against this worktree.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
+Result: 1 Playwright test passed.
+
+npm test
+Result: 10 test files passed, 109 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed. Vite repeated the expected large Phaser bundle warning.
+```
+
+Next step:
+
+- Integrate this shell with the profile/endings worker output once persistent run records and ending evaluation are available.
+
 ### 2026-05-02 13:30 Asia/Shanghai
 
 Current state:

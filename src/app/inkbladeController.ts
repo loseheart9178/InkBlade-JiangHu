@@ -54,6 +54,13 @@ type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterR
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
 
+interface SettingsState {
+  reducedMotion: boolean;
+  fastCombatText: boolean;
+  masterVolume: number;
+  musicVolume: number;
+}
+
 interface ControllerState {
   screen: Screen;
   run?: RunState;
@@ -61,6 +68,7 @@ interface ControllerState {
   rewardCards: CardDefinition[];
   pendingSpoils?: BattleSpoils;
   deckOpen: boolean;
+  settings: SettingsState;
   message: string;
 }
 
@@ -73,6 +81,12 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     screen: "title",
     rewardCards: [],
     deckOpen: false,
+    settings: {
+      reducedMotion: false,
+      fastCombatText: false,
+      masterVolume: 80,
+      musicVolume: 70
+    },
     message: ""
   };
 
@@ -152,6 +166,8 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     }
   };
 
+  installTitleShellControls(host, state, render);
+
   return {
     startRun(characterId: string) {
       state.run = createRun(characterId, { mapSeed: generateMapSeed() });
@@ -186,6 +202,172 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       clearSavedGame(options.storage);
     }
   };
+}
+
+function installTitleShellControls(host: HTMLElement, state: ControllerState, render: () => void): void {
+  const title = host.querySelector<HTMLElement>(".title-screen");
+  if (!title) {
+    return;
+  }
+
+  title.dataset.testid = "screen-title";
+  const actions = title.querySelector<HTMLElement>(".title-actions") ?? title;
+
+  if (!actions.querySelector("[data-testid='settings-open']")) {
+    const settings = document.createElement("button");
+    settings.type = "button";
+    settings.dataset.testid = "settings-open";
+    settings.textContent = "设置";
+    settings.addEventListener("click", () => showSettingsShell(host, state));
+    actions.append(settings);
+  }
+
+  if (!actions.querySelector("[data-testid='debug-run-summary']")) {
+    const summary = document.createElement("button");
+    summary.type = "button";
+    summary.className = "title-debug-action";
+    summary.dataset.testid = "debug-run-summary";
+    summary.textContent = "战报壳";
+    summary.addEventListener("click", () => showRunSummaryShell(host, state, render));
+    actions.append(summary);
+  }
+}
+
+function showSettingsShell(host: HTMLElement, state: ControllerState): void {
+  removeTitleShellOverlay(host);
+  const panel = createPanel("screen-settings", "设置");
+  panel.classList.add("settings-screen", "title-shell-panel");
+  panel.dataset.titleShellOverlay = "true";
+
+  const note = document.createElement("p");
+  note.className = "shell-note";
+  note.textContent = "桌面行旅设置先落下外壳，音频与持久化会随档案系统接入。";
+
+  const settingsList = document.createElement("div");
+  settingsList.className = "settings-list";
+  settingsList.append(
+    createSettingToggle(
+      "setting-reduced-motion",
+      "减少动态",
+      "压低非必要动效，保留关键战斗反馈。",
+      state.settings.reducedMotion,
+      (checked) => {
+        state.settings.reducedMotion = checked;
+        host.classList.toggle("prefers-reduced-motion", checked);
+      }
+    ),
+    createSettingToggle(
+      "setting-fast-combat-text",
+      "快速战斗文字",
+      "缩短战斗浮字停留时间，方便重复跑图。",
+      state.settings.fastCombatText,
+      (checked) => {
+        state.settings.fastCombatText = checked;
+      }
+    ),
+    createSettingRange("setting-master-volume", "主音量", state.settings.masterVolume),
+    createSettingRange("setting-music-volume", "音乐音量", state.settings.musicVolume)
+  );
+
+  const back = createAction("返回", "收起设置，留在标题。", () => removeTitleShellOverlay(host));
+  back.dataset.testid = "settings-back";
+
+  panel.append(note, settingsList, back);
+  host.append(panel);
+}
+
+function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: () => void): void {
+  removeTitleShellOverlay(host);
+  const run = state.run ?? createRun("zhaoyun", { mapSeed: 46 });
+  const panel = createPanel("screen-run-summary", "行旅结算");
+  panel.classList.add("run-summary-screen", "title-shell-panel");
+  panel.dataset.titleShellOverlay = "true";
+
+  const note = document.createElement("p");
+  note.className = "shell-note";
+  note.textContent = state.run ? "本次行旅暂结于此，后续会写入档案与结局。" : "调试战报样例，用于档案与结局接入前验证桌面外壳。";
+
+  const stats = document.createElement("div");
+  stats.className = "run-summary-stats";
+  const character = charactersById[run.characterId];
+  const chapter = getCurrentChapter(run);
+  const logbookCount = getUnlockedLogbookEntries(run).length;
+  stats.append(
+    createRunSummaryStat("结果", state.screen === "defeat" ? "梦醒" : "调试样例"),
+    createRunSummaryStat("角色", character.name),
+    createRunSummaryStat("当前章节", chapter.name),
+    createRunSummaryStat("已过章节", `${run.completedChapterIds.length}`),
+    createRunSummaryStat("法宝", `${run.relicIds.length}`),
+    createRunSummaryStat("牌组", `${run.deck.length}`),
+    createRunSummaryStat("墨录残页", `${logbookCount}`),
+    createRunSummaryStat("铜钱", `${run.gold}`)
+  );
+
+  const actions = document.createElement("div");
+  actions.className = "run-summary-actions";
+  const back = createAction("返回标题", "收起战报，回到标题。", () => removeTitleShellOverlay(host));
+  back.dataset.testid = "run-summary-back";
+  const logbook = createAction("打开墨录", state.run ? "查看本局已录残页。" : "调试样例尚未接入档案残页。", () => {
+    if (!state.run) {
+      return;
+    }
+
+    removeTitleShellOverlay(host);
+    openLogbook(state, render);
+  });
+  logbook.dataset.testid = "run-summary-logbook";
+  logbook.disabled = !state.run;
+  actions.append(back, logbook);
+
+  panel.append(note, stats, actions);
+  host.append(panel);
+}
+
+function createSettingToggle(testId: string, title: string, description: string, checked: boolean, onChange: (checked: boolean) => void): HTMLElement {
+  const row = document.createElement("label");
+  row.className = "settings-row";
+
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.dataset.testid = testId;
+  input.checked = checked;
+  input.addEventListener("change", () => onChange(input.checked));
+
+  const copy = document.createElement("span");
+  copy.innerHTML = `<strong>${title}</strong><small>${description}</small>`;
+  row.append(input, copy);
+  return row;
+}
+
+function createSettingRange(testId: string, title: string, value: number): HTMLElement {
+  const row = document.createElement("label");
+  row.className = "settings-row settings-row--disabled";
+
+  const copy = document.createElement("span");
+  copy.innerHTML = `<strong>${title}</strong><small>音频系统接入后启用。</small>`;
+
+  const input = document.createElement("input");
+  input.type = "range";
+  input.min = "0";
+  input.max = "100";
+  input.value = `${value}`;
+  input.disabled = true;
+  input.dataset.testid = testId;
+
+  row.append(copy, input);
+  return row;
+}
+
+function createRunSummaryStat(label: string, value: string): HTMLElement {
+  const row = document.createElement("div");
+  row.className = "run-summary-stat";
+  row.dataset.testid = "run-summary-stat";
+  row.innerHTML = `<span>${label}</span><strong>${value}</strong>`;
+  return row;
+}
+
+function removeTitleShellOverlay(host: HTMLElement): void {
+  host.querySelectorAll<HTMLElement>("[data-title-shell-overlay='true']").forEach((item) => item.remove());
 }
 
 function renderMap(host: HTMLElement, state: ControllerState, render: () => void): void {

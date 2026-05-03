@@ -1,5 +1,27 @@
 import { expect, type Page, test } from "@playwright/test";
 
+test("settings panel opens from title and returns without starting a run", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByTestId("screen-title")).toBeVisible();
+
+  await page.getByTestId("settings-open").click();
+  await expect(page.getByTestId("screen-settings")).toBeVisible();
+  await expect(page.getByTestId("setting-reduced-motion")).toBeVisible();
+  await page.getByTestId("settings-back").click();
+
+  await expect(page.getByTestId("screen-title")).toBeVisible();
+  await expect(page.getByTestId("screen-map")).toBeHidden();
+});
+
+test("run summary shell opens from the title debug entry", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByTestId("debug-run-summary").click();
+  await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  const statCount = await page.getByTestId("run-summary-stat").count();
+  expect(statCount).toBeGreaterThan(2);
+});
+
 test("boots, enters a Zhao Yun battle, wins, and returns to the route map", async ({ page }) => {
   await startRun(page, "zhaoyun");
 
