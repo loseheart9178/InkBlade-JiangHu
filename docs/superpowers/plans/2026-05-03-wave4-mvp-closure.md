@@ -55,7 +55,7 @@ Workers must not edit another worker's primary files unless the PM explicitly re
   - `public/assets/generated/sources/*.png`
 - Modify: `Documentation.md`
 
-- [ ] Generate priority source images with GPT Image 2 from the prompt queue.
+- [x] Generate priority source images with GPT Image 2 from the prompt queue.
   - Start with playable character identity and visible hand debt:
     - Zhao Yun ink-pass card faces.
     - Diao Chan ink-pass card faces.
@@ -65,14 +65,14 @@ Workers must not edit another worker's primary files unless the PM explicitly re
     - `enemy_bamboo_soldier`, `elite_qin_score`, `elite_bamboo_phalanx`, `elite_lubu_shadow`.
     - final battlefield `墨渊照心`.
     - final boss `无名史官`.
-- [ ] Preserve each untouched generated source under `public/assets/generated/sources/`.
-- [ ] Produce runtime crops:
+- [x] Preserve each untouched generated source under `public/assets/generated/sources/`.
+- [x] Produce runtime crops:
   - Standees: transparent cutouts with complete head, hands, feet, weapon, ribbons, robe edges, instrument, and alpha-clean corners.
   - Card faces: 4:3 crop, no text, no watermark, readable within current card chrome.
   - Sprite strips: four 512x512 frames, bottom-center anchor, transparent background, no leftover red/white circular residue.
-- [ ] Update `src/game/content/visuals.ts` so generated assets replace semantic `*-ink-pass.png` paths instead of hiding debt.
-- [ ] Update `tests/e2e/visual-smoke.spec.ts` so desktop visual smoke covers Zhao Yun, Diao Chan, Cai Wenji, Zhuge Liang, and one enemy attack strip.
-- [ ] Run and record:
+- [x] Update `src/game/content/visuals.ts` so generated assets replace semantic `*-ink-pass.png` paths instead of hiding debt.
+- [x] Update `tests/e2e/visual-smoke.spec.ts` so desktop visual smoke covers Zhao Yun, Diao Chan, Cai Wenji, Zhuge Liang, and one enemy attack strip.
+- [x] Run and record:
 
 ```bash
 node scripts/audit-generated-assets.mjs
@@ -93,18 +93,18 @@ npm run build
 - Modify as needed: `tests/combat/combat-system.test.ts`, `tests/data/content.test.ts`, `tests/run/run-system.test.ts`
 - Modify: `Documentation.md`
 
-- [ ] Add simulator coverage for `zhaoyun`, `diaochan`, `caiwenji`, and `zhugeliang` across `luoshui`, `bamboo`, `changan`, and `moyuan`.
-- [ ] Add a deterministic full-route completion contract that reaches an ending-ready or completed summary state without renderer code.
-- [ ] Tune only data-driven values first:
+- [x] Add simulator coverage for `zhaoyun`, `diaochan`, `caiwenji`, and `zhugeliang` across `luoshui`, `bamboo`, `changan`, and `moyuan`.
+- [x] Add a deterministic full-route completion contract that reaches an ending-ready or completed summary state without renderer code.
+- [x] Tune only data-driven values first:
   - Enemy damage, HP, shield, status pressure.
   - Reward pool weights and advanced card availability.
   - Character starter/relic values only if a route repeatedly fails.
-- [ ] Preserve character identity:
+- [x] Preserve character identity:
   - Zhao Yun remains stable攻防/破阵.
   - Diao Chan remains魅惑/舞势/闪避.
   - Cai Wenji remains琴音/余韵/净化.
   - Zhuge Liang remains观星/阵法/筹策.
-- [ ] Run and record:
+- [x] Run and record:
 
 ```bash
 npm test -- tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
@@ -123,23 +123,23 @@ npm run build
 - Add/modify: `docs/playtest/alpha-acceptance.md`
 - Modify: `Documentation.md`
 
-- [ ] Add desktop e2e coverage for:
+- [x] Add desktop e2e coverage for:
   - Boot -> title -> character select.
   - One combat smoke path for all four characters.
   - Save/continue after reload.
   - Debug completed ending/profile summary.
-- [ ] Capture desktop screenshots from Playwright output for:
+- [x] Capture desktop screenshots from Playwright output for:
   - Zhao Yun combat.
   - Diao Chan combat.
   - Cai Wenji combat.
   - Zhuge Liang combat.
   - Ending/run summary.
-- [ ] Write `docs/playtest/alpha-acceptance.md` with:
+- [x] Write `docs/playtest/alpha-acceptance.md` with:
   - Run commands.
   - Playable scope.
   - Verification result table.
   - Known MVP gaps that remain honest, especially art still pending outside generated priority assets.
-- [ ] Run and record:
+- [x] Run and record:
 
 ```bash
 node scripts/audit-generated-assets.mjs
@@ -157,4 +157,3 @@ npm run test:e2e
 2. Integrate `wave4-alpha-balance` second so QA tests validate the final tuned data.
 3. Integrate `wave4-release-qa` last as the final acceptance ledger.
 4. After each integration, remove the worktree, update `Plan.md` / `Documentation.md`, and commit.
-

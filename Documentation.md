@@ -2,6 +2,48 @@
 
 ## Status Log
 
+### 2026-05-03 21:37 Asia/Shanghai
+
+Wave 4 MVP closure integrated and verified on `codex/next-major-modules`.
+
+What changed:
+
+- Integrated GPT Image 2 asset pass (`04e6301`) with 0 missing generated references and 0 tracked `ink-pass` runtime debt.
+- Integrated alpha-balance simulator contracts (`a13976a`) for all four MVP characters through `luoshui`, `bamboo`, `changan`, and `moyuan`.
+- Integrated desktop release-QA evidence (`2d9cfd1`) with four-character combat screenshots, save/continue coverage, ending/profile summary coverage, and updated alpha acceptance notes.
+- Reclaimed `.worktrees/wave4-gpt2-assets`, `.worktrees/wave4-alpha-balance`, and `.worktrees/wave4-release-qa`.
+- Attempted to close the completed Dewey and Averroes subagent handles; both handles were already unavailable in the current session after compaction.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, GPT2 runtime assets 55, source sheets 20, prompt queue targets 35.
+
+npm test
+Result: passed. 13 test files passed, 134 tests passed.
+
+npm run typecheck
+Result: passed. TypeScript completed with no errors.
+
+npm run build
+Result: passed. Vite repeated the expected non-blocking large chunk warning.
+
+npm run test:e2e
+Result: passed. 17 Chromium Playwright tests passed.
+```
+
+Known gaps / risks:
+
+- Desktop Chromium is the accepted platform for this pass; mobile layout and touch input remain paused by project rule.
+- `墨渊照心` battlefield art is generated and manifest-registered, but route-specific battlefield switching remains a polish task.
+- Some low-priority filler/starter cards still share type-level fallback card art even though tracked `ink-pass` runtime debt is cleared.
+- Full final-chapter browser playthrough, audio, packaging, deeper settings persistence, and broader meta progression remain future milestones.
+
+Next step:
+
+- Move into post-MVP polish planning: dynamic route battlefields, final-chapter browser route, audio/settings polish, and broader art coverage for filler cards.
+
 ### 2026-05-03 18:29 Asia/Shanghai
 
 Wave 4 Task 2 complete: deterministic alpha-balance simulator contracts for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang across luoshui, bamboo, changan, and moyuan.

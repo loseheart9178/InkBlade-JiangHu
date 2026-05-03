@@ -816,9 +816,9 @@ npm run build
 
 ## Milestone 50: GPT Image 2 Final Asset Pass
 
-- [ ] Replace remaining priority `*-ink-pass.png` standees, card faces, battlefields, and sprite strips with GPT Image 2 generated assets.
-- [ ] Preserve source sheets and crop runtime PNGs into semantic filenames.
-- [ ] Verify desktop screenshots after replacement.
+- [x] Replace remaining priority `*-ink-pass.png` standees, card faces, battlefields, and sprite strips with GPT Image 2 generated assets.
+- [x] Preserve source sheets and crop runtime PNGs into semantic filenames.
+- [x] Verify desktop screenshots after replacement.
 
 Verification:
 
@@ -832,9 +832,9 @@ npm run build
 
 ## Milestone 51: Alpha Balance And Full Route Playtest Pass
 
-- [ ] Add deterministic route completion contracts through third chapter and final/ending shell.
-- [ ] Tune enemy, reward, method, and status pressure using simulator and browser runs.
-- [ ] Verify Zhao Yun and Diao Chan can both reach the alpha route target.
+- [x] Add deterministic route completion contracts through third chapter and final/ending shell.
+- [x] Tune enemy, reward, method, and status pressure using simulator and browser runs.
+- [x] Verify all four MVP characters can reach the alpha route target.
 
 Verification:
 
@@ -864,9 +864,9 @@ npm run build
 
 ## Milestone 53: Release Polish And Alpha Acceptance
 
-- [ ] Run the final acceptance gate across audit, unit, typecheck, build, and e2e.
-- [ ] Capture desktop screenshots for four character combat views and ending/summary surfaces.
-- [ ] Update project-facing documentation with playable scope, known MVP gaps, and run commands.
+- [x] Run the final acceptance gate across audit, unit, typecheck, build, and e2e.
+- [x] Capture desktop screenshots for four character combat views and ending/summary surfaces.
+- [x] Update project-facing documentation with playable scope, known MVP gaps, and run commands.
 
 Verification:
 
