@@ -19,3 +19,6 @@ export function createPhaserConfig(parent: HTMLElement): Phaser.Types.Core.GameC
   };
 }
 
+export function createPhaserGame(parent: HTMLElement): Phaser.Game {
+  return new Phaser.Game(createPhaserConfig(parent));
+}

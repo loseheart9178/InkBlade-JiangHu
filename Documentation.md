@@ -2,6 +2,75 @@
 
 ## Status Log
 
+### 2026-05-03 23:58 Asia/Shanghai
+
+Milestone 62 Boot Performance Split started in `.worktrees/wave6-boot-split` on branch `codex/wave6-boot-split`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+
+Planned scope:
+
+- Mount a lightweight root shell immediately.
+- Dynamically import the controller/runtime/Phaser boundary after shell initialization.
+- Preserve jsdom app-shell coverage and browser boot coverage.
+- Review Vite chunk output and document the large-chunk result with evidence.
+
+What changed:
+
+- Refactored `src/app/gameApp.ts` so it mounts `createAppShell` synchronously, schedules the controller/Phaser runtime load on the next microtask, and exposes `runtimeReady` for tests.
+- Moved Phaser game construction behind `createPhaserGame` in `src/app/phaserConfig.ts`, keeping `phaser` and `CombatScene` inside the lazy runtime boundary.
+- Added jsdom coverage proving the title shell exists before the lazy runtime resolves and `start()` waits for the loaded runtime.
+
+Decision:
+
+- Kept `vite.config.ts` unchanged. The build warning is now isolated to the lazy `phaserConfig`/Phaser chunk, so no `chunkSizeWarningLimit` raise was needed.
+
+Build output review:
+
+- `dist/assets/index-BEPP3ac9.js`: 6.58 kB minified / 2.55 kB gzip.
+- `dist/assets/inkbladeController-Cdkl4wC_.js`: 161.32 kB minified / 41.43 kB gzip.
+- `dist/assets/phaserConfig-C45ZQK1K.js`: 1,200.83 kB minified / 320.23 kB gzip.
+- Result: Vite still reports the >500 kB warning, but the large payload is isolated into the lazy Phaser boundary rather than the initial shell.
+
+Verification:
+
+```text
+npm test -- tests/app-shell.test.ts
+Red result before implementation: failed because importing `gameApp.ts` loaded Phaser in jsdom and hit the missing canvas `getContext` implementation.
+Green result after implementation: passed. 1 test file passed, 2 tests passed.
+
+npm run typecheck
+Result: passed. TypeScript completed with no errors.
+
+npm run build
+Result: passed. Vite built the production bundle and emitted the expected large-chunk warning for lazy `phaserConfig-C45ZQK1K.js`.
+
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "boots"
+Result: passed. 2 Chromium tests passed.
+
+npm test
+Result: passed. 14 test files passed, 142 tests passed.
+```
+
+Known gaps / risks:
+
+- The Vite warning intentionally remains because Phaser is still larger than 500 kB after minification; it is now behind dynamic import and no longer part of the initial app shell chunk.
+- Title shell buttons mount immediately; runtime-installed controls such as settings/debug actions hydrate after the async controller load and remain covered by browser boot tests.
+
+Next step:
+
+- Commit Milestone 62 and integrate this boot boundary before later Wave 6 workers merge controller/UI changes.
+
 ### 2026-05-03 23:49 Asia/Shanghai
 
 Wave 6 EA-readiness planning started under the user's autonomous execution mandate.
