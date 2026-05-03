@@ -1777,3 +1777,62 @@ Known gaps / risks:
 Next step:
 
 - Integrate this pure core with future run summary/profile save and ending surface work after Milestone 44 is accepted.
+
+### 2026-05-03 15:40 Asia/Shanghai
+
+Current state:
+
+- Completed Worker A scope for Milestone 43: Playtest Lab And Balance Instrumentation in worktree `.worktrees/auton-playtest-lab` on branch `codex/auton-playtest-lab`.
+- Re-read before implementation:
+  - `AGENTS.md`
+  - `Prompt.md`
+  - `Plan.md`
+  - `Implement.md`
+  - `Documentation.md`
+  - `docs/superpowers/plans/2026-05-03-autonomous-alpha-roadmap.md`
+  - `docs/yunshui_game_prd_v1.md`
+  - `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+  - `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+  - `docs/云水江湖_通用牌组设计文档_v1.0.md`
+  - `docs/chapters/chapter_01.md`
+  - `docs/chapters/chapter_02.md`
+  - `docs/chapters/chapter_03.md`
+  - `docs/character_settings/赵云_角色设定文档.md`
+  - `docs/character_settings/貂蝉_角色设定文档.md`
+  - `docs/character_settings/蔡文姬_角色设定文档.md`
+  - `docs/character_settings/诸葛亮_角色设定文档.md`
+- Added `src/game/systems/debug/runSimulator.ts` with pure deterministic battle simulation utilities:
+  - `simulateBattlePlan(run, enemyId, options)`
+  - `summarizeRunPacing(chapterIds, characterIds)`
+- Added `tests/playtest/run-simulator.test.ts` for renderer-free pacing simulation, chapter two/three pacing summaries, missing enemy warnings, timeout-prone warning paths, and unsafe damage spike warning paths.
+
+Decisions:
+
+- Keep the playtest simulator pure under `src/game/systems/debug/` and use existing combat/run systems only, with no Phaser, DOM, localStorage, browser APIs, or screenshot dependencies.
+- Use simple deterministic heuristics: lethal affordable attacks first, defensive cards when incoming damage crosses the configured threshold, then affordable resource/draw/cleanse/block cards, then pressure attacks.
+- Keep this worker out of controller, CSS, art, profile/endings, and content tuning surfaces.
+
+Verification:
+
+```text
+npm test -- tests/playtest/run-simulator.test.ts
+First run failed as expected because `src/game/systems/debug/runSimulator.ts` did not exist.
+
+npm test -- tests/playtest/run-simulator.test.ts
+Result after implementation: 1 test file passed, 3 tests passed.
+
+npm test
+Result: 11 test files passed, 112 tests passed.
+
+npm run build
+Result: TypeScript and Vite build passed.
+Note: Vite repeated the expected large Phaser bundle warning.
+```
+
+Known gaps:
+
+- The simulator is a deterministic heuristic lab, not an optimal player or full-route auto-runner. It is intended to flag pacing smoke issues and feed later alpha-balance work.
+
+Next step:
+
+- Integrate this worktree after review, then use the simulator in Milestone 51 for full-route balance contracts and tuning.
