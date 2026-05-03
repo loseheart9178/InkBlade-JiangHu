@@ -845,3 +845,35 @@ npm test
 npm run build
 npm run test:e2e
 ```
+
+## Milestone 52: Profile, Ending, Save, And Run Summary Integration
+
+- [ ] Wire final `endingReady` run state into deterministic ending evaluation.
+- [ ] Persist profile stats, character stats, unlocked endings, and unlocked fragments.
+- [ ] Replace debug run-summary sample data with real completed-run summary data.
+- [ ] Add browser coverage for ending/profile summary.
+
+Verification:
+
+```bash
+npm test -- tests/profile/profile-system.test.ts tests/endings/ending-system.test.ts tests/run/run-system.test.ts
+npm run test:e2e -- tests/e2e/playable-flow.spec.ts --grep "ending summary|profile summary"
+npm test
+npm run build
+```
+
+## Milestone 53: Release Polish And Alpha Acceptance
+
+- [ ] Run the final acceptance gate across audit, unit, typecheck, build, and e2e.
+- [ ] Capture desktop screenshots for four character combat views and ending/summary surfaces.
+- [ ] Update project-facing documentation with playable scope, known MVP gaps, and run commands.
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test
+npm run typecheck
+npm run build
+npm run test:e2e
+```
