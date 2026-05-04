@@ -4,6 +4,8 @@ Wave 4 release-QA surface for the desktop browser MVP after integrating GPT Imag
 
 Last verified: 2026-05-03 21:35 Asia/Shanghai.
 
+Wave 7 balance-report evidence verified: 2026-05-04 16:38 Asia/Shanghai.
+
 ## Runnable Commands
 
 ```bash
@@ -20,6 +22,7 @@ Useful focused reruns:
 npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
 npm run test:e2e -- tests/e2e/playable-flow.spec.ts
 npm test -- tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
+node scripts/balance-report.mjs --markdown
 ```
 
 ## Playable Scope
@@ -44,6 +47,33 @@ npm test -- tests/playtest/run-simulator.test.ts tests/data/content.test.ts test
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
 | Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
 | Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | Covered and passing through the normal route contract |
+| Wave 7 deterministic balance report | `node scripts/balance-report.mjs --markdown` | Passed: 4/4 representative shipped hero routes completed, 28 combat samples, 0 timeout risks, 0 unsafe damage spikes over threshold |
+
+## Wave 7 Balance Report Findings
+
+Latest report artifact:
+
+```bash
+node scripts/balance-report.mjs --markdown
+```
+
+Seed `9001` completed all shipped hero routes through `luoshui>bamboo>changan>moyuan` and produced `endingReady` summaries for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang. The report is generated from pure seeded run/combat systems under `src/game/systems/debug/` and does not use DOM or Phaser state.
+
+Headline numbers:
+
+| Character | Result | Total turns | Max fight turns | Damage taken | Max single-turn damage | Lowest post-combat HP | Pressure |
+|---|---|---:|---:|---:|---:|---:|---|
+| Zhao Yun | Completed | 51 | 15 | 168 | 17 | 43 | High |
+| Diao Chan | Completed | 66 | 20 | 103 | 10 | 34 | High |
+| Cai Wenji | Completed | 58 | 19 | 185 | 24 | 24 | High |
+| Zhuge Liang | Completed | 74 | 24 | 241 | 24 | 1 | High |
+
+Findings:
+
+- Completion evidence is green for all four representative routes.
+- Timeout risk is currently clear on the representative seed.
+- Unsafe damage spikes are currently clear against the default `24` threshold; the observed maximum equals `24` but does not exceed it.
+- Healing pressure remains high across all four routes. Zhuge Liang is the main balance watchlist item because the representative route reaches `1` post-combat HP before later recovery.
 
 ## Screenshot Artifacts
 

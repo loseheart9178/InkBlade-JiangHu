@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createDebugRun } from "../../src/game/systems/debug/debugRun";
+import { createBalanceReport, formatBalanceReportMarkdown } from "../../src/game/systems/debug/balanceReport";
 import { simulateBattlePlan, simulateFullRoute, summarizeRunPacing } from "../../src/game/systems/debug/runSimulator";
 
 const ALPHA_CHARACTER_IDS = ["zhaoyun", "diaochan", "caiwenji", "zhugeliang"];
@@ -56,6 +57,42 @@ describe("run simulator", () => {
     expect(results.every((result) => result.finalState?.status === "endingReady")).toBe(true);
     expect(results.every((result) => result.completedChapterIds.join(">") === "luoshui>bamboo>changan>moyuan")).toBe(true);
     expect(results.flatMap((result) => result.warnings)).toEqual([]);
+  });
+
+  it("creates deterministic balance report evidence for shipped hero routes", () => {
+    const first = createBalanceReport({ routeSeed: 9001 });
+    const second = createBalanceReport({ routeSeed: 9001 });
+
+    expect(second).toEqual(first);
+    expect(first.reportId).toBe("wave7-alpha-balance-v1");
+    expect(first.seed).toBe(9001);
+    expect(first.characters.map((character) => character.id)).toEqual(ALPHA_CHARACTER_IDS);
+    expect(first.chapters.map((chapter) => chapter.id)).toEqual(ALPHA_CHAPTER_IDS);
+    expect(first.routes).toHaveLength(ALPHA_CHARACTER_IDS.length);
+    expect(first.aggregate.completedRoutes).toBeGreaterThanOrEqual(1);
+    expect(first.acceptance.hasRepresentativeCompletionRoute).toBe(true);
+    expect(first.acceptance.allShippedHeroRoutesComplete).toBe(true);
+    expect(first.acceptance.usesRendererState).toBe(false);
+
+    for (const route of first.routes) {
+      expect(route).toMatchObject({
+        outcome: "completed",
+        chapterReach: {
+          endingReady: true
+        },
+        timeoutRisk: {
+          hasTimeout: false,
+          encounters: []
+        }
+      });
+      expect(route.chapterReach.completed).toEqual(ALPHA_CHAPTER_IDS);
+      expect(route.turnCounts.total).toBeGreaterThan(0);
+      expect(route.healingPressure.totalDamageTaken).toBeGreaterThanOrEqual(0);
+      expect(route.unsafeDamageSpikes).toEqual([]);
+    }
+
+    expect(first.findings.some((finding) => finding.includes("4/4 representative shipped hero routes completed"))).toBe(true);
+    expect(formatBalanceReportMarkdown(first)).toContain("Wave 7 Alpha Balance Report");
   });
 
   it("flags missing enemies, timeout-prone fights, and unsafe damage spikes", () => {

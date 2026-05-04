@@ -69,6 +69,7 @@ export interface FullRouteResult {
   completedChapterIds: ChapterId[];
   routeNodeIds: string[];
   finalPlayerHp: number;
+  finalMaxHp: number;
   finalState?: RunFinalState;
   snapshot?: RunCompletionSnapshot;
 }
@@ -206,7 +207,8 @@ export function simulateFullRoute(characterId: string, options: FullRouteOptions
       warnings: [`missing character: ${characterId}`],
       completedChapterIds: [],
       routeNodeIds: [],
-      finalPlayerHp: 0
+      finalPlayerHp: 0,
+      finalMaxHp: 0
     };
   }
 
@@ -907,6 +909,7 @@ function createFullRouteResult(
     completedChapterIds: [...run.completedChapterIds],
     routeNodeIds: [...routeNodeIds],
     finalPlayerHp: run.hp,
+    finalMaxHp: run.maxHp,
     finalState: getRunFinalState(run),
     snapshot
   };

@@ -1,0 +1,351 @@
+import { chapterList, type ChapterId } from "../../content/chapters";
+import { characterList } from "../../content/characters";
+import { simulateFullRoute, type BattlePlanResult, type FullRouteOptions } from "./runSimulator";
+
+export interface BalanceReportOptions extends FullRouteOptions {
+  routeSeed?: number;
+}
+
+export interface BalanceReportCharacter {
+  id: string;
+  name: string;
+}
+
+export interface BalanceReportChapter {
+  id: ChapterId;
+  name: string;
+}
+
+export interface BalanceChapterTurnSummary {
+  encounters: number;
+  total: number;
+  average: number;
+  max: number;
+}
+
+export interface BalanceTurnCounts {
+  total: number;
+  average: number;
+  max: number;
+  byChapter: Record<ChapterId, BalanceChapterTurnSummary>;
+}
+
+export interface BalanceHealingPressure {
+  totalDamageTaken: number;
+  averageDamageTaken: number;
+  lowestPostCombatHp: number;
+  finalHp: number;
+  finalHpRatio: number;
+  rating: "low" | "moderate" | "high";
+}
+
+export interface BalanceUnsafeDamageSpike {
+  chapterId: ChapterId;
+  enemyId: string;
+  enemyName?: string;
+  maxDamageTakenInTurn: number;
+  threshold: number;
+}
+
+export interface BalanceRouteEvidence {
+  characterId: string;
+  characterName: string;
+  outcome: string;
+  chapterReach: {
+    completed: ChapterId[];
+    highest: ChapterId | "none";
+    endingReady: boolean;
+  };
+  routeNodeIds: string[];
+  combatCount: number;
+  maxDamageTakenInTurn: number;
+  turnCounts: BalanceTurnCounts;
+  healingPressure: BalanceHealingPressure;
+  timeoutRisk: {
+    hasTimeout: boolean;
+    encounters: string[];
+  };
+  unsafeDamageSpikes: BalanceUnsafeDamageSpike[];
+  warnings: string[];
+}
+
+export interface BalanceReportAggregate {
+  routeCount: number;
+  completedRoutes: number;
+  completionRate: number;
+  combatCount: number;
+  maxSingleTurnDamage: number;
+  warningCount: number;
+  timeoutRiskCount: number;
+  unsafeSpikeCount: number;
+  highestHealingPressure: BalanceHealingPressure["rating"];
+}
+
+export interface BalanceReportAcceptance {
+  hasRepresentativeCompletionRoute: boolean;
+  allShippedHeroRoutesComplete: boolean;
+  usesRendererState: false;
+  timeoutRiskCount: number;
+  unsafeSpikeCount: number;
+}
+
+export interface BalanceReport {
+  reportId: "wave7-alpha-balance-v1";
+  seed: number;
+  chapters: BalanceReportChapter[];
+  characters: BalanceReportCharacter[];
+  routes: BalanceRouteEvidence[];
+  aggregate: BalanceReportAggregate;
+  acceptance: BalanceReportAcceptance;
+  findings: string[];
+}
+
+const DEFAULT_ROUTE_SEED = 9001;
+const DEFAULT_UNSAFE_DAMAGE = 24;
+const PRESSURE_ORDER: Record<BalanceHealingPressure["rating"], number> = {
+  low: 0,
+  moderate: 1,
+  high: 2
+};
+
+export function createBalanceReport(options: BalanceReportOptions = {}): BalanceReport {
+  const seed = options.routeSeed ?? options.mapSeed ?? DEFAULT_ROUTE_SEED;
+  const unsafeDamageTaken = options.unsafeDamageTaken ?? DEFAULT_UNSAFE_DAMAGE;
+  const routes = characterList.map((character) => {
+    const result = simulateFullRoute(character.id, {
+      ...options,
+      mapSeed: seed,
+      unsafeDamageTaken
+    });
+
+    return createRouteEvidence(character.id, character.name, result, unsafeDamageTaken);
+  });
+
+  const aggregate = createAggregate(routes);
+  const findings = createFindings(routes, aggregate);
+
+  return {
+    reportId: "wave7-alpha-balance-v1",
+    seed,
+    chapters: chapterList.map((chapter) => ({ id: chapter.id, name: chapter.name })),
+    characters: characterList.map((character) => ({ id: character.id, name: character.name })),
+    routes,
+    aggregate,
+    acceptance: {
+      hasRepresentativeCompletionRoute: aggregate.completedRoutes > 0,
+      allShippedHeroRoutesComplete: aggregate.completedRoutes === routes.length,
+      usesRendererState: false,
+      timeoutRiskCount: aggregate.timeoutRiskCount,
+      unsafeSpikeCount: aggregate.unsafeSpikeCount
+    },
+    findings
+  };
+}
+
+export function formatBalanceReportMarkdown(report: BalanceReport): string {
+  const lines = [
+    "# Wave 7 Alpha Balance Report",
+    "",
+    `- Report id: ${report.reportId}`,
+    `- Seed: ${report.seed}`,
+    `- Routes completed: ${report.aggregate.completedRoutes}/${report.aggregate.routeCount}`,
+    `- Combat samples: ${report.aggregate.combatCount}`,
+    `- Timeout risks: ${report.aggregate.timeoutRiskCount}`,
+    `- Unsafe damage spikes: ${report.aggregate.unsafeSpikeCount}`,
+    `- Highest healing pressure: ${report.aggregate.highestHealingPressure}`,
+    "",
+    "## Findings",
+    ...report.findings.map((finding) => `- ${finding}`),
+    "",
+    "## Routes",
+    ...report.routes.map((route) => {
+      const chapters = route.chapterReach.completed.join(">");
+      return [
+        `### ${route.characterName} (${route.characterId})`,
+        `- Outcome: ${route.outcome}`,
+        `- Chapters: ${chapters}`,
+        `- Turns: ${route.turnCounts.total} total, ${route.turnCounts.average} average, ${route.turnCounts.max} max`,
+        `- Damage taken: ${route.healingPressure.totalDamageTaken}, pressure ${route.healingPressure.rating}`,
+        `- Max single-turn damage: ${route.maxDamageTakenInTurn}`,
+        `- Lowest post-combat HP: ${route.healingPressure.lowestPostCombatHp}`,
+        `- Warnings: ${route.warnings.length === 0 ? "none" : route.warnings.join("; ")}`
+      ].join("\n");
+    })
+  ];
+
+  return `${lines.join("\n")}\n`;
+}
+
+function createRouteEvidence(
+  characterId: string,
+  characterName: string,
+  result: ReturnType<typeof simulateFullRoute>,
+  unsafeDamageTaken: number
+): BalanceRouteEvidence {
+  const turnCounts = createTurnCounts(result.encounters);
+  const timeoutEncounters = result.encounters
+    .filter((encounter) => encounter.outcome === "timeout")
+    .map(createEncounterLabel);
+  const unsafeDamageSpikes = result.encounters
+    .filter((encounter) => encounter.maxDamageTakenInTurn > unsafeDamageTaken)
+    .map((encounter) => ({
+      chapterId: encounter.chapterId as ChapterId,
+      enemyId: encounter.enemyId,
+      enemyName: encounter.enemyName,
+      maxDamageTakenInTurn: encounter.maxDamageTakenInTurn,
+      threshold: unsafeDamageTaken
+    }));
+
+  return {
+    characterId,
+    characterName,
+    outcome: result.outcome,
+    chapterReach: {
+      completed: [...result.completedChapterIds],
+      highest: getHighestReachedChapter(result.encounters, result.completedChapterIds),
+      endingReady: result.finalState?.status === "endingReady"
+    },
+    routeNodeIds: [...result.routeNodeIds],
+    combatCount: result.encounters.length,
+    maxDamageTakenInTurn: result.encounters.reduce((max, encounter) => Math.max(max, encounter.maxDamageTakenInTurn), 0),
+    turnCounts,
+    healingPressure: createHealingPressure(result.encounters, result.finalPlayerHp, result.finalMaxHp),
+    timeoutRisk: {
+      hasTimeout: timeoutEncounters.length > 0,
+      encounters: timeoutEncounters
+    },
+    unsafeDamageSpikes,
+    warnings: [...result.warnings]
+  };
+}
+
+function createTurnCounts(encounters: BattlePlanResult[]): BalanceTurnCounts {
+  const byChapter = Object.fromEntries(
+    chapterList.map((chapter) => [
+      chapter.id,
+      {
+        encounters: 0,
+        total: 0,
+        average: 0,
+        max: 0
+      }
+    ])
+  ) as Record<ChapterId, BalanceChapterTurnSummary>;
+
+  for (const encounter of encounters) {
+    const chapterId = encounter.chapterId as ChapterId;
+    byChapter[chapterId].encounters += 1;
+    byChapter[chapterId].total += encounter.turns;
+    byChapter[chapterId].max = Math.max(byChapter[chapterId].max, encounter.turns);
+  }
+
+  for (const chapter of Object.values(byChapter)) {
+    chapter.average = chapter.encounters > 0 ? round(chapter.total / chapter.encounters) : 0;
+  }
+
+  const total = encounters.reduce((sum, encounter) => sum + encounter.turns, 0);
+  return {
+    total,
+    average: encounters.length > 0 ? round(total / encounters.length) : 0,
+    max: encounters.reduce((max, encounter) => Math.max(max, encounter.turns), 0),
+    byChapter
+  };
+}
+
+function createHealingPressure(encounters: BattlePlanResult[], finalHp: number, finalMaxHp: number): BalanceHealingPressure {
+  const totalDamageTaken = encounters.reduce((sum, encounter) => sum + encounter.damageTaken, 0);
+  const lowestPostCombatHp = encounters.reduce(
+    (lowest, encounter) => Math.min(lowest, encounter.finalPlayerHp),
+    encounters.length > 0 ? encounters[0].finalPlayerHp : finalHp
+  );
+  const finalHpRatio = finalMaxHp > 0 ? round(finalHp / finalMaxHp) : 0;
+
+  return {
+    totalDamageTaken,
+    averageDamageTaken: encounters.length > 0 ? round(totalDamageTaken / encounters.length) : 0,
+    lowestPostCombatHp,
+    finalHp,
+    finalHpRatio,
+    rating: getHealingPressureRating(totalDamageTaken, lowestPostCombatHp, finalHp, finalMaxHp)
+  };
+}
+
+function getHealingPressureRating(totalDamageTaken: number, lowestPostCombatHp: number, finalHp: number, finalMaxHp: number): BalanceHealingPressure["rating"] {
+  if (finalMaxHp <= 0) {
+    return "high";
+  }
+
+  if (lowestPostCombatHp <= Math.ceil(finalMaxHp * 0.35) || finalHp <= Math.ceil(finalMaxHp * 0.3) || totalDamageTaken >= finalMaxHp) {
+    return "high";
+  }
+
+  if (lowestPostCombatHp <= Math.ceil(finalMaxHp * 0.55) || finalHp <= Math.ceil(finalMaxHp * 0.5) || totalDamageTaken >= Math.ceil(finalMaxHp * 0.55)) {
+    return "moderate";
+  }
+
+  return "low";
+}
+
+function getHighestReachedChapter(encounters: BattlePlanResult[], completedChapterIds: ChapterId[]): ChapterId | "none" {
+  const lastEncounter = encounters.at(-1);
+  if (lastEncounter?.chapterId && isChapterId(lastEncounter.chapterId)) {
+    return lastEncounter.chapterId;
+  }
+
+  return completedChapterIds.at(-1) ?? "none";
+}
+
+function createAggregate(routes: BalanceRouteEvidence[]): BalanceReportAggregate {
+  const completedRoutes = routes.filter((route) => route.outcome === "completed").length;
+  const highestHealingPressure = routes.reduce<BalanceHealingPressure["rating"]>((highest, route) => {
+    return PRESSURE_ORDER[route.healingPressure.rating] > PRESSURE_ORDER[highest] ? route.healingPressure.rating : highest;
+  }, "low");
+
+  return {
+    routeCount: routes.length,
+    completedRoutes,
+    completionRate: routes.length > 0 ? round(completedRoutes / routes.length) : 0,
+    combatCount: routes.reduce((sum, route) => sum + route.combatCount, 0),
+    maxSingleTurnDamage: routes.reduce((max, route) => Math.max(max, route.maxDamageTakenInTurn), 0),
+    warningCount: routes.reduce((sum, route) => sum + route.warnings.length, 0),
+    timeoutRiskCount: routes.reduce((sum, route) => sum + route.timeoutRisk.encounters.length, 0),
+    unsafeSpikeCount: routes.reduce((sum, route) => sum + route.unsafeDamageSpikes.length, 0),
+    highestHealingPressure
+  };
+}
+
+function createFindings(routes: BalanceRouteEvidence[], aggregate: BalanceReportAggregate): string[] {
+  const chapterChain = chapterList.map((chapter) => chapter.id).join(">");
+  const findings = [
+    `${aggregate.completedRoutes}/${aggregate.routeCount} representative shipped hero routes completed through ${chapterChain}.`,
+    `${aggregate.combatCount} deterministic combat samples produced from seeded run/combat systems with no renderer state.`,
+    aggregate.timeoutRiskCount === 0
+      ? "No timeout-prone encounters appeared on the representative routes."
+      : `${aggregate.timeoutRiskCount} timeout-prone encounter(s) need tuning review.`,
+    aggregate.unsafeSpikeCount === 0
+      ? `No unsafe damage spikes exceeded the configured threshold; max single-turn damage was ${aggregate.maxSingleTurnDamage}.`
+      : `${aggregate.unsafeSpikeCount} unsafe damage spike(s) exceeded the configured threshold.`,
+    `Highest healing pressure rating was ${aggregate.highestHealingPressure}.`
+  ];
+
+  const stressedRoutes = routes
+    .filter((route) => route.healingPressure.rating !== "low")
+    .map((route) => `${route.characterName}:${route.healingPressure.rating}`);
+  if (stressedRoutes.length > 0) {
+    findings.push(`Healing pressure watchlist: ${stressedRoutes.join(", ")}.`);
+  }
+
+  return findings;
+}
+
+function createEncounterLabel(encounter: BattlePlanResult): string {
+  return `${encounter.chapterId}/${encounter.characterId}/${encounter.enemyId}`;
+}
+
+function isChapterId(chapterId: string): chapterId is ChapterId {
+  return chapterList.some((chapter) => chapter.id === chapterId);
+}
+
+function round(value: number): number {
+  return Math.round(value * 100) / 100;
+}

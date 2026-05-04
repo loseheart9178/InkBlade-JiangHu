@@ -4200,3 +4200,72 @@ Verification:
 Next step:
 
 - Commit the plan branch, then create independent Wave 7 worktrees and dispatch available subagents for save hardening, balance report, and docs refresh while route preview proceeds on the local critical path.
+
+### 2026-05-04 16:38 Asia/Shanghai
+
+Wave 7 / Task 7.4 Balance Report implementation in progress in `.worktrees/wave7-balance-report` on branch `codex/wave7-balance-report`.
+
+Docs read before and during implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+
+What changed so far:
+
+- Added a failing report-shape contract to `tests/playtest/run-simulator.test.ts` before implementation.
+- Added pure `src/game/systems/debug/balanceReport.ts` over the existing seeded run/combat simulator.
+- Added `scripts/balance-report.mjs` to emit deterministic JSON or Markdown evidence through Vite SSR without DOM/Phaser state.
+- Extended `FullRouteResult` with final max HP so healing pressure ratios can be reported deterministically.
+- Updated `docs/playtest/alpha-acceptance.md` with the Wave 7 report summary and current balance watchlist.
+
+TDD / failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ../../node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts
+RED result: failed because ../../src/game/systems/debug/balanceReport did not exist.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts
+Environment issue: Windows node.exe could not resolve the WSL node_modules symlink in this worktree. Verification uses the bundled Node runtime with the shared repo dependency path `../../node_modules/...` instead.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ../../node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts
+Result: 1 test file passed, 6 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ../../node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/roadmap/next-ten-modules.test.ts
+Result: 2 test files passed, 16 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ../../node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown
+Result: passed. Report `wave7-alpha-balance-v1`, seed 9001, 4/4 representative shipped hero routes completed, 28 combat samples, 0 timeout risks, 0 unsafe damage spikes over threshold, highest healing pressure high.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- The deterministic report is representative evidence, not a full Monte Carlo balance sweep.
+- Healing pressure is high for all representative routes; Zhuge Liang reaches `1` post-combat HP before later recovery and should stay on the tuning watchlist.
+- This branch only owns pure debug/report evidence and acceptance docs; route-preview/onboarding/browser UI hardening remain separate Wave 7 branches.
+
+Next step:
+
+- Commit the branch for Wave 7 Task 7.4, then hand off for integration after review.
