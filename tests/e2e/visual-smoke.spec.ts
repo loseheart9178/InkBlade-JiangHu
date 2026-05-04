@@ -48,7 +48,13 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("card-type-badge").first()).toBeVisible();
     await expect(page.getByTestId("card-rarity-mark").first()).toBeVisible();
     await expect(page.getByTestId("card-keyword-row").first()).toBeVisible();
+    await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("title", /。/);
+    await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("aria-label", /：/);
+    await expect(page.getByTestId("intent")).toHaveAttribute("title", /敌人意图|杀意|运功/);
+    await expect(page.getByTestId("intent")).toHaveAttribute("aria-label", /敌人意图/);
     await expect(page.getByTestId("combo-trail")).toContainText("待发");
+    await expect(page.getByTestId("combo-trail")).toHaveAttribute("title", /招式链/);
+    await expect(page.getByTestId("combo-trail")).toHaveAttribute("aria-label", /招式链/);
     await expectDesktopCombatLayout(page);
 
     await capturePlaytestScreenshot(page, testInfo, `combat-${character.id}-desktop.png`);

@@ -4,6 +4,13 @@ import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPers
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById } from "../game/content/events";
+import {
+  formatGlossaryTooltip,
+  getCardGlossarySurfaces,
+  getGlossaryEntry,
+  getIntentGlossarySurface,
+  type GlossaryEntry
+} from "../game/content/glossary";
 import { relicsById } from "../game/content/relics";
 import { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsById, signatureVfxByCue } from "../game/content/visuals";
 import {
@@ -585,6 +592,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const enemyIsAttacking = latestDamageTarget === "player";
   const playerSprite = playerIsAttacking ? getCombatSprite(combat.player.characterId) : undefined;
   const enemySprite = enemyIsAttacking ? getCombatSprite(enemy.definitionId) : undefined;
+  const comboTrail = createComboTrailMetadata(combat);
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
   panel.classList.add("combat-screen");
   panel.classList.add(`combat-screen--${run.chapterId}`);
@@ -611,7 +619,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     </div>
     <div class="duel-column">
       <div class="duel-mark">对决</div>
-      <div class="combo-trail" data-testid="combo-trail"><span>招式</span><strong>${formatComboTrail(combat)}</strong></div>
+      <div class="combo-trail" data-testid="combo-trail" title="${escapeAttribute(comboTrail.title)}" aria-label="${escapeAttribute(comboTrail.ariaLabel)}" data-glossary-id="${escapeAttribute(comboTrail.glossaryIds.join(" "))}"><span>招式</span><strong>${escapeHtml(comboTrail.text)}</strong></div>
     </div>
     <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
       <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
@@ -1506,7 +1514,14 @@ function createIntent(intent: CombatState["enemies"][number]["currentIntent"]): 
   const box = document.createElement("div");
   box.className = "intent-box";
   box.dataset.testid = "intent";
-  box.title = describeIntent(intent);
+  const surface = getIntentGlossarySurface(intent);
+  const intentDetail = describeIntent(intent);
+  const tooltip = surface.entry ? formatGlossaryTooltip(surface.entry, intentDetail) : intentDetail;
+  if (surface.entry) {
+    box.dataset.glossaryId = surface.entry.id;
+  }
+  box.title = tooltip;
+  box.setAttribute("aria-label", `敌人意图：${tooltip}`);
   if (intent.type === "attack") {
     box.textContent = intent.hits > 1 ? `杀意 ${intent.damage}x${intent.hits}` : `杀意 ${intent.damage}`;
   } else if (intent.type === "block") {
@@ -1599,6 +1614,39 @@ function formatComboTrail(combat: CombatState): string {
 
   const recentTypes = combat.playedCardTypesThisTurn.slice(-4);
   return recentTypes.length > 0 ? formatTypes(recentTypes) : "待发";
+}
+
+function createComboTrailMetadata(combat: CombatState): { text: string; title: string; ariaLabel: string; glossaryIds: string[] } {
+  const comboIds = (combat.comboTriggersThisTurn ?? []).slice(-2);
+  if (comboIds.length > 0) {
+    const entries = comboIds
+      .map((comboId) => getGlossaryEntry(`combo.${comboId}`))
+      .filter((entry): entry is GlossaryEntry => Boolean(entry));
+    const text = entries.length > 0 ? entries.map((entry) => entry.label).join(" / ") : formatComboTrail(combat);
+    const detail = entries.length > 0 ? entries.map((entry) => formatGlossaryTooltip(entry)).join("；") : "本回合已触发招式链。";
+    const title = `招式链：${detail}`;
+    return {
+      text,
+      title,
+      ariaLabel: title,
+      glossaryIds: entries.map((entry) => entry.id)
+    };
+  }
+
+  const recentTypes = combat.playedCardTypesThisTurn.slice(-4);
+  const entries = recentTypes
+    .map((type) => getGlossaryEntry(`cardType.${type}`))
+    .filter((entry): entry is GlossaryEntry => Boolean(entry));
+  const detail = entries.length > 0
+    ? `已出招式：${entries.map((entry) => `${entry.label}：${entry.description}`).join("；")}`
+    : "本回合还未形成招式链。按顺序出牌可触发连招。";
+  const title = `招式链：${detail}`;
+  return {
+    text: recentTypes.length > 0 ? formatTypes(recentTypes) : "待发",
+    title,
+    ariaLabel: title,
+    glossaryIds: entries.map((entry) => entry.id)
+  };
 }
 
 function formatComboName(comboId: string): string {
@@ -1913,8 +1961,16 @@ function createCardChromeMarkup(card: CardDefinition): string {
 }
 
 function createCardKeywordRowMarkup(card: CardDefinition): string {
-  const labels = getCardKeywordLabels(card);
-  return `<span class="card-keyword-row" data-testid="card-keyword-row">${labels.map((label) => `<i>${label}</i>`).join("")}</span>`;
+  const entries = getCardGlossarySurfaces(card)
+    .map((surface) => surface.entry)
+    .filter((entry): entry is GlossaryEntry => Boolean(entry))
+    .slice(0, 4);
+  return `<span class="card-keyword-row" data-testid="card-keyword-row">${entries.map(createGlossaryChipMarkup).join("")}</span>`;
+}
+
+function createGlossaryChipMarkup(entry: GlossaryEntry): string {
+  const tooltip = formatGlossaryTooltip(entry);
+  return `<i class="glossary-chip" data-testid="glossary-chip" data-glossary-id="${escapeAttribute(entry.id)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}" role="note">${escapeHtml(entry.label)}</i>`;
 }
 
 function getCardKeywordLabels(card: CardDefinition): string[] {
@@ -2107,6 +2163,17 @@ function formatMind(mind: string): string {
     wu: "悟"
   };
   return names[mind] ?? mind;
+}
+
+function escapeAttribute(value: string): string {
+  return escapeHtml(value).replace(/"/g, "&quot;");
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function formatRunMindTendencies(run: RunState): string {

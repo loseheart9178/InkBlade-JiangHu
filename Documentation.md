@@ -2,6 +2,83 @@
 
 ## Status Log
 
+### 2026-05-04 11:36 Asia/Shanghai
+
+Milestone 61 Keyword And Intent Glossary rescue continued in `.worktrees/wave6-glossary-rescue` on branch `codex/wave6-glossary-rescue`.
+
+Re-read before glossary implementation and verification:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Scope:
+
+- Finish the already-applied glossary patch after boot-split integration.
+- Keep glossary content data-driven under `src/game/content/`.
+- Let the controller render only metadata from glossary helpers.
+- Add desktop tooltip/title and aria metadata for combat cards, enemy intent, and combo trail surfaces without adding battlefield-obscuring overlays.
+
+What changed:
+
+- Added `src/game/content/glossary.ts` with definitions for shipped card types, statuses, status cards, resources, combat keywords, mind entries, formations, combo names, and enemy intent labels.
+- Wired glossary lookup helpers into card keyword chips, enemy intent boxes, and combo trail metadata.
+- Kept card chips compact and native-title based so they add desktop explanation without covering the combat field.
+- Added content and visual-smoke assertions for glossary completeness and tooltip metadata.
+
+Decisions:
+
+- Used native `title` plus `aria-label` metadata instead of custom hover panels for the rescue slice, because native desktop tooltips avoid introducing overlay positioning risk in the crowded battlefield.
+- Treated enemy special intent names as explicit glossary rows, while attack and block intents map to the shared "杀意" and "运功" entries.
+- Kept character resource definitions aligned to the four shipped MVP resources: 枪势, 舞势, 音律, and 筹策.
+- `node_modules` was absent in the rescue worktree. Ran `npm install`, then added Windows x64 optional bindings with `npm install --no-save --force @rolldown/binding-win32-x64-msvc@1.0.0-rc.17 lightningcss-win32-x64-msvc@1.32.0` so the required bundled `node.exe` commands could load Vite/Rolldown.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts
+Red result before adding glossary data: failed as expected because `src/game/content/glossary.ts` did not exist.
+Final result: passed. 1 test file passed, 27 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed. 2 Chromium tests passed. The corrected Playwright `test` subcommand was used, with a bundled-node Vite dev server already running on port 5173.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 14 test files passed, 144 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite built the production bundle and repeated the known lazy `phaserConfig-C45ZQK1K.js` >500 kB chunk warning from the boot-split integration.
+```
+
+Known gaps / risks:
+
+- The known Vite large-chunk warning remains isolated to the lazy Phaser chunk and is not introduced by the glossary work.
+- Native browser `title` text is intentionally desktop-first; mobile/touch tooltip treatment remains paused by project rule.
+
+Next step:
+
+- Commit semantic glossary changes, then hand off for Wave 6 integration.
+
 ### 2026-05-04 11:30 Asia/Shanghai
 
 Wave 6 / Milestone 58 CardArtQueue rescue completed in `.worktrees/wave6-card-art-queue-rescue` on branch `codex/wave6-card-art-queue-rescue`.

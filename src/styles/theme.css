@@ -1010,6 +1010,29 @@ button {
   line-height: 1.25;
 }
 
+.card-keyword-row .glossary-chip {
+  cursor: help;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.card-keyword-row .glossary-chip:hover {
+  border-color: rgba(183, 53, 42, 0.42);
+  background: rgba(255, 252, 239, 0.82);
+}
+
+.intent-box[data-glossary-id],
+.combo-trail[data-glossary-id] {
+  cursor: help;
+}
+
+.combo-trail[data-glossary-id] {
+  border-color: rgba(238, 190, 91, 0.34);
+}
+
+.prefers-reduced-motion .card-keyword-row .glossary-chip {
+  transition: none;
+}
+
 .combat-card:hover {
   transform: translateY(-8px);
 }

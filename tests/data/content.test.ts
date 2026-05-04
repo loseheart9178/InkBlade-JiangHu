@@ -3,8 +3,16 @@ import { chapterList } from "../../src/game/content/chapters";
 import { characterList } from "../../src/game/content/characters";
 import { enemyList } from "../../src/game/content/enemies";
 import { eventList } from "../../src/game/content/events";
+import {
+  getCardGlossarySurfaces,
+  getGlossaryEntry,
+  getGlossaryEntryByLabel,
+  glossaryEntries
+} from "../../src/game/content/glossary";
 import { relicList } from "../../src/game/content/relics";
 import * as visuals from "../../src/game/content/visuals";
+import { defaultComboRules, exhaustAttackComboRule } from "../../src/game/systems/combat/combos";
+import type { EnemyIntent, StatusId } from "../../src/game/systems/combat/types";
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -685,6 +693,54 @@ describe("content data", () => {
       expectAssetPathToExist(vfx?.assetPath ?? "");
     }
   });
+
+  it("defines glossary entries for shipped statuses, card types, resources, combos, and enemy intent surfaces", () => {
+    expect(glossaryEntries.length).toBeGreaterThan(0);
+    expect(new Set(glossaryEntries.map((entry) => entry.id)).size).toBe(glossaryEntries.length);
+
+    const shippedStatusIds: StatusId[] = ["charm", "weak", "vulnerable", "dodge", "guard", "ink"];
+    const shippedCardTypeIds = [...new Set(cardList.flatMap((card) => card.types))].sort();
+    const shippedResourceIds = [
+      ...new Set([
+        "energy",
+        "hp",
+        "block",
+        "inkMarks",
+        "drawPile",
+        "discardPile",
+        "exhaustPile",
+        ...characterList.map((character) => character.resource.id)
+      ])
+    ].sort();
+    const shippedComboIds = [...defaultComboRules, exhaustAttackComboRule].map((combo) => combo.id).sort();
+
+    const missingIds = [
+      ...shippedStatusIds.map((status) => `status.${status}`),
+      ...shippedCardTypeIds.map((type) => `cardType.${type}`),
+      ...shippedResourceIds.map((resource) => `resource.${resource}`),
+      ...shippedComboIds.map((combo) => `combo.${combo}`)
+    ].filter((id) => !getGlossaryEntry(id));
+
+    expect(missingIds).toEqual([]);
+
+    const intentLabels = collectEnemyIntentLabels();
+    const missingIntentLabels = intentLabels.filter((label) => !getGlossaryEntryByLabel("intent", label));
+
+    expect(missingIntentLabels).toEqual([]);
+  });
+
+  it("resolves every shipped card keyword chip surface to glossary metadata", () => {
+    const missing = cardList.flatMap((card) =>
+      getCardGlossarySurfaces(card)
+        .filter((surface) => !surface.entry)
+        .map((surface) => `${card.id}:${surface.label}`)
+    );
+
+    expect(missing).toEqual([]);
+    expect(getCardGlossarySurfaces(cardsById.common_jiexue).map((surface) => surface.label)).toEqual(expect.arrayContaining(["技法", "净化", "护甲"]));
+    expect(getCardGlossarySurfaces(cardsById.diao_charm).map((surface) => surface.label)).toEqual(expect.arrayContaining(["技法", "魅惑", "蓄势"]));
+    expect(getCardGlossarySurfaces(cardsById.zhuge_observe_stars).map((surface) => surface.label)).toContain("观星");
+  });
 });
 
 function getArchetypeCardIds(archetypeId: string): string[] {
@@ -716,6 +772,28 @@ function getPeakIntentDamage(enemy: (typeof enemyList)[number]): number {
 
 function intentAddsStatusCard(intent: (typeof enemyList)[number]["intents"][number]): boolean {
   return intent.type === "special" && intent.effects.some((effect) => effect.action === "addCardToDiscard");
+}
+
+function collectEnemyIntentLabels(): string[] {
+  const labels = new Set<string>();
+  const collect = (intent: EnemyIntent) => {
+    if (intent.type === "attack") {
+      labels.add("杀意");
+    } else if (intent.type === "block") {
+      labels.add("运功");
+    } else if (intent.type === "special") {
+      labels.add(intent.name);
+    } else {
+      labels.add("观望");
+    }
+  };
+
+  for (const enemy of enemyList) {
+    enemy.intents.forEach(collect);
+    enemy.phaseIntents?.forEach((phase) => phase.intents.forEach(collect));
+  }
+
+  return [...labels].sort();
 }
 
 function collectInkPassDebt(): Array<{ kind: string; id: string; paths: string[] }> {
