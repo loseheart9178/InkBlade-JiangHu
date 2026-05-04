@@ -428,6 +428,7 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
     createRunSummaryStat("胜利", `${state.profile.stats.victories}`),
     createRunSummaryStat("梦醒", `${state.profile.stats.defeats}`),
     createRunSummaryStat("结局", formatUnlockedEndingTitles(state.profile), "profile-unlocked-endings"),
+    createRunSummaryStat("角色结局", formatUnlockedCharacterEpilogueTitles(state.profile), "profile-unlocked-epilogues"),
     createRunSummaryStat("墨录残页", `${state.profile.unlockedFragments.length}`),
     createRunSummaryStat("角色档案", `${Object.keys(state.profile.characterStats).length}`)
   );

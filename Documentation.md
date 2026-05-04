@@ -2,6 +2,72 @@
 
 ## Status Log
 
+### 2026-05-04 12:20 Asia/Shanghai
+
+Wave 6 integration acceptance continued in `.worktrees/wave6-integration` on branch `codex/wave6-integration`.
+
+Re-read / inspected before integration fix:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `src/app/inkbladeController.ts`
+- `tests/e2e/playable-flow.spec.ts`
+
+What changed:
+
+- Cherry-picked Milestone 60 Desktop Compendium into the integration branch and resolved the controller `Screen` union so `finalChoice` and `compendium` coexist.
+- Kept the compendium as a read-only DOM adapter over `src/game/systems/compendium/compendium.ts`.
+- Fixed a full-E2E regression in the title debug run-summary shell by rendering the persisted `profile-unlocked-epilogues` statistic there as well as on completed-run summaries.
+
+Failure and fix:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+First integration result: failed 1 test, passed 21 tests. Failure was `ending summary records and persists profile summary` after reload because `profile-unlocked-epilogues` was not present in the title debug summary shell.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "ending summary records"
+Result after fix: passed. 1 Chromium test passed.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/compendium/compendium-system.test.ts tests/data/content.test.ts
+Result: passed. 2 test files passed, 31 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "compendium|墨录图鉴"
+Result: passed. 2 Chromium tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 15 test files passed, 153 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Final result after fix: passed. 22 Chromium tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known lazy Phaser chunk warning.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 55, source sheets 20, prompt queue targets 54.
+```
+
+Known gaps / risks:
+
+- Card fallback debt remains a deferred art-generation queue, not a runtime missing-asset blocker.
+- The Vite >500 kB warning remains isolated to the lazy Phaser chunk.
+- Mobile/touch tooltip treatment remains paused by desktop-first project rule.
+
+Next milestone:
+
+- Decide whether to merge `codex/wave6-integration` back into the main development branch or start the next autonomous milestone from the verified integration branch.
+
 ### 2026-05-04 12:06 Asia/Shanghai
 
 Milestone 61 reviewer fix integrated in `.worktrees/wave6-integration` on branch `codex/wave6-integration`.
