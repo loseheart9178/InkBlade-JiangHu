@@ -95,6 +95,18 @@ describe("run simulator", () => {
     expect(formatBalanceReportMarkdown(first)).toContain("Wave 7 Alpha Balance Report");
   });
 
+  it("builds a deterministic multi-seed balance aggregate", () => {
+    const report = createBalanceReport({ seeds: [9001, 9002, 9003] });
+
+    expect(report.seed).toBe(9001);
+    expect(report.seeds).toEqual([9001, 9002, 9003]);
+    expect(report.aggregate.characters.zhaoyun.completed).toBeGreaterThanOrEqual(1);
+    expect(report.aggregate.characters.diaochan).toBeDefined();
+    expect(report.aggregate.characters.caiwenji).toBeDefined();
+    expect(report.aggregate.characters.zhugeliang).toBeDefined();
+    expect(report.aggregate.totalRuns).toBe(12);
+  });
+
   it("flags missing enemies, timeout-prone fights, and unsafe damage spikes", () => {
     const missing = simulateBattlePlan(createDebugRun({ chapterId: "bamboo" }), "enemy_missing", { maxTurns: 2 });
     expect(missing.outcome).toBe("missing-enemy");

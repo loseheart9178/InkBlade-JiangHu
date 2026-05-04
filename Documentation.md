@@ -2,6 +2,77 @@
 
 ## Status Log
 
+### 2026-05-04 20:34 Asia/Shanghai
+
+Wave 8 Task 8.3 Multi-Seed Balance Report completed in `.worktrees/wave8-balance-multiseed` on branch `codex/wave8-balance-multiseed`.
+
+Docs read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+
+Scope:
+
+- Stayed inside the assigned pure simulator/reporting, CLI, test, and documentation write set.
+- Did not tune card, enemy, method, event, or relic content.
+- Preserved default single-seed CLI/report behavior while adding explicit `--seeds` multi-seed aggregate output.
+
+TDD red:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts
+RED result: failed as expected. The new multi-seed test received `report.seeds === undefined` because `createBalanceReport({ seeds })` was not implemented yet.
+```
+
+What changed:
+
+- Added `createBalanceReport({ seeds: [...] })` support while keeping `seed` pinned to the first representative seed.
+- Added per-character aggregate fields keyed by `zhaoyun`, `diaochan`, `caiwenji`, and `zhugeliang`: completion count, min/median/max lowest post-combat HP, max single-turn damage, timeout risk count, unsafe spike count, and total runs.
+- Added aggregate `totalRuns` and Markdown `Aggregate` table output when multiple seeds are provided.
+- Added CLI support for `scripts/balance-report.mjs --markdown --seeds 9001,9002,9003`.
+- Updated alpha acceptance with the latest multi-seed findings.
+
+Verification during implementation:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts
+GREEN result: passed. 1 file, 7 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/roadmap/next-ten-modules.test.ts
+Final focused result: passed. 2 files, 17 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+Result: passed. 11/12 routes completed, 79 combat samples, 0 timeout risks, 0 unsafe damage spikes.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+
+git diff --check
+Result: passed.
+```
+
+Findings:
+
+- Zhao Yun, Diao Chan, and Cai Wenji completed all three seeds.
+- Zhuge Liang completed seeds `9001` and `9002` but was defeated on seed `9003`, making him the top balance watchlist item.
+- No timeout risks or unsafe damage spikes appeared across the three-seed aggregate; the maximum observed single-turn damage equals the `24` threshold.
+
+Known gaps / risks:
+
+- Multi-seed evidence is still a small deterministic sample, not a broad Monte Carlo sweep.
+- Zhuge Liang seed `9003` is a real deterministic balance risk; this branch reports it without tuning content.
+
+Next step:
+
+- Commit the Task 8.3 semantic changes, then hand off for Wave 8 integration.
+
 ### 2026-05-04 18:04 Asia/Shanghai
 
 Wave 7 Demo Hardening integrated and verified in `.worktrees/wave6-integration` on branch `codex/wave7-demo-hardening`.

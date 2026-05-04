@@ -4,6 +4,7 @@ import { simulateFullRoute, type BattlePlanResult, type FullRouteOptions } from 
 
 export interface BalanceReportOptions extends FullRouteOptions {
   routeSeed?: number;
+  seeds?: number[];
 }
 
 export interface BalanceReportCharacter {
@@ -48,6 +49,7 @@ export interface BalanceUnsafeDamageSpike {
 }
 
 export interface BalanceRouteEvidence {
+  seed: number;
   characterId: string;
   characterName: string;
   outcome: string;
@@ -69,8 +71,20 @@ export interface BalanceRouteEvidence {
   warnings: string[];
 }
 
+export interface BalanceReportCharacterAggregate {
+  completed: number;
+  minLowestPostCombatHp: number;
+  medianLowestPostCombatHp: number;
+  maxLowestPostCombatHp: number;
+  maxSingleTurnDamage: number;
+  timeoutRiskCount: number;
+  unsafeSpikeCount: number;
+  totalRuns: number;
+}
+
 export interface BalanceReportAggregate {
   routeCount: number;
+  totalRuns: number;
   completedRoutes: number;
   completionRate: number;
   combatCount: number;
@@ -79,6 +93,7 @@ export interface BalanceReportAggregate {
   timeoutRiskCount: number;
   unsafeSpikeCount: number;
   highestHealingPressure: BalanceHealingPressure["rating"];
+  characters: Record<string, BalanceReportCharacterAggregate>;
 }
 
 export interface BalanceReportAcceptance {
@@ -92,6 +107,7 @@ export interface BalanceReportAcceptance {
 export interface BalanceReport {
   reportId: "wave7-alpha-balance-v1";
   seed: number;
+  seeds?: number[];
   chapters: BalanceReportChapter[];
   characters: BalanceReportCharacter[];
   routes: BalanceRouteEvidence[];
@@ -109,17 +125,20 @@ const PRESSURE_ORDER: Record<BalanceHealingPressure["rating"], number> = {
 };
 
 export function createBalanceReport(options: BalanceReportOptions = {}): BalanceReport {
-  const seed = options.routeSeed ?? options.mapSeed ?? DEFAULT_ROUTE_SEED;
+  const seeds = normalizeSeeds(options);
+  const seed = seeds[0];
   const unsafeDamageTaken = options.unsafeDamageTaken ?? DEFAULT_UNSAFE_DAMAGE;
-  const routes = characterList.map((character) => {
-    const result = simulateFullRoute(character.id, {
-      ...options,
-      mapSeed: seed,
-      unsafeDamageTaken
-    });
+  const routes = seeds.flatMap((routeSeed) =>
+    characterList.map((character) => {
+      const result = simulateFullRoute(character.id, {
+        ...options,
+        mapSeed: routeSeed,
+        unsafeDamageTaken
+      });
 
-    return createRouteEvidence(character.id, character.name, result, unsafeDamageTaken);
-  });
+      return createRouteEvidence(routeSeed, character.id, character.name, result, unsafeDamageTaken);
+    })
+  );
 
   const aggregate = createAggregate(routes);
   const findings = createFindings(routes, aggregate);
@@ -127,6 +146,7 @@ export function createBalanceReport(options: BalanceReportOptions = {}): Balance
   return {
     reportId: "wave7-alpha-balance-v1",
     seed,
+    ...(seeds.length > 1 ? { seeds } : {}),
     chapters: chapterList.map((chapter) => ({ id: chapter.id, name: chapter.name })),
     characters: characterList.map((character) => ({ id: character.id, name: character.name })),
     routes,
@@ -148,6 +168,7 @@ export function formatBalanceReportMarkdown(report: BalanceReport): string {
     "",
     `- Report id: ${report.reportId}`,
     `- Seed: ${report.seed}`,
+    ...(report.seeds ? [`- Seeds: ${report.seeds.join(",")}`] : []),
     `- Routes completed: ${report.aggregate.completedRoutes}/${report.aggregate.routeCount}`,
     `- Combat samples: ${report.aggregate.combatCount}`,
     `- Timeout risks: ${report.aggregate.timeoutRiskCount}`,
@@ -156,12 +177,25 @@ export function formatBalanceReportMarkdown(report: BalanceReport): string {
     "",
     "## Findings",
     ...report.findings.map((finding) => `- ${finding}`),
+    ...(report.seeds
+      ? [
+          "",
+          "## Aggregate",
+          "| Character | Completed | Lowest HP min/median/max | Max single-turn damage | Timeout risks | Unsafe spikes | Runs |",
+          "|---|---:|---:|---:|---:|---:|---:|",
+          ...report.characters.map((character) => {
+            const aggregate = report.aggregate.characters[character.id];
+            return `| ${character.name} (${character.id}) | ${aggregate.completed} | ${aggregate.minLowestPostCombatHp}/${aggregate.medianLowestPostCombatHp}/${aggregate.maxLowestPostCombatHp} | ${aggregate.maxSingleTurnDamage} | ${aggregate.timeoutRiskCount} | ${aggregate.unsafeSpikeCount} | ${aggregate.totalRuns} |`;
+          })
+        ]
+      : []),
     "",
     "## Routes",
     ...report.routes.map((route) => {
       const chapters = route.chapterReach.completed.join(">");
       return [
         `### ${route.characterName} (${route.characterId})`,
+        ...(report.seeds ? [`- Seed: ${route.seed}`] : []),
         `- Outcome: ${route.outcome}`,
         `- Chapters: ${chapters}`,
         `- Turns: ${route.turnCounts.total} total, ${route.turnCounts.average} average, ${route.turnCounts.max} max`,
@@ -177,6 +211,7 @@ export function formatBalanceReportMarkdown(report: BalanceReport): string {
 }
 
 function createRouteEvidence(
+  seed: number,
   characterId: string,
   characterName: string,
   result: ReturnType<typeof simulateFullRoute>,
@@ -197,6 +232,7 @@ function createRouteEvidence(
     }));
 
   return {
+    seed,
     characterId,
     characterName,
     outcome: result.outcome,
@@ -303,6 +339,7 @@ function createAggregate(routes: BalanceRouteEvidence[]): BalanceReportAggregate
 
   return {
     routeCount: routes.length,
+    totalRuns: routes.length,
     completedRoutes,
     completionRate: routes.length > 0 ? round(completedRoutes / routes.length) : 0,
     combatCount: routes.reduce((sum, route) => sum + route.combatCount, 0),
@@ -310,8 +347,34 @@ function createAggregate(routes: BalanceRouteEvidence[]): BalanceReportAggregate
     warningCount: routes.reduce((sum, route) => sum + route.warnings.length, 0),
     timeoutRiskCount: routes.reduce((sum, route) => sum + route.timeoutRisk.encounters.length, 0),
     unsafeSpikeCount: routes.reduce((sum, route) => sum + route.unsafeDamageSpikes.length, 0),
-    highestHealingPressure
+    highestHealingPressure,
+    characters: createCharacterAggregate(routes)
   };
+}
+
+function createCharacterAggregate(routes: BalanceRouteEvidence[]): Record<string, BalanceReportCharacterAggregate> {
+  return Object.fromEntries(
+    characterList.map((character) => {
+      const characterRoutes = routes.filter((route) => route.characterId === character.id);
+      const lowestHpValues = characterRoutes
+        .map((route) => route.healingPressure.lowestPostCombatHp)
+        .sort((left, right) => left - right);
+
+      return [
+        character.id,
+        {
+          completed: characterRoutes.filter((route) => route.outcome === "completed").length,
+          minLowestPostCombatHp: lowestHpValues[0] ?? 0,
+          medianLowestPostCombatHp: median(lowestHpValues),
+          maxLowestPostCombatHp: lowestHpValues.at(-1) ?? 0,
+          maxSingleTurnDamage: characterRoutes.reduce((max, route) => Math.max(max, route.maxDamageTakenInTurn), 0),
+          timeoutRiskCount: characterRoutes.reduce((sum, route) => sum + route.timeoutRisk.encounters.length, 0),
+          unsafeSpikeCount: characterRoutes.reduce((sum, route) => sum + route.unsafeDamageSpikes.length, 0),
+          totalRuns: characterRoutes.length
+        }
+      ];
+    })
+  );
 }
 
 function createFindings(routes: BalanceRouteEvidence[], aggregate: BalanceReportAggregate): string[] {
@@ -348,4 +411,26 @@ function isChapterId(chapterId: string): chapterId is ChapterId {
 
 function round(value: number): number {
   return Math.round(value * 100) / 100;
+}
+
+function median(values: number[]): number {
+  if (values.length === 0) {
+    return 0;
+  }
+
+  const middle = Math.floor(values.length / 2);
+  if (values.length % 2 === 1) {
+    return values[middle];
+  }
+
+  return round((values[middle - 1] + values[middle]) / 2);
+}
+
+function normalizeSeeds(options: BalanceReportOptions): number[] {
+  if (!options.seeds || options.seeds.length === 0) {
+    return [options.routeSeed ?? options.mapSeed ?? DEFAULT_ROUTE_SEED];
+  }
+
+  const seeds = options.seeds.filter((seed) => Number.isFinite(seed));
+  return seeds.length > 0 ? seeds : [DEFAULT_ROUTE_SEED];
 }
