@@ -2,6 +2,43 @@
 
 ## Status Log
 
+### 2026-05-04 21:30 Asia/Shanghai
+
+Wave 9 Polish Balance Art planning started in `.worktrees/wave6-integration` on branch `codex/wave9-polish-balance-art-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+
+Plan:
+
+- Added `docs/superpowers/plans/2026-05-04-wave9-polish-balance-art.md`.
+- Split Wave 9 into independent worktree tasks: Zhuge Liang seed `9003` balance, starter card semantic art, first-chapter semantic attack strips, and release docs refresh.
+- Preserved desktop-first scope and pure gameplay-system boundaries.
+
+Verification:
+
+```text
+grep -n "TBD\|TODO\|implement later\|fill in" docs/superpowers/plans/2026-05-04-wave9-polish-balance-art.md
+Result: passed; no placeholder markers found.
+
+git diff --check
+Result: passed.
+```
+
+Next step:
+
+- Commit the Wave 9 plan branch, create worker worktrees from it, and dispatch subagents for the three independent implementation tasks plus docs refresh.
+
 ### 2026-05-04 21:16 Asia/Shanghai
 
 Wave 8 Content Release integrated in `.worktrees/wave6-integration` on branch `codex/wave8-content-release`.
