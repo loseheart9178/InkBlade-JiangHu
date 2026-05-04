@@ -56,6 +56,7 @@ import {
   createChapterRewardChoices,
   createCardRewardDraft,
   createCardRewardReasonMap,
+  createMapNodePreview,
   createRun,
   createRunCompletionSnapshot,
   getAvailableNodes,
@@ -706,17 +707,27 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   path.style.setProperty("--map-columns", `${Math.max(...run.mapNodes.map((node) => node.floor)) + 1}`);
 
   for (const node of run.mapNodes) {
+    const preview = createMapNodePreview(run, node);
     const button = document.createElement("button");
     button.type = "button";
     button.className = `map-node map-node--${node.type}`;
     button.dataset.testid = `map-node-${node.id}`;
     button.dataset.floor = `${node.floor}`;
     button.dataset.lane = `${node.lane}`;
+    button.dataset.previewTone = preview.tone;
     button.style.gridColumn = `${node.floor + 1}`;
     button.style.gridRow = `${node.lane + 1}`;
-    button.innerHTML = `<span class="map-node-icon">${getMapNodeIcon(node.type)}</span><strong>${node.label}</strong><small>${formatMapNodeMeta(node)}</small>`;
+    button.innerHTML = `
+      <span class="map-node-icon">${getMapNodeIcon(node.type)}</span>
+      <strong>${escapeHtml(node.label)}</strong>
+      <small>${escapeHtml(formatMapNodeMeta(node))}</small>
+      <span class="map-node-preview" data-testid="map-node-preview-${escapeAttribute(node.id)}">${escapeHtml(preview.detail)}</span>
+      <span class="map-node-tags" aria-hidden="true">${preview.tags.map((tag) => `<i>${escapeHtml(tag)}</i>`).join("")}</span>
+    `;
     button.disabled = !available.some((item) => item.id === node.id);
-    button.title = node.connections.length > 0 ? `通向：${node.connections.map((id) => getMapNodeLabel(run, id)).join("、")}` : "本章首领";
+    const connectionTitle = node.connections.length > 0 ? `通向：${node.connections.map((id) => getMapNodeLabel(run, id)).join("、")}` : "本章首领";
+    button.title = `${preview.title}：${preview.detail}；${preview.reward}。${connectionTitle}`;
+    button.setAttribute("aria-label", `${preview.title}，${preview.detail}，${preview.reward}`);
 
     if (node.id === current.id) {
       button.classList.add("is-current");

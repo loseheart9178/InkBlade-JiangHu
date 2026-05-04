@@ -4323,3 +4323,71 @@ Known gaps / risks:
 Next step:
 
 - Commit the branch for Wave 7 Task 7.4, then hand off for integration after review.
+
+## 2026-05-04 Wave 7 route preview
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+
+What changed:
+
+- Added a pure run-system `createMapNodePreview` helper that summarizes each route node's risk, likely pressure, reward, tags, and tone from existing chapter/enemy/event/run data.
+- Rendered compact route previews and tags on every map node, with accessible `title`/`aria-label` text for desktop testers.
+- Expanded map CSS so preview text fits inside stable node boxes without overflow.
+- Added unit coverage for combat, elite, event, shop, rest, and final boss previews, plus Playwright coverage for visible map preview text before route selection.
+
+Decisions:
+
+- Kept preview rules in `src/game/systems/run/` and only adapted the pure preview result in `inkbladeController.ts`.
+- Reused existing enemy intent data to estimate "最高攻势" instead of adding a separate tuning table.
+- Kept the UI compact and non-blocking so route choices remain clickable without a tutorial-style modal.
+
+TDD and failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:\InkBlade-JiangHu\.worktrees\wave6-integration\node_modules\vitest\vitest.mjs run tests/run/run-system.test.ts
+RED result: failed on missing createMapNodePreview export, as expected for the new route-preview behavior.
+
+Initial direct worktree test command failed because the new worktree had no local node_modules. Verification used the shared Wave 6 dependency entrypoints and a temporary Windows junction for browser tooling; the junction is not committed.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:\InkBlade-JiangHu\.worktrees\wave6-integration\node_modules\vitest\vitest.mjs run tests/run/run-system.test.ts
+Result: passed, 1 file / 29 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:\InkBlade-JiangHu\.worktrees\wave6-integration\node_modules\typescript\bin\tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:\InkBlade-JiangHu\.worktrees\wave6-integration\node_modules\@playwright\test\cli.js test tests/e2e/playable-flow.spec.ts -g "route map shows|debug skip"
+Result: passed, 2 Chromium tests.
+
+Desktop layout probe at 1440x1000:
+Result: all 14 map nodes reported no scroll overflow and preview text stayed inside node bounds.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:\InkBlade-JiangHu\.worktrees\wave6-integration\node_modules\vite\bin\vite.js build
+Result: passed. Vite repeated the known non-blocking Phaser lazy chunk warning.
+```
+
+Known gaps / risks:
+
+- Enemy pressure is a concise deterministic estimate from intent data; it is not a full combat EV simulation.
+- Disabled future-route nodes now show previews too, which is intentional for planning clarity but may reveal route information earlier than a mystery-map design would.
+
+Next step:
+
+- Commit route preview, then integrate it after save hardening, balance report, and alpha docs refresh on the Wave 7 integration branch.

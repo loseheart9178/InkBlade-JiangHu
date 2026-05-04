@@ -8,6 +8,7 @@ import {
   createCardRewardDraft,
   createChapterRewardChoices,
   createCardRewardReasonMap,
+  createMapNodePreview,
   createRun,
   createRunCompletionSnapshot,
   getAvailableNodes,
@@ -52,6 +53,42 @@ describe("run system", () => {
     expect(baseRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_sword_echo");
     expect(variantRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_blood_banner");
     expect(variantRun.mapSeed).toBe(1);
+  });
+
+  it("creates data-driven previews for route combat, elite, event, shop, and rest nodes", () => {
+    const run = createRun("zhaoyun", { mapSeed: 0 });
+    const battle = run.mapNodes.find((node) => node.id === "battle-1");
+    const elite = run.mapNodes.find((node) => node.id === "elite-1");
+    const event = run.mapNodes.find((node) => node.id === "event-1");
+    const shop = run.mapNodes.find((node) => node.id === "shop-1");
+    const rest = run.mapNodes.find((node) => node.id === "rest-1");
+
+    expect(createMapNodePreview(run, battle!)).toMatchObject({
+      title: "墨化山贼",
+      tone: "combat",
+      reward: "金币+12 / 三选一武学"
+    });
+    expect(createMapNodePreview(run, battle!).detail).toContain("最高攻势8");
+    expect(createMapNodePreview(run, elite!).tags).toEqual(expect.arrayContaining(["高风险", "法宝"]));
+    expect(createMapNodePreview(run, event!).detail).toContain("护住哭声");
+    expect(createMapNodePreview(run, event!).tags).toEqual(expect.arrayContaining(["心境", "生命代价"]));
+    expect(createMapNodePreview(run, shop!).detail).toContain("当前铜钱99");
+    expect(createMapNodePreview(run, rest!).detail).toContain("回复约30%生命");
+  });
+
+  it("marks the final chapter boss preview as a route to the ending choice", () => {
+    const run = createRun("diaochan", { mapSeed: 3 });
+
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(true);
+
+    const boss = run.mapNodes.find((node) => node.id === "boss");
+    const preview = createMapNodePreview(run, boss!);
+
+    expect(preview.title).toBe("无名史官");
+    expect(preview.tone).toBe("boss");
+    expect(preview.detail).toContain("终局抉择");
   });
 
   it("builds a procedural chapter topology with floors, lanes, and forward connections", () => {

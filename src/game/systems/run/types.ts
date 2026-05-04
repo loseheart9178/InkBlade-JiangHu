@@ -20,6 +20,16 @@ export interface MapNode {
   connections: string[];
 }
 
+export type MapNodePreviewTone = "current" | "combat" | "danger" | "opportunity" | "recovery" | "boss";
+
+export interface MapNodePreview {
+  title: string;
+  detail: string;
+  reward: string;
+  tags: string[];
+  tone: MapNodePreviewTone;
+}
+
 export interface RunState {
   characterId: string;
   chapterId: ChapterId;

@@ -1,10 +1,12 @@
 import { cardsById } from "../../content/cards";
 import { chaptersById, type ChapterDefinition, type ChapterId } from "../../content/chapters";
 import { charactersById } from "../../content/characters";
+import { enemiesById } from "../../content/enemies";
+import { eventsById, type EventChoiceEffect } from "../../content/events";
 import { relicsById } from "../../content/relics";
-import type { CardArchetypeId, CardDefinition } from "../combat/types";
+import type { CardArchetypeId, CardDefinition, EnemyDefinition, EnemyIntent } from "../combat/types";
 import { getRelicRewardPool, type RelicRewardSource } from "../relics/relicEffects";
-import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunCompletionSnapshot, RunFinalChoiceRecord, RunFinalState, RunState } from "./types";
+import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodePreview, MapNodeType, RunCompletionSnapshot, RunFinalChoiceRecord, RunFinalState, RunState } from "./types";
 
 const ZHAO_REWARD_POOL = [
   "zhao_thrust",
@@ -599,6 +601,47 @@ export function getAvailableNodes(run: RunState): MapNode[] {
   return current.connections.map((id) => getNode(run, id));
 }
 
+export function createMapNodePreview(run: RunState, node: MapNode): MapNodePreview {
+  normalizeRunChapterFields(run);
+  const chapter = getCurrentChapter(run);
+
+  if (node.type === "start") {
+    return {
+      title: node.label,
+      detail: `${chapter.name}起点，选择下一段江湖行旅。`,
+      reward: "路线选择",
+      tags: ["起点", chapter.name],
+      tone: "current"
+    };
+  }
+
+  if (node.type === "battle" || node.type === "elite" || node.type === "boss") {
+    return createCombatNodePreview(run, node, chapter);
+  }
+
+  if (node.type === "event") {
+    return createEventNodePreview(node, chapter);
+  }
+
+  if (node.type === "shop") {
+    return {
+      title: node.label,
+      detail: `${node.label}：购买武学/法宝或删牌；当前铜钱${run.gold}。`,
+      reward: "消费铜钱 / 调整牌组",
+      tags: ["商店", "铜钱", "删牌"],
+      tone: "opportunity"
+    };
+  }
+
+  return {
+    title: node.label,
+    detail: `${node.label}：回复约30%生命（约${Math.ceil(run.maxHp * 0.3)}点）或精修一张未升级武学。`,
+    reward: "治疗 / 升级",
+    tags: ["回复", "升级", "低风险"],
+    tone: "recovery"
+  };
+}
+
 export function travelToNode(run: RunState, nodeId: string): RunState {
   const current = getCurrentNode(run);
   if (!current.connections.includes(nodeId)) {
@@ -918,6 +961,131 @@ function getBattleGold(nodeType: MapNodeType): number {
 
 function getRelicSourceForNode(nodeType: MapNodeType): RelicRewardSource {
   return nodeType === "boss" ? "boss" : "elite";
+}
+
+function createCombatNodePreview(run: RunState, node: MapNode, chapter: ChapterDefinition): MapNodePreview {
+  const enemy = node.enemyId ? enemiesById[node.enemyId] : undefined;
+  const title = enemy?.name ?? node.label;
+  const pressure = formatEnemyPressure(enemy);
+
+  if (node.type === "battle") {
+    return {
+      title,
+      detail: `${chapter.name}寻常战，${pressure}；胜后金币+${getBattleGold(node.type)}与三选一武学。`,
+      reward: "金币+12 / 三选一武学",
+      tags: ["常规", "卡牌奖励", "金币"],
+      tone: "combat"
+    };
+  }
+
+  if (node.type === "elite") {
+    const nextRelicId = getNextRelicReward(run, getRelicRewardPool("elite", run.characterId));
+    const relicName = nextRelicId ? relicsById[nextRelicId]?.name : undefined;
+
+    return {
+      title,
+      detail: `${chapter.name}高风险精英，${pressure}；胜后金币+${getBattleGold(node.type)}，优先获得${relicName ?? "法宝"}与高阶武学。`,
+      reward: "金币+25 / 法宝 / 稀有武学",
+      tags: ["高风险", "法宝", "稀有牌"],
+      tone: "danger"
+    };
+  }
+
+  const finalRoute = chapter.id === "moyuan";
+  return {
+    title,
+    detail: `${chapter.name}章节首领，${pressure}；胜后金币+${getBattleGold(node.type)}，进入${finalRoute ? "终局抉择" : "章末奖励"}。`,
+    reward: finalRoute ? "金币+50 / 终局抉择" : "金币+50 / 法宝 / 章节奖励",
+    tags: finalRoute ? ["首领", "终局", "高压"] : ["首领", "章节推进", "法宝"],
+    tone: "boss"
+  };
+}
+
+function createEventNodePreview(node: MapNode, chapter: ChapterDefinition): MapNodePreview {
+  const event = node.eventId ? eventsById[node.eventId] : undefined;
+  const title = event?.title ?? node.label;
+  const choices = event?.choices.slice(0, 2).map((choice) => choice.label).join(" / ") || "未知选择";
+  const tags = getEventEffectTags(event?.choices.flatMap((choice) => choice.effects) ?? []);
+
+  return {
+    title,
+    detail: `${title}：可选${choices}；心境和代价会影响${chapter.name}后续路线。`,
+    reward: "事件收益 / 代价",
+    tags,
+    tone: "opportunity"
+  };
+}
+
+function formatEnemyPressure(enemy: EnemyDefinition | undefined): string {
+  if (!enemy) {
+    return "敌情未明";
+  }
+
+  const maxDamage = Math.max(0, ...enemy.intents.map(getIntentDamage));
+  const specialNames = enemy.intents.flatMap((intent) => intent.type === "special" ? [intent.name] : []);
+
+  if (maxDamage > 0) {
+    return specialNames.length > 0
+      ? `最高攻势${maxDamage}，兼有${specialNames.slice(0, 2).join("、")}`
+      : `最高攻势${maxDamage}`;
+  }
+
+  if (specialNames.length > 0) {
+    return `控场招式：${specialNames.slice(0, 2).join("、")}`;
+  }
+
+  return "偏防守蓄势";
+}
+
+function getIntentDamage(intent: EnemyIntent): number {
+  if (intent.type === "attack") {
+    return intent.damage * intent.hits;
+  }
+
+  if (intent.type !== "special") {
+    return 0;
+  }
+
+  return intent.effects.reduce((total, effect) => {
+    if (effect.action !== "damage") {
+      return total;
+    }
+
+    return total + effect.amount * (effect.hits ?? 1);
+  }, 0);
+}
+
+function getEventEffectTags(effects: EventChoiceEffect[]): string[] {
+  const tags = new Set<string>(["奇遇"]);
+
+  for (const effect of effects) {
+    if (effect.type === "mind") {
+      tags.add("心境");
+    }
+    if (effect.type === "hpLoss") {
+      tags.add("生命代价");
+    }
+    if (effect.type === "heal") {
+      tags.add("回复");
+    }
+    if (effect.type === "gold") {
+      tags.add("铜钱");
+    }
+    if (effect.type === "card") {
+      tags.add("卡牌");
+    }
+    if (effect.type === "inkCardOffer") {
+      tags.add("墨灾");
+    }
+    if (effect.type === "upgrade") {
+      tags.add("升级");
+    }
+    if (effect.type === "removeStarter") {
+      tags.add("删牌");
+    }
+  }
+
+  return [...tags].slice(0, 5);
 }
 
 function createMapForChapter(chapterId: ChapterId, characterId: string, mapSeed: number): MapNode[] {

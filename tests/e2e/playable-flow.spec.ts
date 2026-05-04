@@ -104,6 +104,20 @@ test("debug skip advances to the next chapter and refreshes the map backdrop", a
   await expect(page.getByTestId("screen-combat")).toHaveAttribute("data-battlefield", "bamboo");
 });
 
+test("route map shows risk and reward previews before choosing nodes", async ({ page }) => {
+  await startRun(page, "zhaoyun");
+
+  await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势8|金币\+12/);
+  await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/护住哭声|心境/);
+  await expect(page.getByTestId("map-node-preview-shop-1")).toContainText("当前铜钱99");
+  await expect(page.getByTestId("map-node-preview-rest-1")).toContainText("回复约30%生命");
+
+  await page.getByTestId("debug-skip-chapter").click();
+
+  await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势|金币\+12/);
+  await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/荒寺夜琴|心境/);
+});
+
 test("ending summary records and persists profile summary", async ({ page }, testInfo) => {
   await page.goto("/");
   await page.evaluate(() => window.localStorage.clear());
