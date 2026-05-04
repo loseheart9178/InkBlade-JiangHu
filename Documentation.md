@@ -2,6 +2,57 @@
 
 ## Status Log
 
+### 2026-05-04 19:10 Asia/Shanghai
+
+Wave 8 Task 8.4 Desktop Playtest And Release Handoff Docs completed in `.worktrees/wave8-release-docs` on branch `codex/wave8-release-docs`.
+
+Docs read before documentation work:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+
+What changed:
+
+- Added a repo README quick start with normal and bundled Node commands, desktop playtest route, debug controls, known gaps, and bug report template.
+- Added `docs/playtest/desktop-playtest-checklist.md` with concrete smoke routes, `调试跳章` usage, Playwright guidance, screenshot/log capture notes, known non-blocking issues, and a bug report template.
+- Refreshed `docs/playtest/alpha-acceptance.md` to the Wave 7 plus observed bugfixes 2 baseline: Vitest 170 tests, Playwright 26 Chromium tests, asset runtime refs 102, missing 0, and card fallback debt 56.
+- Refreshed `docs/art/gpt2-priority-queue.md` so first-chapter stand-ins remain standee-only for attack feedback and the generic enemy slash strip is not described as acceptable runtime binding.
+
+Decisions:
+
+- Kept this branch documentation-only; no runtime files or tests were edited.
+- Kept card fallback debt at 56 because no new generated card source sheets or runtime crops were created in this worktree.
+- Documented `调试跳章` as prototype QA acceleration only, not production progression evidence.
+
+Verification:
+
+```text
+grep -n "调试跳章\|desktop\|Playwright\|card fallback debt" README.md docs/playtest/desktop-playtest-checklist.md docs/playtest/alpha-acceptance.md
+Result: passed; required release-handoff terms appear across the README, desktop checklist, and alpha acceptance docs.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime refs 102, missing 0, ink-pass debt 0, card fallback debt 56.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Runtime worker branches may update the final Wave 8 counts after this docs-only branch; integration should refresh these docs if the final gate differs.
+- Card fallback art debt remains 56.
+- First-chapter elite and boss stand-ins still need bespoke clean attack strips before runtime sprite bindings should change.
+
+Next step:
+
+- Integrate after runtime Wave 8 branches or refresh counts against the final integrated gate, then run the full Wave 8 release verification.
+
 ### 2026-05-04 18:04 Asia/Shanghai
 
 Wave 7 Demo Hardening integrated and verified in `.worktrees/wave6-integration` on branch `codex/wave7-demo-hardening`.
