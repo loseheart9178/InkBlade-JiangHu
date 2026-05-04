@@ -92,6 +92,26 @@ describe("save system", () => {
     expect(loaded?.run.currentNodeId).toBe("battle-1");
   });
 
+  it("persists a final-choice snapshot so a completed boss route can continue", () => {
+    const storage = new MemoryStorage();
+    const run = createRun("zhaoyun", { mapSeed: 9 });
+
+    const snapshot: ControllerSaveSnapshot = {
+      screen: "finalChoice",
+      run,
+      rewardCardIds: [],
+      deckOpen: false,
+      message: "墨渊照心，最后一笔等待落下。"
+    };
+
+    saveGameState(storage, snapshot);
+
+    const loaded = loadSavedGame(storage);
+    expect(loaded?.screen).toBe("finalChoice");
+    expect(loaded?.run.characterId).toBe("zhaoyun");
+    expect(loaded?.message).toContain("最后一笔");
+  });
+
   it("rejects invalid or mismatched save envelopes", () => {
     const storage = new MemoryStorage();
 

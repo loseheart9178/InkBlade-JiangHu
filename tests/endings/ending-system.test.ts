@@ -120,6 +120,17 @@ describe("ending evaluator", () => {
     expect(selectFinalChoice(calmRun, "final_seal_moyuan")?.ending.id).toBe("ending_clear_seal");
   });
 
+  it("keeps at least one selectable final choice for a completed fallback ending run", () => {
+    const run = createDebugRun({ characterId: "zhaoyun", chapterId: "moyuan" });
+    run.mindTendencies = { ning: 0, nu: 1, bei: 1, mei: 1, luan: 1, wu: 0 };
+
+    const choices = getAvailableFinalChoices(run);
+
+    expect(evaluateRunEnding({ status: "endingReady", chapterId: "moyuan", worldEndingId: undefined }, run)?.id).toBe("ending_clear_seal");
+    expect(choices.some((choice) => choice.eligible)).toBe(true);
+    expect(selectFinalChoice(run, "final_seal_moyuan")?.ending.id).toBe("ending_clear_seal");
+  });
+
   it("provides grounded character epilogues for all four MVP characters", () => {
     expect(characterEpiloguesById.epilogue_zhaoyun_white_dragon_return.title).toBe("白龙归阵");
     expect(characterEpiloguesById.epilogue_diaochan_closed_moon_return.title).toBe("闭月归心");

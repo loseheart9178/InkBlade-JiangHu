@@ -143,6 +143,10 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await expect(page.getByTestId("screen-final-choice")).toBeVisible();
   await expect(page.getByTestId("final-choice-option")).toContainText(["封印墨渊", "焚毁墨书", "接管墨书", "与心魔合一"]);
   await expect(page.getByTestId("final-choice-option").filter({ hasText: "放下笔" })).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByTestId("continue-run")).toBeEnabled();
+  await page.getByTestId("continue-run").click();
+  await expect(page.getByTestId("screen-final-choice")).toBeVisible();
   await page.getByTestId("logbook-open").click();
   await expect(page.getByTestId("screen-logbook")).toBeVisible();
   await page.getByTestId("logbook-back").click();

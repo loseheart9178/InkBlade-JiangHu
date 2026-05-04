@@ -193,6 +193,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     if (state.screen === "finalChoice") {
       renderFinalChoice(host, state, render, options.storage);
       renderDeckOverlayIfOpen(host, state, render);
+      persistControllerState(state, options.storage);
       return;
     }
 
@@ -2456,7 +2457,7 @@ function persistControllerState(state: ControllerState, storage: GameStorage | u
 }
 
 function isSaveableScreen(screen: Screen): screen is SaveableScreen {
-  return screen === "map" || screen === "combat" || screen === "reward" || screen === "methodReward" || screen === "chapterReward" || screen === "event" || screen === "shop" || screen === "rest" || screen === "bossReward";
+  return screen === "map" || screen === "combat" || screen === "reward" || screen === "methodReward" || screen === "chapterReward" || screen === "event" || screen === "shop" || screen === "rest" || screen === "bossReward" || screen === "finalChoice";
 }
 
 function generateMapSeed(): number {

@@ -374,13 +374,25 @@ export function createEndingEvaluationInputFromRun(run: RunState): EndingEvaluat
 
 export function getAvailableFinalChoices(run: RunState): FinalChoiceAvailability[] {
   const input = createEndingEvaluationInputFromRun(run);
-  return finalChoiceList
+  const choices = finalChoiceList
     .map((choice) => ({
       ...choice,
       eligible: isFinalChoiceEligible(choice.id, input),
       requirement: FINAL_CHOICE_REQUIREMENTS[choice.id]
     }))
     .filter((choice) => !choice.hidden || choice.eligible);
+
+  if (choices.some((choice) => choice.eligible)) {
+    return choices;
+  }
+
+  return choices.map((choice) => choice.id === "final_seal_moyuan"
+    ? {
+        ...choice,
+        eligible: true,
+        requirement: `${choice.requirement} 若无其它抉择可承接此局，封印为默认收束。`
+      }
+    : choice);
 }
 
 export function selectFinalChoice(run: RunState, choiceId: FinalChoiceId): FinalChoiceSelection | undefined {

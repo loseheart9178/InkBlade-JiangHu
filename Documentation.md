@@ -2,6 +2,87 @@
 
 ## Status Log
 
+### 2026-05-04 12:43 Asia/Shanghai
+
+Wave 6 final review fixes completed in `.worktrees/wave6-integration` on branch `codex/wave6-integration`.
+
+Re-read / inspected before review-fix implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `src/game/systems/endings/endings.ts`
+- `src/game/systems/save/save.ts`
+- `src/app/inkbladeController.ts`
+- `tests/endings/ending-system.test.ts`
+- `tests/save/save-system.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+
+Review findings addressed:
+
+- P1: final-choice could softlock when `evaluateEnding()` fell back to `ending_clear_seal`, but strict final-choice eligibility left every visible option disabled.
+- P2: `finalChoice` was not saveable and the controller did not persist it, so reload/continue returned to the stale pre-choice snapshot.
+
+What changed:
+
+- Added a pure-system regression that a completed fallback-ending run always has at least one selectable final choice and can select `final_seal_moyuan`.
+- Added a save-system regression for `ControllerSaveSnapshot.screen === "finalChoice"`.
+- Extended the final boss browser route to reload at `screen-final-choice`, continue the run, and assert it returns to the same final-choice screen before choosing an ending.
+- Updated final-choice availability so `final_seal_moyuan` becomes the default selectable closure if no other visible final choice is eligible.
+- Added `finalChoice` to `SaveableScreen` in the save system and controller persistence guard.
+- Persisted controller state when rendering `finalChoice`.
+
+TDD failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/endings/ending-system.test.ts
+RED result: failed. Fallback ending run had no eligible final choices.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/save/save-system.test.ts
+RED result: failed. Loading a saved `finalChoice` snapshot returned undefined.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"
+RED result: failed. Reload/continue from final choice did not restore `screen-final-choice`.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/endings/ending-system.test.ts tests/save/save-system.test.ts
+Result: passed. 2 test files passed, 16 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"
+Result: passed. 1 Chromium test passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 15 test files passed, 155 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 22 Chromium tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known lazy Phaser chunk warning.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 55, source sheets 20, prompt queue targets 54.
+```
+
+Known gaps / risks:
+
+- The fallback final-choice wording is intentionally conservative; future narrative tuning can add a bespoke line for low-tendency clear-seal runs.
+- The known Vite >500 kB warning remains isolated to the lazy Phaser chunk.
+- Card fallback debt remains queued for future generated card-face assets.
+
+Next milestone:
+
+- Re-run final reviewer on the integration branch, then keep the dev server available for manual desktop playtest.
+
 ### 2026-05-04 12:20 Asia/Shanghai
 
 Wave 6 integration acceptance continued in `.worktrees/wave6-integration` on branch `codex/wave6-integration`.
