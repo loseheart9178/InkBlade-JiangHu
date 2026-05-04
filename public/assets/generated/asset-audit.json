@@ -3,22 +3,22 @@
   "visualManifest": "src/game/content/visuals.ts",
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
-    "runtimeReferenceCount": 102,
-    "uniqueRuntimeFileCount": 72,
+    "runtimeReferenceCount": 112,
+    "uniqueRuntimeFileCount": 83,
     "missingCount": 0,
     "inkPassDebtCount": 0,
     "gpt2RuntimeCount": 52,
     "sourceSheetCount": 20,
-    "cardFallbackDebtCount": 56
+    "cardFallbackDebtCount": 45
   },
   "missing": [],
   "inkPassDebt": [],
   "cardFallbackDebt": {
-    "totalCount": 56,
+    "totalCount": 45,
     "byCharacter": [
       {
         "character": "caiwenji",
-        "count": 11
+        "count": 8
       },
       {
         "character": "common",
@@ -26,29 +26,29 @@
       },
       {
         "character": "diaochan",
-        "count": 9
+        "count": 6
       },
       {
         "character": "zhaoyun",
-        "count": 10
+        "count": 7
       },
       {
         "character": "zhugeliang",
-        "count": 10
+        "count": 8
       }
     ],
     "byType": [
       {
         "type": "attack",
-        "count": 22
+        "count": 16
       },
       {
         "type": "body",
-        "count": 4
+        "count": 3
       },
       {
         "type": "skill",
-        "count": 30
+        "count": 26
       }
     ],
     "byRarity": [
@@ -63,10 +63,6 @@
       {
         "rarity": "rare",
         "count": 5
-      },
-      {
-        "rarity": "starter",
-        "count": 11
       },
       {
         "rarity": "status",
@@ -129,41 +125,11 @@
         "reason": "missing-card-art-id"
       },
       {
-        "id": "cai_gong_tone",
-        "name": "宫音",
-        "character": "caiwenji",
-        "type": "attack",
-        "rarity": "starter",
-        "fallbackArtId": "type_attack",
-        "fallbackAssetPath": "/assets/generated/cards/card-red-spear-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
         "id": "cai_listen_still",
         "name": "静听",
         "character": "caiwenji",
         "type": "skill",
         "rarity": "common",
-        "fallbackArtId": "type_skill",
-        "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
-        "id": "cai_plain_strike",
-        "name": "素击",
-        "character": "caiwenji",
-        "type": "attack",
-        "rarity": "starter",
-        "fallbackArtId": "type_attack",
-        "fallbackAssetPath": "/assets/generated/cards/card-red-spear-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
-        "id": "cai_pluck_string",
-        "name": "拂弦",
-        "character": "caiwenji",
-        "type": "skill",
-        "rarity": "starter",
         "fallbackArtId": "type_skill",
         "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
         "reason": "missing-card-art-id"
@@ -299,16 +265,6 @@
         "reason": "missing-card-art-id"
       },
       {
-        "id": "diao_guard",
-        "name": "回袖",
-        "character": "diaochan",
-        "type": "skill",
-        "rarity": "starter",
-        "fallbackArtId": "type_skill",
-        "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
         "id": "diao_hongyan",
         "name": "红颜",
         "character": "diaochan",
@@ -316,16 +272,6 @@
         "rarity": "common",
         "fallbackArtId": "type_attack",
         "fallbackAssetPath": "/assets/generated/cards/card-red-spear-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
-        "id": "diao_lingbo",
-        "name": "凌波步",
-        "character": "diaochan",
-        "type": "body",
-        "rarity": "starter",
-        "fallbackArtId": "type_body",
-        "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
         "reason": "missing-card-art-id"
       },
       {
@@ -356,16 +302,6 @@
         "rarity": "rare",
         "fallbackArtId": "type_body",
         "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
-        "id": "diao_strike",
-        "name": "素刃",
-        "character": "diaochan",
-        "type": "attack",
-        "rarity": "starter",
-        "fallbackArtId": "type_attack",
-        "fallbackAssetPath": "/assets/generated/cards/card-red-spear-gpt.png",
         "reason": "missing-card-art-id"
       },
       {
@@ -439,16 +375,6 @@
         "reason": "missing-card-art-id"
       },
       {
-        "id": "zhao_guard",
-        "name": "架枪",
-        "character": "zhaoyun",
-        "type": "skill",
-        "rarity": "starter",
-        "fallbackArtId": "type_skill",
-        "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
         "id": "zhao_guardian",
         "name": "护主",
         "character": "zhaoyun",
@@ -456,16 +382,6 @@
         "rarity": "common",
         "fallbackArtId": "type_skill",
         "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
-        "id": "zhao_longdan",
-        "name": "龙胆",
-        "character": "zhaoyun",
-        "type": "attack",
-        "rarity": "starter",
-        "fallbackArtId": "type_attack",
-        "fallbackAssetPath": "/assets/generated/cards/card-red-spear-gpt.png",
         "reason": "missing-card-art-id"
       },
       {
@@ -497,16 +413,6 @@
         "fallbackArtId": "type_skill",
         "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
         "reason": "missing-card-art-id"
-      },
-      {
-        "id": "zhao_strike",
-        "name": "枪击",
-        "character": "zhaoyun",
-        "type": "attack",
-        "rarity": "starter",
-        "fallbackArtId": "type_attack",
-        "fallbackAssetPath": "/assets/generated/cards/card-red-spear-gpt.png",
-        "reason": "shared-type-asset"
       },
       {
         "id": "zhao_sweep",
@@ -559,31 +465,11 @@
         "reason": "missing-card-art-id"
       },
       {
-        "id": "zhuge_fan_strike",
-        "name": "羽扇",
-        "character": "zhugeliang",
-        "type": "attack",
-        "rarity": "starter",
-        "fallbackArtId": "type_attack",
-        "fallbackAssetPath": "/assets/generated/cards/card-red-spear-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
         "id": "zhuge_fire_array",
         "name": "火阵",
         "character": "zhugeliang",
         "type": "skill",
         "rarity": "common",
-        "fallbackArtId": "type_skill",
-        "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
-        "reason": "missing-card-art-id"
-      },
-      {
-        "id": "zhuge_guard",
-        "name": "守势",
-        "character": "zhugeliang",
-        "type": "skill",
-        "rarity": "starter",
         "fallbackArtId": "type_skill",
         "fallbackAssetPath": "/assets/generated/cards/card-teal-dodge-gpt.png",
         "reason": "missing-card-art-id"

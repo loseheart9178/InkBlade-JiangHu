@@ -426,7 +426,7 @@ describe("content data", () => {
   it("maps featured cards, battlefield, and attack sprite strips to art assets", () => {
     for (const cardId of ["zhao_strike", "zhao_qixing_spear", "diao_charm", "diao_closed_moon", "ink_luoshui_tide"]) {
       expect(cardArtById[cardId]).toBeDefined();
-      expect(cardArtById[cardId].assetPath).toMatch(/^\/assets\/generated\/cards\/.+\.png$/);
+      expect(cardArtById[cardId].assetPath).toMatch(/^\/assets\/generated\/cards\/.+\.(png|svg)$/);
     }
 
     expect(battlefieldAssets.luoshui.assetPath).toMatch(/^\/assets\/generated\/.+\.png$/);
@@ -499,6 +499,28 @@ describe("content data", () => {
       expect(art.assetPath).toMatch(/^\/assets\/generated\/cards\/.+\.png$/);
       expect(art.assetPath).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
       expectAssetPathToExist(art.assetPath);
+    }
+  });
+
+  it("binds semantic starter card art away from shared type fallbacks", () => {
+    const starterArtIds = [
+      "zhao_strike",
+      "zhao_guard",
+      "zhao_longdan",
+      "diao_strike",
+      "diao_guard",
+      "diao_lingbo",
+      "cai_plain_strike",
+      "cai_pluck_string",
+      "cai_gong_tone",
+      "zhuge_fan_strike",
+      "zhuge_guard"
+    ];
+
+    for (const id of starterArtIds) {
+      expect(cardArtById[id]?.assetPath).toMatch(/^\/assets\/generated\/cards\/wave9-/);
+      expect(cardArtById[id]?.assetPath).not.toBe(cardArtById.type_attack.assetPath);
+      expect(cardArtById[id]?.assetPath).not.toBe(cardArtById.type_skill.assetPath);
     }
   });
 
@@ -588,7 +610,7 @@ describe("content data", () => {
   it("tracks non-blocking card art fallback debt separately from missing runtime art", () => {
     const expectedFallbackDebt = collectCardFallbackDebt();
     expect(expectedFallbackDebt.cards.length).toBeGreaterThan(0);
-    expect(expectedFallbackDebt.cards.map((card) => card.id)).toEqual(expect.arrayContaining(["zhao_guard", "diao_strike", "common_pifeng"]));
+    expect(expectedFallbackDebt.cards.map((card) => card.id)).toEqual(expect.arrayContaining(["zhao_qixing_spear", "diao_hongyan", "common_pifeng"]));
 
     const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
     const ledger = JSON.parse(readFileSync(join(projectRoot, "public/assets/generated/asset-audit.json"), "utf8")) as {

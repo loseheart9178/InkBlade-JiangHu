@@ -2,6 +2,56 @@
 
 ## Status Log
 
+### 2026-05-04 22:32 Asia/Shanghai
+
+Wave 9 Task 2 starter card semantic art completed in `.worktrees/wave9-starter-card-art` on branch `codex/wave9-starter-card-art`.
+
+Docs read / carried through:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave9-polish-balance-art.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+What changed:
+
+- Added 11 repo-local semantic SVG card faces for the starter readability set: Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang starter attacks/guards/signature cards.
+- Bound those assets through `src/game/content/visuals.ts` rather than renderer fallbacks.
+- Added a content test that requires the starter set to resolve away from shared type fallback card art.
+- Refreshed `public/assets/generated/asset-audit.json` and `docs/art/gpt2-priority-queue.md`; card fallback debt dropped from 56 to 45.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts
+Result: passed, 1 file / 30 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 112, missing 0, ink-pass debt 0, card fallback debt 45, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- These are semantic local SVG readability assets, not final GPT Image 2 bitmap card illustrations. Remaining card fallback debt stays documented for later art-quality passes.
+
+Next step:
+
+- Commit this worker branch and merge it into the Wave 9 integration branch with the attack-strip worker.
+
 ### 2026-05-04 22:30 Asia/Shanghai
 
 Wave 9 Task 1 Zhuge Liang balance fix completed in `.worktrees/wave9-zhuge-balance` on branch `codex/wave9-zhuge-balance`.

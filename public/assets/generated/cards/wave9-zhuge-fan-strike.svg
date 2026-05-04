@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Zhuge Liang fan strike wind and star chart card art">
+  <rect width="512" height="512" fill="#eee5d3"/>
+  <path d="M80 350c85-93 189-142 314-147" fill="none" stroke="#1f4e58" stroke-width="26" stroke-linecap="round" opacity=".22"/>
+  <path d="M165 333c45-92 105-154 180-188 39 53 57 116 53 188-73 22-151 22-233 0z" fill="#f8f1df" stroke="#2d3a3a" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M193 316c34-58 80-101 138-129M238 324c23-52 56-94 99-126M285 322c14-47 33-86 58-117" fill="none" stroke="#1f6a71" stroke-width="9" stroke-linecap="round"/>
+  <path d="M93 270c92 16 187-1 285-51" fill="none" stroke="#263536" stroke-width="12" stroke-linecap="round" opacity=".78"/>
+  <path d="M129 204c68-42 139-60 214-54" fill="none" stroke="#b38a39" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+  <circle cx="375" cy="133" r="35" fill="none" stroke="#b38a39" stroke-width="7" opacity=".72"/>
+  <path d="M348 133h54M375 106v54" fill="none" stroke="#b38a39" stroke-width="5" stroke-linecap="round" opacity=".72"/>
+</svg>
