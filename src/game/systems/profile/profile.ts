@@ -112,12 +112,13 @@ export function unlockEnding(profile: PlayerProfile, endingId: string, character
 }
 
 export function normalizeProfile(profile: Partial<PlayerProfile> | undefined): PlayerProfile {
-  if (!profile) {
+  if (!isRecord(profile)) {
     return createProfile();
   }
 
+  const rawCharacterStats = isRecord(profile.characterStats) ? profile.characterStats : {};
   const characterStats = Object.fromEntries(
-    Object.entries(profile.characterStats ?? {}).map(([characterId, stats]) => [
+    Object.entries(rawCharacterStats).map(([characterId, stats]) => [
       characterId,
       normalizeCharacterStats(stats)
     ])
@@ -159,20 +160,28 @@ function incrementStats<T extends ProfileStats>(stats: T, victory: boolean): T {
   };
 }
 
-function normalizeStats(stats: Partial<ProfileStats> | undefined): ProfileStats {
+function normalizeStats(stats: unknown): ProfileStats {
+  if (!isRecord(stats)) {
+    return createEmptyStats();
+  }
+
   return {
-    totalRuns: Math.max(0, stats?.totalRuns ?? 0),
-    victories: Math.max(0, stats?.victories ?? 0),
-    defeats: Math.max(0, stats?.defeats ?? 0)
+    totalRuns: normalizeCount(stats.totalRuns),
+    victories: normalizeCount(stats.victories),
+    defeats: normalizeCount(stats.defeats)
   };
 }
 
-function normalizeCharacterStats(stats: Partial<ProfileCharacterStats> | undefined): ProfileCharacterStats {
+function normalizeCharacterStats(stats: unknown): ProfileCharacterStats {
+  if (!isRecord(stats)) {
+    return createEmptyCharacterStats();
+  }
+
   return {
     ...normalizeStats(stats),
-    bestChaptersCompleted: Math.max(0, stats?.bestChaptersCompleted ?? 0),
-    unlockedEndings: uniqueStrings(stats?.unlockedEndings),
-    unlockedCharacterEpilogues: uniqueStrings(stats?.unlockedCharacterEpilogues)
+    bestChaptersCompleted: normalizeCount(stats.bestChaptersCompleted),
+    unlockedEndings: uniqueStrings(stats.unlockedEndings),
+    unlockedCharacterEpilogues: uniqueStrings(stats.unlockedCharacterEpilogues)
   };
 }
 
@@ -184,6 +193,22 @@ function addUnique(values: readonly string[], value: string): string[] {
   return values.includes(value) ? [...values] : [...values, value];
 }
 
-function uniqueStrings(values: readonly string[] | undefined): string[] {
-  return Array.from(new Set((values ?? []).filter((value) => typeof value === "string" && value.length > 0)));
+function uniqueStrings(values: unknown): string[] {
+  if (!Array.isArray(values)) {
+    return [];
+  }
+
+  return Array.from(new Set(values.filter((value): value is string => typeof value === "string" && value.length > 0)));
+}
+
+function normalizeCount(value: unknown): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return 0;
+  }
+
+  return Math.max(0, Math.floor(value));
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object";
 }

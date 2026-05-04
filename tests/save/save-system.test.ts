@@ -122,6 +122,92 @@ describe("save system", () => {
     expect(loadSavedGame(storage)).toBeUndefined();
   });
 
+  it("migrates an older compatible map snapshot to current defaults", () => {
+    const storage = new MemoryStorage();
+    const run = createRun("zhaoyun", { mapSeed: 12 });
+    const [firstNode, ...remainingNodes] = run.mapNodes;
+    const legacyRun = {
+      characterId: run.characterId,
+      mapSeed: run.mapSeed,
+      hp: run.hp,
+      maxHp: run.maxHp,
+      gold: run.gold,
+      currentNodeId: run.currentNodeId,
+      deck: run.deck.map(({ instanceId, cardId }) => ({ instanceId, cardId })),
+      relicIds: run.relicIds,
+      mapNodes: [
+        { ...firstNode, floor: undefined, lane: undefined },
+        ...remainingNodes
+      ],
+      visitedNodeIds: run.visitedNodeIds,
+      nextDeckInstanceNumber: run.nextDeckInstanceNumber,
+      rewardHistory: run.rewardHistory
+    };
+
+    storage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
+      version: 0,
+      savedAt: "2026-05-03T00:00:00.000Z",
+      state: {
+        screen: "map",
+        run: legacyRun
+      }
+    }));
+
+    const loaded = loadSavedGame(storage);
+    expect(loaded?.screen).toBe("map");
+    expect(loaded?.rewardCardIds).toEqual([]);
+    expect(loaded?.deckOpen).toBe(false);
+    expect(loaded?.message).toBe("");
+    expect(loaded?.run.chapterId).toBe("luoshui");
+    expect(loaded?.run.completedChapterIds).toEqual([]);
+    expect(loaded?.run.methodIds).toEqual([]);
+    expect(loaded?.run.methodLevels).toEqual({});
+    expect(loaded?.run.logbook).toEqual({ eventIds: [], bossIds: [], fragmentIds: [] });
+    expect(loaded?.run.mindTendencies).toEqual({ ning: 0, nu: 0, bei: 0, mei: 0, luan: 0, wu: 0 });
+    expect(loaded?.run.chapterRewardHistory).toEqual([]);
+    expect(loaded?.run.lastCombatComboTriggers).toEqual([]);
+    expect(loaded?.run.comboRewardHistory).toEqual([]);
+    expect(loaded?.run.finalState).toEqual({ status: "inProgress", chapterId: "luoshui" });
+    expect(loaded?.run.mapNodes[0].floor).toBe(0);
+    expect(loaded?.run.mapNodes[0].lane).toBe(0);
+  });
+
+  it("fails closed for incompatible run snapshots", () => {
+    const storage = new MemoryStorage();
+    const run = createRun("zhaoyun", { mapSeed: 5 });
+
+    storage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
+      version: 1,
+      savedAt: "2026-05-03T00:00:00.000Z",
+      state: {
+        screen: "map",
+        run: {
+          ...run,
+          currentNodeId: "missing-node"
+        },
+        rewardCardIds: [],
+        deckOpen: false,
+        message: "This node no longer exists."
+      }
+    }));
+
+    expect(loadSavedGame(storage)).toBeUndefined();
+
+    storage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
+      version: 1,
+      savedAt: "2026-05-03T00:00:00.000Z",
+      state: {
+        screen: "combat",
+        run,
+        rewardCardIds: [],
+        deckOpen: false,
+        message: "Combat was missing."
+      }
+    }));
+
+    expect(loadSavedGame(storage)).toBeUndefined();
+  });
+
   it("clears the saved game slot", () => {
     const storage = new MemoryStorage();
     const run = createRun("zhaoyun");

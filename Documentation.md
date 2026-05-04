@@ -2,6 +2,83 @@
 
 ## Status Log
 
+### 2026-05-04 16:44 Asia/Shanghai
+
+Wave 7 Task 7.1 Save And Profile Hardening completed in `.worktrees/wave7-save-hardening` on branch `codex/wave7-save-hardening`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/playtest/alpha-acceptance.md`
+
+Scope:
+
+- Stayed inside save/profile pure systems and assigned tests.
+- Kept run progression, profile/unlock progress, and desktop settings/debug surfaces as separate storage concerns.
+- Did not add renderer or Phaser gameplay rules.
+
+What changed:
+
+- Added migration tests for older compatible run snapshots and raw profile payloads.
+- Added fail-closed coverage for incompatible run snapshots, including missing combat state for `screen: "combat"` and missing map node references.
+- Added app-shell coverage that a corrupt profile value plus migratable run save still leaves the title shell usable and Continue enabled.
+- Added save/profile migration and normalization helpers that fill newer default run/profile fields without losing compatible progress.
+- Added best-effort storage wrappers so save/profile load, save, and clear operations do not throw if browser storage is unavailable.
+
+Decisions:
+
+- Future save/profile versions still fail closed; current or older compatible payloads migrate.
+- Core run fields required to safely continue, such as HP, max HP, deck, map nodes, and current node membership, remain mandatory.
+- Old missing run fields default to current pure-system equivalents: `luoshui`, empty method/logbook/reward/combo histories, zero mind tendencies, and in-progress final state.
+- Profile migration intentionally drops unknown debug-only fields from the normalized runtime profile while leaving the raw stored value untouched until the next explicit profile save.
+
+TDD failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/save/save-system.test.ts tests/profile/profile-system.test.ts tests/app-shell.test.ts
+Environment result: failed before tests because this worktree has no local node_modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:/InkBlade-JiangHu/node_modules/vitest/vitest.mjs run tests/save/save-system.test.ts tests/profile/profile-system.test.ts tests/app-shell.test.ts
+RED result: failed as expected. 5 new tests failed:
+- older raw profile payload returned undefined;
+- malformed profile fields returned undefined instead of safe defaults;
+- older compatible map snapshot returned undefined;
+- missing current map node loaded instead of failing closed;
+- app-shell Continue stayed disabled for a migratable run save.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:/InkBlade-JiangHu/node_modules/vitest/vitest.mjs run tests/save/save-system.test.ts tests/profile/profile-system.test.ts tests/app-shell.test.ts
+Result: passed. 3 test files passed, 15 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:/InkBlade-JiangHu/node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+```
+
+Known gaps / risks:
+
+- The worktree has no local `node_modules`, so verification uses the root checkout's installed tool entrypoints with the required bundled Node executable.
+- Save migration validates structural compatibility, not every referenced card/enemy/relic id; content-level missing references still belong to content audits and runtime tests.
+
+Next milestone:
+
+- Commit `codex/wave7-save-hardening`, then hand off for Wave 7 integration.
+
 ### 2026-05-04 12:43 Asia/Shanghai
 
 Wave 6 final review fixes completed in `.worktrees/wave6-integration` on branch `codex/wave6-integration`.

@@ -78,4 +78,81 @@ describe("profile system", () => {
     expect(loadProfile(storage)?.unlockedFragments).toContain("fragment_heart_mirror");
     expect(loadProfile(storage)?.unlockedCharacterEpilogues).toContain("epilogue_zhaoyun_white_dragon_return");
   });
+
+  it("migrates an older raw profile payload without losing compatible progress", () => {
+    const storage = new MemoryStorage();
+
+    storage.setItem(PROFILE_STORAGE_KEY, JSON.stringify({
+      version: 0,
+      stats: {
+        totalRuns: 3,
+        victories: 1,
+        defeats: 2
+      },
+      characterStats: {
+        zhaoyun: {
+          totalRuns: 2,
+          victories: 1,
+          defeats: 1,
+          bestChaptersCompleted: 3,
+          unlockedEndings: ["ending_clear_seal", "ending_clear_seal"]
+        }
+      },
+      unlockedFragments: ["fragment_heart_mirror", "fragment_heart_mirror", 99],
+      unlockedEndings: ["ending_clear_seal"],
+      legacyDebugSkip: true
+    }));
+
+    const profile = loadProfile(storage);
+    expect(profile?.version).toBe(1);
+    expect(profile?.stats).toEqual({ totalRuns: 3, victories: 1, defeats: 2 });
+    expect(profile?.characterStats.zhaoyun.bestChaptersCompleted).toBe(3);
+    expect(profile?.characterStats.zhaoyun.unlockedEndings).toEqual(["ending_clear_seal"]);
+    expect(profile?.characterStats.zhaoyun.unlockedCharacterEpilogues).toEqual([]);
+    expect(profile?.unlockedFragments).toEqual(["fragment_heart_mirror"]);
+    expect(profile?.unlockedEndings).toEqual(["ending_clear_seal"]);
+    expect(profile?.unlockedCharacterEpilogues).toEqual([]);
+    expect(storage.getItem(PROFILE_STORAGE_KEY)).toContain("legacyDebugSkip");
+  });
+
+  it("normalizes malformed profile fields to safe defaults", () => {
+    const storage = new MemoryStorage();
+
+    storage.setItem(PROFILE_STORAGE_KEY, JSON.stringify({
+      version: 1,
+      profile: {
+        stats: {
+          totalRuns: "bad",
+          victories: -4,
+          defeats: null
+        },
+        characterStats: {
+          diaochan: {
+            totalRuns: 2,
+            victories: "bad",
+            defeats: 1,
+            bestChaptersCompleted: -3,
+            unlockedEndings: ["ending_burn_book", ""],
+            unlockedCharacterEpilogues: [false, "epilogue_diaochan_red_dust_scheme"]
+          }
+        },
+        unlockedFragments: "not-an-array",
+        unlockedEndings: ["ending_burn_book", "ending_burn_book"]
+      }
+    }));
+
+    const profile = loadProfile(storage);
+    expect(profile?.stats).toEqual({ totalRuns: 0, victories: 0, defeats: 0 });
+    expect(profile?.characterStats.diaochan).toEqual({
+      totalRuns: 2,
+      victories: 0,
+      defeats: 1,
+      bestChaptersCompleted: 0,
+      unlockedEndings: ["ending_burn_book"],
+      unlockedCharacterEpilogues: ["epilogue_diaochan_red_dust_scheme"]
+    });
+    expect(profile?.unlockedFragments).toEqual([]);
+    expect(profile?.unlockedEndings).toEqual(["ending_burn_book"]);
+    expect(profile?.unlockedCharacterEpilogues).toEqual([]);
+  });
 });
