@@ -50,7 +50,7 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-bandit-standee-cutout\.png$/);
     await expect(page.getByTestId("combat-sprite-player")).toHaveCount(0);
     await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
-    await expect(page.getByTestId("card-art").first()).toHaveAttribute("src", /^\/assets\/generated\/cards\/.+\.png$/);
+    await expect(page.getByTestId("card-art").first()).toHaveAttribute("src", /^\/assets\/generated\/cards\/.+\.(png|svg)$/);
     await expect(page.getByTestId("card-art").first()).toHaveCSS("object-fit", "contain");
     await expect(page.getByTestId("card-type-badge").first()).toBeVisible();
     await expect(page.getByTestId("card-rarity-mark").first()).toBeVisible();

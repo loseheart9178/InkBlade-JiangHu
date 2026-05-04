@@ -2,6 +2,69 @@
 
 ## Status Log
 
+### 2026-05-04 22:56 Asia/Shanghai
+
+Wave 9 Polish Balance Art integrated in `.worktrees/wave6-integration` on branch `codex/wave9-polish-balance-art`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave9-polish-balance-art.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+
+What changed:
+
+- Integrated Zhuge Liang multi-seed balance support and simulator pressure timing so seeds `9001`, `9002`, and `9003` all complete.
+- Integrated 11 starter semantic SVG card faces and lowered card fallback debt from 56 to 45.
+- Integrated semantic first-chapter attack strips for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`, with tests rejecting generic slash fallback.
+- Refreshed README, alpha acceptance, desktop playtest checklist, GPT2 art ledger, and asset audit with final Wave 9 results.
+- Updated browser tests that still assumed PNG-only card art or standee-only Dong Zhuo boss attack feedback.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 15 files / 182 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed with the known non-blocking Phaser chunk-size warning.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Initial result: failed on two outdated assertions expecting PNG-only card art and standee-only Dong Zhuo boss attack feedback.
+Final result after test expectation update: passed. 27 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 115, missing 0, ink-pass debt 0, card fallback debt 45, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+Result: passed. Routes completed 12/12, combat samples 84, timeout risks 0, unsafe damage spikes 0.
+
+git diff --check
+Result: passed before final documentation refresh; rerun before commit.
+```
+
+Known gaps / risks:
+
+- Zhuge Liang remains high-pressure with lowest post-combat HP band 3/3/7; this is no longer a completion blocker but should remain on the balance watchlist.
+- Wave 9 card and attack assets are semantic repo-local SVGs, not final GPT Image 2 bitmap art. Remaining card fallback debt is 45.
+- Vite still emits the known non-blocking lazy Phaser chunk-size warning.
+
+Next step:
+
+- Run final diff checks, commit the Wave 9 integration branch, then stop with the gate summary.
+
 ### 2026-05-04 22:32 Asia/Shanghai
 
 Wave 9 Task 2 starter card semantic art completed in `.worktrees/wave9-starter-card-art` on branch `codex/wave9-starter-card-art`.

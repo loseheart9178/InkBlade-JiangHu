@@ -41,7 +41,7 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 9 release verification is prepared in this docs branch, but the final Vitest, Playwright, asset audit, balance-report, and card fallback debt results must be `集成后刷新` on the integration branch.
+Wave 9 release verification completed on branch `codex/wave9-polish-balance-art`: Vitest 15 files / 182 tests, TypeScript, Vite build, Playwright 27 Chromium tests, asset audit 115 runtime refs / missing 0 / card fallback debt 45, and multi-seed balance 12/12 routes.
 
 ## Wave 9 Release Refresh Prep
 
@@ -51,7 +51,7 @@ Wave 9 is scoped as a polish, balance, and art-readability refresh for the deskt
 - Replace starter readability card fallbacks with semantic card art for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang starter cards.
 - Add first-chapter semantic attack strips for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` so they do not read as the generic enemy slash.
 
-Desktop browser remains the active release target. The integration branch must refresh the final Wave 9 Vitest count, Playwright Chromium desktop count, asset audit totals, balance-report result, and card fallback debt before release handoff.
+Desktop browser remains the active release target. The Wave 9 gate verified Zhuge Liang seed `9003`, starter semantic card SVGs, and first-chapter semantic attack strips without timeout risks, unsafe damage spikes, or missing runtime assets.
 
 ## Desktop Playtest Route
 
@@ -72,9 +72,9 @@ Use [desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md)
 
 ## Known Gaps
 
-- Wave 9 final card fallback debt is `集成后刷新`; do not report a lower count until the integrated asset audit proves it.
-- First-chapter semantic attack strips are a Wave 9 integration target for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable final binding.
-- Zhuge Liang seed `9003` is the Wave 9 balance target; final multi-seed completion evidence is `集成后刷新`.
+- Wave 9 final card fallback debt is 45; remaining type-level card art is non-blocking art backlog.
+- First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
+- Zhuge Liang seed `9003` completed in the Wave 9 multi-seed report; Zhuge Liang remains a high-pressure balance watchlist character because his lowest post-combat HP band is 3/3/7.
 - Vite build can print a non-blocking Phaser lazy chunk-size warning.
 - Production audio, Steam packaging, mobile layout, and broad localization polish are outside this desktop alpha handoff.
 
