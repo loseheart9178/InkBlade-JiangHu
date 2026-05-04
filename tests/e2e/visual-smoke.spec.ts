@@ -55,6 +55,7 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("combo-trail")).toContainText("待发");
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("title", /招式链/);
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("aria-label", /招式链/);
+    await expect(page.getByTestId("combo-trail")).toHaveCSS("pointer-events", "auto");
     await expectDesktopCombatLayout(page);
 
     await capturePlaytestScreenshot(page, testInfo, `combat-${character.id}-desktop.png`);

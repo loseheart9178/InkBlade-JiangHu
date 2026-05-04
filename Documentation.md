@@ -2,6 +2,48 @@
 
 ## Status Log
 
+### 2026-05-04 12:06 Asia/Shanghai
+
+Milestone 61 reviewer fix integrated in `.worktrees/wave6-integration` on branch `codex/wave6-integration`.
+
+Review input:
+
+- Glossary code-quality reviewer found that `.combo-trail` had `title`/`aria-label` metadata, but inherited `pointer-events: none` from `.duel-column`, preventing native desktop hover tooltips.
+
+What changed:
+
+- Added a Playwright regression assertion that `data-testid="combo-trail"` computes `pointer-events: auto`.
+- Restored hover targeting for `.combo-trail[data-glossary-id]` while leaving the rest of the duel column non-interactive.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --grep "desktop combat smoke"
+Red result before CSS fix: failed as expected. Expected pointer-events "auto", received "none".
+Green result after CSS fix: passed. 1 Chromium test passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed. 2 Chromium tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 14 test files passed, 149 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite built the production bundle and repeated the known lazy Phaser chunk warning.
+```
+
+Known gaps / risks:
+
+- Native browser `title` behavior remains desktop-first by project rule.
+- The known Vite large-chunk warning remains isolated to the lazy Phaser chunk.
+
+Next step:
+
+- Commit the review fix, then wait for remaining compendium work and integrate it after review.
+
 ### 2026-05-04 11:36 Asia/Shanghai
 
 Milestone 61 Keyword And Intent Glossary rescue continued in `.worktrees/wave6-glossary-rescue` on branch `codex/wave6-glossary-rescue`.

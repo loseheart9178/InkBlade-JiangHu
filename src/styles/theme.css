@@ -1027,6 +1027,7 @@ button {
 
 .combo-trail[data-glossary-id] {
   border-color: rgba(238, 190, 91, 0.34);
+  pointer-events: auto;
 }
 
 .prefers-reduced-motion .card-keyword-row .glossary-chip {
