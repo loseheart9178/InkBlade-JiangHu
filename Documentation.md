@@ -2,6 +2,51 @@
 
 ## Status Log
 
+### 2026-05-04 23:23 Asia/Shanghai
+
+Wave 10 Card Fallback Zero planning started in `.worktrees/wave6-integration` on branch `codex/wave10-card-fallback-zero-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Plan:
+
+- Added `docs/superpowers/plans/2026-05-04-wave10-card-fallback-zero.md`.
+- Split the remaining 45 card fallback targets into three parallel-safe art batches: common/ink/mind/status, Zhao Yun + Diao Chan, and Cai Wenji + Zhuge Liang.
+- Designed worker branches to create independent `src/game/content/cardArt/wave10*.ts` modules and SVG assets without touching the shared visual manifest.
+- Reserved integration work for `src/game/content/visuals.ts`, the shared content test, asset audit, and release docs so final `cardFallbackDebt` can be proven once all worker branches land.
+
+Verification:
+
+```text
+grep -n "TBD\|TODO\|implement later\|fill in\|集成后刷新" docs/superpowers/plans/2026-05-04-wave10-card-fallback-zero.md
+Result: passed; no placeholder markers found.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- The Wave 10 assets are planned as semantic repo-local SVG card faces, not final GPT Image 2 bitmap illustrations.
+- Worker branches must avoid editing `src/game/content/visuals.ts` until the integration branch to prevent avoidable merge conflicts.
+
+Next step:
+
+- Commit the Wave 10 plan branch, create worker worktrees, and dispatch parallel subagents for the three independent art batches.
+
 ### 2026-05-04 22:56 Asia/Shanghai
 
 Wave 9 Polish Balance Art integrated in `.worktrees/wave6-integration` on branch `codex/wave9-polish-balance-art`.
