@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cai Wenji gong tone resonant jade wave card art">
+  <rect width="512" height="512" fill="#eee5d3"/>
+  <circle cx="258" cy="245" r="116" fill="#f8f1df" stroke="#2d3a3a" stroke-width="11"/>
+  <circle cx="258" cy="245" r="78" fill="none" stroke="#b38a39" stroke-width="9" opacity=".82"/>
+  <circle cx="258" cy="245" r="36" fill="none" stroke="#1f6a71" stroke-width="8" opacity=".84"/>
+  <path d="M100 374c99-38 205-40 319-5" fill="none" stroke="#1f6a71" stroke-width="15" stroke-linecap="round" opacity=".72"/>
+  <path d="M107 325c91-28 193-29 307-3" fill="none" stroke="#7bb7b5" stroke-width="10" stroke-linecap="round" opacity=".8"/>
+  <path d="M123 195c44-55 94-89 150-103M349 125c38 27 62 65 72 114" fill="none" stroke="#b38a39" stroke-width="9" stroke-linecap="round" opacity=".74"/>
+  <path d="M195 245h126M258 181v126" fill="none" stroke="#b2473d" stroke-width="8" stroke-linecap="round" opacity=".6"/>
+</svg>

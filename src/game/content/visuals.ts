@@ -217,9 +217,21 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "zhao_strike",
-    assetPath: "/assets/generated/cards/card-red-spear-gpt.png",
-    alt: "Spear strike ink card art",
-    accent: "red"
+    assetPath: "/assets/generated/cards/wave9-zhao-strike.svg",
+    alt: "Zhao Yun spear strike card art in teal ink",
+    accent: "teal"
+  },
+  {
+    id: "zhao_guard",
+    assetPath: "/assets/generated/cards/wave9-zhao-guard.svg",
+    alt: "Zhao Yun guard card art with spear wall",
+    accent: "teal"
+  },
+  {
+    id: "zhao_longdan",
+    assetPath: "/assets/generated/cards/wave9-zhao-longdan.svg",
+    alt: "Zhao Yun Longdan card art with white dragon spear",
+    accent: "teal"
   },
   {
     id: "zhao_qixing_spear",
@@ -261,6 +273,24 @@ export const cardArtList: CardArtDefinition[] = [
     id: "diao_charm",
     assetPath: "/assets/generated/cards/card-red-ribbon-gpt.png",
     alt: "Charm ribbon ink card art",
+    accent: "teal"
+  },
+  {
+    id: "diao_strike",
+    assetPath: "/assets/generated/cards/wave9-diao-strike.svg",
+    alt: "Diao Chan fan strike card art in red silk ink",
+    accent: "red"
+  },
+  {
+    id: "diao_guard",
+    assetPath: "/assets/generated/cards/wave9-diao-guard.svg",
+    alt: "Diao Chan guarded dance card art with ribbon screen",
+    accent: "red"
+  },
+  {
+    id: "diao_lingbo",
+    assetPath: "/assets/generated/cards/wave9-diao-lingbo.svg",
+    alt: "Diao Chan Lingbo step card art with petal footwork",
     accent: "teal"
   },
   {
@@ -330,6 +360,24 @@ export const cardArtList: CardArtDefinition[] = [
     accent: "ink"
   },
   {
+    id: "cai_plain_strike",
+    assetPath: "/assets/generated/cards/wave9-cai-plain-strike.svg",
+    alt: "Cai Wenji plain strike card art with qin-string slash",
+    accent: "teal"
+  },
+  {
+    id: "cai_pluck_string",
+    assetPath: "/assets/generated/cards/wave9-cai-pluck-string.svg",
+    alt: "Cai Wenji pluck string card art with teal sound waves",
+    accent: "teal"
+  },
+  {
+    id: "cai_gong_tone",
+    assetPath: "/assets/generated/cards/wave9-cai-gong-tone.svg",
+    alt: "Cai Wenji gong tone card art with resonant jade wave",
+    accent: "gold"
+  },
+  {
     id: "cai_qingxin_song",
     assetPath: "/assets/generated/cards/gpt2-cai-qingxin-song.png",
     alt: "Cai Wenji Qingxin Song card art with teal cleansing guqin waves",
@@ -346,6 +394,18 @@ export const cardArtList: CardArtDefinition[] = [
     assetPath: "/assets/generated/cards/gpt2-cai-final-song.png",
     alt: "Cai Wenji Final Song card art with luminous guqin chord",
     accent: "gold"
+  },
+  {
+    id: "zhuge_fan_strike",
+    assetPath: "/assets/generated/cards/wave9-zhuge-fan-strike.svg",
+    alt: "Zhuge Liang fan strike card art with wind and star chart",
+    accent: "teal"
+  },
+  {
+    id: "zhuge_guard",
+    assetPath: "/assets/generated/cards/wave9-zhuge-guard.svg",
+    alt: "Zhuge Liang guard card art with formation shield",
+    accent: "teal"
   },
   {
     id: "zhuge_observe_stars",

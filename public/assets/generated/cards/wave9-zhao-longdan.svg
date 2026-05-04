@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Zhao Yun Longdan white dragon spear card art">
+  <rect width="512" height="512" fill="#eee5d3"/>
+  <path d="M91 381C159 269 265 214 420 206" fill="none" stroke="#1f4e58" stroke-width="24" stroke-linecap="round" opacity=".22"/>
+  <path d="M96 364 398 133" fill="none" stroke="#263536" stroke-width="15" stroke-linecap="round"/>
+  <path d="M382 113 448 94 416 153z" fill="#faf6e8" stroke="#2d3a3a" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M125 315c68-67 133-110 194-128 35-10 67-6 94 16" fill="none" stroke="#f9f7ec" stroke-width="26" stroke-linecap="round" opacity=".92"/>
+  <path d="M153 310c55-45 116-74 183-86" fill="none" stroke="#97c8c7" stroke-width="9" stroke-linecap="round" opacity=".88"/>
+  <path d="M174 384c60 17 127 6 201-31" fill="none" stroke="#b38a39" stroke-width="10" stroke-linecap="round" opacity=".78"/>
+  <path d="M285 151c24-38 61-53 109-44" fill="none" stroke="#b2473d" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+  <circle cx="408" cy="111" r="9" fill="#b2473d" opacity=".85"/>
+</svg>

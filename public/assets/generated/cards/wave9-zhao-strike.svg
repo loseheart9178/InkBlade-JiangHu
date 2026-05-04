@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Zhao Yun spear strike ink card art">
+  <rect width="512" height="512" fill="#eee5d3"/>
+  <path d="M54 392C134 312 221 254 354 211c54-18 88-42 114-78" fill="none" stroke="#1f4e58" stroke-width="28" stroke-linecap="round" opacity=".25"/>
+  <path d="M82 354 412 117" fill="none" stroke="#263536" stroke-width="18" stroke-linecap="round"/>
+  <path d="M392 98 454 84 421 139z" fill="#f8f1df" stroke="#2d3a3a" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M124 328c58-58 117-102 181-132" fill="none" stroke="#f3f8f2" stroke-width="8" stroke-linecap="round" opacity=".82"/>
+  <path d="M112 395c73 8 148-6 225-44" fill="none" stroke="#b2473d" stroke-width="13" stroke-linecap="round" opacity=".82"/>
+  <path d="M143 156c52-36 112-44 180-23" fill="none" stroke="#d7e8e4" stroke-width="15" stroke-linecap="round" opacity=".9"/>
+  <circle cx="330" cy="124" r="18" fill="none" stroke="#b38a39" stroke-width="7" opacity=".7"/>
+</svg>
