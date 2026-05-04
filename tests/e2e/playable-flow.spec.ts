@@ -102,6 +102,38 @@ test("debug skip advances to the next chapter and refreshes the map backdrop", a
 
   await page.getByTestId("map-node-battle-1").click();
   await expect(page.getByTestId("screen-combat")).toHaveAttribute("data-battlefield", "bamboo");
+  await expect(page.getByTestId("onboarding-hint-combat-energy")).toBeVisible();
+  const dismissedHints = await page.evaluate(() => {
+    const raw = window.localStorage.getItem("inkblade-jianghu:desktop-settings:v1");
+    return raw ? JSON.parse(raw).settings?.dismissedOnboardingHintIds ?? [] : [];
+  });
+  expect(dismissedHints).toEqual([]);
+});
+
+test("first combat onboarding hints are compact, dismissible, and persisted", async ({ page }) => {
+  await startRun(page, "zhaoyun");
+  await page.getByTestId("map-node-battle-1").click();
+
+  await expect(page.getByTestId("onboarding-hint-combat-energy")).toBeVisible();
+  await expect(page.getByTestId("onboarding-hint-combat-hand")).toBeVisible();
+  await expect(page.getByTestId("onboarding-hint-combat-intent")).toBeVisible();
+  await expect(page.getByTestId("onboarding-hint-combat-block")).toBeVisible();
+  await expect(page.getByTestId("onboarding-hint-combat-end-turn")).toBeVisible();
+  await expect(page.getByTestId("end-turn")).toBeEnabled();
+  await expect(page.locator(".combat-card:not([disabled])").first()).toBeEnabled();
+
+  await page.getByTestId("onboarding-dismiss-combat-energy").click();
+
+  await expect(page.getByTestId("onboarding-hint-combat-energy")).toBeHidden();
+  await expect(page.getByTestId("onboarding-hint-combat-hand")).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByTestId("continue-run")).toBeEnabled();
+  await page.getByTestId("continue-run").click();
+
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("onboarding-hint-combat-energy")).toBeHidden();
+  await expect(page.getByTestId("onboarding-hint-combat-hand")).toBeVisible();
 });
 
 test("route map shows risk and reward previews before choosing nodes", async ({ page }) => {

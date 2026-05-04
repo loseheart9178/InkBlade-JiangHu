@@ -961,6 +961,72 @@ button {
   background: rgba(44, 41, 36, 0.86);
 }
 
+.onboarding-rail {
+  position: absolute;
+  right: 156px;
+  bottom: 330px;
+  left: 156px;
+  z-index: 6;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  min-height: 72px;
+  pointer-events: none;
+}
+
+.onboarding-hint {
+  position: relative;
+  display: grid;
+  width: min(196px, 16vw);
+  min-height: 68px;
+  align-content: start;
+  gap: 3px;
+  padding: 9px 28px 9px 10px;
+  border: 1px solid rgba(47, 124, 110, 0.48);
+  border-radius: 6px;
+  color: #2c2924;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.95), rgba(232, 242, 232, 0.88)),
+    rgba(246, 236, 213, 0.95);
+  box-shadow: 0 10px 24px rgba(17, 17, 17, 0.16);
+  pointer-events: auto;
+}
+
+.onboarding-hint strong {
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.onboarding-hint span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: rgba(44, 41, 36, 0.78);
+  font-size: 11px;
+  line-height: 1.24;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.onboarding-dismiss {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border: 1px solid rgba(44, 41, 36, 0.25);
+  border-radius: 50%;
+  color: #2c2924;
+  background: rgba(255, 252, 239, 0.72);
+  cursor: pointer;
+}
+
+.onboarding-dismiss:hover {
+  color: #f6ecd5;
+  background: #2c2924;
+}
+
 .spoils-summary {
   align-self: center;
   padding: 8px 14px;

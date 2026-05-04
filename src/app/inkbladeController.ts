@@ -47,6 +47,7 @@ import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile 
 import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
+import { createCombatOnboardingHints, dismissOnboardingHint, type CombatOnboardingHint } from "../game/systems/tutorial/onboarding";
 import {
   addRelic,
   advanceToNextChapter,
@@ -937,11 +938,65 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     endTurn
   );
 
-  panel.append(top, field, createMessage(state.message), createCombatLog(combat), hand, controls);
+  panel.append(top, field, createCombatOnboardingRail(state, combat, render, storage, audioFeedback), createMessage(state.message), createCombatLog(combat), hand, controls);
   host.append(panel);
   dispatchBattlefieldChange(run.chapterId);
 
   run.hp = combat.player.hp;
+}
+
+function createCombatOnboardingRail(
+  state: ControllerState,
+  combat: CombatState,
+  render: () => void,
+  storage: GameStorage | undefined,
+  audioFeedback: AudioFeedback
+): HTMLElement {
+  const rail = document.createElement("div");
+  rail.className = "onboarding-rail";
+  rail.dataset.testid = "onboarding-rail";
+
+  const hints = createCombatOnboardingHints(combat, state.settings.dismissedOnboardingHintIds);
+  for (const hint of hints) {
+    rail.append(createCombatOnboardingHint(hint, state, render, storage, audioFeedback));
+  }
+
+  return rail;
+}
+
+function createCombatOnboardingHint(
+  hint: CombatOnboardingHint,
+  state: ControllerState,
+  render: () => void,
+  storage: GameStorage | undefined,
+  audioFeedback: AudioFeedback
+): HTMLElement {
+  const element = document.createElement("article");
+  element.className = `onboarding-hint onboarding-hint--${hint.anchor}`;
+  element.dataset.testid = `onboarding-hint-${hint.id}`;
+  element.innerHTML = `
+    <strong>${escapeHtml(hint.title)}</strong>
+    <span>${escapeHtml(hint.body)}</span>
+  `;
+
+  const dismiss = document.createElement("button");
+  dismiss.type = "button";
+  dismiss.className = "onboarding-dismiss";
+  dismiss.dataset.testid = `onboarding-dismiss-${hint.id}`;
+  dismiss.setAttribute("aria-label", `关闭${hint.title}提示`);
+  dismiss.textContent = "×";
+  dismiss.addEventListener("click", () => {
+    state.settings = {
+      ...state.settings,
+      dismissedOnboardingHintIds: dismissOnboardingHint(state.settings.dismissedOnboardingHintIds, hint.id)
+    };
+    saveSettings(storage, state.settings);
+    audioFeedback.playUi();
+    render();
+  });
+
+  element.append(dismiss);
+  return element;
 }
 
 function dispatchBattlefieldChange(chapterId: RunState["chapterId"]): void {

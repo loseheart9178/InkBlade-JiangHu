@@ -1,5 +1,8 @@
 import { createInkbladeController } from "../src/app/inkbladeController";
 import { createAudioFeedback } from "../src/app/audioFeedback";
+import { cardList } from "../src/game/content/cards";
+import { charactersById } from "../src/game/content/characters";
+import { enemiesById } from "../src/game/content/enemies";
 import {
   DEFAULT_DESKTOP_SETTINGS,
   SETTINGS_STORAGE_KEY,
@@ -7,6 +10,11 @@ import {
   saveSettings,
   type DesktopSettings
 } from "../src/app/settingsPersistence";
+import { createCombat } from "../src/game/systems/combat/combat";
+import {
+  COMBAT_ONBOARDING_HINT_IDS,
+  createCombatOnboardingHints
+} from "../src/game/systems/tutorial/onboarding";
 import type { GameStorage } from "../src/game/systems/save/save";
 
 class MemoryStorage implements GameStorage {
@@ -33,7 +41,8 @@ describe("desktop settings persistence", () => {
       fastCombatText: true,
       muted: true,
       masterVolume: 24,
-      musicVolume: 0
+      musicVolume: 0,
+      dismissedOnboardingHintIds: ["combat-energy", "combat-hand"]
     };
 
     saveSettings(storage, settings);
@@ -63,8 +72,44 @@ describe("desktop settings persistence", () => {
       fastCombatText: true,
       muted: false,
       masterVolume: 100,
-      musicVolume: 0
+      musicVolume: 0,
+      dismissedOnboardingHintIds: []
     });
+  });
+
+  it("normalizes onboarding hint dismissal ids with the rest of desktop settings", () => {
+    const storage = new MemoryStorage();
+
+    storage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({
+      version: 1,
+      settings: {
+        reducedMotion: false,
+        fastCombatText: false,
+        muted: false,
+        masterVolume: 80,
+        musicVolume: 70,
+        dismissedOnboardingHintIds: ["combat-energy", "missing-hint", "combat-energy", "combat-end-turn"]
+      }
+    }));
+
+    expect(loadSettings(storage).dismissedOnboardingHintIds).toEqual(["combat-energy", "combat-end-turn"]);
+  });
+
+  it("selects contextual first-combat onboarding hints and excludes dismissed hints", () => {
+    const combat = createCombat({
+      character: charactersById.zhaoyun,
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 22,
+      relicIds: [],
+      shuffleDeck: false
+    });
+
+    const allHints = createCombatOnboardingHints(combat, []);
+    expect(allHints.map((hint) => hint.id)).toEqual(COMBAT_ONBOARDING_HINT_IDS);
+
+    const filtered = createCombatOnboardingHints(combat, ["combat-energy", "combat-end-turn"]);
+    expect(filtered.map((hint) => hint.id)).toEqual(["combat-hand", "combat-intent", "combat-block"]);
   });
 
   it("exposes a no-op safe procedural audio surface in jsdom", () => {
@@ -89,7 +134,8 @@ describe("settings shell wiring", () => {
       fastCombatText: true,
       muted: false,
       masterVolume: 33,
-      musicVolume: 44
+      musicVolume: 44,
+      dismissedOnboardingHintIds: []
     });
     const host = document.createElement("div");
     host.innerHTML = `<section class="title-screen"><div class="title-actions"></div></section>`;
@@ -128,7 +174,49 @@ describe("settings shell wiring", () => {
       fastCombatText: true,
       muted: true,
       masterVolume: 12,
-      musicVolume: 21
+      musicVolume: 21,
+      dismissedOnboardingHintIds: []
     });
+  });
+
+  it("persists dismissed combat onboarding hints across controller reloads", () => {
+    const storage = new MemoryStorage();
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage });
+
+    controller.startRun("zhaoyun");
+    host.querySelector<HTMLButtonElement>("[data-testid='map-node-battle-1']")?.click();
+
+    expect(host.querySelector("[data-testid='onboarding-hint-combat-energy']")).not.toBeNull();
+    expect(host.querySelector("[data-testid='onboarding-hint-combat-hand']")).not.toBeNull();
+
+    host.querySelector<HTMLButtonElement>("[data-testid='onboarding-dismiss-combat-energy']")?.click();
+
+    expect(loadSettings(storage).dismissedOnboardingHintIds).toEqual(["combat-energy"]);
+    expect(host.querySelector("[data-testid='onboarding-hint-combat-energy']")).toBeNull();
+    expect(host.querySelector("[data-testid='onboarding-hint-combat-hand']")).not.toBeNull();
+
+    const continuedHost = document.createElement("div");
+    const continued = createInkbladeController(continuedHost, { storage });
+    expect(continued.continueRun()).toBe(true);
+
+    expect(continuedHost.querySelector("[data-testid='onboarding-hint-combat-energy']")).toBeNull();
+    expect(continuedHost.querySelector("[data-testid='onboarding-hint-combat-hand']")).not.toBeNull();
+  });
+
+  it("does not mark onboarding complete when debug skip advances the route", () => {
+    const storage = new MemoryStorage();
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage });
+
+    controller.startRun("zhaoyun");
+    host.querySelector<HTMLButtonElement>("[data-testid='debug-skip-chapter']")?.click();
+
+    expect(loadSettings(storage).dismissedOnboardingHintIds).toEqual([]);
+
+    host.querySelector<HTMLButtonElement>("[data-testid='map-node-battle-1']")?.click();
+
+    expect(host.querySelector("[data-testid='onboarding-hint-combat-energy']")).not.toBeNull();
+    expect(host.querySelector("[data-testid='onboarding-hint-combat-end-turn']")).not.toBeNull();
   });
 });

@@ -1,4 +1,5 @@
 import type { GameStorage } from "../game/systems/save/save";
+import { normalizeOnboardingHintIds, type CombatOnboardingHintId } from "../game/systems/tutorial/onboarding";
 
 export const SETTINGS_STORAGE_KEY = "inkblade-jianghu:desktop-settings:v1";
 export const SETTINGS_SCHEMA_VERSION = 1;
@@ -9,6 +10,7 @@ export interface DesktopSettings {
   muted: boolean;
   masterVolume: number;
   musicVolume: number;
+  dismissedOnboardingHintIds: CombatOnboardingHintId[];
 }
 
 interface SettingsEnvelope {
@@ -22,7 +24,8 @@ export const DEFAULT_DESKTOP_SETTINGS: DesktopSettings = {
   fastCombatText: false,
   muted: false,
   masterVolume: 80,
-  musicVolume: 70
+  musicVolume: 70,
+  dismissedOnboardingHintIds: []
 };
 
 export function loadSettings(storage: GameStorage | undefined): DesktopSettings {
@@ -71,7 +74,8 @@ export function normalizeSettings(value: unknown): DesktopSettings {
     fastCombatText: typeof candidate.fastCombatText === "boolean" ? candidate.fastCombatText : DEFAULT_DESKTOP_SETTINGS.fastCombatText,
     muted: typeof candidate.muted === "boolean" ? candidate.muted : DEFAULT_DESKTOP_SETTINGS.muted,
     masterVolume: normalizeVolume(candidate.masterVolume, DEFAULT_DESKTOP_SETTINGS.masterVolume),
-    musicVolume: normalizeVolume(candidate.musicVolume, DEFAULT_DESKTOP_SETTINGS.musicVolume)
+    musicVolume: normalizeVolume(candidate.musicVolume, DEFAULT_DESKTOP_SETTINGS.musicVolume),
+    dismissedOnboardingHintIds: normalizeOnboardingHintIds(candidate.dismissedOnboardingHintIds)
   };
 }
 

@@ -2,6 +2,93 @@
 
 ## Status Log
 
+### 2026-05-04 17:32 Asia/Shanghai
+
+Wave 7 Task 7.3 First-Run Onboarding started in `.worktrees/wave7-onboarding` on branch `codex/wave7-onboarding`.
+
+Re-read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Scope:
+
+- Implement compact first-combat onboarding hints for energy, hand cards, enemy intent, block/armor, and end turn.
+- Keep tutorial eligibility and dismissal state in pure TypeScript systems and settings persistence; keep Phaser renderer untouched.
+- Preserve debug skip as a route acceleration tool that does not complete or dismiss onboarding.
+
+What changed:
+
+- Added pure `src/game/systems/tutorial/onboarding.ts` hint definitions and dismissal normalization.
+- Extended desktop settings with `dismissedOnboardingHintIds`, including normalization of duplicates and unknown ids.
+- Rendered a compact, dismissible combat onboarding rail for first-combat energy, hand cards, enemy intent, block/armor, and end-turn concepts.
+- Persisted dismissed hints through settings storage so reloading and continuing a combat keeps dismissed hints hidden.
+- Added jsdom and Playwright coverage proving debug skip does not mark onboarding complete.
+
+Decisions:
+
+- The block/armor hint appears during the first player combat even when the opening hand lacks a block card, because the first-combat acceptance criterion is teaching the concept rather than only reacting to current hand contents.
+- The onboarding rail is non-blocking: cards and end-turn remain usable, and each hint can be dismissed independently.
+- A stale Windows Vite process on port 5173 was killed during browser verification because Playwright's `reuseExistingServer` had reused old integration-branch code.
+
+TDD failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe D:/InkBlade-JiangHu/.worktrees/wave6-integration/node_modules/vitest/vitest.mjs run tests/app-settings.test.ts
+RED result: failed as expected before implementation. `../src/game/systems/tutorial/onboarding` did not exist.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/app-settings.test.ts tests/save/save-system.test.ts
+RED result: failed because the pure block hint was too conditional for the first-combat teaching contract.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "first combat onboarding|debug skip"
+RED result: first attempt hit an old Vite server on port 5173, so the page did not include onboarding code.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/app-settings.test.ts tests/save/save-system.test.ts
+Result: passed, 2 files / 15 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "first combat onboarding|debug skip"
+Result: passed, 2 Chromium tests.
+
+Desktop layout probe at 1440x1000:
+Result: 5 onboarding hints rendered, no hint text overflow, no rail overlap with hand cards, combat controls, or combat message.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known non-blocking Phaser lazy chunk warning.
+```
+
+Known gaps / risks:
+
+- First-combat hints are currently universal and settings-dismissed, not profile-gated by character or account progress.
+- The rail uses concise copy and fixed desktop positioning; mobile remains intentionally out of scope.
+
+Next step:
+
+- Commit onboarding, then integrate it into `codex/wave7-demo-hardening` and run the full Wave 7 gate.
+
 ### 2026-05-04 16:44 Asia/Shanghai
 
 Wave 7 Task 7.1 Save And Profile Hardening completed in `.worktrees/wave7-save-hardening` on branch `codex/wave7-save-hardening`.
