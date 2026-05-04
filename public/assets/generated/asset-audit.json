@@ -1111,9 +1111,9 @@
   ],
   "promptQueue": {
     "assetPath": "/assets/generated/gpt2-prompt-queue.json",
-    "targetCount": 35,
+    "targetCount": 54,
     "categories": {
-      "card-face": 12,
+      "card-face": 31,
       "existing ink-pass debt": 10,
       "Cai Wenji": 5,
       "Zhuge Liang": 5,
@@ -1121,7 +1121,7 @@
       "final battlefield": 1
     },
     "types": {
-      "card-face": 18,
+      "card-face": 37,
       "standee": 7,
       "combat-sprite-strip": 9,
       "battlefield": 1

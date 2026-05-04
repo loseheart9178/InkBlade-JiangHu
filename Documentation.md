@@ -2,6 +2,76 @@
 
 ## Status Log
 
+### 2026-05-04 11:30 Asia/Shanghai
+
+Wave 6 / Milestone 58 CardArtQueue rescue completed in `.worktrees/wave6-card-art-queue-rescue` on branch `codex/wave6-card-art-queue-rescue`.
+
+Re-read before queue/audit work:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/art/gpt2-priority-queue.md`
+- `skills/inkblade-art-asset-pipeline/SKILL.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Scope guard:
+
+- Queue/audit only. No gameplay rules, renderer code, card data, or visual manifest bindings were changed.
+- Do not fake missing generated art or hide fallback debt by binding shared fallback images to specific card ids.
+
+Asset inspection:
+
+- Checked `public/assets/generated/cards/` and `public/assets/generated/sources/`.
+- Existing GPT Image 2 card crops are the older priority card pass, including Zhao/Diao/Cai/Zhuge signature cards and common cleanse/status cards.
+- No generated source sheet or runtime crop exists locally for the Wave 6 starter readability ids: `zhao_guard`, `zhao_strike`, `zhao_longdan`, `diao_strike`, `diao_guard`, `diao_lingbo`, `cai_plain_strike`, `cai_pluck_string`, `cai_gong_tone`, `zhuge_fan_strike`, `zhuge_guard`.
+- No generated source sheet or runtime crop exists locally for the common foundation ids: `common_pifeng`, `common_duanzhu`, `common_gedang`, `common_xieli`, `common_tuna`, `common_qingshen`, `common_feishi`, `common_zhuiying`.
+
+What changed:
+
+- Kept `src/game/content/visuals.ts` unchanged because there are no real starter/common runtime assets to bind.
+- Refreshed `public/assets/generated/gpt2-prompt-queue.json` with 19 executable deferred card-face targets for the starter readability and common foundation batches.
+- Updated `docs/art/gpt2-priority-queue.md` to state that Milestone 58 is deferred art backlog, not generated output.
+- Refreshed the generated asset audit ledger after the queue update.
+
+Decision:
+
+- Resolve Milestone 58 as deferred rather than complete. Runtime missing generated assets remain blocking, but card fallback debt remains a non-blocking GPT Image 2 backlog until real source sheets/crops are generated.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 55, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts
+Result: passed. 1 test file passed, 25 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed. TypeScript completed with no errors.
+```
+
+Known gaps / risks:
+
+- Card fallback debt remains until a future GPT Image 2 generation pass creates real card-face crops and binds them through `src/game/content/visuals.ts`.
+- The prompt queue contains future destinations that intentionally do not exist yet; the audit only treats runtime manifest references as blocking.
+
+Next step:
+
+- A future art generation worker can execute the refreshed starter/common queue, preserve source sheets, crop runtime files, bind `cardArtList` entries, and rerun the same audit/content verification.
+
 ### 2026-05-04 11:28 Asia/Shanghai
 
 Wave 6 / Milestone 59 Final Choice And Character Epilogue rescue in `.worktrees/wave6-final-choice-rescue` on branch `codex/wave6-final-choice-rescue`.

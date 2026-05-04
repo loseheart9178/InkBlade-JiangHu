@@ -18,6 +18,13 @@ Current baseline after Wave 5:
 - Prompt queue targets: 35
 - Non-blocking card fallback debt: 56
 
+Wave 6 CardArtQueue rescue status on 2026-05-04:
+
+- No generated source sheet or runtime crop exists in this worktree for the starter readability or common foundation card-art batches.
+- Milestone 58 is deferred as art backlog rather than hidden by binding fallback files to card ids.
+- The executable JSON queue now keeps the 35 historical targets and adds 19 deferred card-face targets for starter/common card ids, for 54 total prompt targets.
+- `cardFallbackDebt` remains intentionally non-blocking until real GPT Image 2 runtime crops are generated and bound through `src/game/content/visuals.ts`.
+
 The executable queue is stored at:
 
 ```text
