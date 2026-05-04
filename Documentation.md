@@ -4080,3 +4080,46 @@ Known gaps / risks:
 Next step:
 
 - Commit this bugfix branch, then later regenerate bespoke first-chapter elite standees/attack strips to replace the temporary clean stand-ins.
+
+## 2026-05-04 Wave 7 autonomous demo hardening plan
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+
+What changed:
+
+- Created `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md` from the verified Wave 6 bugfix baseline.
+- Scoped Wave 7 around save/profile hardening, map route previews, first-run combat onboarding, deterministic balance evidence, and alpha acceptance/art-debt documentation refresh.
+- Defined isolated worktrees and ownership boundaries for each task, with route preview intentionally integrated before onboarding because both touch controller/style/e2e surfaces.
+
+Decisions:
+
+- Use `.worktrees/wave6-integration` commit `18f47f9` as the clean baseline instead of the dirty root worktree.
+- Keep desktop browser as the only platform target for Wave 7.
+- Treat card fallback debt and temporary first-chapter elite stand-ins as non-blocking Wave 8 art backlog unless new generated source assets become available.
+
+Verification:
+
+- `git diff --check`
+- Result: passed for the documentation-only planning change.
+
+Next step:
+
+- Commit the plan branch, then create independent Wave 7 worktrees and dispatch available subagents for save hardening, balance report, and docs refresh while route preview proceeds on the local critical path.
