@@ -81,6 +81,7 @@ interface ControllerState {
   combat?: CombatState;
   rewardCards: CardDefinition[];
   pendingSpoils?: BattleSpoils;
+  logbookReturnScreen?: Screen;
   deckOpen: boolean;
   settings: DesktopSettings;
   profile: PlayerProfile;
@@ -1183,8 +1184,9 @@ function renderLogbook(host: HTMLElement, state: ControllerState, render: () => 
     list.append(item);
   }
 
-  const back = createAction("返回地图", "收起墨录，继续行旅。", () => {
-    state.screen = "map";
+  const back = createAction("返回上一步", "收起墨录，继续行旅。", () => {
+    state.screen = state.logbookReturnScreen ?? "map";
+    state.logbookReturnScreen = undefined;
     render();
   });
   back.dataset.testid = "logbook-back";
@@ -1720,6 +1722,7 @@ function openDeck(state: ControllerState, render: () => void): void {
 
 function openLogbook(state: ControllerState, render: () => void): void {
   state.deckOpen = false;
+  state.logbookReturnScreen = state.screen;
   state.screen = "logbook";
   render();
 }
