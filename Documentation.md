@@ -4633,3 +4633,59 @@ Known gaps / risks:
 Next step:
 
 - Commit the completed bugfix branch.
+
+## 2026-05-04 Wave 8 content and release planning
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+
+What changed:
+
+- Created `docs/superpowers/plans/2026-05-04-wave8-content-release.md` as the next autonomous implementation plan.
+- Selected four parallel-safe Wave 8 work streams:
+  - All-character method/relic growth for Cai Wenji and Zhuge Liang.
+  - Event depth and role-specific event coverage for all four MVP heroes.
+  - Multi-seed deterministic balance report aggregation.
+  - Desktop playtest and release handoff documentation.
+- Kept bespoke art regeneration as documented debt rather than a runtime branch, because no clean generated source strips are currently available for first-chapter stand-ins.
+
+Decisions:
+
+- User granted autonomous planning/implementation authority, so this plan proceeds without a separate approval stop.
+- Runtime workers will use isolated worktrees from `codex/wave8-content-release-plan`.
+- Completed agents should be closed after their branch is reviewed and either integrated or deferred.
+
+Verification:
+
+```text
+Plan self-review: searched for TODO/TBD/placeholder language and removed conditional ambiguity from the event and balance tasks.
+```
+
+Known gaps / risks:
+
+- `Documentation.md` conflicts are expected during worktree integration because every branch records progress there.
+- Release docs should be integrated last if runtime test counts change in other branches.
+
+Next step:
+
+- Commit the Wave 8 plan, create worktrees, and dispatch independent subagents.
