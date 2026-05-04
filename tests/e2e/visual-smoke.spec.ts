@@ -88,13 +88,44 @@ test("captures a non-Luoshui chapter battlefield context", async ({ page }, test
   await capturePlaytestScreenshot(page, testInfo, "combat-bamboo-battlefield-desktop.png");
 });
 
-async function startDesktopCombat(page: Page, characterId: (typeof combatSmokeCharacters)[number]["id"]): Promise<void> {
+test("first chapter stand-in elites attack without swapping to the generic slash sprite", async ({ page }) => {
+  test.setTimeout(80_000);
+  await page.addInitScript(() => {
+    Date.now = () => 2_000;
+  });
+
+  await startDesktopRun(page, "zhaoyun");
+  await page.getByTestId("map-node-battle-1").click();
+  await winVisibleCombat(page);
+  await page.getByTestId("reward-card").first().click();
+  await page.getByTestId("map-node-shop-1").click();
+  await page.getByTestId("shop-leave").click();
+  await page.getByTestId("map-node-elite-1").click();
+
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("enemy-hp")).toContainText(/剑痴残影|血旗残兵/);
+  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-(bamboo-soldier|scribe-officer)-standee-cutout\.png$/);
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
+
+  await page.getByTestId("end-turn").click();
+
+  await expect(page.locator(".combat-standee--enemy")).toHaveClass(/is-attacking/);
+  await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-(bamboo-soldier|scribe-officer)-standee-cutout\.png$/);
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
+});
+
+async function startDesktopRun(page: Page, characterId: (typeof combatSmokeCharacters)[number]["id"]): Promise<void> {
   await page.goto("/");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
   await expect(page.getByTestId("screen-title")).toBeVisible();
   await page.getByTestId(`character-${characterId}`).click();
   await page.getByTestId("start-run").click();
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+}
+
+async function startDesktopCombat(page: Page, characterId: (typeof combatSmokeCharacters)[number]["id"]): Promise<void> {
+  await startDesktopRun(page, characterId);
   await page.getByTestId("map-node-battle-1").click();
   await expect(page.getByTestId("screen-combat")).toBeVisible();
 }
@@ -168,6 +199,21 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   const firstCard = await page.locator(".combat-card").first().boundingBox();
   const heading = await page.getByTestId("screen-combat").locator("h2").boundingBox();
   const intent = await page.getByTestId("intent").boundingBox();
+  const topbar = await page.locator(".combat-topbar").boundingBox();
+  const message = await page.getByTestId("screen-combat").locator(".game-message").boundingBox();
+  const combatLog = await page.getByTestId("combat-log").boundingBox();
+  const controls = await page.locator(".combat-controls").boundingBox();
+  const cardRects = await page.locator(".combat-card").evaluateAll((cards) =>
+    cards.map((card) => {
+      const rect = card.getBoundingClientRect();
+      return {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height
+      };
+    })
+  );
 
   expect(playerStandee).not.toBeNull();
   expect(enemyStandee).not.toBeNull();
@@ -176,11 +222,25 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   expect(firstCard).not.toBeNull();
   expect(heading).not.toBeNull();
   expect(intent).not.toBeNull();
+  expect(topbar).not.toBeNull();
+  expect(message).not.toBeNull();
+  expect(combatLog).not.toBeNull();
+  expect(controls).not.toBeNull();
+  expect(cardRects.length).toBeGreaterThan(0);
 
   expect(playerStandee!.y + playerStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(enemyStandee!.y + enemyStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(firstCard!.x - (energy!.x + energy!.width)).toBeGreaterThanOrEqual(28);
   expect(rectsOverlap(heading!, intent!)).toBe(false);
+
+  const expectedCardHeight = Math.round(cardRects[0].height);
+  for (const cardRect of cardRects) {
+    expect(Math.abs(Math.round(cardRect.height) - expectedCardHeight)).toBeLessThanOrEqual(1);
+    expect(rectsOverlap(cardRect, topbar!)).toBe(false);
+    expect(rectsOverlap(cardRect, message!)).toBe(false);
+    expect(rectsOverlap(cardRect, combatLog!)).toBe(false);
+    expect(rectsOverlap(cardRect, controls!)).toBe(false);
+  }
 }
 
 function rectsOverlap(

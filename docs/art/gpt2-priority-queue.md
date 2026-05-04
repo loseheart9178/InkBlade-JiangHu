@@ -91,8 +91,9 @@ The Wave 6 observed-bugfix branch quarantined known annotated/marked generated o
 
 | Enemy | Current standee binding | Current attack binding | Regeneration target |
 |---|---|---|---|
-| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | `/assets/sprites/enemy-slash-strip.svg` clean generic strip | Generate clean Sword Echo standee and four-frame attack strip, then bind semantic paths only after audit passes |
-| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | `/assets/sprites/enemy-slash-strip.svg` clean generic strip | Generate clean Blood Banner standee and four-frame attack strip, then bind semantic paths only after audit passes |
+| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | Standee-only lunge; no combat sprite binding | Generate clean Sword Echo standee and four-frame attack strip, then bind semantic paths only after audit passes |
+| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | Standee-only lunge; no combat sprite binding | Generate clean Blood Banner standee and four-frame attack strip, then bind semantic paths only after audit passes |
+| `boss_ink_dongzhuo` / 墨影董卓 | `/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png` vetted boss standee | Standee-only lunge; no combat sprite binding | Generate clean Dong Zhuo boss four-frame attack strip, then bind semantic path only after audit passes |
 
 Do not rebind the quarantined annotated paths without regenerated clean sources:
 
@@ -102,7 +103,7 @@ Do not rebind the quarantined annotated paths without regenerated clean sources:
 - `/assets/sprites/blood-banner-attack-strip-gpt-v2.png`
 - `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png`
 
-The Dong Zhuo boss attack strip also uses the clean generic slash strip until a clean regenerated boss attack strip exists; the explicit Wave 8 priority is still the first-chapter elite bespoke replacement.
+Do not use `/assets/sprites/enemy-slash-strip.svg` as a runtime combatant sprite for these stand-ins. User playtest feedback showed the generic silhouette reads as a different enemy during attacks, so these enemies should keep standee-only attack feedback until bespoke clean strips exist.
 
 ## Priority Targets
 

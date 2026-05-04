@@ -442,12 +442,18 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.ink_bandit_attack.assetPath).toBe("/assets/sprites/ink-bandit-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.paper_umbrella_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.paper_umbrella_attack.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
-    expect(combatSpriteSheetsById.sword_echo_attack.frameCount).toBe(4);
-    expect(combatSpriteSheetsById.sword_echo_attack.assetPath).toBe("/assets/sprites/enemy-slash-strip.svg");
-    expect(combatSpriteSheetsById.blood_banner_attack.frameCount).toBe(4);
-    expect(combatSpriteSheetsById.blood_banner_attack.assetPath).toBe("/assets/sprites/enemy-slash-strip.svg");
-    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.frameCount).toBe(4);
-    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.assetPath).toBe("/assets/sprites/enemy-slash-strip.svg");
+  });
+
+  it("does not bind first chapter stand-in enemies to the generic slash attack strip", () => {
+    const genericSlashBindings = visuals.combatSpriteSheetList
+      .filter((sheet) => sheet.assetPath === "/assets/sprites/enemy-slash-strip.svg")
+      .map((sheet) => sheet.id);
+
+    expect(genericSlashBindings).toEqual([]);
+    expect(visuals.getCombatAttackSprite("elite_sword_echo")).toBeUndefined();
+    expect(visuals.getCombatAttackSprite("elite_blood_banner")).toBeUndefined();
+    expect(visuals.getCombatAttackSprite("boss_ink_dongzhuo")).toBeUndefined();
+    expect(visuals.getCombatAttackSprite("enemy_paper_umbrella")?.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
   });
 
   it("maps every chapter to a dedicated battlefield asset", () => {

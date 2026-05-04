@@ -12,7 +12,7 @@ import {
   type GlossaryEntry
 } from "../game/content/glossary";
 import { relicsById } from "../game/content/relics";
-import { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsById, signatureVfxByCue } from "../game/content/visuals";
+import { battlefieldAssets, cardArtById, combatPortraitsById, getCombatAttackSprite, signatureVfxByCue } from "../game/content/visuals";
 import {
   clearSavedGame,
   hasSavedGame,
@@ -834,8 +834,8 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const latestDamageTarget = getLatestDamageTarget(combat);
   const playerIsAttacking = latestDamageTarget === "enemy";
   const enemyIsAttacking = latestDamageTarget === "player";
-  const playerSprite = playerIsAttacking ? getCombatSprite(combat.player.characterId) : undefined;
-  const enemySprite = enemyIsAttacking ? getCombatSprite(enemy.definitionId) : undefined;
+  const playerSprite = playerIsAttacking ? getCombatAttackSprite(combat.player.characterId) : undefined;
+  const enemySprite = enemyIsAttacking ? getCombatAttackSprite(enemy.definitionId) : undefined;
   const comboTrail = createComboTrailMetadata(combat);
   const panel = createPanel("screen-combat", "回合 " + combat.turn);
   panel.classList.add("combat-screen");
@@ -2225,82 +2225,6 @@ function getCombatPortrait(id: string) {
 
 function getStandeePath(portrait: ReturnType<typeof getCombatPortrait>): string {
   return portrait.standeePath ?? portrait.assetPath;
-}
-
-function getCombatSprite(id: string) {
-  if (id === "zhaoyun") {
-    return combatSpriteSheetsById.zhaoyun_attack;
-  }
-
-  if (id === "diaochan") {
-    return combatSpriteSheetsById.diaochan_attack;
-  }
-
-  if (id === "caiwenji") {
-    return combatSpriteSheetsById.caiwenji_attack;
-  }
-
-  if (id === "zhugeliang") {
-    return combatSpriteSheetsById.zhugeliang_attack;
-  }
-
-  if (id === "enemy_paper_umbrella") {
-    return combatSpriteSheetsById.paper_umbrella_attack;
-  }
-
-  if (id === "elite_sword_echo") {
-    return combatSpriteSheetsById.sword_echo_attack;
-  }
-
-  if (id === "elite_blood_banner") {
-    return combatSpriteSheetsById.blood_banner_attack;
-  }
-
-  if (id === "boss_ink_dongzhuo") {
-    return combatSpriteSheetsById.ink_dongzhuo_boss_attack;
-  }
-
-  if (id === "enemy_bamboo_wraith") {
-    return combatSpriteSheetsById.bamboo_wraith_attack;
-  }
-
-  if (id === "elite_qin_score") {
-    return combatSpriteSheetsById.qin_score_attack;
-  }
-
-  if (id === "enemy_broken_scholar") {
-    return combatSpriteSheetsById.broken_scholar_attack;
-  }
-
-  if (id === "enemy_bamboo_soldier") {
-    return combatSpriteSheetsById.bamboo_soldier_attack;
-  }
-
-  if (id === "elite_bamboo_phalanx") {
-    return combatSpriteSheetsById.bamboo_phalanx_attack;
-  }
-
-  if (id === "boss_qin_demon_echo") {
-    return combatSpriteSheetsById.qin_demon_attack;
-  }
-
-  if (id === "elite_lubu_shadow") {
-    return combatSpriteSheetsById.lubu_shadow_attack;
-  }
-
-  if (id === "enemy_history_scribe" || id === "enemy_ink_market_guard" || id === "enemy_nameless_citizen" || id === "elite_memory_stela") {
-    return combatSpriteSheetsById.history_scribe_attack;
-  }
-
-  if (id === "boss_scribe_officer") {
-    return combatSpriteSheetsById.scribe_officer_attack;
-  }
-
-  if (id === "boss_nameless_historian") {
-    return combatSpriteSheetsById.nameless_historian_attack;
-  }
-
-  return combatSpriteSheetsById.ink_bandit_attack;
 }
 
 function createCardArtMarkup(card: CardDefinition): string {

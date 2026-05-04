@@ -500,30 +500,6 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
     anchor: "bottom-center"
   },
   {
-    id: "sword_echo_attack",
-    assetPath: "/assets/sprites/enemy-slash-strip.svg",
-    frameCount: 4,
-    frameWidth: 256,
-    frameHeight: 256,
-    anchor: "bottom-center"
-  },
-  {
-    id: "blood_banner_attack",
-    assetPath: "/assets/sprites/enemy-slash-strip.svg",
-    frameCount: 4,
-    frameWidth: 256,
-    frameHeight: 256,
-    anchor: "bottom-center"
-  },
-  {
-    id: "ink_dongzhuo_boss_attack",
-    assetPath: "/assets/sprites/enemy-slash-strip.svg",
-    frameCount: 4,
-    frameWidth: 256,
-    frameHeight: 256,
-    anchor: "bottom-center"
-  },
-  {
     id: "bamboo_wraith_attack",
     assetPath: "/assets/sprites/bamboo-wraith-attack-strip-gpt2.png",
     frameCount: 4,
@@ -608,6 +584,42 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
 export const combatSpriteSheetsById: Record<string, CombatSpriteSheetDefinition> = Object.fromEntries(
   combatSpriteSheetList.map((sheet) => [sheet.id, sheet])
 );
+
+const standeeOnlyAttackCombatantIds = new Set([
+  "elite_sword_echo",
+  "elite_blood_banner",
+  "boss_ink_dongzhuo"
+]);
+
+const combatAttackSpriteSheetIdsByCombatantId: Record<string, string> = {
+  zhaoyun: "zhaoyun_attack",
+  diaochan: "diaochan_attack",
+  caiwenji: "caiwenji_attack",
+  zhugeliang: "zhugeliang_attack",
+  enemy_paper_umbrella: "paper_umbrella_attack",
+  enemy_bamboo_wraith: "bamboo_wraith_attack",
+  elite_qin_score: "qin_score_attack",
+  enemy_broken_scholar: "broken_scholar_attack",
+  enemy_bamboo_soldier: "bamboo_soldier_attack",
+  elite_bamboo_phalanx: "bamboo_phalanx_attack",
+  boss_qin_demon_echo: "qin_demon_attack",
+  elite_lubu_shadow: "lubu_shadow_attack",
+  enemy_history_scribe: "history_scribe_attack",
+  enemy_ink_market_guard: "history_scribe_attack",
+  enemy_nameless_citizen: "history_scribe_attack",
+  elite_memory_stela: "history_scribe_attack",
+  boss_scribe_officer: "scribe_officer_attack",
+  boss_nameless_historian: "nameless_historian_attack"
+};
+
+export function getCombatAttackSprite(id: string): CombatSpriteSheetDefinition | undefined {
+  if (standeeOnlyAttackCombatantIds.has(id)) {
+    return undefined;
+  }
+
+  const sheetId = combatAttackSpriteSheetIdsByCombatantId[id] ?? "ink_bandit_attack";
+  return combatSpriteSheetsById[sheetId];
+}
 
 export const battlefieldAssets: Record<string, BattlefieldAssetDefinition> = {
   luoshui: {

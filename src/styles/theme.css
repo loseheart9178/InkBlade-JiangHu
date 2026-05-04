@@ -923,7 +923,7 @@ button {
 .combat-screen > .game-message {
   position: absolute;
   right: 50%;
-  bottom: 258px;
+  bottom: 286px;
   z-index: 4;
   color: #f6ecd5;
   background: rgba(17, 17, 17, 0.7);
@@ -935,7 +935,7 @@ button {
 .combat-log {
   position: absolute;
   right: 50%;
-  bottom: 224px;
+  bottom: 246px;
   z-index: 4;
   display: flex;
   justify-content: center;
@@ -1045,9 +1045,9 @@ button {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 12px;
-  min-height: 216px;
-  padding: 0 270px 18px;
+  gap: 10px;
+  min-height: 224px;
+  padding: 0 270px 14px;
 }
 
 .energy-orb {
@@ -1072,11 +1072,12 @@ button {
 .combat-card {
   position: relative;
   display: grid;
-  grid-template-rows: 66px auto auto auto auto 1fr;
-  gap: 4px;
+  grid-template-rows: 58px 18px 20px 14px 34px minmax(28px, 1fr);
+  gap: 3px;
   width: clamp(120px, 10vw, 150px);
-  min-height: 198px;
-  padding: 10px 9px 12px;
+  height: 210px;
+  min-height: 0;
+  padding: 9px 9px 10px;
   border: 2px solid rgba(44, 41, 36, 0.58);
   border-radius: 7px;
   color: #2c2924;
@@ -1091,7 +1092,7 @@ button {
 
 .card-art {
   display: block;
-  height: 66px;
+  height: 100%;
   padding: 3px;
   overflow: hidden;
   border: 1px solid rgba(44, 41, 36, 0.32);
@@ -1131,7 +1132,9 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 18px;
+  height: 18px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .card-type-badge,
@@ -1168,16 +1171,24 @@ button {
 }
 
 .card-type-line {
+  display: block;
+  min-height: 14px;
+  overflow: hidden;
   color: #b7352a;
+  font-size: 11px;
+  line-height: 14px;
   text-align: center;
 }
 
 .card-keyword-row {
   display: flex;
+  align-content: flex-start;
   justify-content: center;
   gap: 4px;
-  min-height: 17px;
+  min-height: 34px;
+  max-height: 34px;
   flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .card-keyword-row i {
@@ -1217,11 +1228,11 @@ button {
 }
 
 .combat-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
 .combat-card:not(:disabled):active {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-3px) scale(1.01);
   filter: drop-shadow(0 0 14px rgba(183, 53, 42, 0.24));
 }
 
@@ -1240,28 +1251,49 @@ button {
 
 .card-cost {
   position: absolute;
-  top: -12px;
-  left: -10px;
+  top: -7px;
+  left: -8px;
   display: grid;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   place-items: center;
   border-radius: 50%;
   color: #f6ecd5;
   background: #2c2924;
+  font-size: 14px;
 }
 
-.combat-card strong,
+.combat-card strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 1.1;
+  text-align: center;
+}
+
 .reward-card strong,
 .choice-action strong {
   font-size: 17px;
   text-align: center;
 }
 
-.combat-card .card-description,
 .reward-card .card-description,
 .deck-card .card-description,
 .choice-action span {
+  font-size: 11px;
+  line-height: 1.26;
+  text-align: center;
+}
+
+.combat-card .card-description {
+  display: -webkit-box;
+  min-height: 28px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   font-size: 11px;
   line-height: 1.26;
   text-align: center;

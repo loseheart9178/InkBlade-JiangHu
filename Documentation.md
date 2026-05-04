@@ -4549,3 +4549,87 @@ Known gaps / risks:
 Next step:
 
 - Commit route preview, then integrate it after save hardening, balance report, and alpha docs refresh on the Wave 7 integration branch.
+
+## 2026-05-04 Observed bugfixes 2
+
+Docs and report read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `/mnt/c/Users/loseheart/Documents/Obsidian Vault/云水江湖开发待修bug2.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+
+What changed:
+
+- Added `docs/superpowers/plans/2026-05-04-observed-bugfixes-2.md` for the focused user playtest bugfix plan.
+- Updated `docs/art/gpt2-priority-queue.md` so first-chapter elite/boss regeneration debt no longer describes the generic slash strip as an acceptable runtime binding.
+- Removed the generic `/assets/sprites/enemy-slash-strip.svg` runtime bindings from first-chapter stand-in enemies.
+- Moved combat attack sprite selection into `src/game/content/visuals.ts` via `getCombatAttackSprite`, so render code adapts a tested content decision instead of owning enemy-specific fallback rules.
+- Kept `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` on standee-only attack feedback until clean bespoke attack strips exist.
+- Stabilized combat hand card layout with fixed card height, bounded keyword/description rows, smaller cost protrusion, and raised combat message/log spacing so hand cards no longer overlap HUD elements.
+- Expanded Playwright desktop combat layout checks to assert equal card heights and no overlap with topbar, message, combat log, or controls.
+
+TDD and failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts -t "generic slash"
+RED result: failed because sword_echo_attack, blood_banner_attack, and ink_dongzhuo_boss_attack were bound to /assets/sprites/enemy-slash-strip.svg.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts -g "stand-in elites"
+RED result: failed because combat-sprite-enemy appeared after the first-chapter elite attacked.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts -g "desktop combat smoke"
+RED result: failed because a combat card rectangle overlapped the combat log.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+RED follow-up result: failed because an older boss-route assertion still expected enemy-slash-strip.svg for 墨影董卓; the assertion was updated to require standee-only attack feedback.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts -t "generic slash"
+Result: passed, 1 test selected.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts -g "stand-in elites|desktop combat smoke"
+Result: passed, 2 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "first chapter through"
+Result: passed, 1 Chromium test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed, 15 files / 170 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed with the known non-blocking Phaser chunk-size warning.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed and refreshed public/assets/generated/asset-audit.json. Runtime references 102, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed, 26 Chromium tests.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- 剑痴残影、血旗残兵、墨影董卓 still need bespoke clean attack strips for a richer animation pass; this fix intentionally prevents mismatched art rather than pretending the generic strip is acceptable.
+- Card descriptions in hand are clamped to preserve desktop combat HUD safety; full rules remain available through the existing card/reward/deck surfaces.
+
+Next step:
+
+- Commit the completed bugfix branch.
