@@ -493,6 +493,28 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
     triggerBodyRelics(state);
     triggerJinghongDanceMethod(state);
   }
+
+  if (state.character.id === "caiwenji") {
+    if (isEchoOrQinCard(definition)) {
+      triggerQingyinEchoMethod(state);
+      triggerEchoingJadeChimeRelic(state);
+    }
+
+    if (isCleanseCard(definition)) {
+      triggerHujiaCleanseMethod(state);
+    }
+  }
+
+  if (state.character.id === "zhugeliang") {
+    if (isScryCard(definition)) {
+      triggerStarObservationMethod(state);
+    }
+
+    if (isFormationCard(definition)) {
+      triggerWindArrayMethod(state);
+      triggerStarlitTacticalMapRelic(state);
+    }
+  }
 }
 
 function pushSignatureCardVisualEvent(state: CombatState, definition: CardDefinition): void {
@@ -1030,6 +1052,20 @@ function triggerBrokenStringRelic(state: CombatState): void {
   }
 }
 
+function triggerEchoingJadeChimeRelic(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_echoing_jade_chime", "player", "teal")) {
+    drawCards(state, 1, createRng(state.turn * 479 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
+}
+
+function triggerStarlitTacticalMapRelic(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_starlit_tactical_map", "player", "gold")) {
+    gainResource(state, 1);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+  }
+}
+
 function hasMethod(state: CombatState, methodId: MethodId): boolean {
   return state.methodIds.includes(methodId);
 }
@@ -1093,8 +1129,56 @@ function triggerQingchengCharmMethod(state: CombatState, targetId: string): void
   }
 }
 
+function triggerQingyinEchoMethod(state: CombatState): void {
+  if (triggerMethodOnce(state, "method_qingyin_echo", "player", "teal")) {
+    const amount = getMethodLevel(state, "method_qingyin_echo") >= 2 ? 2 : 1;
+    gainResource(state, amount);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +${amount}`, "gold", amount);
+  }
+}
+
+function triggerHujiaCleanseMethod(state: CombatState): void {
+  if (triggerMethodOnce(state, "method_hujia_cleanse", "player", "teal")) {
+    const amount = getMethodLevel(state, "method_hujia_cleanse") >= 2 ? 5 : 3;
+    state.player.block += amount;
+    pushVisualEvent(state, "block", "player", `+${amount} 护甲`, "teal", amount);
+  }
+}
+
+function triggerStarObservationMethod(state: CombatState): void {
+  if (triggerMethodOnce(state, "method_star_observation", "player", "gold")) {
+    const amount = getMethodLevel(state, "method_star_observation") >= 2 ? 2 : 1;
+    gainResource(state, amount);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +${amount}`, "gold", amount);
+  }
+}
+
+function triggerWindArrayMethod(state: CombatState): void {
+  if (triggerMethodOnce(state, "method_wind_array", "player", "gold")) {
+    const amount = getMethodLevel(state, "method_wind_array") >= 2 ? 5 : 3;
+    state.player.block += amount;
+    pushVisualEvent(state, "block", "player", `+${amount} 护甲`, "gold", amount);
+  }
+}
+
 function getMethodLevel(state: CombatState, methodId: MethodId): number {
   return Math.max(1, state.methodLevels?.[methodId] ?? 1);
+}
+
+function isEchoOrQinCard(definition: CardDefinition): boolean {
+  return (definition.keywords ?? []).some((keyword) => keyword === "echo" || keyword === "qin");
+}
+
+function isCleanseCard(definition: CardDefinition): boolean {
+  return (definition.keywords ?? []).includes("cleanse") || definition.effects.some((effect) => effect.action === "cleanseCards");
+}
+
+function isScryCard(definition: CardDefinition): boolean {
+  return (definition.keywords ?? []).includes("scry") || definition.effects.some((effect) => effect.action === "scry");
+}
+
+function isFormationCard(definition: CardDefinition): boolean {
+  return (definition.keywords ?? []).includes("formation") || definition.effects.some((effect) => effect.action === "setFormation");
 }
 
 function isBasicAttack(definition: CardDefinition): boolean {

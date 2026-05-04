@@ -112,6 +112,28 @@ export const relicList: RelicDefinition[] = [
     description: "每场战斗首次使敌人魅惑达到4层时，施加1层易伤。"
   },
   {
+    id: "relic_echoing_jade_chime",
+    name: "回音玉磬",
+    rarity: "uncommon",
+    character: "caiwenji",
+    archetypeId: "cai-qin-echo",
+    sources: ["elite", "boss", "shop"],
+    price: 92,
+    triggerText: "每场战斗第一张余韵或琴音牌触发。",
+    description: "每场战斗首次打出余韵或琴音牌时，抽1张牌。"
+  },
+  {
+    id: "relic_starlit_tactical_map",
+    name: "星照阵图",
+    rarity: "uncommon",
+    character: "zhugeliang",
+    archetypeId: "zhuge-formation-wind",
+    sources: ["elite", "boss", "shop"],
+    price: 94,
+    triggerText: "每场战斗第一张阵法牌触发。",
+    description: "每场战斗首次打出阵法牌时，获得1筹策。"
+  },
+  {
     id: "relic_ink_washstone",
     name: "洗墨石",
     rarity: "common",

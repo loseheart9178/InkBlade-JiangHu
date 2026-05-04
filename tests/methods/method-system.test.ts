@@ -29,6 +29,24 @@ describe("heart method rewards", () => {
     expect(draft.methods.every((method) => method.characterId === "zhaoyun")).toBe(true);
   });
 
+  it("offers method rewards for Cai Wenji and Zhuge Liang archetypes", () => {
+    const caiRun = createRun("caiwenji", { mapSeed: 21 });
+    takeCardReward(caiRun, cardsById.cai_echoing_melody);
+    const caiDraft = createMethodRewardDraft(caiRun);
+    expect(caiDraft.methods.every((method) => method.characterId === "caiwenji")).toBe(true);
+    expect(caiDraft.methods.map((method) => method.id)).toEqual(
+      expect.arrayContaining(["method_qingyin_echo", "method_hujia_cleanse"])
+    );
+
+    const zhugeRun = createRun("zhugeliang", { mapSeed: 22 });
+    takeCardReward(zhugeRun, cardsById.zhuge_small_eight_array);
+    const zhugeDraft = createMethodRewardDraft(zhugeRun);
+    expect(zhugeDraft.methods.every((method) => method.characterId === "zhugeliang")).toBe(true);
+    expect(zhugeDraft.methods.map((method) => method.id)).toEqual(
+      expect.arrayContaining(["method_star_observation", "method_wind_array"])
+    );
+  });
+
   it("claims a method once and keeps it on the run", () => {
     const run = createRun("diaochan", { mapSeed: 3 });
 
@@ -107,5 +125,85 @@ describe("heart method combat hooks", () => {
 
     expect(state.enemies[0].statuses.charm).toBe(5);
     expect(state.combatLog.filter((entry) => entry === "倾城心诀")).toHaveLength(1);
+  });
+
+  it("Qingyin Echo grants one sound on the first echo card each combat", () => {
+    const state = createCombat({
+      character: {
+        ...charactersById.caiwenji,
+        starterDeck: ["cai_echoing_melody", "cai_echoing_melody", "cai_plain_strike", "cai_pluck_string", "cai_hujia_beat"]
+      },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 41,
+      methodIds: ["method_qingyin_echo"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "cai_echoing_melody", "player");
+    playFirst(state, "cai_echoing_melody", "player");
+
+    expect(state.player.resource.value).toBe(3);
+    expect(state.combatLog.filter((entry) => entry === "清音回响")).toHaveLength(1);
+  });
+
+  it("Hujia Cleanse grants block on the first cleanse card each combat", () => {
+    const state = createCombat({
+      character: {
+        ...charactersById.caiwenji,
+        starterDeck: ["cai_clean_string", "cai_clean_string", "cai_plain_strike", "cai_pluck_string", "cai_hujia_beat"]
+      },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 42,
+      methodIds: ["method_hujia_cleanse"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "cai_clean_string", "player");
+    playFirst(state, "cai_clean_string", "player");
+
+    expect(state.player.block).toBe(11);
+    expect(state.combatLog.filter((entry) => entry === "胡笳净心")).toHaveLength(1);
+  });
+
+  it("Star Observation grants one strategy on the first scry card each combat", () => {
+    const state = createCombat({
+      character: {
+        ...charactersById.zhugeliang,
+        starterDeck: ["zhuge_observe_stars", "zhuge_observe_stars", "zhuge_fan_strike", "zhuge_guard", "zhuge_small_eight_array"]
+      },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 43,
+      methodIds: ["method_star_observation"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "zhuge_observe_stars", "player");
+    playFirst(state, "zhuge_observe_stars", "player");
+
+    expect(state.player.resource.value).toBe(4);
+    expect(state.combatLog.filter((entry) => entry === "观星定策")).toHaveLength(1);
+  });
+
+  it("Wind Array grants block on the first formation card each combat", () => {
+    const state = createCombat({
+      character: {
+        ...charactersById.zhugeliang,
+        starterDeck: ["zhuge_small_eight_array", "zhuge_small_eight_array", "zhuge_fan_strike", "zhuge_guard", "zhuge_observe_stars"]
+      },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 44,
+      methodIds: ["method_wind_array"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "zhuge_small_eight_array", "player");
+    playFirst(state, "zhuge_small_eight_array", "player");
+
+    expect(state.player.block).toBe(11);
+    expect(state.combatLog.filter((entry) => entry === "借风布阵")).toHaveLength(1);
   });
 });
