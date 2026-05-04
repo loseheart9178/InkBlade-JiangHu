@@ -5,7 +5,7 @@ import { enemiesById } from "../../src/game/content/enemies";
 import { relicList } from "../../src/game/content/relics";
 import { createCombat, endPlayerTurn, playCard } from "../../src/game/systems/combat/combat";
 import { claimBattleSpoils, createRun } from "../../src/game/systems/run/run";
-import { getRelicRewardPool, getShopRelicPool } from "../../src/game/systems/relics/relicEffects";
+import { describeRelicSource, getRelicRewardPool, getShopRelicPool } from "../../src/game/systems/relics/relicEffects";
 
 function playFirst(state: ReturnType<typeof createCombat>, cardId: string, targetId = state.enemies[0].id): void {
   const card = state.piles.hand.find((item) => item.definitionId === cardId);
@@ -32,6 +32,13 @@ describe("relic reward pools", () => {
 
     expect(spoils.relicId).toBe("relic_dragon_scale_tip");
     expect(run.relicIds).toContain("relic_dragon_scale_tip");
+  });
+
+  it("describes relic reward sources in Chinese-facing UI labels", () => {
+    expect(describeRelicSource("relic_old_wooden_sword")).toBe("凡 · 精英/首领/游商");
+    expect(describeRelicSource("relic_qingyin_jade")).toBe("绝 · 首领/游商");
+    expect(describeRelicSource("relic_white_dragon_tassel")).toBe("章 · 初始");
+    expect(describeRelicSource("relic_old_wooden_sword")).not.toMatch(/elite|boss|shop/);
   });
 });
 

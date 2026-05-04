@@ -92,16 +92,16 @@ export const combatPortraitList: CombatPortraitDefinition[] = [
   },
   {
     id: "elite_sword_echo",
-    assetPath: "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
-    standeePath: "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
-    alt: "Sword echo elite ink silhouette",
+    assetPath: "/assets/generated/gpt2-bamboo-soldier-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-bamboo-soldier-standee-cutout.png",
+    alt: "Vetted ink soldier stand-in for sword echo elite",
     accent: "red"
   },
   {
     id: "elite_blood_banner",
-    assetPath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
-    standeePath: "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
-    alt: "Blood banner officer ink silhouette",
+    assetPath: "/assets/generated/gpt2-scribe-officer-standee-cutout.png",
+    standeePath: "/assets/generated/gpt2-scribe-officer-standee-cutout.png",
+    alt: "Vetted red-seal officer stand-in for blood banner elite",
     accent: "red"
   },
   {
@@ -501,26 +501,26 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "sword_echo_attack",
-    assetPath: "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/enemy-slash-strip.svg",
     frameCount: 4,
-    frameWidth: 512,
-    frameHeight: 512,
+    frameWidth: 256,
+    frameHeight: 256,
     anchor: "bottom-center"
   },
   {
     id: "blood_banner_attack",
-    assetPath: "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/enemy-slash-strip.svg",
     frameCount: 4,
-    frameWidth: 512,
-    frameHeight: 512,
+    frameWidth: 256,
+    frameHeight: 256,
     anchor: "bottom-center"
   },
   {
     id: "ink_dongzhuo_boss_attack",
-    assetPath: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/enemy-slash-strip.svg",
     frameCount: 4,
-    frameWidth: 512,
-    frameHeight: 512,
+    frameWidth: 256,
+    frameHeight: 256,
     anchor: "bottom-center"
   },
   {

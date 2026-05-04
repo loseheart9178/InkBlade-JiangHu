@@ -1,4 +1,4 @@
-import { expect, type Page, type TestInfo, test } from "@playwright/test";
+import { expect, type Locator, type Page, type TestInfo, test } from "@playwright/test";
 
 test("boots to title and exposes all four character choices before a run", async ({ page }) => {
   await page.goto("/");
@@ -86,6 +86,22 @@ test("run summary shell opens from the title debug entry", async ({ page }) => {
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
   const statCount = await page.getByTestId("run-summary-stat").count();
   expect(statCount).toBeGreaterThan(2);
+});
+
+test("debug skip advances to the next chapter and refreshes the map backdrop", async ({ page }) => {
+  await startRun(page, "zhaoyun");
+
+  await expect(page.getByTestId("screen-map")).toHaveAttribute("data-battlefield", "luoshui");
+  await page.getByTestId("debug-skip-chapter").click();
+
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("screen-map")).toHaveAttribute("data-battlefield", "bamboo");
+  await expect(page.getByTestId("screen-map")).toHaveClass(/chapter-panel--bamboo/);
+  await expect(page.getByTestId("run-chapter")).toContainText("竹林听雨");
+  await expect(page.getByText("调试跳章：竹林听雨已展开。")).toBeVisible();
+
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toHaveAttribute("data-battlefield", "bamboo");
 });
 
 test("ending summary records and persists profile summary", async ({ page }, testInfo) => {
@@ -192,6 +208,8 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("reward-card").first()).toHaveAttribute("data-combo-biased", "true");
   await expect(page.getByTestId("reward-reason").first()).toContainText("流派");
   await expect(page.getByTestId("reward-archetype-role").first()).toContainText(/主线强化|副线补强|通用补短/);
+  await expect(page.getByTestId("screen-reward").locator(".game-message")).not.toHaveCSS("position", "absolute");
+  await expectVerticalGap(page.getByTestId("spoils-summary"), page.getByTestId("reward-card").first(), 8);
   await page.getByTestId("reward-card").first().click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
 });
@@ -204,6 +222,8 @@ test("shops can add relics after the first battle", async ({ page }) => {
 
   await page.getByTestId("map-node-shop-1").click();
   await expect(page.getByTestId("screen-shop")).toBeVisible();
+  await expect(page.getByTestId("shop-relic-relic_old_wooden_sword")).toContainText("凡 · 精英/首领/游商");
+  await expect(page.getByTestId("shop-relic-relic_old_wooden_sword")).not.toContainText(/elite|boss|shop/);
   await page.getByTestId("shop-relic-relic_old_wooden_sword").click();
 
   await expect(page.getByTestId("run-relics")).toContainText("旧木剑");
@@ -376,7 +396,7 @@ test("can complete the first chapter through the event and rest route", async ({
   await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-dongzhuo-boss-standee-cutout\.png$/);
   await expect(page.getByTestId("intent")).toContainText("宫宴压迫");
   await page.getByTestId("end-turn").click();
-  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /ink-dongzhuo-boss-attack-strip-gpt-v2\.png/);
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /enemy-slash-strip\.svg/);
   await expect(page.getByTestId("combat-log")).toContainText("宫宴压迫");
   await expect(page.getByTestId("player-status")).toContainText("墨痕 1");
   await winVisibleCombat(page, 140, "screen-method-reward");
@@ -394,6 +414,8 @@ test("can complete the first chapter through the event and rest route", async ({
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await page.getByTestId("boss-reward-continue").click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("screen-map")).toHaveAttribute("data-battlefield", "bamboo");
+  await expect(page.getByTestId("screen-map")).toHaveClass(/chapter-panel--bamboo/);
   await expect(page.getByTestId("run-chapter")).toContainText("竹林听雨");
   await expect(page.getByTestId("map-node-boss")).toContainText("琴魔");
 });
@@ -465,4 +487,13 @@ async function capturePlaytestScreenshot(page: Page, testInfo: TestInfo, fileNam
   const screenshot = await page.screenshot({ path, fullPage: true });
   expect(screenshot.byteLength).toBeGreaterThan(25_000);
   await testInfo.attach(fileName, { path, contentType: "image/png" });
+}
+
+async function expectVerticalGap(upper: Locator, lower: Locator, minimumGap: number): Promise<void> {
+  const upperBox = await upper.boundingBox();
+  const lowerBox = await lower.boundingBox();
+
+  expect(upperBox).not.toBeNull();
+  expect(lowerBox).not.toBeNull();
+  expect(lowerBox!.y - (upperBox!.y + upperBox!.height)).toBeGreaterThanOrEqual(minimumGap);
 }

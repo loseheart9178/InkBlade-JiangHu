@@ -3994,3 +3994,89 @@ Known gaps / risks:
 Next step:
 
 - Commit the rescue branch with `feat: add desktop compendium`, then continue Wave 6 with the glossary rescue/integration track.
+
+### 2026-05-04 14:36 Asia/Shanghai
+
+Observed bugfix / debug-skip milestone completed in `.worktrees/wave6-integration` on branch `codex/observed-bugfixes-debug-skip`.
+
+Re-read before implementation and verification:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `/mnt/c/Users/loseheart/Documents/Obsidian Vault/云水江湖开发待修bug.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+
+What changed:
+
+- Quarantined the runtime bindings for the reported annotated visual artifacts:
+  - `elite_sword_echo` now uses the clean `gpt2-bamboo-soldier` standee as a temporary vetted stand-in.
+  - `elite_blood_banner` now uses the clean `gpt2-scribe-officer` standee as a temporary vetted stand-in.
+  - Sword Echo, Blood Banner, and Dong Zhuo boss attack strips now use the clean `enemy-slash-strip.svg` instead of the red-circle/red-cross GPT strips.
+- Added a data regression test that fails if known annotated asset paths are rebound to runtime combat portraits or sprite sheets.
+- Localized relic reward source labels from `elite/boss/shop` to `精英/首领/游商`, including shop and spoils summary coverage.
+- Added a `调试跳章` button to run-status controls. It clears transient combat/reward state, advances the pure run system to the next chapter, and returns to the chapter map.
+- Added chapter-aware DOM panel context for map, reward, event, shop, rest, chapter reward, boss reward, final choice, and logbook screens:
+  - `data-battlefield` now reflects the active chapter.
+  - Chapter panel CSS now swaps to the matching Luoshui/Bamboo/Chang'an/Moyuan battlefield immediately.
+  - Non-combat screens also dispatch the battlefield-change event for the Phaser background layer.
+- Fixed reported HUD/card overlap by moving combat title below the intent topbar, shrinking combat standee height to fit the new title band, reducing hand-card hover lift, and returning non-combat `game-message` elements to normal layout flow.
+
+Decisions:
+
+- Did not edit binary GPT artifacts in place. The broken generated files are treated as quarantined source debt until proper regenerated replacements exist.
+- Kept debug skip as a visible prototype/debug control because the current goal is browser-playable vertical-slice testing, not production hardening.
+- Used the existing pure `advanceToNextChapter` system rather than renderer shortcuts, preserving the rule that gameplay state stays outside Phaser scenes.
+
+TDD and failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts tests/relics/relic-system.test.ts
+RED result: failed on annotated first-chapter standees/sprite strips and English relic source labels.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "debug skip|boots, enters|shops can|can complete the first chapter"
+RED result: failed on missing map `data-battlefield`, missing debug skip button, and absolute reward `game-message`.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts -g "captures desktop combat smoke"
+RED result: failed because the combat title overlapped the enemy intent box.
+
+Subagent dispatch:
+Attempted two read-only explorer subagents for layout/background and asset/relic domains. Both errored with the current usage-limit message, so implementation and verification continued locally in the worktree.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: 15 test files passed, 157 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known large Phaser chunk warning for `phaserConfig-CTMghiuG.js` at 1,200.83 kB after minification.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: 23 Chromium tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+```
+
+Known gaps / risks:
+
+- Sword Echo and Blood Banner now use clean stand-in art rather than bespoke regenerated final art.
+- Card fallback art debt remains unchanged at 56 and is tracked separately by the existing audit.
+- The large Phaser chunk warning remains a known non-blocking performance item.
+
+Next step:
+
+- Commit this bugfix branch, then later regenerate bespoke first-chapter elite standees/attack strips to replace the temporary clean stand-ins.

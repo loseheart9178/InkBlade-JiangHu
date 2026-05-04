@@ -157,6 +157,46 @@ button {
   color: #2c2924;
 }
 
+.chapter-panel {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.chapter-panel::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.72), rgba(239, 226, 195, 0.5)),
+    url("/assets/generated/luoshui-battlefield-gpt.png") center / cover no-repeat;
+  filter: saturate(0.72) contrast(1.02);
+}
+
+.chapter-panel--bamboo::before {
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.7), rgba(239, 226, 195, 0.46)),
+    url("/assets/generated/gpt2-bamboo-battlefield.png") center / cover no-repeat;
+}
+
+.chapter-panel--changan::before {
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.68), rgba(239, 226, 195, 0.48)),
+    url("/assets/generated/gpt2-changan-battlefield.png") center / cover no-repeat;
+}
+
+.chapter-panel--moyuan::before {
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.64), rgba(239, 226, 195, 0.44)),
+    url("/assets/generated/gpt2-moyuan-battlefield.png") center / cover no-repeat;
+}
+
+.chapter-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
 .game-panel h2 {
   width: fit-content;
   margin: 0 auto;
@@ -206,6 +246,11 @@ button {
 .deck-open-button:hover {
   border-color: #b7352a;
   background: #b7352a;
+}
+
+.debug-skip-chapter-button {
+  border-color: rgba(183, 53, 42, 0.5);
+  background: #5f1d18;
 }
 
 .route-map {
@@ -342,20 +387,26 @@ button {
 .combat-screen--bamboo::before {
   background:
     linear-gradient(180deg, rgba(17, 17, 17, 0.12), rgba(239, 226, 195, 0.04) 38%, rgba(17, 17, 17, 0.25)),
-    url("/assets/generated/bamboo-battlefield-ink-pass.png") center / cover no-repeat;
+    url("/assets/generated/gpt2-bamboo-battlefield.png") center / cover no-repeat;
 }
 
 .combat-screen--changan::before {
   background:
     linear-gradient(180deg, rgba(17, 17, 17, 0.18), rgba(92, 36, 49, 0.06) 42%, rgba(17, 17, 17, 0.3)),
-    url("/assets/generated/changan-battlefield-ink-pass.png") center / cover no-repeat;
+    url("/assets/generated/gpt2-changan-battlefield.png") center / cover no-repeat;
+}
+
+.combat-screen--moyuan::before {
+  background:
+    linear-gradient(180deg, rgba(17, 17, 17, 0.24), rgba(44, 41, 36, 0.1) 42%, rgba(17, 17, 17, 0.34)),
+    url("/assets/generated/gpt2-moyuan-battlefield.png") center / cover no-repeat;
 }
 
 .combat-screen > h2 {
   position: absolute;
-  top: 6px;
+  top: 86px;
   left: 50%;
-  z-index: 7;
+  z-index: 5;
   transform: translateX(-50%);
 }
 
@@ -427,9 +478,9 @@ button {
 
 .combat-field {
   position: absolute;
-  top: 84px;
+  top: 134px;
   right: 0;
-  bottom: 268px;
+  bottom: 288px;
   left: 0;
   z-index: 1;
   display: grid;
@@ -470,7 +521,7 @@ button {
   z-index: 1;
   display: grid;
   width: clamp(260px, 25vw, 390px);
-  height: min(52vh, 390px);
+  height: min(44vh, 320px);
   place-items: end center;
 }
 
@@ -801,18 +852,25 @@ button {
 }
 
 .game-message {
+  max-width: min(520px, 48vw);
+  margin: 0;
+  padding: 6px 18px;
+  border: 1px solid rgba(44, 41, 36, 0.28);
+  border-radius: 4px;
+  color: #2c2924;
+  background: rgba(246, 236, 213, 0.82);
+  text-align: center;
+  text-shadow: none;
+}
+
+.combat-screen > .game-message {
   position: absolute;
   right: 50%;
   bottom: 258px;
   z-index: 4;
-  max-width: min(520px, 48vw);
-  margin: 0;
-  padding: 6px 18px;
-  border: 1px solid rgba(246, 236, 213, 0.32);
-  border-radius: 4px;
   color: #f6ecd5;
   background: rgba(17, 17, 17, 0.7);
-  text-align: center;
+  border-color: rgba(246, 236, 213, 0.32);
   text-shadow: 0 1px 0 rgba(17, 17, 17, 0.4);
   transform: translateX(50%);
 }
@@ -865,7 +923,7 @@ button {
   align-items: flex-end;
   justify-content: center;
   gap: 12px;
-  min-height: 210px;
+  min-height: 216px;
   padding: 0 270px 18px;
 }
 
@@ -1036,11 +1094,11 @@ button {
 }
 
 .combat-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px);
 }
 
 .combat-card:not(:disabled):active {
-  transform: translateY(-12px) scale(1.02);
+  transform: translateY(-6px) scale(1.02);
   filter: drop-shadow(0 0 14px rgba(183, 53, 42, 0.24));
 }
 

@@ -4,10 +4,10 @@
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
     "runtimeReferenceCount": 105,
-    "uniqueRuntimeFileCount": 77,
+    "uniqueRuntimeFileCount": 73,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 55,
+    "gpt2RuntimeCount": 52,
     "sourceSheetCount": 20,
     "cardFallbackDebtCount": 56
   },
@@ -869,7 +869,7 @@
       "kind": "combatPortrait",
       "id": "elite_blood_banner",
       "paths": [
-        "/assets/generated/blood-banner-standee-gpt-v2-cutout.png"
+        "/assets/generated/gpt2-scribe-officer-standee-cutout.png"
       ]
     },
     {
@@ -897,7 +897,7 @@
       "kind": "combatPortrait",
       "id": "elite_sword_echo",
       "paths": [
-        "/assets/generated/sword-echo-standee-gpt-v2-cutout.png"
+        "/assets/generated/gpt2-bamboo-soldier-standee-cutout.png"
       ]
     },
     {
@@ -979,13 +979,6 @@
     },
     {
       "kind": "combatSpriteSheet",
-      "id": "blood_banner_attack",
-      "paths": [
-        "/assets/sprites/blood-banner-attack-strip-gpt-v2.png"
-      ]
-    },
-    {
-      "kind": "combatSpriteSheet",
       "id": "diaochan_attack",
       "paths": [
         "/assets/sprites/diaochan-attack-strip-gpt-v2.png"
@@ -1000,23 +993,9 @@
     },
     {
       "kind": "combatSpriteSheet",
-      "id": "ink_dongzhuo_boss_attack",
-      "paths": [
-        "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png"
-      ]
-    },
-    {
-      "kind": "combatSpriteSheet",
       "id": "paper_umbrella_attack",
       "paths": [
         "/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png"
-      ]
-    },
-    {
-      "kind": "combatSpriteSheet",
-      "id": "sword_echo_attack",
-      "paths": [
-        "/assets/sprites/sword-echo-attack-strip-gpt-v2.png"
       ]
     },
     {

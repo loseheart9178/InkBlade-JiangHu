@@ -19,6 +19,14 @@ import { dirname, join } from "node:path";
 
 const { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsById } = visuals;
 
+const annotatedArtifactPaths = new Set([
+  "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
+  "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
+  "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
+  "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
+  "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png"
+]);
+
 const supportedActions = new Set([
   "damage",
   "block",
@@ -363,21 +371,33 @@ describe("content data", () => {
     }
   });
 
-  it("gives the paper umbrella, sword echo, blood banner, and Dong Zhuo distinct standees", () => {
+  it("keeps first chapter standees bound to vetted clean runtime assets", () => {
     expect(combatPortraitsById.enemy_ink_bandit.standeePath).toBe("/assets/generated/gpt2-ink-bandit-standee-cutout.png");
     expect(combatPortraitsById.enemy_faceless_soldier.standeePath).toBe("/assets/generated/gpt2-faceless-soldier-standee-cutout.png");
     expect(combatPortraitsById.enemy_paper_umbrella.standeePath).toBe("/assets/generated/gpt2-paper-umbrella-ghost-standee-cutout.png");
-    expect(combatPortraitsById.elite_sword_echo.standeePath).toBe("/assets/generated/sword-echo-standee-gpt-v2-cutout.png");
-    expect(combatPortraitsById.elite_blood_banner.standeePath).toBe("/assets/generated/blood-banner-standee-gpt-v2-cutout.png");
+    expect(combatPortraitsById.elite_sword_echo.standeePath).toBe("/assets/generated/gpt2-bamboo-soldier-standee-cutout.png");
+    expect(combatPortraitsById.elite_blood_banner.standeePath).toBe("/assets/generated/gpt2-scribe-officer-standee-cutout.png");
     expect(combatPortraitsById.boss_ink_dongzhuo.standeePath).toBe("/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png");
     expect(new Set([
       combatPortraitsById.enemy_ink_bandit.standeePath,
       combatPortraitsById.enemy_faceless_soldier.standeePath,
-      combatPortraitsById.enemy_paper_umbrella.standeePath
-    ]).size).toBe(3);
-    for (const id of ["enemy_ink_bandit", "enemy_faceless_soldier", "enemy_paper_umbrella", "boss_ink_dongzhuo"]) {
+      combatPortraitsById.enemy_paper_umbrella.standeePath,
+      combatPortraitsById.elite_sword_echo.standeePath,
+      combatPortraitsById.elite_blood_banner.standeePath,
+      combatPortraitsById.boss_ink_dongzhuo.standeePath
+    ]).size).toBe(6);
+    for (const id of ["enemy_ink_bandit", "enemy_faceless_soldier", "enemy_paper_umbrella", "elite_sword_echo", "elite_blood_banner", "boss_ink_dongzhuo"]) {
       expectAssetPathToExist(combatPortraitsById[id].standeePath ?? "");
     }
+  });
+
+  it("does not bind known annotated artifact outputs to runtime combat visuals", () => {
+    const runtimePaths = [
+      ...Object.values(combatPortraitsById).flatMap((portrait) => [portrait.assetPath, portrait.standeePath].filter((assetPath): assetPath is string => Boolean(assetPath))),
+      ...Object.values(combatSpriteSheetsById).map((sheet) => sheet.assetPath)
+    ];
+
+    expect(runtimePaths.filter((assetPath) => annotatedArtifactPaths.has(assetPath))).toEqual([]);
   });
 
   it("binds generated standees to the correct playable character identities", () => {
@@ -422,12 +442,12 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.ink_bandit_attack.assetPath).toBe("/assets/sprites/ink-bandit-attack-strip-gpt-v2.png");
     expect(combatSpriteSheetsById.paper_umbrella_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.paper_umbrella_attack.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
-    expect(combatSpriteSheetsById.sword_echo_attack.frameCount).toBeGreaterThanOrEqual(4);
-    expect(combatSpriteSheetsById.sword_echo_attack.assetPath).toBe("/assets/sprites/sword-echo-attack-strip-gpt-v2.png");
-    expect(combatSpriteSheetsById.blood_banner_attack.frameCount).toBeGreaterThanOrEqual(4);
-    expect(combatSpriteSheetsById.blood_banner_attack.assetPath).toBe("/assets/sprites/blood-banner-attack-strip-gpt-v2.png");
-    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.frameCount).toBeGreaterThanOrEqual(4);
-    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.sword_echo_attack.frameCount).toBe(4);
+    expect(combatSpriteSheetsById.sword_echo_attack.assetPath).toBe("/assets/sprites/enemy-slash-strip.svg");
+    expect(combatSpriteSheetsById.blood_banner_attack.frameCount).toBe(4);
+    expect(combatSpriteSheetsById.blood_banner_attack.assetPath).toBe("/assets/sprites/enemy-slash-strip.svg");
+    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.frameCount).toBe(4);
+    expect(combatSpriteSheetsById.ink_dongzhuo_boss_attack.assetPath).toBe("/assets/sprites/enemy-slash-strip.svg");
   });
 
   it("maps every chapter to a dedicated battlefield asset", () => {

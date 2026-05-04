@@ -699,7 +699,7 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   const panel = createPanel("screen-map", chapter.mapTitle);
   panel.classList.add("map-screen");
 
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
 
   const path = document.createElement("div");
   path.className = "route-map";
@@ -736,7 +736,7 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   }
 
   panel.append(path);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function enterNode(state: ControllerState, node: MapNode): void {
@@ -761,6 +761,32 @@ function enterNode(state: ControllerState, node: MapNode): void {
     state.message = "残佛无言，雨声洗去一身墨气。";
     state.screen = "rest";
   }
+}
+
+function skipChapterForDebug(state: ControllerState, render: () => void): void {
+  const run = requireRun(state);
+  const nextChapter = getNextChapter(run);
+  if (!nextChapter) {
+    state.combat = undefined;
+    state.pendingSpoils = undefined;
+    state.rewardCards = [];
+    state.deckOpen = false;
+    state.message = "调试跳章：已在最后一章。";
+    state.screen = "map";
+    render();
+    return;
+  }
+
+  state.combat = undefined;
+  state.pendingSpoils = undefined;
+  state.rewardCards = [];
+  state.deckOpen = false;
+  state.completedRunSummary = undefined;
+  if (advanceToNextChapter(run)) {
+    state.message = `调试跳章：${nextChapter.name}已展开。`;
+  }
+  state.screen = "map";
+  render();
 }
 
 function startCombatForNode(state: ControllerState, node: MapNode): void {
@@ -916,6 +942,18 @@ function dispatchBattlefieldChange(chapterId: RunState["chapterId"]): void {
   }));
 }
 
+function mountChapterPanel(host: HTMLElement, panel: HTMLElement, run: RunState): void {
+  applyChapterPanelContext(panel, run);
+  host.append(panel);
+  dispatchBattlefieldChange(run.chapterId);
+}
+
+function applyChapterPanelContext(panel: HTMLElement, run: RunState): void {
+  const battlefieldId = battlefieldAssets[run.chapterId] ? run.chapterId : "luoshui";
+  panel.classList.add("chapter-panel", `chapter-panel--${battlefieldId}`);
+  panel.dataset.battlefield = battlefieldId;
+}
+
 function handleCombatAfterAction(state: ControllerState, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
   const run = requireRun(state);
   const combat = requireCombat(state);
@@ -966,7 +1004,7 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
   const draft = createMethodRewardDraft(run);
   const panel = createPanel("screen-method-reward", "心法");
   panel.classList.add("method-reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
   panel.append(createMessage(draft.reason));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1010,14 +1048,14 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
   }
 
   panel.append(list);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderReward(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
   const panel = createPanel("screen-reward", "战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
   panel.append(createMessage(state.message));
   panel.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);
@@ -1073,7 +1111,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   });
 
   panel.append(rewards, skip);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderEvent(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -1083,7 +1121,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const eventScene = getEventScene(event.id);
   const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
 
   const layout = document.createElement("div");
   layout.className = "event-layout";
@@ -1122,14 +1160,14 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
 
   layout.append(choices);
   panel.append(layout);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderShop(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
   const panel = createPanel("screen-shop", "茶亭游商");
   panel.classList.add("shop-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
 
   const shopCards = [cardsById.common_pifeng, cardsById.common_tuna, cardsById.ink_moren];
   const list = document.createElement("div");
@@ -1216,14 +1254,14 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   });
   leave.dataset.testid = "shop-leave";
   panel.append(list, relicList, serviceList, leave);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderRest(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
   const panel = createPanel("screen-rest", "废寺静修");
   panel.classList.add("rest-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
 
   const heal = createAction("调息疗伤", "回复最大生命30%", () => {
     const healed = healRun(run, Math.ceil(run.maxHp * 0.3));
@@ -1253,7 +1291,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   upgrade.dataset.testid = "rest-upgrade-card";
   upgrade.disabled = !candidate;
   panel.append(heal, upgrade);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderChapterReward(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -1261,7 +1299,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
   panel.classList.add("chapter-reward-screen", "reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
   panel.append(createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1306,7 +1344,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   }
 
   panel.append(choices, advanced);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderBossReward(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
@@ -1315,7 +1353,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   const nextChapter = getNextChapter(run);
   const panel = createPanel("screen-boss-reward", "首领战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
   panel.append(createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1338,14 +1376,14 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   });
   continueButton.dataset.testid = "boss-reward-continue";
   panel.append(continueButton);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderFinalChoice(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
   const run = requireRun(state);
   const panel = createPanel("screen-final-choice", "终局选择");
   panel.classList.add("final-choice-screen", "result-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), undefined, () => skipChapterForDebug(state, render)));
   panel.append(createMessage("墨书摊开，黑水照见你的心境与墨痕。可见的道路并不都能抵达；不可见的路，只有真正放下时才会显形。"));
 
   const list = document.createElement("div");
@@ -1370,7 +1408,7 @@ function renderFinalChoice(host: HTMLElement, state: ControllerState, render: ()
   }
 
   panel.append(list);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderLogbook(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -1378,7 +1416,7 @@ function renderLogbook(host: HTMLElement, state: ControllerState, render: () => 
   const entries = getUnlockedLogbookEntries(run);
   const panel = createPanel("screen-logbook", "墨录");
   panel.classList.add("logbook-screen");
-  panel.append(createRunStatus(run, "已录下的江湖残页。", () => openDeck(state, render)));
+  panel.append(createRunStatus(run, "已录下的江湖残页。", () => openDeck(state, render), undefined, undefined, () => skipChapterForDebug(state, render)));
 
   const list = document.createElement("div");
   list.className = "logbook-list";
@@ -1405,7 +1443,7 @@ function renderLogbook(host: HTMLElement, state: ControllerState, render: () => 
   });
   back.dataset.testid = "logbook-back";
   panel.append(list, back);
-  host.append(panel);
+  mountChapterPanel(host, panel, run);
 }
 
 function renderResult(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -1598,7 +1636,14 @@ function createPanel(testId: string, title: string): HTMLElement {
   return panel;
 }
 
-function createRunStatus(run: RunState, message: string, onDeckClick?: () => void, onLogbookClick?: () => void, onCompendiumClick?: () => void): HTMLElement {
+function createRunStatus(
+  run: RunState,
+  message: string,
+  onDeckClick?: () => void,
+  onLogbookClick?: () => void,
+  onCompendiumClick?: () => void,
+  onDebugSkipChapterClick?: () => void
+): HTMLElement {
   const status = document.createElement("div");
   status.className = "run-status";
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
@@ -1647,6 +1692,19 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
     compendiumButton.textContent = "墨录图鉴";
     compendiumButton.addEventListener("click", onCompendiumClick);
     status.append(compendiumButton);
+  }
+
+  if (onDebugSkipChapterClick) {
+    const nextChapter = getNextChapter(run);
+    const debugSkipButton = document.createElement("button");
+    debugSkipButton.type = "button";
+    debugSkipButton.className = "deck-open-button debug-skip-chapter-button";
+    debugSkipButton.dataset.testid = "debug-skip-chapter";
+    debugSkipButton.textContent = "调试跳章";
+    debugSkipButton.title = nextChapter ? `跳过当前章，进入${nextChapter.name}` : "已经没有下一章";
+    debugSkipButton.disabled = !nextChapter;
+    debugSkipButton.addEventListener("click", onDebugSkipChapterClick);
+    status.append(debugSkipButton);
   }
 
   return status;

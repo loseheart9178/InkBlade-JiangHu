@@ -2,6 +2,12 @@ import { relicList, relicsById } from "../../content/relics";
 
 export type RelicRewardSource = "elite" | "boss" | "shop";
 
+const relicSourceLabels: Record<RelicRewardSource, string> = {
+  elite: "精英",
+  boss: "首领",
+  shop: "游商"
+};
+
 export function getRelicRewardPool(source: RelicRewardSource, characterId?: string): string[] {
   return relicList
     .filter((relic) => relic.price > 0)
@@ -21,7 +27,7 @@ export function describeRelicSource(relicId: string): string {
     return relicId;
   }
 
-  const source = relic.sources?.join("/") ?? "初始";
+  const source = relic.sources?.map((item) => relicSourceLabels[item]).join("/") ?? "初始";
   return `${formatRarity(relic.rarity)} · ${source}`;
 }
 

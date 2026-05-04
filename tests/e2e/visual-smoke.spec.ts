@@ -166,14 +166,29 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   const handZone = await page.getByTestId("hand-zone").boundingBox();
   const energy = await page.getByTestId("energy").boundingBox();
   const firstCard = await page.locator(".combat-card").first().boundingBox();
+  const heading = await page.getByTestId("screen-combat").locator("h2").boundingBox();
+  const intent = await page.getByTestId("intent").boundingBox();
 
   expect(playerStandee).not.toBeNull();
   expect(enemyStandee).not.toBeNull();
   expect(handZone).not.toBeNull();
   expect(energy).not.toBeNull();
   expect(firstCard).not.toBeNull();
+  expect(heading).not.toBeNull();
+  expect(intent).not.toBeNull();
 
   expect(playerStandee!.y + playerStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(enemyStandee!.y + enemyStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(firstCard!.x - (energy!.x + energy!.width)).toBeGreaterThanOrEqual(28);
+  expect(rectsOverlap(heading!, intent!)).toBe(false);
+}
+
+function rectsOverlap(
+  first: { x: number; y: number; width: number; height: number },
+  second: { x: number; y: number; width: number; height: number }
+): boolean {
+  return first.x < second.x + second.width
+    && first.x + first.width > second.x
+    && first.y < second.y + second.height
+    && first.y + first.height > second.y;
 }
