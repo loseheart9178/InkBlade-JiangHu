@@ -19,6 +19,15 @@ Or start from an autonomous worktree with bundled Node:
 
 Open the local Vite URL, usually `http://127.0.0.1:5173/`, in desktop Chromium. Keep devtools open while testing so console errors, missing assets, and failed requests can be captured.
 
+## Wave 9 Release Focus
+
+Wave 9 desktop QA should confirm the integration branch refreshes these release targets before final handoff:
+
+- Zhuge Liang seed `9003` balance is no longer a deterministic completion risk in the multi-seed report.
+- Starter semantic card art is visible where the desktop hand, reward, and deck surfaces expose starter readability cards.
+- First-chapter semantic attack strips are used for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; the generic enemy slash should not be accepted as their final combat identity.
+- Final Vitest, Playwright, asset audit, balance, and card fallback debt numbers are `集成后刷新`.
+
 ## Smoke Route A: First Battle Loop
 
 1. Boot to title and confirm the first screen is actionable.
@@ -73,7 +82,7 @@ Bundled Node equivalent:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
 ```
 
-The Wave 8 content-release integration baseline is 27 Playwright Chromium tests. Useful focused runs include:
+The Wave 9 final Playwright Chromium desktop result is `集成后刷新` after integration. Useful focused runs include:
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "debug skip|compendium|final boss route"
@@ -90,9 +99,9 @@ The Wave 8 content-release integration baseline is 27 Playwright Chromium tests.
 
 ## Known Non-Blocking Issues
 
-- Card fallback debt is 56. Type-level card art is acceptable for this desktop alpha, but it should be reported as art debt rather than a runtime blocker.
-- First-chapter stand-ins use standee-only attack feedback. `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` should not use the generic enemy slash strip as acceptable runtime binding.
-- Zhuge Liang seed `9003` is a deterministic multi-seed balance watchlist route and should be reported separately from desktop UI/runtime blockers.
+- Wave 9 final card fallback debt is `集成后刷新`; report any remaining type-level card art as art debt rather than a desktop runtime blocker.
+- First-chapter semantic attack strips are a Wave 9 target. `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` should not use the generic enemy slash strip as acceptable runtime binding.
+- Zhuge Liang seed `9003` is a Wave 9 balance target and should be reported separately from desktop UI/runtime blockers until the integration branch refreshes the multi-seed evidence.
 - Vite may report a lazy Phaser chunk-size warning during build; this is tracked as performance backlog.
 - Production audio, Steam packaging, mobile layout, and touch controls are not in this pass.
 
