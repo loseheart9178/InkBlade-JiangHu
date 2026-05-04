@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Nu Zhan anger battle</title>
+  <desc>An anger slash rises through cinnabar sparks and black ink smoke.</desc>
+  <rect width="640" height="900" rx="34" fill="#f5ecd8"/>
+  <path d="M155 710c126-199 237-355 331-469" fill="none" stroke="#111615" stroke-width="42" stroke-linecap="round" opacity=".18"/>
+  <path d="M176 694c110-187 221-339 334-456" fill="none" stroke="#b2473d" stroke-width="28" stroke-linecap="round"/>
+  <path d="M217 665c84-137 177-262 278-376" fill="none" stroke="#fff2df" stroke-width="10" stroke-linecap="round" opacity=".68"/>
+  <path d="M219 459 124 383M305 363 270 250M410 307 493 222M430 493l112 26M295 602l-67 120" fill="none" stroke="#8f2f2b" stroke-width="15" stroke-linecap="round" opacity=".78"/>
+  <circle cx="435" cy="306" r="44" fill="#b2473d" opacity=".18"/>
+  <circle cx="255" cy="612" r="38" fill="#b2473d" opacity=".14"/>
+</svg>

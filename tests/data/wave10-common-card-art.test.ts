@@ -1,0 +1,39 @@
+import fs from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { wave10CommonCardArt } from "../../src/game/content/cardArt/wave10CommonCardArt";
+
+const expectedIds = [
+  "common_duanzhu",
+  "common_feishi",
+  "common_gedang",
+  "common_mirror_armor",
+  "common_pifeng",
+  "common_qingshen",
+  "common_tuna",
+  "common_xieli",
+  "common_zhuiying",
+  "ink_heiyu",
+  "ink_modian",
+  "ink_moren",
+  "mind_jingxin",
+  "mind_luanxin",
+  "mind_nuzhan",
+  "status_rain_chill"
+];
+
+describe("Wave 10 common card art batch", () => {
+  it("defines semantic art and concrete SVG files for every common fallback target", () => {
+    expect(wave10CommonCardArt.map((art) => art.id)).toEqual(expectedIds);
+    for (const art of wave10CommonCardArt) {
+      expect(art.assetPath).toMatch(/^\/assets\/generated\/cards\/wave10-.+\.svg$/);
+      expect(art.alt.length).toBeGreaterThan(12);
+      expect(["red", "teal", "ink", "gold"]).toContain(art.accent);
+      const filePath = path.join(process.cwd(), "public", art.assetPath.replace(/^\//, ""));
+      const svg = fs.readFileSync(filePath, "utf8");
+      expect(svg).toContain("<svg");
+      expect(svg).toContain('viewBox="0 0 640 900"');
+      expect(svg).not.toMatch(/<text\b/i);
+    }
+  });
+});

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Tu Na breathing circle</title>
+  <desc>A calm breath circle gathers teal dantian light in ink mist.</desc>
+  <rect width="640" height="900" rx="34" fill="#f5edd9"/>
+  <circle cx="320" cy="452" r="188" fill="none" stroke="#263232" stroke-width="18" opacity=".14"/>
+  <circle cx="320" cy="452" r="132" fill="none" stroke="#1f6971" stroke-width="16" opacity=".52"/>
+  <circle cx="320" cy="452" r="54" fill="#2d8790" opacity=".26"/>
+  <circle cx="320" cy="452" r="20" fill="#f8f3df" stroke="#2d8790" stroke-width="7"/>
+  <path d="M180 475c64-44 124-44 180 0s116 44 180 0" fill="none" stroke="#263232" stroke-width="10" stroke-linecap="round" opacity=".2"/>
+  <path d="M210 365c44-42 88-62 132-60M402 594c-45 31-91 44-140 40" fill="none" stroke="#1f6971" stroke-width="12" stroke-linecap="round" opacity=".42"/>
+  <path d="M320 212v86M320 604v84" stroke="#1f6971" stroke-width="8" stroke-linecap="round" opacity=".38"/>
+</svg>

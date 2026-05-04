@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Pi Feng wind cut</title>
+  <desc>A sword arc cleaves wind and leaves a cinnabar wake.</desc>
+  <rect width="640" height="900" rx="34" fill="#f5ecd8"/>
+  <path d="M91 553c118-172 282-264 493-276-115 120-252 217-411 291" fill="none" stroke="#202929" stroke-width="34" stroke-linecap="round" opacity=".17"/>
+  <path d="M112 575c142-159 289-242 441-250" fill="none" stroke="#b2473d" stroke-width="22" stroke-linecap="round"/>
+  <path d="M147 559c125-93 249-151 371-174" fill="none" stroke="#fff8e9" stroke-width="9" stroke-linecap="round" opacity=".76"/>
+  <path d="M230 614c90 30 183 32 278 4M193 467c76-85 160-134 252-148M131 344c67-62 148-91 243-85" fill="none" stroke="#263232" stroke-width="10" stroke-linecap="round" opacity=".24"/>
+  <path d="M496 327 563 291 533 366z" fill="#8f2f2b"/>
+  <circle cx="457" cy="286" r="46" fill="#b2473d" opacity=".12"/>
+</svg>

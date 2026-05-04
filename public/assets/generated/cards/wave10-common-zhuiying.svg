@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Zhui Ying afterimage</title>
+  <desc>Afterimage footwork slips across teal ripples and ink shadow.</desc>
+  <rect width="640" height="900" rx="34" fill="#f6eedc"/>
+  <path d="M202 652c66-69 117-145 154-230 21-50 49-91 85-123" fill="none" stroke="#202929" stroke-width="54" stroke-linecap="round" opacity=".12"/>
+  <path d="M247 618c72-62 123-137 153-226" fill="none" stroke="#263232" stroke-width="34" stroke-linecap="round" opacity=".72"/>
+  <path d="M169 684c58-54 103-118 133-193" fill="none" stroke="#263232" stroke-width="28" stroke-linecap="round" opacity=".3"/>
+  <path d="M327 555c57-48 98-106 123-174" fill="none" stroke="#1f6971" stroke-width="23" stroke-linecap="round" opacity=".44"/>
+  <ellipse cx="320" cy="705" rx="194" ry="39" fill="none" stroke="#1f6971" stroke-width="9" opacity=".28"/>
+  <ellipse cx="366" cy="626" rx="124" ry="28" fill="none" stroke="#1f6971" stroke-width="7" opacity=".22"/>
+  <path d="M154 328c93-69 195-94 306-75" fill="none" stroke="#263232" stroke-width="10" stroke-linecap="round" opacity=".17"/>
+</svg>

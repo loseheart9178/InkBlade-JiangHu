@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Fei Shi thrown stone</title>
+  <desc>A thrown stone slices through rain rings with a red ink wake.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbf4e4"/>
+      <stop offset="1" stop-color="#e4d8bf"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M84 626C205 523 334 432 542 296" fill="none" stroke="#8f2f2b" stroke-width="24" stroke-linecap="round" opacity=".22"/>
+  <path d="M109 642C240 543 364 453 517 334" fill="none" stroke="#b2473d" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="392" cy="409" rx="62" ry="42" fill="#37403d" transform="rotate(-29 392 409)"/>
+  <path d="M349 408c28-26 60-34 95-23" fill="none" stroke="#f6eedb" stroke-width="9" stroke-linecap="round" opacity=".74"/>
+  <circle cx="238" cy="558" r="88" fill="none" stroke="#1f6971" stroke-width="8" opacity=".22"/>
+  <circle cx="238" cy="558" r="138" fill="none" stroke="#1f6971" stroke-width="5" opacity=".15"/>
+  <path d="M186 194v110M279 145v112M468 164v103M520 477v122" stroke="#202929" stroke-width="8" stroke-linecap="round" opacity=".2"/>
+  <path d="M418 454 508 493 456 406z" fill="#b2473d" opacity=".62"/>
+</svg>

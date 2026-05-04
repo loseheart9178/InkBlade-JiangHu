@@ -2,6 +2,62 @@
 
 ## Status Log
 
+### 2026-05-04 23:38 Asia/Shanghai
+
+Wave 10 Task 1 common / ink / mind / status card art completed in `.worktrees/wave10-common-card-art` on branch `codex/wave10-common-card-art`.
+
+Docs read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave10-card-fallback-zero.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+What changed:
+
+- Added `src/game/content/cardArt/wave10CommonCardArt.ts` with the 16 exact Wave 10 Group A ids, asset paths, alt text, and red / teal / ink accents.
+- Added `tests/data/wave10-common-card-art.test.ts` covering id order, SVG path shape, alt length, valid accent, readable file existence, `viewBox="0 0 640 900"`, and no visible `<text>` elements.
+- Added 16 semantic repo-local SVG card faces under `public/assets/generated/cards/` for the common, ink, mind, and rain-chill fallback targets.
+
+TDD red:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave10-common-card-art.test.ts
+Result: failed as expected before implementation because `../../src/game/content/cardArt/wave10CommonCardArt` did not exist.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave10-common-card-art.test.ts
+Result: passed, 1 file / 1 test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- This worker branch intentionally does not import the new module into `src/game/content/visuals.ts` or refresh `public/assets/generated/asset-audit.json`; those are reserved for the Wave 10 integration branch.
+- The new assets are semantic local SVG card faces for runtime fallback removal, not final GPT Image 2 bitmap card illustrations.
+
+Next step:
+
+- Commit this worker branch so the integration branch can later merge Group A and bind it alongside the other Wave 10 card-art batches.
+
 ### 2026-05-04 23:23 Asia/Shanghai
 
 Wave 10 Card Fallback Zero planning started in `.worktrees/wave6-integration` on branch `codex/wave10-card-fallback-zero-plan`.

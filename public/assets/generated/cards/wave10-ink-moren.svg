@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Mo Ren ink blade</title>
+  <desc>A black blade rises from a pooled ink shadow on paper.</desc>
+  <rect width="640" height="900" rx="34" fill="#f2e7cf"/>
+  <ellipse cx="320" cy="672" rx="201" ry="62" fill="#111615" opacity=".42"/>
+  <path d="M302 654c26-166 74-311 145-435-7 159-41 302-102 428z" fill="#111615"/>
+  <path d="M361 281c-19 112-48 220-88 324" fill="none" stroke="#f5edd9" stroke-width="10" stroke-linecap="round" opacity=".52"/>
+  <path d="M269 621c48-27 100-27 156 0" fill="none" stroke="#111615" stroke-width="24" stroke-linecap="round"/>
+  <path d="M156 537c95-59 201-76 319-50" fill="none" stroke="#1f6971" stroke-width="9" stroke-linecap="round" opacity=".15"/>
+  <circle cx="444" cy="245" r="56" fill="#111615" opacity=".12"/>
+  <path d="M204 216c55-36 115-45 181-28" fill="none" stroke="#111615" stroke-width="12" stroke-linecap="round" opacity=".2"/>
+</svg>

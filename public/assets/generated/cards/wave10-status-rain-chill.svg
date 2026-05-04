@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Rain Chill status</title>
+  <desc>Cold rain needles and frost ink gather over dark paper.</desc>
+  <rect width="640" height="900" rx="34" fill="#ece2cb"/>
+  <path d="M122 694c112-57 227-75 345-55 38 7 71 4 100-8" fill="none" stroke="#111615" stroke-width="34" stroke-linecap="round" opacity=".2"/>
+  <path d="M160 153v360M232 114v396M318 135v462M407 117v402M489 171v350" stroke="#121817" stroke-width="10" stroke-linecap="round" opacity=".68"/>
+  <path d="M160 364 120 421M160 364l42 56M318 430l-48 72M318 430l53 68M489 331l-42 61M489 331l46 62" stroke="#1f6971" stroke-width="7" stroke-linecap="round" opacity=".38"/>
+  <circle cx="320" cy="610" r="130" fill="none" stroke="#1f6971" stroke-width="9" opacity=".2"/>
+  <path d="M232 732c58-39 119-43 184-12" fill="none" stroke="#111615" stroke-width="18" stroke-linecap="round" opacity=".58"/>
+  <circle cx="407" cy="519" r="18" fill="#111615" opacity=".45"/>
+</svg>

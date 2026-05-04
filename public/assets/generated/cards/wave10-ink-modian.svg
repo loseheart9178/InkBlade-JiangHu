@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Mo Dian spreading ink dot</title>
+  <desc>A single ink dot blooms outward and corrupts the paper fibers.</desc>
+  <rect width="640" height="900" rx="34" fill="#f2e8d1"/>
+  <circle cx="319" cy="448" r="74" fill="#111615"/>
+  <circle cx="319" cy="448" r="132" fill="#111615" opacity=".25"/>
+  <circle cx="319" cy="448" r="204" fill="none" stroke="#111615" stroke-width="20" opacity=".14"/>
+  <path d="M317 374c45-114 97-169 157-166M383 493c78 46 130 111 155 195M262 501c-70 72-132 103-185 93M272 389c-68-48-104-103-108-164" fill="none" stroke="#111615" stroke-width="18" stroke-linecap="round" opacity=".56"/>
+  <path d="M209 331c79-21 153-11 222 30M171 609c106-25 206-14 300 33" fill="none" stroke="#1f6971" stroke-width="7" stroke-linecap="round" opacity=".14"/>
+  <circle cx="462" cy="210" r="22" fill="#111615" opacity=".58"/>
+  <circle cx="146" cy="594" r="18" fill="#111615" opacity=".48"/>
+</svg>

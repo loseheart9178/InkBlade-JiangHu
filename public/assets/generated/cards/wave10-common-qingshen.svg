@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title>Qing Shen light step</title>
+  <desc>A light-foot step crosses rippled paper without disturbing the ink.</desc>
+  <rect width="640" height="900" rx="34" fill="#f6eedc"/>
+  <ellipse cx="318" cy="632" rx="180" ry="48" fill="none" stroke="#1f6971" stroke-width="10" opacity=".3"/>
+  <ellipse cx="318" cy="632" rx="118" ry="28" fill="none" stroke="#1f6971" stroke-width="7" opacity=".42"/>
+  <path d="M267 487c36-22 73-14 94 19 18 29 10 61-20 82-42 29-98 11-112-36-8-27 4-49 38-65z" fill="#2d3433" opacity=".82"/>
+  <path d="M364 396c33-18 64-12 82 14 16 24 8 52-20 71-38 25-86 8-97-33-6-23 5-39 35-52z" fill="#2d3433" opacity=".58"/>
+  <path d="M218 585c67-44 141-76 222-96" fill="none" stroke="#2d8790" stroke-width="18" stroke-linecap="round" opacity=".42"/>
+  <path d="M164 375c84-70 183-104 296-101" fill="none" stroke="#263232" stroke-width="9" stroke-linecap="round" opacity=".18"/>
+  <circle cx="444" cy="288" r="26" fill="#1f6971" opacity=".22"/>
+</svg>
