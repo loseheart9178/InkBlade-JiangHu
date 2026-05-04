@@ -2,6 +2,74 @@
 
 ## Status Log
 
+### 2026-05-04 11:28 Asia/Shanghai
+
+Wave 6 / Milestone 59 Final Choice And Character Epilogue rescue in `.worktrees/wave6-final-choice-rescue` on branch `codex/wave6-final-choice-rescue`.
+
+Re-read before verification and rescue work:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Scope guard:
+
+- Verify and repair the already-applied semantic final-choice patch without reverting integration changes.
+- Keep final-choice eligibility, world-ending selection, character epilogue selection, and run/profile persistence in pure systems.
+- Keep the controller limited to routing, rendering the `finalChoice` screen, recording the chosen pure-system result, and showing the run summary.
+- Do not stage line-ending-only churn.
+
+What changed:
+
+- Added this fresh rescue log entry after the previous `Documentation.md` conflict had resolved to the integration version.
+- Preserved the staged semantic Milestone 59 patch:
+  - final choices for `封印墨渊`, `焚毁墨书`, `接管墨书`, `与心魔合一`, and hidden eligible `放下笔`;
+  - character epilogue definitions for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang;
+  - run final-choice persistence fields and completion snapshot carry-through;
+  - profile unlock persistence for character epilogues;
+  - final Boss browser route into `finalChoice` before run summary.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/endings/ending-system.test.ts tests/profile/profile-system.test.ts tests/run/run-system.test.ts
+Result: passed. 3 test files passed, 40 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"
+Result: passed. 1 Chromium test passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 14 test files passed, 147 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed. TypeScript completed with no diagnostics.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite built the production bundle and repeated the existing non-blocking large chunk warning for lazy `phaserConfig-C45ZQK1K.js`.
+```
+
+Known gaps / risks:
+
+- `npm install` was required because `node_modules` was missing; the install succeeded with system npm engine warnings, and verification uses bundled Node v24 as required.
+- The Vite large chunk warning remains inherited from the lazy Phaser chunk and is unchanged in spirit from Milestone 62.
+
+Next step:
+
+- Commit Milestone 59 rescue semantic changes, then hand off for Wave 6 integration.
+
 ### 2026-05-04 11:16 Asia/Shanghai
 
 Milestone 62 Boot Performance Split integrated into `.worktrees/wave6-integration` on branch `codex/wave6-integration`.

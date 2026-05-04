@@ -16,6 +16,7 @@ import {
   getNextRelicReward,
   getRunFinalState,
   getUpgradeCandidates,
+  recordRunFinalChoice,
   recordRunCombatCombos,
   removeDeckCard,
   takeCardReward,
@@ -152,6 +153,27 @@ describe("run system", () => {
     });
     expect(snapshot?.completedChapterIds).toEqual(["luoshui", "bamboo", "changan", "moyuan"]);
     expect(snapshot?.unlockedFragmentIds).toEqual(["fragment_heart_mirror", "fragment_nameless_historian"]);
+  });
+
+  it("persists the selected final choice and character epilogue in the completion snapshot", () => {
+    const run = createRun("zhaoyun", { mapSeed: 12 });
+
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(true);
+    expect(advanceToNextChapter(run)).toBe(false);
+
+    recordRunFinalChoice(run, {
+      finalChoiceId: "final_seal_moyuan",
+      worldEndingId: "ending_clear_seal",
+      characterEpilogueId: "epilogue_zhaoyun_white_dragon_return"
+    });
+
+    const snapshot = createRunCompletionSnapshot(run);
+
+    expect(snapshot?.finalState.finalChoiceId).toBe("final_seal_moyuan");
+    expect(snapshot?.finalState.worldEndingId).toBe("ending_clear_seal");
+    expect(snapshot?.finalState.characterEpilogueId).toBe("epilogue_zhaoyun_white_dragon_return");
   });
 
   it("creates a browser debug run with the final boss route reachable", () => {

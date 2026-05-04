@@ -4,7 +4,7 @@ import { charactersById } from "../../content/characters";
 import { relicsById } from "../../content/relics";
 import type { CardArchetypeId, CardDefinition } from "../combat/types";
 import { getRelicRewardPool, type RelicRewardSource } from "../relics/relicEffects";
-import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunCompletionSnapshot, RunFinalState, RunState } from "./types";
+import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodeType, RunCompletionSnapshot, RunFinalChoiceRecord, RunFinalState, RunState } from "./types";
 
 const ZHAO_REWARD_POOL = [
   "zhao_thrust",
@@ -470,6 +470,7 @@ export function getRunFinalState(run: RunState): RunFinalState {
   const current = getCurrentChapter(run);
   if (current.id === "moyuan" && run.completedChapterIds.includes("moyuan")) {
     return {
+      ...(run.finalState?.status === "endingReady" ? run.finalState : {}),
       status: "endingReady",
       chapterId: "moyuan",
       bossId: current.bossEnemyId
@@ -480,6 +481,21 @@ export function getRunFinalState(run: RunState): RunFinalState {
     status: "inProgress",
     chapterId: run.chapterId
   };
+}
+
+export function recordRunFinalChoice(run: RunState, choice: RunFinalChoiceRecord): RunState {
+  const finalState = getRunFinalState(run);
+  if (finalState.status !== "endingReady") {
+    return run;
+  }
+
+  run.finalState = {
+    ...finalState,
+    finalChoiceId: choice.finalChoiceId,
+    worldEndingId: choice.worldEndingId,
+    characterEpilogueId: choice.characterEpilogueId
+  };
+  return run;
 }
 
 export function createRunCompletionSnapshot(run: RunState): RunCompletionSnapshot | undefined {

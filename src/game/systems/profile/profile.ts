@@ -9,6 +9,7 @@ export interface ProfileStats {
 export interface ProfileCharacterStats extends ProfileStats {
   bestChaptersCompleted: number;
   unlockedEndings: string[];
+  unlockedCharacterEpilogues: string[];
 }
 
 export interface PlayerProfile {
@@ -17,12 +18,14 @@ export interface PlayerProfile {
   characterStats: Record<string, ProfileCharacterStats>;
   unlockedFragments: string[];
   unlockedEndings: string[];
+  unlockedCharacterEpilogues: string[];
 }
 
 export interface RecordRunResultInput {
   characterId: string;
   victory: boolean;
   endingId?: string;
+  characterEpilogueId?: string;
   chaptersCompleted?: readonly string[];
 }
 
@@ -36,7 +39,8 @@ export function createProfile(): PlayerProfile {
     stats: createEmptyStats(),
     characterStats: {},
     unlockedFragments: [],
-    unlockedEndings: []
+    unlockedEndings: [],
+    unlockedCharacterEpilogues: []
   };
 }
 
@@ -47,7 +51,10 @@ export function recordRunResult(profile: PlayerProfile, result: RecordRunResultI
   const nextCharacterStats: ProfileCharacterStats = {
     ...incrementStats(characterStats, result.victory),
     bestChaptersCompleted: Math.max(characterStats.bestChaptersCompleted, chaptersCompleted),
-    unlockedEndings: result.endingId ? addUnique(characterStats.unlockedEndings, result.endingId) : [...characterStats.unlockedEndings]
+    unlockedEndings: result.endingId ? addUnique(characterStats.unlockedEndings, result.endingId) : [...characterStats.unlockedEndings],
+    unlockedCharacterEpilogues: result.characterEpilogueId
+      ? addUnique(characterStats.unlockedCharacterEpilogues, result.characterEpilogueId)
+      : [...characterStats.unlockedCharacterEpilogues]
   };
 
   return {
@@ -57,7 +64,10 @@ export function recordRunResult(profile: PlayerProfile, result: RecordRunResultI
       ...normalized.characterStats,
       [result.characterId]: nextCharacterStats
     },
-    unlockedEndings: result.endingId ? addUnique(normalized.unlockedEndings, result.endingId) : [...normalized.unlockedEndings]
+    unlockedEndings: result.endingId ? addUnique(normalized.unlockedEndings, result.endingId) : [...normalized.unlockedEndings],
+    unlockedCharacterEpilogues: result.characterEpilogueId
+      ? addUnique(normalized.unlockedCharacterEpilogues, result.characterEpilogueId)
+      : [...normalized.unlockedCharacterEpilogues]
   };
 }
 
@@ -118,7 +128,8 @@ export function normalizeProfile(profile: Partial<PlayerProfile> | undefined): P
     stats: normalizeStats(profile.stats),
     characterStats,
     unlockedFragments: uniqueStrings(profile.unlockedFragments),
-    unlockedEndings: uniqueStrings(profile.unlockedEndings)
+    unlockedEndings: uniqueStrings(profile.unlockedEndings),
+    unlockedCharacterEpilogues: uniqueStrings(profile.unlockedCharacterEpilogues)
   };
 }
 
@@ -134,7 +145,8 @@ function createEmptyCharacterStats(): ProfileCharacterStats {
   return {
     ...createEmptyStats(),
     bestChaptersCompleted: 0,
-    unlockedEndings: []
+    unlockedEndings: [],
+    unlockedCharacterEpilogues: []
   };
 }
 
@@ -159,7 +171,8 @@ function normalizeCharacterStats(stats: Partial<ProfileCharacterStats> | undefin
   return {
     ...normalizeStats(stats),
     bestChaptersCompleted: Math.max(0, stats?.bestChaptersCompleted ?? 0),
-    unlockedEndings: uniqueStrings(stats?.unlockedEndings)
+    unlockedEndings: uniqueStrings(stats?.unlockedEndings),
+    unlockedCharacterEpilogues: uniqueStrings(stats?.unlockedCharacterEpilogues)
   };
 }
 

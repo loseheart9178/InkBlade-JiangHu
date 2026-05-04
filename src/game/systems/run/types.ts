@@ -49,6 +49,15 @@ export interface RunFinalState {
   status: "inProgress" | "endingReady";
   chapterId: ChapterId;
   bossId?: string;
+  finalChoiceId?: string;
+  worldEndingId?: string;
+  characterEpilogueId?: string;
+}
+
+export interface RunFinalChoiceRecord {
+  finalChoiceId: string;
+  worldEndingId: string;
+  characterEpilogueId: string;
 }
 
 export interface RunLogbookState {

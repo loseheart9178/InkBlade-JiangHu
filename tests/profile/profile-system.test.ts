@@ -43,6 +43,7 @@ describe("profile system", () => {
       characterId: "diaochan",
       victory: true,
       endingId: "ending_burn_book",
+      characterEpilogueId: "epilogue_diaochan_red_dust_scheme",
       chaptersCompleted: ["luoshui", "bamboo", "changan", "moyuan"],
       unlockedFragments: ["fragment_heart_mirror", "fragment_nameless_historian"]
     });
@@ -52,7 +53,9 @@ describe("profile system", () => {
     expect(next.characterStats.diaochan.totalRuns).toBe(1);
     expect(next.characterStats.diaochan.bestChaptersCompleted).toBe(4);
     expect(next.characterStats.diaochan.unlockedEndings).toContain("ending_burn_book");
+    expect(next.characterStats.diaochan.unlockedCharacterEpilogues).toContain("epilogue_diaochan_red_dust_scheme");
     expect(next.unlockedEndings).toContain("ending_burn_book");
+    expect(next.unlockedCharacterEpilogues).toContain("epilogue_diaochan_red_dust_scheme");
     expect(next.unlockedFragments).toEqual(["fragment_heart_mirror", "fragment_nameless_historian"]);
   });
 
@@ -62,6 +65,7 @@ describe("profile system", () => {
       characterId: "zhaoyun",
       victory: true,
       endingId: "ending_clear_seal",
+      characterEpilogueId: "epilogue_zhaoyun_white_dragon_return",
       chaptersCompleted: ["luoshui", "bamboo", "changan", "moyuan"],
       unlockedFragments: ["fragment_heart_mirror"]
     });
@@ -69,7 +73,9 @@ describe("profile system", () => {
     saveProfile(storage, profile);
 
     expect(storage.getItem(PROFILE_STORAGE_KEY)).toContain("ending_clear_seal");
+    expect(storage.getItem(PROFILE_STORAGE_KEY)).toContain("epilogue_zhaoyun_white_dragon_return");
     expect(loadProfile(storage)?.stats.totalRuns).toBe(1);
     expect(loadProfile(storage)?.unlockedFragments).toContain("fragment_heart_mirror");
+    expect(loadProfile(storage)?.unlockedCharacterEpilogues).toContain("epilogue_zhaoyun_white_dragon_return");
   });
 });

@@ -21,7 +21,18 @@ import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/co
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import { createFinalBossDebugRun } from "../game/systems/debug/debugRun";
-import { endingsById, evaluateRunEnding, type EndingDefinition } from "../game/systems/endings/endings";
+import {
+  characterEpiloguesById,
+  endingsById,
+  evaluateRunEnding,
+  getAvailableFinalChoices,
+  getFinalChoiceForEnding,
+  selectCharacterEpilogue,
+  selectFinalChoice,
+  type CharacterEpilogueDefinition,
+  type EndingDefinition,
+  type FinalChoiceSelection
+} from "../game/systems/endings/endings";
 import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/systems/events/eventEffects";
 import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
@@ -47,6 +58,7 @@ import {
   getCurrentNode,
   getUpgradeCandidates,
   healRun,
+  recordRunFinalChoice,
   recordRunCombatCombos,
   removeDeckCard,
   takeCardReward,
@@ -58,7 +70,7 @@ import {
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "logbook" | "runSummary" | "victory" | "defeat";
+type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "runSummary" | "victory" | "defeat";
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -83,6 +95,7 @@ interface ControllerOptions {
 interface CompletedRunSummaryView {
   completion: RunCompletionSnapshot;
   ending: EndingDefinition;
+  characterEpilogue: CharacterEpilogueDefinition;
   profile: PlayerProfile;
 }
 
@@ -161,6 +174,12 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       renderBossReward(host, state, render, options.storage);
       renderDeckOverlayIfOpen(host, state, render);
       persistControllerState(state, options.storage);
+      return;
+    }
+
+    if (state.screen === "finalChoice") {
+      renderFinalChoice(host, state, render, options.storage);
+      renderDeckOverlayIfOpen(host, state, render);
       return;
     }
 
@@ -1091,7 +1110,11 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
       state.screen = "map";
       state.message = `雨声渐近，${nextChapter?.name ?? "下一章"}展开。`;
     } else {
-      if (!completeRunWithEnding(state, storage)) {
+      const completion = createRunCompletionSnapshot(run);
+      if (completion) {
+        state.screen = "finalChoice";
+        state.message = "无名史官的笔落入黑水，最后一页等你定稿。";
+      } else {
         state.screen = "victory";
         state.message = `${chapter.name}暂告一段落，新的江湖仍在远处。`;
       }
@@ -1100,6 +1123,38 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   });
   continueButton.dataset.testid = "boss-reward-continue";
   panel.append(continueButton);
+  host.append(panel);
+}
+
+function renderFinalChoice(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
+  const run = requireRun(state);
+  const panel = createPanel("screen-final-choice", "终局选择");
+  panel.classList.add("final-choice-screen", "result-screen");
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createMessage("墨书摊开，黑水照见你的心境与墨痕。可见的道路并不都能抵达；不可见的路，只有真正放下时才会显形。"));
+
+  const list = document.createElement("div");
+  list.className = "final-choice-list";
+  for (const choice of getAvailableFinalChoices(run)) {
+    const button = createAction(choice.title, `${choice.summary} ${choice.eligible ? "" : `未满足：${choice.requirement}`}`, () => {
+      const selection = selectFinalChoice(run, choice.id);
+      if (!selection) {
+        state.message = `此刻尚不能选择${choice.title}。`;
+        render();
+        return;
+      }
+
+      completeRunWithEnding(state, storage, selection);
+      render();
+    });
+    button.classList.add("final-choice-option");
+    button.dataset.testid = "final-choice-option";
+    button.dataset.choiceId = choice.id;
+    button.disabled = !choice.eligible;
+    list.append(button);
+  }
+
+  panel.append(list);
   host.append(panel);
 }
 
@@ -1181,6 +1236,16 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     <p>${summary.ending.body}</p>
   `;
 
+  const epilogue = document.createElement("section");
+  epilogue.className = "character-epilogue-summary";
+  epilogue.dataset.testid = "character-epilogue-summary";
+  epilogue.innerHTML = `
+    <small data-testid="character-epilogue-id">${summary.characterEpilogue.id}</small>
+    <h3 data-testid="character-epilogue-title">${summary.characterEpilogue.title}</h3>
+    <p>${summary.characterEpilogue.summary}</p>
+    <p>${summary.characterEpilogue.body}</p>
+  `;
+
   const stats = document.createElement("div");
   stats.className = "run-summary-stats";
   stats.append(
@@ -1190,7 +1255,8 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     createRunSummaryStat("牌组", `${summary.completion.deckSize}`),
     createRunSummaryStat("法宝", `${summary.completion.relicCount}`),
     createRunSummaryStat("总行旅", `${summary.profile.stats.totalRuns}`, "profile-total-runs"),
-    createRunSummaryStat("已解锁结局", formatUnlockedEndingTitles(summary.profile), "profile-unlocked-endings")
+    createRunSummaryStat("已解锁结局", formatUnlockedEndingTitles(summary.profile), "profile-unlocked-endings"),
+    createRunSummaryStat("角色结局", formatUnlockedCharacterEpilogueTitles(summary.profile), "profile-unlocked-epilogues")
   );
 
   const restart = createAction("再入江湖", "以同一角色重新开局。", () => {
@@ -1205,26 +1271,33 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     render();
   });
 
-  panel.append(createMessage(state.message), ending, stats, restart);
+  panel.append(createMessage(state.message), ending, epilogue, stats, restart);
   host.append(panel);
 }
 
-function completeRunWithEnding(state: ControllerState, storage: GameStorage | undefined): boolean {
+function completeRunWithEnding(state: ControllerState, storage: GameStorage | undefined, selection?: FinalChoiceSelection): boolean {
   const run = requireRun(state);
-  const completion = createRunCompletionSnapshot(run);
-  if (!completion) {
+  const finalSelection = selection ?? createAutomaticFinalChoiceSelection(run);
+  if (!finalSelection) {
     return false;
   }
 
-  const ending = evaluateRunEnding(completion.finalState, run);
-  if (!ending) {
+  recordRunFinalChoice(run, {
+    finalChoiceId: finalSelection.choice.id,
+    worldEndingId: finalSelection.ending.id,
+    characterEpilogueId: finalSelection.characterEpilogue.id
+  });
+
+  const completion = createRunCompletionSnapshot(run);
+  if (!completion) {
     return false;
   }
 
   state.profile = recordCompletedRun(state.profile, {
     characterId: completion.characterId,
     victory: true,
-    endingId: ending.id,
+    endingId: finalSelection.ending.id,
+    characterEpilogueId: finalSelection.characterEpilogue.id,
     chaptersCompleted: completion.completedChapterIds,
     unlockedFragments: completion.unlockedFragmentIds
   });
@@ -1232,12 +1305,37 @@ function completeRunWithEnding(state: ControllerState, storage: GameStorage | un
   clearSavedGame(storage);
   state.completedRunSummary = {
     completion,
-    ending,
+    ending: finalSelection.ending,
+    characterEpilogue: finalSelection.characterEpilogue,
     profile: state.profile
   };
   state.screen = "runSummary";
-  state.message = `${charactersById[completion.characterId].name}抵达${ending.title}。`;
+  state.message = `${charactersById[completion.characterId].name}抵达${finalSelection.ending.title}与${finalSelection.characterEpilogue.title}。`;
   return true;
+}
+
+function createAutomaticFinalChoiceSelection(run: RunState): FinalChoiceSelection | undefined {
+  const finalState = createRunCompletionSnapshot(run)?.finalState;
+  if (!finalState) {
+    return undefined;
+  }
+
+  const ending = evaluateRunEnding(finalState, run);
+  if (!ending) {
+    return undefined;
+  }
+
+  const choice = getFinalChoiceForEnding(ending.id);
+  const characterEpilogue = selectCharacterEpilogue(run, ending.id);
+  if (!choice || !characterEpilogue) {
+    return undefined;
+  }
+
+  return {
+    choice,
+    ending,
+    characterEpilogue
+  };
 }
 
 function recordDefeatIfNeeded(state: ControllerState, storage: GameStorage | undefined): void {
@@ -1266,6 +1364,11 @@ function createCompletedDebugRun(): RunState {
 
 function formatUnlockedEndingTitles(profile: PlayerProfile): string {
   const titles = profile.unlockedEndings.map((endingId) => endingsById[endingId as keyof typeof endingsById]?.title ?? endingId);
+  return titles.length > 0 ? titles.join("、") : "未解锁";
+}
+
+function formatUnlockedCharacterEpilogueTitles(profile: PlayerProfile): string {
+  const titles = (profile.unlockedCharacterEpilogues ?? []).map((epilogueId) => characterEpiloguesById[epilogueId as keyof typeof characterEpiloguesById]?.title ?? epilogueId);
   return titles.length > 0 ? titles.join("、") : "未解锁";
 }
 

@@ -79,10 +79,12 @@ test("ending summary records and persists profile summary", async ({ page }, tes
   await expect(page.getByTestId("ending-summary")).toBeVisible();
   await expect(page.getByTestId("ending-id")).toContainText("ending_hidden_wu");
   await expect(page.getByTestId("ending-title")).toContainText("隐藏清悟");
+  await expect(page.getByTestId("character-epilogue-title")).toContainText("长坂无名");
   await expect(page.getByTestId("run-summary-character")).toContainText("赵云");
   await expect(page.getByTestId("run-summary-chapters")).toContainText("4");
   await expect(page.getByTestId("profile-total-runs")).toContainText("1");
   await expect(page.getByTestId("profile-unlocked-endings")).toContainText("隐藏清悟");
+  await expect(page.getByTestId("profile-unlocked-epilogues")).toContainText("长坂无名");
   await capturePlaytestScreenshot(page, testInfo, "ending-profile-summary-desktop.png");
 
   await page.reload();
@@ -91,6 +93,7 @@ test("ending summary records and persists profile summary", async ({ page }, tes
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
   await expect(page.getByTestId("profile-total-runs")).toContainText("1");
   await expect(page.getByTestId("profile-unlocked-endings")).toContainText("隐藏清悟");
+  await expect(page.getByTestId("profile-unlocked-epilogues")).toContainText("长坂无名");
 });
 
 test("final boss route reaches ending and profile summary", async ({ page }) => {
@@ -117,12 +120,20 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await page.getByTestId("boss-reward-continue").click();
 
+  await expect(page.getByTestId("screen-final-choice")).toBeVisible();
+  await expect(page.getByTestId("final-choice-option")).toContainText(["封印墨渊", "焚毁墨书", "接管墨书", "与心魔合一"]);
+  await expect(page.getByTestId("final-choice-option").filter({ hasText: "放下笔" })).toHaveCount(0);
+  await page.getByTestId("final-choice-option").filter({ hasText: "封印墨渊" }).click();
+
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
   await expect(page.getByTestId("ending-summary")).toBeVisible();
+  await expect(page.getByTestId("ending-title")).toContainText("清明封印");
+  await expect(page.getByTestId("character-epilogue-title")).toContainText("白龙归阵");
   await expect(page.getByTestId("run-summary-character")).toContainText("赵云");
   await expect(page.getByTestId("run-summary-chapters")).toContainText("4");
   await expect(page.getByTestId("profile-total-runs")).toContainText("1");
   await expect(page.getByTestId("profile-unlocked-endings")).not.toContainText("未解锁");
+  await expect(page.getByTestId("profile-unlocked-epilogues")).toContainText("白龙归阵");
 });
 
 test("boots, enters a Zhao Yun battle, wins, and returns to the route map", async ({ page }) => {
