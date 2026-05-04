@@ -1,4 +1,11 @@
 import { expect, type Page, type TestInfo, test } from "@playwright/test";
+import { getCombatAttackSprite } from "../../src/game/content/visuals";
+
+const firstChapterSemanticEnemyAttacks = {
+  elite_sword_echo: "/assets/sprites/wave9-sword-echo-attack-strip.svg",
+  elite_blood_banner: "/assets/sprites/wave9-blood-banner-attack-strip.svg",
+  boss_ink_dongzhuo: "/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg"
+} as const;
 
 const combatSmokeCharacters = [
   {
@@ -88,8 +95,13 @@ test("captures a non-Luoshui chapter battlefield context", async ({ page }, test
   await capturePlaytestScreenshot(page, testInfo, "combat-bamboo-battlefield-desktop.png");
 });
 
-test("first chapter stand-in elites attack without swapping to the generic slash sprite", async ({ page }) => {
+test("first chapter stand-ins use semantic attack strips instead of generic slash", async ({ page }) => {
   test.setTimeout(80_000);
+  for (const [combatantId, assetPath] of Object.entries(firstChapterSemanticEnemyAttacks)) {
+    expect(getCombatAttackSprite(combatantId)?.assetPath).toBe(assetPath);
+    expect(getCombatAttackSprite(combatantId)?.assetPath).not.toBe("/assets/sprites/enemy-slash-strip.svg");
+  }
+
   await page.addInitScript(() => {
     Date.now = () => 2_000;
   });
@@ -103,15 +115,20 @@ test("first chapter stand-in elites attack without swapping to the generic slash
   await page.getByTestId("map-node-elite-1").click();
 
   await expect(page.getByTestId("screen-combat")).toBeVisible();
-  await expect(page.getByTestId("enemy-hp")).toContainText(/剑痴残影|血旗残兵/);
+  await expect(page.getByTestId("enemy-hp")).toContainText(/剑痴残影|血旗都尉|血旗残兵/);
   await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-(bamboo-soldier|scribe-officer)-standee-cutout\.png$/);
   await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
 
-  await page.getByTestId("end-turn").click();
+  const enemyStandeeSrc = await page.getByTestId("combat-standee-enemy").getAttribute("src");
+  const expectedAttackPath = enemyStandeeSrc?.includes("scribe-officer")
+    ? firstChapterSemanticEnemyAttacks.elite_blood_banner
+    : firstChapterSemanticEnemyAttacks.elite_sword_echo;
 
+  await triggerEnemyAttackSprite(page);
   await expect(page.locator(".combat-standee--enemy")).toHaveClass(/is-attacking/);
   await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-(bamboo-soldier|scribe-officer)-standee-cutout\.png$/);
-  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", new RegExp(escapeRegExp(pathBasename(expectedAttackPath))));
+  await expect(page.getByTestId("combat-sprite-enemy")).not.toHaveCSS("background-image", /enemy-slash-strip\.svg/);
 });
 
 async function startDesktopRun(page: Page, characterId: (typeof combatSmokeCharacters)[number]["id"]): Promise<void> {
@@ -184,11 +201,30 @@ async function winVisibleCombat(page: Page, maxSteps = 36, targetScreen = "scree
   await expect(page.getByTestId(targetScreen)).toBeVisible();
 }
 
+async function triggerEnemyAttackSprite(page: Page, maxTurns = 4): Promise<void> {
+  for (let turn = 0; turn < maxTurns; turn += 1) {
+    await page.getByTestId("end-turn").click();
+    if (await page.getByTestId("combat-sprite-enemy").isVisible().catch(() => false)) {
+      return;
+    }
+  }
+
+  await expect(page.getByTestId("combat-sprite-enemy")).toBeVisible();
+}
+
 async function capturePlaytestScreenshot(page: Page, testInfo: TestInfo, fileName: string): Promise<void> {
   const path = testInfo.outputPath(fileName);
   const screenshot = await page.screenshot({ path, fullPage: true });
   expect(screenshot.byteLength).toBeGreaterThan(25_000);
   await testInfo.attach(fileName, { path, contentType: "image/png" });
+}
+
+function pathBasename(path: string): string {
+  return path.split("/").pop() ?? path;
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 async function expectDesktopCombatLayout(page: Page): Promise<void> {

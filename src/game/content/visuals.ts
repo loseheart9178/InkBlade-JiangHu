@@ -560,6 +560,30 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
     anchor: "bottom-center"
   },
   {
+    id: "sword_echo_attack",
+    assetPath: "/assets/sprites/wave9-sword-echo-attack-strip.svg",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "blood_banner_attack",
+    assetPath: "/assets/sprites/wave9-blood-banner-attack-strip.svg",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
+    id: "ink_dongzhuo_boss_attack",
+    assetPath: "/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
     id: "bamboo_wraith_attack",
     assetPath: "/assets/sprites/bamboo-wraith-attack-strip-gpt2.png",
     frameCount: 4,
@@ -645,18 +669,15 @@ export const combatSpriteSheetsById: Record<string, CombatSpriteSheetDefinition>
   combatSpriteSheetList.map((sheet) => [sheet.id, sheet])
 );
 
-const standeeOnlyAttackCombatantIds = new Set([
-  "elite_sword_echo",
-  "elite_blood_banner",
-  "boss_ink_dongzhuo"
-]);
-
 const combatAttackSpriteSheetIdsByCombatantId: Record<string, string> = {
   zhaoyun: "zhaoyun_attack",
   diaochan: "diaochan_attack",
   caiwenji: "caiwenji_attack",
   zhugeliang: "zhugeliang_attack",
   enemy_paper_umbrella: "paper_umbrella_attack",
+  elite_sword_echo: "sword_echo_attack",
+  elite_blood_banner: "blood_banner_attack",
+  boss_ink_dongzhuo: "ink_dongzhuo_boss_attack",
   enemy_bamboo_wraith: "bamboo_wraith_attack",
   elite_qin_score: "qin_score_attack",
   enemy_broken_scholar: "broken_scholar_attack",
@@ -673,10 +694,6 @@ const combatAttackSpriteSheetIdsByCombatantId: Record<string, string> = {
 };
 
 export function getCombatAttackSprite(id: string): CombatSpriteSheetDefinition | undefined {
-  if (standeeOnlyAttackCombatantIds.has(id)) {
-    return undefined;
-  }
-
   const sheetId = combatAttackSpriteSheetIdsByCombatantId[id] ?? "ink_bandit_attack";
   return combatSpriteSheetsById[sheetId];
 }
