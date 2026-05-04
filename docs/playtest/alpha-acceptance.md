@@ -1,48 +1,58 @@
 # Alpha Acceptance Playtest
 
-Wave 4 release-QA surface for the desktop browser MVP after integrating GPT Image 2 assets, four-character alpha balance contracts, and desktop e2e evidence. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, and Steam packaging are outside this acceptance pass.
+Wave 7 documentation refresh for the desktop browser alpha after the verified Wave 6 baseline (`18f47f9 fix: address observed bugs and add debug skip`). Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
 
-Last verified: 2026-05-03 21:35 Asia/Shanghai.
+Last full gate verified: 2026-05-04 Wave 6 baseline. Asset audit refreshed in this worktree on 2026-05-04 16:32 Asia/Shanghai.
 
 Wave 7 balance-report evidence verified: 2026-05-04 16:38 Asia/Shanghai.
 
 ## Runnable Commands
 
+Use the bundled Node runtime for autonomous worktrees:
+
 ```bash
-node scripts/audit-generated-assets.mjs
-npm test
-npm run typecheck
-npm run build
-npm run test:e2e
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
 Useful focused reruns:
 
 ```bash
-npm run test:e2e -- tests/e2e/visual-smoke.spec.ts
-npm run test:e2e -- tests/e2e/playable-flow.spec.ts
-npm test -- tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
-node scripts/balance-report.mjs --markdown
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "debug skip|compendium|墨录图鉴"
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown
 ```
 
 ## Playable Scope
 
 - Boot to the title screen and select any of the four MVP characters: Zhao Yun, Diao Chan, Cai Wenji, or Zhuge Liang.
-- Start a desktop run, choose map nodes, enter card combat, play cards, end turns, win battles, claim rewards, and continue a saved combat after reload.
-- Use first-slice route surfaces covered by e2e: event, rest upgrade, shop relic purchase, elite method reward, boss reward bridge, chapter reward, logbook, second-chapter combat entry, save/continue after reload.
-- Use deterministic simulator coverage for all four characters through `luoshui`, `bamboo`, `changan`, and `moyuan`.
-- Use title debug entries for settings, run-summary shell, and completed ending/profile summary.
+- Start a desktop run, choose map nodes, enter card combat, play cards, end turns, win battles, claim rewards, and continue saved run states after reload.
+- Use first-slice and cross-chapter route surfaces covered by e2e: event, rest upgrade, shop relic purchase, elite method reward, boss reward bridge, chapter reward, logbook, second-chapter combat entry, save/continue after reload, and final boss debug route.
+- Complete the browser final boss route from `墨渊照心` map into `无名史官` combat, chapter reward, boss reward, final choice, reload/continue from final choice, ending/profile summary, and persisted profile stats.
+- Use title/run `墨录图鉴` compendium coverage for cards, relics, enemies, combos, and story fragments without losing the current run screen.
+- Use glossary metadata on shipped card keyword chips, enemy intents, and combo trail entries; desktop tooltip attributes are covered in visual smoke.
+- Use the visible `调试跳章` control to advance to the next chapter map for prototype testing; it refreshes chapter backdrop context and remains a debug aid, not production progression.
+- Use deterministic simulator coverage for all four MVP characters through the shipped route contract, including `luoshui`, `bamboo`, `changan`, and `moyuan`.
 
 ## Verification Table
 
-| Check | Command or Evidence | Result |
+| Check | Command or Evidence | Wave 6 Baseline Result |
 |---|---|---|
-| Generated asset references have no missing runtime files | `node scripts/audit-generated-assets.mjs` | Passed: 105 runtime refs, 0 missing, 0 ink-pass debt, 55 GPT2 runtime assets, 20 source sheets |
-| Deterministic unit coverage | `npm test` | Passed: 13 files, 134 tests |
-| TypeScript compile check | `npm run typecheck` | Passed |
-| Production build | `npm run build` | Passed with non-blocking Vite large-chunk warning |
-| Desktop browser e2e | `npm run test:e2e` | Passed: 17 Chromium tests |
+| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: 105 runtime refs, 0 missing, 0 ink-pass debt, 56 card fallback debt, 52 GPT2 runtime assets, 20 source sheets, 54 prompt queue targets |
+| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 15 files, 157 tests |
+| TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
+| Production build | bundled `vite/bin/vite.js build` | Passed with known non-blocking lazy Phaser chunk warning |
+| Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 23 Chromium tests |
 | Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
+| Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | Covered and passing through reload/continue, final choice, ending, profile summary |
+| Debug skip | `tests/e2e/playable-flow.spec.ts` | Covered and passing; advances to next chapter and refreshes `data-battlefield` |
+| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Covered and passing from title and map/run status |
+| Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | Covered and passing for card chips, intent boxes, and combo trail tooltip metadata |
 | Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Covered and passing with GPT2 standees/card art and attack strips |
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
 | Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
@@ -77,7 +87,7 @@ Findings:
 
 ## Screenshot Artifacts
 
-The Playwright HTML report and `test-results/` output include these attached desktop screenshots when `npm run test:e2e` runs:
+The Playwright HTML report and `test-results/` output include these attached desktop screenshots when the full e2e gate runs:
 
 - `combat-zhaoyun-desktop.png`
 - `combat-diaochan-desktop.png`
@@ -85,20 +95,16 @@ The Playwright HTML report and `test-results/` output include these attached des
 - `combat-zhugeliang-desktop.png`
 - `ending-profile-summary-desktop.png`
 
-Latest local paths:
+## Current Acceptance State
 
-```text
-test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-zhaoyun-desktop.png
-test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-diaochan-desktop.png
-test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-caiwenji-desktop.png
-test-results/visual-smoke-captures-desk-56fce-ots-for-all-four-characters-chromium/combat-zhugeliang-desktop.png
-test-results/playable-flow-ending-summa-5f3d5-nd-persists-profile-summary-chromium/ending-profile-summary-desktop.png
-```
+### Gameplay Blockers
 
-## Honest MVP Gaps
+- No Wave 6 baseline gameplay blocker is currently documented after the `18f47f9` full gate.
+- Wave 7 work is still expected to add save/profile hardening, route previews, first-combat onboarding hints, and balance-report evidence before the next integrated demo gate.
 
-- The current acceptance route is desktop-only Chromium automation. Mobile layout and touch-specific checks remain paused by project rule.
-- The final chapter has deterministic simulator coverage and an ending/profile summary debug path, but a fully played final-chapter boss route is not yet part of browser e2e.
-- The `墨渊照心` battlefield asset is generated and registered in the visual manifest; route-specific battlefield switching remains a later polish task.
-- Some low-priority starter/filler cards still share type-level fallback card art, though the generated asset audit now reports 0 tracked `ink-pass` runtime debt.
-- Production audio, localization polish, Steam packaging, settings persistence depth, and full meta progression are not in this MVP gate.
+### Non-Blocking Backlog
+
+- Card fallback art debt remains 56. These cards still share type-level fallback art and require real GPT Image 2 source/crop generation before the ledger should shrink.
+- First-chapter elite art uses vetted clean stand-ins: `elite_sword_echo` uses `gpt2-bamboo-soldier-standee-cutout.png`, and `elite_blood_banner` uses `gpt2-scribe-officer-standee-cutout.png`. Their bespoke standees and attack strips are Wave 8 regeneration debt, not a runtime blocker.
+- The known Vite `>500 kB` warning remains isolated to the lazy Phaser chunk after the boot split. It is a performance backlog item and did not block the Wave 6 build gate.
+- Production audio depth, release packaging notes, profile-gated compendium presentation, and external playtest instructions remain future polish.

@@ -79,6 +79,60 @@ Next milestone:
 
 - Commit `codex/wave7-save-hardening`, then hand off for Wave 7 integration.
 
+### 2026-05-04 16:32 Asia/Shanghai
+
+Wave 7 / Task 7.5 Alpha Acceptance And Art Debt Refresh completed in `.worktrees/wave7-alpha-doc-refresh` on branch `codex/wave7-alpha-doc-refresh`.
+
+Docs read before documentation refresh:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+
+What changed:
+
+- Refreshed `docs/playtest/alpha-acceptance.md` from the Wave 6 verified baseline at `18f47f9`, including final boss route coverage, final choice reload/continue, compendium, glossary metadata, debug skip, and current verification counts.
+- Split alpha acceptance notes into gameplay blockers versus non-blocking backlog so card fallback debt, elite stand-ins, and the lazy Phaser chunk warning are not confused with runtime blockers.
+- Refreshed `docs/art/gpt2-priority-queue.md` with the current audit counts: 105 runtime references, 0 missing files, 0 ink-pass debt, 56 card fallback debt, 52 GPT2 runtime assets, 20 source sheets, and 54 prompt queue targets.
+- Added explicit first-chapter elite regeneration debt for `elite_sword_echo` and `elite_blood_banner`, including their current vetted standee stand-ins, generic attack-strip bindings, and quarantined annotated paths that should not be rebound without clean regenerated sources.
+
+Decisions:
+
+- No generated asset manifest or runtime visual bindings were changed; this branch is documentation-only.
+- Card fallback debt remains fixed at 56 because no new generated card source sheets or runtime crops exist in this worktree.
+- The first-chapter elite stand-ins are accepted for the current demo gate but tracked as bespoke Wave 8 art regeneration debt.
+- The Vite `>500 kB` warning remains documented as a non-blocking lazy Phaser chunk/performance backlog item.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+```
+
+Known gaps / risks:
+
+- Wave 7 balance-report evidence is still owned by the balance-report worktree; this docs refresh only preserves the Wave 6 verified baseline.
+- First-chapter elite bespoke art and the 56 fallback card faces remain non-blocking generated-art backlog.
+- The known lazy Phaser chunk warning remains unresolved until the performance split track revisits chunk sizing.
+
+Next step:
+
+- Commit the docs refresh branch, then integrate it after any newer balance-report acceptance evidence is available.
+
 ### 2026-05-04 12:43 Asia/Shanghai
 
 Wave 6 final review fixes completed in `.worktrees/wave6-integration` on branch `codex/wave6-integration`.
