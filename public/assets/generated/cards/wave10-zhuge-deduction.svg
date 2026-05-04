@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhuge Liang deduction card art</title>
+  <desc id="desc">Bamboo slips, star calculations, and teal grid lines show a quiet deduction.</desc>
+  <defs>
+    <radialGradient id="deduce" cx="52%" cy="40%" r="58%">
+      <stop offset="0" stop-color="#7ccbc3" stop-opacity="0.58"/>
+      <stop offset="1" stop-color="#f7f0df" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <rect width="640" height="900" rx="34" fill="url(#deduce)"/>
+  <path d="M120 258h404M120 357h404M120 456h404M183 204v309M283 204v309M383 204v309M483 204v309" fill="none" stroke="#1f8d8a" stroke-width="5" opacity="0.42"/>
+  <path d="M142 582c66-28 123-28 171 0 60 35 119 32 177-8" fill="none" stroke="#111111" stroke-width="12" stroke-linecap="round" opacity="0.11"/>
+  <path d="M162 601c80-39 169-46 267-21 34 9 48 33 38 71-105 29-207 25-306-14-10-17-10-29 1-36Z" fill="#80683d" opacity="0.75"/>
+  <path d="M177 621c84-20 175-20 273 0M185 653c78 15 161 18 250 8" fill="none" stroke="#f7f0df" stroke-width="4" opacity="0.44"/>
+  <circle cx="221" cy="259" r="12" fill="#1f8d8a"/>
+  <circle cx="383" cy="357" r="10" fill="#1f8d8a" opacity="0.8"/>
+  <circle cx="482" cy="456" r="14" fill="#1f8d8a" opacity="0.7"/>
+  <path d="M221 259 383 357 482 456" fill="none" stroke="#111111" stroke-width="4" opacity="0.28"/>
+</svg>

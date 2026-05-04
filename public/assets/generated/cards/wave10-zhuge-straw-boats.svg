@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhuge Liang straw boats card art</title>
+  <desc id="desc">Straw boats borrow arrows through teal river mist and soft ink fog.</desc>
+  <defs>
+    <linearGradient id="river" x1="0" y1="260" x2="640" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f7f0df"/>
+      <stop offset="1" stop-color="#62bcb5" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#river)"/>
+  <path d="M0 646c101-66 199-66 294 0 86 60 201 58 346-6v260H0Z" fill="#111111" opacity="0.08"/>
+  <path d="M116 553c69 31 140 32 213 2-23 68-78 101-165 100-49-32-65-66-48-102Z" fill="#2a241b" opacity="0.78"/>
+  <path d="M310 604c74 29 148 25 223-13-19 70-72 108-160 113-57-27-78-60-63-100Z" fill="#2a241b" opacity="0.72"/>
+  <path d="M164 492c44-38 91-37 141 2M372 543c50-39 99-37 147 5" fill="none" stroke="#987d42" stroke-width="8" stroke-linecap="round"/>
+  <path d="M72 310l189 144M98 258l229 180M174 227l254 201M283 220l198 165M381 266l147 122" fill="none" stroke="#111111" stroke-width="7" stroke-linecap="round" opacity="0.32"/>
+  <path d="M71 696c115-45 226-41 333 13 56 28 111 29 164 2" fill="none" stroke="#1e8f8b" stroke-width="13" stroke-linecap="round" opacity="0.52"/>
+  <path d="M86 742c133 33 283 35 451 5" fill="none" stroke="#1e8f8b" stroke-width="7" stroke-linecap="round" opacity="0.28"/>
+</svg>

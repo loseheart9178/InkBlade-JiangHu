@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cai Wenji clean string card art</title>
+  <desc id="desc">A cleansed qin string shines under one clear rain bead on xuan paper.</desc>
+  <defs>
+    <linearGradient id="rain" x1="180" y1="170" x2="470" y2="710" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e9fff9"/>
+      <stop offset="1" stop-color="#1c918f" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <path d="M0 690c139-94 263-96 382-4 79 60 172 74 258 38v176H0Z" fill="#111111" opacity="0.08"/>
+  <path d="M120 540c118-64 294-73 399-23 29 14 31 58 1 72-113 53-302 58-411 10-38-17-30-37 11-59Z" fill="#2c271f" opacity="0.84"/>
+  <path d="M142 572c100-38 251-45 362-17" fill="none" stroke="url(#rain)" stroke-width="11" stroke-linecap="round"/>
+  <path d="M146 536c107-35 248-40 343-14M150 605c99-20 231-25 340-10" fill="none" stroke="#f7f0df" stroke-width="5" stroke-linecap="round" opacity="0.52"/>
+  <path d="M318 165c-20 40-34 73-31 101 4 39 35 63 72 52 34-10 49-49 34-82-13-29-45-48-75-71Z" fill="#ecfffb" stroke="#1c918f" stroke-width="7" opacity="0.9"/>
+  <path d="M320 185c-12 31-15 63-1 84 13 19 42 21 58 3" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.76"/>
+  <path d="M203 248c-26 87-12 166 42 236M473 242c20 93 3 173-51 235" fill="none" stroke="#1c918f" stroke-width="6" stroke-linecap="round" opacity="0.26"/>
+</svg>
