@@ -318,7 +318,7 @@ function chooseNextCard(state: CombatState, options: BattlePlanOptions): { card:
   }
 
   const incomingDamage = Math.max(0, estimateIncomingDamage(state) - state.player.block);
-  const latePressureAttack = enemy && state.turn >= 8 && incomingDamage <= (options.unsafeDamageTaken ?? DEFAULT_UNSAFE_DAMAGE)
+  const latePressureAttack = enemy && state.turn >= 6 && incomingDamage <= (options.unsafeDamageTaken ?? DEFAULT_UNSAFE_DAMAGE)
     ? getBestAttackCard(state, playable)
     : undefined;
   if (latePressureAttack && enemy) {
@@ -705,10 +705,11 @@ const ALPHA_SIMULATION_CARD_IDS: Record<string, string[]> = {
     "common_xixin"
   ],
   zhugeliang: [
-    "zhuge_starfall",
     "zhuge_borrow_wind",
-    "zhuge_plan_set",
     "zhuge_straw_boats",
+    "zhuge_stone_array",
+    "zhuge_starfall",
+    "zhuge_plan_set",
     "zhuge_wind_array",
     "zhuge_empty_city",
     "zhuge_deduction",
@@ -721,7 +722,7 @@ const ALPHA_SIMULATION_RELIC_IDS: Record<string, string[]> = {
   zhaoyun: ["relic_dragon_scale_tip", "relic_changban_iron_seal", "relic_old_wooden_sword"],
   diaochan: ["relic_lotus_step_bell", "relic_silent_zither_string", "relic_black_paper_umbrella"],
   caiwenji: ["relic_clear_rain_charm", "relic_broken_string", "relic_memory_bamboo_slip"],
-  zhugeliang: ["relic_red_lacquer_token", "relic_memory_bamboo_slip", "relic_ink_washstone"]
+  zhugeliang: ["relic_starlit_tactical_map", "relic_red_lacquer_token", "relic_memory_bamboo_slip", "relic_ink_washstone"]
 };
 
 function createPacingRun(chapterId: ChapterId, characterId: string): RunState {

@@ -105,6 +105,9 @@ describe("run simulator", () => {
     expect(report.aggregate.characters.caiwenji).toBeDefined();
     expect(report.aggregate.characters.zhugeliang).toBeDefined();
     expect(report.aggregate.totalRuns).toBe(12);
+    expect(report.aggregate.completedRoutes).toBe(12);
+    expect(report.aggregate.characters.zhugeliang.completed).toBe(3);
+    expect(report.routes.filter((route) => route.characterId === "zhugeliang").every((route) => route.outcome === "completed")).toBe(true);
   });
 
   it("flags missing enemies, timeout-prone fights, and unsafe damage spikes", () => {

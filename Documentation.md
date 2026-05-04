@@ -2,6 +2,62 @@
 
 ## Status Log
 
+### 2026-05-04 22:30 Asia/Shanghai
+
+Wave 9 Task 1 Zhuge Liang balance fix completed in `.worktrees/wave9-zhuge-balance` on branch `codex/wave9-zhuge-balance`.
+
+Docs read / carried through:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave9-polish-balance-art.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+
+What changed:
+
+- Added a failing multi-seed assertion that requires all three Zhuge Liang seeded routes to complete.
+- Reordered Zhuge Liang alpha simulation support cards so early chapter routes include survivability before the high-cost finisher.
+- Added `relic_starlit_tactical_map` as the first Zhuge Liang chapter-scaling relic to support formation resource tempo.
+- Moved safe pressure attacks earlier in the deterministic simulator, from turn 8 to turn 6, so defensive/support-heavy decks do not let status-blocking bosses snowball into timeouts.
+
+TDD and root cause:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
+RED result: failed with bamboo/zhugeliang/boss_qin_demon_echo:timeout while the new seed coverage exposed Zhuge Liang seed 9003 route instability.
+Rejected hypothesis: adding zhuge_fire_array to the simulator support pool increased downstream failures and unsafe spikes, so it was reverted.
+Root cause: the simulator waited until turn 8 before prioritizing safe pressure attacks, giving Qin Demon Echo too many turns to add statuses and block before Zhuge Liang's support-heavy route converted to damage.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
+Result: passed, 1 file / 7 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+Result: passed. Routes completed 12/12, timeout risks 0, unsafe damage spikes 0, Zhuge Liang completed 3/3.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Zhuge Liang remains high-pressure in the deterministic report, with low post-combat HP across seeds. This is acceptable for the current vertical slice but should stay on the balance watchlist.
+
+Next step:
+
+- Commit this worker branch and integrate it into the Wave 9 release branch after art worker branches are committed.
+
 ### 2026-05-04 21:30 Asia/Shanghai
 
 Wave 9 Polish Balance Art planning started in `.worktrees/wave6-integration` on branch `codex/wave9-polish-balance-art-plan`.
