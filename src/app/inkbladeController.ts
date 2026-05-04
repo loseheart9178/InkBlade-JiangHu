@@ -46,6 +46,7 @@ import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferM
 import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile } from "../game/systems/profile/profile";
 import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
+import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
 import {
   addRelic,
   advanceToNextChapter,
@@ -77,7 +78,8 @@ import {
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "runSummary" | "victory" | "defeat";
+type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "compendium" | "runSummary" | "victory" | "defeat";
+type CompendiumReturnScreen = Exclude<Screen, "compendium">;
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -90,6 +92,8 @@ interface ControllerState {
   pendingSpoils?: BattleSpoils;
   logbookReturnScreen?: Screen;
   deckOpen: boolean;
+  compendiumFilters: Required<CompendiumFilters>;
+  compendiumReturnScreen?: CompendiumReturnScreen;
   settings: DesktopSettings;
   profile: PlayerProfile;
   completedRunSummary?: CompletedRunSummaryView;
@@ -113,6 +117,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     screen: "title",
     rewardCards: [],
     deckOpen: false,
+    compendiumFilters: createDefaultCompendiumFilters(),
     settings: loadSettings(options.storage),
     profile: loadProfile(options.storage) ?? createProfile(),
     message: ""
@@ -196,6 +201,11 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       return;
     }
 
+    if (state.screen === "compendium") {
+      renderCompendium(host, state, render);
+      return;
+    }
+
     if (state.screen === "runSummary") {
       renderRunSummary(host, state, render);
       return;
@@ -273,6 +283,19 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
       showSettingsShell(host, state, storage, audioFeedback);
     });
     actions.append(settings);
+  }
+
+  if (!actions.querySelector("[data-testid='compendium-title-open']")) {
+    const compendium = document.createElement("button");
+    compendium.type = "button";
+    compendium.dataset.testid = "compendium-title-open";
+    compendium.textContent = "墨录图鉴";
+    compendium.addEventListener("click", () => {
+      audioFeedback.playUi();
+      state.compendiumFilters = createDefaultCompendiumFilters();
+      showCompendiumTitleShell(host, state);
+    });
+    actions.append(compendium);
   }
 
   if (!actions.querySelector("[data-testid='debug-run-summary']")) {
@@ -429,6 +452,187 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
   host.append(panel);
 }
 
+function showCompendiumTitleShell(host: HTMLElement, state: ControllerState): void {
+  removeTitleShellOverlay(host);
+  const panel = createCompendiumPanel(
+    state,
+    () => showCompendiumTitleShell(host, state),
+    () => removeTitleShellOverlay(host),
+    "返回标题",
+    "收起图鉴，回到主菜单。"
+  );
+  panel.classList.add("title-shell-panel");
+  panel.dataset.titleShellOverlay = "true";
+  host.append(panel);
+}
+
+function renderCompendium(host: HTMLElement, state: ControllerState, render: () => void): void {
+  const panel = createCompendiumPanel(
+    state,
+    render,
+    () => {
+      state.screen = state.compendiumReturnScreen ?? "map";
+      state.compendiumReturnScreen = undefined;
+      render();
+    },
+    "返回行旅",
+    "回到打开图鉴前的界面。"
+  );
+
+  if (state.run) {
+    panel.insertBefore(createRunStatus(state.run, "墨录图鉴已展开，当前行旅仍留在原处。"), panel.children[1] ?? null);
+  }
+
+  host.append(panel);
+}
+
+function createCompendiumPanel(
+  state: ControllerState,
+  refresh: () => void,
+  onBack: () => void,
+  backTitle: string,
+  backBody: string
+): HTMLElement {
+  const compendium = buildCompendium(state.compendiumFilters);
+  const panel = createPanel("screen-compendium", "墨录图鉴");
+  panel.classList.add("compendium-screen");
+
+  const note = document.createElement("p");
+  note.className = "shell-note";
+  note.textContent = "卡牌、法宝、敌影、招式链与残页汇在一处，方便开局前和行旅中快速翻查。";
+
+  const tabs = document.createElement("div");
+  tabs.className = "compendium-tabs";
+  const allTab = createCompendiumTab("all", "全部", compendium.totalCount, state.compendiumFilters.category === "all", () => {
+    state.compendiumFilters = { ...state.compendiumFilters, category: "all", character: "all", rarity: "all", chapter: "all" };
+    refresh();
+  });
+  tabs.append(allTab);
+  for (const category of compendium.facets.categories) {
+    tabs.append(createCompendiumTab(category.id as CompendiumCategory, category.label, category.count, state.compendiumFilters.category === category.id, () => {
+      state.compendiumFilters = {
+        ...state.compendiumFilters,
+        category: category.id as CompendiumCategory,
+        character: "all",
+        rarity: "all",
+        chapter: "all"
+      };
+      refresh();
+    }));
+  }
+
+  const filters = document.createElement("div");
+  filters.className = "compendium-filters";
+  filters.append(
+    createCompendiumSelect("compendium-filter-character", "角色", state.compendiumFilters.character, compendium.facets.characters, (value) => {
+      state.compendiumFilters = { ...state.compendiumFilters, character: value };
+      refresh();
+    }),
+    createCompendiumSelect("compendium-filter-rarity", "稀有度", state.compendiumFilters.rarity, compendium.facets.rarities, (value) => {
+      state.compendiumFilters = { ...state.compendiumFilters, rarity: value };
+      refresh();
+    }),
+    createCompendiumSelect("compendium-filter-chapter", "章节", state.compendiumFilters.chapter, compendium.facets.chapters, (value) => {
+      state.compendiumFilters = { ...state.compendiumFilters, chapter: value as Required<CompendiumFilters>["chapter"] };
+      refresh();
+    })
+  );
+
+  const summary = document.createElement("div");
+  summary.className = "compendium-summary";
+  summary.dataset.testid = "compendium-summary";
+  summary.textContent = `显示 ${compendium.filteredCount} / ${compendium.totalCount} 条`;
+
+  const list = document.createElement("div");
+  list.className = "compendium-list";
+  if (compendium.groups.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "compendium-empty";
+    empty.dataset.testid = "compendium-empty";
+    empty.textContent = "暂无符合筛选的墨录。";
+    list.append(empty);
+  }
+
+  for (const group of compendium.groups) {
+    const section = document.createElement("section");
+    section.className = "compendium-group";
+    const heading = document.createElement("h3");
+    heading.textContent = `${getCompendiumCategoryLabel(group.id)} ${group.items.length}`;
+    section.append(heading);
+
+    const grid = document.createElement("div");
+    grid.className = "compendium-item-grid";
+    for (const item of group.items) {
+      grid.append(createCompendiumItemCard(item));
+    }
+    section.append(grid);
+    list.append(section);
+  }
+
+  const back = createAction(backTitle, backBody, onBack);
+  back.dataset.testid = "compendium-back";
+
+  panel.append(note, tabs, filters, summary, list, back);
+  return panel;
+}
+
+function createCompendiumTab(id: CompendiumCategory | "all", label: string, count: number, active: boolean, onClick: () => void): HTMLButtonElement {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = active ? "compendium-tab is-active" : "compendium-tab";
+  button.dataset.testid = `compendium-tab-${id}`;
+  button.innerHTML = `<strong>${label}</strong><span>${count}</span>`;
+  button.addEventListener("click", onClick);
+  return button;
+}
+
+function createCompendiumSelect(
+  testId: string,
+  label: string,
+  value: string,
+  facets: Array<{ id: string; label: string; count: number }>,
+  onChange: (value: string) => void
+): HTMLElement {
+  const wrapper = document.createElement("label");
+  wrapper.className = "compendium-filter";
+  const text = document.createElement("span");
+  text.textContent = label;
+  const select = document.createElement("select");
+  select.dataset.testid = testId;
+  select.append(new Option("全部", "all"));
+  for (const facet of facets) {
+    select.append(new Option(`${facet.label} ${facet.count}`, facet.id));
+  }
+  select.value = value;
+  select.addEventListener("change", () => onChange(select.value));
+  wrapper.append(text, select);
+  return wrapper;
+}
+
+function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
+  const article = document.createElement("article");
+  article.className = `compendium-item compendium-item--${item.category}`;
+  article.dataset.testid = "compendium-item";
+  article.dataset.category = item.category;
+
+  const title = document.createElement("h4");
+  title.textContent = item.title;
+  const subtitle = document.createElement("small");
+  subtitle.textContent = item.subtitle;
+  const body = document.createElement("p");
+  body.textContent = item.body;
+  const meta = document.createElement("div");
+  meta.className = "compendium-meta";
+  for (const entry of item.meta.filter(Boolean).slice(0, 4)) {
+    const chip = document.createElement("span");
+    chip.textContent = entry;
+    meta.append(chip);
+  }
+
+  article.append(title, subtitle, body, meta);
+  return article;
+}
+
 function createSettingToggle(testId: string, title: string, description: string, checked: boolean, onChange: (checked: boolean) => void): HTMLElement {
   const row = document.createElement("label");
   row.className = "settings-row";
@@ -493,7 +697,7 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   const panel = createPanel("screen-map", chapter.mapTitle);
   panel.classList.add("map-screen");
 
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
 
   const path = document.createElement("div");
   path.className = "route-map";
@@ -760,7 +964,7 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
   const draft = createMethodRewardDraft(run);
   const panel = createPanel("screen-method-reward", "心法");
   panel.classList.add("method-reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
   panel.append(createMessage(draft.reason));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -811,7 +1015,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   const run = requireRun(state);
   const panel = createPanel("screen-reward", "战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
   panel.append(createMessage(state.message));
   panel.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);
@@ -877,7 +1081,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const eventScene = getEventScene(event.id);
   const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
 
   const layout = document.createElement("div");
   layout.className = "event-layout";
@@ -923,7 +1127,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-shop", "茶亭游商");
   panel.classList.add("shop-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
 
   const shopCards = [cardsById.common_pifeng, cardsById.common_tuna, cardsById.ink_moren];
   const list = document.createElement("div");
@@ -1017,7 +1221,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-rest", "废寺静修");
   panel.classList.add("rest-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
 
   const heal = createAction("调息疗伤", "回复最大生命30%", () => {
     const healed = healRun(run, Math.ceil(run.maxHp * 0.3));
@@ -1055,7 +1259,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
   panel.classList.add("chapter-reward-screen", "reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
   panel.append(createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1109,7 +1313,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   const nextChapter = getNextChapter(run);
   const panel = createPanel("screen-boss-reward", "首领战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render)));
   panel.append(createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1392,7 +1596,7 @@ function createPanel(testId: string, title: string): HTMLElement {
   return panel;
 }
 
-function createRunStatus(run: RunState, message: string, onDeckClick?: () => void, onLogbookClick?: () => void): HTMLElement {
+function createRunStatus(run: RunState, message: string, onDeckClick?: () => void, onLogbookClick?: () => void, onCompendiumClick?: () => void): HTMLElement {
   const status = document.createElement("div");
   status.className = "run-status";
   const relicNames = run.relicIds.map((id) => relicsById[id]?.name ?? id).join("、");
@@ -1431,6 +1635,16 @@ function createRunStatus(run: RunState, message: string, onDeckClick?: () => voi
     logbookButton.textContent = "墨录";
     logbookButton.addEventListener("click", onLogbookClick);
     status.append(logbookButton);
+  }
+
+  if (onCompendiumClick) {
+    const compendiumButton = document.createElement("button");
+    compendiumButton.type = "button";
+    compendiumButton.className = "deck-open-button compendium-open-button";
+    compendiumButton.dataset.testid = "compendium-open";
+    compendiumButton.textContent = "墨录图鉴";
+    compendiumButton.addEventListener("click", onCompendiumClick);
+    status.append(compendiumButton);
   }
 
   return status;
@@ -1773,6 +1987,23 @@ function openLogbook(state: ControllerState, render: () => void): void {
   state.logbookReturnScreen = state.screen;
   state.screen = "logbook";
   render();
+}
+
+function openCompendium(state: ControllerState, render: () => void): void {
+  state.deckOpen = false;
+  state.compendiumReturnScreen = state.screen === "compendium" ? state.compendiumReturnScreen : state.screen as CompendiumReturnScreen;
+  state.compendiumFilters = createDefaultCompendiumFilters();
+  state.screen = "compendium";
+  render();
+}
+
+function createDefaultCompendiumFilters(): Required<CompendiumFilters> {
+  return {
+    category: "all",
+    character: "all",
+    rarity: "all",
+    chapter: "all"
+  };
 }
 
 function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, render: () => void): void {

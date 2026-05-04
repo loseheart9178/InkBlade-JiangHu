@@ -971,9 +971,9 @@ npm run build
 
 ## Milestone 60: Desktop Compendium
 
-- [ ] Add a read-only `墨录图鉴` for cards, relics, enemies, combos, and story fragments.
-- [ ] Open the compendium from title and run status without losing the current run screen.
-- [ ] Add compact desktop tabs and filters for category, character, rarity, and chapter.
+- [x] Add a read-only `墨录图鉴` for cards, relics, enemies, combos, and story fragments.
+- [x] Open the compendium from title and run status without losing the current run screen.
+- [x] Add compact desktop tabs and filters for category, character, rarity, and chapter.
 
 Verification:
 

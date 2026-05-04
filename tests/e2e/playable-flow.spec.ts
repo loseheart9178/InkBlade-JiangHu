@@ -59,6 +59,26 @@ test("settings persist reduced motion, mute, and volume controls after reload", 
   await expect(page.getByTestId("continue-run")).toBeDisabled();
 });
 
+test("compendium 墨录图鉴 opens from title and filters cards", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("compendium-title-open").click();
+  await expect(page.getByTestId("screen-compendium")).toBeVisible();
+  await expect(page.getByTestId("screen-compendium")).toContainText("墨录图鉴");
+
+  await page.getByTestId("compendium-tab-cards").click();
+  await page.getByTestId("compendium-filter-character").selectOption("zhaoyun");
+  await page.getByTestId("compendium-filter-rarity").selectOption("starter");
+
+  await expect(page.getByTestId("compendium-item").first()).toContainText(/枪击|架枪|龙胆/);
+  await expect(page.getByTestId("screen-compendium")).not.toContainText("素刃");
+
+  await page.getByTestId("compendium-back").click();
+  await expect(page.getByTestId("screen-title")).toBeVisible();
+});
+
 test("run summary shell opens from the title debug entry", async ({ page }) => {
   await page.goto("/");
 
@@ -249,6 +269,26 @@ test("logbook opens from run status and shows unlocked story fragments", async (
   await expect(page.getByTestId("logbook-entry").first()).toContainText(/长坂|洛水|黑雨|无名/);
   await page.getByTestId("logbook-back").click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
+});
+
+test("墨录图鉴 compendium opens from map and returns to the previous run screen", async ({ page }) => {
+  await startRun(page, "zhaoyun");
+
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  const savedRunBefore = await page.evaluate(() => JSON.stringify(JSON.parse(window.localStorage.getItem("inkblade-jianghu:run-save:v1") ?? "{}").state.run));
+  await page.getByTestId("compendium-open").click();
+
+  await expect(page.getByTestId("screen-compendium")).toBeVisible();
+  await expect(page.getByTestId("screen-compendium")).toContainText("招式链");
+  await page.getByTestId("compendium-tab-enemies").click();
+  await page.getByTestId("compendium-filter-chapter").selectOption("luoshui");
+  await expect(page.getByTestId("screen-compendium")).toContainText("墨影董卓");
+
+  await page.getByTestId("compendium-back").click();
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("run-chapter")).toContainText("洛水残照");
+  const savedRunAfter = await page.evaluate(() => JSON.stringify(JSON.parse(window.localStorage.getItem("inkblade-jianghu:run-save:v1") ?? "{}").state.run));
+  expect(savedRunAfter).toBe(savedRunBefore);
 });
 
 test("Diao Chan starting relic applies charm and weak at combat start", async ({ page }) => {

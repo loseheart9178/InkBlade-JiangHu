@@ -3765,3 +3765,85 @@ Known gaps:
 Next step:
 
 - Commit the asset branch, integrate it first into `codex/next-major-modules`, then run the same narrow asset verification before reclaiming the worktree.
+
+### 2026-05-04 11:45 Asia/Shanghai
+
+Wave 6 / Milestone 60 Desktop Compendium rescue completed in `.worktrees/wave6-compendium-rescue` on branch `codex/wave6-compendium-rescue`.
+
+Re-read before implementation and verification:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-autonomous-continuation.md`
+- `docs/superpowers/plans/2026-05-03-wave6-ea-readiness.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+
+What changed:
+
+- Inspected the already-applied compendium patch and found only controller/CSS/e2e changes staged; the pure compendium system and unit tests were missing.
+- Added `src/game/systems/compendium/compendium.ts` as a renderer-free builder over shipped cards, relics, enemies, combo rules, and logbook story fragments.
+- Added compact compendium facets for category, character, rarity, and chapter, with chapter metadata for enemies and story fragments.
+- Kept controller work as a thin DOM adapter: title entry opens a shell overlay, run-status entry opens a read-only compendium screen, and back restores the previous run screen.
+- Added desktop CSS for compact tabs, filters, grouped item grids, and category accents.
+- Extended Playwright coverage to compare the saved run payload before and after opening/filtering/returning from the run-status compendium.
+- Marked Milestone 60 complete in `Plan.md`.
+
+Decisions:
+
+- The title compendium lists shipped content as a reference surface. The existing run-scoped logbook remains the unlocked-fragment surface.
+- Story-fragment chapter filters are derived in the pure compendium builder from boss ids and current event-id chapter mapping because event definitions do not yet carry a first-class chapter field.
+- The compendium screen is not saveable and does not persist while open; returning to the previous screen reuses the existing run object.
+
+TDD and failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/compendium/compendium-system.test.ts
+RED result: failed because ../../src/game/systems/compendium/compendium did not exist.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+First run failed on the inherited controller cast: optional CompendiumFilters["chapter"] included undefined.
+Fixed by casting chapter select values to Required<CompendiumFilters>["chapter"].
+```
+
+Verification:
+
+```text
+npm install
+Result: dependencies installed. System npm emitted expected EBADENGINE warnings under Node 18; all verification commands below used the bundled Node 24 runtime.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/compendium/compendium-system.test.ts tests/data/content.test.ts
+Result: 2 test files passed, 29 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "compendium|墨录图鉴"
+Result: 2 Chromium tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: 15 test files passed, 146 tests passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known large chunk warning for `phaserConfig-C45ZQK1K.js` at 1,200.83 kB after minification.
+```
+
+Known gaps / risks:
+
+- Story-fragment chapter mapping should move into event content if future compendium work needs event chapters outside the current shipped event set.
+- The compendium is read-only and all-content; profile-gated locked/unlocked presentation remains a later meta progression task.
+- The large Phaser chunk warning remains non-blocking and belongs to the boot/performance split track.
+
+Next step:
+
+- Commit the rescue branch with `feat: add desktop compendium`, then continue Wave 6 with the glossary rescue/integration track.

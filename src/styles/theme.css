@@ -67,7 +67,8 @@ button {
 }
 
 .hud-host button,
-.hud-host input {
+.hud-host input,
+.hud-host select {
   pointer-events: auto;
 }
 
@@ -1347,6 +1348,7 @@ button {
 .reward-screen,
 .settings-screen,
 .run-summary-screen,
+.compendium-screen,
 .logbook-screen,
 .result-screen {
   align-items: center;
@@ -1501,6 +1503,169 @@ button {
   border-color: rgba(47, 124, 110, 0.5) !important;
   color: #2c2924 !important;
   background: rgba(246, 236, 213, 0.84) !important;
+}
+
+.compendium-screen {
+  gap: 14px;
+  padding: 22px 28px 28px;
+}
+
+.compendium-screen.title-shell-panel {
+  overflow: auto;
+}
+
+.compendium-tabs,
+.compendium-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: min(1040px, 94vw);
+}
+
+.compendium-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 112px;
+  padding: 8px 12px;
+  border: 1px solid rgba(44, 41, 36, 0.28);
+  border-radius: 6px;
+  color: rgba(44, 41, 36, 0.78);
+  background: rgba(246, 236, 213, 0.78);
+}
+
+.compendium-tab.is-active {
+  border-color: rgba(183, 53, 42, 0.56);
+  color: #5f1d18;
+  background:
+    linear-gradient(135deg, rgba(183, 53, 42, 0.14), rgba(47, 124, 110, 0.08)),
+    rgba(255, 252, 239, 0.88);
+}
+
+.compendium-tab span {
+  color: rgba(47, 124, 110, 0.86);
+  font-size: 12px;
+}
+
+.compendium-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(44, 41, 36, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 252, 239, 0.68);
+}
+
+.compendium-filter span {
+  color: rgba(44, 41, 36, 0.68);
+  font-size: 13px;
+}
+
+.compendium-filter select {
+  max-width: 170px;
+  border: 0;
+  color: #2c2924;
+  background: transparent;
+  font: inherit;
+}
+
+.compendium-summary {
+  color: rgba(44, 41, 36, 0.68);
+  font-size: 13px;
+}
+
+.compendium-list {
+  display: grid;
+  gap: 14px;
+  width: min(1120px, 94vw);
+  max-height: min(56vh, 540px);
+  overflow: auto;
+  padding: 2px 6px 6px;
+}
+
+.compendium-group {
+  display: grid;
+  gap: 9px;
+}
+
+.compendium-group h3 {
+  margin: 0;
+  color: #5f1d18;
+  font-size: 18px;
+}
+
+.compendium-item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+  gap: 10px;
+}
+
+.compendium-item,
+.compendium-empty {
+  display: grid;
+  gap: 7px;
+  min-height: 158px;
+  padding: 13px 14px;
+  border: 1px solid rgba(44, 41, 36, 0.28);
+  border-radius: 7px;
+  background:
+    linear-gradient(145deg, rgba(246, 236, 213, 0.93), rgba(47, 124, 110, 0.07)),
+    rgba(246, 236, 213, 0.86);
+}
+
+.compendium-item--cards {
+  border-color: rgba(183, 53, 42, 0.34);
+}
+
+.compendium-item--relics,
+.compendium-item--combos {
+  border-color: rgba(184, 128, 44, 0.36);
+}
+
+.compendium-item--enemies {
+  border-color: rgba(95, 29, 24, 0.36);
+}
+
+.compendium-item--story {
+  border-color: rgba(47, 124, 110, 0.34);
+}
+
+.compendium-item h4 {
+  margin: 0;
+  color: #5f1d18;
+  font-size: 18px;
+}
+
+.compendium-item small {
+  min-height: 18px;
+  color: rgba(47, 124, 110, 0.86);
+  font-size: 12px;
+}
+
+.compendium-item p,
+.compendium-empty {
+  margin: 0;
+  color: rgba(44, 41, 36, 0.8);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.compendium-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-self: end;
+}
+
+.compendium-meta span {
+  padding: 3px 6px;
+  border: 1px solid rgba(44, 41, 36, 0.18);
+  border-radius: 999px;
+  color: rgba(44, 41, 36, 0.66);
+  background: rgba(255, 252, 239, 0.52);
+  font-size: 11px;
 }
 
 .logbook-list {
