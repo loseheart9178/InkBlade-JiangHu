@@ -2,6 +2,70 @@
 
 ## Status Log
 
+### 2026-05-04 20:35 Asia/Shanghai
+
+Wave 8 Task 8.1 All-Character Methods And Relic Growth implemented in `.worktrees/wave8-all-character-methods` on branch `codex/wave8-all-character-methods`.
+
+Docs read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+What changed:
+
+- Added Cai Wenji methods `清音回响` and `胡笳净心` for qin/echo and cleanse archetype growth.
+- Added Zhuge Liang methods `观星定策` and `借风布阵` for scry and formation archetype growth.
+- Added Cai/Zhuge combat hooks using existing card keywords/effects and once-per-combat method memory.
+- Added relics `回音玉磬` and `星照阵图` to elite/boss/shop pools for Cai echo and Zhuge formation support.
+- Added focused method/relic tests for all-four-character reward drafts, once-per-combat hooks, and reward/shop pools.
+
+TDD red tests:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/methods/method-system.test.ts tests/relics/relic-system.test.ts
+RED result: failed as expected before implementation. 8 failures covered missing Cai/Zhuge method definitions, missing method combat hooks, missing relic reward-pool entries, and missing relic combat hooks.
+```
+
+Implementation decisions:
+
+- Method hooks key off existing `keywords` and effect actions instead of introducing new archetype/resource rules.
+- New hooks are deterministic and once per combat through existing `methodMemory`/`relicMemory`.
+- Level 2 support follows existing Zhao/Diao method shape: resource methods scale from +1 to +2, block methods scale from +3 to +5.
+- `回音玉磬` draws on the first qin/echo card; `星照阵图` grants 1筹策 on the first formation card.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/methods/method-system.test.ts tests/relics/relic-system.test.ts
+Result: passed. 2 files / 20 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/methods/method-system.test.ts tests/relics/relic-system.test.ts tests/combat/combat-system.test.ts tests/save/save-system.test.ts
+Result: passed. 4 files / 64 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known non-blocking Phaser chunk-size warning for `phaserConfig-B35egLVu.js` at 1,200.83 kB.
+```
+
+Known gaps / risks:
+
+- The new relics use text/data support only; no bespoke relic icon art was added in this task.
+
+Next step:
+
+- Commit the Task 8.1 branch for Wave 8 integration.
+
 ### 2026-05-04 18:04 Asia/Shanghai
 
 Wave 7 Demo Hardening integrated and verified in `.worktrees/wave6-integration` on branch `codex/wave7-demo-hardening`.

@@ -4,12 +4,16 @@ export type MethodId =
   | "method_dragon_spear_chain"
   | "method_changban_guard"
   | "method_jinghong_dance"
-  | "method_qingcheng_charm";
+  | "method_qingcheng_charm"
+  | "method_qingyin_echo"
+  | "method_hujia_cleanse"
+  | "method_star_observation"
+  | "method_wind_array";
 
 export interface MethodDefinition {
   id: MethodId;
   name: string;
-  characterId: "zhaoyun" | "diaochan";
+  characterId: "zhaoyun" | "diaochan" | "caiwenji" | "zhugeliang";
   archetypeId: CardArchetypeId;
   description: string;
   triggerText: string;
@@ -75,6 +79,66 @@ export const methodList: MethodDefinition[] = [
       2: {
         description: "每场战斗首次施加魅惑时，额外施加2层魅惑。",
         triggerText: "进境：首个魅惑入心，魅惑 +2。"
+      }
+    }
+  },
+  {
+    id: "method_qingyin_echo",
+    name: "清音回响",
+    characterId: "caiwenji",
+    archetypeId: "cai-qin-echo",
+    description: "每场战斗首次打出琴音或余韵牌时，额外获得1音律。",
+    triggerText: "首个清音回响，音律 +1。",
+    maxLevel: 2,
+    upgrades: {
+      2: {
+        description: "每场战斗首次打出琴音或余韵牌时，额外获得2音律。",
+        triggerText: "进境：首个清音回响，音律 +2。"
+      }
+    }
+  },
+  {
+    id: "method_hujia_cleanse",
+    name: "胡笳净心",
+    characterId: "caiwenji",
+    archetypeId: "cai-cleanse-melody",
+    description: "每场战斗首次打出净化牌时，获得3点护甲。",
+    triggerText: "首个净心入拍，护甲 +3。",
+    maxLevel: 2,
+    upgrades: {
+      2: {
+        description: "每场战斗首次打出净化牌时，获得5点护甲。",
+        triggerText: "进境：首个净心入拍，护甲 +5。"
+      }
+    }
+  },
+  {
+    id: "method_star_observation",
+    name: "观星定策",
+    characterId: "zhugeliang",
+    archetypeId: "zhuge-star-control",
+    description: "每场战斗首次打出观星牌时，额外获得1筹策。",
+    triggerText: "首个星轨入局，筹策 +1。",
+    maxLevel: 2,
+    upgrades: {
+      2: {
+        description: "每场战斗首次打出观星牌时，额外获得2筹策。",
+        triggerText: "进境：首个星轨入局，筹策 +2。"
+      }
+    }
+  },
+  {
+    id: "method_wind_array",
+    name: "借风布阵",
+    characterId: "zhugeliang",
+    archetypeId: "zhuge-formation-wind",
+    description: "每场战斗首次打出阵法牌时，获得3点护甲。",
+    triggerText: "首个阵势借风，护甲 +3。",
+    maxLevel: 2,
+    upgrades: {
+      2: {
+        description: "每场战斗首次打出阵法牌时，获得5点护甲。",
+        triggerText: "进境：首个阵势借风，护甲 +5。"
       }
     }
   }

@@ -22,8 +22,12 @@ describe("relic reward pools", () => {
     expect(relicList.length).toBeGreaterThanOrEqual(12);
     expect(getRelicRewardPool("elite", "zhaoyun")).toEqual(expect.arrayContaining(["relic_dragon_scale_tip", "relic_changban_iron_seal"]));
     expect(getRelicRewardPool("elite", "diaochan")).toEqual(expect.arrayContaining(["relic_lotus_step_bell", "relic_half_moon_hairpin"]));
+    expect(getRelicRewardPool("elite", "caiwenji")).toEqual(expect.arrayContaining(["relic_echoing_jade_chime"]));
+    expect(getRelicRewardPool("elite", "zhugeliang")).toEqual(expect.arrayContaining(["relic_starlit_tactical_map"]));
     expect(getRelicRewardPool("boss", "zhaoyun").length).toBeGreaterThanOrEqual(6);
     expect(getShopRelicPool("diaochan").length).toBeGreaterThanOrEqual(3);
+    expect(getShopRelicPool("caiwenji")).toContain("relic_echoing_jade_chime");
+    expect(getShopRelicPool("zhugeliang")).toContain("relic_starlit_tactical_map");
   });
 
   it("elite spoils draw from the expanded unowned pool", () => {
@@ -110,5 +114,50 @@ describe("relic combat hooks", () => {
 
     expect(state.enemies[0].statuses.vulnerable).toBe(1);
     expect(state.combatLog.filter((entry) => entry === "半月钗")).toHaveLength(1);
+  });
+
+  it("Echoing Jade Chime draws once on the first echo card", () => {
+    const state = createCombat({
+      character: {
+        ...charactersById.caiwenji,
+        starterDeck: ["cai_echoing_melody", "cai_echoing_melody", "cai_plain_strike", "cai_pluck_string", "cai_hujia_beat", "cai_clear_tone"]
+      },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 34,
+      relicIds: ["relic_echoing_jade_chime"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "cai_echoing_melody", "player");
+    playFirst(state, "cai_echoing_melody", "player");
+
+    expect(state.combatLog.filter((entry) => entry === "回音玉磬")).toHaveLength(1);
+  });
+
+  it("Starlit Tactical Map adds strategy once on the first formation card", () => {
+    const state = createCombat({
+      character: {
+        ...charactersById.zhugeliang,
+        starterDeck: [
+          "zhuge_small_eight_array",
+          "zhuge_small_eight_array",
+          "zhuge_fan_strike",
+          "zhuge_guard",
+          "zhuge_observe_stars"
+        ]
+      },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 35,
+      relicIds: ["relic_starlit_tactical_map"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "zhuge_small_eight_array", "player");
+    playFirst(state, "zhuge_small_eight_array", "player");
+
+    expect(state.player.resource.value).toBe(4);
+    expect(state.combatLog.filter((entry) => entry === "星照阵图")).toHaveLength(1);
   });
 });
