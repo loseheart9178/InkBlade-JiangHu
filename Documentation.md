@@ -2,6 +2,77 @@
 
 ## Status Log
 
+### 2026-05-04 18:04 Asia/Shanghai
+
+Wave 7 Demo Hardening integrated and verified in `.worktrees/wave6-integration` on branch `codex/wave7-demo-hardening`.
+
+Docs read / carried through this wave:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+
+What changed:
+
+- Integrated save/profile hardening, including compatible save/profile migration and fail-closed corrupt storage handling.
+- Integrated deterministic Wave 7 balance reporting for all four shipped heroes.
+- Refreshed alpha acceptance and GPT2 art debt documentation with current Wave 6/Wave 7 evidence.
+- Added route risk/reward previews on desktop map nodes from pure run/enemy/event data.
+- Added first-combat onboarding hints for energy, hand cards, enemy intent, block/armor, and end turn, with independent dismissal persisted in desktop settings.
+
+Subagent / worktree handling:
+
+- Save hardening, balance report, and alpha docs refresh were implemented in independent worktrees by subagents and accepted after integration gates.
+- Route preview was implemented locally on its own worktree while subagents ran.
+- Onboarding subagent was shut down after leaving TDD scaffolding; implementation was completed locally in `.worktrees/wave7-onboarding`.
+- Completed subagent handles were closed or confirmed unavailable after notification shutdown.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 15 test files, 169 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known non-blocking Phaser lazy chunk warning for `phaserConfig-CTMghiuG.js` at 1,200.83 kB.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 25 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime refs 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown
+Result: passed. 4/4 representative routes completed, 28 combat samples, 0 timeout risks, 0 unsafe damage spikes; Zhuge Liang remains on healing-pressure watchlist with lowest post-combat HP 1.
+```
+
+Known gaps / risks:
+
+- Card fallback art debt remains 56.
+- First-chapter elite enemies still use clean temporary stand-ins instead of bespoke regenerated final art.
+- The Phaser lazy chunk warning remains a known performance backlog item.
+- Balance report is representative seeded evidence, not a broad Monte Carlo sweep.
+
+Next milestone:
+
+- Start Wave 8 from the verified Wave 7 branch: bespoke elite art regeneration, card art debt reduction, event/relic depth, and external playtest/release notes.
+
 ### 2026-05-04 17:32 Asia/Shanghai
 
 Wave 7 Task 7.3 First-Run Onboarding started in `.worktrees/wave7-onboarding` on branch `codex/wave7-onboarding`.
