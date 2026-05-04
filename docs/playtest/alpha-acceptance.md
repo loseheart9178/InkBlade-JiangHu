@@ -1,10 +1,10 @@
 # Alpha Acceptance Playtest
 
-Wave 7 documentation refresh for the desktop browser alpha after the verified Wave 6 baseline (`18f47f9 fix: address observed bugs and add debug skip`). Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
+Wave 8 content-release integration refresh for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
 
-Last full gate verified: 2026-05-04 Wave 6 baseline. Asset audit refreshed in this worktree on 2026-05-04 16:32 Asia/Shanghai.
+Last full gate verified: 2026-05-04 Wave 8 content-release integration gate.
 
-Wave 7 balance-report evidence verified: 2026-05-04 16:38 Asia/Shanghai.
+Wave 7 balance-report evidence verified: 2026-05-04 16:38 Asia/Shanghai. Wave 8 multi-seed balance and release-handoff audit refreshed on 2026-05-04.
 
 ## Runnable Commands
 
@@ -42,13 +42,13 @@ Useful focused reruns:
 
 ## Verification Table
 
-| Check | Command or Evidence | Wave 6 Baseline Result |
+| Check | Command or Evidence | Wave 8 Integrated Result |
 |---|---|---|
-| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: 105 runtime refs, 0 missing, 0 ink-pass debt, 56 card fallback debt, 52 GPT2 runtime assets, 20 source sheets, 54 prompt queue targets |
-| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 15 files, 157 tests |
+| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: 102 runtime refs, 0 missing, 0 ink-pass debt, 56 card fallback debt |
+| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 15 files, 181 tests |
 | TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
 | Production build | bundled `vite/bin/vite.js build` | Passed with known non-blocking lazy Phaser chunk warning |
-| Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 23 Chromium tests |
+| Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Playwright Chromium tests |
 | Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
 | Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | Covered and passing through reload/continue, final choice, ending, profile summary |
 | Debug skip | `tests/e2e/playable-flow.spec.ts` | Covered and passing; advances to next chapter and refreshes `data-battlefield` |
@@ -127,13 +127,13 @@ The Playwright HTML report and `test-results/` output include these attached des
 
 ### Gameplay Blockers
 
-- No Wave 6 baseline gameplay blocker is currently documented after the `18f47f9` full gate.
-- Wave 7 work is still expected to add save/profile hardening, route previews, first-combat onboarding hints, and balance-report evidence before the next integrated demo gate.
+- No Wave 8 integrated desktop gameplay blocker is currently documented after the latest full gate.
+- Stable combat hand layout and first-chapter standee-only attack feedback are included in the observed bugfixes 2 baseline.
 - Wave 8 multi-seed balance evidence records one deterministic Zhuge Liang route defeat on seed `9003`; this is a balance watchlist risk, not a report-generation blocker.
 
 ### Non-Blocking Backlog
 
 - Card fallback art debt remains 56. These cards still share type-level fallback art and require real GPT Image 2 source/crop generation before the ledger should shrink.
-- First-chapter elite art uses vetted clean stand-ins: `elite_sword_echo` uses `gpt2-bamboo-soldier-standee-cutout.png`, and `elite_blood_banner` uses `gpt2-scribe-officer-standee-cutout.png`. Their bespoke standees and attack strips are Wave 8 regeneration debt, not a runtime blocker.
-- The known Vite `>500 kB` warning remains isolated to the lazy Phaser chunk after the boot split. It is a performance backlog item and did not block the Wave 6 build gate.
-- Production audio depth, release packaging notes, profile-gated compendium presentation, and external playtest instructions remain future polish.
+- First-chapter elite art uses vetted clean stand-ins: `elite_sword_echo` uses `gpt2-bamboo-soldier-standee-cutout.png`, and `elite_blood_banner` uses `gpt2-scribe-officer-standee-cutout.png`. First-chapter stand-ins use standee-only attack feedback until bespoke strips exist; do not treat the generic enemy slash strip as an acceptable runtime binding for them.
+- The known Vite `>500 kB` warning remains isolated to the lazy Phaser chunk after the boot split. It is a performance backlog item and did not block the Wave 8 build gate.
+- Production audio depth, release packaging notes, profile-gated compendium presentation, and broader external playtest instructions remain future polish.

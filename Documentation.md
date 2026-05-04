@@ -2,6 +2,71 @@
 
 ## Status Log
 
+### 2026-05-04 21:16 Asia/Shanghai
+
+Wave 8 Content Release integrated in `.worktrees/wave6-integration` on branch `codex/wave8-content-release`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+What changed:
+
+- Integrated all-character method/relic growth for Cai Wenji and Zhuge Liang.
+- Integrated Cai Wenji and Zhuge Liang event-depth coverage and the focused desktop event e2e.
+- Integrated multi-seed balance reporting and the latest alpha acceptance aggregate.
+- Integrated release-handoff docs, README, desktop playtest checklist, and GPT2 art debt notes.
+- Refreshed release docs to the final Wave 8 gate counts.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 15 files, 181 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known non-blocking Phaser chunk-size warning for `phaserConfig-B35egLVu.js` at 1,200.83 kB.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 27 Chromium desktop tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime refs 102, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+Result: passed. 11/12 routes completed, 79 combat samples, 0 timeout risks, 0 unsafe damage spikes.
+```
+
+Known gaps / risks:
+
+- Zhuge Liang seed `9003` remains a deterministic balance watchlist route; no runtime blocker or unsafe damage spike was recorded.
+- Card fallback art debt remains 56.
+- First-chapter elite/boss stand-ins still need bespoke clean attack strips before sprite bindings should change.
+- The Phaser lazy chunk warning remains a performance backlog item.
+
+Next milestone:
+
+- Start the next content/art pass from the verified Wave 8 branch: Zhuge Liang balance tuning, card art debt reduction, and bespoke first-chapter enemy attack strips.
+
 ### 2026-05-04 20:35 Asia/Shanghai
 
 Wave 8 Task 8.1 All-Character Methods And Relic Growth implemented in `.worktrees/wave8-all-character-methods` on branch `codex/wave8-all-character-methods`.
@@ -203,6 +268,57 @@ Known gaps / risks:
 Next step:
 
 - Commit the Task 8.3 semantic changes, then hand off for Wave 8 integration.
+
+### 2026-05-04 19:10 Asia/Shanghai
+
+Wave 8 Task 8.4 Desktop Playtest And Release Handoff Docs completed in `.worktrees/wave8-release-docs` on branch `codex/wave8-release-docs`.
+
+Docs read before documentation work:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/art/gpt2-priority-queue.md`
+
+What changed:
+
+- Added a repo README quick start with normal and bundled Node commands, desktop playtest route, debug controls, known gaps, and bug report template.
+- Added `docs/playtest/desktop-playtest-checklist.md` with concrete smoke routes, `调试跳章` usage, Playwright guidance, screenshot/log capture notes, known non-blocking issues, and a bug report template.
+- Refreshed `docs/playtest/alpha-acceptance.md` to the Wave 7 plus observed bugfixes 2 baseline: Vitest 170 tests, Playwright 26 Chromium tests, asset runtime refs 102, missing 0, and card fallback debt 56.
+- Refreshed `docs/art/gpt2-priority-queue.md` so first-chapter stand-ins remain standee-only for attack feedback and the generic enemy slash strip is not described as acceptable runtime binding.
+
+Decisions:
+
+- Kept this branch documentation-only; no runtime files or tests were edited.
+- Kept card fallback debt at 56 because no new generated card source sheets or runtime crops were created in this worktree.
+- Documented `调试跳章` as prototype QA acceleration only, not production progression evidence.
+
+Verification:
+
+```text
+grep -n "调试跳章\|desktop\|Playwright\|card fallback debt" README.md docs/playtest/desktop-playtest-checklist.md docs/playtest/alpha-acceptance.md
+Result: passed; required release-handoff terms appear across the README, desktop checklist, and alpha acceptance docs.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime refs 102, missing 0, ink-pass debt 0, card fallback debt 56.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Runtime worker branches may update the final Wave 8 counts after this docs-only branch; integration should refresh these docs if the final gate differs.
+- Card fallback art debt remains 56.
+- First-chapter elite and boss stand-ins still need bespoke clean attack strips before runtime sprite bindings should change.
+
+Next step:
+
+- Integrate after runtime Wave 8 branches or refresh counts against the final integrated gate, then run the full Wave 8 release verification.
 
 ### 2026-05-04 18:04 Asia/Shanghai
 
