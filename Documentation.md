@@ -66,6 +66,79 @@ Next step:
 
 - Commit the Task 8.1 branch for Wave 8 integration.
 
+### 2026-05-04 20:37 Asia/Shanghai
+
+Wave 8 Task 8.2 Event Depth For All Four Heroes completed in `.worktrees/wave8-event-depth` on branch `codex/wave8-event-depth`.
+
+Docs read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+What changed:
+
+- Extended event role choice typing to all four MVP heroes.
+- Added Cai Wenji role choices to late Bamboo/Chang'an events using existing `cai_hujia_beat`, `cai_echoing_melody`, `cai_clear_tone`, and `cai_soul_ferry` rewards.
+- Added Zhuge Liang role choices to late Bamboo/Chang'an events using existing `zhuge_deduction`, `zhuge_observe_stars`, `zhuge_small_eight_array`, and `zhuge_borrow_wind` rewards.
+- Routed chapter-two role event nodes to Cai's `断弦老人` and Zhuge's `无字竹简` instead of falling through to Diao Chan's `红衣无面`.
+- Added unit coverage for all-four role choice counts, Cai/Zhuge filtering, and chapter-two role route assignment.
+- Added focused Playwright coverage that a Cai Wenji event route keeps consequence summaries visible before choosing.
+
+Decisions:
+
+- Kept event consequences as existing typed effects only: card gain, healing/loss, upgrade/remove, gold, ink offer, and mind tendency changes.
+- Used chapter-two and chapter-three event pools for Cai/Zhuge depth so the new hooks fit the memory, grief, strategy, and rewritten-history themes already documented.
+- Left final-chapter event structure unchanged in this task; final choices are already handled by the ending system and were outside the requested write set.
+
+TDD red failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/events/event-system.test.ts tests/run/run-system.test.ts
+RED result: failed as expected before implementation.
+- `answer_with_qin` / `answer_with_stars` / `replay_the_variation` were absent from available choices.
+- Cai Wenji and Zhuge Liang role-specific choice counts were 0.
+- Cai Wenji chapter-two event route fell through to `event_red_cloth_faceless`.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/events/event-system.test.ts tests/run/run-system.test.ts tests/data/content.test.ts
+Result: passed. 3 files, 66 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "event|Cai Wenji|Zhuge Liang"
+Result: passed. 6 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite repeated the known non-blocking Phaser chunk-size warning for `phaserConfig-B35egLVu.js` at 1,200.83 kB.
+```
+
+Known gaps / risks:
+
+- Browser coverage confirms first-route Cai consequence visibility, not a full late-chapter Cai/Zhuge route traversal.
+- Final-chapter role event depth remains available for a later narrative pass if Wave 8 integration wants explicit heart-mirror choices per hero.
+- The Phaser chunk-size warning remains the known performance backlog item.
+
+Next step:
+
+- Integrate Task 8.2 with the other Wave 8 branches and run the combined release gate.
+
 ### 2026-05-04 18:04 Asia/Shanghai
 
 Wave 7 Demo Hardening integrated and verified in `.worktrees/wave6-integration` on branch `codex/wave7-demo-hardening`.

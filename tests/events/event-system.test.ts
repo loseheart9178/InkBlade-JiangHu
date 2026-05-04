@@ -57,6 +57,26 @@ describe("chapter event effects", () => {
     expect(getAvailableEventChoices(event, "diaochan").map((choice) => choice.id)).toContain("answer_with_dance");
   });
 
+  it("filters Cai Wenji and Zhuge Liang role choices for the active character", () => {
+    const bambooQuestion = eventsById.event_bamboo_heart_question;
+    const teaPavilion = eventsById.event_rain_tea_pavilion;
+
+    expect(getAvailableEventChoices(bambooQuestion, "caiwenji").map((choice) => choice.id)).toContain("answer_with_qin");
+    expect(getAvailableEventChoices(bambooQuestion, "caiwenji").map((choice) => choice.id)).not.toContain("answer_with_stars");
+    expect(getAvailableEventChoices(bambooQuestion, "zhugeliang").map((choice) => choice.id)).toContain("answer_with_stars");
+    expect(getAvailableEventChoices(bambooQuestion, "zhugeliang").map((choice) => choice.id)).not.toContain("answer_with_qin");
+    expect(getAvailableEventChoices(teaPavilion, "zhugeliang").map((choice) => choice.id)).toContain("replay_the_variation");
+  });
+
+  it("contains role-specific event choices for all four MVP characters", () => {
+    const choices = eventList.flatMap((event) => event.choices);
+
+    expect(choices.filter((choice) => choice.characterId === "zhaoyun").length).toBeGreaterThanOrEqual(2);
+    expect(choices.filter((choice) => choice.characterId === "diaochan").length).toBeGreaterThanOrEqual(2);
+    expect(choices.filter((choice) => choice.characterId === "caiwenji").length).toBeGreaterThanOrEqual(2);
+    expect(choices.filter((choice) => choice.characterId === "zhugeliang").length).toBeGreaterThanOrEqual(2);
+  });
+
   it("contains enough first-chapter events and role hooks for route replayability", () => {
     const zhaoChoiceCount = eventList.flatMap((event) => event.choices).filter((choice) => choice.characterId === "zhaoyun").length;
     const diaoChoiceCount = eventList.flatMap((event) => event.choices).filter((choice) => choice.characterId === "diaochan").length;
