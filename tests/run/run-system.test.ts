@@ -136,6 +136,17 @@ describe("run system", () => {
     expect(getAvailableNodes(run).map((node) => node.type)).toEqual(expect.arrayContaining(["battle", "event"]));
   });
 
+  it("assigns second-chapter role event routes for all four heroes", () => {
+    const caiRun = createRun("caiwenji", { mapSeed: 4 });
+    const zhugeRun = createRun("zhugeliang", { mapSeed: 4 });
+
+    expect(advanceToNextChapter(caiRun)).toBe(true);
+    expect(advanceToNextChapter(zhugeRun)).toBe(true);
+
+    expect(caiRun.mapNodes.find((node) => node.id === "event-2")?.eventId).toBe("event_broken_string_elder");
+    expect(zhugeRun.mapNodes.find((node) => node.id === "event-2")?.eventId).toBe("event_wordless_bamboo_scroll");
+  });
+
   it("advances from Chang'an into Moyuan and prepares an ending state after the final boss", () => {
     const run = createRun("zhaoyun", { mapSeed: 7 });
 

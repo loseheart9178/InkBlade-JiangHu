@@ -1241,7 +1241,7 @@ function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
 }
 
 function createChapterTwoMap(characterId: string, mapSeed: number): MapNode[] {
-  const secondEventId = characterId === "zhaoyun" ? "event_bamboo_soldier_array" : "event_red_cloth_faceless";
+  const secondEvent = getChapterTwoRoleEventNode(characterId);
   const lateEventId = BAMBOO_EVENT_POOL[Math.abs(mapSeed + 3) % BAMBOO_EVENT_POOL.length];
   const firstBattleEnemyId = mapSeed % 3 === 0 ? "enemy_broken_scholar" : "enemy_bamboo_wraith";
   const secondBattleEnemyId = mapSeed % 2 === 0 ? "enemy_bamboo_wraith" : "enemy_broken_scholar";
@@ -1287,10 +1287,10 @@ function createChapterTwoMap(characterId: string, mapSeed: number): MapNode[] {
     {
       id: "event-2",
       type: "event",
-      label: secondEventId === "event_bamboo_soldier_array" ? "兵煞竹阵" : "红衣无面",
+      label: secondEvent.label,
       floor: 2,
       lane: 0,
-      eventId: secondEventId,
+      eventId: secondEvent.eventId,
       connections: ["elite-1", "battle-2"]
     },
     {
@@ -1590,4 +1590,24 @@ function getCharacterEventNode(characterId: string): { label: string; eventId: s
   }
 
   return { label: "黑雨渡口", eventId: "event_black_rain_ferry" };
+}
+
+function getChapterTwoRoleEventNode(characterId: string): { label: string; eventId: string } {
+  if (characterId === "zhaoyun") {
+    return { label: "兵煞竹阵", eventId: "event_bamboo_soldier_array" };
+  }
+
+  if (characterId === "diaochan") {
+    return { label: "红衣无面", eventId: "event_red_cloth_faceless" };
+  }
+
+  if (characterId === "caiwenji") {
+    return { label: "断弦老人", eventId: "event_broken_string_elder" };
+  }
+
+  if (characterId === "zhugeliang") {
+    return { label: "无字竹简", eventId: "event_wordless_bamboo_scroll" };
+  }
+
+  return { label: "竹林问心", eventId: "event_bamboo_heart_question" };
 }

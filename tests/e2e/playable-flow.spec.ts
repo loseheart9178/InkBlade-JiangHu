@@ -393,6 +393,15 @@ test("Cai Wenji can be selected and enters combat with sound resource visible", 
   await expect(page.locator(".combat-card").filter({ hasText: /拂弦|宫音|清心曲/ }).first()).toBeVisible();
 });
 
+test("Cai Wenji event route keeps consequence summaries visible", async ({ page }) => {
+  await startRun(page, "caiwenji");
+  await page.getByTestId("map-node-event-1").click();
+
+  await expect(page.getByTestId("screen-event")).toBeVisible();
+  await expect(page.locator("[data-testid^='event-choice-']").first()).toBeVisible();
+  await expect(page.locator("[data-testid^='event-choice-']").first()).toContainText(/获得|回复|失去|升级|移除|宁|怒|悲|魅|乱|悟/);
+});
+
 test("Zhuge Liang can be selected and enters combat with strategy resource visible", async ({ page }) => {
   await startRun(page, "zhugeliang");
   await expect(page.getByTestId("run-relics")).toContainText("白羽扇");

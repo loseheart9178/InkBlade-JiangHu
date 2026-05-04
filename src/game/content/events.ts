@@ -15,14 +15,14 @@ export interface GameEventChoice {
   label: string;
   summary: string;
   effects: EventChoiceEffect[];
-  characterId?: "zhaoyun" | "diaochan";
+  characterId?: "zhaoyun" | "diaochan" | "caiwenji" | "zhugeliang";
 }
 
 export interface GameEventDefinition {
   id: string;
   title: string;
   description: string;
-  character?: "zhaoyun" | "diaochan";
+  character?: "zhaoyun" | "diaochan" | "caiwenji" | "zhugeliang";
   choices: GameEventChoice[];
 }
 
@@ -370,6 +370,16 @@ export const eventList: GameEventDefinition[] = [
           { type: "hpLoss", amount: 3 },
           { type: "mind", mind: "wu", amount: 1 }
         ]
+      },
+      {
+        id: "continue_lost_score",
+        label: "续亡者残谱",
+        summary: "蔡文姬专属：获得胡笳拍，悲 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_hujia_beat" },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
       }
     ]
   },
@@ -394,6 +404,16 @@ export const eventList: GameEventDefinition[] = [
         effects: [
           { type: "heal", amount: 10 },
           { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "replay_the_variation",
+        label: "重算棋变",
+        summary: "诸葛亮专属：获得推演，悟 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_deduction" },
+          { type: "mind", mind: "wu", amount: 1 }
         ]
       }
     ]
@@ -430,6 +450,26 @@ export const eventList: GameEventDefinition[] = [
         effects: [
           { type: "card", cardId: "diao_flying_sleeves" },
           { type: "mind", mind: "mei", amount: 1 }
+        ]
+      },
+      {
+        id: "answer_with_qin",
+        label: "以琴回答",
+        summary: "蔡文姬专属：获得余音回响，宁 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_echoing_melody" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "answer_with_stars",
+        label: "以星回答",
+        summary: "诸葛亮专属：获得观星，悟 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_observe_stars" },
+          { type: "mind", mind: "wu", amount: 1 }
         ]
       }
     ]
@@ -511,6 +551,16 @@ export const eventList: GameEventDefinition[] = [
           { type: "card", cardId: "common_xixin" },
           { type: "mind", mind: "bei", amount: 1 }
         ]
+      },
+      {
+        id: "mend_song_memory",
+        label: "为亡魂续谱",
+        summary: "蔡文姬专属：获得清音，宁 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_clear_tone" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
       }
     ]
   },
@@ -534,6 +584,16 @@ export const eventList: GameEventDefinition[] = [
         summary: "获得解穴，宁 +1。",
         effects: [
           { type: "card", cardId: "common_jiexue" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "deduce_hidden_lines",
+        label: "推演隐文",
+        summary: "诸葛亮专属：获得小八阵，宁 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_small_eight_array" },
           { type: "mind", mind: "ning", amount: 1 }
         ]
       }
@@ -615,6 +675,16 @@ export const eventList: GameEventDefinition[] = [
           { type: "card", cardId: "common_jiexue" },
           { type: "mind", mind: "ning", amount: 1 }
         ]
+      },
+      {
+        id: "score_nameless_stall",
+        label: "为无名者记谱",
+        summary: "蔡文姬专属：获得渡魂曲，悲 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_soul_ferry" },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
       }
     ]
   },
@@ -640,6 +710,16 @@ export const eventList: GameEventDefinition[] = [
           { type: "card", cardId: "status_redacted_history" },
           { type: "gold", amount: 30 },
           { type: "mind", mind: "luan", amount: 1 }
+        ]
+      },
+      {
+        id: "chart_counter_history",
+        label: "推演逆史分支",
+        summary: "诸葛亮专属：获得借东风，悟 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_borrow_wind" },
+          { type: "mind", mind: "wu", amount: 1 }
         ]
       }
     ]
