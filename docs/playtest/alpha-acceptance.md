@@ -26,6 +26,7 @@ Useful focused reruns:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
 ```
 
 ## Playable Scope
@@ -85,6 +86,33 @@ Findings:
 - Unsafe damage spikes are currently clear against the default `24` threshold; the observed maximum equals `24` but does not exceed it.
 - Healing pressure remains high across all four routes. Zhuge Liang is the main balance watchlist item because the representative route reaches `1` post-combat HP before later recovery.
 
+## Wave 8 Multi-Seed Balance Aggregate
+
+Latest aggregate artifact:
+
+```bash
+node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+```
+
+The multi-seed report keeps seed `9001` as the representative seed while aggregating seeded routes `9001`, `9002`, and `9003` across Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang.
+
+Headline aggregate numbers:
+
+| Character | Completed | Lowest HP min/median/max | Max single-turn damage | Timeout risks | Unsafe spikes | Runs |
+|---|---:|---:|---:|---:|---:|---:|
+| Zhao Yun | 3 | 29/38/43 | 24 | 0 | 0 | 3 |
+| Diao Chan | 3 | 26/34/39 | 10 | 0 | 0 | 3 |
+| Cai Wenji | 3 | 10/21/24 | 24 | 0 | 0 | 3 |
+| Zhuge Liang | 2 | 0/1/3 | 24 | 0 | 0 | 3 |
+
+Findings:
+
+- Aggregate completion is `11/12` deterministic routes.
+- Timeout risk remains clear across all three seeds.
+- Unsafe damage spikes remain clear against the default `24` threshold; the observed maximum equals `24` but does not exceed it.
+- Zhuge Liang is now the primary balance watchlist item: seed `9003` ends in defeat after two combat samples, and the aggregate lowest post-combat HP band is `0/1/3`.
+- Healing pressure remains high across all four characters and should be treated as release-watch evidence rather than a blocker by itself.
+
 ## Screenshot Artifacts
 
 The Playwright HTML report and `test-results/` output include these attached desktop screenshots when the full e2e gate runs:
@@ -101,6 +129,7 @@ The Playwright HTML report and `test-results/` output include these attached des
 
 - No Wave 6 baseline gameplay blocker is currently documented after the `18f47f9` full gate.
 - Wave 7 work is still expected to add save/profile hardening, route previews, first-combat onboarding hints, and balance-report evidence before the next integrated demo gate.
+- Wave 8 multi-seed balance evidence records one deterministic Zhuge Liang route defeat on seed `9003`; this is a balance watchlist risk, not a report-generation blocker.
 
 ### Non-Blocking Backlog
 
