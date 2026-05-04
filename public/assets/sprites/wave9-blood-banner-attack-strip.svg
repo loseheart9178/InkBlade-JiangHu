@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 512" role="img" aria-label="Blood banner four frame attack strip">
+  <rect width="2048" height="512" fill="none"/>
+  <defs>
+    <linearGradient id="bannerRed" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#52100f"/>
+      <stop offset=".52" stop-color="#b53024"/>
+      <stop offset="1" stop-color="#efc7a0"/>
+    </linearGradient>
+    <g id="bannerOfficer">
+      <ellipse cx="235" cy="443" rx="130" ry="19" fill="#111111" opacity=".18"/>
+      <circle cx="226" cy="124" r="32" fill="#151515" opacity=".86"/>
+      <path d="M169 393c15-83 29-148 62-206 52 42 84 107 105 194-41 37-103 43-167 12z" fill="#151515" opacity=".78"/>
+      <path d="M202 197c-42 23-73 53-97 92" fill="none" stroke="#151515" stroke-width="18" stroke-linecap="round" opacity=".72"/>
+      <path d="M282 197c48 23 88 59 120 108" fill="none" stroke="#151515" stroke-width="18" stroke-linecap="round" opacity=".72"/>
+      <path d="M185 390c-18 34-36 62-62 86M310 383c14 35 30 64 58 91" fill="none" stroke="#151515" stroke-width="19" stroke-linecap="round" opacity=".62"/>
+    </g>
+    <g id="bloodBanner">
+      <path d="M147 92v325" stroke="#221716" stroke-width="13" stroke-linecap="round"/>
+      <path d="M154 104c72-41 145-34 218 10-22 40-19 75 8 106-77-24-152-18-226 18z" fill="url(#bannerRed)" opacity=".92"/>
+      <path d="M178 133c51-18 101-14 149 10M176 182c47-17 95-15 145 5" fill="none" stroke="#f4dfc4" stroke-width="7" stroke-linecap="round" opacity=".5"/>
+      <path d="M157 261c52-21 106-22 161-4" fill="none" stroke="#711412" stroke-width="11" stroke-linecap="round" opacity=".58"/>
+    </g>
+  </defs>
+  <g transform="translate(0 0)">
+    <use href="#bannerOfficer"/>
+    <use href="#bloodBanner"/>
+    <path d="M83 338c74-38 151-40 233-8" fill="none" stroke="#111111" stroke-width="9" stroke-linecap="round" opacity=".34"/>
+    <path d="M356 196c43 13 75 37 98 72" fill="none" stroke="#8a1f1a" stroke-width="10" stroke-linecap="round" opacity=".4"/>
+  </g>
+  <g transform="translate(512 0)">
+    <use href="#bannerOfficer" transform="translate(-18 -4)"/>
+    <use href="#bloodBanner" transform="translate(10 -12) rotate(-6 150 260)"/>
+    <path d="M58 348c99-92 220-121 365-88" fill="none" stroke="#8d1f18" stroke-width="17" stroke-linecap="round" opacity=".78"/>
+    <path d="M92 382c98-55 203-70 315-45" fill="none" stroke="#e5c69c" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+    <path d="M348 128c49 32 82 73 99 123" fill="none" stroke="#731310" stroke-width="13" stroke-linecap="round" opacity=".46"/>
+  </g>
+  <g transform="translate(1024 0)">
+    <use href="#bannerOfficer" transform="translate(-38 -2)"/>
+    <use href="#bloodBanner" transform="translate(33 -20) rotate(-13 150 260)"/>
+    <path d="M34 382c120-151 266-203 437-156" fill="none" stroke="#711412" stroke-width="25" stroke-linecap="round" opacity=".88"/>
+    <path d="M75 399c122-103 250-143 383-120" fill="none" stroke="#efc7a0" stroke-width="8" stroke-linecap="round" opacity=".67"/>
+    <path d="M314 92c70 42 111 96 125 160" fill="none" stroke="#b53024" stroke-width="17" stroke-linecap="round" opacity=".58"/>
+    <rect x="382" y="176" width="48" height="48" fill="#921c18" opacity=".58" transform="rotate(13 406 200)"/>
+    <rect x="416" y="236" width="34" height="34" fill="#f0d0a9" opacity=".42" transform="rotate(13 433 253)"/>
+  </g>
+  <g transform="translate(1536 0)">
+    <use href="#bannerOfficer" transform="translate(0 5)"/>
+    <use href="#bloodBanner" transform="translate(0 0)"/>
+    <path d="M75 347c86-42 174-45 264-9" fill="none" stroke="#111111" stroke-width="9" stroke-linecap="round" opacity=".28"/>
+    <path d="M330 146c47 20 83 52 109 96" fill="none" stroke="#8d1f18" stroke-width="9" stroke-linecap="round" opacity=".33"/>
+    <rect x="377" y="209" width="39" height="39" fill="#921c18" opacity=".32" transform="rotate(11 397 229)"/>
+  </g>
+</svg>

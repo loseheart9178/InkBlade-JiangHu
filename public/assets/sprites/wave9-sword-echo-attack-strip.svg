@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 512" role="img" aria-label="Sword echo four frame attack strip">
+  <rect width="2048" height="512" fill="none"/>
+  <defs>
+    <linearGradient id="echoBlade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7efe0"/>
+      <stop offset=".46" stop-color="#98c5be"/>
+      <stop offset="1" stop-color="#761d1b"/>
+    </linearGradient>
+    <g id="swordEchoBody">
+      <ellipse cx="238" cy="441" rx="124" ry="19" fill="#111111" opacity=".16"/>
+      <path d="M206 126c19-32 67-31 86 1 12 21 8 49-11 65-22 18-55 15-74-7-16-18-17-41-1-59z" fill="#171717" opacity=".84"/>
+      <path d="M164 389c17-88 33-149 76-202 51 40 74 99 93 192-44 33-111 34-169 10z" fill="#171717" opacity=".76"/>
+      <path d="M199 220c-54 16-90 44-120 91" fill="none" stroke="#171717" stroke-width="17" stroke-linecap="round" opacity=".66"/>
+      <path d="M284 218c46 19 82 49 115 90" fill="none" stroke="#171717" stroke-width="17" stroke-linecap="round" opacity=".66"/>
+      <path d="M183 391c-19 33-33 59-54 86M302 382c13 37 29 66 54 91" fill="none" stroke="#171717" stroke-width="19" stroke-linecap="round" opacity=".62"/>
+    </g>
+    <g id="echoSword">
+      <path d="M95 328L341 82" fill="none" stroke="#2b3030" stroke-width="15" stroke-linecap="round"/>
+      <path d="M130 293L370 53" fill="none" stroke="url(#echoBlade)" stroke-width="6" stroke-linecap="round" opacity=".94"/>
+      <path d="M117 305l26 26" stroke="#7d211d" stroke-width="11" stroke-linecap="round"/>
+    </g>
+  </defs>
+  <g transform="translate(0 0)">
+    <use href="#swordEchoBody"/>
+    <use href="#echoSword" transform="translate(16 8) rotate(-5 230 210)"/>
+    <path d="M68 362c88-56 171-62 250-19" fill="none" stroke="#203f43" stroke-width="11" stroke-linecap="round" opacity=".42"/>
+    <path d="M105 404c84-26 157-25 219 3" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round" opacity=".25"/>
+  </g>
+  <g transform="translate(512 0)">
+    <use href="#swordEchoBody" transform="translate(-24 -6)"/>
+    <use href="#echoSword" transform="translate(48 -6) rotate(-15 230 210)"/>
+    <path d="M48 376c96-142 216-216 361-224" fill="none" stroke="#7f1f1a" stroke-width="16" stroke-linecap="round" opacity=".74"/>
+    <path d="M88 391c95-99 201-151 319-158" fill="none" stroke="#96c7bf" stroke-width="8" stroke-linecap="round" opacity=".72"/>
+    <path d="M146 149c43 34 86 36 129 4" fill="none" stroke="#f7efe0" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+  </g>
+  <g transform="translate(1024 0)">
+    <use href="#swordEchoBody" transform="translate(-46 -2) scale(.99 1)"/>
+    <use href="#echoSword" transform="translate(72 -18) rotate(-23 230 210)"/>
+    <path d="M31 408c126-209 268-302 428-284" fill="none" stroke="#761d1b" stroke-width="24" stroke-linecap="round" opacity=".86"/>
+    <path d="M80 412c119-156 243-232 372-226" fill="none" stroke="#f8efe2" stroke-width="8" stroke-linecap="round" opacity=".7"/>
+    <path d="M124 338c92-94 187-148 285-161" fill="none" stroke="#203f43" stroke-width="11" stroke-linecap="round" opacity=".52"/>
+    <path d="M278 97c31 27 65 36 104 25M311 150c26 20 56 26 90 17" fill="none" stroke="#98c5be" stroke-width="8" stroke-linecap="round" opacity=".66"/>
+  </g>
+  <g transform="translate(1536 0)">
+    <use href="#swordEchoBody" transform="translate(-3 5)"/>
+    <use href="#echoSword" transform="translate(16 10) rotate(-4 230 210)" opacity=".78"/>
+    <path d="M70 369c92-55 181-61 267-17" fill="none" stroke="#111111" stroke-width="10" stroke-linecap="round" opacity=".34"/>
+    <path d="M113 323c74-85 164-128 269-128" fill="none" stroke="#7f1f1a" stroke-width="8" stroke-linecap="round" opacity=".28"/>
+    <path d="M151 170c55 34 111 36 168 6" fill="none" stroke="#98c5be" stroke-width="7" stroke-linecap="round" opacity=".42"/>
+  </g>
+</svg>

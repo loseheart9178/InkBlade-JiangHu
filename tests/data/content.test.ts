@@ -444,15 +444,18 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.paper_umbrella_attack.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
   });
 
-  it("does not bind first chapter stand-in enemies to the generic slash attack strip", () => {
+  it("binds first chapter stand-in enemies to semantic Wave 9 attack strips", () => {
     const genericSlashBindings = visuals.combatSpriteSheetList
       .filter((sheet) => sheet.assetPath === "/assets/sprites/enemy-slash-strip.svg")
       .map((sheet) => sheet.id);
 
     expect(genericSlashBindings).toEqual([]);
-    expect(visuals.getCombatAttackSprite("elite_sword_echo")).toBeUndefined();
-    expect(visuals.getCombatAttackSprite("elite_blood_banner")).toBeUndefined();
-    expect(visuals.getCombatAttackSprite("boss_ink_dongzhuo")).toBeUndefined();
+    expect(visuals.getCombatAttackSprite("elite_sword_echo")?.assetPath).toBe("/assets/sprites/wave9-sword-echo-attack-strip.svg");
+    expect(visuals.getCombatAttackSprite("elite_blood_banner")?.assetPath).toBe("/assets/sprites/wave9-blood-banner-attack-strip.svg");
+    expect(visuals.getCombatAttackSprite("boss_ink_dongzhuo")?.assetPath).toBe("/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg");
+    for (const id of ["elite_sword_echo", "elite_blood_banner", "boss_ink_dongzhuo"]) {
+      expect(visuals.getCombatAttackSprite(id)?.assetPath).not.toBe("/assets/sprites/enemy-slash-strip.svg");
+    }
     expect(visuals.getCombatAttackSprite("enemy_paper_umbrella")?.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
   });
 

@@ -2,6 +2,69 @@
 
 ## Status Log
 
+### 2026-05-04 21:40 Asia/Shanghai
+
+Wave 9 Task 3 First-Chapter Semantic Attack Strips started in `.worktrees/wave9-first-chapter-attacks` on branch `codex/wave9-first-chapter-attacks`.
+
+Docs read before implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave9-polish-balance-art.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/chapters/chapter_01.md`
+- `src/game/content/enemies.ts`
+- `src/game/content/visuals.ts`
+- `tests/data/content.test.ts`
+- `tests/e2e/visual-smoke.spec.ts`
+
+Scope:
+
+- Replace standee-only attack feedback for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` with semantic repo-local Wave 9 SVG attack strips.
+- Keep the quarantined `*-gpt-v2.png` paths and `/assets/sprites/enemy-slash-strip.svg` out of runtime combat bindings for these enemies.
+
+What changed:
+
+- Added `public/assets/sprites/wave9-sword-echo-attack-strip.svg`, `public/assets/sprites/wave9-blood-banner-attack-strip.svg`, and `public/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg` as 2048x512 four-frame semantic SVG attack strips.
+- Bound `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` through `combatSpriteSheetList` and `getCombatAttackSprite`.
+- Updated content and visual-smoke coverage to reject generic slash fallback for these combatants.
+- Updated `docs/art/gpt2-priority-queue.md` to record that semantic Wave 9 SVG strips are runtime replacements while GPT Image 2 regeneration remains an art-quality backlog.
+
+TDD red:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts
+RED result: failed as expected. 1 failed / 28 passed; `elite_sword_echo` returned undefined instead of `/assets/sprites/wave9-sword-echo-attack-strip.svg`.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts
+Result: passed. 1 file / 29 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 105, missing 0, ink-pass debt 0, card fallback debt 56, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed. 3 Chromium desktop tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed with no TypeScript errors.
+```
+
+Known gaps / risks:
+
+- The new attack strips are hand-authored repo-local SVG runtime assets, not final GPT Image 2 bitmap regenerations.
+- The elite standees remain vetted stand-ins until a later clean first-chapter standee art pass.
+
+Next step:
+
+- Run `git diff --check`, then commit the Task 3 branch.
+
 ### 2026-05-04 21:30 Asia/Shanghai
 
 Wave 9 Polish Balance Art planning started in `.worktrees/wave6-integration` on branch `codex/wave9-polish-balance-art-plan`.

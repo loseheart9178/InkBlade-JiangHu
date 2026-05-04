@@ -17,6 +17,16 @@ Current Wave 8 integrated documentation baseline:
 
 Audit rerun in `.worktrees/wave6-integration` on branch `codex/wave8-content-release` on 2026-05-04 passed with the counts above.
 
+Wave 9 Task 3 rerun in `.worktrees/wave9-first-chapter-attacks` on branch `codex/wave9-first-chapter-attacks`:
+
+- Runtime references: 105
+- Missing files: 0
+- Current `ink-pass` debt: 0
+- Non-blocking card fallback debt: 56
+- GPT2 runtime assets: 52
+- Source sheets: 20
+- Prompt queue targets: 54
+
 ## Card Fallback Ledger
 
 `cardFallbackDebt` remains intentionally non-blocking until real GPT Image 2 runtime crops are generated and bound through `src/game/content/visuals.ts`.
@@ -86,11 +96,13 @@ Special shared-asset cleanup:
 
 The observed-bugfix branch quarantined known annotated/marked generated outputs instead of editing binary artifacts in place. These substitutions are clean enough for runtime acceptance, but they are still bespoke regeneration debt. First-chapter stand-ins use standee-only attack feedback until bespoke clean strips exist.
 
+Wave 9 Task 3 replaced the standee-only attack feedback with semantic repo-local SVG strips. These are not GPT Image 2 bitmap regenerations, so bespoke GPT Image 2 standee/strip regeneration remains an art-quality backlog, but the runtime no longer falls back to generic slash or quarantined annotated attack PNGs for the three first-chapter stand-ins.
+
 | Enemy | Current standee binding | Current attack binding | Regeneration target |
 |---|---|---|---|
-| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | Standee-only lunge; no combat sprite binding | Generate clean Sword Echo standee and four-frame attack strip, then bind semantic paths only after audit passes |
-| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | Standee-only lunge; no combat sprite binding | Generate clean Blood Banner standee and four-frame attack strip, then bind semantic paths only after audit passes |
-| `boss_ink_dongzhuo` / 墨影董卓 | `/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png` vetted boss standee | Standee-only lunge; no combat sprite binding | Generate clean Dong Zhuo boss four-frame attack strip, then bind semantic path only after audit passes |
+| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | `/assets/sprites/wave9-sword-echo-attack-strip.svg` semantic Wave 9 SVG | Generate clean Sword Echo standee and GPT Image 2 four-frame attack strip when art quality backlog resumes |
+| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | `/assets/sprites/wave9-blood-banner-attack-strip.svg` semantic Wave 9 SVG | Generate clean Blood Banner standee and GPT Image 2 four-frame attack strip when art quality backlog resumes |
+| `boss_ink_dongzhuo` / 墨影董卓 | `/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png` vetted boss standee | `/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg` semantic Wave 9 SVG | Generate clean Dong Zhuo boss GPT Image 2 four-frame attack strip when art quality backlog resumes |
 
 Do not rebind the quarantined annotated paths without regenerated clean sources:
 
@@ -100,7 +112,7 @@ Do not rebind the quarantined annotated paths without regenerated clean sources:
 - `/assets/sprites/blood-banner-attack-strip-gpt-v2.png`
 - `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png`
 
-Do not use `/assets/sprites/enemy-slash-strip.svg` as a runtime combatant sprite for these stand-ins. User playtest feedback showed the generic silhouette reads as a different enemy during attacks, so these enemies must keep standee-only attack feedback until bespoke clean strips exist. The generic slash strip is not an acceptable runtime binding for `elite_sword_echo`, `elite_blood_banner`, or `boss_ink_dongzhuo`.
+Do not use `/assets/sprites/enemy-slash-strip.svg` as a runtime combatant sprite for these stand-ins. User playtest feedback showed the generic silhouette reads as a different enemy during attacks. The generic slash strip is not an acceptable runtime binding for `elite_sword_echo`, `elite_blood_banner`, or `boss_ink_dongzhuo`; use the semantic Wave 9 SVG strips until future clean GPT Image 2 strips replace them.
 
 ## Priority Targets
 
