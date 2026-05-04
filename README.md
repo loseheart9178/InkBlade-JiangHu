@@ -41,7 +41,17 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-The current release baseline is the Wave 8 content-release integration: Vitest 181 tests, Playwright 27 Chromium desktop tests, asset runtime refs 102, missing 0, and card fallback debt 56.
+Wave 9 release verification is prepared in this docs branch, but the final Vitest, Playwright, asset audit, balance-report, and card fallback debt results must be `集成后刷新` on the integration branch.
+
+## Wave 9 Release Refresh Prep
+
+Wave 9 is scoped as a polish, balance, and art-readability refresh for the desktop alpha:
+
+- Stabilize the Zhuge Liang seed `9003` multi-seed route while preserving his low-HP, high-strategy identity.
+- Replace starter readability card fallbacks with semantic card art for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang starter cards.
+- Add first-chapter semantic attack strips for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` so they do not read as the generic enemy slash.
+
+Desktop browser remains the active release target. The integration branch must refresh the final Wave 9 Vitest count, Playwright Chromium desktop count, asset audit totals, balance-report result, and card fallback debt before release handoff.
 
 ## Desktop Playtest Route
 
@@ -62,9 +72,9 @@ Use [desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md)
 
 ## Known Gaps
 
-- Card fallback debt remains 56; those cards still need dedicated GPT Image 2 card faces.
-- First-chapter stand-ins use standee-only attack feedback. Do not bind `enemy-slash-strip` for `elite_sword_echo`, `elite_blood_banner`, or `boss_ink_dongzhuo` until bespoke clean attack strips exist.
-- The multi-seed balance report records one deterministic Zhuge Liang defeat on seed `9003`; this is a balance watchlist item, not a report-generation blocker.
+- Wave 9 final card fallback debt is `集成后刷新`; do not report a lower count until the integrated asset audit proves it.
+- First-chapter semantic attack strips are a Wave 9 integration target for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable final binding.
+- Zhuge Liang seed `9003` is the Wave 9 balance target; final multi-seed completion evidence is `集成后刷新`.
 - Vite build can print a non-blocking Phaser lazy chunk-size warning.
 - Production audio, Steam packaging, mobile layout, and broad localization polish are outside this desktop alpha handoff.
 

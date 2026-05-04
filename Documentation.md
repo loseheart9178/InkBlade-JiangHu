@@ -171,6 +171,48 @@ Next step:
 
 - Run `git diff --check`, then commit the Task 3 branch.
 
+### 2026-05-04 21:39 Asia/Shanghai
+
+Wave 9 Task 4 Release Docs Refresh prep completed in `.worktrees/wave9-release-docs` on branch `codex/wave9-release-docs`.
+
+Docs read before documentation work:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave9-polish-balance-art.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/art/gpt2-priority-queue.md`
+
+What changed:
+
+- Added Wave 9 release-prep sections to the README, alpha acceptance, desktop playtest checklist, and GPT Image 2 priority queue.
+- Documented the Wave 9 release targets: Zhuge Liang seed `9003` balance, starter semantic card art, and first-chapter semantic attack strips.
+- Preserved desktop-first QA scope and `调试跳章` as debug-only acceleration, not normal progression evidence.
+- Marked final Wave 9 gate and asset counts as integration-owned values so the prep branch did not invent results.
+
+Verification:
+
+```text
+grep -n "Wave 9\|调试跳章\|desktop\|Playwright\|card fallback debt\|Zhuge" README.md docs/playtest/desktop-playtest-checklist.md docs/playtest/alpha-acceptance.md docs/art/gpt2-priority-queue.md
+Result: passed; required release-prep, desktop, Playwright, debug skip, card fallback debt, and Zhuge terms were found across the four release docs.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Final Wave 9 numbers must be refreshed on the integration branch after the full verification gate.
+
+Next step:
+
+- Merge this docs branch last, then refresh final Wave 9 release counts and acceptance notes from the integrated verification results.
+
 ### 2026-05-04 21:30 Asia/Shanghai
 
 Wave 9 Polish Balance Art planning started in `.worktrees/wave6-integration` on branch `codex/wave9-polish-balance-art-plan`.

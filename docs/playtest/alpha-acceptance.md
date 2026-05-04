@@ -1,10 +1,10 @@
 # Alpha Acceptance Playtest
 
-Wave 8 content-release integration refresh for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
+Wave 9 release-prep refresh for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
 
-Last full gate verified: 2026-05-04 Wave 8 content-release integration gate.
+Last full gate verified: 2026-05-04 Wave 8 content-release integration gate. Wave 9 final verification counts and release evidence are `集成后刷新`.
 
-Wave 7 balance-report evidence verified: 2026-05-04 16:38 Asia/Shanghai. Wave 8 multi-seed balance and release-handoff audit refreshed on 2026-05-04.
+Wave 7 balance-report evidence verified: 2026-05-04 16:38 Asia/Shanghai. Wave 8 multi-seed balance and release-handoff audit are historical references only until the Wave 9 integration branch refreshes them.
 
 ## Runnable Commands
 
@@ -40,25 +40,36 @@ Useful focused reruns:
 - Use the visible `调试跳章` control to advance to the next chapter map for prototype testing; it refreshes chapter backdrop context and remains a debug aid, not production progression.
 - Use deterministic simulator coverage for all four MVP characters through the shipped route contract, including `luoshui`, `bamboo`, `changan`, and `moyuan`.
 
+## Wave 9 Release Acceptance Prep
+
+Wave 9 acceptance should be refreshed only after the integration branch merges the polish branches. The release target is:
+
+- Zhuge Liang seed `9003` completes the deterministic multi-seed route without introducing timeout risks or unsafe damage spikes.
+- Starter semantic card art replaces type-level fallbacks for the starter readability batch.
+- First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`, and none use the generic enemy slash as final combat identity.
+- Desktop-first browser QA remains the release gate; `调试跳章` remains debug-only acceleration and is not normal progression evidence.
+
+Final Wave 9 Vitest, Playwright, balance-report, asset audit, and card fallback debt numbers are `集成后刷新`.
+
 ## Verification Table
 
-| Check | Command or Evidence | Wave 8 Integrated Result |
+| Check | Command or Evidence | Wave 9 Integration Result |
 |---|---|---|
-| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: 102 runtime refs, 0 missing, 0 ink-pass debt, 56 card fallback debt |
-| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 15 files, 181 tests |
-| TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
-| Production build | bundled `vite/bin/vite.js build` | Passed with known non-blocking lazy Phaser chunk warning |
-| Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Playwright Chromium tests |
-| Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
-| Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | Covered and passing through reload/continue, final choice, ending, profile summary |
-| Debug skip | `tests/e2e/playable-flow.spec.ts` | Covered and passing; advances to next chapter and refreshes `data-battlefield` |
-| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Covered and passing from title and map/run status |
-| Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | Covered and passing for card chips, intent boxes, and combo trail tooltip metadata |
-| Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Covered and passing with GPT2 standees/card art and attack strips |
-| Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
-| Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Covered and passing |
-| Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | Covered and passing through the normal route contract |
-| Wave 7 deterministic balance report | `node scripts/balance-report.mjs --markdown` | Passed: 4/4 representative shipped hero routes completed, 28 combat samples, 0 timeout risks, 0 unsafe damage spikes over threshold |
+| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | `集成后刷新`, including final card fallback debt |
+| Deterministic unit coverage | bundled `vitest.mjs run` | `集成后刷新` |
+| TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | `集成后刷新` |
+| Production build | bundled `vite/bin/vite.js build` | `集成后刷新`, with any lazy Phaser chunk warning recorded |
+| Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | `集成后刷新`, including final Playwright Chromium result |
+| Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | `集成后刷新` |
+| Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | `集成后刷新` |
+| Debug skip | `tests/e2e/playable-flow.spec.ts` | `集成后刷新`; must preserve `调试跳章` as debug-only |
+| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | `集成后刷新` |
+| Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | `集成后刷新` |
+| Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | `集成后刷新`, with starter semantic card art visible where covered |
+| Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | `集成后刷新` |
+| Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | `集成后刷新` |
+| Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | `集成后刷新`, including Zhuge Liang seed `9003` |
+| Multi-seed balance report | `node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` | `集成后刷新` |
 
 ## Wave 7 Balance Report Findings
 
@@ -86,7 +97,9 @@ Findings:
 - Unsafe damage spikes are currently clear against the default `24` threshold; the observed maximum equals `24` but does not exceed it.
 - Healing pressure remains high across all four routes. Zhuge Liang is the main balance watchlist item because the representative route reaches `1` post-combat HP before later recovery.
 
-## Wave 8 Multi-Seed Balance Aggregate
+## Historical Wave 8 Multi-Seed Balance Aggregate
+
+This section is retained as prior-wave context only. Do not copy these numbers into Wave 9 release notes; the Wave 9 aggregate is `集成后刷新`.
 
 Latest aggregate artifact:
 
@@ -127,13 +140,13 @@ The Playwright HTML report and `test-results/` output include these attached des
 
 ### Gameplay Blockers
 
-- No Wave 8 integrated desktop gameplay blocker is currently documented after the latest full gate.
+- Wave 9 final desktop gameplay blocker state is `集成后刷新` after the integration branch runs the full gate.
 - Stable combat hand layout and first-chapter standee-only attack feedback are included in the observed bugfixes 2 baseline.
-- Wave 8 multi-seed balance evidence records one deterministic Zhuge Liang route defeat on seed `9003`; this is a balance watchlist risk, not a report-generation blocker.
+- Zhuge Liang seed `9003` is a Wave 9 balance target; the final multi-seed outcome is `集成后刷新`.
 
 ### Non-Blocking Backlog
 
-- Card fallback art debt remains 56. These cards still share type-level fallback art and require real GPT Image 2 source/crop generation before the ledger should shrink.
-- First-chapter elite art uses vetted clean stand-ins: `elite_sword_echo` uses `gpt2-bamboo-soldier-standee-cutout.png`, and `elite_blood_banner` uses `gpt2-scribe-officer-standee-cutout.png`. First-chapter stand-ins use standee-only attack feedback until bespoke strips exist; do not treat the generic enemy slash strip as an acceptable runtime binding for them.
+- Wave 9 final card fallback debt is `集成后刷新` after starter semantic card art integration and asset audit verification.
+- First-chapter semantic attack strips are a Wave 9 target for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; final runtime binding evidence is `集成后刷新`, and the generic enemy slash strip is not acceptable for their final combat identity.
 - The known Vite `>500 kB` warning remains isolated to the lazy Phaser chunk after the boot split. It is a performance backlog item and did not block the Wave 8 build gate.
 - Production audio depth, release packaging notes, profile-gated compendium presentation, and broader external playtest instructions remain future polish.
