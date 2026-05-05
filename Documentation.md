@@ -2,6 +2,36 @@
 
 ## Status Log
 
+### 2026-05-05 19:18 Asia/Shanghai
+
+Wave 24 Balance Report Label Refresh planning started in `.worktrees/wave6-integration` on branch `codex/wave24-balance-report-label-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `src/game/systems/debug/balanceReport.ts`
+- `tests/playtest/run-simulator.test.ts`
+- `tests/playtest/balance-report-script.test.ts`
+- `scripts/balance-report.mjs`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave24-balance-report-label-refresh.md`
+
+Current issue:
+
+- `src/game/systems/debug/balanceReport.ts` still emits `reportId: "wave7-alpha-balance-v1"` and markdown heading `# Wave 7 Alpha Balance Report`.
+- `tests/playtest/run-simulator.test.ts` and `tests/playtest/balance-report-script.test.ts` currently pin that stale Wave 7 label, so the report identity can drift from current Wave 22/23 evidence without failing tests.
+
+Next step:
+
+- Commit the Wave 24 plan, then create isolated code/test and docs verification worktrees to refresh the report metadata while preserving all route simulation outcomes.
+
 ### 2026-05-05 19:13 Asia/Shanghai
 
 Wave 23 Balance Report Watchlist Readability integrated in `.worktrees/wave6-integration` on branch `codex/wave23-balance-report-watchlist`.
