@@ -2,6 +2,39 @@
 
 ## Status Log
 
+### 2026-05-06 00:12 Asia/Shanghai
+
+Wave 32 EA Route Map Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave32-ea-route-map-polish-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/app/inkbladeController.ts`
+- `src/game/systems/run/run.ts`
+- `src/styles/theme.css`
+- `tests/e2e/playable-flow.spec.ts`
+- Superpowers `writing-plans` workflow notes
+- Game Studio `game-ui-frontend` workflow notes
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-06-wave32-ea-route-map-polish.md`
+
+Scope decision:
+
+- Wave 32 focuses on route-map readability: visible node state, visible reward row, available-path emphasis, and screenshot evidence.
+- Map generation, travel legality, node pools, rewards, Steam/storefront, and release-prep work are out of scope.
+
+Next step:
+
+- Commit the Wave 32 plan, then implement the route-map DOM/CSS polish with a focused Playwright check.
+
 ### 2026-05-05 23:10 Asia/Shanghai
 
 Wave 31 EA Reward And Shop Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave31-ea-reward-shop-polish-plan`.
