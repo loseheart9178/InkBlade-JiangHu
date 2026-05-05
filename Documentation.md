@@ -2,6 +2,61 @@
 
 ## Status Log
 
+### 2026-05-05 14:58 Asia/Shanghai
+
+Wave 19 Handoff Preflight integrated in `.worktrees/wave6-integration` on branch `codex/wave19-handoff-preflight`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/playtest/external-bug-intake.md`
+- `docs/superpowers/plans/2026-05-05-wave19-handoff-preflight.md`
+- `docs/superpowers/plans/2026-05-05-wave18-node-runtime-requirements.md`
+
+What changed:
+
+- Added `scripts/handoff-preflight.mjs`, a read-only Markdown preflight for runtime, git branch/commit, report npm scripts, and playtest handoff docs.
+- Added `handoff:preflight` to `package.json`.
+- Added deterministic coverage in `tests/playtest/handoff-preflight-script.test.ts`.
+- Linked the preflight command from README and alpha acceptance.
+
+Worker worktrees integrated:
+
+- `codex/wave19-preflight-script` at `afd5c51`, commit `feat: add handoff preflight script`. The script worker timed out after writing the initial test, and the main thread completed the implementation and commit.
+- `codex/wave19-preflight-docs` at `f1ee8ad`, commit `docs: document handoff preflight`. The docs worker timed out after partially updating README, and the main thread completed the alpha acceptance update and commit.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/handoff-preflight-script.test.ts tests/playtest/runtime-requirements.test.ts tests/playtest/package-report-scripts.test.ts --reporter=dot
+Result: passed. 3 files / 3 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/handoff-preflight.mjs | grep -n "Inkblade Handoff Preflight"
+Result: passed. Preflight report printed the expected title.
+
+grep -n "handoff:preflight" README.md docs/playtest/alpha-acceptance.md
+Result: passed. README and alpha acceptance both document the command.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional GPT Image 2 bitmap card-art quality pass.
+- Preflight is intentionally read-only and does not replace the full release gate; it only surfaces setup status before heavier checks.
+
+Next step:
+
+- Commit the integration branch and continue to the next autonomous round.
+
 ### 2026-05-05 13:54 Asia/Shanghai
 
 Wave 19 Handoff Preflight planning started in `.worktrees/wave6-integration` on branch `codex/wave19-handoff-preflight-plan`.
