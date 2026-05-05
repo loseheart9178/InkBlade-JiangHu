@@ -2,6 +2,52 @@
 
 ## Status Log
 
+### 2026-05-05 20:10 Asia/Shanghai
+
+EA Playable Showcase master planning started in `.worktrees/wave6-integration` on branch `codex/ea-development-master-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/specs/2026-05-03-wave6-ea-readiness-design.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+
+Explorer findings used:
+
+- Content explorer counted current content as 81 cards, 20 relics, 29 events, 19 enemies, 4 chapters, 4 characters, 8 methods, 5 world endings, 16 character epilogues, and 14 logbook entries.
+- Systems explorer confirmed the core alpha loop is robust but EA needs debug gating, challenge/difficulty replayability, meta goals, save migration/recovery, tutorial depth, and content-scale gates.
+- Release/playtest explorer flagged Steam/packaging gaps, but the user clarified EA should not spend work on Steam or release packaging. Those items are excluded from this EA playable showcase plan.
+
+Current EA direction:
+
+- Prioritize distinctive gameplay visibility, richer content volume, replayability, commercial UI/art/audio presentation, and player-safe reliability.
+- Keep desktop browser as the active target.
+- Do not plan Steam launch, installers, depots, storefront metadata, or packaging infrastructure.
+
+Next step:
+
+- Commit the EA master plan, then start Wave 26: EA Public Demo Surface And Debug Gate.
+
 ### 2026-05-05 19:41 Asia/Shanghai
 
 Wave 25 Alpha Handoff Current Baseline integrated in `.worktrees/wave6-integration` on branch `codex/wave25-alpha-handoff-current-baseline`.
