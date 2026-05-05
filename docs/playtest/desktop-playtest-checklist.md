@@ -21,18 +21,19 @@ Or start from an autonomous worktree with bundled Node:
 
 Open the local Vite URL, usually `http://127.0.0.1:5173/`, in desktop Chromium. Keep devtools open while testing so console errors, missing assets, and failed requests can be captured.
 
-## Wave 14 Release Focus
+## Wave 20 Release Focus
 
-Wave 14 desktop QA verifies the current alpha handoff while carrying forward the Wave 11-13 hardening work:
+Wave 20 desktop QA verifies the current alpha handoff while carrying forward the Wave 11-19 hardening work:
 
 - `墨录图鉴` / compendium entries now expose `参照`, `已录`, and `未录` states. Story fragments are profile-aware; cards, relics, enemies, and combo rules remain full-reference entries.
 - The title and run compendium should keep the full alpha reference visible, including locked story entries, while the `收录` filter narrows to `参照`, `已录`, or `未录`.
 - Wave 13 balance reports can be exported with `--out <path>` while preserving stdout, so QA artifacts can be attached to handoff notes.
+- Wave 15-19 handoff surfaces include the external bug intake guide, alpha handoff report, `report:balance` / `report:handoff` npm scripts, Node 24 runtime guidance, and `handoff:preflight`.
 - Wave 12 save/profile hardening keeps stale combat payloads out of non-combat screens and repairs legacy profile counters.
 - Wave 11 final-choice metadata, combat glossary metadata, and the explicit lazy Phaser chunk budget remain part of the acceptance surface.
 - Runtime card fallback debt is 0; current card faces are semantic repo-local SVG readability art, not final GPT Image 2 bitmap illustrations.
 - Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
-- Final gate: Vitest 19 files / 192 tests, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance artifact output matching stdout.
+- Final gate: Vitest 23 files / 198 tests, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight PASS, and alpha handoff artifact output matching stdout.
 
 ## Smoke Route A: First Battle Loop
 
@@ -66,7 +67,7 @@ For Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang:
 
 ## Compendium Route: Title Screen
 
-Use this route to verify the Wave 14 compendium / `墨录图鉴` presentation without starting a run:
+Use this route to verify the current compendium / `墨录图鉴` presentation without starting a run. The Wave 14 compendium metadata remains part of the Wave 20 gate:
 
 1. Clear local storage or use a fresh browser profile.
 2. From the title screen, open `墨录图鉴`.
@@ -132,7 +133,7 @@ Bundled Node equivalent:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
 ```
 
-The Wave 14 final Playwright Chromium desktop result is 27/27 passing tests. Useful focused runs include:
+The Wave 20 final Playwright Chromium desktop result is 27/27 passing tests. Useful focused runs include:
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "debug skip|compendium|final boss route"
@@ -151,7 +152,7 @@ The Wave 14 final Playwright Chromium desktop result is 27/27 passing tests. Use
 
 - Runtime card fallback debt is 0. The Wave 10 card faces are semantic SVG readability assets rather than final GPT Image 2 bitmap illustrations.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`. The generic enemy slash strip is not acceptable for those combatants.
-- Zhuge Liang seed `9003` now completes in the multi-seed report; Zhuge Liang remains high-pressure and should stay on the balance watchlist.
+- The Wave 20 multi-seed report completes 12/12 routes across 84 combat samples with timeout risks 0 and unsafe spikes 0; Zhuge Liang remains high-pressure and should stay on the balance watchlist with a lowest HP band of 3/3/7.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
 - Production audio, Steam packaging, mobile layout, and touch controls are not in this pass.
 

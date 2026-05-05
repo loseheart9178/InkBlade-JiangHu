@@ -2,6 +2,84 @@
 
 ## Status Log
 
+### 2026-05-05 15:44 Asia/Shanghai
+
+Wave 20 Release Gate Refresh integrated in `.worktrees/wave6-integration` on branch `codex/wave20-release-gate-refresh`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/playtest/external-bug-intake.md`
+- `docs/superpowers/plans/2026-05-05-wave20-release-gate-refresh.md`
+- `docs/superpowers/plans/2026-05-05-wave19-handoff-preflight.md`
+
+What changed:
+
+- Refreshed release-facing README, alpha acceptance, desktop checklist, and alpha handoff report baseline from Wave 14 current-state wording to Wave 20 gate evidence.
+- Added an explicit `80_000` ms timeout to the four-character desktop visual smoke test after the full e2e gate showed the test can exceed the default 30s under the two-worker browser suite while still completing all screenshots and assertions.
+- Added shared `scripts/git-metadata.mjs` fallback support so bundled Windows Node handoff scripts resolve branch/commit from `.git` metadata even when `git` is not launchable from that process.
+- Added regression coverage for checkout metadata in both handoff scripts.
+
+Worker worktrees / subagents:
+
+- Created `codex/wave20-release-docs` at `.worktrees/wave20-release-docs` for a read-only docs explorer. The explorer completed and reported every release-facing Wave 14/current-gate reference to refresh. No files were modified in that worktree.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 23 files / 198 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 44 modules without the previous Phaser chunk-size warning.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 27 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 52.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-wave20-balance-report.md > /mnt/d/tmp/inkblade-wave20-balance-stdout.md
+test -s /mnt/d/tmp/inkblade-wave20-balance-report.md
+cmp /mnt/d/tmp/inkblade-wave20-balance-report.md /mnt/d/tmp/inkblade-wave20-balance-stdout.md
+Result: passed. Routes completed 12/12, combat samples 84, timeout risks 0, unsafe damage spikes 0.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/handoff-preflight.mjs
+Result: passed. Node v24.14.0 PASS, report scripts PASS, handoff docs PASS, branch `codex/wave20-release-gate-refresh`, commit metadata resolved.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/alpha-handoff-report.mjs --out D:/tmp/inkblade-wave20-alpha-handoff.md --balance-report D:/tmp/inkblade-wave20-balance-report.md > /mnt/d/tmp/inkblade-wave20-alpha-handoff-stdout.md
+test -s /mnt/d/tmp/inkblade-wave20-alpha-handoff.md
+cmp /mnt/d/tmp/inkblade-wave20-alpha-handoff.md /mnt/d/tmp/inkblade-wave20-alpha-handoff-stdout.md
+Result: passed. Artifact matched stdout and included the Wave 20 baseline.
+```
+
+Failures / fixes during the gate:
+
+- First full Playwright run failed with 26/27 passed because `visual-smoke.spec.ts` used the default 30s test timeout for a four-character screenshot flow; focused repro passed, full-suite rerun after adding the explicit visual timeout passed 27/27.
+- Handoff preflight and alpha handoff report initially printed `Branch: unknown` / `Commit: unknown` under bundled Windows Node; shared `.git` metadata fallback fixed both scripts.
+- A non-gate `vite --version` path probe failed because `/dependencies/node/bin/vite` does not exist; the actual Vite build command with `node.exe ./node_modules/vite/bin/vite.js build` passed.
+- For artifact output paths, bundled Windows Node should use `D:/tmp/...` for `--out`; `/mnt/d/tmp/...` is treated as a drive-root-relative path by `node.exe`.
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional GPT Image 2 bitmap card-art quality pass.
+- Zhuge Liang remains a high-pressure balance watchlist character with the Wave 20 aggregate lowest post-combat HP band of 3/3/7.
+- `handoff:preflight` is still a preflight/status report, not a replacement for the full release gate.
+
+Next step:
+
+- Commit the Wave 20 documentation refresh, clean temporary artifacts, close the read-only docs explorer worktree if no longer needed, then continue to the next autonomous wave.
+
 ### 2026-05-05 15:03 Asia/Shanghai
 
 Wave 20 Release Gate Refresh planning started in `.worktrees/wave6-integration` on branch `codex/wave20-release-gate-refresh-plan`.

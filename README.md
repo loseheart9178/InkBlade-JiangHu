@@ -43,9 +43,9 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 14 release verification completed on branch `codex/wave14-compendium-depth`: Vitest 19 files / 192 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance artifact output matching stdout. Wave 14 scope: profile-aware compendium unlock metadata, compact badges, and an unlock filter while preserving full reference visibility. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+Wave 20 release verification completed on branch `codex/wave20-release-gate-refresh`: Vitest 23 files / 198 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight, and alpha handoff artifact output matching stdout. Wave 20 scope refreshes the release gate after Waves 15-19 handoff docs, report scripts, Node 24 runtime guidance, and preflight tooling. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
 
-## Wave 14 Compendium Unlock Depth
+## Carry-Forward: Compendium Unlock Depth
 
 The `墨录图鉴` now distinguishes profile-discovered story from alpha reference material:
 
@@ -104,7 +104,7 @@ Wave 10 removes the remaining runtime card-art fallback debt while preserving th
 - Binds those assets through card-art modules imported by `src/game/content/visuals.ts`.
 - Updates the generated asset audit so card-art modules are counted in runtime references and `cardFallbackDebt` reports 0.
 
-Desktop browser remains the active release target. Wave 10 changes art bindings and audit coverage only; gameplay pacing remains covered by the 12/12 multi-seed balance report and the 27-test Chromium suite.
+Desktop browser remains the active release target. Wave 10 changed art bindings and audit coverage only; the current Wave 20 gate still covers gameplay pacing with the 12/12 multi-seed balance report and 27 Chromium desktop tests.
 
 ## Desktop Playtest Route
 
@@ -129,7 +129,7 @@ External testers should file issues with [external-bug-intake.md](docs/playtest/
 
 - Runtime card fallback debt is now 0. The Wave 10 card faces are semantic repo-local SVGs, not final GPT Image 2 bitmap illustrations.
 - First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
-- Zhuge Liang seed `9003` completed in the Wave 9 multi-seed report; Zhuge Liang remains a high-pressure balance watchlist character because his lowest post-combat HP band is 3/3/7.
+- The Wave 20 multi-seed report completed all 12/12 routes with 84 samples, timeout risks 0, unsafe spikes 0, and Zhuge Liang still on the high-pressure watchlist with a lowest post-combat HP band of 3/3/7.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
 - Production audio, Steam packaging, mobile layout, and broad localization polish are outside this desktop alpha handoff.
 

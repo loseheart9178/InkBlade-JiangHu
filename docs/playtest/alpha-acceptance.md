@@ -1,10 +1,10 @@
 # Alpha Acceptance Playtest
 
-Wave 14 compendium unlock-depth closure for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
+Wave 20 release-gate refresh for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
 
-Last full gate verified: 2026-05-05 Wave 14 compendium unlock-depth integration on branch `codex/wave14-compendium-depth`.
+Last full gate verified: 2026-05-05 Wave 20 release-gate refresh on branch `codex/wave20-release-gate-refresh`.
 
-Wave 7 through Wave 10 balance-report sections remain historical references below. The current Wave 14 multi-seed artifact result is still 12/12 completed routes with no timeout risks or unsafe damage spikes.
+Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 20 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, and unsafe damage spikes 0.
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
 
@@ -53,6 +53,12 @@ npm run report:handoff
 - Use the visible `调试跳章` control to advance to the next chapter map for prototype testing; it refreshes chapter backdrop context and remains a debug aid, not production progression.
 - Use deterministic simulator coverage for all four MVP characters through the shipped route contract, including `luoshui`, `bamboo`, `changan`, and `moyuan`.
 
+## Wave 20 Release Gate Refresh Acceptance
+
+Wave 20 scope: refresh the current release gate after Waves 15-19 external playtest docs, alpha handoff report, npm report scripts, Node 24 runtime requirement docs, and handoff preflight tooling. It also fixes two handoff QA issues found during the gate: the four-character visual smoke test now has an explicit long timeout budget, and bundled Node handoff scripts can resolve branch/commit from git metadata even when `git` is not launchable from the Windows Node process.
+
+Final Wave 20 gate: Vitest 23 files / 198 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0, the multi-seed balance report artifact matched stdout, handoff preflight reported Node v24.14.0 PASS with branch/commit metadata, and the alpha handoff report artifact matched stdout with the current Wave 20 baseline.
+
 ## Wave 11 Alpha Backlog Closure Acceptance
 
 Wave 11 scope: final-choice affordance metadata, status badge glossary metadata, and explicit lazy Phaser chunk budget.
@@ -93,20 +99,22 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 | Check | Command or Evidence | Current Result |
 |---|---|---|
 | Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: runtime refs 159, missing 0, ink-pass debt 0, card fallback debt 0 |
-| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 19 files / 192 tests |
+| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 23 files / 198 tests |
 | TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
 | Production build | bundled `vite/bin/vite.js build` | Passed without the previous lazy Phaser chunk-size warning |
 | Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Chromium tests |
 | Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | Passed within full Playwright suite |
 | Debug skip | `tests/e2e/playable-flow.spec.ts` | Passed; `调试跳章` remains debug-only |
-| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed, including Wave 14 unlock metadata, counts, badges, and `all/reference/unlocked/locked` filtering |
+| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed; Wave 14 unlock metadata, counts, badges, and `all/reference/unlocked/locked` filtering remain covered under the Wave 20 gate |
 | Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | Passed, including Wave 11 combat status badge metadata |
 | Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Passed; starter and Wave 10 semantic SVG card art are accepted by the visual smoke |
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | Passed, including Zhuge Liang seed `9003` assertions |
 | Multi-seed balance report | `node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` | Passed: 12/12 routes, 84 samples, timeout risks 0, unsafe spikes 0 |
+| Handoff preflight | `node scripts/handoff-preflight.mjs` | Passed: Node v24.14.0 PASS, report scripts PASS, handoff docs PASS, branch/commit resolved |
+| Alpha handoff report artifact | `node scripts/alpha-handoff-report.mjs --out ... --balance-report ...` | Passed: artifact matched stdout and includes the Wave 20 baseline |
 
 ## Wave 7 Balance Report Findings
 
@@ -177,9 +185,9 @@ The Playwright HTML report and `test-results/` output include these attached des
 
 ### Gameplay Blockers
 
-- No Wave 10 desktop gameplay blockers were found in the full integration gate.
+- No Wave 20 desktop gameplay blockers were found in the full integration gate.
 - Stable combat hand layout remains covered by Playwright visual smoke.
-- Zhuge Liang seed `9003` completes in the Wave 10 multi-seed outcome.
+- Zhuge Liang seed `9003` completes in the Wave 20 multi-seed outcome.
 
 ### Non-Blocking Backlog
 
@@ -187,4 +195,5 @@ The Playwright HTML report and `test-results/` output include these attached des
 - Wave 10 card faces are repo-local SVG readability assets, not final GPT Image 2 bitmap illustrations.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; the generic enemy slash strip is not acceptable for their combat identity.
 - The lazy Phaser runtime chunk now has an explicit `1300` kB Vite warning budget so future chunk growth is actionable.
+- Milestone 58 remains the optional GPT Image 2 bitmap card-art quality pass.
 - Production audio depth, release packaging notes, and broader external playtest instructions remain future polish.
