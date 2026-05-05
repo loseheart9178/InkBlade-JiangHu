@@ -2,6 +2,50 @@
 
 ## Status Log
 
+### 2026-05-05 20:19 Asia/Shanghai
+
+Wave 26 EA Public Demo Surface And Debug Gate planning started in `.worktrees/wave6-integration` on branch `codex/wave26-ea-public-demo-gate-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/chapters/chapter_02.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `README.md`
+- `src/app/inkbladeController.ts`
+- `src/app/gameApp.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- `tests/data/content.test.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave26-ea-public-demo-gate.md`
+
+Scope decision:
+
+- EA is now treated as a browser-playable public showcase, not Steam/release packaging prep.
+- Wave 26 focuses on hiding internal debug affordances by default, preserving QA shortcuts through explicit `?debug=1`, and pinning the current content baseline before later expansion waves.
+
+Next step:
+
+- Commit the Wave 26 plan, create isolated worker worktrees for runtime debug gating and EA doc/data baseline, then integrate and verify.
+
 ### 2026-05-05 20:10 Asia/Shanghai
 
 EA Playable Showcase master planning started in `.worktrees/wave6-integration` on branch `codex/ea-development-master-plan`.
