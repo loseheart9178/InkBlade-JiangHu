@@ -4,12 +4,14 @@
 
 ## Quick Start
 
-Install dependencies with normal Node:
+Install dependencies with Node 24 or newer:
 
 ```bash
 npm install
 npm run dev
 ```
+
+The verified autonomous runtime is Node v24.14.0. Older Node 18 shells cannot run the current Vite/Rolldown toolchain.
 
 Open the Vite URL, usually `http://127.0.0.1:5173/`, in a desktop Chromium browser. Desktop is the active target for this release handoff; mobile layout and touch QA are paused.
 
