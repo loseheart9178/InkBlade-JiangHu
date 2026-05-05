@@ -39,6 +39,7 @@ describe("alpha handoff report script", () => {
       expect(stdout).toContain("Commit: `abc1234`");
       expect(stdout).toContain("Wave 20 release gate refresh");
       expect(stdout).toContain("Vitest 24 files / 200 tests");
+      expect(stdout).toContain("Zhuge Liang lowest HP band improved to 8/10/14");
       expect(stdout).toContain("docs/playtest/desktop-playtest-checklist.md");
       expect(stdout).toContain("docs/playtest/external-bug-intake.md");
       expect(stdout).toContain("Balance artifact: `reports/balance-report.md`");

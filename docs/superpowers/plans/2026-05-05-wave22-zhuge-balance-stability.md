@@ -54,18 +54,18 @@ Implementation rules:
 - Create: `docs/superpowers/plans/2026-05-05-wave22-zhuge-balance-stability.md`
 - Modify: `Documentation.md`
 
-- [ ] **Step 1: Record planning entry**
+- [x] **Step 1: Record planning entry**
 
 Add a top `Documentation.md` entry with the docs read, baseline balance numbers, branch, and next step.
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 ```bash
 grep -n "Wave 22 Zhuge Liang" Documentation.md docs/superpowers/plans/2026-05-05-wave22-zhuge-balance-stability.md
 git diff --check
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add Documentation.md docs/superpowers/plans/2026-05-05-wave22-zhuge-balance-stability.md
@@ -78,7 +78,7 @@ git commit -m "docs: plan wave22 zhuge balance stability"
 
 - Modify: `tests/playtest/run-simulator.test.ts`
 
-- [ ] **Step 1: Add failing regression**
+- [x] **Step 1: Add failing regression**
 
 In the multi-seed aggregate test, assert:
 
@@ -93,7 +93,7 @@ expect(zhuge.unsafeSpikeCount).toBe(0);
 
 Keep the existing all-route completion checks.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
@@ -107,7 +107,7 @@ Expected first result: fail because current Zhuge min lowest post-combat HP is 3
 
 - Modify: `src/game/content/cards.ts`
 
-- [ ] **Step 1: Improve defensive control, not raw HP**
+- [x] **Step 1: Improve defensive control, not raw HP**
 
 Try the smallest card-data tuning that clears the new test:
 
@@ -118,7 +118,7 @@ Try the smallest card-data tuning that clears the new test:
 
 Update descriptions and upgrade descriptions to match effects.
 
-- [ ] **Step 2: Keep content integrity tests green**
+- [x] **Step 2: Keep content integrity tests green**
 
 If content tests validate descriptions/effects, update only the expected data or text needed by the new values.
 
@@ -129,13 +129,13 @@ If content tests validate descriptions/effects, update only the expected data or
 - Modify: `Documentation.md`
 - Modify if acceptance numbers change: `docs/playtest/alpha-acceptance.md`, `docs/playtest/desktop-playtest-checklist.md`, `README.md`, `scripts/alpha-handoff-report.mjs`, and related tests.
 
-- [ ] **Step 1: Run focused simulator test**
+- [x] **Step 1: Run focused simulator test**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
 ```
 
-- [ ] **Step 2: Run multi-seed balance artifact check**
+- [x] **Step 2: Run multi-seed balance artifact check**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-wave22-balance-report.md > /mnt/d/tmp/inkblade-wave22-balance-stdout.md
@@ -143,7 +143,7 @@ test -s /mnt/d/tmp/inkblade-wave22-balance-report.md
 cmp /mnt/d/tmp/inkblade-wave22-balance-report.md /mnt/d/tmp/inkblade-wave22-balance-stdout.md
 ```
 
-- [ ] **Step 3: Run broad gates**
+- [x] **Step 3: Run broad gates**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
@@ -153,7 +153,7 @@ cmp /mnt/d/tmp/inkblade-wave22-balance-report.md /mnt/d/tmp/inkblade-wave22-bala
 git diff --check
 ```
 
-- [ ] **Step 4: Document results and commit**
+- [x] **Step 4: Document results and commit**
 
 Record the final Zhuge HP band, any tradeoffs, verification results, subagent/worktree status, and next step in `Documentation.md`, then commit:
 

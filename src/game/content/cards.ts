@@ -798,17 +798,17 @@ export const cardList: CardDefinition[] = [
     types: ["skill"],
     effects: [
       { action: "block", amount: 4 },
-      { action: "setFormation", formation: "eight", name: "八阵", duration: 3, blockAtTurnEnd: 2 },
+      { action: "setFormation", formation: "eight", name: "八阵", duration: 3, blockAtTurnEnd: 3 },
       { action: "gainResource", amount: 1 }
     ],
-    description: "获得4点护甲，布置八阵3回合：回合结束获得2点护甲。获得1筹策。",
+    description: "获得4点护甲，布置八阵3回合：回合结束获得3点护甲。获得1筹策。",
     upgrade: {
       effects: [
         { action: "block", amount: 6 },
-        { action: "setFormation", formation: "eight", name: "八阵", duration: 4, blockAtTurnEnd: 3 },
+        { action: "setFormation", formation: "eight", name: "八阵", duration: 4, blockAtTurnEnd: 4 },
         { action: "gainResource", amount: 1 }
       ],
-      description: "获得6点护甲，布置八阵4回合：回合结束获得3点护甲。获得1筹策。"
+      description: "获得6点护甲，布置八阵4回合：回合结束获得4点护甲。获得1筹策。"
     }
   },
   {
@@ -822,16 +822,16 @@ export const cardList: CardDefinition[] = [
     keywords: ["scry"],
     types: ["skill"],
     effects: [
-      { action: "block", amount: 8 },
+      { action: "block", amount: 10 },
       { action: "scry", amount: 2 }
     ],
-    description: "获得8点护甲，观星2。",
+    description: "获得10点护甲，观星2。",
     upgrade: {
       effects: [
-        { action: "block", amount: 11 },
+        { action: "block", amount: 13 },
         { action: "scry", amount: 3 }
       ],
-      description: "获得11点护甲，观星3。"
+      description: "获得13点护甲，观星3。"
     }
   },
   {

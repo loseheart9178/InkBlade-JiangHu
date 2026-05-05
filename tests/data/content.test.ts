@@ -155,6 +155,28 @@ describe("content data", () => {
     expect(getArchetypeCardIds("zhuge-formation-wind")).toEqual(
       expect.arrayContaining(["zhuge_small_eight_array", "zhuge_fire_array", "zhuge_wind_array", "zhuge_stone_array"])
     );
+    expect(cardsById.zhuge_empty_city.effects).toEqual([
+      { action: "block", amount: 10 },
+      { action: "scry", amount: 2 }
+    ]);
+    expect(cardsById.zhuge_empty_city.upgrade?.effects).toEqual([
+      { action: "block", amount: 13 },
+      { action: "scry", amount: 3 }
+    ]);
+    expect(cardsById.zhuge_small_eight_array.effects).toContainEqual({
+      action: "setFormation",
+      formation: "eight",
+      name: "八阵",
+      duration: 3,
+      blockAtTurnEnd: 3
+    });
+    expect(cardsById.zhuge_small_eight_array.upgrade?.effects).toContainEqual({
+      action: "setFormation",
+      formation: "eight",
+      name: "八阵",
+      duration: 4,
+      blockAtTurnEnd: 4
+    });
   });
 
   it("adds common cards that explicitly support combo-chain rewards", () => {

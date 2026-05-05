@@ -6,6 +6,8 @@ Last full gate verified: 2026-05-05 Wave 20 release-gate refresh on branch `code
 
 Latest art gate verified: 2026-05-05 Wave 21 GPT Image 2 starter/common card art on branch `codex/wave21-gpt2-card-art`: Vitest 24 files / 200 tests, TypeScript compile, Vite build, Playwright visual smoke 3 Chromium tests, and asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
 
+Latest balance stability gate verified: 2026-05-05 Wave 22 Zhuge Liang balance stability on branch `codex/wave22-zhuge-balance-stability`: multi-seed balance artifact remains 12/12 routes, 84 combat samples, timeout risks 0, unsafe spikes 0, and Zhuge Liang's lowest post-combat HP band improved from `3/3/7` to `8/10/14`.
+
 Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 20 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, and unsafe damage spikes 0.
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
@@ -114,7 +116,7 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | Passed, including Zhuge Liang seed `9003` assertions |
-| Multi-seed balance report | `node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` | Passed: 12/12 routes, 84 samples, timeout risks 0, unsafe spikes 0 |
+| Multi-seed balance report | `node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` | Passed: 12/12 routes, 84 samples, timeout risks 0, unsafe spikes 0, Zhuge Liang lowest HP band 8/10/14 |
 | Handoff preflight | `node scripts/handoff-preflight.mjs` | Passed: Node v24.14.0 PASS, report scripts PASS, handoff docs PASS, branch/commit resolved |
 | Alpha handoff report artifact | `node scripts/alpha-handoff-report.mjs --out ... --balance-report ...` | Passed: artifact matched stdout and includes the Wave 20 baseline |
 
@@ -142,11 +144,11 @@ Findings:
 - Completion evidence is green for all four representative routes.
 - Timeout risk is currently clear on the representative seed.
 - Unsafe damage spikes are currently clear against the default `24` threshold; the observed maximum equals `24` but does not exceed it.
-- Healing pressure remains high across all four routes. Zhuge Liang is the main balance watchlist item because the representative route reaches `1` post-combat HP before later recovery.
+- This historical Wave 7 seed showed Zhuge Liang reaching `1` post-combat HP before later recovery. The current Wave 22 aggregate below stabilizes the same character without changing his low-HP strategist identity.
 
-## Wave 9 Multi-Seed Balance Aggregate
+## Wave 22 Multi-Seed Balance Aggregate
 
-Latest Wave 9 aggregate verified on branch `codex/wave9-polish-balance-art`.
+Latest Wave 22 aggregate verified on branch `codex/wave22-zhuge-balance-stability`.
 
 Latest aggregate artifact:
 
@@ -163,14 +165,14 @@ Headline aggregate numbers:
 | Zhao Yun | 3 | 29/38/43 | 24 | 0 | 0 | 3 |
 | Diao Chan | 3 | 26/37/37 | 12 | 0 | 0 | 3 |
 | Cai Wenji | 3 | 10/21/23 | 24 | 0 | 0 | 3 |
-| Zhuge Liang | 3 | 3/3/7 | 24 | 0 | 0 | 3 |
+| Zhuge Liang | 3 | 8/10/14 | 24 | 0 | 0 | 3 |
 
 Findings:
 
 - Aggregate completion is `12/12` deterministic routes.
 - Timeout risk remains clear across all three seeds.
 - Unsafe damage spikes remain clear against the default `24` threshold; the observed maximum equals `24` but does not exceed it.
-- Zhuge Liang seed `9003` now completes; the aggregate lowest post-combat HP band is `3/3/7`, so he remains a high-pressure watchlist character rather than a completion blocker.
+- Zhuge Liang's aggregate lowest post-combat HP band is now `8/10/14`; he remains a long-route pressure character, but no longer sits on the near-death `3/3/7` band.
 - Healing pressure remains high across all four characters and should be treated as release-watch evidence rather than a blocker by itself.
 
 ## Screenshot Artifacts

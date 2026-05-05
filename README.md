@@ -129,7 +129,7 @@ External testers should file issues with [external-bug-intake.md](docs/playtest/
 
 - Runtime card fallback debt is now 0. Wave 21 upgrades the starter/common card faces to GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG card faces are readable historical/runtime coverage until future optional bitmap passes replace them.
 - First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
-- The Wave 20 multi-seed report completed all 12/12 routes with 84 samples, timeout risks 0, unsafe spikes 0, and Zhuge Liang still on the high-pressure watchlist with a lowest post-combat HP band of 3/3/7.
+- The Wave 22 multi-seed balance pass keeps all 12/12 routes complete with 84 samples, timeout risks 0, unsafe spikes 0, and raises Zhuge Liang's lowest post-combat HP band from `3/3/7` to `8/10/14` while keeping him a high-strategy pressure character.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
 - Production audio, Steam packaging, mobile layout, and broad localization polish are outside this desktop alpha handoff.
 

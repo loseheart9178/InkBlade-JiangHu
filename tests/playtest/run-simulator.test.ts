@@ -107,7 +107,15 @@ describe("run simulator", () => {
     expect(report.aggregate.totalRuns).toBe(12);
     expect(report.aggregate.completedRoutes).toBe(12);
     expect(report.aggregate.characters.zhugeliang.completed).toBe(3);
-    expect(report.routes.filter((route) => route.characterId === "zhugeliang").every((route) => route.outcome === "completed")).toBe(true);
+    expect(report.aggregate.characters.zhugeliang.minLowestPostCombatHp).toBeGreaterThanOrEqual(8);
+    expect(report.aggregate.characters.zhugeliang.medianLowestPostCombatHp).toBeGreaterThanOrEqual(8);
+    expect(report.aggregate.characters.zhugeliang.timeoutRiskCount).toBe(0);
+    expect(report.aggregate.characters.zhugeliang.unsafeSpikeCount).toBe(0);
+    const zhugeRoutes = report.routes.filter((route) => route.characterId === "zhugeliang");
+    expect(zhugeRoutes.every((route) => route.outcome === "completed")).toBe(true);
+    expect(zhugeRoutes.every((route) => route.turnCounts.total <= 90)).toBe(true);
+    expect(zhugeRoutes.every((route) => !route.timeoutRisk.hasTimeout)).toBe(true);
+    expect(zhugeRoutes.every((route) => route.unsafeDamageSpikes.length === 0)).toBe(true);
   });
 
   it("flags missing enemies, timeout-prone fights, and unsafe damage spikes", () => {

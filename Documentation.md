@@ -2,6 +2,80 @@
 
 ## Status Log
 
+### 2026-05-05 17:13 Asia/Shanghai
+
+Wave 22 Zhuge Liang Balance Stability integrated in `.worktrees/wave6-integration` on branch `codex/wave22-zhuge-balance-stability`.
+
+Docs read / carried through implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-05-wave22-zhuge-balance-stability.md`
+
+What changed:
+
+- Added a multi-seed simulator regression so Zhuge Liang must complete all 3 representative routes with `minLowestPostCombatHp >= 8`, `medianLowestPostCombatHp >= 8`, no timeout risk, no unsafe spikes, and total route turns at or below 90.
+- Tuned Zhuge Liang through strategy-defense data rather than max HP or global enemy changes: `空城` now grants 10/13 block, and `八阵` now grants 3/4 end-turn formation block.
+- Added content-data assertions for the `空城` and `八阵` tuning so future balance edits cannot silently drift away from the intended P0 strategy-defense fix.
+- Refreshed README, alpha acceptance, desktop checklist, and alpha handoff report baseline from the old `3/3/7` Zhuge Liang near-death band to the Wave 22 `8/10/14` band.
+
+Worker worktrees / subagents:
+
+- Created `codex/wave22-zhuge-explorer` at `.worktrees/wave22-zhuge-explorer` for read-only balance analysis. The explorer completed and recommended the adopted P0 approach: buff `空城` block and `八阵` end-turn formation block, avoid max HP and basic attack damage buffs.
+- Created `codex/wave22-zhuge-tester` at `.worktrees/wave22-zhuge-tester` for read-only verification planning. The tester confirmed the simulator and balance artifact were the right evidence, with focused Playwright as a route sanity check rather than balance proof.
+- Both worker worktrees stayed clean and were removed after integration.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
+Result before tuning: failed as expected. Zhuge Liang min lowest post-combat HP was 3, below the new >= 8 safety line.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/playtest/alpha-handoff-report-script.test.ts tests/data/content.test.ts --reporter=dot
+Result: passed. 3 files / 40 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-wave22-balance-report.md > /mnt/d/tmp/inkblade-wave22-balance-stdout.md
+test -s /mnt/d/tmp/inkblade-wave22-balance-report.md
+cmp /mnt/d/tmp/inkblade-wave22-balance-report.md /mnt/d/tmp/inkblade-wave22-balance-stdout.md
+Result: passed. Artifact matched stdout. Routes completed 12/12, combat samples 84, timeout risks 0, unsafe spikes 0, Zhuge Liang lowest post-combat HP band 8/10/14.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 200 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 44 modules; Phaser lazy chunk remains below the configured warning budget.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"
+Result: passed. 1 Chromium test.
+
+git diff --check
+Result: passed.
+```
+
+Failures / fixes during the gate:
+
+- The new simulator regression failed first with Zhuge Liang min HP 3, confirming it caught the existing watchlist risk.
+- An initial main-thread patch over-buffed `守势` and briefly touched similarly shaped non-Zhuge card data while experimenting; this was reverted before verification. The final accepted fix follows the explorer's P0 strategy-defense recommendation.
+
+Known gaps / risks:
+
+- Zhuge Liang still has high healing pressure and long route turns by design; Wave 22 moves him away from near-death stability risk without making him a tank.
+- The optional P1 idea, a small `借风` damage increase, remains deferred because the P0 fix passed the HP safety line without changing his damage identity.
+
+Next step:
+
+- Commit Wave 22, then start the next autonomous wave by scanning for stale post-Wave22 acceptance text and remaining non-blocking release risks.
+
 ### 2026-05-05 16:50 Asia/Shanghai
 
 Wave 22 Zhuge Liang Balance Stability planning started in `.worktrees/wave6-integration` on branch `codex/wave22-zhuge-balance-stability-plan`.
