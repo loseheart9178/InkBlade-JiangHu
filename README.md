@@ -52,6 +52,20 @@ The `墨录图鉴` now distinguishes profile-discovered story from alpha referen
 - The desktop compendium exposes unlock counts and a compact `收录` filter for `全部 / 参照 / 已录 / 未录`.
 - Unlock classification lives in `src/game/systems/compendium/compendium.ts`; the DOM controller only renders the metadata it receives.
 
+## Alpha Handoff Report
+
+Generate a single Markdown handoff summary for external testers:
+
+```bash
+node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
+```
+
+Pair it with:
+
+```bash
+node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+```
+
 ## Wave 13 Simulator Report Artifacts
 
 Balance reports can now be written to QA/CI artifacts while preserving existing stdout behavior:
