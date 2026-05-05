@@ -2,6 +2,73 @@
 
 ## Status Log
 
+### 2026-05-05 13:05 Asia/Shanghai
+
+Wave 15 External Desktop Playtest Kit integrated in `.worktrees/wave6-integration` on branch `codex/wave15-external-playtest-kit`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/superpowers/plans/2026-05-05-wave15-external-playtest-kit.md`
+- `docs/superpowers/plans/2026-05-05-wave14-compendium-depth.md`
+
+What changed:
+
+- Refreshed `docs/playtest/desktop-playtest-checklist.md` from stale Wave 11 language to the verified Wave 14 alpha acceptance surface.
+- Added explicit human routes for title compendium unlock-state checks, run compendium run-state preservation, save/reload, debug skip, and final boss/profile summary.
+- Added `docs/playtest/external-bug-intake.md` with setup/build fields, severity rubric, route tags, evidence requirements, debug-skip handling, and a copy-ready report template.
+- Linked the external bug intake guide from `README.md` and `docs/playtest/alpha-acceptance.md`.
+- Clarified that ordinary in-run logbook fragments become profile compendium `已录` entries only after completed-run profile recording.
+
+Worker worktrees integrated:
+
+- `codex/wave15-playtest-checklist` at `f38eac3`, commit `docs: refresh desktop playtest checklist`. The checklist worker subagent hit the usage limit, so the main thread completed this worktree.
+- `codex/wave15-bug-intake` at `6da0e32`, commit `docs: add external bug intake guide`.
+
+Focused verification:
+
+```text
+grep -n "Wave 14" docs/playtest/desktop-playtest-checklist.md
+Result: passed. Wave 14 release focus and Playwright result references are present.
+
+grep -n "compendium" docs/playtest/desktop-playtest-checklist.md
+Result: passed. Compendium route and focused run references are present.
+
+test -s docs/playtest/external-bug-intake.md
+Result: passed.
+
+grep -n "external-bug-intake" README.md docs/playtest/alpha-acceptance.md
+Result: passed. README and alpha acceptance both link the guide.
+
+grep -R "Wave 11 final Playwright" -n README.md docs/playtest && exit 1 || true
+Result: passed. No stale Wave 11 Playwright handoff text remains in release-facing playtest docs.
+
+grep -R "profile-gated compendium presentation" -n README.md docs/playtest && exit 1 || true
+Result: passed. The old future-polish compendium wording is gone.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "compendium|墨录图鉴|debug skip"
+Result: passed. 3 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional GPT Image 2 bitmap card-art quality pass.
+- Wave 15 is documentation-only; no gameplay, renderer, save schema, or art asset files changed.
+
+Next step:
+
+- Commit the integration branch and start the next autonomous round.
+
 ### 2026-05-05 12:35 Asia/Shanghai
 
 Wave 15 External Desktop Playtest Kit planning started in `.worktrees/wave6-integration` on branch `codex/wave15-playtest-kit-plan`.

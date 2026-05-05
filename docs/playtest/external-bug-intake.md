@@ -59,7 +59,7 @@ Add one or more route tags to the bug title or template:
 Examples:
 
 - `[combat][major] End Turn button stays disabled after playing a 0-cost card`
-- `[compendium][minor] Locked story badge count does not update after logbook unlock`
+- `[compendium][minor] Profile-recorded story badge count is unclear after ending summary`
 - `[debug-skip][boss][major] Debug skip reaches boss map with missing backdrop`
 
 ## Required Evidence
