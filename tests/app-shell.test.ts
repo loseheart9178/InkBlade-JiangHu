@@ -2,6 +2,7 @@ import { createAppShell } from "../src/app/appShell";
 import { mountGameApp, type GameAppRuntime } from "../src/app/gameApp";
 import { createRun } from "../src/game/systems/run";
 import { loadProfile, loadSavedGame, PROFILE_STORAGE_KEY, SAVE_STORAGE_KEY, type GameStorage } from "../src/game/systems/save/save";
+import viteConfig from "../vite.config";
 
 class MemoryStorage implements GameStorage {
   private readonly items = new Map<string, string>();
@@ -20,6 +21,10 @@ class MemoryStorage implements GameStorage {
 }
 
 describe("app shell", () => {
+  it("documents the intentionally isolated lazy Phaser chunk budget", () => {
+    expect(viteConfig.build?.chunkSizeWarningLimit).toBeGreaterThanOrEqual(1300);
+  });
+
   it("creates the canvas host, HUD host, and primary action", () => {
     const root = document.createElement("div");
 

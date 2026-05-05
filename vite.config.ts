@@ -8,6 +8,9 @@ export default defineConfig({
   preview: {
     host: "127.0.0.1",
     port: 4173
+  },
+  build: {
+    // Phaser remains isolated behind the lazy runtime import; the explicit budget keeps build warnings actionable.
+    chunkSizeWarningLimit: 1300
   }
 });
-
