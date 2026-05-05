@@ -1,16 +1,20 @@
 #!/usr/bin/env node
-import { execFileSync } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveCheckoutMetadata } from "./git-metadata.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputPath = getFlagValue(process.argv, "--out");
 const balanceReportPath = getFlagValue(process.argv, "--balance-report");
+const checkout = resolveCheckoutMetadata(root, {
+  branchOverride: process.env.INKBLADE_HANDOFF_BRANCH,
+  commitOverride: process.env.INKBLADE_HANDOFF_COMMIT
+});
 const report = renderReport({
   generatedAt: process.env.INKBLADE_HANDOFF_NOW ?? new Date().toISOString(),
-  branch: process.env.INKBLADE_HANDOFF_BRANCH ?? getGitValue(["branch", "--show-current"]),
-  commit: process.env.INKBLADE_HANDOFF_COMMIT ?? getGitValue(["rev-parse", "--short", "HEAD"]),
+  branch: checkout.branch,
+  commit: checkout.commit,
   balanceReportPath
 });
 
@@ -86,16 +90,4 @@ function getFlagValue(argv, flag) {
 
   const value = argv[index + 1];
   return value && !value.startsWith("--") ? value : undefined;
-}
-
-function getGitValue(args) {
-  try {
-    return execFileSync("git", args, {
-      cwd: root,
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"]
-    }).trim();
-  } catch {
-    return "unknown";
-  }
 }

@@ -45,4 +45,19 @@ describe("alpha handoff report script", () => {
       rmSync(artifactDir, { recursive: true, force: true });
     }
   });
+
+  it("resolves checkout metadata without environment overrides", () => {
+    const env = { ...process.env };
+    delete env.INKBLADE_HANDOFF_BRANCH;
+    delete env.INKBLADE_HANDOFF_COMMIT;
+
+    const stdout = execFileSync(process.execPath, [scriptPath], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env
+    });
+
+    expect(stdout).not.toContain("Branch: `unknown`");
+    expect(stdout).toMatch(/Commit: `[0-9a-f]{7}`/);
+  });
 });
