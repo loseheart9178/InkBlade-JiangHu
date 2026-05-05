@@ -82,6 +82,7 @@ import {
 
 type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "compendium" | "runSummary" | "victory" | "defeat";
 type CompendiumReturnScreen = Exclude<Screen, "compendium">;
+type MapRouteState = "current" | "available" | "visited" | "locked";
 
 const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
@@ -763,32 +764,37 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   const path = document.createElement("div");
   path.className = "route-map";
   path.style.setProperty("--map-columns", `${Math.max(...run.mapNodes.map((node) => node.floor)) + 1}`);
+  const availableIds = new Set(available.map((item) => item.id));
 
   for (const node of run.mapNodes) {
     const preview = createMapNodePreview(run, node);
+    const routeState = getMapRouteState(run, node, current, availableIds);
     const button = document.createElement("button");
     button.type = "button";
     button.className = `map-node map-node--${node.type}`;
+    button.classList.add(`is-${routeState}`);
     button.dataset.testid = `map-node-${node.id}`;
     button.dataset.floor = `${node.floor}`;
     button.dataset.lane = `${node.lane}`;
     button.dataset.previewTone = preview.tone;
+    button.dataset.routeState = routeState;
     button.style.gridColumn = `${node.floor + 1}`;
     button.style.gridRow = `${node.lane + 1}`;
     button.innerHTML = `
       <span class="map-node-icon">${getMapNodeIcon(node.type)}</span>
+      <span class="map-node-state" data-testid="map-node-state-${escapeAttribute(node.id)}">${formatMapRouteState(routeState)}</span>
       <strong>${escapeHtml(node.label)}</strong>
       <small>${escapeHtml(formatMapNodeMeta(node))}</small>
       <span class="map-node-preview" data-testid="map-node-preview-${escapeAttribute(node.id)}">${escapeHtml(preview.detail)}</span>
+      <span class="map-node-reward" data-testid="map-node-reward-${escapeAttribute(node.id)}">${escapeHtml(preview.reward)}</span>
       <span class="map-node-tags" aria-hidden="true">${preview.tags.map((tag) => `<i>${escapeHtml(tag)}</i>`).join("")}</span>
     `;
-    button.disabled = !available.some((item) => item.id === node.id);
+    button.disabled = routeState !== "available";
     const connectionTitle = node.connections.length > 0 ? `通向：${node.connections.map((id) => getMapNodeLabel(run, id)).join("、")}` : "本章首领";
     button.title = `${preview.title}：${preview.detail}；${preview.reward}。${connectionTitle}`;
     button.setAttribute("aria-label", `${preview.title}，${preview.detail}，${preview.reward}`);
 
     if (node.id === current.id) {
-      button.classList.add("is-current");
       button.disabled = true;
     }
 
@@ -806,6 +812,32 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
 
   panel.append(path);
   mountChapterPanel(host, panel, run);
+}
+
+function getMapRouteState(run: RunState, node: MapNode, current: MapNode, availableIds: Set<string>): MapRouteState {
+  if (node.id === current.id) {
+    return "current";
+  }
+
+  if (run.visitedNodeIds.includes(node.id)) {
+    return "visited";
+  }
+
+  if (availableIds.has(node.id)) {
+    return "available";
+  }
+
+  return "locked";
+}
+
+function formatMapRouteState(routeState: MapRouteState): string {
+  const labels: Record<MapRouteState, string> = {
+    current: "当前",
+    available: "可走",
+    visited: "已行",
+    locked: "未通"
+  };
+  return labels[routeState];
 }
 
 function enterNode(state: ControllerState, node: MapNode): void {

@@ -167,13 +167,24 @@ test("first combat onboarding hints are compact, dismissible, and persisted", as
   await expect(page.getByTestId("onboarding-hint-combat-hand")).toBeVisible();
 });
 
-test("route map shows risk and reward previews before choosing nodes", async ({ page }) => {
+test("route map shows risk and reward previews before choosing nodes", async ({ page }, testInfo) => {
   await startRun(page, "zhaoyun", { debugTools: true });
 
+  const currentNode = page.getByTestId("map-node-start");
+  await expect(currentNode).toHaveAttribute("data-route-state", "current");
+  await expect(currentNode.getByTestId("map-node-state-start")).toContainText("当前");
+
+  const battleNode = page.getByTestId("map-node-battle-1");
+  await expect(battleNode).toHaveAttribute("data-route-state", "available");
+  await expect(battleNode.getByTestId("map-node-state-battle-1")).toContainText("可走");
   await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势8|金币\+12/);
+  await expect(page.getByTestId("map-node-reward-battle-1")).toContainText("金币+12 / 三选一武学");
   await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/护住哭声|心境/);
+  await expect(page.getByTestId("map-node-reward-event-1")).toContainText("事件收益 / 代价");
   await expect(page.getByTestId("map-node-preview-shop-1")).toContainText("当前铜钱99");
+  await expect(page.getByTestId("map-node-reward-shop-1")).toContainText("消费铜钱 / 调整牌组");
   await expect(page.getByTestId("map-node-preview-rest-1")).toContainText("回复约30%生命");
+  await capturePlaytestScreenshot(page, testInfo, "wave32-route-map-surface.png");
 
   await page.getByTestId("debug-skip-chapter").click();
 

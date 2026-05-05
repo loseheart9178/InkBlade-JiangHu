@@ -35,6 +35,47 @@ Next step:
 
 - Commit the Wave 32 plan, then implement the route-map DOM/CSS polish with a focused Playwright check.
 
+Implementation update:
+
+- Committed the Wave 32 plan as `c559870`.
+- Added route-state metadata to map nodes: `data-route-state` now exposes `current`, `available`, `visited`, or `locked`.
+- Added visible state badges (`当前`, `可走`, `已行`, `未通`) and visible reward rows for each map node using the existing `createMapNodePreview` data.
+- Added restrained available-node emphasis and reward styling so route decisions read clearly without changing map generation or obscuring the ink battlefield.
+- Expanded the route-map Playwright test to assert state badges, visible reward rows, and capture `wave32-route-map-surface.png`.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "route map shows risk"
+Initial RED result: failed as expected because `data-route-state`, `map-node-state-*`, and `map-node-reward-*` did not exist.
+Final result: passed. 1 Chromium test. Screenshot captured at `test-results/playable-flow-route-map-sh-a9fbd-views-before-choosing-nodes-chromium/wave32-route-map-surface.png` and reviewed for desktop readability.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 212 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed. 26 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Route connections are still implied by grid position and enabled/disabled state; connector strokes or route-line art can be a later polish wave.
+- This wave improves map readability but does not add new node types such as treasure, ink disaster, or heart-demon nodes.
+- Mobile-specific map layout remains out of scope per the desktop-first EA target.
+
+Next step:
+
+- Commit Wave 32 implementation, then consider Wave 33. Candidate scope: combat readability polish for enemy intent/detail and active relic/method trigger surfaces, keeping Steam/storefront/release packaging out of scope.
+
 ### 2026-05-05 23:10 Asia/Shanghai
 
 Wave 31 EA Reward And Shop Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave31-ea-reward-shop-polish-plan`.
