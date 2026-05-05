@@ -63,6 +63,13 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("title", /招式链/);
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("aria-label", /招式链/);
     await expect(page.getByTestId("combo-trail")).toHaveCSS("pointer-events", "auto");
+    if (character.id === "diaochan") {
+      const statusBadge = page.getByTestId("status-badge").first();
+      await expect(statusBadge).toBeVisible();
+      await expect(statusBadge).toHaveAttribute("data-glossary-id", /status\./);
+      await expect(statusBadge).toHaveAttribute("title", /：/);
+      await expect(statusBadge).toHaveAttribute("aria-label", /：/);
+    }
     await expectDesktopCombatLayout(page);
 
     await capturePlaytestScreenshot(page, testInfo, `combat-${character.id}-desktop.png`);

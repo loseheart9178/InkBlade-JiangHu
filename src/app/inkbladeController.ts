@@ -2392,7 +2392,13 @@ function formatStatusBadges(statuses: Partial<Record<StatusId, number>>): string
     return "";
   }
 
-  return ` · ${entries.map(([status, amount]) => `${formatStatus(status)} ${amount}`).join(" · ")}`;
+  return ` · ${entries.map(([status, amount]) => {
+    const layers = amount ?? 0;
+    const entry = getGlossaryEntry(`status.${status}`);
+    const label = formatStatus(status);
+    const tooltip = entry ? formatGlossaryTooltip(entry, `${label} ${layers}层。`) : `${label} ${layers}`;
+    return `<span class="status-badge" data-testid="status-badge" data-glossary-id="${escapeAttribute(entry?.id ?? `status.${status}`)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}">${escapeHtml(label)} ${layers}</span>`;
+  }).join(" · ")}`;
 }
 
 function formatRarity(rarity: string): string {
