@@ -956,9 +956,9 @@ npm run build
 
 ## Milestone 59: Final Choice And Character Epilogue
 
-- [ ] Add a final-choice screen after defeating `无名史官`.
-- [ ] Add eligible world-ending choices and character epilogue definitions for all four MVP characters.
-- [ ] Persist selected world ending and character epilogue into profile/run summary.
+- [x] Add a final-choice screen after defeating `无名史官`.
+- [x] Add eligible world-ending choices and character epilogue definitions for all four MVP characters.
+- [x] Persist selected world ending and character epilogue into profile/run summary.
 
 Verification:
 
@@ -986,9 +986,9 @@ npm run build
 
 ## Milestone 61: Keyword And Intent Glossary
 
-- [ ] Add data-driven glossary definitions for shipped statuses, card types, resources, combos, and enemy intents.
-- [ ] Surface desktop tooltip metadata on cards, enemy intents, and combo trail entries.
-- [ ] Cover glossary completeness and visual tooltip attributes with tests.
+- [x] Add data-driven glossary definitions for shipped statuses, card types, resources, combos, and enemy intents.
+- [x] Surface desktop tooltip metadata on cards, enemy intents, and combo trail entries.
+- [x] Cover glossary completeness and visual tooltip attributes with tests.
 
 Verification:
 
@@ -1001,9 +1001,9 @@ npm run build
 
 ## Milestone 62: Boot Performance Split
 
-- [ ] Dynamically split the game runtime boot after the root shell mounts.
-- [ ] Preserve jsdom app-shell and browser boot behavior.
-- [ ] Review and document Vite chunk output, removing or isolating the existing large chunk warning where practical.
+- [x] Dynamically split the game runtime boot after the root shell mounts.
+- [x] Preserve jsdom app-shell and browser boot behavior.
+- [x] Review and document Vite chunk output, removing or isolating the existing large chunk warning where practical.
 
 Verification:
 

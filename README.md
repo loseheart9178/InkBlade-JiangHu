@@ -41,7 +41,17 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 10 release verification completed on branch `codex/wave10-card-fallback-zero`: Vitest 18 files / 186 tests, TypeScript, Vite build with the known Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance 12/12 routes.
+Wave 11 release verification completed on branch `codex/wave11-alpha-backlog-closure`: Vitest 18 files / 187 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance 12/12 routes. Wave 11 scope: final-choice affordance metadata, status badge glossary metadata, and explicit lazy Phaser chunk budget. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+
+## Wave 11 Alpha Backlog Closure
+
+Wave 11 closes the remaining non-art alpha backlog while preserving the desktop-first release gate:
+
+- Final-choice options expose count, eligibility, and requirement metadata for browser QA and save/reload coverage.
+- Combat status badges now surface glossary ids, titles, and accessible labels alongside card keyword, enemy intent, and combo trail glossary metadata.
+- Vite documents the lazy Phaser runtime chunk with an explicit `1300` kB warning budget so build warnings remain actionable.
+
+Milestone 58 remains a later art-quality pass: the current Wave 10 card faces are semantic repo-local SVGs, not final GPT Image 2 bitmap illustrations.
 
 ## Wave 10 Card Art Refresh
 
@@ -75,7 +85,7 @@ Use [desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md)
 - Runtime card fallback debt is now 0. The Wave 10 card faces are semantic repo-local SVGs, not final GPT Image 2 bitmap illustrations.
 - First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
 - Zhuge Liang seed `9003` completed in the Wave 9 multi-seed report; Zhuge Liang remains a high-pressure balance watchlist character because his lowest post-combat HP band is 3/3/7.
-- Vite build can print a non-blocking Phaser lazy chunk-size warning.
+- Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
 - Production audio, Steam packaging, mobile layout, and broad localization polish are outside this desktop alpha handoff.
 
 ## Bug Report Template

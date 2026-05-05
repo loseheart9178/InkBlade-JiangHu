@@ -2,6 +2,86 @@
 
 ## Status Log
 
+### 2026-05-05 10:46 Asia/Shanghai
+
+Wave 11 Alpha Backlog Closure integrated in `.worktrees/wave6-integration` on branch `codex/wave11-alpha-backlog-closure`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-wave11-alpha-backlog-closure.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+
+What changed:
+
+- Added final-choice browser metadata for choice count, choice eligibility, and unmet requirement copy without changing ending eligibility rules.
+- Added glossary metadata to combat status badges while keeping combat and glossary rules in TypeScript systems.
+- Added an explicit Vite `1300` kB lazy Phaser chunk warning budget and app-shell coverage for it.
+- Marked Milestones 59, 61, and 62 complete in `Plan.md`.
+- Updated README and playtest docs with the Wave 11 scope and the remaining art gap.
+
+Worker branches integrated:
+
+- `codex/wave11-final-choice-affordance` at `4ead85e`, commit `test: harden final choice affordances`.
+- `codex/wave11-status-glossary-badges` at `510f547`, commit `feat: add glossary metadata to status badges`.
+- `codex/wave11-boot-warning-budget` at `520f92c`, commit `chore: isolate lazy phaser chunk budget`.
+
+Focused integration verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/app-shell.test.ts --reporter=dot
+Result: passed. 1 file / 4 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"
+Result: passed. 1 Chromium test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --grep "desktop combat smoke"
+Result: passed. 1 Chromium test.
+```
+
+Full release gate:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 18 files / 187 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. The previous lazy Phaser chunk-size warning did not appear; Phaser runtime chunk emitted at 1,200.83 kB under the explicit 1,300 kB budget.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 27 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+Result: passed. Routes completed 12/12, combat samples 84, timeout risks 0, unsafe damage spikes 0.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+- The explicit `1300` kB Vite budget should make future lazy Phaser chunk growth visible again.
+
+Next step:
+
+- Commit the integration branch and start the next autonomous planning loop.
+
 ### 2026-05-05 10:24 Asia/Shanghai
 
 Wave 11 Alpha Backlog Closure planning started in `.worktrees/wave6-integration` on branch `codex/wave11-backlog-closure-plan`.
