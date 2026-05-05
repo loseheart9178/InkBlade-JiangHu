@@ -33,6 +33,48 @@ Next step:
 
 - Commit the Wave 31 plan, then implement the reward/shop polish with Playwright-first checks.
 
+Implementation update:
+
+- Committed the Wave 31 plan as `7bf18e1`.
+- Started three narrow worker agents for Playwright, controller DOM, and CSS slices. They exceeded the wait window and were shut down; partial edits that landed in the shared worktree were reviewed, completed, and verified in the main integration thread.
+- Added a stable `reward-skip` hook and styled skip action for the reward screen.
+- Rebuilt shop card buttons with card art, type/rarity chrome, keyword chips, description, price chip, and affordability data while keeping the same purchase rules.
+- Rebuilt shop relic buttons with Chinese rarity/source metadata, trigger text, description, price chip, owned/affordable data, and disabled owned state.
+- Rebuilt the card-removal service with a visible target card, price chip, unavailable reason, and compact paper/ink styling.
+- Tuned the desktop shop layout after screenshot review so card, relic, and removal-service rows fit cleanly in a 1280x720 browser screenshot.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "shops can add relics"
+Result: passed. 1 Chromium test. Screenshot captured at `test-results/playable-flow-shops-can-add-relics-after-the-first-battle-chromium/wave31-shop-surface.png` and reviewed for desktop fit.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 212 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed. 26 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Shop inventory is still a fixed card list and first-three relic pool; this wave improves presentation rather than item variety.
+- The shop uses existing card/relic art and CSS composition, not final bespoke vendor or item illustrations.
+- Mobile-specific shop layout remains out of scope per the desktop-first EA target.
+
+Next step:
+
+- Commit Wave 31 implementation, then start Wave 32. Candidate scope: route-map decision readability and node preview polish, keeping Steam/storefront/release packaging out of scope.
+
 ### 2026-05-05 22:42 Asia/Shanghai
 
 Wave 30 EA Event Surface Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave30-ea-event-surface-polish-plan`.

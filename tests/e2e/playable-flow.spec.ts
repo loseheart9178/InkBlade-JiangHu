@@ -296,16 +296,36 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("screen-map")).toBeVisible();
 });
 
-test("shops can add relics after the first battle", async ({ page }) => {
+test("shops can add relics after the first battle", async ({ page }, testInfo) => {
   await startRun(page, "zhaoyun");
   await page.getByTestId("map-node-battle-1").click();
   await winVisibleCombat(page);
+  await expect(page.getByTestId("reward-skip")).toBeVisible();
   await page.getByTestId("reward-card").first().click();
 
   await page.getByTestId("map-node-shop-1").click();
   await expect(page.getByTestId("screen-shop")).toBeVisible();
-  await expect(page.getByTestId("shop-relic-relic_old_wooden_sword")).toContainText("凡 · 精英/首领/游商");
-  await expect(page.getByTestId("shop-relic-relic_old_wooden_sword")).not.toContainText(/elite|boss|shop/);
+  const shopCard = page.getByTestId("shop-card-common_pifeng");
+  await expect(shopCard).toHaveClass(/shop-item--card/);
+  await expect(shopCard.locator(".card-art")).toBeVisible();
+  await expect(shopCard.locator(".card-chrome-row")).toBeVisible();
+  await expect(shopCard.locator(".card-keyword-row")).toBeVisible();
+  await expect(shopCard.locator(".shop-price-chip")).toContainText("35");
+
+  const shopRelic = page.getByTestId("shop-relic-relic_old_wooden_sword");
+  await expect(shopRelic).toHaveClass(/shop-item--relic/);
+  await expect(shopRelic).toContainText("凡 · 精英/首领/游商");
+  await expect(shopRelic).toContainText("基础攻击生效。");
+  await expect(shopRelic).toContainText("基础攻击伤害+2。");
+  await expect(shopRelic.locator(".shop-price-chip")).toContainText("65");
+  await expect(shopRelic).not.toContainText(/elite|boss|shop/);
+
+  const removeService = page.getByTestId("shop-remove-card");
+  await expect(removeService).toHaveClass(/shop-item--service/);
+  await expect(removeService.locator(".shop-service-target")).toContainText("枪击");
+  await expect(removeService.locator(".shop-price-chip")).toContainText("50");
+  await capturePlaytestScreenshot(page, testInfo, "wave31-shop-surface.png");
+
   await page.getByTestId("shop-relic-relic_old_wooden_sword").click();
 
   await expect(page.getByTestId("run-relics")).toContainText("旧木剑");

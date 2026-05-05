@@ -11,7 +11,7 @@ import {
   getIntentGlossarySurface,
   type GlossaryEntry
 } from "../game/content/glossary";
-import { relicsById } from "../game/content/relics";
+import { relicsById, type RelicDefinition } from "../game/content/relics";
 import { battlefieldAssets, cardArtById, combatPortraitsById, getCombatAttackSprite, signatureVfxByCue } from "../game/content/visuals";
 import {
   clearSavedGame,
@@ -1224,6 +1224,8 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
 
   const skip = document.createElement("button");
   skip.type = "button";
+  skip.className = "reward-skip";
+  skip.dataset.testid = "reward-skip";
   skip.textContent = "跳过，另取3铜钱";
   skip.addEventListener("click", () => {
     run.gold += 3;
@@ -1298,7 +1300,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   list.className = "shop-list";
 
   for (const card of shopCards) {
-    const button = createAction(card.name, `${card.description ?? ""} 价格${SHOP_CARD_PRICE}`, () => {
+    const button = createShopCardAction(run, card, SHOP_CARD_PRICE, () => {
       if (run.gold < SHOP_CARD_PRICE) {
         state.message = "铜钱不足。";
         render();
@@ -1310,7 +1312,6 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
       state.message = `购得${card.name}。`;
       render();
     });
-    button.dataset.testid = `shop-card-${card.id}`;
     list.append(button);
   }
 
@@ -1319,7 +1320,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   for (const relicId of getShopRelicPool(run.characterId).slice(0, 3)) {
     const relic = relicsById[relicId];
     const owned = run.relicIds.includes(relic.id);
-    const button = createAction(relic.name, `${describeRelicSource(relic.id)}。${relic.description} 价格${relic.price}`, () => {
+    const button = createShopRelicAction(run, relic, owned, () => {
       if (owned) {
         state.message = `已持有${relic.name}。`;
         render();
@@ -1337,38 +1338,30 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
       state.message = `购得法宝：${relic.name}。`;
       render();
     });
-    button.dataset.testid = `shop-relic-${relic.id}`;
-    button.disabled = owned;
     relicList.append(button);
   }
 
   const serviceList = document.createElement("div");
   serviceList.className = "shop-list shop-list--services";
   const removable = getShopRemovalCandidate(run);
-  const removeButton = createAction(
-    "洗去旧招",
-    removable ? `删去${cardsById[removable.cardId].name}，价格${SHOP_REMOVE_PRICE}` : "牌组过薄，暂不可删牌。",
-    () => {
-      if (!removable) {
-        state.message = "牌组过薄，暂不可删牌。";
-        render();
-        return;
-      }
-
-      if (run.gold < SHOP_REMOVE_PRICE) {
-        state.message = "铜钱不足。";
-        render();
-        return;
-      }
-
-      run.gold -= SHOP_REMOVE_PRICE;
-      removeDeckCard(run, removable.instanceId);
-      state.message = `删去${cardsById[removable.cardId].name}。`;
+  const removeButton = createShopRemoveAction(run, removable, SHOP_REMOVE_PRICE, () => {
+    if (!removable) {
+      state.message = "牌组过薄，暂不可删牌。";
       render();
+      return;
     }
-  );
-  removeButton.dataset.testid = "shop-remove-card";
-  removeButton.disabled = !removable;
+
+    if (run.gold < SHOP_REMOVE_PRICE) {
+      state.message = "铜钱不足。";
+      render();
+      return;
+    }
+
+    run.gold -= SHOP_REMOVE_PRICE;
+    removeDeckCard(run, removable.instanceId);
+    state.message = `删去${cardsById[removable.cardId].name}。`;
+    render();
+  });
   serviceList.append(removeButton);
 
   const leave = createAction("离开茶亭", "继续行旅", () => {
@@ -1379,6 +1372,79 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   leave.dataset.testid = "shop-leave";
   panel.append(list, relicList, serviceList, leave);
   mountChapterPanel(host, panel, run);
+}
+
+function createShopCardAction(run: RunState, card: CardDefinition, price: number, onClick: () => void): HTMLButtonElement {
+  const button = document.createElement("button");
+  const affordable = run.gold >= price;
+  const type = card.types[0] ?? "skill";
+  button.type = "button";
+  button.className = `choice-action shop-item shop-item--card card-type-${type}`;
+  button.dataset.testid = `shop-card-${card.id}`;
+  button.dataset.affordable = `${affordable}`;
+  button.dataset.shopAffordable = `${affordable}`;
+  button.innerHTML = `
+    ${createCardArtMarkup(card)}
+    ${createCardChromeMarkup(card)}
+    <strong>${escapeHtml(card.name)}</strong>
+    <small class="card-type-line">${escapeHtml(formatTypes(card.types))}</small>
+    ${createCardKeywordRowMarkup(card)}
+    <span class="description card-description">${escapeHtml(card.description ?? "")}</span>
+    <span class="shop-price-chip" data-testid="shop-price-chip">${price}铜钱</span>
+  `;
+  button.addEventListener("click", onClick);
+  return button;
+}
+
+function createShopRelicAction(run: RunState, relic: RelicDefinition, owned: boolean, onClick: () => void): HTMLButtonElement {
+  const button = document.createElement("button");
+  const affordable = run.gold >= relic.price;
+  const stateLabel = owned ? "已持有" : affordable ? "可购" : "铜钱不足";
+  button.type = "button";
+  button.className = "choice-action shop-item shop-item--relic";
+  button.dataset.testid = `shop-relic-${relic.id}`;
+  button.dataset.owned = `${owned}`;
+  button.dataset.shopOwned = `${owned}`;
+  button.dataset.affordable = `${affordable}`;
+  button.dataset.shopAffordable = `${affordable}`;
+  button.disabled = owned;
+  button.innerHTML = `
+    <span class="shop-meta-row">
+      <span>${escapeHtml(describeRelicSource(relic.id))}</span>
+      <span>${escapeHtml(stateLabel)}</span>
+    </span>
+    <strong>${escapeHtml(relic.name)}</strong>
+    <small class="relic-trigger-text">${escapeHtml(relic.triggerText ?? "常驻生效。")}</small>
+    <span class="description">${escapeHtml(relic.description)}</span>
+    <span class="shop-price-chip" data-testid="shop-price-chip">${relic.price}铜钱</span>
+  `;
+  button.addEventListener("click", onClick);
+  return button;
+}
+
+function createShopRemoveAction(
+  run: RunState,
+  removable: RunState["deck"][number] | undefined,
+  price: number,
+  onClick: () => void
+): HTMLButtonElement {
+  const button = document.createElement("button");
+  const affordable = run.gold >= price;
+  const targetName = removable ? cardsById[removable.cardId].name : "牌组过薄";
+  button.type = "button";
+  button.className = "choice-action shop-item shop-item--service";
+  button.dataset.testid = "shop-remove-card";
+  button.dataset.affordable = `${affordable}`;
+  button.dataset.shopAffordable = `${affordable}`;
+  button.disabled = !removable;
+  button.innerHTML = `
+    <strong>洗去旧招</strong>
+    <span class="shop-service-target">${removable ? `删去${escapeHtml(targetName)}` : escapeHtml("牌组过薄，暂不可删牌。")}</span>
+    <span class="description">${removable ? escapeHtml("从牌组中移除这张旧招。") : escapeHtml("至少保留基础行旅所需的招式。")}</span>
+    <span class="shop-price-chip" data-testid="shop-price-chip">${price}铜钱</span>
+  `;
+  button.addEventListener("click", onClick);
+  return button;
 }
 
 function renderRest(host: HTMLElement, state: ControllerState, render: () => void): void {
