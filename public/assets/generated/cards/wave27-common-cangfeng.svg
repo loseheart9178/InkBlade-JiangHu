@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Hidden edge card art</title>
+  <desc id="desc">A hidden blade glints beneath a guarded teal brush stroke.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbf0d8"/><stop offset="1" stop-color="#d8c7a9"/></linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M151 535c92-118 213-177 362-175" fill="none" stroke="#151817" stroke-width="42" stroke-linecap="round" opacity=".24"/>
+  <path d="M164 521c105-97 219-143 343-137" fill="none" stroke="#126368" stroke-width="24" stroke-linecap="round"/>
+  <path d="M178 562 492 332" stroke="#f6ead2" stroke-width="9" stroke-linecap="round"/>
+  <path d="M122 678c125 48 259 42 402-18" fill="none" stroke="#151817" stroke-width="15" stroke-linecap="round" opacity=".22"/>
+  <circle cx="443" cy="379" r="60" fill="none" stroke="#d2a340" stroke-width="11" opacity=".32"/>
+</svg>

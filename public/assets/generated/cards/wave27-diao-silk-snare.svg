@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Diao Chan silk snare card art</title>
+  <desc id="desc">Crimson silk knots around a dark heart silhouette.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbefd9"/><stop offset="1" stop-color="#d9c5a9"/></linearGradient>
+    <linearGradient id="red" x1="0" x2="1"><stop offset="0" stop-color="#741515"/><stop offset=".55" stop-color="#d83a35"/><stop offset="1" stop-color="#f3b38a"/></linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M320 561c-82-69-140-128-140-197 0-52 38-86 88-78 24 4 41 18 52 36 12-18 30-32 54-36 50-8 86 26 86 78 0 69-58 128-140 197z" fill="#161716" opacity=".74"/>
+  <path d="M107 373c119-71 241-89 369-55 48 13 80 40 77 73-5 52-92 78-209 46-103-29-169-18-209 32" fill="none" stroke="url(#red)" stroke-width="28" stroke-linecap="round"/>
+  <path d="M117 529c131-57 263-53 397 12" fill="none" stroke="#b72b2d" stroke-width="20" stroke-linecap="round" opacity=".65"/>
+  <path d="M183 642c94 27 191 23 291-12" fill="none" stroke="#176b72" stroke-width="14" stroke-linecap="round" opacity=".25"/>
+</svg>

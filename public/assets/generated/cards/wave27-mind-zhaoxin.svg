@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Clear heart insight card art</title>
+  <desc id="desc">A gold mirror clears black ink from a calm heart seal.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbf0d8"/><stop offset="1" stop-color="#d8c7aa"/></linearGradient>
+    <radialGradient id="glow"><stop offset="0" stop-color="#ffe6a0"/><stop offset="1" stop-color="#c99632"/></radialGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <circle cx="320" cy="391" r="150" fill="url(#glow)" opacity=".52" stroke="#151817" stroke-width="11"/>
+  <circle cx="320" cy="391" r="86" fill="#f7edd9" stroke="#c99632" stroke-width="13"/>
+  <path d="M320 448c-55-46-92-84-92-130 0-32 23-53 55-49 16 2 28 11 37 24 8-13 21-22 37-24 32-4 55 17 55 49 0 46-37 84-92 130z" fill="#151817" opacity=".65"/>
+  <path d="M169 612c101 34 203 35 306 2" fill="none" stroke="#126368" stroke-width="15" stroke-linecap="round" opacity=".35"/>
+  <path d="M201 671c78 28 161 25 249-8" fill="none" stroke="#c99632" stroke-width="15" stroke-linecap="round" opacity=".55"/>
+</svg>

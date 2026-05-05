@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cai Wenji cleansing rain card art</title>
+  <desc id="desc">Clear teal rain washes black notes from guqin strings.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbf0d8"/><stop offset="1" stop-color="#d7c7a9"/></linearGradient>
+    <linearGradient id="rain" x1="0" x2="1"><stop offset="0" stop-color="#0f5d64"/><stop offset="1" stop-color="#8bd4bd"/></linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <g stroke="url(#rain)" stroke-width="13" stroke-linecap="round" opacity=".75">
+    <path d="M165 138 104 279M267 124 205 289M379 132 315 296M501 157 427 315"/>
+  </g>
+  <path d="M116 620c139-47 282-45 429 6" fill="none" stroke="#151817" stroke-width="18" stroke-linecap="round" opacity=".28"/>
+  <path d="M150 558h340M150 600h340M150 642h340" stroke="#0f5d64" stroke-width="8" stroke-linecap="round"/>
+  <path d="M240 438c53 33 109 34 168 4" fill="none" stroke="#151817" stroke-width="16" stroke-linecap="round"/>
+  <path d="M221 484c69 39 137 38 204-3" fill="none" stroke="#8bd4bd" stroke-width="18" stroke-linecap="round" opacity=".7"/>
+</svg>

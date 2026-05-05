@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Water step card art</title>
+  <desc id="desc">Light footwork crosses expanding teal ink-water ripples.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbf0d8"/><stop offset="1" stop-color="#d9c7a7"/></linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <ellipse cx="310" cy="568" rx="204" ry="54" fill="none" stroke="#126368" stroke-width="17" opacity=".5"/>
+  <ellipse cx="310" cy="568" rx="126" ry="32" fill="none" stroke="#6fc3ad" stroke-width="13" opacity=".65"/>
+  <path d="M248 457c44 22 89 22 136 0M230 502c65 24 129 22 194-4" fill="none" stroke="#151817" stroke-width="17" stroke-linecap="round"/>
+  <path d="M154 680c120 34 247 30 381-12" fill="none" stroke="#151817" stroke-width="14" stroke-linecap="round" opacity=".2"/>
+  <path d="M96 314c94-36 187-34 279 7" fill="none" stroke="#126368" stroke-width="12" stroke-linecap="round" opacity=".25"/>
+</svg>

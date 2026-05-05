@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhuge Liang star gate card art</title>
+  <desc id="desc">A golden astrolabe gate opens above ink mountain clouds.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbf0d8"/><stop offset="1" stop-color="#d7c6aa"/></linearGradient>
+    <linearGradient id="gold" x1="0" x2="1"><stop offset="0" stop-color="#8b5a19"/><stop offset="1" stop-color="#e9bd55"/></linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <circle cx="320" cy="348" r="155" fill="none" stroke="url(#gold)" stroke-width="14"/>
+  <circle cx="320" cy="348" r="88" fill="none" stroke="#151817" stroke-width="9" opacity=".35"/>
+  <path d="M320 180v336M152 348h336M202 230l236 236M438 230 202 466" stroke="#8b5a19" stroke-width="7" stroke-linecap="round" opacity=".7"/>
+  <path d="M104 685c91-87 184-89 279-4 54 47 100 54 153 20" fill="none" stroke="#151817" stroke-width="17" stroke-linecap="round" opacity=".22"/>
+  <path d="M159 642c103-38 212-38 327 0" fill="none" stroke="#1e6f73" stroke-width="13" stroke-linecap="round" opacity=".35"/>
+</svg>

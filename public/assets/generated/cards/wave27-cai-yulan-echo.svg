@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cai Wenji orchid echo card art</title>
+  <desc id="desc">Jade sound rings bloom like orchids over guqin strings.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fbf0d8"/><stop offset="1" stop-color="#d8c8ad"/></linearGradient>
+    <linearGradient id="jade" x1="0" x2="1"><stop offset="0" stop-color="#126368"/><stop offset="1" stop-color="#72c7ad"/></linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M137 601h366" stroke="#151817" stroke-width="24" stroke-linecap="round"/>
+  <path d="M157 560h326M157 604h326M157 648h326" stroke="#126368" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="320" cy="405" r="68" fill="none" stroke="url(#jade)" stroke-width="18"/>
+  <circle cx="320" cy="405" r="132" fill="none" stroke="#72c7ad" stroke-width="10" opacity=".45"/>
+  <path d="M292 396c-42-65-16-123 28-143 42 19 70 78 28 143M292 414c-65 42-123 16-143-28 19-42 78-70 143-28M348 414c65-42 123-16 143 28-19 42-78 70-143 28" fill="none" stroke="#151817" stroke-width="11" stroke-linecap="round" opacity=".35"/>
+</svg>

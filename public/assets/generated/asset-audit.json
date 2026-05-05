@@ -3,8 +3,8 @@
   "visualManifest": "src/game/content/visuals.ts",
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
-    "runtimeReferenceCount": 159,
-    "uniqueRuntimeFileCount": 131,
+    "runtimeReferenceCount": 171,
+    "uniqueRuntimeFileCount": 143,
     "missingCount": 0,
     "inkPassDebtCount": 0,
     "gpt2RuntimeCount": 72,

@@ -41,6 +41,60 @@ Next step:
 
 - Commit the Wave 27 plan, then create worker worktrees for card data, card art, and content tests/docs.
 
+Implementation update:
+
+- Created worker worktrees:
+  - `.worktrees/wave27-card-data` on `codex/wave27-card-data`
+  - `.worktrees/wave27-card-art` on `codex/wave27-card-art`
+  - `.worktrees/wave27-card-tests-docs` on `codex/wave27-card-tests-docs`
+- `Herschel` and `Gibbs` were shut down before complete data/art output was integrated; `Darwin` reported test changes, but the assigned tests/docs worktree was clean when inspected. The main integration thread implemented the planned scoped changes directly and used the worker notes as review context.
+- Added 12 cards:
+  - Zhao Yun: `云龙穿阵`, `白袍护誓`
+  - Diao Chan: `月下回旋`, `绫罗缚心`
+  - Cai Wenji: `幽兰余响`, `洗雨调`
+  - Zhuge Liang: `星门`, `简策`
+  - Neutral/mind/ink: `藏锋`, `踏水`, `照心`, `未写之页`
+- Added `src/game/content/cardArt/wave27EaCardArt.ts` plus 12 semantic SVG card faces under `public/assets/generated/cards/`.
+- Updated `src/game/content/visuals.ts` to bind the Wave 27 card art, keeping shared type fallback debt at zero.
+- Updated `tests/data/content.test.ts` so the EA baseline is now 93 cards with rarity split starter 15 / common 38 / uncommon 22 / rare 10 / ink 4 / status 4 and character split Zhao Yun 18 / Diao Chan 18 / Cai Wenji 16 / Zhuge Liang 15 / neutral 26.
+- Updated `README.md` to say Wave 27 raises the EA playable showcase card baseline to 93.
+- Refreshed `public/assets/generated/asset-audit.json` with the new 171 runtime references.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts --reporter=dot
+Result: passed. 1 file / 32 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 171, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 72, source sheets 21, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 201 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "boots, enters a Zhao Yun battle|shops can add relics|can complete the first chapter"
+Result: passed. 3 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Wave 27 broadens card variety but does not add new combat mechanics; the new cards intentionally express identity through existing effects.
+- New SVG card faces are semantic and dedicated, but they are not final commercial bitmap replacements.
+- Card-pool odds have changed; future balance waves should watch reward variance and archetype density.
+
+Next step:
+
+- Commit Wave 27, remove worker worktrees, then start Wave 28 EA Relic Pool Expansion I.
+
 ### 2026-05-05 20:19 Asia/Shanghai
 
 Wave 26 EA Public Demo Surface And Debug Gate planning started in `.worktrees/wave6-integration` on branch `codex/wave26-ea-public-demo-gate-plan`.

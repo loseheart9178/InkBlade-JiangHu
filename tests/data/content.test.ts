@@ -46,7 +46,7 @@ describe("content data", () => {
   it("pins the current EA playable showcase content baseline", () => {
     expect(characterList).toHaveLength(4);
     expect(chapterList).toHaveLength(4);
-    expect(cardList).toHaveLength(81);
+    expect(cardList).toHaveLength(93);
     expect(relicList).toHaveLength(20);
     expect(eventList).toHaveLength(29);
     expect(enemyList).toHaveLength(19);
@@ -54,19 +54,45 @@ describe("content data", () => {
 
     expect(countBy(cardList, (card) => card.rarity)).toEqual({
       starter: 15,
-      common: 32,
-      uncommon: 18,
-      rare: 9,
-      ink: 3,
+      common: 38,
+      uncommon: 22,
+      rare: 10,
+      ink: 4,
       status: 4
     });
     expect(countBy(cardList, (card) => card.character ?? "neutral")).toEqual({
-      zhaoyun: 16,
-      diaochan: 16,
-      caiwenji: 14,
-      zhugeliang: 13,
-      neutral: 22
+      zhaoyun: 18,
+      diaochan: 18,
+      caiwenji: 16,
+      zhugeliang: 15,
+      neutral: 26
     });
+
+    const wave27CardIds = [
+      "zhao_cloud_pierce",
+      "zhao_oath_guard",
+      "diao_moonstep",
+      "diao_silk_snare",
+      "cai_yulan_echo",
+      "cai_cleansing_rain",
+      "zhuge_star_gate",
+      "zhuge_bamboo_slips",
+      "common_cangfeng",
+      "common_tashui",
+      "mind_zhaoxin",
+      "ink_unwritten_page"
+    ];
+
+    for (const cardId of wave27CardIds) {
+      const card = cardsById[cardId];
+      const art = cardArtById[cardId];
+
+      expect(card, cardId).toBeDefined();
+      expect(art, cardId).toBeDefined();
+      expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/wave27-.+\.svg$/);
+      expect(art.assetPath, cardId).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
+      expectAssetPathToExist(art.assetPath);
+    }
   });
 
   it("ships a first slice card pool with common, Zhao Yun, and Diao Chan cards", () => {
