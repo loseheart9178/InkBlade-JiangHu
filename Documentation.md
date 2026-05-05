@@ -2,6 +2,76 @@
 
 ## Status Log
 
+### 2026-05-05 19:41 Asia/Shanghai
+
+Wave 25 Alpha Handoff Current Baseline integrated in `.worktrees/wave6-integration` on branch `codex/wave25-alpha-handoff-current-baseline`.
+
+Docs/files read / carried through implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `scripts/alpha-handoff-report.mjs`
+- `tests/playtest/alpha-handoff-report-script.test.ts`
+- `scripts/balance-report.mjs`
+- `src/game/systems/debug/balanceReport.ts`
+- `docs/superpowers/plans/2026-05-05-wave25-alpha-handoff-current-baseline.md`
+
+What changed:
+
+- Refreshed the generated alpha handoff report's current acceptance baseline so it now includes Wave 23 balance report readability and Wave 24 balance report label/id evidence.
+- Kept the Wave 20 full Chromium desktop gate as the latest full browser e2e gate, kept Wave 21 art/Milestone 58 closure, and kept Wave 22 Zhuge Liang stability evidence.
+- Updated the alpha handoff report script test so it rejects the old "current Wave 20 baseline" phrasing and pins the Wave 23/24 handoff snippets.
+- Updated `docs/playtest/alpha-acceptance.md` so the verification table says the handoff artifact includes Wave 24 report label/id plus Wave 23 watchlist readability baseline.
+
+Worker worktrees / subagents:
+
+- Created `codex/wave25-handoff-script` at `.worktrees/wave25-handoff-script` for script/test TDD. The worker added failing assertions first, verified the red state against old handoff text, refreshed the script, and passed focused Vitest plus `git diff --check`.
+- Created `codex/wave25-handoff-docs` at `.worktrees/wave25-handoff-docs` for the alpha acceptance row. The worker updated only the planned row and passed the planned grep plus `git diff --check`.
+- Both subagents were closed after their diffs were reviewed and integrated. The main thread preserved the existing Wave 21 Milestone 58 closure bullet while adding the Wave 23/24 handoff evidence.
+
+Verification:
+
+```text
+Script/test worker red check
+Result: failed as expected after adding new assertions because the generated handoff report still lacked the Wave 23/24 current baseline snippets.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/alpha-handoff-report-script.test.ts --reporter=dot
+Result in script worker with equivalent Vitest entry: passed. 1 file / 2 tests.
+
+grep -n "Alpha handoff report artifact\|Wave 24 report label/id\|Wave 23 watchlist" docs/playtest/alpha-acceptance.md
+Result in docs worker: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/alpha-handoff-report.mjs --out D:/tmp/inkblade-wave25-alpha-handoff.md --balance-report reports/balance-report.md > /mnt/d/tmp/inkblade-wave25-alpha-handoff-stdout.md
+test -s /mnt/d/tmp/inkblade-wave25-alpha-handoff.md
+cmp /mnt/d/tmp/inkblade-wave25-alpha-handoff.md /mnt/d/tmp/inkblade-wave25-alpha-handoff-stdout.md
+grep -n "Wave 24 balance report label\|wave24-alpha-balance-v1\|Wave 23 balance report readability" /mnt/d/tmp/inkblade-wave25-alpha-handoff.md
+Result in integration worktree: passed. Artifact matched stdout and contained the Wave 23/24 handoff baseline snippets.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/alpha-handoff-report-script.test.ts tests/playtest/package-report-scripts.test.ts --reporter=dot
+Result: passed. 2 files / 3 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 200 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 44 modules.
+```
+
+Known gaps / risks:
+
+- Wave 25 is report/handoff only and does not generate a fresh browser QA artifact.
+
+Next step:
+
+- Commit Wave 25, remove worker worktrees, then start the next autonomous wave by scanning remaining release/playtest drift.
+
 ### 2026-05-05 19:33 Asia/Shanghai
 
 Wave 25 Alpha Handoff Current Baseline planning started in `.worktrees/wave6-integration` on branch `codex/wave25-alpha-handoff-current-baseline-plan`.

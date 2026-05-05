@@ -54,18 +54,18 @@ Desired handoff output snippets:
 - Create: `docs/superpowers/plans/2026-05-05-wave25-alpha-handoff-current-baseline.md`
 - Modify: `Documentation.md`
 
-- [ ] **Step 1: Record planning entry**
+- [x] **Step 1: Record planning entry**
 
 Add a top `Documentation.md` entry with docs read, stale handoff evidence, plan path, and next step.
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 ```bash
 grep -n "Wave 25 Alpha Handoff Current Baseline" Documentation.md docs/superpowers/plans/2026-05-05-wave25-alpha-handoff-current-baseline.md
 git diff --check
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add Documentation.md docs/superpowers/plans/2026-05-05-wave25-alpha-handoff-current-baseline.md
@@ -78,7 +78,7 @@ git commit -m "docs: plan wave25 alpha handoff baseline"
 
 - Modify: `tests/playtest/alpha-handoff-report-script.test.ts`
 
-- [ ] **Step 1: Add current baseline assertions**
+- [x] **Step 1: Add current baseline assertions**
 
 In `writes the same markdown report to stdout and an explicit artifact path`, keep stdout/artifact parity checks and add assertions:
 
@@ -93,7 +93,7 @@ expect(stdout).toContain("Current multi-seed balance artifact: Wave 24 report id
 expect(stdout).not.toContain("current Wave 20 baseline");
 ```
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/alpha-handoff-report-script.test.ts --reporter=dot
@@ -107,7 +107,7 @@ Expected first result: fail because the handoff script still omits Wave 23/24 cu
 
 - Modify: `scripts/alpha-handoff-report.mjs`
 
-- [ ] **Step 1: Refresh acceptance baseline bullets**
+- [x] **Step 1: Refresh acceptance baseline bullets**
 
 Replace the existing Wave 20/21/22 and multi-seed bullets under `## Current Acceptance Baseline` with:
 
@@ -121,7 +121,7 @@ Replace the existing Wave 20/21/22 and multi-seed bullets under `## Current Acce
 - Current multi-seed balance artifact: Wave 24 report id, 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band 8/10/14.
 ```
 
-- [ ] **Step 2: Verify focused test**
+- [x] **Step 2: Verify focused test**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/alpha-handoff-report-script.test.ts --reporter=dot
@@ -137,7 +137,7 @@ Expected: pass.
 - Modify: `Documentation.md`
 - Modify: `docs/superpowers/plans/2026-05-05-wave25-alpha-handoff-current-baseline.md`
 
-- [ ] **Step 1: Refresh alpha acceptance handoff artifact row**
+- [x] **Step 1: Refresh alpha acceptance handoff artifact row**
 
 In the verification table, replace:
 
@@ -151,7 +151,7 @@ with:
 | Alpha handoff report artifact | `node scripts/alpha-handoff-report.mjs --out ... --balance-report ...` | Passed: artifact matched stdout and includes the Wave 24 report label/id plus Wave 23 watchlist readability baseline |
 ```
 
-- [ ] **Step 2: Verify generated handoff output**
+- [x] **Step 2: Verify generated handoff output**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/alpha-handoff-report.mjs --out D:/tmp/inkblade-wave25-alpha-handoff.md --balance-report reports/balance-report.md > /mnt/d/tmp/inkblade-wave25-alpha-handoff-stdout.md
@@ -160,7 +160,7 @@ cmp /mnt/d/tmp/inkblade-wave25-alpha-handoff.md /mnt/d/tmp/inkblade-wave25-alpha
 grep -n "Wave 24 balance report label\\|wave24-alpha-balance-v1\\|Wave 23 balance report readability" /mnt/d/tmp/inkblade-wave25-alpha-handoff.md
 ```
 
-- [ ] **Step 3: Run broad gates**
+- [x] **Step 3: Run broad gates**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/alpha-handoff-report-script.test.ts tests/playtest/package-report-scripts.test.ts --reporter=dot
@@ -170,11 +170,11 @@ grep -n "Wave 24 balance report label\\|wave24-alpha-balance-v1\\|Wave 23 balanc
 git diff --check
 ```
 
-- [ ] **Step 4: Record final Documentation entry**
+- [x] **Step 4: Record final Documentation entry**
 
 Record changed files, subagent/worktree status, verification commands/results, and residual risks.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add Documentation.md docs/playtest/alpha-acceptance.md docs/superpowers/plans/2026-05-05-wave25-alpha-handoff-current-baseline.md scripts/alpha-handoff-report.mjs tests/playtest/alpha-handoff-report-script.test.ts

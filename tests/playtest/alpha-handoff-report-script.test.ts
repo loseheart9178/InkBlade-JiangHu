@@ -37,9 +37,16 @@ describe("alpha handoff report script", () => {
       expect(stdout).toContain("Generated: 2026-05-05T05:15:00.000Z");
       expect(stdout).toContain("Branch: `codex/test-handoff`");
       expect(stdout).toContain("Commit: `abc1234`");
-      expect(stdout).toContain("Wave 20 release gate refresh");
+      expect(stdout).toContain("Wave 20 full desktop gate remains the latest full Chromium e2e gate");
       expect(stdout).toContain("Vitest 24 files / 200 tests");
       expect(stdout).toContain("Zhuge Liang lowest HP band improved to 8/10/14");
+      expect(stdout).toContain("Wave 23 balance report readability");
+      expect(stdout).toContain("healing pressure is summarized once per stressed character");
+      expect(stdout).toContain("Wave 24 balance report label");
+      expect(stdout).toContain("# Wave 24 Alpha Balance Report");
+      expect(stdout).toContain("wave24-alpha-balance-v1");
+      expect(stdout).toContain("Current multi-seed balance artifact: Wave 24 report id, 12/12 routes, 84 combat samples");
+      expect(stdout).not.toContain("current Wave 20 baseline");
       expect(stdout).toContain("docs/playtest/desktop-playtest-checklist.md");
       expect(stdout).toContain("docs/playtest/external-bug-intake.md");
       expect(stdout).toContain("Balance artifact: `reports/balance-report.md`");

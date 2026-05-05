@@ -40,11 +40,13 @@ Commit: \`${commit || "unknown"}\`
 ## Current Acceptance Baseline
 
 - Desktop Chromium is the active alpha target; mobile layout and touch QA remain out of scope.
-- Wave 20 release gate refresh: Vitest 23 files / 198 tests, TypeScript, Vite build, Playwright 27 Chromium desktop tests, asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0, and balance artifact stdout match.
+- Wave 20 full desktop gate remains the latest full Chromium e2e gate: Vitest 23 files / 198 tests, TypeScript, Vite build, Playwright 27 Chromium desktop tests, asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0, and balance artifact stdout match.
 - Wave 21 art gate: Vitest 24 files / 200 tests, TypeScript, Vite build, Playwright visual smoke 3 Chromium tests, asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
 - Wave 22 balance stability: multi-seed balance remains 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, and Zhuge Liang lowest HP band improved to 8/10/14.
+- Wave 23 balance report readability: healing pressure is summarized once per stressed character with aggregate lowest HP bands, making Zhuge Liang \`8/10/14\` visible in the watchlist instead of repeated route labels.
+- Wave 24 balance report label: markdown starts \`# Wave 24 Alpha Balance Report\` with report id \`wave24-alpha-balance-v1\`.
 - Wave 15-19 handoff kit: refreshed desktop playtest checklist, external bug intake guide, alpha handoff report, npm report scripts, Node 24 runtime docs, and handoff preflight.
-- Multi-seed balance artifact: 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0.
+- Current multi-seed balance artifact: Wave 24 report id, 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band 8/10/14.
 - Wave 21 resolves Milestone 58 for starter/common card faces with 20 GPT Image 2 bitmap runtime crops; remaining art polish is optional non-starter bitmap replacement.
 
 ## Local Run
