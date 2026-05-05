@@ -14,6 +14,8 @@ For release handoff, generate `reports/alpha-handoff.md` with `scripts/alpha-han
 
 Normal `npm` commands require Node 24 or newer. Autonomous worktrees should use the bundled Node v24.14.0 path below.
 
+Run `npm run handoff:preflight` before a handoff session to catch stale Node/runtime or missing report-doc setup quickly.
+
 Use the bundled Node runtime for autonomous worktrees:
 
 ```bash
@@ -27,6 +29,7 @@ Use the bundled Node runtime for autonomous worktrees:
 Useful focused reruns:
 
 ```bash
+npm run handoff:preflight
 npm run report:balance
 npm run report:handoff
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"

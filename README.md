@@ -59,9 +59,12 @@ The `墨录图鉴` now distinguishes profile-discovered story from alpha referen
 Generate a single Markdown handoff summary for external testers:
 
 ```bash
+npm run handoff:preflight
 npm run report:balance
 npm run report:handoff
 ```
+
+The preflight command is read-only; it prints runtime, git, command, and handoff-document status.
 
 Both commands write under `reports/`, which is ignored because it is a local handoff artifact directory.
 
