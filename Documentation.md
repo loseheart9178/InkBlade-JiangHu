@@ -2,6 +2,40 @@
 
 ## Status Log
 
+### 2026-05-05 21:31 Asia/Shanghai
+
+Wave 28 EA Relic Pool Expansion I planning started in `.worktrees/wave6-integration` on branch `codex/wave28-ea-relic-pool-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/superpowers/plans/2026-05-05-wave27-ea-card-pool-expansion-i.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/game/content/relics.ts`
+- `src/game/systems/relics/relicEffects.ts`
+- `src/game/systems/combat/combat.ts`
+- `tests/relics/relic-system.test.ts`
+- `tests/data/content.test.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave28-ea-relic-pool-expansion-i.md`
+
+Scope decision:
+
+- Wave 28 will expand the relic pool from 20 to 32, preserve deterministic reward ordering where existing tests depend on it, and add real combat hooks for a subset of new relics.
+- Steam/storefront/installer/packaging work remains excluded.
+
+Next step:
+
+- Commit the Wave 28 plan, then implement relic data, combat hooks, and tests in scoped worktrees or directly if subagent capacity blocks.
+
 ### 2026-05-05 21:01 Asia/Shanghai
 
 Wave 27 EA Card Pool Expansion I planning started in `.worktrees/wave6-integration` on branch `codex/wave27-ea-card-pool-plan`.
