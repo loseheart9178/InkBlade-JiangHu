@@ -2,6 +2,39 @@
 
 ## Status Log
 
+### 2026-05-05 13:10 Asia/Shanghai
+
+Wave 16 Alpha Handoff Report planning started in `.worktrees/wave6-integration` on branch `codex/wave16-alpha-handoff-report-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/playtest/external-bug-intake.md`
+- `docs/superpowers/plans/2026-05-05-wave15-external-playtest-kit.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave16-alpha-handoff-report.md`
+
+Scope:
+
+- Add a deterministic Node CLI that generates a Markdown alpha handoff report.
+- Support optional `--out` artifact writing with stdout parity and optional `--balance-report` path inclusion.
+- Add focused Vitest coverage for the script.
+- Link the handoff command from README and alpha acceptance docs.
+- Leave Milestone 58 as the only open optional GPT Image 2 bitmap card-art quality pass.
+
+Next step:
+
+- Commit the Wave 16 plan, then create independent script and docs worktrees for implementation.
+
 ### 2026-05-05 13:05 Asia/Shanghai
 
 Wave 15 External Desktop Playtest Kit integrated in `.worktrees/wave6-integration` on branch `codex/wave15-external-playtest-kit`.
