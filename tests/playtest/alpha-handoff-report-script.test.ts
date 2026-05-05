@@ -37,6 +37,8 @@ describe("alpha handoff report script", () => {
       expect(stdout).toContain("Generated: 2026-05-05T05:15:00.000Z");
       expect(stdout).toContain("Branch: `codex/test-handoff`");
       expect(stdout).toContain("Commit: `abc1234`");
+      expect(stdout).toContain("Wave 20 release gate refresh");
+      expect(stdout).toContain("Vitest 23 files / 198 tests");
       expect(stdout).toContain("docs/playtest/desktop-playtest-checklist.md");
       expect(stdout).toContain("docs/playtest/external-bug-intake.md");
       expect(stdout).toContain("Balance artifact: `reports/balance-report.md`");

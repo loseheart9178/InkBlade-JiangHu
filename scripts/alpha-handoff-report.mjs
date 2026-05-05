@@ -40,8 +40,9 @@ Commit: \`${commit || "unknown"}\`
 ## Current Acceptance Baseline
 
 - Desktop Chromium is the active alpha target; mobile layout and touch QA remain out of scope.
-- Wave 14 full release gate: Vitest 19 files / 192 tests, TypeScript, Vite build, Playwright 27 Chromium tests, asset audit, and balance artifact stdout match.
-- Wave 15 handoff kit: refreshed desktop playtest checklist and external bug intake guide.
+- Wave 20 release gate refresh: Vitest 23 files / 198 tests, TypeScript, Vite build, Playwright 27 Chromium desktop tests, asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0, and balance artifact stdout match.
+- Wave 15-19 handoff kit: refreshed desktop playtest checklist, external bug intake guide, alpha handoff report, npm report scripts, Node 24 runtime docs, and handoff preflight.
+- Multi-seed balance artifact: 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0.
 - Milestone 58 remains optional GPT Image 2 bitmap card-art quality backlog.
 
 ## Local Run
