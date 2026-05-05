@@ -2,6 +2,36 @@
 
 ## Status Log
 
+### 2026-05-05 10:58 Asia/Shanghai
+
+Wave 12 Save/Profile Hardening planning started in `.worktrees/wave6-integration` on branch `codex/wave12-save-profile-hardening-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/superpowers/plans/2026-05-05-wave11-alpha-backlog-closure.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave12-save-profile-hardening.md`
+
+Scope:
+
+- Drop stale combat payloads when loading non-combat legacy save screens.
+- Repair legacy profile counters so total runs cannot undercount victories plus defeats.
+- Keep this wave in pure save/profile systems with focused Vitest coverage.
+- Leave Milestone 58 as the only open optional art-quality backlog item.
+
+Next step:
+
+- Commit the plan, create Wave 12 integration and worker worktrees, then dispatch independent save-boundary and profile-counter agents.
+
 ### 2026-05-05 10:46 Asia/Shanghai
 
 Wave 11 Alpha Backlog Closure integrated in `.worktrees/wave6-integration` on branch `codex/wave11-alpha-backlog-closure`.
