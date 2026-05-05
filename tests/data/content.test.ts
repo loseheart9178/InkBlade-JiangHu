@@ -9,6 +9,7 @@ import {
   getGlossaryEntryByLabel,
   glossaryEntries
 } from "../../src/game/content/glossary";
+import { methodList } from "../../src/game/content/methods";
 import { relicList } from "../../src/game/content/relics";
 import * as visuals from "../../src/game/content/visuals";
 import { defaultComboRules, exhaustAttackComboRule } from "../../src/game/systems/combat/combos";
@@ -42,6 +43,32 @@ const supportedActions = new Set([
 ]);
 
 describe("content data", () => {
+  it("pins the current EA playable showcase content baseline", () => {
+    expect(characterList).toHaveLength(4);
+    expect(chapterList).toHaveLength(4);
+    expect(cardList).toHaveLength(81);
+    expect(relicList).toHaveLength(20);
+    expect(eventList).toHaveLength(29);
+    expect(enemyList).toHaveLength(19);
+    expect(methodList).toHaveLength(8);
+
+    expect(countBy(cardList, (card) => card.rarity)).toEqual({
+      starter: 15,
+      common: 32,
+      uncommon: 18,
+      rare: 9,
+      ink: 3,
+      status: 4
+    });
+    expect(countBy(cardList, (card) => card.character ?? "neutral")).toEqual({
+      zhaoyun: 16,
+      diaochan: 16,
+      caiwenji: 14,
+      zhugeliang: 13,
+      neutral: 22
+    });
+  });
+
   it("ships a first slice card pool with common, Zhao Yun, and Diao Chan cards", () => {
     expect(cardList.length).toBeGreaterThanOrEqual(34);
     expect(cardList.some((card) => card.character === "zhaoyun")).toBe(true);
@@ -905,6 +932,14 @@ function getArchetypeCardIds(archetypeId: string): string[] {
   return cardList
     .filter((card) => ((card as { archetypes?: string[] }).archetypes ?? []).includes(archetypeId))
     .map((card) => card.id);
+}
+
+function countBy<T>(items: readonly T[], getKey: (item: T) => string): Record<string, number> {
+  return items.reduce<Record<string, number>>((counts, item) => {
+    const key = getKey(item);
+    counts[key] = (counts[key] ?? 0) + 1;
+    return counts;
+  }, {});
 }
 
 function expectAssetPathToExist(assetPath: string): void {

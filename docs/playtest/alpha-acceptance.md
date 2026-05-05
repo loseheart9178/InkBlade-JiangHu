@@ -1,6 +1,8 @@
 # Alpha Acceptance Playtest
 
-Wave 20 release-gate refresh for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
+Current EA direction is a desktop browser playable showcase: outside players should be able to see and play the distinctive jianghu deckbuilding loop, ink-wash battlefield, character card pools, and commercial-quality content/art direction without storefront or installer work. Chromium desktop through Playwright remains the active QA target; mobile layout, touch input, Steam/storefront work, installers, depot setup, and release packaging are outside the current EA plan.
+
+Wave 20 remains the latest full release-gate refresh for the historical desktop browser alpha baseline.
 
 Last full gate verified: 2026-05-05 Wave 20 release-gate refresh on branch `codex/wave20-release-gate-refresh`.
 
@@ -14,7 +16,7 @@ Wave 7 through Wave 14 balance-report and acceptance sections remain historical 
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
 
-For release handoff, generate `reports/alpha-handoff.md` with `scripts/alpha-handoff-report.mjs` after the balance artifact exists.
+For an external tester QA artifact, generate `reports/alpha-handoff.md` with `scripts/alpha-handoff-report.mjs` after the balance artifact exists.
 
 ## Runnable Commands
 
@@ -56,7 +58,7 @@ npm run report:handoff
 - Complete the browser final boss route from `墨渊照心` map into `无名史官` combat, chapter reward, boss reward, final choice, reload/continue from final choice, ending/profile summary, and persisted profile stats.
 - Use title/run `墨录图鉴` compendium coverage for cards, relics, enemies, combos, and story fragments without losing the current run screen; story entries now show profile-aware `已录` / `未录` badges while full-reference entries show `参照`.
 - Use glossary metadata on shipped card keyword chips, combat status badges, enemy intents, and combo trail entries; desktop tooltip attributes are covered in visual smoke.
-- Use the visible `调试跳章` control to advance to the next chapter map for prototype testing; it refreshes chapter backdrop context and remains a debug aid, not production progression.
+- Add `?debug=1` to expose `调试跳章` for QA chapter skipping; it refreshes chapter backdrop context and remains a debug aid, not production progression.
 - Use deterministic simulator coverage for all four MVP characters through the shipped route contract, including `luoshui`, `bamboo`, `changan`, and `moyuan`.
 
 ## Wave 20 Release Gate Refresh Acceptance
@@ -96,7 +98,7 @@ Wave 10 acceptance was refreshed after the integration branch merged all three i
 - Zhuge Liang seed `9003` remains complete in the deterministic multi-seed route without introducing timeout risks or unsafe damage spikes.
 - Starter semantic card art and first-chapter semantic attack strips remain bound from Wave 9.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`, and none use the generic enemy slash as final combat identity.
-- Desktop-first browser QA remains the release gate; `调试跳章` remains debug-only acceleration and is not normal progression evidence.
+- Desktop-first browser QA remains the historical gate; current EA builds keep `调试跳章` behind the explicit debug gate and do not treat it as normal progression evidence.
 
 Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite build passed with the known Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / card fallback debt 0, and the multi-seed balance report completed 12/12 routes.
 
@@ -111,7 +113,7 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 | Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Chromium tests |
 | Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | Passed within full Playwright suite |
-| Debug skip | `tests/e2e/playable-flow.spec.ts` | Passed; `调试跳章` remains debug-only |
+| Debug skip | `tests/e2e/playable-flow.spec.ts` | Passed; `调试跳章` remains hidden by default and available through the explicit debug gate |
 | Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed; Wave 14 unlock metadata, counts, badges, and `all/reference/unlocked/locked` filtering remain covered under the Wave 20 gate |
 | Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | Passed, including Wave 11 combat status badge metadata |
 | Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Passed: 3 Chromium visual-smoke tests; Wave 21 starter/common PNG card art is accepted |
@@ -201,4 +203,4 @@ The Playwright HTML report and `test-results/` output include these attached des
 - Wave 21 upgrades the starter/common card faces to GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG card faces are readable alpha coverage until optional bitmap passes replace them.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; the generic enemy slash strip is not acceptable for their combat identity.
 - The lazy Phaser runtime chunk now has an explicit `1300` kB Vite warning budget so future chunk growth is actionable.
-- Production audio depth, release packaging notes, and broader external playtest instructions remain future polish.
+- Production audio depth, broader external playtest instructions, content polish, and art-quality passes remain future EA polish. Steam/storefront and release packaging work are excluded from the current EA plan.

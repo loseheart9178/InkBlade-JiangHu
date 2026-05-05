@@ -99,11 +99,13 @@ interface ControllerState {
   settings: DesktopSettings;
   profile: PlayerProfile;
   completedRunSummary?: CompletedRunSummaryView;
+  debugToolsEnabled: boolean;
   message: string;
 }
 
 interface ControllerOptions {
   storage?: GameStorage;
+  debugToolsEnabled?: boolean;
 }
 
 interface CompletedRunSummaryView {
@@ -122,6 +124,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     compendiumFilters: createDefaultCompendiumFilters(),
     settings: loadSettings(options.storage),
     profile: loadProfile(options.storage) ?? createProfile(),
+    debugToolsEnabled: options.debugToolsEnabled ?? false,
     message: ""
   };
   audioFeedback.setSettings(state.settings);
@@ -299,6 +302,11 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
       showCompendiumTitleShell(host, state);
     });
     actions.append(compendium);
+  }
+
+  if (!state.debugToolsEnabled) {
+    actions.querySelectorAll<HTMLElement>(".title-debug-action").forEach((button) => button.remove());
+    return;
   }
 
   if (!actions.querySelector("[data-testid='debug-run-summary']")) {
@@ -738,6 +746,10 @@ function applySettingsToHost(host: HTMLElement, settings: DesktopSettings): void
   host.classList.toggle("prefers-fast-combat-text", settings.fastCombatText);
 }
 
+function getDebugSkipChapterHandler(state: ControllerState, render: () => void): (() => void) | undefined {
+  return state.debugToolsEnabled ? () => skipChapterForDebug(state, render) : undefined;
+}
+
 function renderMap(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
   const chapter = getCurrentChapter(run);
@@ -746,7 +758,7 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   const panel = createPanel("screen-map", chapter.mapTitle);
   panel.classList.add("map-screen");
 
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const path = document.createElement("div");
   path.className = "route-map";
@@ -1115,7 +1127,7 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
   const draft = createMethodRewardDraft(run);
   const panel = createPanel("screen-method-reward", "心法");
   panel.classList.add("method-reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
   panel.append(createMessage(draft.reason));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1166,7 +1178,7 @@ function renderReward(host: HTMLElement, state: ControllerState, render: () => v
   const run = requireRun(state);
   const panel = createPanel("screen-reward", "战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
   panel.append(createMessage(state.message));
   panel.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);
@@ -1232,7 +1244,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const eventScene = getEventScene(event.id);
   const panel = createPanel("screen-event", event.title);
   panel.classList.add("event-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const layout = document.createElement("div");
   layout.className = "event-layout";
@@ -1278,7 +1290,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-shop", "茶亭游商");
   panel.classList.add("shop-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const shopCards = [cardsById.common_pifeng, cardsById.common_tuna, cardsById.ink_moren];
   const list = document.createElement("div");
@@ -1372,7 +1384,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   const run = requireRun(state);
   const panel = createPanel("screen-rest", "废寺静修");
   panel.classList.add("rest-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const heal = createAction("调息疗伤", "回复最大生命30%", () => {
     const healed = healRun(run, Math.ceil(run.maxHp * 0.3));
@@ -1410,7 +1422,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
   panel.classList.add("chapter-reward-screen", "reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
   panel.append(createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1464,7 +1476,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   const nextChapter = getNextChapter(run);
   const panel = createPanel("screen-boss-reward", "首领战利");
   panel.classList.add("reward-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
   panel.append(createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1494,7 +1506,7 @@ function renderFinalChoice(host: HTMLElement, state: ControllerState, render: ()
   const run = requireRun(state);
   const panel = createPanel("screen-final-choice", "终局选择");
   panel.classList.add("final-choice-screen", "result-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), undefined, () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), undefined, getDebugSkipChapterHandler(state, render)));
   panel.append(createMessage("墨书摊开，黑水照见你的心境与墨痕。可见的道路并不都能抵达；不可见的路，只有真正放下时才会显形。"));
 
   const list = document.createElement("div");
@@ -1531,7 +1543,7 @@ function renderLogbook(host: HTMLElement, state: ControllerState, render: () => 
   const entries = getUnlockedLogbookEntries(run);
   const panel = createPanel("screen-logbook", "墨录");
   panel.classList.add("logbook-screen");
-  panel.append(createRunStatus(run, "已录下的江湖残页。", () => openDeck(state, render), undefined, undefined, () => skipChapterForDebug(state, render)));
+  panel.append(createRunStatus(run, "已录下的江湖残页。", () => openDeck(state, render), undefined, undefined, getDebugSkipChapterHandler(state, render)));
 
   const list = document.createElement("div");
   list.className = "logbook-list";

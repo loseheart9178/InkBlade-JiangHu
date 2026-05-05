@@ -1,6 +1,6 @@
 # Inkblade: Tales of Jianghu
 
-《云水江湖》 is a desktop-browser vertical slice for a 2D ink-wash wuxia deckbuilding roguelike. The prototype uses Phaser for the battlefield, DOM overlays for menus and card UI, and pure TypeScript systems for combat, map, rewards, saves, events, relics, and deterministic playtest tools.
+《云水江湖》 is a desktop-browser EA playable showcase for a 2D ink-wash wuxia deckbuilding roguelike. The current goal is to let outside players see and play the game's distinctive jianghu deckbuilding loop, ink-wash battlefield, character-driven card pools, and commercial-quality content direction in a browser. The prototype uses Phaser for the battlefield, DOM overlays for menus and card UI, and pure TypeScript systems for combat, map, rewards, saves, events, relics, and deterministic playtest tools.
 
 ## Quick Start
 
@@ -13,7 +13,7 @@ npm run dev
 
 The verified autonomous runtime is Node v24.14.0. Older Node 18 shells cannot run the current Vite/Rolldown toolchain.
 
-Open the Vite URL, usually `http://127.0.0.1:5173/`, in a desktop Chromium browser. Desktop is the active target for this release handoff; mobile layout and touch QA are paused.
+Open the Vite URL, usually `http://127.0.0.1:5173/`, in a desktop Chromium browser. Desktop browser play is the active EA target; mobile layout and touch QA are paused.
 
 Autonomous worktrees should use the bundled Node runtime:
 
@@ -43,7 +43,7 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 20 release verification completed on branch `codex/wave20-release-gate-refresh`: Vitest 23 files / 198 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight, and alpha handoff artifact output matching stdout. Wave 21 then resolves Milestone 58 for starter/common card faces with 20 GPT Image 2 bitmap runtime crops while preserving the Wave 9/10 SVG readability assets as historical fallbacks; its art gate passed Vitest 24 files / 200 tests, TypeScript, Vite build, Playwright visual smoke 3 Chromium tests, and asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
+Wave 20 release verification completed on branch `codex/wave20-release-gate-refresh`: Vitest 23 files / 198 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight, and alpha handoff artifact output matching stdout. Wave 21 then resolves Milestone 58 for starter/common card faces with 20 GPT Image 2 bitmap runtime crops while preserving the Wave 9/10 SVG readability assets as historical fallbacks; its art gate passed Vitest 24 files / 200 tests, TypeScript, Vite build, Playwright visual smoke 3 Chromium tests, and asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21. Wave 26 pins the current EA playable showcase baseline at 81 cards, 20 relics, 29 events, 19 enemies, 4 chapters, 4 characters, and 8 methods so later content waves can raise those numbers intentionally.
 
 ## Carry-Forward: Compendium Unlock Depth
 
@@ -56,7 +56,7 @@ The `墨录图鉴` now distinguishes profile-discovered story from alpha referen
 
 ## Alpha Handoff Report
 
-Generate a single Markdown handoff summary for external testers:
+Generate a single Markdown handoff summary for external testers when a current QA artifact is needed:
 
 ```bash
 npm run handoff:preflight
@@ -114,13 +114,14 @@ Use [desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md)
 2. Enter the first combat, play at least one card, confirm energy/cost validation, then end turn.
 3. Win the first battle, take or skip card reward, and continue to map.
 4. Visit event, rest, shop, elite, boss, and boss reward bridge surfaces.
-5. Use `调试跳章` only when the tester needs to skip forward through chapters for release QA.
+5. Use `?debug=1` only when a QA tester needs to expose `调试跳章` and skip forward through chapters.
 
 External testers should file issues with [external-bug-intake.md](docs/playtest/external-bug-intake.md), which includes severity labels, route tags, evidence requirements, and a copy-ready report template.
 
 ## Debug Controls
 
-- `调试跳章`: advances the current run to the next chapter map for prototype QA. It should not be treated as production progression.
+- Add `?debug=1` or `?debugTools=1` to the browser URL to expose internal QA shortcuts.
+- `调试跳章`: advances the current run to the next chapter map for prototype QA. It is hidden by default and should not be treated as player progression.
 - Title continue / clear save: verifies local save recovery and reset behavior.
 - Browser devtools console: capture uncaught errors, asset 404s, and failed requests when filing bugs.
 - Playwright report: after e2e runs, inspect screenshots and traces under the generated test output.
@@ -131,7 +132,8 @@ External testers should file issues with [external-bug-intake.md](docs/playtest/
 - First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
 - The Wave 22 multi-seed balance pass keeps all 12/12 routes complete with 84 samples, timeout risks 0, unsafe spikes 0, and raises Zhuge Liang's lowest post-combat HP band from `3/3/7` to `8/10/14` while keeping him a high-strategy pressure character.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
-- Production audio, Steam packaging, mobile layout, and broad localization polish are outside this desktop alpha handoff.
+- Steam/storefront work, installers, depot setup, and release packaging are outside the current EA plan. Browser-playable content depth, presentation polish, art quality, audio atmosphere, and reliability remain active EA workstreams.
+- Mobile layout, touch QA, and broad localization polish remain paused unless reopened explicitly.
 
 ## Bug Report Template
 

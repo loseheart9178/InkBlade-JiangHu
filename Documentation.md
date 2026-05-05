@@ -46,6 +46,54 @@ Next step:
 
 - Commit the Wave 26 plan, create isolated worker worktrees for runtime debug gating and EA doc/data baseline, then integrate and verify.
 
+Implementation update:
+
+- Created worker worktrees:
+  - `.worktrees/wave26-debug-gate` on `codex/wave26-debug-gate`
+  - `.worktrees/wave26-ea-doc-baseline` on `codex/wave26-ea-doc-baseline`
+- Runtime/e2e worker `Archimedes` and replacement docs/data worker `Ptolemy` did not produce complete code before shutdown; the first docs/data worker `Popper` errored with model capacity. The main integration thread took over the scoped changes, reviewed the later partial worker diffs, absorbed the useful README baseline note, and removed the worker worktrees/branches.
+- Added a runtime-only debug gate: default browser UI hides title debug entries and `调试跳章`; `?debug=1` or `?debugTools=1` exposes the QA shortcuts.
+- Updated Playwright coverage so public UI hidden-debug behavior is tested and debug-dependent routes explicitly load with `?debug=1`.
+- Added a current EA playable showcase content baseline test: 4 characters, 4 chapters, 81 cards, 20 relics, 29 events, 19 enemies, and 8 methods, plus current card rarity and character distribution.
+- Refreshed `README.md` and `docs/playtest/alpha-acceptance.md` to describe EA as a desktop browser playable showcase and to exclude Steam/storefront/installer/packaging work from the current EA plan.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts --reporter=dot
+Result: passed. 1 file / 32 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "debug|final boss route|public|route map"
+Result: passed. 6 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "ending summary"
+Result: passed. 1 Chromium test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 201 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 44 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 28 Chromium tests.
+```
+
+Known gaps / risks:
+
+- This wave did not add new gameplay content or art; it makes the current playable showcase safer to hand to players and pins the baseline before expansion.
+- Historical docs still contain alpha-era sections, but high-visibility EA direction and debug-gate wording are now corrected.
+
+Next step:
+
+- Commit Wave 26, remove unused worker worktrees, then start Wave 27 EA Card Pool Expansion I.
+
 ### 2026-05-05 20:10 Asia/Shanghai
 
 EA Playable Showcase master planning started in `.worktrees/wave6-integration` on branch `codex/ea-development-master-plan`.

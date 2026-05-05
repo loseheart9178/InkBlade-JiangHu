@@ -93,8 +93,25 @@ test("compendium 墨录图鉴 opens from title and filters cards", async ({ page
   await expect(page.getByTestId("screen-title")).toBeVisible();
 });
 
-test("run summary shell opens from the title debug entry", async ({ page }) => {
+test("public playable surface hides internal debug shortcuts by default", async ({ page }) => {
   await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await expect(page.getByTestId("screen-title")).toBeVisible();
+  await expect(page.getByTestId("debug-run-summary")).toHaveCount(0);
+  await expect(page.getByTestId("debug-ending-summary")).toHaveCount(0);
+  await expect(page.getByTestId("debug-final-route")).toHaveCount(0);
+
+  await page.getByTestId("character-zhaoyun").click();
+  await page.getByTestId("start-run").click();
+
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("debug-skip-chapter")).toHaveCount(0);
+});
+
+test("run summary shell opens from the title debug entry", async ({ page }) => {
+  await page.goto("/?debug=1");
 
   await page.getByTestId("debug-run-summary").click();
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
@@ -103,7 +120,7 @@ test("run summary shell opens from the title debug entry", async ({ page }) => {
 });
 
 test("debug skip advances to the next chapter and refreshes the map backdrop", async ({ page }) => {
-  await startRun(page, "zhaoyun");
+  await startRun(page, "zhaoyun", { debugTools: true });
 
   await expect(page.getByTestId("screen-map")).toHaveAttribute("data-battlefield", "luoshui");
   await page.getByTestId("debug-skip-chapter").click();
@@ -151,7 +168,7 @@ test("first combat onboarding hints are compact, dismissible, and persisted", as
 });
 
 test("route map shows risk and reward previews before choosing nodes", async ({ page }) => {
-  await startRun(page, "zhaoyun");
+  await startRun(page, "zhaoyun", { debugTools: true });
 
   await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势8|金币\+12/);
   await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/护住哭声|心境/);
@@ -165,7 +182,7 @@ test("route map shows risk and reward previews before choosing nodes", async ({ 
 });
 
 test("ending summary records and persists profile summary", async ({ page }, testInfo) => {
-  await page.goto("/");
+  await page.goto("/?debug=1");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 
@@ -194,7 +211,7 @@ test("ending summary records and persists profile summary", async ({ page }, tes
 
 test("final boss route reaches ending and profile summary", async ({ page }) => {
   test.setTimeout(80_000);
-  await page.goto("/");
+  await page.goto("/?debug=1");
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 
@@ -522,8 +539,12 @@ test("can enter a second chapter combat and see status-card pressure", async ({ 
   await expect(page.getByTestId("combat-floats")).toContainText(/入弃牌|虚弱|易伤/);
 });
 
-async function startRun(page: Page, characterId: "zhaoyun" | "diaochan" | "caiwenji" | "zhugeliang"): Promise<void> {
-  await page.goto("/");
+async function startRun(
+  page: Page,
+  characterId: "zhaoyun" | "diaochan" | "caiwenji" | "zhugeliang",
+  options: { debugTools?: boolean } = {}
+): Promise<void> {
+  await page.goto(options.debugTools ? "/?debug=1" : "/");
   await expect(page.getByText("云水江湖")).toBeVisible();
   await page.getByTestId(`character-${characterId}`).click();
   await page.getByTestId("start-run").click();

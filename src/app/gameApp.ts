@@ -108,7 +108,8 @@ async function loadDefaultGameRuntime(shell: AppShell, options: GameRuntimeOptio
     import("./phaserConfig")
   ]);
   const controller = createInkbladeController(shell.hudHost, {
-    storage: options.storage ?? (typeof window !== "undefined" ? window.localStorage : undefined)
+    storage: options.storage ?? (typeof window !== "undefined" ? window.localStorage : undefined),
+    debugToolsEnabled: shouldEnableDebugTools()
   });
   let game: unknown;
 
@@ -147,4 +148,13 @@ async function loadDefaultGameRuntime(shell: AppShell, options: GameRuntimeOptio
       controller.dispose();
     }
   };
+}
+
+function shouldEnableDebugTools(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  return params.get("debug") === "1" || params.get("debugTools") === "1";
 }
