@@ -2,6 +2,45 @@
 
 ## Status Log
 
+### 2026-05-05 21:01 Asia/Shanghai
+
+Wave 27 EA Card Pool Expansion I planning started in `.worktrees/wave6-integration` on branch `codex/wave27-ea-card-pool-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/superpowers/plans/2026-05-05-wave26-ea-public-demo-gate.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `src/game/content/cards.ts`
+- `src/game/content/visuals.ts`
+- `src/game/content/cardArt/wave10ZhaoDiaoCardArt.ts`
+- `tests/data/content.test.ts`
+- `src/game/systems/combat/types.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave27-ea-card-pool-expansion-i.md`
+
+Scope decision:
+
+- Wave 27 will add 12 playable cards, raising the baseline from 81 to 93.
+- Because card fallback debt must remain zero, each new card also needs a dedicated semantic card-art binding. Final commercial bitmap replacement remains a later EA art-quality wave.
+- Steam/storefront/installer/packaging work remains excluded.
+
+Next step:
+
+- Commit the Wave 27 plan, then create worker worktrees for card data, card art, and content tests/docs.
+
 ### 2026-05-05 20:19 Asia/Shanghai
 
 Wave 26 EA Public Demo Surface And Debug Gate planning started in `.worktrees/wave6-integration` on branch `codex/wave26-ea-public-demo-gate-plan`.
