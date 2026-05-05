@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Diao Chan hongyan card art</title>
+  <desc id="desc">A red ribbon blade crosses a dark flower shadow.</desc>
+  <defs>
+    <radialGradient id="paper" cx="50%" cy="42%" r="75%">
+      <stop offset="0" stop-color="#fff1df"/>
+      <stop offset="1" stop-color="#d8c1a0"/>
+    </radialGradient>
+    <linearGradient id="red" x1="0" x2="1" y1="1" y2="0">
+      <stop offset="0" stop-color="#731318"/>
+      <stop offset=".52" stop-color="#d83735"/>
+      <stop offset="1" stop-color="#ffb184"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <g fill="#121616" opacity=".16">
+    <path d="M318 344c43-79 91-88 144-26-31 73-79 82-144 26z"/>
+    <path d="M318 344c-76-48-82-97-17-148 68 37 74 87 17 148z"/>
+    <path d="M318 344c-57 70-107 68-151-6 47-62 97-60 151 6z"/>
+    <path d="M318 344c71 56 73 106 6 150-63-48-65-98-6-150z"/>
+  </g>
+  <circle cx="318" cy="344" r="34" fill="#171615" opacity=".22"/>
+  <path d="M113 660c82-168 228-286 437-354-84 169-228 287-437 354z" fill="url(#red)" opacity=".65"/>
+  <path d="M114 661c118-122 264-241 437-354" fill="none" stroke="#7e1517" stroke-width="18" stroke-linecap="round"/>
+  <path d="M166 588c104-82 227-159 370-231" fill="none" stroke="#ffd2b4" stroke-width="9" stroke-linecap="round" opacity=".55"/>
+  <path d="M235 251c51-27 108-33 170-16M92 759c115 33 252 30 410-10M460 556c41 24 80 28 117 12" fill="none" stroke="#151716" stroke-width="14" stroke-linecap="round" opacity=".17"/>
+  <circle cx="401" cy="460" r="117" fill="none" stroke="#c8272b" stroke-width="15" opacity=".18"/>
+</svg>

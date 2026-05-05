@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Diao Chan lotus step card art</title>
+  <desc id="desc">Teal lotus footwork leaves a crescent dodge trail on paper.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbf1de"/>
+      <stop offset="1" stop-color="#d8c8a9"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" x2="1" y1="1" y2="0">
+      <stop offset="0" stop-color="#11616c"/>
+      <stop offset=".55" stop-color="#31a4a1"/>
+      <stop offset="1" stop-color="#b3ebdc"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M155 622c107-213 257-318 449-316-34 52-48 108-42 168-136-5-247 64-332 207-35-5-60-25-75-59z" fill="url(#teal)" opacity=".38"/>
+  <path d="M163 620c119-154 247-249 384-285" fill="none" stroke="#126b72" stroke-width="19" stroke-linecap="round" opacity=".72"/>
+  <path d="M247 643c19-68 53-107 103-116 26 41 18 88-24 141-34 9-60 1-79-25zM359 550c37-60 82-83 135-68 9 46-14 86-68 121-34-1-56-19-67-53zM207 730c47-47 97-61 150-42 1 46-29 81-89 104-33-9-53-30-61-62z" fill="#f6fbef" opacity=".68" stroke="#1b777a" stroke-width="11"/>
+  <path d="M104 492c124 50 240 38 348-37" fill="none" stroke="url(#teal)" stroke-width="21" stroke-linecap="round" opacity=".55"/>
+  <path d="M137 503c93 30 182 20 267-31" fill="none" stroke="#f8fffa" stroke-width="11" stroke-linecap="round" opacity=".64"/>
+  <circle cx="317" cy="598" r="165" fill="none" stroke="url(#teal)" stroke-width="13" opacity=".22"/>
+  <path d="M108 307c56 17 112 17 168 0M89 793c107 31 241 29 403-5M480 657c39 22 75 27 109 14" fill="none" stroke="#151918" stroke-width="14" stroke-linecap="round" opacity=".17"/>
+</svg>

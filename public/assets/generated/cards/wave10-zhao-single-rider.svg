@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhao Yun single rider card art</title>
+  <desc id="desc">A lone gold-lit rider breaks through torn ink banners.</desc>
+  <defs>
+    <radialGradient id="paper" cx="50%" cy="36%" r="74%">
+      <stop offset="0" stop-color="#fff5d8"/>
+      <stop offset=".67" stop-color="#e8d4a8"/>
+      <stop offset="1" stop-color="#c8b58e"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffe79b"/>
+      <stop offset="1" stop-color="#9b6b19"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M93 225c67 43 129 64 185 61M411 186c52 55 99 83 143 84M62 687c154-66 333-82 537-49" fill="none" stroke="#101314" stroke-width="20" stroke-linecap="round" opacity=".16"/>
+  <path d="M165 177c36 174 34 319-7 434M499 153c-24 162-13 306 35 431" fill="none" stroke="#141919" stroke-width="12" stroke-linecap="round" opacity=".22"/>
+  <path d="M165 182c67 36 115 38 147 5-15 65-13 122 5 172-61-19-109-19-145 0 14-57 12-116-7-177zM500 156c-51 32-95 33-133 3 8 66 2 126-18 180 62-20 111-20 149 0-15-64-14-125 2-183z" fill="#101415" opacity=".14"/>
+  <path d="M143 601c91-77 169-114 234-110 75 5 125 52 151 143-76-21-143-16-200 15-48 26-110 11-185-48z" fill="#1b1a17" opacity=".35"/>
+  <path d="M219 562c46-43 95-58 149-44 40 10 72 44 96 102-73-31-143-23-211 24-15-21-26-48-34-82z" fill="url(#gold)" opacity=".72"/>
+  <path d="M295 404c40-42 79-42 116-1 11 39 1 80-31 124-28-42-56-83-85-123z" fill="#161817" opacity=".55"/>
+  <path d="M356 398 496 259" fill="none" stroke="#24221e" stroke-width="18" stroke-linecap="round"/>
+  <path d="m511 236-18 61 58-19" fill="url(#gold)" stroke="#24221e" stroke-width="9" stroke-linejoin="round"/>
+  <circle cx="344" cy="385" r="26" fill="url(#gold)" opacity=".9"/>
+  <path d="M96 717c124 45 280 48 468 9M65 770c101 30 214 35 339 16" fill="none" stroke="#111" stroke-width="17" stroke-linecap="round" opacity=".19"/>
+</svg>

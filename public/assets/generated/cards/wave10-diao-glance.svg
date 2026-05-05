@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Diao Chan glance card art</title>
+  <desc id="desc">A moonlit eye reflection sends teal charm ripples outward.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbf0dd"/>
+      <stop offset="1" stop-color="#d6c6aa"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#a7e6da"/>
+      <stop offset=".5" stop-color="#2b9aa0"/>
+      <stop offset="1" stop-color="#115b68"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <circle cx="426" cy="237" r="75" fill="#fff9ef" opacity=".85"/>
+  <circle cx="457" cy="214" r="75" fill="#ead9ba" opacity=".95"/>
+  <path d="M111 471c129-116 277-125 444-27-111 137-259 154-444 27z" fill="#f8f2e8" opacity=".78"/>
+  <path d="M119 470c126-83 271-92 435-27M116 474c128 76 273 65 436-31" fill="none" stroke="#171918" stroke-width="18" stroke-linecap="round" opacity=".24"/>
+  <ellipse cx="335" cy="456" rx="64" ry="72" fill="url(#teal)" opacity=".8"/>
+  <circle cx="334" cy="454" r="24" fill="#152021" opacity=".72"/>
+  <circle cx="356" cy="429" r="13" fill="#fffdf0" opacity=".9"/>
+  <path d="M230 454c67-34 137-37 210-8" fill="none" stroke="#fcfff7" stroke-width="12" stroke-linecap="round" opacity=".65"/>
+  <circle cx="335" cy="456" r="116" fill="none" stroke="url(#teal)" stroke-width="13" opacity=".32"/>
+  <circle cx="335" cy="456" r="168" fill="none" stroke="url(#teal)" stroke-width="10" opacity=".2"/>
+  <path d="M166 654c87 31 191 28 312-8M91 317c51 11 101 4 150-20M486 583c33 26 67 35 103 28" fill="none" stroke="#151918" stroke-width="14" stroke-linecap="round" opacity=".17"/>
+</svg>

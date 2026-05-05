@@ -5419,3 +5419,62 @@ Known gaps / risks:
 Next step:
 
 - Commit the Wave 8 plan, create worktrees, and dispatch independent subagents.
+
+## 2026-05-04 Wave 10 Task 2 Zhao/Diao card art
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave10-card-fallback-zero.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+
+What changed:
+
+- Added `wave10ZhaoDiaoCardArt` as an isolated card-art definition batch for the 13 Zhao Yun and Diao Chan Wave 10 fallback targets.
+- Added repo-local SVG card faces under `public/assets/generated/cards/` for Zhao guardian/qixing/single-rider/stable/sweep/thrust/white-dragon cards and Diao falling-fan/glance/hongyan/red-ribbon/sleeve-blade/step-lotus cards.
+- Added a focused Vitest data test that checks exact id order, SVG path shape, alt coverage, valid accents, file readability, required `viewBox`, and no visible `<text>` elements.
+
+Decisions:
+
+- Kept the branch within the worker write set: no changes to `src/game/content/visuals.ts`, `public/assets/generated/asset-audit.json`, or shared release docs.
+- Used the Wave 10 accent plan exactly: teal for Zhao guard/stable and Diao glance/step lotus; gold for Zhao qixing/single rider/white dragon; red for Zhao sweep/thrust and Diao attack/ribbon/blade cards.
+- Used semantic SVG motifs instead of generated bitmap output so integration can bind dedicated readable card art without changing renderer behavior.
+
+TDD and failures:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave10-zhao-diao-card-art.test.ts
+RED result: failed as expected because ../../src/game/content/cardArt/wave10ZhaoDiaoCardArt could not be resolved before the module existed.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave10-zhao-diao-card-art.test.ts
+Result: passed, 1 file / 1 test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- The new module is intentionally not imported by `src/game/content/visuals.ts` on this worker branch; the integration task must bind the Wave 10 batches and refresh the asset audit ledger.
+- These are semantic repo-local SVG faces, not final GPT Image 2 bitmap replacements.
+
+Next step:
+
+- Commit Wave 10 Task 2, then hand off to the integration branch for manifest binding and card fallback debt audit.

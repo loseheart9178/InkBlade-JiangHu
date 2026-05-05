@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhao Yun white dragon card art</title>
+  <desc id="desc">A white dragon claw coils around a golden spear point.</desc>
+  <defs>
+    <radialGradient id="paper" cx="52%" cy="42%" r="76%">
+      <stop offset="0" stop-color="#fff9e8"/>
+      <stop offset=".72" stop-color="#ead7ad"/>
+      <stop offset="1" stop-color="#cdb88f"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff0a6"/>
+      <stop offset=".6" stop-color="#d6a43d"/>
+      <stop offset="1" stop-color="#836019"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M136 639c92-190 227-306 404-348-63 55-86 106-68 154 20 51-4 99-71 144-59 40-93 89-102 148-70-13-124-45-163-98z" fill="#f8fbf4" opacity=".84"/>
+  <path d="M156 635c60-103 126-181 198-234 68-50 133-79 195-88" fill="none" stroke="#171e1d" stroke-width="22" stroke-linecap="round" opacity=".24"/>
+  <path d="M188 626c52-90 115-157 188-201 62-38 119-58 171-61" fill="none" stroke="#ffffff" stroke-width="28" stroke-linecap="round" opacity=".85"/>
+  <path d="M233 684c22-62 55-108 101-138M329 713c10-59 35-109 75-150M415 622c-32-26-46-57-43-93" fill="none" stroke="#d5dcd3" stroke-width="19" stroke-linecap="round"/>
+  <path d="M98 742 525 285" fill="none" stroke="#25231e" stroke-width="18" stroke-linecap="round"/>
+  <path d="M125 717 501 315" fill="none" stroke="url(#gold)" stroke-width="9" stroke-linecap="round"/>
+  <path d="m545 259-35 84 77-34z" fill="url(#gold)" stroke="#25231e" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="499" cy="365" r="18" fill="url(#gold)"/>
+  <path d="M91 303c63-34 126-42 190-24M74 382c50 19 107 21 171 7M132 778c104 26 221 29 352 8" fill="none" stroke="#151a19" stroke-width="14" stroke-linecap="round" opacity=".17"/>
+  <circle cx="370" cy="492" r="164" fill="none" stroke="#d5a33d" stroke-width="14" opacity=".2"/>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhao Yun spear sweep card art</title>
+  <desc id="desc">A red horizontal spear sweep drives a wide dust arc through ink.</desc>
+  <defs>
+    <radialGradient id="paper" cx="45%" cy="44%" r="72%">
+      <stop offset="0" stop-color="#fff3df"/>
+      <stop offset="1" stop-color="#d9c5a4"/>
+    </radialGradient>
+    <linearGradient id="red" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#7b1717"/>
+      <stop offset=".55" stop-color="#d8402c"/>
+      <stop offset="1" stop-color="#ffb17a"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M72 563c151-113 337-145 558-96-104 96-255 150-455 163-63 4-97-19-103-67z" fill="url(#red)" opacity=".72"/>
+  <path d="M80 559c146-84 321-111 524-82" fill="none" stroke="#1e1715" stroke-width="22" stroke-linecap="round" opacity=".28"/>
+  <path d="M82 558c151-58 319-78 506-59" fill="none" stroke="#9e1f19" stroke-width="11" stroke-linecap="round"/>
+  <path d="M95 496h431" fill="none" stroke="#20201d" stroke-width="21" stroke-linecap="round"/>
+  <path d="m543 496-70-30 8 60z" fill="#f4efe2" stroke="#20201d" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M181 428c72-43 140-55 205-37M147 658c99 48 204 53 316 14M60 338c37 28 81 42 132 43" fill="none" stroke="#171716" stroke-width="15" stroke-linecap="round" opacity=".17"/>
+  <circle cx="452" cy="515" r="98" fill="none" stroke="#c33328" stroke-width="19" opacity=".2"/>
+  <path d="M213 481c-13-85 12-148 74-190" fill="none" stroke="#121515" stroke-width="17" stroke-linecap="round" opacity=".22"/>
+</svg>
