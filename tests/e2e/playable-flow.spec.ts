@@ -429,13 +429,23 @@ test("Cai Wenji can be selected and enters combat with sound resource visible", 
   await expect(page.locator(".combat-card").filter({ hasText: /拂弦|宫音|清心曲/ }).first()).toBeVisible();
 });
 
-test("Cai Wenji event route keeps consequence summaries visible", async ({ page }) => {
+test("Cai Wenji event route presents polished choice effects and logbook feedback", async ({ page }, testInfo) => {
   await startRun(page, "caiwenji");
   await page.getByTestId("map-node-event-1").click();
 
   await expect(page.getByTestId("screen-event")).toBeVisible();
-  await expect(page.locator("[data-testid^='event-choice-']").first()).toBeVisible();
-  await expect(page.locator("[data-testid^='event-choice-']").first()).toContainText(/获得|回复|失去|升级|移除|宁|怒|悲|魅|乱|悟/);
+  await expect(page.getByTestId("event-scene")).toHaveClass(/event-scene--score/);
+  await expect(page.getByTestId("event-kicker")).toContainText("蔡文姬");
+  await expect(page.getByTestId("event-effect-chip").first()).toBeVisible();
+  await expect(page.getByTestId("event-effect-chip").first()).toHaveAttribute("data-effect-tone", /gain|mind|ink|cost/);
+  await expect(page.locator("[data-testid='event-effect-chip']").filter({ hasText: /获得|心境|墨灾|生命|铜钱/ }).first()).toBeVisible();
+
+  await capturePlaytestScreenshot(page, testInfo, "wave30-caiwenji-event-surface.png");
+  await page.locator("[data-testid^='event-choice-']").first().click();
+
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByText(/墨录 \+1/)).toBeVisible();
+  await expect(page.getByTestId("run-logbook")).toContainText("1");
 });
 
 test("Zhuge Liang can be selected and enters combat with strategy resource visible", async ({ page }) => {
@@ -448,6 +458,18 @@ test("Zhuge Liang can be selected and enters combat with strategy resource visib
   await expect(page.getByTestId("player-hp")).toContainText("诸葛亮");
   await expect(page.getByText(/筹策\s+1\/9|筹策\s+2\/9/)).toBeVisible();
   await expect(page.locator(".combat-card").filter({ hasText: /羽扇|守势|观星|八阵/ }).first()).toBeVisible();
+});
+
+test("Zhuge Liang event route uses a distinct star-board event scene", async ({ page }, testInfo) => {
+  await startRun(page, "zhugeliang");
+  await page.getByTestId("map-node-event-1").click();
+
+  await expect(page.getByTestId("screen-event")).toBeVisible();
+  await expect(page.getByTestId("event-scene")).toHaveClass(/event-scene--stars/);
+  await expect(page.getByTestId("event-kicker")).toContainText("诸葛亮");
+  await expect(page.locator("[data-testid='event-effect-chip']").filter({ hasText: /星门|悟|墨灾/ }).first()).toBeVisible();
+
+  await capturePlaytestScreenshot(page, testInfo, "wave30-zhugeliang-event-surface.png");
 });
 
 test("can continue a saved combat after a page reload", async ({ page }) => {

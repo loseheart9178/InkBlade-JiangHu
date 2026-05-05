@@ -2048,6 +2048,41 @@ button {
     url("/assets/generated/changan-battlefield-ink-pass.png") center / cover;
 }
 
+.event-scene--score {
+  background:
+    radial-gradient(circle at 40% 34%, rgba(47, 124, 110, 0.3), transparent 18%),
+    linear-gradient(180deg, rgba(246, 236, 213, 0.08), rgba(17, 17, 17, 0.22)),
+    url("/assets/generated/bamboo-battlefield-ink-pass.png") center / cover;
+}
+
+.event-scene--stars {
+  background:
+    radial-gradient(circle at 58% 30%, rgba(246, 236, 213, 0.32), transparent 14%),
+    radial-gradient(circle at 34% 58%, rgba(47, 124, 110, 0.2), transparent 20%),
+    url("/assets/generated/changan-battlefield-ink-pass.png") center / cover;
+}
+
+.event-scene--road {
+  background:
+    radial-gradient(circle at 38% 70%, rgba(246, 236, 213, 0.18), transparent 22%),
+    linear-gradient(180deg, rgba(44, 41, 36, 0.08), rgba(17, 17, 17, 0.24)),
+    url("/assets/generated/luoshui-battlefield-gpt.png") center / cover;
+}
+
+.event-scene--contract {
+  background:
+    radial-gradient(circle at 62% 38%, rgba(183, 53, 42, 0.28), transparent 18%),
+    linear-gradient(180deg, rgba(17, 17, 17, 0.08), rgba(17, 17, 17, 0.3)),
+    url("/assets/generated/changan-battlefield-ink-pass.png") center / cover;
+}
+
+.event-scene--mirror {
+  background:
+    radial-gradient(circle at 50% 52%, rgba(47, 124, 110, 0.26), transparent 22%),
+    linear-gradient(180deg, rgba(246, 236, 213, 0.12), rgba(17, 17, 17, 0.28)),
+    url("/assets/generated/gpt2-moyuan-battlefield.png") center / cover;
+}
+
 .event-scene-mark {
   position: absolute;
   top: 28%;
@@ -2134,6 +2169,51 @@ button {
   background:
     linear-gradient(90deg, rgba(255, 252, 239, 0.94), rgba(239, 226, 195, 0.84)),
     rgba(246, 236, 213, 0.92);
+}
+
+.event-effect-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.event-effect-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 4px 7px;
+  border: 1px solid rgba(44, 41, 36, 0.2);
+  border-radius: 999px;
+  color: rgba(44, 41, 36, 0.78);
+  background: rgba(255, 252, 239, 0.64);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.event-effect-chip--gain,
+.event-effect-chip--upgrade {
+  border-color: rgba(47, 124, 110, 0.32);
+  color: #2f7c6e;
+}
+
+.event-effect-chip--cost,
+.event-effect-chip--ink {
+  border-color: rgba(95, 29, 24, 0.32);
+  color: #7f1f1a;
+}
+
+.event-effect-chip--mind {
+  border-color: rgba(183, 53, 42, 0.28);
+  color: #7f1f1a;
+  background: rgba(183, 53, 42, 0.08);
+}
+
+.choice-action--event:hover:not(:disabled) .event-effect-chip {
+  border-color: rgba(246, 236, 213, 0.34);
+  color: rgba(246, 236, 213, 0.92);
+  background: rgba(246, 236, 213, 0.1);
 }
 
 @media (max-width: 820px) {

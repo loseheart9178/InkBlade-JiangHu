@@ -3,7 +3,7 @@ import { createAudioFeedback, type AudioFeedback } from "./audioFeedback";
 import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPersistence";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
-import { eventsById } from "../game/content/events";
+import { eventsById, type EventChoiceEffect, type GameEventChoice } from "../game/content/events";
 import {
   formatGlossaryTooltip,
   getCardGlossarySurfaces,
@@ -25,7 +25,7 @@ import {
   type SaveableScreen
 } from "../game/systems/save/save";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
-import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, StatusId } from "../game/systems/combat/types";
+import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, MindState, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import { createFinalBossDebugRun } from "../game/systems/debug/debugRun";
 import {
@@ -1258,7 +1258,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
       <span class="event-scene-brush event-scene-brush--two"></span>
     </div>
     <div class="event-copy">
-      <span class="event-kicker">${eventScene.kicker}</span>
+      <span class="event-kicker" data-testid="event-kicker">${eventScene.kicker}</span>
       <h3>${event.title}</h3>
       <p>${event.description}</p>
     </div>
@@ -1269,15 +1269,16 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   choices.className = "event-choices";
 
   for (const choice of getAvailableEventChoices(event, run.characterId)) {
-    const action = createAction(choice.label, choice.summary, () => {
+    const action = createEventChoiceAction(choice, () => {
+      const beforeLogbookCount = getUnlockedLogbookEntries(run).length;
       applyEventChoiceEffects(run, choice);
       recordLogbookEvent(run, event.id);
-      state.message = `${event.title}：${choice.label}`;
+      const afterLogbookCount = getUnlockedLogbookEntries(run).length;
+      const unlockedText = afterLogbookCount > beforeLogbookCount ? " · 墨录 +1" : "";
+      state.message = `${event.title}：${choice.label}${unlockedText}`;
       state.screen = "map";
       render();
     });
-    action.classList.add("choice-action--event");
-    action.dataset.testid = `event-choice-${choice.id}`;
     choices.append(action);
   }
 
@@ -2134,6 +2135,73 @@ function createAction(title: string, body: string, onClick: () => void): HTMLBut
   return button;
 }
 
+function createEventChoiceAction(choice: GameEventChoice, onClick: () => void): HTMLButtonElement {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "choice-action choice-action--event";
+  button.dataset.testid = `event-choice-${choice.id}`;
+  button.innerHTML = `
+    <strong>${escapeHtml(choice.label)}</strong>
+    <span>${escapeHtml(choice.summary)}</span>
+    <span class="event-effect-row">
+      ${choice.effects.map(createEventEffectChipMarkup).join("")}
+    </span>
+  `;
+  button.addEventListener("click", onClick);
+  return button;
+}
+
+function createEventEffectChipMarkup(effect: EventChoiceEffect): string {
+  const descriptor = describeEventEffect(effect);
+  return `<span class="event-effect-chip event-effect-chip--${descriptor.tone}" data-testid="event-effect-chip" data-effect-tone="${descriptor.tone}">${escapeHtml(descriptor.label)}</span>`;
+}
+
+function describeEventEffect(effect: EventChoiceEffect): { label: string; tone: "gain" | "cost" | "ink" | "mind" | "upgrade" } {
+  if (effect.type === "gold") {
+    return effect.amount >= 0
+      ? { label: `铜钱 +${effect.amount}`, tone: "gain" }
+      : { label: `铜钱 ${effect.amount}`, tone: "cost" };
+  }
+
+  if (effect.type === "heal") {
+    return { label: `生命 +${effect.amount}`, tone: "gain" };
+  }
+
+  if (effect.type === "hpLoss") {
+    return { label: `生命 -${effect.amount}`, tone: "cost" };
+  }
+
+  if (effect.type === "card") {
+    return { label: `获得 ${cardsById[effect.cardId]?.name ?? effect.cardId}`, tone: "gain" };
+  }
+
+  if (effect.type === "inkCardOffer") {
+    return { label: `墨灾 ${cardsById[effect.cardId]?.name ?? effect.cardId}`, tone: "ink" };
+  }
+
+  if (effect.type === "removeStarter") {
+    return { label: "删初始牌", tone: "upgrade" };
+  }
+
+  if (effect.type === "upgrade") {
+    return { label: "精修牌", tone: "upgrade" };
+  }
+
+  return { label: `心境 ${formatMindLabel(effect.mind)} +${effect.amount}`, tone: "mind" };
+}
+
+function formatMindLabel(mind: Exclude<MindState, "none">): string {
+  const labels: Record<Exclude<MindState, "none">, string> = {
+    ning: "宁",
+    nu: "怒",
+    bei: "悲",
+    mei: "魅",
+    luan: "乱",
+    wu: "悟"
+  };
+  return labels[mind];
+}
+
 function getMapNodeIcon(type: MapNode["type"]): string {
   const icons: Record<MapNode["type"], string> = {
     start: "渡",
@@ -2433,6 +2501,26 @@ function getEventScene(eventId: string): { key: string; mark: string; kicker: st
 
   if (eventId === "event_palace_lantern_banquet") {
     return { key: "palace", mark: "舞", kicker: "宫灯旧宴" };
+  }
+
+  if (eventId.includes("qingyin") || eventId.includes("grave_song")) {
+    return { key: "score", mark: "音", kicker: "蔡文姬 · 残谱" };
+  }
+
+  if (eventId.includes("star_board") || eventId.includes("empty_city")) {
+    return { key: "stars", mark: "星", kicker: "诸葛亮 · 星盘" };
+  }
+
+  if (eventId.includes("inn") || eventId.includes("river_bones") || eventId.includes("mountain_pass") || eventId.includes("training_yard")) {
+    return { key: "road", mark: "途", kicker: "江湖岔路" };
+  }
+
+  if (eventId.includes("seller_contract") || eventId.includes("name_register")) {
+    return { key: "contract", mark: "契", kicker: "墨书契约" };
+  }
+
+  if (eventId.includes("cloud_water") || eventId.includes("heart_mirror") || eventId.includes("unwritten")) {
+    return { key: "mirror", mark: "梦", kicker: "墨渊照心" };
   }
 
   if (eventId.includes("bamboo") || eventId.includes("qin") || eventId.includes("string")) {

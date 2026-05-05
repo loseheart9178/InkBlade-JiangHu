@@ -35,6 +35,51 @@ Next step:
 
 - Commit the Wave 30 plan, then implement the UI/event-surface polish with Playwright screenshots.
 
+Implementation update:
+
+- Implemented Wave 30 directly in the integration worktree because Wave 29 and Wave 30 reviewer/worker agents were stalling in this environment.
+- Added event-specific choice markup with compact effect chips for gold, cards, ink cards, healing, HP loss, starter removal, upgrades, and mind shifts.
+- Added logbook unlock feedback: resolving a newly recorded event appends `墨录 +1` to the map message and increments the run logbook count.
+- Expanded event scene metadata so Cai Wenji and Zhuge Liang Wave 29 role events get distinct score/star event surfaces, while neutral road/contract/mirror variants reuse existing battlefield assets.
+- Added CSS scene variants and readable chip tones without changing gameplay rules or Phaser renderer behavior.
+- Added Playwright screenshot-backed checks for Cai Wenji and Zhuge Liang event pages.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "polished choice effects|star-board event scene"
+Initial RED result: failed as expected. Cai Wenji still used `event-scene--bamboo`, Zhuge Liang still used `event-scene--ferry`, and the new chip/kicker expectations were absent.
+Final result after controller/CSS changes: passed. 2 Chromium tests, screenshot attachments captured.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "polished choice effects|star-board event scene|event route can upgrade|logbook opens"
+Result: passed. 4 Chromium tests.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 212 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed. 26 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Scene variety still uses CSS composition over existing battlefield assets rather than final bespoke event illustrations.
+- Event chips expose current effect primitives well, but more advanced conditional event logic will need a richer descriptor layer later.
+- Mobile-specific event layout remains out of scope per the desktop-first EA target.
+
+Next step:
+
+- Commit Wave 30 implementation, then start Wave 31. Candidate scope: card reward/shop presentation polish or first pass on event-specific static art assets, still excluding Steam/storefront/release packaging.
+
 ### 2026-05-05 21:47 Asia/Shanghai
 
 Wave 29 EA Event And Logbook Expansion planning started in `.worktrees/wave6-integration` on branch `codex/wave29-ea-event-logbook-plan`.
