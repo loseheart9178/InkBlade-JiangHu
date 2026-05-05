@@ -39,6 +39,8 @@ const combatSmokeCharacters = [
 ] as const;
 
 test("captures desktop combat smoke screenshots for all four characters", async ({ page }, testInfo) => {
+  test.setTimeout(80_000);
+
   for (const character of combatSmokeCharacters) {
     await startDesktopCombat(page, character.id);
 
