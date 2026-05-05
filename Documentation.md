@@ -2,6 +2,32 @@
 
 ## Status Log
 
+### 2026-05-05 19:02 Asia/Shanghai
+
+Wave 23 Balance Report Watchlist Readability planning started in `.worktrees/wave6-integration` on branch `codex/wave23-balance-report-watchlist-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `src/game/systems/debug/balanceReport.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave23-balance-report-watchlist.md`
+
+Current issue:
+
+- The multi-seed balance report's `Healing pressure watchlist` currently repeats one entry per route, so 3 seeds x 4 characters becomes 12 repeated entries.
+- Wave 22 made the HP band evidence more important; the report should show one watchlist entry per stressed character with the aggregate lowest HP band.
+
+Next step:
+
+- Commit the Wave 23 plan, then create implementation/test worktrees and add a failing markdown-output regression.
+
 ### 2026-05-05 17:13 Asia/Shanghai
 
 Wave 22 Zhuge Liang Balance Stability integrated in `.worktrees/wave6-integration` on branch `codex/wave22-zhuge-balance-stability`.
