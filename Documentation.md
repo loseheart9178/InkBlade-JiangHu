@@ -2,6 +2,67 @@
 
 ## Status Log
 
+### 2026-05-05 13:37 Asia/Shanghai
+
+Wave 17 Handoff NPM Scripts integrated in `.worktrees/wave6-integration` on branch `codex/wave17-handoff-npm-scripts`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-05-wave17-handoff-npm-scripts.md`
+- `docs/superpowers/plans/2026-05-05-wave16-alpha-handoff-report.md`
+
+What changed:
+
+- Added `report:balance` and `report:handoff` npm script shortcuts for local alpha handoff artifacts.
+- Added `reports/` to `.gitignore` so generated handoff artifacts stay local.
+- Added `tests/playtest/package-report-scripts.test.ts` to lock the package script strings and ignore rule.
+- Updated README and alpha acceptance to prefer `npm run report:balance` and `npm run report:handoff` while keeping bundled Node direct commands available.
+
+Worker worktrees integrated:
+
+- `codex/wave17-package-scripts` at `d4806f0`, commit `chore: add handoff report npm scripts`. The package worker subagent timed out before producing output, so the main thread completed this worktree.
+- `codex/wave17-handoff-docs` at `aab2777`, commit `docs: document handoff npm scripts`. The docs worker subagent timed out before producing output, so the main thread completed this worktree.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/package-report-scripts.test.ts tests/playtest/alpha-handoff-report-script.test.ts tests/playtest/balance-report-script.test.ts --reporter=dot
+Result: passed. 3 files / 3 tests.
+
+grep -n "report:handoff" README.md docs/playtest/alpha-acceptance.md
+Result: passed. README and alpha acceptance both document the short command.
+
+grep -n "reports/" README.md .gitignore
+Result: passed. README documents the local artifact directory and `.gitignore` ignores it.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md >/mnt/d/tmp/inkblade-bundled-balance.log
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md >/mnt/d/tmp/inkblade-bundled-handoff.log
+test -s reports/balance-report.md
+test -s reports/alpha-handoff.md
+grep -n "Inkblade Alpha Handoff Report" reports/alpha-handoff.md
+rm -rf reports /mnt/d/tmp/inkblade-bundled-balance.log /mnt/d/tmp/inkblade-bundled-handoff.log /mnt/d/tmp/inkblade-npm-balance.log /mnt/d/tmp/inkblade-npm-handoff.log
+Result: passed. Bundled Node generated both report artifacts and temporary files were removed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional GPT Image 2 bitmap card-art quality pass.
+- The shell's default `/usr/bin/node` is v18.19.1 and cannot run the Vite/Rolldown stack because it lacks `node:util.styleText`; bundled Node remains the verified runtime for autonomous worktrees.
+
+Next step:
+
+- Commit the integration branch and continue to the next autonomous round.
+
 ### 2026-05-05 13:26 Asia/Shanghai
 
 Wave 17 Handoff NPM Scripts planning started in `.worktrees/wave6-integration` on branch `codex/wave17-handoff-npm-scripts-plan`.
