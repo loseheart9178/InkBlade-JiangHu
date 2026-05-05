@@ -8,8 +8,15 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const manifest = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8"));
 const nodeVersion = process.env.INKBLADE_PREFLIGHT_NODE ?? process.version;
 const generatedAt = process.env.INKBLADE_PREFLIGHT_NOW ?? new Date().toISOString();
-const branch = process.env.INKBLADE_PREFLIGHT_BRANCH ?? getGitValue(["branch", "--show-current"]);
-const commit = process.env.INKBLADE_PREFLIGHT_COMMIT ?? getGitValue(["rev-parse", "--short", "HEAD"]);
+const checkout = readCheckoutMetadata();
+const branch = process.env.INKBLADE_PREFLIGHT_BRANCH
+  ?? getGitValue(["branch", "--show-current"])
+  ?? checkout.branch
+  ?? "unknown";
+const commit = process.env.INKBLADE_PREFLIGHT_COMMIT
+  ?? getGitValue(["rev-parse", "--short", "HEAD"])
+  ?? checkout.commit
+  ?? "unknown";
 const reportBalance = manifest.scripts?.["report:balance"];
 const reportHandoff = manifest.scripts?.["report:handoff"];
 
@@ -52,12 +59,95 @@ function fileExists(path) {
 
 function getGitValue(args) {
   try {
-    return execFileSync("git", args, {
+    const value = execFileSync("git", args, {
       cwd: root,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"]
     }).trim();
+    return value || undefined;
   } catch {
-    return "unknown";
+    return undefined;
   }
+}
+
+function readCheckoutMetadata() {
+  const gitPath = resolve(root, ".git");
+  if (!existsSync(gitPath)) {
+    return {};
+  }
+
+  const gitDir = resolveGitPath(readGitDir(gitPath), root);
+  const head = readText(resolve(gitDir, "HEAD"));
+  if (!head) {
+    return {};
+  }
+
+  if (!head.startsWith("ref:")) {
+    return { branch: "detached", commit: shortSha(head) };
+  }
+
+  const refName = head.slice("ref:".length).trim();
+  const commonDir = readCommonDir(gitDir);
+  const commit = readText(resolve(commonDir, refName)) ?? readPackedRef(commonDir, refName);
+
+  return {
+    branch: refName.replace(/^refs\/heads\//, ""),
+    commit: commit ? shortSha(commit) : undefined
+  };
+}
+
+function readGitDir(gitPath) {
+  const gitFile = readText(gitPath);
+  if (!gitFile?.startsWith("gitdir:")) {
+    return gitPath;
+  }
+
+  return gitFile.slice("gitdir:".length).trim();
+}
+
+function readCommonDir(gitDir) {
+  const commonDir = readText(resolve(gitDir, "commondir"));
+  return commonDir ? resolveGitPath(commonDir, gitDir) : gitDir;
+}
+
+function readPackedRef(commonDir, refName) {
+  const packedRefs = readText(resolve(commonDir, "packed-refs"));
+  if (!packedRefs) {
+    return undefined;
+  }
+
+  const line = packedRefs
+    .split(/\r?\n/)
+    .find((entry) => !entry.startsWith("#") && entry.endsWith(` ${refName}`));
+  return line?.split(" ")[0];
+}
+
+function readText(path) {
+  try {
+    return readFileSync(path, "utf8").trim();
+  } catch {
+    return undefined;
+  }
+}
+
+function resolveGitPath(path, base) {
+  const normalized = path.replace(/\\/g, "/");
+  const wslMount = normalized.match(/^\/mnt\/([a-zA-Z])\/(.+)$/);
+  if (process.platform === "win32" && wslMount) {
+    return `${wslMount[1].toUpperCase()}:/${wslMount[2]}`;
+  }
+
+  if (/^[a-zA-Z]:\//.test(normalized)) {
+    return normalized;
+  }
+
+  if (normalized.startsWith("/") && process.platform !== "win32") {
+    return normalized;
+  }
+
+  return resolve(base, path);
+}
+
+function shortSha(value) {
+  return value.trim().slice(0, 7);
 }

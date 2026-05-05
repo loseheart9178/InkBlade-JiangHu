@@ -31,4 +31,19 @@ describe("handoff preflight script", () => {
     expect(stdout).toContain("- `docs/playtest/external-bug-intake.md`: PASS");
     expect(stdout).toContain("Next: run `npm run report:balance` then `npm run report:handoff`.");
   });
+
+  it("resolves checkout metadata without environment overrides", () => {
+    const env = { ...process.env };
+    delete env.INKBLADE_PREFLIGHT_BRANCH;
+    delete env.INKBLADE_PREFLIGHT_COMMIT;
+
+    const stdout = execFileSync(process.execPath, [scriptPath], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env
+    });
+
+    expect(stdout).not.toContain("- Branch: `unknown`");
+    expect(stdout).toMatch(/- Commit: `[0-9a-f]{7}`/);
+  });
 });
