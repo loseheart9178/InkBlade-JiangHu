@@ -8,6 +8,8 @@ Wave 7 through Wave 10 balance-report sections remain historical references belo
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
 
+For release handoff, generate `reports/alpha-handoff.md` with `scripts/alpha-handoff-report.mjs` after the balance artifact exists.
+
 ## Runnable Commands
 
 Use the bundled Node runtime for autonomous worktrees:
@@ -30,6 +32,7 @@ Useful focused reruns:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
 ```
 
 ## Playable Scope
