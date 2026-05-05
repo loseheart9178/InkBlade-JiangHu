@@ -2,6 +2,37 @@
 
 ## Status Log
 
+### 2026-05-05 13:41 Asia/Shanghai
+
+Wave 18 Node Runtime Requirements planning started in `.worktrees/wave6-integration` on branch `codex/wave18-node-runtime-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/superpowers/plans/2026-05-05-wave17-handoff-npm-scripts.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave18-node-runtime-requirements.md`
+
+Scope:
+
+- Declare Node >=24 in package metadata.
+- Add a focused runtime requirement regression test.
+- Clarify README and playtest docs so external testers use Node 24+ or the bundled Node v24.14.0 path.
+- Leave Milestone 58 as the only open optional GPT Image 2 bitmap card-art quality pass.
+
+Next step:
+
+- Commit the Wave 18 plan, then create package-runtime and docs-runtime worktrees for implementation.
+
 ### 2026-05-05 13:37 Asia/Shanghai
 
 Wave 17 Handoff NPM Scripts integrated in `.worktrees/wave6-integration` on branch `codex/wave17-handoff-npm-scripts`.
