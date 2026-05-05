@@ -97,6 +97,10 @@ describe("run simulator", () => {
 
   it("builds a deterministic multi-seed balance aggregate", () => {
     const report = createBalanceReport({ seeds: [9001, 9002, 9003] });
+    const markdown = formatBalanceReportMarkdown(report);
+    const watchlistLine = markdown
+      .split("\n")
+      .find((line) => line.startsWith("- Healing pressure watchlist:"));
 
     expect(report.seed).toBe(9001);
     expect(report.seeds).toEqual([9001, 9002, 9003]);
@@ -116,6 +120,10 @@ describe("run simulator", () => {
     expect(zhugeRoutes.every((route) => route.turnCounts.total <= 90)).toBe(true);
     expect(zhugeRoutes.every((route) => !route.timeoutRisk.hasTimeout)).toBe(true);
     expect(zhugeRoutes.every((route) => route.unsafeDamageSpikes.length === 0)).toBe(true);
+    expect(watchlistLine).toContain("诸葛亮:high lowest HP 8/10/14 across 3 routes");
+    expect(watchlistLine).toContain("赵云:high lowest HP 29/38/43 across 3 routes");
+    expect(watchlistLine?.match(/诸葛亮/g)).toHaveLength(1);
+    expect(watchlistLine?.match(/赵云/g)).toHaveLength(1);
   });
 
   it("flags missing enemies, timeout-prone fights, and unsafe damage spikes", () => {

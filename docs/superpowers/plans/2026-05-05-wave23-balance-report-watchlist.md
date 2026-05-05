@@ -46,18 +46,18 @@ Healing pressure watchlist: 赵云:high lowest HP 29/38/43 across 3 routes; 貂�
 - Create: `docs/superpowers/plans/2026-05-05-wave23-balance-report-watchlist.md`
 - Modify: `Documentation.md`
 
-- [ ] **Step 1: Record planning entry**
+- [x] **Step 1: Record planning entry**
 
 Add a top `Documentation.md` entry with docs read, current issue, plan path, and next step.
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 ```bash
 grep -n "Wave 23 Balance Report" Documentation.md docs/superpowers/plans/2026-05-05-wave23-balance-report-watchlist.md
 git diff --check
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add Documentation.md docs/superpowers/plans/2026-05-05-wave23-balance-report-watchlist.md
@@ -70,7 +70,7 @@ git commit -m "docs: plan wave23 balance report watchlist"
 
 - Modify: `tests/playtest/run-simulator.test.ts`
 
-- [ ] **Step 1: Add markdown assertion**
+- [x] **Step 1: Add markdown assertion**
 
 In `builds a deterministic multi-seed balance aggregate`, after `const report = createBalanceReport({ seeds: [9001, 9002, 9003] });`, add:
 
@@ -86,7 +86,7 @@ expect(watchlistLine?.match(/诸葛亮/g)).toHaveLength(1);
 expect(watchlistLine?.match(/赵云/g)).toHaveLength(1);
 ```
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
@@ -100,7 +100,7 @@ Expected first result: fail because the current line repeats route-level entries
 
 - Modify: `src/game/systems/debug/balanceReport.ts`
 
-- [ ] **Step 1: Add helper**
+- [x] **Step 1: Add helper**
 
 Add a helper near `createFindings`:
 
@@ -129,7 +129,7 @@ function createHealingPressureWatchlist(routes: BalanceRouteEvidence[], aggregat
 }
 ```
 
-- [ ] **Step 2: Use helper in findings**
+- [x] **Step 2: Use helper in findings**
 
 Replace the current route-level `stressedRoutes` block with:
 
@@ -140,7 +140,7 @@ if (stressedCharacters.length > 0) {
 }
 ```
 
-- [ ] **Step 3: Verify focused test**
+- [x] **Step 3: Verify focused test**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
@@ -155,7 +155,7 @@ Expected: pass.
 - Modify: `Documentation.md`
 - Modify: `docs/superpowers/plans/2026-05-05-wave23-balance-report-watchlist.md`
 
-- [ ] **Step 1: Verify report output**
+- [x] **Step 1: Verify report output**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 | grep "Healing pressure watchlist"
@@ -163,7 +163,7 @@ Expected: pass.
 
 Expected: one watchlist item per character, separated by semicolons, with Zhuge Liang `8/10/14`.
 
-- [ ] **Step 2: Run broad gates**
+- [x] **Step 2: Run broad gates**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
@@ -172,11 +172,11 @@ Expected: one watchlist item per character, separated by semicolons, with Zhuge 
 git diff --check
 ```
 
-- [ ] **Step 3: Record final Documentation entry**
+- [x] **Step 3: Record final Documentation entry**
 
 Record changed files, subagent/worktree status, verification commands/results, and residual risks.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add Documentation.md docs/superpowers/plans/2026-05-05-wave23-balance-report-watchlist.md src/game/systems/debug/balanceReport.ts tests/playtest/run-simulator.test.ts

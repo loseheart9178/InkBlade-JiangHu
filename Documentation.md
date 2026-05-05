@@ -2,6 +2,66 @@
 
 ## Status Log
 
+### 2026-05-05 19:13 Asia/Shanghai
+
+Wave 23 Balance Report Watchlist Readability integrated in `.worktrees/wave6-integration` on branch `codex/wave23-balance-report-watchlist`.
+
+Docs/files read / carried through implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `src/game/systems/debug/balanceReport.ts`
+- `docs/superpowers/plans/2026-05-05-wave23-balance-report-watchlist.md`
+
+What changed:
+
+- Added a markdown-output regression to the deterministic multi-seed simulator test so the healing-pressure watchlist must include one entry per stressed character and not repeat a character once per route.
+- Replaced the route-level watchlist finding with a pure debug-report helper that groups by `characterList`, keeps the highest healing-pressure rating seen for that character, and includes the aggregate lowest post-combat HP band plus route count.
+- Confirmed the report line now reads as character-level evidence, for example Zhuge Liang `high lowest HP 8/10/14 across 3 routes`, instead of 12 repeated route-level labels.
+
+Worker worktrees / subagents:
+
+- Created `codex/wave23-watchlist-explorer` at `.worktrees/wave23-watchlist-explorer` for read-only implementation advice. The explorer recommended grouping by `characterList` order, using aggregate HP bands, and retaining the highest pressure rating per character.
+- Created `codex/wave23-watchlist-tester` at `.worktrees/wave23-watchlist-tester` for read-only verification planning. The tester recommended the simulator regression, balance-report script output check, full Vitest, TypeScript, Vite build, and `git diff --check`.
+- Both worker subagents completed without edits on their worktrees; both worktrees were clean before removal.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
+Result before implementation: failed as expected because the watchlist still emitted route-level entries and omitted lowest HP bands.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts --reporter=dot
+Result after implementation: passed. 1 file / 7 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 | grep "Healing pressure watchlist"
+Result: passed. The finding contains one semicolon-separated item per stressed character and includes Zhuge Liang lowest HP band 8/10/14.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/playtest/balance-report-script.test.ts --reporter=dot
+Result: passed. 2 files / 8 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 200 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 44 modules.
+```
+
+Known gaps / risks:
+
+- The watchlist remains intentionally conservative: all four characters are still labeled `high` because the existing pressure classifier is route-evidence based. Wave 23 only made the finding readable; it did not retune healing-pressure thresholds.
+- The report still carries the older "Wave 7 Alpha Balance Report" display label, which is stale relative to the current Wave 23 evidence and is a good candidate for the next autonomous cleanup wave.
+
+Next step:
+
+- Commit Wave 23, then start Wave 24 by refreshing the stale balance report label/baseline wording without changing simulation outcomes.
+
 ### 2026-05-05 19:02 Asia/Shanghai
 
 Wave 23 Balance Report Watchlist Readability planning started in `.worktrees/wave6-integration` on branch `codex/wave23-balance-report-watchlist-plan`.

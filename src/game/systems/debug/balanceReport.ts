@@ -391,14 +391,44 @@ function createFindings(routes: BalanceRouteEvidence[], aggregate: BalanceReport
     `Highest healing pressure rating was ${aggregate.highestHealingPressure}.`
   ];
 
-  const stressedRoutes = routes
-    .filter((route) => route.healingPressure.rating !== "low")
-    .map((route) => `${route.characterName}:${route.healingPressure.rating}`);
-  if (stressedRoutes.length > 0) {
-    findings.push(`Healing pressure watchlist: ${stressedRoutes.join(", ")}.`);
+  const stressedCharacters = createHealingPressureWatchlist(routes, aggregate);
+  if (stressedCharacters.length > 0) {
+    findings.push(`Healing pressure watchlist: ${stressedCharacters.join("; ")}.`);
   }
 
   return findings;
+}
+
+function createHealingPressureWatchlist(routes: BalanceRouteEvidence[], aggregate: BalanceReportAggregate): string[] {
+  return characterList
+    .map((character) => {
+      const characterRoutes = routes.filter((route) => route.characterId === character.id);
+      if (characterRoutes.length === 0) {
+        return undefined;
+      }
+
+      const highestPressure = characterRoutes.reduce<BalanceHealingPressure["rating"]>((highest, route) => {
+        return PRESSURE_ORDER[route.healingPressure.rating] > PRESSURE_ORDER[highest] ? route.healingPressure.rating : highest;
+      }, "low");
+
+      if (highestPressure === "low") {
+        return undefined;
+      }
+
+      const characterAggregate = aggregate.characters[character.id];
+      const lowestBand = [
+        characterAggregate.minLowestPostCombatHp,
+        characterAggregate.medianLowestPostCombatHp,
+        characterAggregate.maxLowestPostCombatHp
+      ].join("/");
+
+      return `${character.name}:${highestPressure} lowest HP ${lowestBand} across ${characterAggregate.totalRuns} ${formatRouteCount(characterAggregate.totalRuns)}`;
+    })
+    .filter((item): item is string => Boolean(item));
+}
+
+function formatRouteCount(count: number): string {
+  return count === 1 ? "route" : "routes";
 }
 
 function createEncounterLabel(encounter: BattlePlanResult): string {
