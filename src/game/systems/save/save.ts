@@ -178,10 +178,11 @@ function normalizeSaveSnapshot(value: unknown): ControllerSaveSnapshot | undefin
     return undefined;
   }
 
-  const combat = record.combat === undefined ? undefined : normalizeCombatState(record.combat);
-  if (record.screen === "combat" && !combat) {
+  const normalizedCombat = record.combat === undefined ? undefined : normalizeCombatState(record.combat);
+  if (record.screen === "combat" && !normalizedCombat) {
     return undefined;
   }
+  const combat = record.screen === "combat" ? normalizedCombat : undefined;
 
   return {
     screen: record.screen,

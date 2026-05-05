@@ -112,6 +112,39 @@ describe("save system", () => {
     expect(loaded?.message).toContain("最后一笔");
   });
 
+  it("drops stale combat payloads when loading non-combat save screens", () => {
+    const storage = new MemoryStorage();
+    const run = createRun("diaochan", { mapSeed: 14 });
+    travelToNode(run, "battle-1");
+    const combat = createCombat({
+      character: charactersById.diaochan,
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      playerHp: run.hp,
+      rngSeed: 33,
+      relicIds: [...run.relicIds],
+      shuffleDeck: false
+    });
+
+    storage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
+      version: 1,
+      savedAt: "2026-05-05T00:00:00.000Z",
+      state: {
+        screen: "map",
+        run,
+        combat,
+        rewardCardIds: [],
+        deckOpen: false,
+        message: "旧存档带着战斗残影。"
+      }
+    }));
+
+    const loaded = loadSavedGame(storage);
+    expect(loaded?.screen).toBe("map");
+    expect(loaded?.combat).toBeUndefined();
+    expect(loaded?.message).toContain("战斗残影");
+  });
+
   it("rejects invalid or mismatched save envelopes", () => {
     const storage = new MemoryStorage();
 
