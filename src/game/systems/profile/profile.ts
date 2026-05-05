@@ -165,10 +165,12 @@ function normalizeStats(stats: unknown): ProfileStats {
     return createEmptyStats();
   }
 
+  const victories = normalizeCount(stats.victories);
+  const defeats = normalizeCount(stats.defeats);
   return {
-    totalRuns: normalizeCount(stats.totalRuns),
-    victories: normalizeCount(stats.victories),
-    defeats: normalizeCount(stats.defeats)
+    totalRuns: Math.max(normalizeCount(stats.totalRuns), victories + defeats),
+    victories,
+    defeats
   };
 }
 
