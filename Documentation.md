@@ -2,6 +2,37 @@
 
 ## Status Log
 
+### 2026-05-05 15:03 Asia/Shanghai
+
+Wave 20 Release Gate Refresh planning started in `.worktrees/wave6-integration` on branch `codex/wave20-release-gate-refresh-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/playtest/external-bug-intake.md`
+- `docs/superpowers/plans/2026-05-05-wave19-handoff-preflight.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave20-release-gate-refresh.md`
+
+Scope:
+
+- Run the full bundled Node release gate after Waves 15-19.
+- Refresh release-facing docs with exact current gate results.
+- Preserve desktop-only alpha handoff scope and the optional Milestone 58 art gap.
+
+Next step:
+
+- Commit the Wave 20 plan, then create the release-gate integration branch.
+
 ### 2026-05-05 14:58 Asia/Shanghai
 
 Wave 19 Handoff Preflight integrated in `.worktrees/wave6-integration` on branch `codex/wave19-handoff-preflight`.
