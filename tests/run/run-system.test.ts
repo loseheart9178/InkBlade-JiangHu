@@ -42,9 +42,13 @@ describe("run system", () => {
   it("assigns character-specific event nodes for the first route event", () => {
     const zhaoRun = createRun("zhaoyun");
     const diaoRun = createRun("diaochan");
+    const caiRun = createRun("caiwenji");
+    const zhugeRun = createRun("zhugeliang");
 
     expect(zhaoRun.mapNodes.find((node) => node.id === "event-1")?.eventId).toBe("event_changban_echo");
     expect(diaoRun.mapNodes.find((node) => node.id === "event-1")?.eventId).toBe("event_palace_lantern_banquet");
+    expect(caiRun.mapNodes.find((node) => node.id === "event-1")?.eventId).toBe("event_qingyin_lost_score");
+    expect(zhugeRun.mapNodes.find((node) => node.id === "event-1")?.eventId).toBe("event_star_board_argument");
   });
 
   it("creates deterministic route variants from a map seed", () => {
@@ -144,8 +148,37 @@ describe("run system", () => {
     expect(advanceToNextChapter(caiRun)).toBe(true);
     expect(advanceToNextChapter(zhugeRun)).toBe(true);
 
-    expect(caiRun.mapNodes.find((node) => node.id === "event-2")?.eventId).toBe("event_broken_string_elder");
-    expect(zhugeRun.mapNodes.find((node) => node.id === "event-2")?.eventId).toBe("event_wordless_bamboo_scroll");
+    expect(caiRun.mapNodes.find((node) => node.id === "event-2")?.eventId).toBe("event_bamboo_grave_song");
+    expect(zhugeRun.mapNodes.find((node) => node.id === "event-2")?.eventId).toBe("event_empty_city_wind");
+  });
+
+  it("routes Wave 29 neutral events into seeded chapter maps", () => {
+    const luoshuiEvents = new Set<string>();
+    const changanEvents = new Set<string>();
+    const moyuanEvents = new Set<string>();
+
+    for (let seed = 0; seed < 18; seed += 1) {
+      const run = createRun("zhaoyun", { mapSeed: seed });
+      run.mapNodes.flatMap((node) => node.eventId ? [node.eventId] : []).forEach((eventId) => luoshuiEvents.add(eventId));
+
+      expect(advanceToNextChapter(run)).toBe(true);
+      expect(advanceToNextChapter(run)).toBe(true);
+      run.mapNodes.flatMap((node) => node.eventId ? [node.eventId] : []).forEach((eventId) => changanEvents.add(eventId));
+
+      expect(advanceToNextChapter(run)).toBe(true);
+      run.mapNodes.flatMap((node) => node.eventId ? [node.eventId] : []).forEach((eventId) => moyuanEvents.add(eventId));
+    }
+
+    expect([...luoshuiEvents]).toEqual(
+      expect.arrayContaining([
+        "event_old_roadside_inn",
+        "event_river_bones_lantern",
+        "event_mountain_pass_riddle",
+        "event_silent_training_yard"
+      ])
+    );
+    expect([...changanEvents]).toEqual(expect.arrayContaining(["event_ink_seller_contract", "event_broken_name_register"]));
+    expect([...moyuanEvents]).toContain("event_cloud_water_dream");
   });
 
   it("advances from Chang'an into Moyuan and prepares an ending state after the final boss", () => {

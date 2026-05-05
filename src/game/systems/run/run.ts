@@ -85,7 +85,11 @@ const LATE_EVENT_POOL = [
   "event_deserted_armory",
   "event_silent_bridge",
   "event_red_sleeve_letter",
-  "event_black_lotus_pool"
+  "event_black_lotus_pool",
+  "event_old_roadside_inn",
+  "event_river_bones_lantern",
+  "event_mountain_pass_riddle",
+  "event_silent_training_yard"
 ];
 
 const BAMBOO_EVENT_POOL = [
@@ -103,13 +107,16 @@ const CHANGAN_EVENT_POOL = [
   "event_rewritten_history_street",
   "event_white_robed_stelae",
   "event_faceless_stage",
-  "event_unfinished_chessboard"
+  "event_unfinished_chessboard",
+  "event_ink_seller_contract",
+  "event_broken_name_register"
 ];
 
 const MOYUAN_EVENT_POOL = [
   "event_heart_mirror",
   "event_unwritten_page",
-  "event_broken_brush_altar"
+  "event_broken_brush_altar",
+  "event_cloud_water_dream"
 ];
 
 const ARCHETYPE_LABELS: Record<CardArchetypeId, string> = {
@@ -1169,7 +1176,7 @@ function createChapterOneMap(characterId: string, mapSeed: number): MapNode[] {
     {
       id: "event-2",
       type: "event",
-      label: lateEventId === "event_black_rain_ferry" ? "黑雨渡口" : firstEvent.label,
+      label: eventsById[lateEventId]?.title ?? (lateEventId === "event_black_rain_ferry" ? "黑雨渡口" : firstEvent.label),
       floor: 2,
       lane: 2,
       eventId: lateEventId,
@@ -1513,7 +1520,7 @@ function createChapterThreeMap(characterId: string, mapSeed: number): MapNode[] 
 
 function createFinalChapterMap(characterId: string, mapSeed: number): MapNode[] {
   const roleQuestionLabel = characterId === "diaochan" ? "倾城之影" : "无归白龙";
-  const roleQuestionEventId = MOYUAN_EVENT_POOL[Math.abs(mapSeed) % 2];
+  const roleQuestionEventId = MOYUAN_EVENT_POOL[Math.abs(mapSeed) % MOYUAN_EVENT_POOL.length];
 
   return [
     {
@@ -1589,6 +1596,14 @@ function getCharacterEventNode(characterId: string): { label: string; eventId: s
     return { label: "宫灯旧宴", eventId: "event_palace_lantern_banquet" };
   }
 
+  if (characterId === "caiwenji") {
+    return { label: "清音遗谱", eventId: "event_qingyin_lost_score" };
+  }
+
+  if (characterId === "zhugeliang") {
+    return { label: "星盘争局", eventId: "event_star_board_argument" };
+  }
+
   return { label: "黑雨渡口", eventId: "event_black_rain_ferry" };
 }
 
@@ -1602,11 +1617,11 @@ function getChapterTwoRoleEventNode(characterId: string): { label: string; event
   }
 
   if (characterId === "caiwenji") {
-    return { label: "断弦老人", eventId: "event_broken_string_elder" };
+    return { label: "竹下归歌", eventId: "event_bamboo_grave_song" };
   }
 
   if (characterId === "zhugeliang") {
-    return { label: "无字竹简", eventId: "event_wordless_bamboo_scroll" };
+    return { label: "空城风声", eventId: "event_empty_city_wind" };
   }
 
   return { label: "竹林问心", eventId: "event_bamboo_heart_question" };

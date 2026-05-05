@@ -37,6 +37,62 @@ Next step:
 
 - Commit the Wave 29 plan, then implement event/logbook content and baseline tests.
 
+Implementation update:
+
+- Committed the Wave 29 plan as `7e72c84`.
+- Started three worker agents for events, logbook, and tests. They exceeded the wait window and were shut down; partial logbook/test edits that landed in the shared worktree were reviewed and preserved, then the main integration thread completed the remaining event and route integration directly.
+- Added 11 events, raising the event baseline from 29 to 40:
+  - Cai Wenji: `清音遗谱`, `竹下归歌`
+  - Zhuge Liang: `星盘争局`, `空城风声`
+  - Neutral crossroads: `旧道客栈`, `墨商契`, `河骨灯`, `山隘问答`, `无声校场`, `残名簿`, `云水一梦`
+- Added 8 logbook fragments, raising the logbook baseline from 14 to 22.
+- Routed the new character events into actual maps: Cai Wenji and Zhuge Liang now receive Wave 29 story events in chapter one and chapter two instead of defaulting to generic/older role events.
+- Routed the new neutral events into seeded Luoshui, Chang'an, and Moyuan event pools so repeated browser runs can surface them.
+- Updated `README.md` with the current EA baseline: 93 cards, 32 relics, 40 events, 22 logbook fragments, 19 enemies, 4 chapters, 4 characters, 8 methods.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/events/event-system.test.ts tests/data/content.test.ts --reporter=dot
+Initial RED result: failed as expected. Events were still 29, all 11 Wave 29 event ids were missing, and the new logbook entries pointed at missing event ids.
+Final result after adding events: passed. 2 files / 43 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/run/run-system.test.ts --reporter=dot
+Initial RED result: failed as expected. Cai/Zhuge route events and seeded neutral event pools had not yet been wired.
+Final result after route integration: passed. 1 file / 31 tests.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/events/event-system.test.ts tests/data/content.test.ts tests/run/run-system.test.ts tests/compendium/compendium-system.test.ts --reporter=dot
+Result: passed. 4 files / 80 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 212 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "event route can upgrade|logbook opens"
+Result: passed. 2 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed. 25 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Wave 29 increases event/story breadth but does not add new conditional event logic; all choices intentionally use existing effect primitives.
+- Event-pool odds changed for seeded maps, so future balance/playtest waves should watch whether event rewards now overfeed healing, upgrades, or ink options.
+- Worker subagents still stalled in this environment; the main integration thread completed the milestone directly after timeout.
+
+Next step:
+
+- Commit Wave 29 implementation, then start Wave 30 on EA commercial-quality polish. Candidate scope: event/card reward UI polish and event art/scene variety, still excluding Steam/storefront/release packaging.
+
 ### 2026-05-05 21:31 Asia/Shanghai
 
 Wave 28 EA Relic Pool Expansion I planning started in `.worktrees/wave6-integration` on branch `codex/wave28-ea-relic-pool-plan`.

@@ -886,6 +886,298 @@ export const eventList: GameEventDefinition[] = [
         ]
       }
     ]
+  },
+  {
+    id: "event_qingyin_lost_score",
+    title: "清音遗谱",
+    character: "caiwenji",
+    description: "半页残谱贴在雨墙上，缺口处不断渗出旧日哭声。",
+    choices: [
+      {
+        id: "continue_clear_phrase",
+        label: "续清音",
+        summary: "蔡文姬专属：获得幽兰余响，宁 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_yulan_echo" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "let_score_bleed",
+        label: "让残谱泣声",
+        summary: "获得未写之页，失去5点生命，悲 +1。",
+        effects: [
+          { type: "inkCardOffer", cardId: "ink_unwritten_page" },
+          { type: "hpLoss", amount: 5 },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_bamboo_grave_song",
+    title: "竹下归歌",
+    character: "caiwenji",
+    description: "竹根间埋着无名旧骨，每一阵风都像未归人的合唱。",
+    choices: [
+      {
+        id: "qin_for_buried_names",
+        label: "为旧骨调弦",
+        summary: "蔡文姬专属：获得洗雨调，悲 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_cleansing_rain" },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      },
+      {
+        id: "bury_false_bamboo_slip",
+        label: "埋下伪简",
+        summary: "移除一张初始牌，悟 +1。",
+        effects: [
+          { type: "removeStarter" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_star_board_argument",
+    title: "星盘争局",
+    character: "zhugeliang",
+    description: "星盘上两条墨线互相争夺命数，棋子落下前已经有人被改写。",
+    choices: [
+      {
+        id: "break_one_star_line",
+        label: "断一线星路",
+        summary: "诸葛亮专属：获得星门，悟 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_star_gate" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      },
+      {
+        id: "accept_dark_calculation",
+        label: "收下墨算",
+        summary: "获得洛水墨潮，失去4点生命，乱 +1。",
+        effects: [
+          { type: "inkCardOffer", cardId: "ink_luoshui_tide" },
+          { type: "hpLoss", amount: 4 },
+          { type: "mind", mind: "luan", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_empty_city_wind",
+    title: "空城风声",
+    character: "zhugeliang",
+    description: "城门大开，街上无人，只有风在替某个旧计反复辩解。",
+    choices: [
+      {
+        id: "open_empty_gate",
+        label: "开门听风",
+        summary: "诸葛亮专属：获得空城，宁 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_empty_city" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "borrow_unseasonal_wind",
+        label: "借逆时之风",
+        summary: "获得借东风，失去3点生命，悟 +1。",
+        effects: [
+          { type: "card", cardId: "zhuge_borrow_wind" },
+          { type: "hpLoss", amount: 3 },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_old_roadside_inn",
+    title: "旧道客栈",
+    description: "客栈灯火悬在黑雨之外，掌柜却记得每个未曾住下的人。",
+    choices: [
+      {
+        id: "share_warm_wine",
+        label: "分饮温酒",
+        summary: "回复10点生命，宁 +1。",
+        effects: [
+          { type: "heal", amount: 10 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "buy_roadside_secret",
+        label: "买一段旧闻",
+        summary: "花费15铜钱，获得藏锋，悟 +1。",
+        effects: [
+          { type: "gold", amount: -15 },
+          { type: "card", cardId: "common_cangfeng" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_ink_seller_contract",
+    title: "墨商契",
+    description: "墨商撑着白伞，说他的墨只写捷径，不写代价。",
+    choices: [
+      {
+        id: "sign_half_name",
+        label: "签半个名字",
+        summary: "获得35铜钱与未写之页，乱 +1。",
+        effects: [
+          { type: "gold", amount: 35 },
+          { type: "inkCardOffer", cardId: "ink_unwritten_page" },
+          { type: "mind", mind: "luan", amount: 1 }
+        ]
+      },
+      {
+        id: "buy_clear_ink",
+        label: "买清墨",
+        summary: "花费12铜钱，获得照心，宁 +1。",
+        effects: [
+          { type: "gold", amount: -12 },
+          { type: "card", cardId: "mind_zhaoxin" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_river_bones_lantern",
+    title: "河骨灯",
+    description: "河岸挂着一排骨灯，灯芯照出的不是路，而是水底沉名。",
+    choices: [
+      {
+        id: "light_bone_lantern",
+        label: "点亮一盏",
+        summary: "回复8点生命，悲 +1。",
+        effects: [
+          { type: "heal", amount: 8 },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      },
+      {
+        id: "dredge_black_bone",
+        label: "捞起黑骨",
+        summary: "获得墨刃，失去4点生命，怒 +1。",
+        effects: [
+          { type: "inkCardOffer", cardId: "ink_moren" },
+          { type: "hpLoss", amount: 4 },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_mountain_pass_riddle",
+    title: "山隘问答",
+    description: "山隘口的碑影拦路，只问一句：为何还要入江湖。",
+    choices: [
+      {
+        id: "answer_with_silence",
+        label: "以沉默作答",
+        summary: "升级一张牌，悟 +1。",
+        effects: [
+          { type: "upgrade" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      },
+      {
+        id: "climb_by_force",
+        label: "踏石强过",
+        summary: "获得踏水，失去3点生命，怒 +1。",
+        effects: [
+          { type: "card", cardId: "common_tashui" },
+          { type: "hpLoss", amount: 3 },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_silent_training_yard",
+    title: "无声校场",
+    description: "校场上没有兵卒，木桩却按你的心跳一齐转身。",
+    choices: [
+      {
+        id: "practice_hidden_edge",
+        label: "练藏锋",
+        summary: "获得藏锋，怒 +1。",
+        effects: [
+          { type: "card", cardId: "common_cangfeng" },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      },
+      {
+        id: "walk_water_steps",
+        label: "习踏水步",
+        summary: "获得踏水，宁 +1。",
+        effects: [
+          { type: "card", cardId: "common_tashui" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_broken_name_register",
+    title: "残名簿",
+    description: "名册被雨泡得破碎，仍有几笔人名贴在纸边不肯散去。",
+    choices: [
+      {
+        id: "copy_remaining_names",
+        label: "誊下残名",
+        summary: "获得照心，悲 +1。",
+        effects: [
+          { type: "card", cardId: "mind_zhaoxin" },
+          { type: "mind", mind: "bei", amount: 1 }
+        ]
+      },
+      {
+        id: "tear_false_page",
+        label: "撕去伪页",
+        summary: "移除一张初始牌，悟 +1。",
+        effects: [
+          { type: "removeStarter" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_cloud_water_dream",
+    title: "云水一梦",
+    description: "你在梦中看见云散水明，醒来时掌心却多了一点未干的墨。",
+    choices: [
+      {
+        id: "stay_until_dawn",
+        label: "梦至天明",
+        summary: "回复12点生命，宁 +1。",
+        effects: [
+          { type: "heal", amount: 12 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "take_dream_ink",
+        label: "携梦中墨",
+        summary: "获得未写之页，失去6点生命，悟 +1。",
+        effects: [
+          { type: "inkCardOffer", cardId: "ink_unwritten_page" },
+          { type: "hpLoss", amount: 6 },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
   }
 ];
 

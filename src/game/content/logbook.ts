@@ -93,6 +93,54 @@ export const logbookEntryList: LogbookEntryDefinition[] = [
     title: "无名史官",
     body: "他并非想毁灭江湖，只是不相信苦难会被记住。击败他之后，墨书才真正交回你的手中。",
     unlocks: { bossId: "boss_nameless_historian" }
+  },
+  {
+    id: "fragment_qingyin_lost_score",
+    title: "清音遗谱",
+    body: "残谱缺了半页，清音仍在雨里寻人。悲声若无人应答，便会被墨写成归路。",
+    unlocks: { eventId: "event_qingyin_lost_score" }
+  },
+  {
+    id: "fragment_bamboo_grave_song",
+    title: "竹下归歌",
+    body: "竹根埋着无名旧骨，琴声落下时，亡者终于记起自己不是墨迹。",
+    unlocks: { eventId: "event_bamboo_grave_song" }
+  },
+  {
+    id: "fragment_star_board_argument",
+    title: "星盘争局",
+    body: "星盘上每一线都像命数，也像借口。落子之前，他先问自己能否承担被改写的人。",
+    unlocks: { eventId: "event_star_board_argument" }
+  },
+  {
+    id: "fragment_empty_city_wind",
+    title: "空城风声",
+    body: "城门大开，风替人守住沉默。真正的空城，不在城中，而在执棋者心里。",
+    unlocks: { eventId: "event_empty_city_wind" }
+  },
+  {
+    id: "fragment_old_roadside_inn",
+    title: "旧道客栈",
+    body: "客栈灯火照见过路人，也照见不肯离席的旧念。喝下温酒，墨色便少一分人声。",
+    unlocks: { eventId: "event_old_roadside_inn" }
+  },
+  {
+    id: "fragment_ink_seller_contract",
+    title: "墨商契",
+    body: "墨商说契上只卖方便，不卖命。可每个签名，都比伤口更难洗净。",
+    unlocks: { eventId: "event_ink_seller_contract" }
+  },
+  {
+    id: "fragment_broken_name_register",
+    title: "残名簿",
+    body: "名册被雨泡烂，仍有几笔不肯散去。有人活过，便不该只剩一团黑痕。",
+    unlocks: { eventId: "event_broken_name_register" }
+  },
+  {
+    id: "fragment_cloud_water_dream",
+    title: "云水一梦",
+    body: "梦里云散水明，醒来仍是黑雨。若本心还在，一页残梦也能引路。",
+    unlocks: { eventId: "event_cloud_water_dream" }
   }
 ];
 

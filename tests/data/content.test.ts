@@ -9,6 +9,7 @@ import {
   getGlossaryEntryByLabel,
   glossaryEntries
 } from "../../src/game/content/glossary";
+import { logbookEntriesById, logbookEntryList } from "../../src/game/content/logbook";
 import { methodList } from "../../src/game/content/methods";
 import { relicList } from "../../src/game/content/relics";
 import * as visuals from "../../src/game/content/visuals";
@@ -44,13 +45,25 @@ const supportedActions = new Set([
 
 describe("content data", () => {
   it("pins the current EA playable showcase content baseline", () => {
-    expect(characterList).toHaveLength(4);
-    expect(chapterList).toHaveLength(4);
-    expect(cardList).toHaveLength(93);
-    expect(relicList).toHaveLength(32);
-    expect(eventList).toHaveLength(29);
-    expect(enemyList).toHaveLength(19);
-    expect(methodList).toHaveLength(8);
+    expect({
+      characters: characterList.length,
+      chapters: chapterList.length,
+      cards: cardList.length,
+      relics: relicList.length,
+      events: eventList.length,
+      logbookEntries: logbookEntryList.length,
+      enemies: enemyList.length,
+      methods: methodList.length
+    }).toEqual({
+      characters: 4,
+      chapters: 4,
+      cards: 93,
+      relics: 32,
+      events: 40,
+      logbookEntries: 22,
+      enemies: 19,
+      methods: 8
+    });
 
     expect(countBy(cardList, (card) => card.rarity)).toEqual({
       starter: 15,
@@ -142,6 +155,27 @@ describe("content data", () => {
       expect(card.effects.length).toBeGreaterThan(0);
       for (const effect of card.effects) {
         expect(supportedActions.has(effect.action)).toBe(true);
+      }
+    }
+  });
+
+  it("keeps logbook entry ids unique and unlock references valid", () => {
+    const entryIds = logbookEntryList.map((entry) => entry.id);
+    const eventIds = new Set(eventList.map((event) => event.id));
+    const enemyIds = new Set(enemyList.map((enemy) => enemy.id));
+
+    expect(new Set(entryIds).size).toBe(logbookEntryList.length);
+    expect(Object.keys(logbookEntriesById).sort()).toEqual([...entryIds].sort());
+
+    for (const entry of logbookEntryList) {
+      expect(logbookEntriesById[entry.id]).toBe(entry);
+
+      if (entry.unlocks.eventId) {
+        expect(eventIds.has(entry.unlocks.eventId), `${entry.id} unlocks missing event ${entry.unlocks.eventId}`).toBe(true);
+      }
+
+      if (entry.unlocks.bossId) {
+        expect(enemyIds.has(entry.unlocks.bossId), `${entry.id} unlocks missing boss ${entry.unlocks.bossId}`).toBe(true);
       }
     }
   });
