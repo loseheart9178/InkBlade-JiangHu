@@ -2,6 +2,41 @@
 
 ## Status Log
 
+### 2026-05-05 21:47 Asia/Shanghai
+
+Wave 29 EA Event And Logbook Expansion planning started in `.worktrees/wave6-integration` on branch `codex/wave29-ea-event-logbook-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/superpowers/plans/2026-05-05-wave28-ea-relic-pool-expansion-i.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `src/game/content/events.ts`
+- `src/game/content/logbook.ts`
+- `tests/events/event-system.test.ts`
+- `tests/data/content.test.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave29-ea-event-logbook-expansion.md`
+
+Scope decision:
+
+- Wave 29 will expand events from 29 to 40 and logbook entries from 14 to 22.
+- Cai Wenji and Zhuge Liang should gain event-level tagged stories, not only nested role choices.
+- Steam/storefront/installer/packaging work remains excluded.
+
+Next step:
+
+- Commit the Wave 29 plan, then implement event/logbook content and baseline tests.
+
 ### 2026-05-05 21:31 Asia/Shanghai
 
 Wave 28 EA Relic Pool Expansion I planning started in `.worktrees/wave6-integration` on branch `codex/wave28-ea-relic-pool-plan`.
