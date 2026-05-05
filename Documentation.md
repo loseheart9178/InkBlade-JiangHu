@@ -2,6 +2,60 @@
 
 ## Status Log
 
+### 2026-05-05 13:51 Asia/Shanghai
+
+Wave 18 Node Runtime Requirements integrated in `.worktrees/wave6-integration` on branch `codex/wave18-node-runtime-requirements`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/superpowers/plans/2026-05-05-wave18-node-runtime-requirements.md`
+- `docs/superpowers/plans/2026-05-05-wave17-handoff-npm-scripts.md`
+
+What changed:
+
+- Declared `engines.node` as `>=24` in `package.json`.
+- Added `tests/playtest/runtime-requirements.test.ts` to lock the runtime contract.
+- Updated README, alpha acceptance, and desktop playtest checklist to call out Node 24+ and the bundled Node v24.14.0 path.
+- Documented that Node 18 shells are not a verified Vite/Rolldown toolchain for this project.
+
+Worker worktrees integrated:
+
+- `codex/wave18-runtime-package` at `44e25d9`, commit `chore: declare node runtime requirement`. The package worker subagent timed out before producing output, so the main thread completed this worktree.
+- `codex/wave18-runtime-docs` at `b97fb37`, commit `docs: clarify node runtime requirement`. The docs worker subagent timed out before producing output, so the main thread completed this worktree.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/runtime-requirements.test.ts tests/playtest/package-report-scripts.test.ts --reporter=dot
+Result: passed. 2 files / 2 tests.
+
+grep -n "Node 24" README.md docs/playtest/alpha-acceptance.md docs/playtest/desktop-playtest-checklist.md
+Result: passed. Runtime requirement is present in all three setup docs.
+
+grep -n "Node 18" README.md docs/playtest/desktop-playtest-checklist.md
+Result: passed. Node 18 caveat is present in quick-start and human playtest docs.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional GPT Image 2 bitmap card-art quality pass.
+- `engines.node` documents the requirement; it does not force an automatic runtime switch for testers whose shell still points at Node 18.
+
+Next step:
+
+- Commit the integration branch and continue to the next autonomous round.
+
 ### 2026-05-05 13:41 Asia/Shanghai
 
 Wave 18 Node Runtime Requirements planning started in `.worktrees/wave6-integration` on branch `codex/wave18-node-runtime-plan`.
