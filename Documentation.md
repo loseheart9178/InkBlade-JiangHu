@@ -2,6 +2,37 @@
 
 ## Status Log
 
+### 2026-05-05 19:33 Asia/Shanghai
+
+Wave 25 Alpha Handoff Current Baseline planning started in `.worktrees/wave6-integration` on branch `codex/wave25-alpha-handoff-current-baseline-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `scripts/alpha-handoff-report.mjs`
+- `tests/playtest/alpha-handoff-report-script.test.ts`
+- `scripts/balance-report.mjs`
+- `src/game/systems/debug/balanceReport.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave25-alpha-handoff-current-baseline.md`
+
+Current issue:
+
+- `scripts/alpha-handoff-report.mjs` still summarizes the handoff acceptance baseline through Wave 20/21/22 and omits Wave 23 watchlist readability plus Wave 24 report title/id.
+- `tests/playtest/alpha-handoff-report-script.test.ts` does not pin the Wave 23/24 handoff text yet.
+- `docs/playtest/alpha-acceptance.md` still says the alpha handoff artifact includes the Wave 20 baseline.
+
+Next step:
+
+- Commit the Wave 25 plan, then create isolated script/test and docs worktrees so the generated handoff report and acceptance table move together.
+
 ### 2026-05-05 19:29 Asia/Shanghai
 
 Wave 24 Balance Report Label Refresh integrated in `.worktrees/wave6-integration` on branch `codex/wave24-balance-report-label-refresh`.
