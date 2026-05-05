@@ -57,14 +57,11 @@ The `墨录图鉴` now distinguishes profile-discovered story from alpha referen
 Generate a single Markdown handoff summary for external testers:
 
 ```bash
-node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
+npm run report:balance
+npm run report:handoff
 ```
 
-Pair it with:
-
-```bash
-node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
-```
+Both commands write under `reports/`, which is ignored because it is a local handoff artifact directory.
 
 ## Wave 13 Simulator Report Artifacts
 
