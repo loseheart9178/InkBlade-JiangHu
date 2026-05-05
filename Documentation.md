@@ -2,6 +2,39 @@
 
 ## Status Log
 
+### 2026-05-05 22:42 Asia/Shanghai
+
+Wave 30 EA Event Surface Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave30-ea-event-surface-polish-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-wave29-ea-event-logbook-expansion.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/e2e/playable-flow.spec.ts`
+- Game Studio `game-ui-frontend` and `game-playtest` workflow notes
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave30-ea-event-surface-polish.md`
+
+Scope decision:
+
+- Wave 30 focuses on commercial-quality event presentation: event scene variety, choice effect chips, logbook unlock feedback, and desktop browser screenshot evidence.
+- No new event mechanics, generated bitmap assets, Steam/storefront, or release-prep work are included.
+
+Next step:
+
+- Commit the Wave 30 plan, then implement the UI/event-surface polish with Playwright screenshots.
+
 ### 2026-05-05 21:47 Asia/Shanghai
 
 Wave 29 EA Event And Logbook Expansion planning started in `.worktrees/wave6-integration` on branch `codex/wave29-ea-event-logbook-plan`.
