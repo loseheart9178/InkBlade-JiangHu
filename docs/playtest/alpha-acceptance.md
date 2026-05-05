@@ -12,6 +12,8 @@ For release handoff, generate `reports/alpha-handoff.md` with `scripts/alpha-han
 
 ## Runnable Commands
 
+Normal `npm` commands require Node 24 or newer. Autonomous worktrees should use the bundled Node v24.14.0 path below.
+
 Use the bundled Node runtime for autonomous worktrees:
 
 ```bash

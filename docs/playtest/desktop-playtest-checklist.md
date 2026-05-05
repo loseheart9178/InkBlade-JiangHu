@@ -4,12 +4,14 @@ Use this checklist for a human desktop alpha pass. Target Chromium on a desktop 
 
 ## Setup
 
-Start the app with normal Node:
+Start the app with Node 24 or newer:
 
 ```bash
 npm install
 npm run dev
 ```
+
+If the shell default is Node 18, use the bundled Node command below instead; Node 18 is not a verified toolchain for this Vite/Rolldown build.
 
 Or start from an autonomous worktree with bundled Node:
 
