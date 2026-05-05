@@ -2,6 +2,65 @@
 
 ## Status Log
 
+### 2026-05-05 13:23 Asia/Shanghai
+
+Wave 16 Alpha Handoff Report integrated in `.worktrees/wave6-integration` on branch `codex/wave16-alpha-handoff-report`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/playtest/external-bug-intake.md`
+- `docs/superpowers/plans/2026-05-05-wave16-alpha-handoff-report.md`
+- `docs/superpowers/plans/2026-05-05-wave15-external-playtest-kit.md`
+
+What changed:
+
+- Added `scripts/alpha-handoff-report.mjs`, a deterministic Markdown handoff generator for external alpha testers.
+- The script records generated time, git branch, git commit, current acceptance baseline, local run commands, verification commands, playtest doc links, bug intake link, debug notes, and an optional balance artifact path.
+- Added `--out <path>` artifact support with stdout parity, matching the Wave 13 balance artifact pattern.
+- Added deterministic CLI coverage via `tests/playtest/alpha-handoff-report-script.test.ts`.
+- Documented the handoff command in `README.md` and `docs/playtest/alpha-acceptance.md`.
+
+Worker worktrees integrated:
+
+- `codex/wave16-handoff-script` at `d0ecc6a`, commit `feat: add alpha handoff report script`. The script worker subagent timed out before producing output, so the main thread completed this worktree.
+- `codex/wave16-handoff-docs` at `0cef1c5`, commit `docs: document alpha handoff report`. The docs worker subagent timed out before producing output, so the main thread completed this worktree.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/alpha-handoff-report-script.test.ts tests/playtest/balance-report-script.test.ts --reporter=dot
+Result: passed. 2 files / 2 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/alpha-handoff-report.mjs --out D:/tmp/inkblade-alpha-handoff.md --balance-report D:/tmp/inkblade-balance-report.md >/mnt/d/tmp/inkblade-alpha-handoff-stdout.md
+test -s /mnt/d/tmp/inkblade-alpha-handoff.md
+cmp -s /mnt/d/tmp/inkblade-alpha-handoff.md /mnt/d/tmp/inkblade-alpha-handoff-stdout.md
+rm -f /mnt/d/tmp/inkblade-alpha-handoff.md /mnt/d/tmp/inkblade-alpha-handoff-stdout.md
+Result: passed. Artifact output matched stdout and temporary files were removed.
+
+grep -n "alpha-handoff-report" README.md docs/playtest/alpha-acceptance.md
+Result: passed. README and alpha acceptance both document the new command.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional GPT Image 2 bitmap card-art quality pass.
+- The handoff report records the verification commands and baseline but does not itself run the full release gate.
+
+Next step:
+
+- Commit the integration branch and continue to the next autonomous round.
+
 ### 2026-05-05 13:10 Asia/Shanghai
 
 Wave 16 Alpha Handoff Report planning started in `.worktrees/wave6-integration` on branch `codex/wave16-alpha-handoff-report-plan`.
