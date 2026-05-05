@@ -2,6 +2,37 @@
 
 ## Status Log
 
+### 2026-05-05 12:35 Asia/Shanghai
+
+Wave 15 External Desktop Playtest Kit planning started in `.worktrees/wave6-integration` on branch `codex/wave15-playtest-kit-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/superpowers/plans/2026-05-05-wave14-compendium-depth.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave15-external-playtest-kit.md`
+
+Scope:
+
+- Refresh the human desktop playtest checklist from stale Wave 11 language to the verified Wave 14 alpha.
+- Add explicit external tester routes for compendium unlock states, run preservation, save/reload, debug skip, and final boss/final-choice coverage.
+- Add a dedicated external bug intake guide and link it from release-facing docs.
+- Leave Milestone 58 as the only open optional GPT Image 2 bitmap card-art quality pass.
+
+Next step:
+
+- Commit the Wave 15 plan, then create independent checklist and bug-intake worktrees for implementation.
+
 ### 2026-05-05 12:33 Asia/Shanghai
 
 Wave 14 Compendium Unlock Depth integrated in `.worktrees/wave6-integration` on branch `codex/wave14-compendium-depth`.
