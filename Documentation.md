@@ -2,6 +2,38 @@
 
 ## Status Log
 
+### 2026-05-05 13:54 Asia/Shanghai
+
+Wave 19 Handoff Preflight planning started in `.worktrees/wave6-integration` on branch `codex/wave19-handoff-preflight-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/playtest/external-bug-intake.md`
+- `docs/superpowers/plans/2026-05-05-wave18-node-runtime-requirements.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave19-handoff-preflight.md`
+
+Scope:
+
+- Add a read-only handoff preflight CLI for Node runtime, git branch/commit, npm report commands, and playtest document availability.
+- Add deterministic CLI coverage and an npm entry point.
+- Link preflight from README and alpha acceptance.
+- Leave Milestone 58 as the only open optional GPT Image 2 bitmap card-art quality pass.
+
+Next step:
+
+- Commit the Wave 19 plan, then create script and docs worktrees for implementation.
+
 ### 2026-05-05 13:51 Asia/Shanghai
 
 Wave 18 Node Runtime Requirements integrated in `.worktrees/wave6-integration` on branch `codex/wave18-node-runtime-requirements`.
