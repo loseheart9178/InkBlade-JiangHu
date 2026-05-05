@@ -2,7 +2,7 @@
 
 Wave 11 alpha backlog closure for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
 
-Last full gate verified: 2026-05-05 Wave 12 save/profile hardening integration on branch `codex/wave12-save-profile-hardening`.
+Last full gate verified: 2026-05-05 Wave 13 simulator report artifact export integration on branch `codex/wave13-simulator-report-artifacts`.
 
 Wave 7 through Wave 10 balance-report sections remain historical references below. The current Wave 11 multi-seed result is still 12/12 completed routes with no timeout risks or unsafe damage spikes.
 
@@ -27,6 +27,7 @@ Useful focused reruns:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
 ```
 
 ## Playable Scope
@@ -46,6 +47,8 @@ Wave 11 scope: final-choice affordance metadata, status badge glossary metadata,
 Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
 
 Wave 12 scope: save screen-boundary hardening and profile counter migration repair.
+Wave 13 scope: balance report `--out` artifact export while preserving stdout.
+Final Wave 13 gate: Vitest 19 files / 190 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / card fallback debt 0, and the multi-seed balance report artifact matched stdout.
 Final Wave 12 gate: Vitest 18 files / 189 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / card fallback debt 0, and the multi-seed balance report completed 12/12 routes.
 
 Wave 11 closes the non-art alpha backlog by hardening surfaces that already existed in the vertical slice:
@@ -76,7 +79,7 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 | Check | Command or Evidence | Wave 11 Integration Result |
 |---|---|---|
 | Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: runtime refs 159, missing 0, ink-pass debt 0, card fallback debt 0 |
-| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 18 files / 189 tests |
+| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 19 files / 190 tests |
 | TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
 | Production build | bundled `vite/bin/vite.js build` | Passed without the previous lazy Phaser chunk-size warning |
 | Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Chromium tests |

@@ -139,9 +139,10 @@ Run:
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/balance-report-script.test.ts --reporter=dot
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out /tmp/inkblade-balance-report.md
-test -s /tmp/inkblade-balance-report.md
-rm -f /tmp/inkblade-balance-report.md
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-balance-report.md >/mnt/d/tmp/inkblade-balance-stdout.md
+test -s /mnt/d/tmp/inkblade-balance-report.md
+cmp -s /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+rm -f /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
 git diff --check
 ```
 
@@ -189,9 +190,10 @@ Run:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out /tmp/inkblade-balance-report.md
-test -s /tmp/inkblade-balance-report.md
-rm -f /tmp/inkblade-balance-report.md
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-balance-report.md >/mnt/d/tmp/inkblade-balance-stdout.md
+test -s /mnt/d/tmp/inkblade-balance-report.md
+cmp -s /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+rm -f /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
 git diff --check
 ```
 

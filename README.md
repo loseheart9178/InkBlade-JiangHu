@@ -41,7 +41,17 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 12 release verification completed on branch `codex/wave12-save-profile-hardening`: Vitest 18 files / 189 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance 12/12 routes. Wave 12 scope: save screen-boundary hardening and profile counter migration repair. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+Wave 13 release verification completed on branch `codex/wave13-simulator-report-artifacts`: Vitest 19 files / 190 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance artifact output matching stdout. Wave 13 scope: balance report `--out <path>` artifact export while preserving stdout. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+
+## Wave 13 Simulator Report Artifacts
+
+Balance reports can now be written to QA/CI artifacts while preserving existing stdout behavior:
+
+```bash
+node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+```
+
+The file receives the same rendered payload that stdout receives, and parent directories are created automatically.
 
 ## Wave 12 Save/Profile Hardening
 

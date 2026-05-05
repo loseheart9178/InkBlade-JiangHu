@@ -2,6 +2,82 @@
 
 ## Status Log
 
+### 2026-05-05 11:48 Asia/Shanghai
+
+Wave 13 Simulator Report Artifacts integrated in `.worktrees/wave6-integration` on branch `codex/wave13-simulator-report-artifacts`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-wave13-simulator-report-artifacts.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/superpowers/plans/2026-05-05-wave12-save-profile-hardening.md`
+
+What changed:
+
+- Added `scripts/balance-report.mjs --out <path>` support for writing JSON or Markdown balance reports as file artifacts.
+- Preserved existing stdout output; the artifact file receives the same rendered payload.
+- Added a CLI integration test that writes a nested Markdown artifact path and compares it to stdout.
+
+Worker worktree integrated:
+
+- `codex/wave13-balance-report-outfile` at `7705c26`, commit `feat: export balance report artifacts`.
+
+Focused verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/balance-report-script.test.ts tests/playtest/run-simulator.test.ts --reporter=dot
+Result: passed. 2 files / 8 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-balance-report.md >/mnt/d/tmp/inkblade-balance-stdout.md
+test -s /mnt/d/tmp/inkblade-balance-report.md
+cmp -s /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+rm -f /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+Result: passed. Artifact output matched stdout and temporary files were removed.
+```
+
+Full release gate:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 19 files / 190 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. The previous lazy Phaser chunk-size warning did not appear; Phaser runtime chunk emitted at 1,200.83 kB under the explicit 1,300 kB budget.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 27 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-balance-report.md >/mnt/d/tmp/inkblade-balance-stdout.md
+test -s /mnt/d/tmp/inkblade-balance-report.md
+cmp -s /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+rm -f /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+Result: passed. Routes completed 12/12 and artifact output matched stdout.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional art-quality backlog item.
+- Subagent usage limit was still active, so Wave 13 implementation continued in an isolated worktree from the main thread.
+
+Next step:
+
+- Commit the integration branch.
+
 ### 2026-05-05 11:40 Asia/Shanghai
 
 Wave 13 Simulator Report Artifacts planning started in `.worktrees/wave6-integration` on branch `codex/wave13-simulator-artifacts-plan`.
