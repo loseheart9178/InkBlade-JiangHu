@@ -41,7 +41,15 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 11 release verification completed on branch `codex/wave11-alpha-backlog-closure`: Vitest 18 files / 187 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance 12/12 routes. Wave 11 scope: final-choice affordance metadata, status badge glossary metadata, and explicit lazy Phaser chunk budget. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+Wave 12 release verification completed on branch `codex/wave12-save-profile-hardening`: Vitest 18 files / 189 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance 12/12 routes. Wave 12 scope: save screen-boundary hardening and profile counter migration repair. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+
+## Wave 12 Save/Profile Hardening
+
+Wave 12 keeps the desktop alpha stable around local persistence:
+
+- Legacy saves that accidentally carry stale combat payloads into map/reward/shop/rest/final-choice screens now drop that combat state during pure save normalization.
+- Legacy profiles repair `totalRuns` so it cannot undercount victories plus defeats globally or per character.
+- The changes stay in pure save/profile systems and are covered by focused Vitest migration regressions.
 
 ## Wave 11 Alpha Backlog Closure
 

@@ -2,6 +2,81 @@
 
 ## Status Log
 
+### 2026-05-05 11:31 Asia/Shanghai
+
+Wave 12 Save/Profile Hardening integrated in `.worktrees/wave6-integration` on branch `codex/wave12-save-profile-hardening`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-wave12-save-profile-hardening.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-04-wave7-demo-hardening.md`
+- `docs/superpowers/plans/2026-05-05-wave11-alpha-backlog-closure.md`
+
+What changed:
+
+- Hardened save migration so stale combat payloads are dropped when a legacy save loads into a non-combat screen.
+- Hardened profile migration so `totalRuns` cannot undercount `victories + defeats` for global or per-character stats.
+- Added focused regression coverage for both legacy migration cases.
+- Kept changes in pure save/profile systems; no renderer, Phaser, gameplay content, or art assets changed.
+
+Worker worktrees integrated:
+
+- `codex/wave12-save-screen-boundary` at `3bf5a09`, commit `fix: drop stale combat from non-combat saves`.
+- `codex/wave12-profile-counter-repair` at `cd9f6e0`, commit `fix: repair undercounted profile totals`.
+
+Focused integration verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/save/save-system.test.ts tests/profile/profile-system.test.ts tests/app-shell.test.ts --reporter=dot
+Result: passed. 3 files / 18 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Full release gate:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 18 files / 189 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. The previous lazy Phaser chunk-size warning did not appear; Phaser runtime chunk emitted at 1,200.83 kB under the explicit 1,300 kB budget.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 27 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+Result: passed. Routes completed 12/12, combat samples 84, timeout risks 0, unsafe damage spikes 0.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional art-quality backlog item.
+- Subagent dispatch was attempted for this wave but both agents hit the usage limit immediately; implementation continued in isolated worktrees from the main thread.
+
+Next step:
+
+- Commit the integration branch and evaluate the next autonomous round.
+
 ### 2026-05-05 10:58 Asia/Shanghai
 
 Wave 12 Save/Profile Hardening planning started in `.worktrees/wave6-integration` on branch `codex/wave12-save-profile-hardening-plan`.
