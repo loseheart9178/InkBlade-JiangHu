@@ -2,6 +2,37 @@
 
 ## Status Log
 
+### 2026-05-05 23:10 Asia/Shanghai
+
+Wave 31 EA Reward And Shop Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave31-ea-reward-shop-polish-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-wave30-ea-event-surface-polish.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/e2e/playable-flow.spec.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave31-ea-reward-shop-polish.md`
+
+Scope decision:
+
+- Wave 31 focuses on commercial-quality reward/shop decision presentation: visible card art/chrome in shop, price/source chips, service target clarity, and desktop screenshot evidence.
+- Gameplay rules, prices, card pools, relic pools, and Steam/storefront/release-prep work are out of scope.
+
+Next step:
+
+- Commit the Wave 31 plan, then implement the reward/shop polish with Playwright-first checks.
+
 ### 2026-05-05 22:42 Asia/Shanghai
 
 Wave 30 EA Event Surface Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave30-ea-event-surface-polish-plan`.
