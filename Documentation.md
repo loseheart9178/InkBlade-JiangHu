@@ -2,6 +2,80 @@
 
 ## Status Log
 
+### 2026-05-05 12:33 Asia/Shanghai
+
+Wave 14 Compendium Unlock Depth integrated in `.worktrees/wave6-integration` on branch `codex/wave14-compendium-depth`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-05-wave14-compendium-depth.md`
+- `docs/superpowers/plans/2026-05-05-wave13-simulator-report-artifacts.md`
+
+What changed:
+
+- Added profile-aware compendium unlock metadata in the pure compendium system.
+- Story fragments now report `unlocked` or `locked` from `PlayerProfile.unlockedFragments`; cards, relics, enemies, and combos remain full-reference entries.
+- Added `unlockSummary` and an `unlock` filter for `all/reference/unlocked/locked`.
+- Updated the desktop compendium to pass the current profile, expose `data-unlocked-count`, `data-locked-count`, and `data-reference-count`, and render compact `已录` / `未录` / `参照` badges.
+- Preserved full alpha reference visibility; locked story entries remain visible for QA.
+
+Subagent handling:
+
+- Pure and UI worker subagents were dispatched into separate worktrees, but neither produced a commit before timeout. Both agents were closed and implementation continued in the integration worktree with TDD.
+
+Focused verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/compendium/compendium-system.test.ts --reporter=dot
+Result: passed. 1 file / 6 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "compendium|墨录图鉴"
+Result: passed. 2 Chromium tests.
+```
+
+Full release gate:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 19 files / 192 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Phaser runtime chunk emitted at 1,200.83 kB under the explicit 1,300 kB budget.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 27 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out D:/tmp/inkblade-balance-report.md >/mnt/d/tmp/inkblade-balance-stdout.md
+test -s /mnt/d/tmp/inkblade-balance-report.md
+cmp -s /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+rm -f /mnt/d/tmp/inkblade-balance-report.md /mnt/d/tmp/inkblade-balance-stdout.md
+Result: passed. Artifact output matched stdout and temporary files were removed.
+```
+
+Known gaps / risks:
+
+- Milestone 58 remains the only open optional GPT Image 2 bitmap card-art quality pass.
+- Compendium gating is presentation metadata only; alpha QA can still inspect locked story entries by design.
+
+Next step:
+
+- Run `git diff --check`, commit Wave 14, then start the next autonomous planning round.
+
 ### 2026-05-05 11:58 Asia/Shanghai
 
 Wave 14 Compendium Unlock Depth planning started in `.worktrees/wave6-integration` on branch `codex/wave14-compendium-depth-plan`.

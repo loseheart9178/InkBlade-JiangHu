@@ -497,9 +497,13 @@ function createCompendiumPanel(
   backTitle: string,
   backBody: string
 ): HTMLElement {
-  const compendium = buildCompendium(state.compendiumFilters);
+  const compendium = buildCompendium(state.compendiumFilters, state.profile);
+  const referenceCount = Math.max(0, compendium.filteredCount - compendium.unlockSummary.total);
   const panel = createPanel("screen-compendium", "墨录图鉴");
   panel.classList.add("compendium-screen");
+  panel.dataset.unlockedCount = `${compendium.unlockSummary.unlocked}`;
+  panel.dataset.lockedCount = `${compendium.unlockSummary.locked}`;
+  panel.dataset.referenceCount = `${referenceCount}`;
 
   const note = document.createElement("p");
   note.className = "shell-note";
@@ -508,7 +512,7 @@ function createCompendiumPanel(
   const tabs = document.createElement("div");
   tabs.className = "compendium-tabs";
   const allTab = createCompendiumTab("all", "全部", compendium.totalCount, state.compendiumFilters.category === "all", () => {
-    state.compendiumFilters = { ...state.compendiumFilters, category: "all", character: "all", rarity: "all", chapter: "all" };
+    state.compendiumFilters = { ...state.compendiumFilters, category: "all", character: "all", rarity: "all", chapter: "all", unlock: "all" };
     refresh();
   });
   tabs.append(allTab);
@@ -519,7 +523,8 @@ function createCompendiumPanel(
         category: category.id as CompendiumCategory,
         character: "all",
         rarity: "all",
-        chapter: "all"
+        chapter: "all",
+        unlock: "all"
       };
       refresh();
     }));
@@ -539,13 +544,17 @@ function createCompendiumPanel(
     createCompendiumSelect("compendium-filter-chapter", "章节", state.compendiumFilters.chapter, compendium.facets.chapters, (value) => {
       state.compendiumFilters = { ...state.compendiumFilters, chapter: value as Required<CompendiumFilters>["chapter"] };
       refresh();
+    }),
+    createCompendiumSelect("compendium-filter-unlock", "收录", state.compendiumFilters.unlock, createCompendiumUnlockFacets(compendium.filteredCount, compendium.unlockSummary), (value) => {
+      state.compendiumFilters = { ...state.compendiumFilters, unlock: value as Required<CompendiumFilters>["unlock"] };
+      refresh();
     })
   );
 
   const summary = document.createElement("div");
   summary.className = "compendium-summary";
   summary.dataset.testid = "compendium-summary";
-  summary.textContent = `显示 ${compendium.filteredCount} / ${compendium.totalCount} 条`;
+  summary.textContent = `显示 ${compendium.filteredCount} / ${compendium.totalCount} 条 · 已录 ${compendium.unlockSummary.unlocked} · 未录 ${compendium.unlockSummary.locked} · 参照 ${referenceCount}`;
 
   const list = document.createElement("div");
   list.className = "compendium-list";
@@ -613,14 +622,39 @@ function createCompendiumSelect(
   return wrapper;
 }
 
+function createCompendiumUnlockFacets(
+  filteredCount: number,
+  unlockSummary: { total: number; unlocked: number; locked: number }
+): Array<{ id: string; label: string; count: number }> {
+  return [
+    { id: "reference", label: "参照", count: Math.max(0, filteredCount - unlockSummary.total) },
+    { id: "unlocked", label: "已录", count: unlockSummary.unlocked },
+    { id: "locked", label: "未录", count: unlockSummary.locked }
+  ];
+}
+
 function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
   const article = document.createElement("article");
+  const unlockState = item.unlockState ?? "reference";
   article.className = `compendium-item compendium-item--${item.category}`;
   article.dataset.testid = "compendium-item";
   article.dataset.category = item.category;
+  article.dataset.unlockState = unlockState;
+  if (item.unlockReason) {
+    article.dataset.unlockReason = item.unlockReason;
+  }
 
+  const heading = document.createElement("div");
+  heading.className = "compendium-item-heading";
   const title = document.createElement("h4");
   title.textContent = item.title;
+  const unlockBadge = document.createElement("span");
+  unlockBadge.className = `compendium-unlock-badge compendium-unlock-badge--${unlockState}`;
+  unlockBadge.dataset.testid = "compendium-unlock-badge";
+  unlockBadge.textContent = formatCompendiumUnlockState(unlockState);
+  unlockBadge.title = item.unlockReason ?? unlockBadge.textContent;
+  heading.append(title, unlockBadge);
+
   const subtitle = document.createElement("small");
   subtitle.textContent = item.subtitle;
   const body = document.createElement("p");
@@ -633,8 +667,19 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
     meta.append(chip);
   }
 
-  article.append(title, subtitle, body, meta);
+  article.append(heading, subtitle, body, meta);
   return article;
+}
+
+function formatCompendiumUnlockState(state: NonNullable<CompendiumItem["unlockState"]>): string {
+  switch (state) {
+    case "unlocked":
+      return "已录";
+    case "locked":
+      return "未录";
+    case "reference":
+      return "参照";
+  }
 }
 
 function createSettingToggle(testId: string, title: string, description: string, checked: boolean, onChange: (checked: boolean) => void): HTMLElement {
@@ -2132,7 +2177,8 @@ function createDefaultCompendiumFilters(): Required<CompendiumFilters> {
     category: "all",
     character: "all",
     rarity: "all",
-    chapter: "all"
+    chapter: "all",
+    unlock: "all"
   };
 }
 

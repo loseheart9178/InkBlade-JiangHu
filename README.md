@@ -41,7 +41,16 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 13 release verification completed on branch `codex/wave13-simulator-report-artifacts`: Vitest 19 files / 190 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance artifact output matching stdout. Wave 13 scope: balance report `--out <path>` artifact export while preserving stdout. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+Wave 14 release verification completed on branch `codex/wave14-compendium-depth`: Vitest 19 files / 192 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance artifact output matching stdout. Wave 14 scope: profile-aware compendium unlock metadata, compact badges, and an unlock filter while preserving full reference visibility. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+
+## Wave 14 Compendium Unlock Depth
+
+The `墨录图鉴` now distinguishes profile-discovered story from alpha reference material:
+
+- Story fragments render as `已录` or `未录` based on `PlayerProfile.unlockedFragments`.
+- Cards, relics, enemies, and combo rules remain `参照` entries so testers can still inspect the full vertical-slice reference.
+- The desktop compendium exposes unlock counts and a compact `收录` filter for `全部 / 参照 / 已录 / 未录`.
+- Unlock classification lives in `src/game/systems/compendium/compendium.ts`; the DOM controller only renders the metadata it receives.
 
 ## Wave 13 Simulator Report Artifacts
 

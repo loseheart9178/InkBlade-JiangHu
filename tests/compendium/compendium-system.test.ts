@@ -4,6 +4,7 @@ import { logbookEntryList } from "../../src/game/content/logbook";
 import { relicList } from "../../src/game/content/relics";
 import { defaultComboRules, exhaustAttackComboRule } from "../../src/game/systems/combat/combos";
 import { buildCompendium, getCompendiumCategoryLabel } from "../../src/game/systems/compendium/compendium";
+import { createProfile, unlockEnding, unlockLogbookFragment } from "../../src/game/systems/profile/profile";
 
 describe("compendium system", () => {
   it("groups every shipped content family without renderer state", () => {
@@ -59,5 +60,41 @@ describe("compendium system", () => {
     expect(compendium.facets.characters).toEqual(expect.arrayContaining([expect.objectContaining({ id: "zhaoyun", label: "赵云" })]));
     expect(compendium.facets.rarities).toEqual(expect.arrayContaining([expect.objectContaining({ id: "starter", label: "初始" })]));
     expect(compendium.facets.chapters).toEqual(expect.arrayContaining([expect.objectContaining({ id: "moyuan", label: "墨渊照心" })]));
+  });
+
+  it("marks profile-unlocked story fragments while keeping locked fragments visible", () => {
+    const unlockedFragment = logbookEntryList[0];
+    const profile = unlockEnding(unlockLogbookFragment(createProfile(), unlockedFragment.id), "ending_test_luoshui", "zhaoyun");
+    const compendium = buildCompendium({ category: "story" }, profile);
+    const storyItems = compendium.groups.flatMap((group) => group.items);
+
+    expect(storyItems).toHaveLength(logbookEntryList.length);
+    expect(storyItems.find((item) => item.id === unlockedFragment.id)).toMatchObject({
+      unlockState: "unlocked",
+      unlockReason: "已收录残页"
+    });
+    expect(storyItems.find((item) => item.id !== unlockedFragment.id)).toMatchObject({
+      unlockState: "locked",
+      unlockReason: "尚未在本存档中收录"
+    });
+    expect(compendium.unlockSummary).toEqual({
+      total: logbookEntryList.length,
+      unlocked: 1,
+      locked: logbookEntryList.length - 1
+    });
+  });
+
+  it("keeps reference content visible without profile data and filters by unlock state", () => {
+    const cards = buildCompendium({ category: "cards" });
+    expect(cards.groups[0].items.every((item) => item.unlockState === "reference")).toBe(true);
+    expect(cards.unlockSummary).toEqual({ total: 0, unlocked: 0, locked: 0 });
+
+    const referenceCards = buildCompendium({ category: "cards", unlock: "reference" });
+    expect(referenceCards.filteredCount).toBe(cardList.length);
+    expect(referenceCards.groups[0].items.every((item) => item.unlockState === "reference")).toBe(true);
+
+    const lockedStory = buildCompendium({ category: "story", unlock: "locked" });
+    expect(lockedStory.filteredCount).toBe(logbookEntryList.length);
+    expect(lockedStory.groups[0].items.every((item) => item.unlockState === "locked")).toBe(true);
   });
 });

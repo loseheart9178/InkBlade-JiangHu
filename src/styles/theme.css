@@ -1845,10 +1845,43 @@ button {
   border-color: rgba(47, 124, 110, 0.34);
 }
 
+.compendium-item-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 26px;
+}
+
 .compendium-item h4 {
   margin: 0;
   color: #5f1d18;
   font-size: 18px;
+}
+
+.compendium-unlock-badge {
+  flex: 0 0 auto;
+  min-width: 34px;
+  padding: 3px 6px;
+  border: 1px solid rgba(44, 41, 36, 0.2);
+  border-radius: 999px;
+  color: rgba(44, 41, 36, 0.72);
+  background: rgba(255, 252, 239, 0.6);
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.compendium-unlock-badge--unlocked {
+  border-color: rgba(47, 124, 110, 0.34);
+  color: #2f7c6e;
+  background: rgba(47, 124, 110, 0.1);
+}
+
+.compendium-unlock-badge--locked {
+  border-color: rgba(95, 29, 24, 0.28);
+  color: #5f1d18;
+  background: rgba(95, 29, 24, 0.08);
 }
 
 .compendium-item small {

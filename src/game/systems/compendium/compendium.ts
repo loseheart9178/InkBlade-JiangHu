@@ -7,14 +7,18 @@ import { logbookEntryList } from "../../content/logbook";
 import { relicList } from "../../content/relics";
 import { defaultComboRules, exhaustAttackComboRule } from "../combat/combos";
 import type { CardEffect, CardRarity, CardType, ComboEffect, ComboRule, EnemyIntent, TargetKind } from "../combat/types";
+import type { PlayerProfile } from "../profile/profile";
 
 export type CompendiumCategory = "cards" | "relics" | "enemies" | "combos" | "story";
+export type CompendiumUnlockState = "reference" | "unlocked" | "locked";
+export type CompendiumUnlockFilter = "all" | CompendiumUnlockState;
 
 export interface CompendiumFilters {
   category?: CompendiumCategory | "all";
   character?: string | "all";
   rarity?: string | "all";
   chapter?: ChapterId | "all";
+  unlock?: CompendiumUnlockFilter;
 }
 
 export interface CompendiumItem {
@@ -27,6 +31,8 @@ export interface CompendiumItem {
   character?: string;
   rarity?: string;
   chapter?: ChapterId;
+  unlockState?: CompendiumUnlockState;
+  unlockReason?: string;
 }
 
 export interface CompendiumGroup {
@@ -43,6 +49,11 @@ export interface CompendiumFacet {
 export interface CompendiumView {
   totalCount: number;
   filteredCount: number;
+  unlockSummary: {
+    total: number;
+    unlocked: number;
+    locked: number;
+  };
   groups: CompendiumGroup[];
   facets: {
     categories: CompendiumFacet[];
@@ -135,14 +146,15 @@ const eventChapterById: Record<string, ChapterId> = {
 
 const eventsById = Object.fromEntries(eventList.map((event) => [event.id, event]));
 
-export function buildCompendium(filters: CompendiumFilters = {}): CompendiumView {
-  const allItems = createCompendiumItems();
+export function buildCompendium(filters: CompendiumFilters = {}, profile?: PlayerProfile): CompendiumView {
+  const allItems = createCompendiumItems(profile);
   const normalizedFilters = normalizeFilters(filters);
   const filteredItems = allItems.filter((item) => matchesFilters(item, normalizedFilters));
 
   return {
     totalCount: allItems.length,
     filteredCount: filteredItems.length,
+    unlockSummary: createUnlockSummary(filteredItems),
     groups: createGroups(filteredItems),
     facets: createFacets(allItems)
   };
@@ -157,11 +169,12 @@ function normalizeFilters(filters: CompendiumFilters): Required<CompendiumFilter
     category: filters.category ?? "all",
     character: filters.character ?? "all",
     rarity: filters.rarity ?? "all",
-    chapter: filters.chapter ?? "all"
+    chapter: filters.chapter ?? "all",
+    unlock: filters.unlock ?? "all"
   };
 }
 
-function createCompendiumItems(): CompendiumItem[] {
+function createCompendiumItems(profile?: PlayerProfile): CompendiumItem[] {
   return [
     ...cardList.map((card) => ({
       id: card.id,
@@ -178,7 +191,9 @@ function createCompendiumItems(): CompendiumItem[] {
         ...(card.keywords ?? []).map((keyword) => `关键词 ${keyword}`)
       ],
       character: card.character,
-      rarity: card.rarity
+      rarity: card.rarity,
+      unlockState: "reference" as const,
+      unlockReason: "完整参照"
     })),
     ...relicList.map((relic) => ({
       id: relic.id,
@@ -192,7 +207,9 @@ function createCompendiumItems(): CompendiumItem[] {
         relic.price > 0 ? `茶资 ${relic.price}` : "无价"
       ],
       character: relic.character,
-      rarity: relic.rarity
+      rarity: relic.rarity,
+      unlockState: "reference" as const,
+      unlockReason: "完整参照"
     })),
     ...enemyList.map((enemy) => ({
       id: enemy.id,
@@ -205,13 +222,16 @@ function createCompendiumItems(): CompendiumItem[] {
         `类型 ${enemyRoleLabels[enemy.role]}`,
         enemy.phaseIntents && enemy.phaseIntents.length > 0 ? `阶段 ${enemy.phaseIntents.map((phase) => phase.phase).join("/")}` : ""
       ],
-      chapter: enemy.chapter
+      chapter: enemy.chapter,
+      unlockState: "reference" as const,
+      unlockReason: "完整参照"
     })),
     ...[...defaultComboRules, exhaustAttackComboRule].map(createComboItem),
     ...logbookEntryList.map((entry) => {
       const event = entry.unlocks.eventId ? eventsById[entry.unlocks.eventId] : undefined;
       const boss = entry.unlocks.bossId ? enemiesById[entry.unlocks.bossId] : undefined;
       const chapter = getStoryChapter(entry.unlocks);
+      const unlockState: CompendiumUnlockState = profile?.unlockedFragments.includes(entry.id) ? "unlocked" : "locked";
       return {
         id: entry.id,
         category: "story" as const,
@@ -224,7 +244,9 @@ function createCompendiumItems(): CompendiumItem[] {
           chapter ? `章节 ${formatChapter(chapter)}` : ""
         ],
         character: event?.character,
-        chapter
+        chapter,
+        unlockState,
+        unlockReason: unlockState === "unlocked" ? "已收录残页" : "尚未在本存档中收录"
       };
     })
   ];
@@ -237,7 +259,9 @@ function createComboItem(combo: ComboRule): CompendiumItem {
     title: combo.name,
     subtitle: combo.sequence.map(formatCardType).join(" → "),
     body: `按 ${combo.sequence.map(formatCardType).join(" → ")} 出牌时触发：${formatComboEffects(combo.effects)}。`,
-    meta: [`招式 ${combo.sequence.length} 段`, `色调 ${combo.tone}`]
+    meta: [`招式 ${combo.sequence.length} 段`, `色调 ${combo.tone}`],
+    unlockState: "reference",
+    unlockReason: "完整参照"
   };
 }
 
@@ -297,6 +321,15 @@ function createFacets(items: CompendiumItem[]): CompendiumView["facets"] {
   };
 }
 
+function createUnlockSummary(items: CompendiumItem[]): CompendiumView["unlockSummary"] {
+  const storyItems = items.filter((item) => item.unlockState === "unlocked" || item.unlockState === "locked");
+  return {
+    total: storyItems.length,
+    unlocked: storyItems.filter((item) => item.unlockState === "unlocked").length,
+    locked: storyItems.filter((item) => item.unlockState === "locked").length
+  };
+}
+
 function matchesFilters(item: CompendiumItem, filters: Required<CompendiumFilters>): boolean {
   if (filters.category !== "all" && item.category !== filters.category) {
     return false;
@@ -311,6 +344,10 @@ function matchesFilters(item: CompendiumItem, filters: Required<CompendiumFilter
   }
 
   if (filters.chapter !== "all" && item.chapter !== filters.chapter) {
+    return false;
+  }
+
+  if (filters.unlock !== "all" && (item.unlockState ?? "reference") !== filters.unlock) {
     return false;
   }
 

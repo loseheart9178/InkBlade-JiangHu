@@ -1,10 +1,10 @@
 # Alpha Acceptance Playtest
 
-Wave 11 alpha backlog closure for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
+Wave 14 compendium unlock-depth closure for the desktop browser alpha. Current target is Chromium desktop through Playwright; mobile layout, touch input, production audio, Steam packaging, and broad localization polish remain outside this acceptance pass.
 
-Last full gate verified: 2026-05-05 Wave 13 simulator report artifact export integration on branch `codex/wave13-simulator-report-artifacts`.
+Last full gate verified: 2026-05-05 Wave 14 compendium unlock-depth integration on branch `codex/wave14-compendium-depth`.
 
-Wave 7 through Wave 10 balance-report sections remain historical references below. The current Wave 11 multi-seed result is still 12/12 completed routes with no timeout risks or unsafe damage spikes.
+Wave 7 through Wave 10 balance-report sections remain historical references below. The current Wave 14 multi-seed artifact result is still 12/12 completed routes with no timeout risks or unsafe damage spikes.
 
 ## Runnable Commands
 
@@ -36,7 +36,7 @@ Useful focused reruns:
 - Start a desktop run, choose map nodes, enter card combat, play cards, end turns, win battles, claim rewards, and continue saved run states after reload.
 - Use first-slice and cross-chapter route surfaces covered by e2e: event, rest upgrade, shop relic purchase, elite method reward, boss reward bridge, chapter reward, logbook, second-chapter combat entry, save/continue after reload, and final boss debug route.
 - Complete the browser final boss route from `墨渊照心` map into `无名史官` combat, chapter reward, boss reward, final choice, reload/continue from final choice, ending/profile summary, and persisted profile stats.
-- Use title/run `墨录图鉴` compendium coverage for cards, relics, enemies, combos, and story fragments without losing the current run screen.
+- Use title/run `墨录图鉴` compendium coverage for cards, relics, enemies, combos, and story fragments without losing the current run screen; story entries now show profile-aware `已录` / `未录` badges while full-reference entries show `参照`.
 - Use glossary metadata on shipped card keyword chips, combat status badges, enemy intents, and combo trail entries; desktop tooltip attributes are covered in visual smoke.
 - Use the visible `调试跳章` control to advance to the next chapter map for prototype testing; it refreshes chapter backdrop context and remains a debug aid, not production progression.
 - Use deterministic simulator coverage for all four MVP characters through the shipped route contract, including `luoshui`, `bamboo`, `changan`, and `moyuan`.
@@ -48,6 +48,8 @@ Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art qual
 
 Wave 12 scope: save screen-boundary hardening and profile counter migration repair.
 Wave 13 scope: balance report `--out` artifact export while preserving stdout.
+Wave 14 scope: profile-aware compendium unlock metadata, badges, and unlock filter while keeping full reference visibility.
+Final Wave 14 gate: Vitest 19 files / 192 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / card fallback debt 0, and the multi-seed balance report artifact matched stdout.
 Final Wave 13 gate: Vitest 19 files / 190 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / card fallback debt 0, and the multi-seed balance report artifact matched stdout.
 Final Wave 12 gate: Vitest 18 files / 189 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / card fallback debt 0, and the multi-seed balance report completed 12/12 routes.
 
@@ -76,17 +78,17 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 
 ## Verification Table
 
-| Check | Command or Evidence | Wave 11 Integration Result |
+| Check | Command or Evidence | Current Result |
 |---|---|---|
 | Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: runtime refs 159, missing 0, ink-pass debt 0, card fallback debt 0 |
-| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 19 files / 190 tests |
+| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 19 files / 192 tests |
 | TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
 | Production build | bundled `vite/bin/vite.js build` | Passed without the previous lazy Phaser chunk-size warning |
 | Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Chromium tests |
 | Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | Passed within full Playwright suite |
 | Debug skip | `tests/e2e/playable-flow.spec.ts` | Passed; `调试跳章` remains debug-only |
-| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed |
+| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed, including Wave 14 unlock metadata, counts, badges, and `all/reference/unlocked/locked` filtering |
 | Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | Passed, including Wave 11 combat status badge metadata |
 | Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Passed; starter and Wave 10 semantic SVG card art are accepted by the visual smoke |
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Passed |
@@ -173,4 +175,4 @@ The Playwright HTML report and `test-results/` output include these attached des
 - Wave 10 card faces are repo-local SVG readability assets, not final GPT Image 2 bitmap illustrations.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; the generic enemy slash strip is not acceptable for their combat identity.
 - The lazy Phaser runtime chunk now has an explicit `1300` kB Vite warning budget so future chunk growth is actionable.
-- Production audio depth, release packaging notes, profile-gated compendium presentation, and broader external playtest instructions remain future polish.
+- Production audio depth, release packaging notes, and broader external playtest instructions remain future polish.

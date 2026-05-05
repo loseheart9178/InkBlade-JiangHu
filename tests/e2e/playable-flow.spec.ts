@@ -67,8 +67,22 @@ test("compendium 墨录图鉴 opens from title and filters cards", async ({ page
   await page.getByTestId("compendium-title-open").click();
   await expect(page.getByTestId("screen-compendium")).toBeVisible();
   await expect(page.getByTestId("screen-compendium")).toContainText("墨录图鉴");
+  await expect(page.getByTestId("screen-compendium")).toHaveAttribute("data-unlocked-count", "0");
+  const lockedCount = Number(await page.getByTestId("screen-compendium").getAttribute("data-locked-count"));
+  const referenceCount = Number(await page.getByTestId("screen-compendium").getAttribute("data-reference-count"));
+  expect(lockedCount).toBeGreaterThan(0);
+  expect(referenceCount).toBeGreaterThan(0);
+
+  await page.getByTestId("compendium-tab-story").click();
+  await expect(page.getByTestId("compendium-item").first()).toHaveAttribute("data-unlock-state", "locked");
+  await expect(page.getByTestId("compendium-unlock-badge").first()).toContainText("未录");
+  await page.getByTestId("compendium-filter-unlock").selectOption("locked");
+  await expect(page.getByTestId("compendium-item").first()).toHaveAttribute("data-unlock-state", "locked");
+  await page.getByTestId("compendium-filter-unlock").selectOption("reference");
+  await expect(page.getByTestId("compendium-empty")).toBeVisible();
 
   await page.getByTestId("compendium-tab-cards").click();
+  await expect(page.getByTestId("compendium-item").first()).toHaveAttribute("data-unlock-state", "reference");
   await page.getByTestId("compendium-filter-character").selectOption("zhaoyun");
   await page.getByTestId("compendium-filter-rarity").selectOption("starter");
 
