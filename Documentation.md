@@ -2,6 +2,36 @@
 
 ## Status Log
 
+### 2026-05-05 16:50 Asia/Shanghai
+
+Wave 22 Zhuge Liang Balance Stability planning started in `.worktrees/wave6-integration` on branch `codex/wave22-zhuge-balance-stability-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/playtest/alpha-acceptance.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave22-zhuge-balance-stability.md`
+
+Baseline:
+
+- Current multi-seed balance report remains green on completion: 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0.
+- Zhuge Liang is still the sharpest healing-pressure watchlist item: lowest post-combat HP band `3/3/7`, total route turns 91 / 87 / 83, total damage taken 245 / 288 / 240 for seeds 9001 / 9002 / 9003.
+- Character setting keeps Zhuge Liang at low max HP and high strategy, so the planned tuning should prefer defensive control card data over raw max-HP changes.
+
+Next step:
+
+- Commit the Wave 22 plan, then create an implementation branch and add a failing simulator regression before changing card data.
+
 ### 2026-05-05 16:41 Asia/Shanghai
 
 Wave 21 GPT Image 2 Starter/Common Card Art integrated in `.worktrees/wave6-integration` on branch `codex/wave21-gpt2-card-art`.
