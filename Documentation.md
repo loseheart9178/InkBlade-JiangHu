@@ -2,6 +2,42 @@
 
 ## Status Log
 
+### 2026-05-05 15:55 Asia/Shanghai
+
+Wave 21 GPT Image 2 Starter/Common Card Art planning started in `.worktrees/wave6-integration` on branch `codex/wave21-gpt2-card-art-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/superpowers/plans/2026-05-05-wave20-release-gate-refresh.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave21-gpt2-starter-common-card-art.md`
+
+Scope:
+
+- Generate one GPT Image 2 style source sheet for starter/common card art.
+- Crop 20 runtime PNG card faces and bind them to existing card art ids.
+- Preserve all source/runtime files and verify missing assets, fallback debt, visual smoke, tests, and build.
+
+Next step:
+
+- Commit the Wave 21 plan, then create independent queue-mapping and manifest/test worktrees.
+
 ### 2026-05-05 15:44 Asia/Shanghai
 
 Wave 20 Release Gate Refresh integrated in `.worktrees/wave6-integration` on branch `codex/wave20-release-gate-refresh`.
