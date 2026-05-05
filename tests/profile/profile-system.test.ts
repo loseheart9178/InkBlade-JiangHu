@@ -155,4 +155,33 @@ describe("profile system", () => {
     expect(profile?.unlockedEndings).toEqual(["ending_burn_book"]);
     expect(profile?.unlockedCharacterEpilogues).toEqual([]);
   });
+
+  it("repairs legacy profile counters so total runs cannot undercount outcomes", () => {
+    const storage = new MemoryStorage();
+
+    storage.setItem(PROFILE_STORAGE_KEY, JSON.stringify({
+      version: 1,
+      profile: {
+        stats: {
+          totalRuns: 1,
+          victories: 2,
+          defeats: 3
+        },
+        characterStats: {
+          zhaoyun: {
+            totalRuns: 0,
+            victories: 1,
+            defeats: 2,
+            bestChaptersCompleted: 2
+          }
+        }
+      }
+    }));
+
+    const profile = loadProfile(storage);
+    expect(profile?.stats).toEqual({ totalRuns: 5, victories: 2, defeats: 3 });
+    expect(profile?.characterStats.zhaoyun.totalRuns).toBe(3);
+    expect(profile?.characterStats.zhaoyun.victories).toBe(1);
+    expect(profile?.characterStats.zhaoyun.defeats).toBe(2);
+  });
 });
