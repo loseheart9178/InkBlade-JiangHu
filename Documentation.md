@@ -2,6 +2,37 @@
 
 ## Status Log
 
+### 2026-05-05 13:26 Asia/Shanghai
+
+Wave 17 Handoff NPM Scripts planning started in `.worktrees/wave6-integration` on branch `codex/wave17-handoff-npm-scripts-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-05-wave16-alpha-handoff-report.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave17-handoff-npm-scripts.md`
+
+Scope:
+
+- Add short npm script entry points for generating balance and alpha handoff report artifacts.
+- Add `reports/` to `.gitignore` so generated handoff artifacts do not enter git.
+- Add a focused package-script regression test.
+- Update README and alpha acceptance to prefer the short npm commands while retaining direct bundled Node examples for autonomous worktrees.
+- Leave Milestone 58 as the only open optional GPT Image 2 bitmap card-art quality pass.
+
+Next step:
+
+- Commit the Wave 17 plan, then create package-script and docs worktrees for implementation.
+
 ### 2026-05-05 13:23 Asia/Shanghai
 
 Wave 16 Alpha Handoff Report integrated in `.worktrees/wave6-integration` on branch `codex/wave16-alpha-handoff-report`.
