@@ -2,6 +2,36 @@
 
 ## Status Log
 
+### 2026-05-05 11:40 Asia/Shanghai
+
+Wave 13 Simulator Report Artifacts planning started in `.worktrees/wave6-integration` on branch `codex/wave13-simulator-artifacts-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-04-wave8-content-release.md`
+- `docs/superpowers/plans/2026-05-05-wave12-save-profile-hardening.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave13-simulator-report-artifacts.md`
+
+Scope:
+
+- Add `scripts/balance-report.mjs --out <path>` artifact export.
+- Preserve existing stdout output for JSON and Markdown report commands.
+- Add a CLI integration test proving Markdown artifacts are written to nested paths.
+- Leave Milestone 58 as the only open optional art-quality backlog item.
+
+Next step:
+
+- Commit the plan, create a Wave 13 integration branch and artifact worker worktree, then implement with TDD.
+
 ### 2026-05-05 11:31 Asia/Shanghai
 
 Wave 12 Save/Profile Hardening integrated in `.worktrees/wave6-integration` on branch `codex/wave12-save-profile-hardening`.
