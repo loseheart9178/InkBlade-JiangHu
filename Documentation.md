@@ -2,6 +2,35 @@
 
 ## Status Log
 
+### 2026-05-05 11:58 Asia/Shanghai
+
+Wave 14 Compendium Unlock Depth planning started in `.worktrees/wave6-integration` on branch `codex/wave14-compendium-depth-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-05-wave13-simulator-report-artifacts.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave14-compendium-depth.md`
+
+Scope:
+
+- Add profile-aware compendium unlock metadata in the pure compendium system.
+- Render compact unlock badges and an unlock filter in the desktop compendium.
+- Preserve full-reference visibility; locked entries remain visible for alpha QA.
+- Leave Milestone 58 as the only open optional art-quality backlog item.
+
+Next step:
+
+- Commit the plan, then execute Wave 14 with separate pure-system and DOM/browser worktrees if subagent usage is available.
+
 ### 2026-05-05 11:48 Asia/Shanghai
 
 Wave 13 Simulator Report Artifacts integrated in `.worktrees/wave6-integration` on branch `codex/wave13-simulator-report-artifacts`.
