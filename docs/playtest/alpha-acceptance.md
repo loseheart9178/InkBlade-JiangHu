@@ -6,6 +6,8 @@ Last full gate verified: 2026-05-05 Wave 14 compendium unlock-depth integration 
 
 Wave 7 through Wave 10 balance-report sections remain historical references below. The current Wave 14 multi-seed artifact result is still 12/12 completed routes with no timeout risks or unsafe damage spikes.
 
+External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
+
 ## Runnable Commands
 
 Use the bundled Node runtime for autonomous worktrees:

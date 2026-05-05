@@ -100,6 +100,8 @@ Use [desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md)
 4. Visit event, rest, shop, elite, boss, and boss reward bridge surfaces.
 5. Use `调试跳章` only when the tester needs to skip forward through chapters for release QA.
 
+External testers should file issues with [external-bug-intake.md](docs/playtest/external-bug-intake.md), which includes severity labels, route tags, evidence requirements, and a copy-ready report template.
+
 ## Debug Controls
 
 - `调试跳章`: advances the current run to the next chapter map for prototype QA. It should not be treated as production progression.
