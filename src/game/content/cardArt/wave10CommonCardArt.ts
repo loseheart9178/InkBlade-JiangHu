@@ -3,55 +3,55 @@ import type { CardArtDefinition } from "../visuals";
 export const wave10CommonCardArt: CardArtDefinition[] = [
   {
     id: "common_duanzhu",
-    assetPath: "/assets/generated/cards/wave10-common-duanzhu.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-duanzhu.png",
     alt: "Snapped bamboo blade and red splinters in ink-wash card art",
     accent: "red"
   },
   {
     id: "common_feishi",
-    assetPath: "/assets/generated/cards/wave10-common-feishi.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-feishi.png",
     alt: "Thrown stone cutting through rain rings in red ink",
     accent: "red"
   },
   {
     id: "common_gedang",
-    assetPath: "/assets/generated/cards/wave10-common-gedang.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-gedang.png",
     alt: "Crossed guard strokes over a teal shield wash",
     accent: "teal"
   },
   {
     id: "common_mirror_armor",
-    assetPath: "/assets/generated/cards/wave10-common-mirror-armor.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png",
     alt: "Cracked bronze mirror armor reflecting teal ink",
     accent: "teal"
   },
   {
     id: "common_pifeng",
-    assetPath: "/assets/generated/cards/wave10-common-pifeng.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-pifeng.png",
     alt: "Wind-cleaving sword arc with red cinnabar motion",
     accent: "red"
   },
   {
     id: "common_qingshen",
-    assetPath: "/assets/generated/cards/wave10-common-qingshen.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-qingshen.png",
     alt: "Light-foot step over rippled paper in teal ink",
     accent: "teal"
   },
   {
     id: "common_tuna",
-    assetPath: "/assets/generated/cards/wave10-common-tuna.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-tuna.png",
     alt: "Breath circle and calm dantian glow in teal ink",
     accent: "teal"
   },
   {
     id: "common_xieli",
-    assetPath: "/assets/generated/cards/wave10-common-xieli.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-xieli.png",
     alt: "Redirected force curve bending a broken arrow aside",
     accent: "teal"
   },
   {
     id: "common_zhuiying",
-    assetPath: "/assets/generated/cards/wave10-common-zhuiying.svg",
+    assetPath: "/assets/generated/cards/gpt2-wave21-common-zhuiying.png",
     alt: "Afterimage footwork shadow crossing teal paper ripples",
     accent: "teal"
   },

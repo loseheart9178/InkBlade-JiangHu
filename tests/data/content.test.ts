@@ -521,13 +521,14 @@ describe("content data", () => {
     ];
 
     for (const id of starterArtIds) {
-      expect(cardArtById[id]?.assetPath).toMatch(/^\/assets\/generated\/cards\/wave9-/);
+      expect(cardArtById[id]?.assetPath).toMatch(/^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/);
       expect(cardArtById[id]?.assetPath).not.toBe(cardArtById.type_attack.assetPath);
       expect(cardArtById[id]?.assetPath).not.toBe(cardArtById.type_skill.assetPath);
+      expectAssetPathToExist(cardArtById[id]?.assetPath);
     }
   });
 
-  it("binds every Wave 10 card fallback target to semantic art", () => {
+  it("binds every historic card fallback target to semantic art", () => {
     const wave10FallbackTargets = [
       "common_duanzhu",
       "common_feishi",
@@ -578,14 +579,29 @@ describe("content data", () => {
 
     expect(new Set(wave10FallbackTargets).size).toBe(45);
 
+    const wave21UpgradedTargets = new Set([
+      "common_duanzhu",
+      "common_feishi",
+      "common_gedang",
+      "common_mirror_armor",
+      "common_pifeng",
+      "common_qingshen",
+      "common_tuna",
+      "common_xieli",
+      "common_zhuiying"
+    ]);
+
     for (const id of wave10FallbackTargets) {
       const card = cardsById[id];
       const art = cardArtById[id];
       const fallbackArt = cardArtById[`type_${card.types[0]}`];
+      const expectedBatch = wave21UpgradedTargets.has(id)
+        ? /^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/
+        : /^\/assets\/generated\/cards\/wave10-.+\.svg$/;
 
       expect(card).toBeDefined();
       expect(art, id).toBeDefined();
-      expect(art.assetPath, id).toMatch(/^\/assets\/generated\/cards\/wave10-.+\.svg$/);
+      expect(art.assetPath, id).toMatch(expectedBatch);
       expect(art.assetPath, id).not.toBe(fallbackArt?.assetPath);
       expectAssetPathToExist(art.assetPath);
     }

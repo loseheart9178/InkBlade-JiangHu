@@ -31,9 +31,10 @@ Wave 20 desktop QA verifies the current alpha handoff while carrying forward the
 - Wave 15-19 handoff surfaces include the external bug intake guide, alpha handoff report, `report:balance` / `report:handoff` npm scripts, Node 24 runtime guidance, and `handoff:preflight`.
 - Wave 12 save/profile hardening keeps stale combat payloads out of non-combat screens and repairs legacy profile counters.
 - Wave 11 final-choice metadata, combat glossary metadata, and the explicit lazy Phaser chunk budget remain part of the acceptance surface.
-- Runtime card fallback debt is 0; current card faces are semantic repo-local SVG readability art, not final GPT Image 2 bitmap illustrations.
-- Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
-- Final gate: Vitest 23 files / 198 tests, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight PASS, and alpha handoff artifact output matching stdout.
+- Runtime card fallback debt is 0. Wave 21 upgrades the starter/common card faces to GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG card faces are readable alpha coverage.
+- Remaining optional art polish is character identity, ink/mind, and bespoke elite strip bitmap replacement beyond this desktop alpha pass.
+- Final release gate: Vitest 23 files / 198 tests, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight PASS, and alpha handoff artifact output matching stdout.
+- Latest Wave 21 art gate: Vitest 24 files / 200 tests, TypeScript, Vite build, Playwright visual smoke 3 Chromium tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
 
 ## Smoke Route A: First Battle Loop
 
@@ -150,7 +151,7 @@ The Wave 20 final Playwright Chromium desktop result is 27/27 passing tests. Use
 
 ## Known Non-Blocking Issues
 
-- Runtime card fallback debt is 0. The Wave 10 card faces are semantic SVG readability assets rather than final GPT Image 2 bitmap illustrations.
+- Runtime card fallback debt is 0. Wave 21 starter/common card faces are GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG faces are readable alpha coverage until optional bitmap passes replace them.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`. The generic enemy slash strip is not acceptable for those combatants.
 - The Wave 20 multi-seed report completes 12/12 routes across 84 combat samples with timeout risks 0 and unsafe spikes 0; Zhuge Liang remains high-pressure and should stay on the balance watchlist with a lowest HP band of 3/3/7.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.

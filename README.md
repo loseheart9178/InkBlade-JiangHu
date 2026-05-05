@@ -43,7 +43,7 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 20 release verification completed on branch `codex/wave20-release-gate-refresh`: Vitest 23 files / 198 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight, and alpha handoff artifact output matching stdout. Wave 20 scope refreshes the release gate after Waves 15-19 handoff docs, report scripts, Node 24 runtime guidance, and preflight tooling. Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+Wave 20 release verification completed on branch `codex/wave20-release-gate-refresh`: Vitest 23 files / 198 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight, and alpha handoff artifact output matching stdout. Wave 21 then resolves Milestone 58 for starter/common card faces with 20 GPT Image 2 bitmap runtime crops while preserving the Wave 9/10 SVG readability assets as historical fallbacks; its art gate passed Vitest 24 files / 200 tests, TypeScript, Vite build, Playwright visual smoke 3 Chromium tests, and asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
 
 ## Carry-Forward: Compendium Unlock Depth
 
@@ -94,7 +94,7 @@ Wave 11 closes the remaining non-art alpha backlog while preserving the desktop-
 - Combat status badges now surface glossary ids, titles, and accessible labels alongside card keyword, enemy intent, and combo trail glossary metadata.
 - Vite documents the lazy Phaser runtime chunk with an explicit `1300` kB warning budget so build warnings remain actionable.
 
-Milestone 58 remains a later art-quality pass: the current Wave 10 card faces are semantic repo-local SVGs, not final GPT Image 2 bitmap illustrations.
+Milestone 58 is now resolved for the starter/common card-art batch by Wave 21 GPT Image 2 bitmap crops. The remaining optional art-quality backlog is character identity, ink/mind, and bespoke elite strip replacement beyond the alpha gate.
 
 ## Wave 10 Card Art Refresh
 
@@ -127,7 +127,7 @@ External testers should file issues with [external-bug-intake.md](docs/playtest/
 
 ## Known Gaps
 
-- Runtime card fallback debt is now 0. The Wave 10 card faces are semantic repo-local SVGs, not final GPT Image 2 bitmap illustrations.
+- Runtime card fallback debt is now 0. Wave 21 upgrades the starter/common card faces to GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG card faces are readable historical/runtime coverage until future optional bitmap passes replace them.
 - First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
 - The Wave 20 multi-seed report completed all 12/12 routes with 84 samples, timeout risks 0, unsafe spikes 0, and Zhuge Liang still on the high-pressure watchlist with a lowest post-combat HP band of 3/3/7.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.

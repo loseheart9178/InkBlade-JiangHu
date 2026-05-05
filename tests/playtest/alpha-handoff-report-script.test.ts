@@ -38,11 +38,11 @@ describe("alpha handoff report script", () => {
       expect(stdout).toContain("Branch: `codex/test-handoff`");
       expect(stdout).toContain("Commit: `abc1234`");
       expect(stdout).toContain("Wave 20 release gate refresh");
-      expect(stdout).toContain("Vitest 23 files / 198 tests");
+      expect(stdout).toContain("Vitest 24 files / 200 tests");
       expect(stdout).toContain("docs/playtest/desktop-playtest-checklist.md");
       expect(stdout).toContain("docs/playtest/external-bug-intake.md");
       expect(stdout).toContain("Balance artifact: `reports/balance-report.md`");
-      expect(stdout).toContain("Milestone 58 remains optional");
+      expect(stdout).toContain("Wave 21 resolves Milestone 58");
     } finally {
       rmSync(artifactDir, { recursive: true, force: true });
     }

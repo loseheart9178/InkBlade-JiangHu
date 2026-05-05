@@ -940,9 +940,9 @@ npm run build
 
 ## Milestone 58: GPT Image 2 Starter And Common Card Art Batch
 
-- [ ] Generate dedicated GPT Image 2 style card faces for the starter readability and common foundation fallback batches.
-- [ ] Preserve source sheets and crop semantic runtime PNGs under `public/assets/generated/cards/`.
-- [ ] Bind new `cardArtList` entries and shrink non-blocking card fallback debt while keeping runtime missing files at 0.
+- [x] Generate dedicated GPT Image 2 style card faces for the starter readability and common foundation fallback batches.
+- [x] Preserve source sheets and crop semantic runtime PNGs under `public/assets/generated/cards/`.
+- [x] Bind new `cardArtList` entries and keep non-blocking card fallback debt plus runtime missing files at 0.
 
 Verification:
 

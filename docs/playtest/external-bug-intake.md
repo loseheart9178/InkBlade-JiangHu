@@ -2,7 +2,7 @@
 
 Use this guide when filing bugs from the desktop browser alpha playtest. The goal is to make each report reproducible by someone who did not watch the session.
 
-Desktop Chromium is the current target. Mobile layout, touch input, production audio, Steam packaging, and final GPT Image 2 bitmap card art are outside this alpha handoff unless the issue blocks the desktop route.
+Desktop Chromium is the current target. Mobile layout, touch input, production audio, Steam packaging, and optional non-starter GPT Image 2 bitmap art polish are outside this alpha handoff unless the issue blocks the desktop route.
 
 ## Build And Setup Fields
 

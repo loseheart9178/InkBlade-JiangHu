@@ -93,7 +93,7 @@ public/assets/generated/sources/gpt2-wave21-starter-common-card-sheet.png
 - Create: `docs/superpowers/plans/2026-05-05-wave21-gpt2-starter-common-card-art.md`
 - Modify: `Documentation.md`
 
-- [ ] **Step 1: Record planning entry**
+- [x] **Step 1: Record planning entry**
 
 Add a top `Documentation.md` entry:
 
@@ -135,14 +135,14 @@ Next step:
 - Commit the Wave 21 plan, then create independent queue-mapping and manifest/test worktrees.
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 ```bash
 grep -n "Wave 21 GPT Image 2" Documentation.md docs/superpowers/plans/2026-05-05-wave21-gpt2-starter-common-card-art.md
 git diff --check
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add Documentation.md docs/superpowers/plans/2026-05-05-wave21-gpt2-starter-common-card-art.md
@@ -158,7 +158,7 @@ git commit -m "docs: plan wave21 gpt2 card art"
 - Test/read: `src/game/content/visuals.ts`
 - Test/read: `src/game/content/cardArt/*.ts`
 
-- [ ] **Step 1: Confirm the target ids exist**
+- [x] **Step 1: Confirm the target ids exist**
 
 Run:
 
@@ -168,7 +168,7 @@ Run:
 
 If direct TS import is not available outside Vite/Vitest, inspect `src/game/content/visuals.ts` and `src/game/content/cardArt/*.ts` manually and confirm every target id appears exactly once in `cardArtList`.
 
-- [ ] **Step 2: Update the art queue note**
+- [x] **Step 2: Update the art queue note**
 
 In `docs/art/gpt2-priority-queue.md`, add a Wave 21 section before `Optional next GPT Image 2 art-quality batches`:
 
@@ -181,7 +181,7 @@ Wave 21 execution scope:
 - Existing Wave 9/10 SVG files remain preserved as fallback historical assets.
 ```
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 ```bash
 grep -n "Wave 21 execution scope\|gpt2-wave21" docs/art/gpt2-priority-queue.md
@@ -195,7 +195,7 @@ git diff --check
 - Create: `public/assets/generated/sources/gpt2-wave21-starter-common-card-sheet.png`
 - Create: 20 files under `public/assets/generated/cards/gpt2-wave21-*.png`
 
-- [ ] **Step 1: Generate source sheet with built-in image generation**
+- [x] **Step 1: Generate source sheet with built-in image generation**
 
 Use the built-in image generation tool with this prompt:
 
@@ -235,7 +235,7 @@ After generation, locate the newest generated image under `$CODEX_HOME/generated
 public/assets/generated/sources/gpt2-wave21-starter-common-card-sheet.png
 ```
 
-- [ ] **Step 2: Crop 20 equal panels**
+- [x] **Step 2: Crop 20 equal panels**
 
 Use local image tooling to crop the source sheet into a 4x5 grid. Runtime crop filenames must match the target table exactly.
 
@@ -281,7 +281,7 @@ for index, name in enumerate(targets):
 PY
 ```
 
-- [ ] **Step 3: Verify files**
+- [x] **Step 3: Verify files**
 
 ```bash
 test -s public/assets/generated/sources/gpt2-wave21-starter-common-card-sheet.png
@@ -299,11 +299,11 @@ Expected: 20 runtime PNG files.
 - Create or modify: `tests/data/wave21-gpt2-card-art.test.ts`
 - Modify: `tests/data/content.test.ts` only if shared helpers need a Wave 21 assertion
 
-- [ ] **Step 1: Bind Wave 21 PNGs before imported Wave 10 card art**
+- [x] **Step 1: Bind Wave 21 PNGs before imported Wave 10 card art**
 
 In `src/game/content/visuals.ts`, replace the target ids' existing `assetPath` values with the new `gpt2-wave21-*.png` runtime paths. For ids imported from `wave10CommonCardArt`, update that module instead of duplicating ids in `cardArtList`.
 
-- [ ] **Step 2: Add regression test**
+- [x] **Step 2: Add regression test**
 
 Create `tests/data/wave21-gpt2-card-art.test.ts`:
 
@@ -354,7 +354,7 @@ describe("Wave 21 GPT Image 2 starter/common card art batch", () => {
 });
 ```
 
-- [ ] **Step 3: Verify focused data tests**
+- [x] **Step 3: Verify focused data tests**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave21-gpt2-card-art.test.ts tests/data/content.test.ts --reporter=dot
@@ -368,7 +368,7 @@ describe("Wave 21 GPT Image 2 starter/common card art batch", () => {
 - Modify: `docs/art/gpt2-priority-queue.md`
 - Modify: `Documentation.md`
 
-- [ ] **Step 1: Run asset audit**
+- [x] **Step 1: Run asset audit**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
@@ -381,7 +381,7 @@ Expected:
 - `card fallback debt: 0`
 - Runtime reference count increases by the new source/runtime references that are actually bound.
 
-- [ ] **Step 2: Run browser visual smoke**
+- [x] **Step 2: Run browser visual smoke**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
@@ -389,7 +389,7 @@ Expected:
 
 Expected: pass. Manually inspect any attached screenshots if the art appears cropped incorrectly.
 
-- [ ] **Step 3: Run broad verification**
+- [x] **Step 3: Run broad verification**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
@@ -398,7 +398,7 @@ Expected: pass. Manually inspect any attached screenshots if the art appears cro
 git diff --check
 ```
 
-- [ ] **Step 4: Update Documentation**
+- [x] **Step 4: Update Documentation**
 
 Record:
 
@@ -410,7 +410,7 @@ Record:
 - Any visual quality risks.
 - Next milestone.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add public/assets/generated/sources/gpt2-wave21-starter-common-card-sheet.png public/assets/generated/cards/gpt2-wave21-*.png public/assets/generated/asset-audit.json src/game/content/visuals.ts src/game/content/cardArt/*.ts tests/data/wave21-gpt2-card-art.test.ts docs/art/gpt2-priority-queue.md Documentation.md

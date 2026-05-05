@@ -23,17 +23,24 @@ const expectedIds = [
 ];
 
 describe("Wave 10 common card art batch", () => {
-  it("defines semantic art and concrete SVG files for every common fallback target", () => {
+  it("defines semantic art and concrete files for every common fallback target", () => {
     expect(wave10CommonCardArt.map((art) => art.id)).toEqual(expectedIds);
     for (const art of wave10CommonCardArt) {
-      expect(art.assetPath).toMatch(/^\/assets\/generated\/cards\/wave10-.+\.svg$/);
+      expect(art.assetPath).toMatch(/^\/assets\/generated\/cards\/(?:wave10-.+\.svg|gpt2-wave21-.+\.png)$/);
       expect(art.alt.length).toBeGreaterThan(12);
       expect(["red", "teal", "ink", "gold"]).toContain(art.accent);
       const filePath = path.join(process.cwd(), "public", art.assetPath.replace(/^\//, ""));
-      const svg = fs.readFileSync(filePath, "utf8");
-      expect(svg).toContain("<svg");
-      expect(svg).toContain('viewBox="0 0 640 900"');
-      expect(svg).not.toMatch(/<text\b/i);
+      expect(fs.existsSync(filePath), art.id).toBe(true);
+
+      if (art.assetPath.endsWith(".png")) {
+        const png = fs.readFileSync(filePath);
+        expect(png.subarray(0, 8).toString("hex"), art.id).toBe("89504e470d0a1a0a");
+      } else {
+        const svg = fs.readFileSync(filePath, "utf8");
+        expect(svg).toContain("<svg");
+        expect(svg).toContain('viewBox="0 0 640 900"');
+        expect(svg).not.toMatch(/<text\b/i);
+      }
     }
   });
 });

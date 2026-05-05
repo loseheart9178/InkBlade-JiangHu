@@ -2,6 +2,80 @@
 
 ## Status Log
 
+### 2026-05-05 16:41 Asia/Shanghai
+
+Wave 21 GPT Image 2 Starter/Common Card Art integrated in `.worktrees/wave6-integration` on branch `codex/wave21-gpt2-card-art`.
+
+Docs read / carried through implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_通用牌组设计文档_v1.0.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/superpowers/plans/2026-05-05-wave21-gpt2-starter-common-card-art.md`
+
+What changed:
+
+- Generated a 20-panel GPT Image 2 source sheet from the built-in image generation tool, preserved the source under `public/assets/generated/sources/gpt2-wave21-starter-common-card-sheet.png`, and cropped 20 runtime PNG card faces under `public/assets/generated/cards/gpt2-wave21-*.png`.
+- Rebound the 11 starter readability card ids in `src/game/content/visuals.ts` and the 9 common foundation ids in `src/game/content/cardArt/wave10CommonCardArt.ts` to the new Wave 21 PNGs while leaving Wave 9/10 SVG assets in the repo as historical readability coverage.
+- Added `tests/data/wave21-gpt2-card-art.test.ts`, updated older Wave 9/10 content assertions to accept the new bitmap upgrades, and refreshed `public/assets/generated/asset-audit.json`.
+- Updated release-facing README, alpha acceptance, desktop checklist, external bug intake, GPT Image 2 queue, and alpha handoff report wording so Milestone 58 is no longer described as an open starter/common art gap.
+
+Worker worktrees / subagents:
+
+- Created `codex/wave21-art-queue` at `.worktrees/wave21-art-queue` and `codex/wave21-art-bindings` at `.worktrees/wave21-art-bindings`.
+- Both subagents failed immediately because the account hit the usage limit. Their worktrees had no file edits; the main thread completed the implementation and removed both Wave 21 worker worktrees after verification.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave21-gpt2-card-art.test.ts tests/data/content.test.ts tests/playtest/alpha-handoff-report-script.test.ts --reporter=dot
+Result: passed. 3 files / 35 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 72, source sheets 21, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed after updating the historical Wave 10 common-card assertion for Wave 21 PNG upgrades. 24 files / 200 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 44 modules; Phaser lazy chunk remains below the configured warning budget.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed. 3 Chromium tests.
+
+git diff --check
+Result: passed.
+```
+
+Failures / fixes during the gate:
+
+- The first full Vitest run failed because `tests/data/wave10-common-card-art.test.ts` still required every common fallback target to be a Wave 10 SVG. The test now accepts Wave 21 PNG upgrades for the common foundation subset and still verifies file existence, PNG signature or SVG structure, alt text, and accent metadata.
+- Worker subagents could not run due the usage-limit error; no worker edits were integrated.
+
+Known gaps / risks:
+
+- Wave 21 uses one 4x5 generated sheet and equal-panel crops. The images are valid runtime PNGs and pass browser smoke, but future art-direction passes may still prefer per-card regeneration for tighter semantic fidelity.
+- Remaining optional bitmap art backlog is now non-starter: Wave 10 character identity cards, ink/mind/status cards, and bespoke first-chapter elite standee/attack strip replacements.
+- Zhuge Liang remains a high-pressure balance watchlist character from the Wave 20 multi-seed report.
+
+Next step:
+
+- Commit the Wave 21 art integration, then start the next autonomous wave by scanning for any remaining release/backlog drift now that Milestone 58 is closed.
+
 ### 2026-05-05 15:55 Asia/Shanghai
 
 Wave 21 GPT Image 2 Starter/Common Card Art planning started in `.worktrees/wave6-integration` on branch `codex/wave21-gpt2-card-art-plan`.

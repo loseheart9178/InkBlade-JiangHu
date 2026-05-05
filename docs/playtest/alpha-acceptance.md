@@ -4,6 +4,8 @@ Wave 20 release-gate refresh for the desktop browser alpha. Current target is Ch
 
 Last full gate verified: 2026-05-05 Wave 20 release-gate refresh on branch `codex/wave20-release-gate-refresh`.
 
+Latest art gate verified: 2026-05-05 Wave 21 GPT Image 2 starter/common card art on branch `codex/wave21-gpt2-card-art`: Vitest 24 files / 200 tests, TypeScript compile, Vite build, Playwright visual smoke 3 Chromium tests, and asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
+
 Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 20 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, and unsafe damage spikes 0.
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
@@ -62,7 +64,7 @@ Final Wave 20 gate: Vitest 23 files / 198 tests, TypeScript compile passed, Vite
 ## Wave 11 Alpha Backlog Closure Acceptance
 
 Wave 11 scope: final-choice affordance metadata, status badge glossary metadata, and explicit lazy Phaser chunk budget.
-Known art gap: Milestone 58 remains an optional GPT Image 2 bitmap card-art quality pass.
+Wave 21 resolves Milestone 58 for the starter/common card-art batch with GPT Image 2 bitmap runtime crops; remaining art polish is optional character identity, ink/mind, and elite strip bitmap replacement.
 
 Wave 12 scope: save screen-boundary hardening and profile counter migration repair.
 Wave 13 scope: balance report `--out` artifact export while preserving stdout.
@@ -98,8 +100,8 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 
 | Check | Command or Evidence | Current Result |
 |---|---|---|
-| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: runtime refs 159, missing 0, ink-pass debt 0, card fallback debt 0 |
-| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 23 files / 198 tests |
+| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: runtime refs 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 72, source sheets 21 |
+| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 24 files / 200 tests |
 | TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
 | Production build | bundled `vite/bin/vite.js build` | Passed without the previous lazy Phaser chunk-size warning |
 | Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Chromium tests |
@@ -108,7 +110,7 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 | Debug skip | `tests/e2e/playable-flow.spec.ts` | Passed; `调试跳章` remains debug-only |
 | Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed; Wave 14 unlock metadata, counts, badges, and `all/reference/unlocked/locked` filtering remain covered under the Wave 20 gate |
 | Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | Passed, including Wave 11 combat status badge metadata |
-| Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Passed; starter and Wave 10 semantic SVG card art are accepted by the visual smoke |
+| Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Passed: 3 Chromium visual-smoke tests; Wave 21 starter/common PNG card art is accepted |
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | Passed, including Zhuge Liang seed `9003` assertions |
@@ -192,8 +194,7 @@ The Playwright HTML report and `test-results/` output include these attached des
 ### Non-Blocking Backlog
 
 - Runtime card fallback debt is 0 after Wave 10 semantic SVG card integration and asset audit verification.
-- Wave 10 card faces are repo-local SVG readability assets, not final GPT Image 2 bitmap illustrations.
+- Wave 21 upgrades the starter/common card faces to GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG card faces are readable alpha coverage until optional bitmap passes replace them.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; the generic enemy slash strip is not acceptable for their combat identity.
 - The lazy Phaser runtime chunk now has an explicit `1300` kB Vite warning budget so future chunk growth is actionable.
-- Milestone 58 remains the optional GPT Image 2 bitmap card-art quality pass.
 - Production audio depth, release packaging notes, and broader external playtest instructions remain future polish.

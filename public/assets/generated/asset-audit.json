@@ -7,8 +7,8 @@
     "uniqueRuntimeFileCount": 131,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 52,
-    "sourceSheetCount": 20,
+    "gpt2RuntimeCount": 72,
+    "sourceSheetCount": 21,
     "cardFallbackDebtCount": 0
   },
   "missing": [],
@@ -51,9 +51,30 @@
     },
     {
       "kind": "cardArt",
+      "id": "cai_gong_tone",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "cai_hujia_beat",
       "paths": [
         "/assets/generated/cards/gpt2-cai-hujia-beat.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "cai_plain_strike",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-cai-plain-strike.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "cai_pluck_string",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-cai-pluck-string.png"
       ]
     },
     {
@@ -65,9 +86,65 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_duanzhu",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-duanzhu.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_feishi",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-feishi.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_gedang",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-gedang.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "common_jiexue",
       "paths": [
         "/assets/generated/cards/gpt2-common-jiexue.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_mirror_armor",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_pifeng",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-pifeng.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_qingshen",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_tuna",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-tuna.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_xieli",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-xieli.png"
       ]
     },
     {
@@ -79,9 +156,23 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_zhuiying",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-zhuiying.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "diao_flying_sleeves",
       "paths": [
         "/assets/generated/cards/gpt2-diao-flying-sleeves.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_guard",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-diao-guard.png"
       ]
     },
     {
@@ -100,6 +191,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "diao_lingbo",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-diao-lingbo.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "diao_lotus_blade",
       "paths": [
         "/assets/generated/cards/gpt2-diao-lotus-blade.png"
@@ -110,6 +208,13 @@
       "id": "diao_mirror_flower",
       "paths": [
         "/assets/generated/cards/gpt2-diao-mirror-flower.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_strike",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-diao-strike.png"
       ]
     },
     {
@@ -142,6 +247,20 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhao_guard",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-zhao-guard.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_longdan",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-zhao-longdan.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhao_return_spear",
       "paths": [
         "/assets/generated/cards/gpt2-zhao-return-spear.png"
@@ -170,6 +289,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhao_strike",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-zhao-strike.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhao_white_horse_breakout",
       "paths": [
         "/assets/generated/cards/gpt2-zhao-white-horse-breakout.png"
@@ -180,6 +306,20 @@
       "id": "zhuge_borrow_wind",
       "paths": [
         "/assets/generated/cards/gpt2-zhuge-borrow-wind.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhuge_fan_strike",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhuge_guard",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-zhuge-guard.png"
       ]
     },
     {
@@ -450,6 +590,10 @@
     {
       "assetPath": "/assets/generated/sources/gpt2-qin-score-standee-source.png",
       "bytes": 669555
+    },
+    {
+      "assetPath": "/assets/generated/sources/gpt2-wave21-starter-common-card-sheet.png",
+      "bytes": 3411947
     },
     {
       "assetPath": "/assets/generated/sources/gpt2-wave4-enemy-standee-sheet-source.png",
