@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Diao Chan sleeve blade card art</title>
+  <desc id="desc">A hidden blade slides out from flowing red silk sleeves.</desc>
+  <defs>
+    <radialGradient id="paper" cx="48%" cy="40%" r="76%">
+      <stop offset="0" stop-color="#fff2df"/>
+      <stop offset="1" stop-color="#d7c2a4"/>
+    </radialGradient>
+    <linearGradient id="red" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffb28c"/>
+      <stop offset=".5" stop-color="#d83634"/>
+      <stop offset="1" stop-color="#711318"/>
+    </linearGradient>
+    <linearGradient id="blade" x1="0" x2="1" y1="1" y2="0">
+      <stop offset="0" stop-color="#5a6260"/>
+      <stop offset=".48" stop-color="#fbfff8"/>
+      <stop offset="1" stop-color="#8a928d"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M106 596c104-201 243-309 418-325-32 89-92 161-179 216-82 52-135 122-158 212-45-11-72-45-81-103z" fill="url(#red)" opacity=".48"/>
+  <path d="M178 671c52-143 132-239 239-287 55-25 102-58 141-99-2 102-44 186-127 253-62 49-96 104-102 164-60 21-111 11-151-31z" fill="url(#red)" opacity=".66"/>
+  <path d="M189 658c90-159 213-280 369-363" fill="none" stroke="#751419" stroke-width="20" stroke-linecap="round" opacity=".82"/>
+  <path d="M250 582 536 307" fill="none" stroke="url(#blade)" stroke-width="28" stroke-linecap="round"/>
+  <path d="m564 279-42 95 88-40z" fill="url(#blade)" stroke="#222522" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M139 301c58 22 117 24 178 5M88 749c98 38 226 41 383 8M447 609c43 17 85 18 127 2" fill="none" stroke="#151817" stroke-width="14" stroke-linecap="round" opacity=".17"/>
+  <circle cx="414" cy="432" r="119" fill="none" stroke="#c42b2e" stroke-width="13" opacity=".18"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Diao Chan falling fan card art</title>
+  <desc id="desc">A falling fan opens above red petal blade trails.</desc>
+  <defs>
+    <radialGradient id="paper" cx="50%" cy="40%" r="76%">
+      <stop offset="0" stop-color="#fff2df"/>
+      <stop offset="1" stop-color="#d9c3a0"/>
+    </radialGradient>
+    <linearGradient id="red" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffb08a"/>
+      <stop offset=".48" stop-color="#d63834"/>
+      <stop offset="1" stop-color="#7f1418"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M190 250c91-91 196-103 315-35-31 105-93 178-185 220-76-31-119-93-130-185z" fill="#f7eee1" opacity=".88"/>
+  <path d="M206 257c83-72 179-82 287-29" fill="none" stroke="#1b1918" stroke-width="18" stroke-linecap="round" opacity=".24"/>
+  <path d="M318 436 223 270M318 436l-28-199M318 436l40-206M318 436l106-170M318 436l159-111" fill="none" stroke="url(#red)" stroke-width="12" stroke-linecap="round" opacity=".75"/>
+  <circle cx="318" cy="436" r="22" fill="#211817" opacity=".75"/>
+  <path d="M155 639c83-42 152-94 208-156 10 83 50 143 119 181-116 52-225 43-327-25z" fill="url(#red)" opacity=".42"/>
+  <path d="M156 640c100-39 185-92 256-159" fill="none" stroke="#bb2526" stroke-width="17" stroke-linecap="round"/>
+  <g fill="#c9282a" opacity=".62">
+    <path d="M152 523c31-18 56-13 75 15-31 16-56 11-75-15z"/>
+    <path d="M463 548c36-3 57 11 62 43-35 2-56-12-62-43z"/>
+    <path d="M260 706c28-22 53-20 76 6-28 22-53 20-76-6z"/>
+  </g>
+  <path d="M94 757c105 32 244 33 417 2M93 329c39 25 85 37 137 35" fill="none" stroke="#161615" stroke-width="14" stroke-linecap="round" opacity=".18"/>
+</svg>

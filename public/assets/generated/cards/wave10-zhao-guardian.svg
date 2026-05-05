@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhao Yun guardian card art</title>
+  <desc id="desc">A teal spear guard shelters a white cloak against spreading ink.</desc>
+  <defs>
+    <radialGradient id="paper" cx="50%" cy="42%" r="72%">
+      <stop offset="0" stop-color="#fff8e7"/>
+      <stop offset="0.7" stop-color="#efe2c8"/>
+      <stop offset="1" stop-color="#d8c6a6"/>
+    </radialGradient>
+    <linearGradient id="teal" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#7ed9ce"/>
+      <stop offset="1" stop-color="#126f73"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="url(#paper)"/>
+  <path d="M77 132c125-42 274-28 452 36 52 19 69 78 42 132-53 106-61 226-14 360 24 68-24 127-98 128-148 2-254 31-347 8-81-20-109-81-86-145 45-126 31-240-20-340-31-62 2-153 71-179z" fill="#111" opacity=".07"/>
+  <path d="M159 650c70-210 174-346 319-433-11 115 14 206 74 273-118 9-215 63-290 159-34 43-67 54-103 1z" fill="#f7fbf4" opacity=".82"/>
+  <path d="M170 650c75-188 178-323 309-405" fill="none" stroke="#172021" stroke-width="24" stroke-linecap="round" opacity=".22"/>
+  <path d="M208 672c73-154 173-262 302-320" fill="none" stroke="url(#teal)" stroke-width="22" stroke-linecap="round" opacity=".72"/>
+  <path d="M202 572c96 38 196 37 302-4" fill="none" stroke="url(#teal)" stroke-width="18" stroke-linecap="round" opacity=".63"/>
+  <path d="M408 184 244 724" fill="none" stroke="#283232" stroke-width="20" stroke-linecap="round"/>
+  <path d="m423 147-15 76 59-35" fill="#eaf6ef" stroke="#2f3936" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M113 735c111 43 248 38 411-11" fill="none" stroke="#1d2423" stroke-width="18" stroke-linecap="round" opacity=".26"/>
+  <circle cx="291" cy="476" r="98" fill="none" stroke="#13808a" stroke-width="18" opacity=".24"/>
+  <path d="M141 270c62-30 122-36 181-17M95 358c37 23 83 34 138 32M507 596c31 25 61 34 91 28" fill="none" stroke="#162221" stroke-width="13" stroke-linecap="round" opacity=".18"/>
+</svg>
