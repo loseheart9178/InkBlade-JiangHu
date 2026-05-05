@@ -41,17 +41,17 @@ Bundled Node equivalents:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
 ```
 
-Wave 9 release verification completed on branch `codex/wave9-polish-balance-art`: Vitest 15 files / 182 tests, TypeScript, Vite build, Playwright 27 Chromium tests, asset audit 115 runtime refs / missing 0 / card fallback debt 45, and multi-seed balance 12/12 routes.
+Wave 10 release verification completed on branch `codex/wave10-card-fallback-zero`: Vitest 18 files / 186 tests, TypeScript, Vite build with the known Phaser chunk-size warning, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance 12/12 routes.
 
-## Wave 9 Release Refresh Prep
+## Wave 10 Card Art Refresh
 
-Wave 9 is scoped as a polish, balance, and art-readability refresh for the desktop alpha:
+Wave 10 removes the remaining runtime card-art fallback debt while preserving the desktop alpha behavior verified in Wave 9:
 
-- Stabilize the Zhuge Liang seed `9003` multi-seed route while preserving his low-HP, high-strategy identity.
-- Replace starter readability card fallbacks with semantic card art for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang starter cards.
-- Add first-chapter semantic attack strips for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` so they do not read as the generic enemy slash.
+- Adds 45 repo-local semantic SVG card faces for common, ink, mind, status, Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang fallback targets.
+- Binds those assets through card-art modules imported by `src/game/content/visuals.ts`.
+- Updates the generated asset audit so card-art modules are counted in runtime references and `cardFallbackDebt` reports 0.
 
-Desktop browser remains the active release target. The Wave 9 gate verified Zhuge Liang seed `9003`, starter semantic card SVGs, and first-chapter semantic attack strips without timeout risks, unsafe damage spikes, or missing runtime assets.
+Desktop browser remains the active release target. Wave 10 changes art bindings and audit coverage only; gameplay pacing remains covered by the 12/12 multi-seed balance report and the 27-test Chromium suite.
 
 ## Desktop Playtest Route
 
@@ -72,7 +72,7 @@ Use [desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md)
 
 ## Known Gaps
 
-- Wave 9 final card fallback debt is 45; remaining type-level card art is non-blocking art backlog.
+- Runtime card fallback debt is now 0. The Wave 10 card faces are semantic repo-local SVGs, not final GPT Image 2 bitmap illustrations.
 - First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
 - Zhuge Liang seed `9003` completed in the Wave 9 multi-seed report; Zhuge Liang remains a high-pressure balance watchlist character because his lowest post-combat HP band is 3/3/7.
 - Vite build can print a non-blocking Phaser lazy chunk-size warning.

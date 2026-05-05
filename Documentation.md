@@ -2,6 +2,80 @@
 
 ## Status Log
 
+### 2026-05-05 09:46 Asia/Shanghai
+
+Wave 10 Card Fallback Zero integrated in `.worktrees/wave6-integration` on branch `codex/wave10-card-fallback-zero`.
+
+Docs read / carried through integration:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave10-card-fallback-zero.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/chapters/chapter_01.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+What changed:
+
+- Integrated three independent Wave 10 card-art modules and 45 semantic SVG card faces for all remaining card fallback targets.
+- Imported the Wave 10 modules into `src/game/content/visuals.ts` so runtime `cardArtById` resolves every shipped card away from shared type fallbacks.
+- Added shared content coverage requiring all 45 Wave 10 targets to use dedicated `wave10-*.svg` assets and requiring card fallback debt to stay at 0.
+- Updated `scripts/audit-generated-assets.mjs` to include imported `src/game/content/cardArt/*.ts` modules in runtime reference counts and fallback debt calculation.
+- Refreshed `public/assets/generated/asset-audit.json`, README, alpha acceptance, desktop checklist, and GPT Image 2 priority queue with the Wave 10 results.
+
+TDD and root cause:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts -t "Wave 10 card fallback" --reporter=dot
+RED result: failed as expected because `common_duanzhu` and the other Wave 10 ids were not yet bound in `cardArtById`.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/content.test.ts -t "fallback debt" --reporter=dot
+RED result after runtime binding: failed because the stale asset audit ledger still reported `cardFallbackDebtCount` 45.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Root cause evidence: the old audit script still reported runtime references 115 and card fallback debt 45 because it scanned only object literals in `visuals.ts`, not imported card-art modules.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 18 files / 186 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed with the known non-blocking Phaser chunk-size warning.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
+Result: passed. 27 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+Result: passed. Runtime references 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 52, source sheets 20, prompt queue targets 54.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+Result: passed. Routes completed 12/12, combat samples 84, timeout risks 0, unsafe damage spikes 0.
+```
+
+Known gaps / risks:
+
+- Wave 10 card faces are semantic repo-local SVG runtime assets, not final GPT Image 2 bitmap illustrations.
+- The known Vite Phaser lazy chunk-size warning remains a non-blocking performance backlog item.
+
+Next step:
+
+- Run final diff checks and commit the Wave 10 integration branch.
+
 ### 2026-05-04 23:31 Asia/Shanghai
 
 Wave 10 Task 3 Cai Wenji and Zhuge Liang card art started in `.worktrees/wave10-cai-zhuge-card-art` on branch `codex/wave10-cai-zhuge-card-art`.

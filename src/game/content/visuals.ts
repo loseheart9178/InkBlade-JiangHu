@@ -1,3 +1,6 @@
+import { wave10CaiZhugeCardArt } from "./cardArt/wave10CaiZhugeCardArt";
+import { wave10CommonCardArt } from "./cardArt/wave10CommonCardArt";
+import { wave10ZhaoDiaoCardArt } from "./cardArt/wave10ZhaoDiaoCardArt";
 import type { CardVisualCueId, CombatVisualTone } from "../systems/combat/types";
 
 export interface CombatPortraitDefinition {
@@ -234,12 +237,6 @@ export const cardArtList: CardArtDefinition[] = [
     accent: "teal"
   },
   {
-    id: "zhao_qixing_spear",
-    assetPath: "/assets/generated/cards/card-red-spear-gpt.png",
-    alt: "Seven star spear shadow card art",
-    accent: "gold"
-  },
-  {
     id: "zhao_river_guard",
     assetPath: "/assets/generated/cards/gpt2-zhao-river-guard.png",
     alt: "Zhao Yun river guard ink card art",
@@ -431,6 +428,9 @@ export const cardArtList: CardArtDefinition[] = [
     alt: "Redacted history status card with cinnabar brush marks",
     accent: "red"
   },
+  ...wave10CommonCardArt,
+  ...wave10ZhaoDiaoCardArt,
+  ...wave10CaiZhugeCardArt,
   {
     id: "type_attack",
     assetPath: "/assets/generated/cards/card-red-spear-gpt.png",

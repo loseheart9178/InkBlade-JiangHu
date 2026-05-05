@@ -7,11 +7,13 @@ const projectRoot = path.resolve(scriptDir, "..");
 const publicRoot = path.join(projectRoot, "public");
 const visualsPath = path.join(projectRoot, "src", "game", "content", "visuals.ts");
 const cardsPath = path.join(projectRoot, "src", "game", "content", "cards.ts");
+const cardArtModuleDir = path.join(projectRoot, "src", "game", "content", "cardArt");
 const ledgerPath = path.join(publicRoot, "assets", "generated", "asset-audit.json");
 const promptQueuePath = path.join(publicRoot, "assets", "generated", "gpt2-prompt-queue.json");
 
 const visualsSource = readFileSync(visualsPath, "utf8");
 const cardsSource = readFileSync(cardsPath, "utf8");
+const cardArtModuleSources = readCardArtModuleSources(cardArtModuleDir);
 
 const manifestSections = [
   ["combatPortrait", "combatPortraitList"],
@@ -25,24 +27,11 @@ const manifestSections = [
   .sort((left, right) => left.start - right.start);
 
 const runtimeReferencePattern = /\b(assetPath|standeePath):\s*"((?:\/assets\/generated|\/assets\/sprites)\/[^"]+)"/g;
-const runtimeReferences = [];
-
-for (const match of visualsSource.matchAll(runtimeReferencePattern)) {
-  const property = match[1];
-  const assetPath = match[2];
-  const index = match.index ?? 0;
-  const objectStart = visualsSource.lastIndexOf("{", index);
-  const objectPrefix = visualsSource.slice(Math.max(0, objectStart), index);
-  const idMatches = [...objectPrefix.matchAll(/\bid:\s*"([^"]+)"/g)];
-  const id = idMatches.at(-1)?.[1] ?? path.basename(assetPath, path.extname(assetPath));
-
-  runtimeReferences.push({
-    assetPath,
-    id,
-    kind: findManifestKind(index),
-    property
-  });
-}
+const cardArtManifestSource = [visualsSource, ...cardArtModuleSources.map(({ source }) => source)].join("\n");
+const runtimeReferences = [
+  ...collectRuntimeReferences(visualsSource),
+  ...cardArtModuleSources.flatMap(({ source }) => collectRuntimeReferences(source, "cardArt"))
+];
 
 const runtimeFiles = groupByAssetPath(runtimeReferences);
 const missing = runtimeFiles
@@ -56,7 +45,7 @@ const inkPassDebt = groupBySemanticAsset(runtimeReferences.filter((reference) =>
 const gpt2Runtime = groupBySemanticAsset(runtimeReferences.filter((reference) => isGpt2RuntimeAsset(reference.assetPath)));
 const sourceSheets = findSourceSheets(path.join(publicRoot, "assets", "generated"));
 const promptQueue = summarizePromptQueue(promptQueuePath);
-const cardFallbackDebt = summarizeCardFallbackDebt(cardsSource, visualsSource);
+const cardFallbackDebt = summarizeCardFallbackDebt(cardsSource, cardArtManifestSource);
 
 const ledger = {
   schemaVersion: 1,
@@ -111,6 +100,46 @@ function findManifestKind(index) {
   }
 
   return kind;
+}
+
+function readCardArtModuleSources(directory) {
+  if (!existsSync(directory)) {
+    return [];
+  }
+
+  return readdirSync(directory, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".ts"))
+    .map((entry) => {
+      const filePath = path.join(directory, entry.name);
+      return {
+        filePath,
+        source: readFileSync(filePath, "utf8")
+      };
+    })
+    .sort((left, right) => left.filePath.localeCompare(right.filePath));
+}
+
+function collectRuntimeReferences(source, kindOverride) {
+  const references = [];
+
+  for (const match of source.matchAll(runtimeReferencePattern)) {
+    const property = match[1];
+    const assetPath = match[2];
+    const index = match.index ?? 0;
+    const objectStart = source.lastIndexOf("{", index);
+    const objectPrefix = source.slice(Math.max(0, objectStart), index);
+    const idMatches = [...objectPrefix.matchAll(/\bid:\s*"([^"]+)"/g)];
+    const id = idMatches.at(-1)?.[1] ?? path.basename(assetPath, path.extname(assetPath));
+
+    references.push({
+      assetPath,
+      id,
+      kind: kindOverride ?? findManifestKind(index),
+      property
+    });
+  }
+
+  return references;
 }
 
 function groupByAssetPath(references) {
@@ -259,13 +288,19 @@ function extractCards(source) {
 
 function extractCardArt(source) {
   const artById = new Map();
+  const cardArtArrayNames = [
+    "cardArtList",
+    ...[...source.matchAll(/export const (\w+CardArt):\s*CardArtDefinition\[\]\s*=/g)].map((match) => match[1])
+  ];
 
-  for (const objectSource of splitTopLevelObjects(extractArrayLiteral(source, "cardArtList"))) {
-    const id = readStringProperty(objectSource, "id");
-    artById.set(id, {
-      id,
-      assetPath: readStringProperty(objectSource, "assetPath")
-    });
+  for (const arrayName of new Set(cardArtArrayNames)) {
+    for (const objectSource of splitTopLevelObjects(extractArrayLiteral(source, arrayName))) {
+      const id = readStringProperty(objectSource, "id");
+      artById.set(id, {
+        id,
+        assetPath: readStringProperty(objectSource, "assetPath")
+      });
+    }
   }
 
   return artById;

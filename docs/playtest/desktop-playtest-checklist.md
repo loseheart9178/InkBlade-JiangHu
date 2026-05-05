@@ -19,14 +19,15 @@ Or start from an autonomous worktree with bundled Node:
 
 Open the local Vite URL, usually `http://127.0.0.1:5173/`, in desktop Chromium. Keep devtools open while testing so console errors, missing assets, and failed requests can be captured.
 
-## Wave 9 Release Focus
+## Wave 10 Release Focus
 
-Wave 9 desktop QA confirmed these integration-branch release targets:
+Wave 10 desktop QA confirmed these integration-branch release targets:
 
 - Zhuge Liang seed `9003` balance is no longer a deterministic completion risk in the multi-seed report.
-- Starter semantic card art is visible where the desktop hand, reward, and deck surfaces expose starter readability cards.
+- Starter and Wave 10 semantic card art are visible where the desktop hand, reward, and deck surfaces expose shipped cards.
+- Runtime card fallback debt is 0 after binding all remaining common, ink, mind, status, and character fallback targets.
 - First-chapter semantic attack strips are used for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; the generic enemy slash should not be accepted as their final combat identity.
-- Final gate: Vitest 15 files / 182 tests, Playwright 27 Chromium tests, asset audit 115 runtime refs / missing 0 / card fallback debt 45, and multi-seed balance 12/12 routes.
+- Final gate: Vitest 18 files / 186 tests, Playwright 27 Chromium tests, asset audit 159 runtime refs / missing 0 / card fallback debt 0, and multi-seed balance 12/12 routes.
 
 ## Smoke Route A: First Battle Loop
 
@@ -82,7 +83,7 @@ Bundled Node equivalent:
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
 ```
 
-The Wave 9 final Playwright Chromium desktop result is 27/27 passing tests. Useful focused runs include:
+The Wave 10 final Playwright Chromium desktop result is 27/27 passing tests. Useful focused runs include:
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "debug skip|compendium|final boss route"
@@ -99,7 +100,7 @@ The Wave 9 final Playwright Chromium desktop result is 27/27 passing tests. Usef
 
 ## Known Non-Blocking Issues
 
-- Wave 9 final card fallback debt is 45; report remaining type-level card art as art debt rather than a desktop runtime blocker.
+- Runtime card fallback debt is 0. The new Wave 10 card faces are semantic SVG readability assets rather than final GPT Image 2 bitmap illustrations.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`. The generic enemy slash strip is not acceptable for those combatants.
 - Zhuge Liang seed `9003` now completes in the multi-seed report; Zhuge Liang remains high-pressure and should stay on the balance watchlist.
 - Vite may report a lazy Phaser chunk-size warning during build; this is tracked as performance backlog.

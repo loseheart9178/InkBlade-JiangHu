@@ -527,6 +527,70 @@ describe("content data", () => {
     }
   });
 
+  it("binds every Wave 10 card fallback target to semantic art", () => {
+    const wave10FallbackTargets = [
+      "common_duanzhu",
+      "common_feishi",
+      "common_gedang",
+      "common_mirror_armor",
+      "common_pifeng",
+      "common_qingshen",
+      "common_tuna",
+      "common_xieli",
+      "common_zhuiying",
+      "ink_heiyu",
+      "ink_modian",
+      "ink_moren",
+      "mind_jingxin",
+      "mind_luanxin",
+      "mind_nuzhan",
+      "status_rain_chill",
+      "zhao_guardian",
+      "zhao_qixing_spear",
+      "zhao_single_rider",
+      "zhao_stable_formation",
+      "zhao_sweep",
+      "zhao_thrust",
+      "zhao_white_dragon",
+      "diao_falling_fan",
+      "diao_glance",
+      "diao_hongyan",
+      "diao_red_ribbon",
+      "diao_sleeve_blade",
+      "diao_step_lotus",
+      "cai_broken_string",
+      "cai_clean_string",
+      "cai_clear_tone",
+      "cai_echoing_melody",
+      "cai_five_tones_start",
+      "cai_listen_still",
+      "cai_shang_tone",
+      "cai_soul_ferry",
+      "zhuge_deduction",
+      "zhuge_empty_city",
+      "zhuge_fire_array",
+      "zhuge_plan_set",
+      "zhuge_starfall",
+      "zhuge_stone_array",
+      "zhuge_straw_boats",
+      "zhuge_wind_array"
+    ];
+
+    expect(new Set(wave10FallbackTargets).size).toBe(45);
+
+    for (const id of wave10FallbackTargets) {
+      const card = cardsById[id];
+      const art = cardArtById[id];
+      const fallbackArt = cardArtById[`type_${card.types[0]}`];
+
+      expect(card).toBeDefined();
+      expect(art, id).toBeDefined();
+      expect(art.assetPath, id).toMatch(/^\/assets\/generated\/cards\/wave10-.+\.svg$/);
+      expect(art.assetPath, id).not.toBe(fallbackArt?.assetPath);
+      expectAssetPathToExist(art.assetPath);
+    }
+  });
+
   it("uses GPT Image 2 card art for the currently visible priority card faces", () => {
     const priorityCards = {
       zhao_river_guard: "/assets/generated/cards/gpt2-zhao-river-guard.png",
@@ -610,10 +674,15 @@ describe("content data", () => {
     expect(ledger.sourceSheets.length).toBeGreaterThan(0);
   });
 
-  it("tracks non-blocking card art fallback debt separately from missing runtime art", () => {
+  it("keeps card art fallback debt at zero after Wave 10 semantic assets", () => {
     const expectedFallbackDebt = collectCardFallbackDebt();
-    expect(expectedFallbackDebt.cards.length).toBeGreaterThan(0);
-    expect(expectedFallbackDebt.cards.map((card) => card.id)).toEqual(expect.arrayContaining(["zhao_qixing_spear", "diao_hongyan", "common_pifeng"]));
+    expect(expectedFallbackDebt).toEqual({
+      totalCount: 0,
+      byCharacter: [],
+      byType: [],
+      byRarity: [],
+      cards: []
+    });
 
     const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
     const ledger = JSON.parse(readFileSync(join(projectRoot, "public/assets/generated/asset-audit.json"), "utf8")) as {
@@ -642,7 +711,7 @@ describe("content data", () => {
 
     expect(ledger.missing).toEqual([]);
     expect(ledger.summary.missingCount).toBe(0);
-    expect(ledger.summary.cardFallbackDebtCount).toBe(expectedFallbackDebt.cards.length);
+    expect(ledger.summary.cardFallbackDebtCount).toBe(0);
     expect(ledger.cardFallbackDebt).toEqual(expectedFallbackDebt);
   });
 
