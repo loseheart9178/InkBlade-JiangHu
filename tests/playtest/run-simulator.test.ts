@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { createDebugRun } from "../../src/game/systems/debug/debugRun";
-import { createBalanceReport, formatBalanceReportMarkdown } from "../../src/game/systems/debug/balanceReport";
+import {
+  BALANCE_REPORT_ID,
+  BALANCE_REPORT_TITLE,
+  createBalanceReport,
+  formatBalanceReportMarkdown
+} from "../../src/game/systems/debug/balanceReport";
 import { simulateBattlePlan, simulateFullRoute, summarizeRunPacing } from "../../src/game/systems/debug/runSimulator";
 
 const ALPHA_CHARACTER_IDS = ["zhaoyun", "diaochan", "caiwenji", "zhugeliang"];
@@ -64,7 +69,9 @@ describe("run simulator", () => {
     const second = createBalanceReport({ routeSeed: 9001 });
 
     expect(second).toEqual(first);
-    expect(first.reportId).toBe("wave7-alpha-balance-v1");
+    expect(BALANCE_REPORT_ID).toBe("wave24-alpha-balance-v1");
+    expect(BALANCE_REPORT_TITLE).toBe("Wave 24 Alpha Balance Report");
+    expect(first.reportId).toBe(BALANCE_REPORT_ID);
     expect(first.seed).toBe(9001);
     expect(first.characters.map((character) => character.id)).toEqual(ALPHA_CHARACTER_IDS);
     expect(first.chapters.map((chapter) => chapter.id)).toEqual(ALPHA_CHAPTER_IDS);
@@ -92,7 +99,9 @@ describe("run simulator", () => {
     }
 
     expect(first.findings.some((finding) => finding.includes("4/4 representative shipped hero routes completed"))).toBe(true);
-    expect(formatBalanceReportMarkdown(first)).toContain("Wave 7 Alpha Balance Report");
+    const firstMarkdown = formatBalanceReportMarkdown(first);
+    expect(firstMarkdown).toContain(`# ${BALANCE_REPORT_TITLE}`);
+    expect(firstMarkdown).not.toContain("Wave 7 Alpha Balance Report");
   });
 
   it("builds a deterministic multi-seed balance aggregate", () => {

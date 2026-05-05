@@ -51,18 +51,18 @@ Desired output shape:
 - Create: `docs/superpowers/plans/2026-05-05-wave24-balance-report-label-refresh.md`
 - Modify: `Documentation.md`
 
-- [ ] **Step 1: Record planning entry**
+- [x] **Step 1: Record planning entry**
 
 Add a top `Documentation.md` entry with docs read, stale-label evidence, plan path, and next step.
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 ```bash
 grep -n "Wave 24 Balance Report Label Refresh" Documentation.md docs/superpowers/plans/2026-05-05-wave24-balance-report-label-refresh.md
 git diff --check
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add Documentation.md docs/superpowers/plans/2026-05-05-wave24-balance-report-label-refresh.md
@@ -76,7 +76,7 @@ git commit -m "docs: plan wave24 balance report label refresh"
 - Modify: `tests/playtest/run-simulator.test.ts`
 - Modify: `tests/playtest/balance-report-script.test.ts`
 
-- [ ] **Step 1: Pin the new runtime metadata in simulator tests**
+- [x] **Step 1: Pin the new runtime metadata in simulator tests**
 
 Update the balance report import:
 
@@ -100,7 +100,7 @@ expect(firstMarkdown).toContain(`# ${BALANCE_REPORT_TITLE}`);
 expect(firstMarkdown).not.toContain("Wave 7 Alpha Balance Report");
 ```
 
-- [ ] **Step 2: Pin the new script output label**
+- [x] **Step 2: Pin the new script output label**
 
 In `tests/playtest/balance-report-script.test.ts`, import the constants:
 
@@ -118,7 +118,7 @@ expect(stdout).toContain(`- Report id: ${BALANCE_REPORT_ID}`);
 expect(stdout).not.toContain("Wave 7 Alpha Balance Report");
 ```
 
-- [ ] **Step 3: Verify red**
+- [x] **Step 3: Verify red**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/playtest/balance-report-script.test.ts --reporter=dot
@@ -132,7 +132,7 @@ Expected first result: fail because `BALANCE_REPORT_ID` and `BALANCE_REPORT_TITL
 
 - Modify: `src/game/systems/debug/balanceReport.ts`
 
-- [ ] **Step 1: Add metadata constants near defaults**
+- [x] **Step 1: Add metadata constants near defaults**
 
 Add:
 
@@ -141,7 +141,7 @@ export const BALANCE_REPORT_ID = "wave24-alpha-balance-v1";
 export const BALANCE_REPORT_TITLE = "Wave 24 Alpha Balance Report";
 ```
 
-- [ ] **Step 2: Use constants in the report type and factory**
+- [x] **Step 2: Use constants in the report type and factory**
 
 Change the `BalanceReport` interface and `createBalanceReport` return object:
 
@@ -155,7 +155,7 @@ return {
   reportId: BALANCE_REPORT_ID,
 ```
 
-- [ ] **Step 3: Use the title constant in markdown output**
+- [x] **Step 3: Use the title constant in markdown output**
 
 Change the markdown heading line:
 
@@ -163,7 +163,7 @@ Change the markdown heading line:
 `# ${BALANCE_REPORT_TITLE}`,
 ```
 
-- [ ] **Step 4: Verify focused tests**
+- [x] **Step 4: Verify focused tests**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/playtest/balance-report-script.test.ts --reporter=dot
@@ -179,7 +179,7 @@ Expected: pass.
 - Modify: `Documentation.md`
 - Modify: `docs/superpowers/plans/2026-05-05-wave24-balance-report-label-refresh.md`
 
-- [ ] **Step 1: Refresh acceptance wording**
+- [x] **Step 1: Refresh acceptance wording**
 
 Add a short latest-label gate sentence near the top of `docs/playtest/alpha-acceptance.md`:
 
@@ -193,7 +193,7 @@ Update the current artifact sentence:
 Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 24 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, and the Wave 24 report label/report id above.
 ```
 
-- [ ] **Step 2: Verify script output**
+- [x] **Step 2: Verify script output**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 | head -5
@@ -201,7 +201,7 @@ Wave 7 through Wave 14 balance-report and acceptance sections remain historical 
 
 Expected: first line is `# Wave 24 Alpha Balance Report` and the report id line is `- Report id: wave24-alpha-balance-v1`.
 
-- [ ] **Step 3: Run broad gates**
+- [x] **Step 3: Run broad gates**
 
 ```bash
 /mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
@@ -210,11 +210,11 @@ Expected: first line is `# Wave 24 Alpha Balance Report` and the report id line 
 git diff --check
 ```
 
-- [ ] **Step 4: Record final Documentation entry**
+- [x] **Step 4: Record final Documentation entry**
 
 Record changed files, subagent/worktree status, verification commands/results, and residual risks.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add Documentation.md docs/playtest/alpha-acceptance.md docs/superpowers/plans/2026-05-05-wave24-balance-report-label-refresh.md src/game/systems/debug/balanceReport.ts tests/playtest/run-simulator.test.ts tests/playtest/balance-report-script.test.ts

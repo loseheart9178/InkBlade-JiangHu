@@ -7,6 +7,9 @@ export interface BalanceReportOptions extends FullRouteOptions {
   seeds?: number[];
 }
 
+export const BALANCE_REPORT_ID = "wave24-alpha-balance-v1";
+export const BALANCE_REPORT_TITLE = "Wave 24 Alpha Balance Report";
+
 export interface BalanceReportCharacter {
   id: string;
   name: string;
@@ -105,7 +108,7 @@ export interface BalanceReportAcceptance {
 }
 
 export interface BalanceReport {
-  reportId: "wave7-alpha-balance-v1";
+  reportId: typeof BALANCE_REPORT_ID;
   seed: number;
   seeds?: number[];
   chapters: BalanceReportChapter[];
@@ -144,7 +147,7 @@ export function createBalanceReport(options: BalanceReportOptions = {}): Balance
   const findings = createFindings(routes, aggregate);
 
   return {
-    reportId: "wave7-alpha-balance-v1",
+    reportId: BALANCE_REPORT_ID,
     seed,
     ...(seeds.length > 1 ? { seeds } : {}),
     chapters: chapterList.map((chapter) => ({ id: chapter.id, name: chapter.name })),
@@ -164,7 +167,7 @@ export function createBalanceReport(options: BalanceReportOptions = {}): Balance
 
 export function formatBalanceReportMarkdown(report: BalanceReport): string {
   const lines = [
-    "# Wave 7 Alpha Balance Report",
+    `# ${BALANCE_REPORT_TITLE}`,
     "",
     `- Report id: ${report.reportId}`,
     `- Seed: ${report.seed}`,

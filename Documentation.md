@@ -2,6 +2,77 @@
 
 ## Status Log
 
+### 2026-05-05 19:29 Asia/Shanghai
+
+Wave 24 Balance Report Label Refresh integrated in `.worktrees/wave6-integration` on branch `codex/wave24-balance-report-label-refresh`.
+
+Docs/files read / carried through implementation:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `src/game/systems/debug/balanceReport.ts`
+- `tests/playtest/run-simulator.test.ts`
+- `tests/playtest/balance-report-script.test.ts`
+- `scripts/balance-report.mjs`
+- `docs/superpowers/plans/2026-05-05-wave24-balance-report-label-refresh.md`
+
+What changed:
+
+- Added exported balance report metadata constants: `BALANCE_REPORT_ID = "wave24-alpha-balance-v1"` and `BALANCE_REPORT_TITLE = "Wave 24 Alpha Balance Report"`.
+- Updated `createBalanceReport` and `formatBalanceReportMarkdown` to emit the Wave 24 id/title while leaving route simulation, aggregate math, findings, and acceptance rules unchanged.
+- Updated simulator and script tests so they reject the stale `Wave 7 Alpha Balance Report` runtime output and pin the new report id/title.
+- Refreshed `docs/playtest/alpha-acceptance.md` to note the Wave 24 label gate while keeping Wave 7-14 sections as historical references.
+
+Worker worktrees / subagents:
+
+- Created `codex/wave24-label-code` at `.worktrees/wave24-label-code` for code/test work. The worker added the failing metadata assertions, verified the red state against missing exports, implemented the constants, and passed focused Vitest plus `git diff --check`.
+- Created `codex/wave24-label-docs` at `.worktrees/wave24-label-docs` for acceptance docs. The worker refreshed only `docs/playtest/alpha-acceptance.md` and passed the planned grep check plus `git diff --check`.
+- Both subagents were closed after their diffs were reviewed and integrated into the main implementation branch.
+
+Verification:
+
+```text
+Code/test worker red check
+Result: failed as expected after adding the new assertions because `BALANCE_REPORT_ID` was undefined before implementation.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/playtest/balance-report-script.test.ts --reporter=dot
+Result after implementation: passed in the worker worktree. 2 files / 8 tests.
+
+grep -n "Wave 24 Alpha Balance Report\|wave24-alpha-balance-v1\|current Wave 24" docs/playtest/alpha-acceptance.md
+Result in docs worker: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 | head -5
+Result in integration worktree: passed. First lines were `# Wave 24 Alpha Balance Report`, report id `wave24-alpha-balance-v1`, seed 9001, and seeds 9001/9002/9003.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/playtest/balance-report-script.test.ts --reporter=dot
+Result in integration worktree: passed. 2 files / 8 tests.
+
+grep -R -n "wave7-alpha-balance-v1\|# Wave 7 Alpha Balance Report" src tests scripts docs/playtest README.md
+Result: passed with no stale runtime label/id hits in source, tests, scripts, playtest docs, or README.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 200 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 44 modules.
+```
+
+Known gaps / risks:
+
+- Wave 24 only refreshes the balance report identity and release-facing label. It deliberately does not change balancing thresholds or simulation behavior.
+- No browser QA was run for Wave 24 because this change is pure debug-report metadata plus tests/docs and does not affect renderer state or DOM surfaces.
+
+Next step:
+
+- Commit Wave 24, remove the worker worktrees, then start the next autonomous wave by scanning for the highest-value remaining stale release or playtest gap.
+
 ### 2026-05-05 19:18 Asia/Shanghai
 
 Wave 24 Balance Report Label Refresh planning started in `.worktrees/wave6-integration` on branch `codex/wave24-balance-report-label-plan`.

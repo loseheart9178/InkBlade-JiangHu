@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { BALANCE_REPORT_ID, BALANCE_REPORT_TITLE } from "../../src/game/systems/debug/balanceReport";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const scriptPath = resolve(repoRoot, "scripts/balance-report.mjs");
@@ -27,7 +28,11 @@ describe("balance report script", () => {
       });
 
       const artifact = readFileSync(artifactPath, "utf8");
-      expect(stdout).toContain("# Wave 7 Alpha Balance Report");
+      expect(BALANCE_REPORT_ID).toBe("wave24-alpha-balance-v1");
+      expect(BALANCE_REPORT_TITLE).toBe("Wave 24 Alpha Balance Report");
+      expect(stdout).toContain(`# ${BALANCE_REPORT_TITLE}`);
+      expect(stdout).toContain(`- Report id: ${BALANCE_REPORT_ID}`);
+      expect(stdout).not.toContain("Wave 7 Alpha Balance Report");
       expect(artifact).toBe(stdout);
       expect(artifact).toContain("Routes completed: 12/12");
     } finally {
