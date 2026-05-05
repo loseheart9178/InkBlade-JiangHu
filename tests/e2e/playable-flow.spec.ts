@@ -203,7 +203,12 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await page.getByTestId("boss-reward-continue").click();
 
   await expect(page.getByTestId("screen-final-choice")).toBeVisible();
+  await expect(page.getByTestId("screen-final-choice")).toHaveAttribute("data-final-choice-count", "4");
   await expect(page.getByTestId("final-choice-option")).toContainText(["封印墨渊", "焚毁墨书", "接管墨书", "与心魔合一"]);
+  await expect(page.getByTestId("final-choice-option").filter({ hasText: "封印墨渊" })).toHaveAttribute("data-choice-eligible", "true");
+  await expect(page.getByTestId("final-choice-option").filter({ hasText: "焚毁墨书" })).toHaveAttribute("data-choice-eligible", "false");
+  await expect(page.getByTestId("final-choice-option").filter({ hasText: "焚毁墨书" })).toHaveAttribute("data-choice-requirement", /怒意足够/);
+  await expect(page.getByTestId("final-choice-option").filter({ hasText: "焚毁墨书" })).toContainText("未满足");
   await expect(page.getByTestId("final-choice-option").filter({ hasText: "放下笔" })).toHaveCount(0);
   await page.reload();
   await expect(page.getByTestId("continue-run")).toBeEnabled();

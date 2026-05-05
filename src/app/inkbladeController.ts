@@ -1454,7 +1454,9 @@ function renderFinalChoice(host: HTMLElement, state: ControllerState, render: ()
 
   const list = document.createElement("div");
   list.className = "final-choice-list";
-  for (const choice of getAvailableFinalChoices(run)) {
+  const choices = getAvailableFinalChoices(run);
+  panel.dataset.finalChoiceCount = `${choices.length}`;
+  for (const choice of choices) {
     const button = createAction(choice.title, `${choice.summary} ${choice.eligible ? "" : `未满足：${choice.requirement}`}`, () => {
       const selection = selectFinalChoice(run, choice.id);
       if (!selection) {
@@ -1469,6 +1471,8 @@ function renderFinalChoice(host: HTMLElement, state: ControllerState, render: ()
     button.classList.add("final-choice-option");
     button.dataset.testid = "final-choice-option";
     button.dataset.choiceId = choice.id;
+    button.dataset.choiceEligible = `${choice.eligible}`;
+    button.dataset.choiceRequirement = choice.requirement;
     button.disabled = !choice.eligible;
     list.append(button);
   }
