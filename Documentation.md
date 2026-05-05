@@ -2,6 +2,49 @@
 
 ## Status Log
 
+### 2026-05-05 10:24 Asia/Shanghai
+
+Wave 11 Alpha Backlog Closure planning started in `.worktrees/wave6-integration` on branch `codex/wave11-backlog-closure-plan`.
+
+Docs read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_03.md`
+- `docs/chapters/final_chapter.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/playtest/desktop-playtest-checklist.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-05-wave11-alpha-backlog-closure.md`
+
+Scope:
+
+- Harden final-choice UI affordance metadata for the existing ending flow.
+- Add glossary metadata to combat status badges without moving gameplay rules into the renderer.
+- Make the intentionally lazy Phaser chunk budget explicit in Vite config so build output focuses on actionable regressions.
+- Leave Milestone 58 as an optional later GPT Image 2 bitmap card-art quality pass.
+
+Planning verification:
+
+```text
+grep -n "TBD\|TODO\|implement later\|fill in\|appropriate error handling\|Write tests for the above\|Similar to" docs/superpowers/plans/2026-05-05-wave11-alpha-backlog-closure.md
+Result: no placeholder matches.
+
+git diff --check
+Result: passed.
+```
+
+Next step:
+
+- Commit the plan, create the Wave 11 integration branch and worker worktrees, then dispatch independent agents for final-choice, status-glossary, and boot-budget work.
+
 ### 2026-05-05 09:46 Asia/Shanghai
 
 Wave 10 Card Fallback Zero integrated in `.worktrees/wave6-integration` on branch `codex/wave10-card-fallback-zero`.
