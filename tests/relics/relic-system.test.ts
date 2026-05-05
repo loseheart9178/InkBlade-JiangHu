@@ -19,15 +19,21 @@ function playFirst(state: ReturnType<typeof createCombat>, cardId: string, targe
 
 describe("relic reward pools", () => {
   it("defines a larger first-chapter relic pool split by reward source", () => {
-    expect(relicList.length).toBeGreaterThanOrEqual(12);
+    expect(relicList.length).toBeGreaterThanOrEqual(32);
     expect(getRelicRewardPool("elite", "zhaoyun")).toEqual(expect.arrayContaining(["relic_dragon_scale_tip", "relic_changban_iron_seal"]));
     expect(getRelicRewardPool("elite", "diaochan")).toEqual(expect.arrayContaining(["relic_lotus_step_bell", "relic_half_moon_hairpin"]));
     expect(getRelicRewardPool("elite", "caiwenji")).toEqual(expect.arrayContaining(["relic_echoing_jade_chime"]));
     expect(getRelicRewardPool("elite", "zhugeliang")).toEqual(expect.arrayContaining(["relic_starlit_tactical_map"]));
+    expect(getRelicRewardPool("elite", "zhaoyun")).toEqual(expect.arrayContaining(["relic_cloud_dragon_scale", "relic_white_cloak_knot"]));
+    expect(getRelicRewardPool("elite", "diaochan")).toEqual(expect.arrayContaining(["relic_moon_shadow_bell", "relic_silk_scheme_token"]));
+    expect(getRelicRewardPool("elite", "caiwenji")).toEqual(expect.arrayContaining(["relic_orchid_jade_pick", "relic_clear_rain_score"]));
+    expect(getRelicRewardPool("elite", "zhugeliang")).toEqual(expect.arrayContaining(["relic_astrolabe_shard", "relic_bagua_copper_coin"]));
     expect(getRelicRewardPool("boss", "zhaoyun").length).toBeGreaterThanOrEqual(6);
     expect(getShopRelicPool("diaochan").length).toBeGreaterThanOrEqual(3);
+    expect(getShopRelicPool("zhaoyun")).toContain("relic_traveling_cloak");
     expect(getShopRelicPool("caiwenji")).toContain("relic_echoing_jade_chime");
     expect(getShopRelicPool("zhugeliang")).toContain("relic_starlit_tactical_map");
+    expect(getShopRelicPool()).toEqual(expect.arrayContaining(["relic_still_heart_lantern", "relic_unwritten_inkstone"]));
   });
 
   it("elite spoils draw from the expanded unowned pool", () => {
@@ -41,12 +47,110 @@ describe("relic reward pools", () => {
   it("describes relic reward sources in Chinese-facing UI labels", () => {
     expect(describeRelicSource("relic_old_wooden_sword")).toBe("凡 · 精英/首领/游商");
     expect(describeRelicSource("relic_qingyin_jade")).toBe("绝 · 首领/游商");
+    expect(describeRelicSource("relic_unwritten_inkstone")).toBe("绝 · 首领/游商");
+    expect(describeRelicSource("relic_cloud_dragon_scale")).toBe("凡 · 精英/首领/游商");
     expect(describeRelicSource("relic_white_dragon_tassel")).toBe("章 · 初始");
     expect(describeRelicSource("relic_old_wooden_sword")).not.toMatch(/elite|boss|shop/);
   });
 });
 
 describe("relic combat hooks", () => {
+  it("Jianghu Whetstone increases all attack card damage", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["zhao_strike", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard"] },
+      cards: cardList,
+      enemies: [{ ...enemiesById.enemy_ink_bandit, maxHp: 20 }],
+      rngSeed: 28,
+      relicIds: ["relic_jianghu_whetstone"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "zhao_strike");
+
+    expect(state.enemies[0].hp).toBe(13);
+  });
+
+  it("Traveling Cloak grants opening block", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["zhao_strike", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 29,
+      relicIds: ["relic_traveling_cloak"],
+      shuffleDeck: false
+    });
+
+    expect(state.player.block).toBe(3);
+    expect(state.combatLog).toContain("行脚斗篷");
+  });
+
+  it("Cloud Dragon Scale adds spear resource on the third attack", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["zhao_strike", "zhao_strike", "zhao_strike", "zhao_strike", "zhao_guard"] },
+      cards: cardList,
+      enemies: [{ ...enemiesById.enemy_ink_bandit, maxHp: 50 }],
+      rngSeed: 30,
+      relicIds: ["relic_cloud_dragon_scale"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "zhao_strike");
+    playFirst(state, "zhao_strike");
+    playFirst(state, "zhao_strike");
+
+    expect(state.player.resource.value).toBe(5);
+    expect(state.combatLog.filter((entry) => entry === "云龙鳞")).toHaveLength(1);
+  });
+
+  it("Moon Shadow Bell grants dodge on the first body card", () => {
+    const state = createCombat({
+      character: { ...charactersById.diaochan, starterDeck: ["diao_lingbo", "diao_lingbo", "diao_strike", "diao_guard", "diao_charm"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 31,
+      relicIds: ["relic_moon_shadow_bell"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "diao_lingbo", "player");
+    playFirst(state, "diao_lingbo", "player");
+
+    expect(state.player.statuses.dodge).toBe(1);
+    expect(state.combatLog.filter((entry) => entry === "月影铃")).toHaveLength(1);
+  });
+
+  it("Still Heart Lantern rewards the first mind transition", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["mind_jingxin", "zhao_strike", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 32,
+      relicIds: ["relic_still_heart_lantern"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "mind_jingxin", "player");
+
+    expect(state.player.block).toBeGreaterThanOrEqual(12);
+    expect(state.combatLog.filter((entry) => entry === "止水灯")).toHaveLength(1);
+  });
+
+  it("Unwritten Inkstone converts the first ink mark into tempo", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["ink_unwritten_page", "zhao_strike", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 33,
+      relicIds: ["relic_unwritten_inkstone"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "ink_unwritten_page", "player");
+
+    expect(state.player.block).toBe(2);
+    expect(state.combatLog.filter((entry) => entry === "未写砚")).toHaveLength(1);
+  });
+
   it("Dragon Scale Tip adds damage on the third attack and does not double-fire on the fourth", () => {
     const state = createCombat({
       character: { ...charactersById.zhaoyun, starterDeck: ["zhao_strike", "zhao_strike", "zhao_strike", "zhao_strike", "zhao_guard"] },

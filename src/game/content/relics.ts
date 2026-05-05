@@ -204,6 +204,130 @@ export const relicList: RelicDefinition[] = [
     price: 84,
     triggerText: "进入新章节时适配成长。",
     description: "章末奖励更容易出现心法进境与净化牌。"
+  },
+  {
+    id: "relic_cloud_dragon_scale",
+    name: "云龙鳞",
+    rarity: "common",
+    character: "zhaoyun",
+    archetypeId: "zhao-spear-chain",
+    sources: ["elite", "boss", "shop"],
+    price: 74,
+    triggerText: "每场战斗第三张攻击触发。",
+    description: "每场战斗第三张攻击后，获得1枪势。"
+  },
+  {
+    id: "relic_white_cloak_knot",
+    name: "白袍结",
+    rarity: "uncommon",
+    character: "zhaoyun",
+    archetypeId: "zhao-guardian-counter",
+    sources: ["elite", "boss", "shop"],
+    price: 94,
+    triggerText: "每场战斗首次护主抵消伤害触发。",
+    description: "每场战斗首次护主抵消伤害时，获得3点护甲。"
+  },
+  {
+    id: "relic_moon_shadow_bell",
+    name: "月影铃",
+    rarity: "common",
+    character: "diaochan",
+    archetypeId: "diao-dance-chain",
+    sources: ["elite", "boss", "shop"],
+    price: 74,
+    triggerText: "每场战斗第一张身法触发。",
+    description: "每场战斗首次打出身法牌时，获得1层闪避。"
+  },
+  {
+    id: "relic_silk_scheme_token",
+    name: "绫计牌",
+    rarity: "uncommon",
+    character: "diaochan",
+    archetypeId: "diao-charm-control",
+    sources: ["elite", "boss", "shop"],
+    price: 94,
+    triggerText: "每场战斗首次让敌人魅惑达到4触发。",
+    description: "每场战斗首次使敌人魅惑达到4层时，抽1张牌。"
+  },
+  {
+    id: "relic_orchid_jade_pick",
+    name: "兰玉拨",
+    rarity: "common",
+    character: "caiwenji",
+    archetypeId: "cai-qin-echo",
+    sources: ["elite", "boss", "shop"],
+    price: 76,
+    triggerText: "每场战斗第一张余韵或琴音牌触发。",
+    description: "每场战斗首次打出余韵或琴音牌时，获得3点护甲。"
+  },
+  {
+    id: "relic_clear_rain_score",
+    name: "清雨谱",
+    rarity: "uncommon",
+    character: "caiwenji",
+    archetypeId: "cai-cleanse-melody",
+    sources: ["elite", "boss", "shop"],
+    price: 96,
+    triggerText: "每场战斗首次净化触发。",
+    description: "每场战斗首次净化状态或诅咒牌时，获得1音律。"
+  },
+  {
+    id: "relic_astrolabe_shard",
+    name: "星盘残片",
+    rarity: "common",
+    character: "zhugeliang",
+    archetypeId: "zhuge-star-control",
+    sources: ["elite", "boss", "shop"],
+    price: 76,
+    triggerText: "每场战斗第一张观星牌触发。",
+    description: "每场战斗首次打出观星牌时，抽1张牌。"
+  },
+  {
+    id: "relic_bagua_copper_coin",
+    name: "八卦铜钱",
+    rarity: "uncommon",
+    character: "zhugeliang",
+    archetypeId: "zhuge-formation-wind",
+    sources: ["elite", "boss", "shop"],
+    price: 96,
+    triggerText: "每场战斗第一张阵法牌触发。",
+    description: "每场战斗首次打出阵法牌时，获得4点护甲。"
+  },
+  {
+    id: "relic_jianghu_whetstone",
+    name: "江湖砥石",
+    rarity: "common",
+    sources: ["elite", "boss", "shop"],
+    price: 72,
+    triggerText: "攻击牌生效。",
+    description: "攻击牌伤害+1。"
+  },
+  {
+    id: "relic_traveling_cloak",
+    name: "行脚斗篷",
+    rarity: "common",
+    sources: ["elite", "boss", "shop"],
+    price: 72,
+    triggerText: "战斗开始时触发。",
+    description: "战斗开始时，获得3点护甲。"
+  },
+  {
+    id: "relic_still_heart_lantern",
+    name: "止水灯",
+    rarity: "rare",
+    sources: ["boss", "shop"],
+    price: 124,
+    triggerText: "每场战斗首次进入心境触发。",
+    description: "每场战斗首次进入任意心境时，获得4点护甲并抽1张牌。"
+  },
+  {
+    id: "relic_unwritten_inkstone",
+    name: "未写砚",
+    rarity: "rare",
+    sources: ["boss", "shop"],
+    price: 128,
+    triggerText: "每场战斗首次获得墨痕触发。",
+    description: "每场战斗首次获得墨痕时，抽1张牌并获得2点护甲。"
   }
 ];
 

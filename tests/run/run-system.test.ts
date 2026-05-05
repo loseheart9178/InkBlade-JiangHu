@@ -1,5 +1,6 @@
 import { cardsById } from "../../src/game/content/cards";
 import { createFinalBossDebugRun } from "../../src/game/systems/debug/debugRun";
+import { getRelicRewardPool } from "../../src/game/systems/relics/relicEffects";
 import {
   addRelic,
   advanceToNextChapter,
@@ -420,18 +421,7 @@ describe("run system", () => {
 
   it("falls back to gold-only spoils when relic pool is exhausted", () => {
     const run = createRun("zhaoyun");
-    for (const relicId of [
-      "relic_dragon_scale_tip",
-      "relic_changban_iron_seal",
-      "relic_broken_string",
-      "relic_memory_bamboo_slip",
-      "relic_old_wooden_sword",
-      "relic_black_paper_umbrella",
-      "relic_ink_washstone",
-      "relic_clear_rain_charm",
-      "relic_red_lacquer_token",
-      "relic_silent_zither_string"
-    ]) {
+    for (const relicId of getRelicRewardPool("elite", run.characterId)) {
       addRelic(run, relicId);
     }
 

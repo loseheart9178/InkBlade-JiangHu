@@ -332,6 +332,10 @@ function getPlayerDamageAmount(state: CombatState, definition: CardDefinition, c
     amount += 2;
   }
 
+  if (hasRelic(state, "relic_jianghu_whetstone") && definition.types.includes("attack")) {
+    amount += 1;
+  }
+
   return amount;
 }
 
@@ -508,6 +512,7 @@ function applyCharacterCardHooks(state: CombatState, definition: CardDefinition,
   if (state.character.id === "zhugeliang") {
     if (isScryCard(definition)) {
       triggerStarObservationMethod(state);
+      triggerAstrolabeShardRelic(state);
     }
 
     if (isFormationCard(definition)) {
@@ -887,6 +892,12 @@ function applyCombatStartRelics(state: CombatState): void {
     pushVisualEvent(state, "block", "player", "+2 护甲", "gold", 2);
   }
 
+  if (hasRelic(state, "relic_traveling_cloak")) {
+    state.player.block += 3;
+    state.combatLog.push("行脚斗篷");
+    pushVisualEvent(state, "block", "player", "+3 护甲", "teal", 3);
+  }
+
   if (hasRelic(state, "relic_closed_moon_sachet")) {
     const enemy = state.enemies.find((item) => item.hp > 0);
     if (enemy) {
@@ -950,6 +961,13 @@ function triggerInkRelics(state: CombatState, inkAmount: number): void {
     drawCards(state, 1, createRng(state.turn * 419 + state.nextInstanceNumber));
     pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
+
+  if (inkAmount > 0 && triggerRelicOnce(state, "relic_unwritten_inkstone", "player", "ink")) {
+    state.player.block += 2;
+    drawCards(state, 1, createRng(state.turn * 421 + state.nextInstanceNumber));
+    pushVisualEvent(state, "block", "player", "+2 护甲", "ink", 2);
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
 }
 
 function triggerBreakFormationRelics(state: CombatState): void {
@@ -988,6 +1006,11 @@ function triggerThirdAttackRelics(state: CombatState, targetId: string): void {
   if (triggerRelicOnce(state, "relic_dragon_scale_tip", "enemy", "red")) {
     damageEnemy(state, targetId, 3);
   }
+
+  if (triggerRelicOnce(state, "relic_cloud_dragon_scale", "player", "teal")) {
+    gainResource(state, 1);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "teal", 1);
+  }
 }
 
 function triggerGuardSuccessRelics(state: CombatState): void {
@@ -995,12 +1018,22 @@ function triggerGuardSuccessRelics(state: CombatState): void {
     drawCards(state, 1, createRng(state.turn * 431 + state.nextInstanceNumber));
     pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
+
+  if (triggerRelicOnce(state, "relic_white_cloak_knot", "player", "teal")) {
+    state.player.block += 3;
+    pushVisualEvent(state, "block", "player", "+3 护甲", "teal", 3);
+  }
 }
 
 function triggerBodyRelics(state: CombatState): void {
   if (triggerRelicOnce(state, "relic_lotus_step_bell", "player", "teal")) {
     drawCards(state, 1, createRng(state.turn * 443 + state.nextInstanceNumber));
     pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
+
+  if (triggerRelicOnce(state, "relic_moon_shadow_bell", "player", "teal")) {
+    state.player.statuses.dodge = (state.player.statuses.dodge ?? 0) + 1;
+    pushVisualEvent(state, "status", "player", "闪避 +1", "teal", 1);
   }
 }
 
@@ -1014,12 +1047,24 @@ function triggerCharmThresholdRelics(state: CombatState, targetId: string): void
     enemy.statuses.vulnerable = (enemy.statuses.vulnerable ?? 0) + 1;
     pushVisualEvent(state, "status", "enemy", "易伤 +1", "teal", 1);
   }
+
+  if (triggerRelicOnce(state, "relic_silk_scheme_token", "player", "teal")) {
+    drawCards(state, 1, createRng(state.turn * 449 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
 }
 
 function triggerMindRelics(state: CombatState): void {
   if (triggerRelicOnce(state, "relic_silent_zither_string", "player", "gold")) {
     state.player.block += 2;
     pushVisualEvent(state, "block", "player", "+2 护甲", "gold", 2);
+  }
+
+  if (triggerRelicOnce(state, "relic_still_heart_lantern", "player", "gold")) {
+    state.player.block += 4;
+    drawCards(state, 1, createRng(state.turn * 457 + state.nextInstanceNumber));
+    pushVisualEvent(state, "block", "player", "+4 护甲", "gold", 4);
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
 }
 
@@ -1028,6 +1073,11 @@ function triggerCleanseRelics(state: CombatState): void {
     state.player.block += 2;
     drawCards(state, 1, createRng(state.turn * 467 + state.nextInstanceNumber));
     pushVisualEvent(state, "block", "player", "+2 护甲", "teal", 2);
+  }
+
+  if (triggerRelicOnce(state, "relic_clear_rain_score", "player", "teal")) {
+    gainResource(state, 1);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "teal", 1);
   }
 }
 
@@ -1057,12 +1107,29 @@ function triggerEchoingJadeChimeRelic(state: CombatState): void {
     drawCards(state, 1, createRng(state.turn * 479 + state.nextInstanceNumber));
     pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
+
+  if (triggerRelicOnce(state, "relic_orchid_jade_pick", "player", "teal")) {
+    state.player.block += 3;
+    pushVisualEvent(state, "block", "player", "+3 护甲", "teal", 3);
+  }
 }
 
 function triggerStarlitTacticalMapRelic(state: CombatState): void {
   if (triggerRelicOnce(state, "relic_starlit_tactical_map", "player", "gold")) {
     gainResource(state, 1);
     pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+  }
+
+  if (triggerRelicOnce(state, "relic_bagua_copper_coin", "player", "gold")) {
+    state.player.block += 4;
+    pushVisualEvent(state, "block", "player", "+4 护甲", "gold", 4);
+  }
+}
+
+function triggerAstrolabeShardRelic(state: CombatState): void {
+  if (triggerRelicOnce(state, "relic_astrolabe_shard", "player", "gold")) {
+    drawCards(state, 1, createRng(state.turn * 491 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
 }
 

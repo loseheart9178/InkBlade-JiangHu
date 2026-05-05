@@ -47,7 +47,7 @@ describe("content data", () => {
     expect(characterList).toHaveLength(4);
     expect(chapterList).toHaveLength(4);
     expect(cardList).toHaveLength(93);
-    expect(relicList).toHaveLength(20);
+    expect(relicList).toHaveLength(32);
     expect(eventList).toHaveLength(29);
     expect(enemyList).toHaveLength(19);
     expect(methodList).toHaveLength(8);
@@ -66,6 +66,19 @@ describe("content data", () => {
       caiwenji: 16,
       zhugeliang: 15,
       neutral: 26
+    });
+    expect(countBy(relicList, (relic) => relic.rarity)).toEqual({
+      boss: 4,
+      common: 10,
+      uncommon: 14,
+      rare: 4
+    });
+    expect(countBy(relicList, (relic) => relic.character ?? "neutral")).toEqual({
+      zhaoyun: 5,
+      diaochan: 5,
+      caiwenji: 4,
+      zhugeliang: 4,
+      neutral: 14
     });
 
     const wave27CardIds = [
@@ -93,6 +106,23 @@ describe("content data", () => {
       expect(art.assetPath, cardId).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
       expectAssetPathToExist(art.assetPath);
     }
+
+    expect(relicList.map((relic) => relic.id)).toEqual(
+      expect.arrayContaining([
+        "relic_cloud_dragon_scale",
+        "relic_white_cloak_knot",
+        "relic_moon_shadow_bell",
+        "relic_silk_scheme_token",
+        "relic_orchid_jade_pick",
+        "relic_clear_rain_score",
+        "relic_astrolabe_shard",
+        "relic_bagua_copper_coin",
+        "relic_jianghu_whetstone",
+        "relic_traveling_cloak",
+        "relic_still_heart_lantern",
+        "relic_unwritten_inkstone"
+      ])
+    );
   });
 
   it("ships a first slice card pool with common, Zhao Yun, and Diao Chan cards", () => {

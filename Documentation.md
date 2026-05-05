@@ -36,6 +36,60 @@ Next step:
 
 - Commit the Wave 28 plan, then implement relic data, combat hooks, and tests in scoped worktrees or directly if subagent capacity blocks.
 
+Implementation update:
+
+- Implemented Wave 28 directly in the integration worktree because Wave 27 subagent execution had repeatedly stalled.
+- Added 12 relics, raising the relic baseline from 20 to 32:
+  - Zhao Yun: `云龙鳞`, `白袍结`
+  - Diao Chan: `月影铃`, `绫计牌`
+  - Cai Wenji: `兰玉拨`, `清雨谱`
+  - Zhuge Liang: `星盘残片`, `八卦铜钱`
+  - Neutral/mind/ink: `江湖砥石`, `行脚斗篷`, `止水灯`, `未写砚`
+- Added combat hooks for the new relics across attack damage, opening block, third attack, guard success, body card, charm threshold, mind transition, cleanse, echo/qin, scry, formation, and ink-gain triggers.
+- Updated content baseline tests to 32 relics with rarity and character distribution checks.
+- Updated relic system tests for source pools, Chinese-facing source labels, and six new hook regressions.
+- Updated the run-system relic exhaustion regression so it exhausts the current dynamic elite pool instead of the old fixed 20-relic-era list.
+- Hardened the Playwright `startRun` helper to wait for `start-run` to become enabled before clicking.
+- Updated `README.md` to record the current EA baseline as 93 cards and 32 relics.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/relics/relic-system.test.ts tests/data/content.test.ts --reporter=dot
+Result: passed. 2 files / 47 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Initial result: failed as expected after relic expansion because the old fixed relic-exhaustion test did not include the new pool.
+Fix: changed the test to exhaust `getRelicRewardPool("elite", run.characterId)`.
+Final result: passed. 24 files / 207 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/run/run-system.test.ts tests/relics/relic-system.test.ts tests/data/content.test.ts --reporter=dot
+Result: passed. 3 files / 77 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "shops can add relics|elite victories can award"
+Initial result: timed out waiting for `start-run` while the app was still disabling the button during startup.
+Fix: `startRun` now waits for the button to be enabled before clicking.
+Final result: passed. 2 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+```
+
+Known gaps / risks:
+
+- Wave 28 adds many useful relic hooks, but broader relic-trigger infrastructure is still ad hoc inside combat logic.
+- New relics will shift reward density and simulator outcomes; a future balance gate should watch route survivability and relic variance.
+
+Next step:
+
+- Commit Wave 28, then start Wave 29 EA Event And Logbook Expansion.
+
 ### 2026-05-05 21:01 Asia/Shanghai
 
 Wave 27 EA Card Pool Expansion I planning started in `.worktrees/wave6-integration` on branch `codex/wave27-ea-card-pool-plan`.

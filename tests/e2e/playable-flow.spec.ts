@@ -547,7 +547,9 @@ async function startRun(
   await page.goto(options.debugTools ? "/?debug=1" : "/");
   await expect(page.getByText("云水江湖")).toBeVisible();
   await page.getByTestId(`character-${characterId}`).click();
-  await page.getByTestId("start-run").click();
+  const start = page.getByTestId("start-run");
+  await expect(start).toBeEnabled();
+  await start.click();
 }
 
 async function winVisibleCombat(page: Page, maxSteps = 36, targetScreen = "screen-reward"): Promise<void> {
