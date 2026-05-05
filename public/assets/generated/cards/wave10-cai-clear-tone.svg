@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cai Wenji clear tone card art</title>
+  <desc id="desc">A clear teal note wave travels over bamboo and calm ink water.</desc>
+  <defs>
+    <radialGradient id="clearTone" cx="44%" cy="45%" r="62%">
+      <stop offset="0" stop-color="#9edfd5" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#f7f0df" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <rect width="640" height="900" rx="34" fill="url(#clearTone)"/>
+  <path d="M122 192c-3 126-6 250-10 372M224 142c-5 138-9 273-13 405M505 183c2 115 2 235-2 360" fill="none" stroke="#111111" stroke-width="13" stroke-linecap="round" opacity="0.13"/>
+  <path d="M91 351c39-29 83-30 129-2M187 434c52-37 103-38 154-4M458 331c43-31 81-31 116 0" fill="none" stroke="#1e8f8b" stroke-width="7" stroke-linecap="round" opacity="0.55"/>
+  <path d="M81 608c95-85 195-87 301-5 69 53 125 61 181 24" fill="none" stroke="#1e8f8b" stroke-width="18" stroke-linecap="round" opacity="0.72"/>
+  <path d="M94 640c111-55 219-50 322 15 44 28 86 32 126 10" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round" opacity="0.15"/>
+  <circle cx="385" cy="502" r="20" fill="#1e8f8b" opacity="0.78"/>
+  <path d="M404 506c54 18 91 45 113 81" fill="none" stroke="#1e8f8b" stroke-width="8" stroke-linecap="round"/>
+</svg>

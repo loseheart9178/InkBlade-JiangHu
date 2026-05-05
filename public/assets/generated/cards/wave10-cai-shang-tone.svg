@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cai Wenji Shang tone card art</title>
+  <desc id="desc">A sharp golden Shang tone chord cuts across a dark guqin body.</desc>
+  <defs>
+    <linearGradient id="shang" x1="101" y1="690" x2="545" y2="234" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff2b8"/>
+      <stop offset="1" stop-color="#c5902f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <path d="M0 216c95-55 196-54 303 3 91 49 203 37 337-36v152H0Z" fill="#111111" opacity="0.08"/>
+  <path d="M115 604c111-59 284-68 407-26 34 12 40 55 9 75-106 69-311 76-432 17-41-20-34-42 16-66Z" fill="#2b2418" opacity="0.86"/>
+  <path d="M145 636c110-33 243-38 366-12" fill="none" stroke="#f7f0df" stroke-width="6" stroke-linecap="round" opacity="0.44"/>
+  <path d="M96 694 538 242" fill="none" stroke="url(#shang)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M179 590 488 273" fill="none" stroke="#fff7c7" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+  <path d="M377 296c48 1 92 15 132 42M247 637c61 12 110 33 148 63" fill="none" stroke="#c5902f" stroke-width="9" stroke-linecap="round" opacity="0.45"/>
+  <circle cx="538" cy="242" r="20" fill="#c5902f" opacity="0.76"/>
+</svg>

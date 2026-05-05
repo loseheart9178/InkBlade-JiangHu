@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cai Wenji echoing melody card art</title>
+  <desc id="desc">Repeating guqin sound rings ripple through teal wash and distant ink hills.</desc>
+  <defs>
+    <radialGradient id="echo" cx="50%" cy="52%" r="54%">
+      <stop offset="0" stop-color="#70c9c2" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#f7f0df" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <path d="M0 236c106-53 193-51 263 5 80 65 180 66 300 3 33-17 59-28 77-34v164H0Z" fill="#111111" opacity="0.08"/>
+  <rect width="640" height="900" rx="34" fill="url(#echo)"/>
+  <path d="M126 610c109-61 268-68 387-22 33 13 34 54 0 69-119 51-290 52-403 1-36-16-27-27 16-48Z" fill="#27231d" opacity="0.82"/>
+  <path d="M157 624c83-28 213-36 325-9M156 654c90-18 221-22 320-5" fill="none" stroke="#f7f0df" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+  <path d="M321 500c63-4 118 10 164 43M312 451c94-11 174 14 241 75M303 397c128-20 237 18 319 113" fill="none" stroke="#1e8f8b" stroke-width="12" stroke-linecap="round" opacity="0.64"/>
+  <path d="M198 466c-42 20-76 52-101 96M169 423c-65 30-111 78-139 143" fill="none" stroke="#1e8f8b" stroke-width="10" stroke-linecap="round" opacity="0.34"/>
+  <circle cx="320" cy="506" r="16" fill="#1e8f8b" opacity="0.75"/>
+</svg>

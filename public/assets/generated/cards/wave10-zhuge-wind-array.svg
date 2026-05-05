@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhuge Liang wind array card art</title>
+  <desc id="desc">A teal wind formation spiral turns around a white feather fan.</desc>
+  <defs>
+    <radialGradient id="wind" cx="50%" cy="43%" r="62%">
+      <stop offset="0" stop-color="#85d4cb" stop-opacity="0.66"/>
+      <stop offset="1" stop-color="#f7f0df" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <rect width="640" height="900" rx="34" fill="url(#wind)"/>
+  <path d="M161 415c48-106 148-155 300-146 68 57 74 128 18 212-67 101-186 126-356 76 139-10 218-56 238-138 11-45-14-74-75-86-46-9-87 18-125 82Z" fill="none" stroke="#1e8f8b" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" opacity="0.72"/>
+  <path d="M206 608c99 42 200 39 304-10M153 673c132 40 260 37 384-9" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round" opacity="0.12"/>
+  <path d="M282 551c94-23 165 10 213 100-93 18-164-15-213-100Z" fill="#f8f0dc" stroke="#1e8f8b" stroke-width="8"/>
+  <path d="M322 574c56 13 100 40 132 82M354 549c43 27 75 62 97 107" fill="none" stroke="#111111" stroke-width="4" opacity="0.24"/>
+  <path d="M487 248c38 24 68 55 90 91M98 457c-31 51-42 104-33 158" fill="none" stroke="#1e8f8b" stroke-width="10" stroke-linecap="round" opacity="0.45"/>
+</svg>

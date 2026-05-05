@@ -2,6 +2,65 @@
 
 ## Status Log
 
+### 2026-05-04 23:31 Asia/Shanghai
+
+Wave 10 Task 3 Cai Wenji and Zhuge Liang card art started in `.worktrees/wave10-cai-zhuge-card-art` on branch `codex/wave10-cai-zhuge-card-art`.
+
+Docs read before implementation:
+
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-04-wave10-card-fallback-zero.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_02.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+
+Scope:
+
+- Add the isolated Wave 10 Cai Wenji and Zhuge Liang card art module, focused module test, and 16 semantic SVG card faces.
+- Do not edit `src/game/content/visuals.ts`, `public/assets/generated/asset-audit.json`, or shared release docs in this worker branch.
+
+What changed:
+
+- Added `src/game/content/cardArt/wave10CaiZhugeCardArt.ts` exporting the 16 Task 3 `CardArtDefinition` entries in the required order.
+- Added `tests/data/wave10-cai-zhuge-card-art.test.ts` to assert ids, SVG paths, alt text, accents, readable files, `viewBox="0 0 640 900"`, and no rendered `<text>` elements.
+- Added 8 Cai Wenji and 8 Zhuge Liang semantic SVG card faces under `public/assets/generated/cards/`, using guqin, sound-wave, ferry, bamboo-slip, fan, star, formation, and empty-city motifs.
+
+TDD RED:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave10-cai-zhuge-card-art.test.ts
+Result: failed as expected before the module existed. Vite could not resolve `../../src/game/content/cardArt/wave10CaiZhugeCardArt`.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/data/wave10-cai-zhuge-card-art.test.ts
+Result: passed, 1 file / 1 test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- These are semantic repo-local SVG card faces, not final GPT Image 2 bitmap illustrations.
+- The assets are intentionally not wired into `src/game/content/visuals.ts` in this worker branch; Task 4 owns shared integration and audit refresh.
+
+Next step:
+
+- Commit this worker branch and hand it off for Wave 10 integration.
+
 ### 2026-05-04 23:38 Asia/Shanghai
 
 Wave 10 Task 1 common / ink / mind / status card art completed in `.worktrees/wave10-common-card-art` on branch `codex/wave10-common-card-art`.

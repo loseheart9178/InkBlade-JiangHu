@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Cai Wenji soul ferry card art</title>
+  <desc id="desc">A small soul ferry boat rides luminous guqin waves through gold mist.</desc>
+  <defs>
+    <radialGradient id="soul" cx="49%" cy="41%" r="62%">
+      <stop offset="0" stop-color="#edc46b" stop-opacity="0.68"/>
+      <stop offset="1" stop-color="#f7f0df" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <rect width="640" height="900" rx="34" fill="url(#soul)"/>
+  <path d="M66 637c99-72 196-76 292-12 84 57 160 64 228 21" fill="none" stroke="#c69435" stroke-width="18" stroke-linecap="round" opacity="0.78"/>
+  <path d="M50 698c107-62 217-59 331 11 67 41 131 42 193 3" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round" opacity="0.13"/>
+  <path d="M184 540c63 26 134 27 212 4-28 69-96 105-205 108-50-43-52-80-7-112Z" fill="#2c2418" opacity="0.82"/>
+  <path d="M221 515c53-47 108-47 164 1" fill="none" stroke="#c69435" stroke-width="8" stroke-linecap="round"/>
+  <path d="M306 373c-21 34-34 68-31 101 5 43 46 61 81 37 38-25 25-83-50-138Z" fill="#fff8d4" stroke="#c69435" stroke-width="7" opacity="0.82"/>
+  <path d="M232 288c-22 72-9 136 39 192M444 289c19 76 2 139-51 190" fill="none" stroke="#c69435" stroke-width="7" stroke-linecap="round" opacity="0.34"/>
+  <circle cx="245" cy="467" r="13" fill="#fff5c8" opacity="0.8"/>
+  <circle cx="404" cy="475" r="11" fill="#fff5c8" opacity="0.72"/>
+</svg>

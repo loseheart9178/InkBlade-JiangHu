@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhuge Liang starfall card art</title>
+  <desc id="desc">Falling gold stars descend as a feather fan guides the strike.</desc>
+  <defs>
+    <linearGradient id="nightGold" x1="0" y1="126" x2="640" y2="805" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2d3741"/>
+      <stop offset="1" stop-color="#f7f0df"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <path d="M0 0h640v566c-120-64-222-58-307 17-76 67-187 75-333 24Z" fill="url(#nightGold)" opacity="0.56"/>
+  <circle cx="176" cy="174" r="15" fill="#f0c66b"/>
+  <circle cx="314" cy="112" r="11" fill="#fff4bd"/>
+  <circle cx="468" cy="210" r="14" fill="#f0c66b"/>
+  <path d="M205 207 91 392M329 147 254 312M483 243 382 459" fill="none" stroke="#f0c66b" stroke-width="8" stroke-linecap="round" opacity="0.82"/>
+  <path d="M314 590c95-27 166 7 213 102-95 14-166-19-213-102Z" fill="#f8f0dc" stroke="#c99835" stroke-width="8"/>
+  <path d="M353 614c56 12 99 39 129 82M386 591c43 25 74 59 94 103" fill="none" stroke="#111111" stroke-width="4" opacity="0.28"/>
+  <path d="M125 695c119-37 238-38 357-4" fill="none" stroke="#c99835" stroke-width="12" stroke-linecap="round" opacity="0.5"/>
+  <path d="M142 743c126 18 247 15 363-9" fill="none" stroke="#111111" stroke-width="7" stroke-linecap="round" opacity="0.14"/>
+</svg>

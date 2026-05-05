@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 900" role="img" aria-labelledby="title desc">
+  <title id="title">Zhuge Liang fire array card art</title>
+  <desc id="desc">A cinnabar fire formation sigil burns over a paper battle map.</desc>
+  <defs>
+    <radialGradient id="fire" cx="50%" cy="45%" r="58%">
+      <stop offset="0" stop-color="#d84a34" stop-opacity="0.68"/>
+      <stop offset="1" stop-color="#f7f0df" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="900" rx="34" fill="#f7f0df"/>
+  <rect width="640" height="900" rx="34" fill="url(#fire)"/>
+  <path d="M131 206c127 28 248 26 365-6 18 142 10 285-26 430-104 50-217 51-339 2 27-148 27-290 0-426Z" fill="#efe0bd" stroke="#221b15" stroke-width="10" opacity="0.86"/>
+  <path d="M188 303c86-26 173-25 261 4M177 469c105-34 202-31 290 9M314 230c-12 145-6 281 17 408" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round" opacity="0.18"/>
+  <path d="M322 330c35 53 83 91 145 115-63 25-110 64-142 117-35-54-82-92-141-116 60-25 106-63 138-116Z" fill="none" stroke="#b7352b" stroke-width="15" stroke-linejoin="round"/>
+  <path d="M322 386c18 28 43 48 74 61-32 13-57 34-75 62-19-29-43-50-73-62 31-13 56-33 74-61Z" fill="#b7352b" opacity="0.72"/>
+  <path d="M220 669c62 40 133 46 213 18" fill="none" stroke="#b7352b" stroke-width="11" stroke-linecap="round" opacity="0.46"/>
+</svg>
