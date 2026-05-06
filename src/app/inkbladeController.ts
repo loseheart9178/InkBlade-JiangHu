@@ -763,8 +763,10 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
 
   const path = document.createElement("div");
   path.className = "route-map";
-  path.style.setProperty("--map-columns", `${Math.max(...run.mapNodes.map((node) => node.floor)) + 1}`);
+  const mapColumns = Math.max(...run.mapNodes.map((node) => node.floor)) + 1;
+  path.style.setProperty("--map-columns", `${mapColumns}`);
   const availableIds = new Set(available.map((item) => item.id));
+  path.append(createRouteConnectorLayer(run, current, availableIds, mapColumns));
 
   for (const node of run.mapNodes) {
     const preview = createMapNodePreview(run, node);
@@ -812,6 +814,43 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
 
   panel.append(path);
   mountChapterPanel(host, panel, run);
+}
+
+function createRouteConnectorLayer(run: RunState, current: MapNode, availableIds: Set<string>, mapColumns: number): SVGSVGElement {
+  const laneCount = Math.max(...run.mapNodes.map((node) => node.lane)) + 1;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  const nodeMap = new Map(run.mapNodes.map((node) => [node.id, node]));
+  svg.classList.add("route-connectors");
+  svg.dataset.testid = "route-connectors";
+  svg.setAttribute("viewBox", `0 0 ${mapColumns * 100 + Math.max(0, mapColumns - 1) * 18} ${laneCount * 112 + Math.max(0, laneCount - 1) * 14}`);
+  svg.setAttribute("preserveAspectRatio", "none");
+  svg.setAttribute("aria-hidden", "true");
+
+  for (const node of run.mapNodes) {
+    for (const targetId of node.connections) {
+      const target = nodeMap.get(targetId);
+      if (!target) {
+        continue;
+      }
+
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      const state = node.id === current.id && availableIds.has(target.id)
+        ? "available"
+        : run.visitedNodeIds.includes(node.id)
+          ? "visited"
+          : "locked";
+      line.classList.add("route-connector", `route-connector--${state}`);
+      line.dataset.testid = `route-connector-${node.id}-${target.id}`;
+      line.dataset.routeConnectorState = state;
+      line.setAttribute("x1", `${node.floor * 118 + 53}`);
+      line.setAttribute("y1", `${node.lane * 126 + 56}`);
+      line.setAttribute("x2", `${target.floor * 118 + 53}`);
+      line.setAttribute("y2", `${target.lane * 126 + 56}`);
+      svg.append(line);
+    }
+  }
+
+  return svg;
 }
 
 function getMapRouteState(run: RunState, node: MapNode, current: MapNode, availableIds: Set<string>): MapRouteState {

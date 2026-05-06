@@ -173,6 +173,10 @@ test("route map shows risk and reward previews before choosing nodes", async ({ 
   const currentNode = page.getByTestId("map-node-start");
   await expect(currentNode).toHaveAttribute("data-route-state", "current");
   await expect(currentNode.getByTestId("map-node-state-start")).toContainText("当前");
+  await expect(page.getByTestId("route-connectors")).toBeVisible();
+  await expect(page.getByTestId("route-connector-start-battle-1")).toHaveAttribute("data-route-connector-state", "available");
+  await expect(page.getByTestId("route-connector-start-event-1")).toHaveAttribute("data-route-connector-state", "available");
+  await expect(page.getByTestId("route-connector-battle-1-shop-1")).toHaveAttribute("data-route-connector-state", "locked");
 
   const battleNode = page.getByTestId("map-node-battle-1");
   await expect(battleNode).toHaveAttribute("data-route-state", "available");

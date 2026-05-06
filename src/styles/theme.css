@@ -254,6 +254,7 @@ button {
 }
 
 .route-map {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(var(--map-columns, 6), minmax(106px, 1fr));
   grid-template-rows: repeat(4, minmax(112px, auto));
@@ -270,6 +271,32 @@ button {
   background-size: calc(100% / var(--map-columns, 6)) 100%, auto, auto;
 }
 
+.route-connectors {
+  position: absolute;
+  inset: 18px;
+  z-index: 0;
+  width: calc(100% - 36px);
+  height: calc(100% - 36px);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.route-connector {
+  stroke: rgba(44, 41, 36, 0.12);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.route-connector--available {
+  stroke: rgba(183, 53, 42, 0.72);
+  stroke-width: 6;
+}
+
+.route-connector--visited {
+  stroke: rgba(47, 124, 110, 0.42);
+  stroke-width: 5;
+}
+
 .map-node,
 .choice-action,
 .reward-card,
@@ -284,6 +311,7 @@ button {
 
 .map-node {
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto auto auto 1fr auto;

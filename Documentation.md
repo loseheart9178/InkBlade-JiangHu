@@ -31,6 +31,47 @@ Next step:
 
 - Commit the Wave 34 plan, then implement the connector SVG layer with focused Playwright coverage.
 
+Implementation update:
+
+- Committed the Wave 34 plan as `74e227b`.
+- Added a dedicated SVG `route-connectors` layer behind map nodes, generated directly from existing `MapNode.connections`.
+- Added stable `route-connector-${from}-${to}` test ids and connector state metadata for `available`, `visited`, and `locked` routes.
+- Tuned connector stroke weights so currently available routes read clearly while future locked routes stay in the background.
+- Kept map generation, travel legality, rewards, and node pools unchanged.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "route map shows risk"
+Initial RED result: failed as expected because `route-connectors` and `route-connector-*` elements did not exist.
+Final result: passed. 1 Chromium test. Screenshot reviewed at `test-results/playable-flow-route-map-sh-a9fbd-views-before-choosing-nodes-chromium/wave32-route-map-surface.png`.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 212 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed. 26 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Connector alignment is approximate because the SVG uses a fixed lane/column metric while the CSS grid can stretch with viewport width.
+- The connector layer improves path readability, but there is still no animated or hover-reactive route emphasis.
+- Mobile-specific route rendering remains out of scope per the desktop-first EA target.
+
+Next step:
+
+- Commit Wave 34 implementation, then start Wave 35. Candidate scope: reward/shop inventory variety and clearer shop identity, keeping Steam/storefront/release packaging out of scope.
+
 ### 2026-05-06 01:08 Asia/Shanghai
 
 Wave 33 EA Combat Readability planning started in `.worktrees/wave6-integration` on branch `codex/wave33-ea-combat-readability-plan`.
