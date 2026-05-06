@@ -25,7 +25,7 @@ import {
   type SaveableScreen
 } from "../game/systems/save/save";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
-import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, MindState, StatusId } from "../game/systems/combat/types";
+import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, EnemyIntentEffect, MindState, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import { createFinalBossDebugRun } from "../game/systems/debug/debugRun";
 import {
@@ -1027,11 +1027,25 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     endTurn
   );
 
-  panel.append(top, field, createCombatOnboardingRail(state, combat, render, storage, audioFeedback), createMessage(state.message), createCombatLog(combat), hand, controls);
+  panel.append(top, createCombatBuildReadout(run, combat), field, createCombatOnboardingRail(state, combat, render, storage, audioFeedback), createMessage(state.message), createCombatLog(combat), hand, controls);
   host.append(panel);
   dispatchBattlefieldChange(run.chapterId);
 
   run.hp = combat.player.hp;
+}
+
+function createCombatBuildReadout(run: RunState, combat: CombatState): HTMLElement {
+  const readout = document.createElement("div");
+  readout.className = "combat-build-readout";
+  readout.dataset.testid = "combat-build-readout";
+  const relicNames = combat.relicIds.map((id) => relicsById[id]?.name ?? id).slice(0, 4).join("、") || "未持有";
+  const methodNames = getRunMethods(run).map((method) => method.name).slice(0, 3).join("、") || "未定";
+  readout.innerHTML = `
+    <span><b>法宝</b> ${escapeHtml(relicNames)}</span>
+    <span><b>心法</b> ${escapeHtml(methodNames)}</span>
+    <span><b>招式链</b> ${escapeHtml(formatComboTrail(combat))}</span>
+  `;
+  return readout;
 }
 
 function createCombatOnboardingRail(
@@ -2022,16 +2036,73 @@ function createIntent(intent: CombatState["enemies"][number]["currentIntent"]): 
   }
   box.title = tooltip;
   box.setAttribute("aria-label", `敌人意图：${tooltip}`);
-  if (intent.type === "attack") {
-    box.textContent = intent.hits > 1 ? `杀意 ${intent.damage}x${intent.hits}` : `杀意 ${intent.damage}`;
-  } else if (intent.type === "block") {
-    box.textContent = `运功 ${intent.block}`;
-  } else if (intent.type === "special") {
-    box.textContent = intent.name;
-  } else {
-    box.textContent = "观望";
-  }
+  box.innerHTML = `
+    <span class="combat-intent-kicker">敌意</span>
+    <strong class="combat-intent-title" data-testid="combat-intent-title">${escapeHtml(formatIntentTitle(intent))}</strong>
+    <span class="combat-intent-detail" data-testid="combat-intent-detail">${escapeHtml(intentDetail)}</span>
+    <span class="combat-intent-chips">${formatIntentChips(intent).map(createIntentChipMarkup).join("")}</span>
+  `;
   return box;
+}
+
+function formatIntentTitle(intent: CombatState["enemies"][number]["currentIntent"]): string {
+  if (intent.type === "attack") {
+    return intent.hits > 1 ? `杀意 ${intent.damage}x${intent.hits}` : `杀意 ${intent.damage}`;
+  }
+
+  if (intent.type === "block") {
+    return `运功 ${intent.block}`;
+  }
+
+  if (intent.type === "special") {
+    return intent.name;
+  }
+
+  return "观望";
+}
+
+function formatIntentChips(intent: CombatState["enemies"][number]["currentIntent"]): string[] {
+  if (intent.type === "attack") {
+    return [`伤害 ${intent.damage}`, `${intent.hits}段`];
+  }
+
+  if (intent.type === "block") {
+    return [`护甲 ${intent.block}`];
+  }
+
+  if (intent.type === "special") {
+    return intent.effects.slice(0, 3).map(formatIntentEffectChip);
+  }
+
+  return ["无行动"];
+}
+
+function formatIntentEffectChip(effect: EnemyIntentEffect): string {
+  if (effect.action === "damage") {
+    return `伤害 ${effect.amount}${effect.hits && effect.hits > 1 ? `x${effect.hits}` : ""}`;
+  }
+
+  if (effect.action === "block") {
+    return `护甲 ${effect.amount}`;
+  }
+
+  if (effect.action === "applyStatus") {
+    return `${formatStatus(effect.status)} ${effect.amount}`;
+  }
+
+  if (effect.action === "addCardToDiscard") {
+    return `状态牌 ${effect.amount}`;
+  }
+
+  if (effect.action === "gainInk") {
+    return `墨痕 ${effect.amount}`;
+  }
+
+  return `回复 ${effect.amount}`;
+}
+
+function createIntentChipMarkup(label: string): string {
+  return `<span class="combat-intent-chip" data-testid="combat-intent-chip">${escapeHtml(label)}</span>`;
 }
 
 function describeIntent(intent: CombatState["enemies"][number]["currentIntent"]): string {

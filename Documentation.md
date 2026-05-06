@@ -37,6 +37,48 @@ Next step:
 
 - Commit the Wave 33 plan, then implement combat readability polish with Playwright-first checks.
 
+Implementation update:
+
+- Committed the Wave 33 plan as `e7aa7ce`.
+- Dispatched two narrow worker agents for Playwright assertions and CSS review. The Playwright assertions landed in the shared worktree and were kept; the CSS reviewer identified the top-bar/title overlap risk, which was incorporated into the final layout.
+- Replaced the plain enemy intent text with structured DOM: visible intent title, detail, and chips.
+- Added a compact combat build readout for active relics, methods, and current combo chain.
+- Moved the combat turn title into a small left-side label so the new build readout does not collide with the top meter bar.
+- Kept combat rules, enemy AI, card effects, relic effects, method effects, and balance numbers unchanged.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "Zhao Yun battle|Diao Chan starting relic"
+Initial RED result: failed as expected because `combat-intent-title`, `combat-intent-detail`, and `combat-build-readout` did not exist.
+Final result: passed. 2 Chromium tests. Screenshot captured at `test-results/playable-flow-boots-enters-ecace-nd-returns-to-the-route-map-chromium/wave33-combat-readability.png` and reviewed for desktop overlap.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 212 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed. 26 Chromium tests.
+```
+
+Known gaps / risks:
+
+- The combat build readout truncates visible relic/method lists to keep the battlefield clear; longer inventory inspection remains in the deck/run status surfaces.
+- Special enemy intents now show up to three compact chips; a richer inspect drawer could later explain every effect in detail.
+- Mobile-specific combat layout remains out of scope per the desktop-first EA target.
+
+Next step:
+
+- Commit Wave 33 implementation, then start Wave 34. Candidate scope: first-pass route connector strokes or reward/shop inventory variety, keeping Steam/storefront/release packaging out of scope.
+
 ### 2026-05-06 00:12 Asia/Shanghai
 
 Wave 32 EA Route Map Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave32-ea-route-map-polish-plan`.

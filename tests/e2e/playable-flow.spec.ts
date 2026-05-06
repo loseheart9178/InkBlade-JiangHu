@@ -273,7 +273,7 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await expect(page.getByTestId("profile-unlocked-epilogues")).toContainText("白龙归阵");
 });
 
-test("boots, enters a Zhao Yun battle, wins, and returns to the route map", async ({ page }) => {
+test("boots, enters a Zhao Yun battle, wins, and returns to the route map", async ({ page }, testInfo) => {
   await startRun(page, "zhaoyun");
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
@@ -293,6 +293,12 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
   await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /zhaoyun-standee-gpt-v2-cutout\.png$/);
   await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-bandit-standee-cutout\.png$/);
+  await expect(page.getByTestId("combat-intent-title")).toContainText("杀意");
+  await expect(page.getByTestId("combat-intent-detail")).toContainText("造成6点伤害。");
+  await expect(page.getByTestId("combat-intent-chip").first()).toContainText("伤害 6");
+  await expect(page.getByTestId("combat-build-readout")).toContainText("法宝 白龙枪缨");
+  await expect(page.getByTestId("combat-build-readout")).toContainText("心法 未定");
+  await capturePlaytestScreenshot(page, testInfo, "wave33-combat-readability.png");
 
   await winVisibleCombat(page);
 
@@ -435,6 +441,8 @@ test("Diao Chan starting relic applies charm and weak at combat start", async ({
   await expect(page.getByTestId("screen-combat")).toBeVisible();
   await expect(page.getByTestId("combat-log")).toContainText("闭月香囊");
   await expect(page.getByTestId("combat-floats")).toContainText("闭月香囊");
+  await expect(page.getByTestId("combat-build-readout")).toContainText("法宝 闭月香囊");
+  await expect(page.getByTestId("combat-intent-detail")).toBeVisible();
   await expect(page.getByTestId("enemy-status")).toContainText("魅惑 2");
   await expect(page.getByTestId("enemy-status")).toContainText("虚弱 1");
 });
