@@ -11,6 +11,7 @@ import {
   createCardRewardReasonMap,
   createMapNodePreview,
   createRun,
+  createShopDraft,
   createRunCompletionSnapshot,
   getAvailableNodes,
   getCurrentChapter,
@@ -79,6 +80,23 @@ describe("run system", () => {
     expect(createMapNodePreview(run, event!).tags).toEqual(expect.arrayContaining(["心境", "生命代价"]));
     expect(createMapNodePreview(run, shop!).detail).toContain("当前铜钱99");
     expect(createMapNodePreview(run, rest!).detail).toContain("回复约30%生命");
+  });
+
+  it("creates deterministic shop drafts with seeded slot variety", () => {
+    const seed0 = createRun("zhaoyun", { mapSeed: 0 });
+    const seed1 = createRun("zhaoyun", { mapSeed: 1 });
+
+    const firstDraft = createShopDraft(seed0);
+    const secondDraft = createShopDraft(seed0);
+    const variantDraft = createShopDraft(seed1);
+
+    expect(firstDraft.cards.map((offer) => offer.slotId)).toEqual(["travel", "role", "ink"]);
+    expect(firstDraft.cards.map((offer) => offer.card.id)).toEqual(secondDraft.cards.map((offer) => offer.card.id));
+    expect(firstDraft.cards.map((offer) => offer.card.id)).not.toEqual(variantDraft.cards.map((offer) => offer.card.id));
+    expect(firstDraft.relics.map((offer) => offer.slotId)).toEqual(["utility", "role", "premium"]);
+    expect(firstDraft.relics.find((offer) => offer.slotId === "role")?.relic.character).toBe("zhaoyun");
+    expect(new Set(firstDraft.relics.map((offer) => offer.relic.id)).size).toBe(firstDraft.relics.length);
+    expect(firstDraft.relics.find((offer) => offer.slotId === "premium")?.relic.rarity).toBe("rare");
   });
 
   it("marks the final chapter boss preview as a route to the ending choice", () => {

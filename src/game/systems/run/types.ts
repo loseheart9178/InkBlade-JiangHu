@@ -1,5 +1,6 @@
 import type { CardDefinition, MindState } from "../combat/types";
 import type { ChapterId } from "../../content/chapters";
+import type { RelicDefinition } from "../../content/relics";
 
 export type MapNodeType = "start" | "battle" | "elite" | "event" | "shop" | "rest" | "boss";
 
@@ -100,6 +101,29 @@ export interface CardRewardDraft {
   comboHint?: string;
   comboPrimaryCardId?: string;
   reasons: Record<string, string>;
+}
+
+export type ShopCardSlotId = "travel" | "role" | "ink";
+export type ShopRelicSlotId = "utility" | "role" | "premium";
+
+export interface ShopCardOffer {
+  slotId: ShopCardSlotId;
+  label: string;
+  note: string;
+  card: CardDefinition;
+  price: number;
+}
+
+export interface ShopRelicOffer {
+  slotId: ShopRelicSlotId;
+  label: string;
+  note: string;
+  relic: RelicDefinition;
+}
+
+export interface ShopDraft {
+  cards: ShopCardOffer[];
+  relics: ShopRelicOffer[];
 }
 
 export interface BattleSpoils {

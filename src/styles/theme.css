@@ -1565,7 +1565,7 @@ button {
 }
 
 .shop-item--card {
-  grid-template-rows: 72px auto auto auto auto 1fr auto;
+  grid-template-rows: auto 72px auto auto auto auto 1fr auto;
   border-top: 4px solid rgba(183, 53, 42, 0.62);
 }
 
@@ -1589,6 +1589,14 @@ button {
       rgba(47, 124, 110, 0.09)
     ),
     rgba(246, 236, 213, 0.9);
+}
+
+.shop-item[data-shop-slot="role"] {
+  border-top-color: rgba(47, 124, 110, 0.72);
+}
+
+.shop-item[data-shop-slot="premium"] {
+  border-top-color: rgba(238, 190, 91, 0.88);
 }
 
 .shop-item:hover:not(:disabled) {
@@ -1656,6 +1664,12 @@ button {
   font-size: 11px;
   font-style: normal;
   line-height: 1.15;
+}
+
+.shop-slot-note {
+  max-width: 170px;
+  justify-content: center;
+  text-align: center;
 }
 
 .shop-item--relic .shop-meta-row span,

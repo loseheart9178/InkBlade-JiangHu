@@ -326,20 +326,33 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
 
   await page.getByTestId("map-node-shop-1").click();
   await expect(page.getByTestId("screen-shop")).toBeVisible();
-  const shopCard = page.getByTestId("shop-card-common_pifeng");
-  await expect(shopCard).toHaveClass(/shop-item--card/);
-  await expect(shopCard.locator(".card-art")).toBeVisible();
-  await expect(shopCard.locator(".card-chrome-row")).toBeVisible();
-  await expect(shopCard.locator(".card-keyword-row")).toBeVisible();
-  await expect(shopCard.locator(".shop-price-chip")).toContainText("35");
+  const travelCard = page.getByTestId("shop-card-travel");
+  await expect(travelCard).toHaveClass(/shop-item--card/);
+  await expect(travelCard).toContainText("行旅常备");
+  await expect(travelCard).toContainText("补气护身");
+  await expect(travelCard.locator(".card-art")).toBeVisible();
+  await expect(travelCard.locator(".card-chrome-row")).toBeVisible();
+  await expect(travelCard.locator(".card-keyword-row")).toBeVisible();
+  await expect(travelCard.locator(".shop-price-chip")).toContainText("35");
 
-  const shopRelic = page.getByTestId("shop-relic-relic_old_wooden_sword");
-  await expect(shopRelic).toHaveClass(/shop-item--relic/);
-  await expect(shopRelic).toContainText("凡 · 精英/首领/游商");
-  await expect(shopRelic).toContainText("基础攻击生效。");
-  await expect(shopRelic).toContainText("基础攻击伤害+2。");
-  await expect(shopRelic.locator(".shop-price-chip")).toContainText("65");
-  await expect(shopRelic).not.toContainText(/elite|boss|shop/);
+  const roleCard = page.getByTestId("shop-card-role");
+  await expect(roleCard).toContainText("门路秘招");
+  await expect(roleCard.locator(".shop-slot-note")).toContainText("当前角色");
+
+  const inkCard = page.getByTestId("shop-card-ink");
+  await expect(inkCard).toContainText("偏门异货");
+  await expect(inkCard.locator(".shop-slot-note")).toContainText("更冒险");
+
+  const roleRelic = page.getByTestId("shop-relic-role");
+  await expect(roleRelic).toHaveClass(/shop-item--relic/);
+  await expect(roleRelic).toContainText("角色法门");
+  await expect(roleRelic).toContainText(/凡|奇|绝/);
+  await expect(roleRelic.locator(".shop-slot-note")).toContainText("流派");
+  await expect(roleRelic.locator(".shop-price-chip")).toContainText(/铜钱/);
+
+  const premiumRelic = page.getByTestId("shop-relic-premium");
+  await expect(premiumRelic).toContainText("压箱珍藏");
+  await expect(premiumRelic.locator(".shop-slot-note")).toContainText("值得围着它构筑");
 
   const removeService = page.getByTestId("shop-remove-card");
   await expect(removeService).toHaveClass(/shop-item--service/);
@@ -347,11 +360,10 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expect(removeService.locator(".shop-price-chip")).toContainText("50");
   await capturePlaytestScreenshot(page, testInfo, "wave31-shop-surface.png");
 
-  await page.getByTestId("shop-relic-relic_old_wooden_sword").click();
+  await page.getByTestId("shop-relic-role").click();
 
-  await expect(page.getByTestId("run-relics")).toContainText("旧木剑");
-  await expect(page.getByText("购得法宝：旧木剑。")).toBeVisible();
-  await expect(page.getByTestId("shop-relic-relic_old_wooden_sword")).toBeDisabled();
+  await expect(page.getByText(/^购得法宝：/)).toBeVisible();
+  await expect(page.getByTestId("shop-relic-role")).toBeDisabled();
   await page.getByTestId("shop-leave").click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
 });

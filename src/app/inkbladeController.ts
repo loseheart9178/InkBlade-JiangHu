@@ -11,7 +11,7 @@ import {
   getIntentGlossarySurface,
   type GlossaryEntry
 } from "../game/content/glossary";
-import { relicsById, type RelicDefinition } from "../game/content/relics";
+import { relicsById } from "../game/content/relics";
 import { battlefieldAssets, cardArtById, combatPortraitsById, getCombatAttackSprite, signatureVfxByCue } from "../game/content/visuals";
 import {
   clearSavedGame,
@@ -44,7 +44,7 @@ import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/syste
 import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
 import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile } from "../game/systems/profile/profile";
-import { describeRelicSource, getShopRelicPool } from "../game/systems/relics/relicEffects";
+import { describeRelicSource } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
 import { createCombatOnboardingHints, dismissOnboardingHint, type CombatOnboardingHint } from "../game/systems/tutorial/onboarding";
@@ -59,6 +59,7 @@ import {
   createCardRewardReasonMap,
   createMapNodePreview,
   createRun,
+  createShopDraft,
   createRunCompletionSnapshot,
   getAvailableNodes,
   getCurrentChapter,
@@ -84,7 +85,6 @@ type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterR
 type CompendiumReturnScreen = Exclude<Screen, "compendium">;
 type MapRouteState = "current" | "available" | "visited" | "locked";
 
-const SHOP_CARD_PRICE = 35;
 const SHOP_REMOVE_PRICE = 50;
 
 interface ControllerState {
@@ -1376,25 +1376,25 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
 
 function renderShop(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
+  const shopDraft = createShopDraft(run);
   const panel = createPanel("screen-shop", "茶亭游商");
   panel.classList.add("shop-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
-  const shopCards = [cardsById.common_pifeng, cardsById.common_tuna, cardsById.ink_moren];
   const list = document.createElement("div");
   list.className = "shop-list";
 
-  for (const card of shopCards) {
-    const button = createShopCardAction(run, card, SHOP_CARD_PRICE, () => {
-      if (run.gold < SHOP_CARD_PRICE) {
+  for (const offer of shopDraft.cards) {
+    const button = createShopCardAction(run, offer, () => {
+      if (run.gold < offer.price) {
         state.message = "铜钱不足。";
         render();
         return;
       }
 
-      run.gold -= SHOP_CARD_PRICE;
-      takeCardReward(run, card);
-      state.message = `购得${card.name}。`;
+      run.gold -= offer.price;
+      takeCardReward(run, offer.card);
+      state.message = `购得${offer.card.name}。`;
       render();
     });
     list.append(button);
@@ -1402,10 +1402,10 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
 
   const relicList = document.createElement("div");
   relicList.className = "shop-list shop-list--relics";
-  for (const relicId of getShopRelicPool(run.characterId).slice(0, 3)) {
-    const relic = relicsById[relicId];
+  for (const offer of shopDraft.relics) {
+    const relic = offer.relic;
     const owned = run.relicIds.includes(relic.id);
-    const button = createShopRelicAction(run, relic, owned, () => {
+    const button = createShopRelicAction(run, offer, owned, () => {
       if (owned) {
         state.message = `已持有${relic.name}。`;
         render();
@@ -1459,16 +1459,23 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   mountChapterPanel(host, panel, run);
 }
 
-function createShopCardAction(run: RunState, card: CardDefinition, price: number, onClick: () => void): HTMLButtonElement {
+function createShopCardAction(run: RunState, offer: ReturnType<typeof createShopDraft>["cards"][number], onClick: () => void): HTMLButtonElement {
+  const { card, label, note, price, slotId } = offer;
   const button = document.createElement("button");
   const affordable = run.gold >= price;
   const type = card.types[0] ?? "skill";
   button.type = "button";
   button.className = `choice-action shop-item shop-item--card card-type-${type}`;
-  button.dataset.testid = `shop-card-${card.id}`;
+  button.dataset.testid = `shop-card-${slotId}`;
+  button.dataset.shopCardId = card.id;
+  button.dataset.shopSlot = slotId;
   button.dataset.affordable = `${affordable}`;
   button.dataset.shopAffordable = `${affordable}`;
   button.innerHTML = `
+    <span class="shop-meta-row">
+      <span>${escapeHtml(label)}</span>
+      <i class="shop-slot-note">${escapeHtml(note)}</i>
+    </span>
     ${createCardArtMarkup(card)}
     ${createCardChromeMarkup(card)}
     <strong>${escapeHtml(card.name)}</strong>
@@ -1481,19 +1488,31 @@ function createShopCardAction(run: RunState, card: CardDefinition, price: number
   return button;
 }
 
-function createShopRelicAction(run: RunState, relic: RelicDefinition, owned: boolean, onClick: () => void): HTMLButtonElement {
+function createShopRelicAction(
+  run: RunState,
+  offer: ReturnType<typeof createShopDraft>["relics"][number],
+  owned: boolean,
+  onClick: () => void
+): HTMLButtonElement {
+  const { relic, label, note, slotId } = offer;
   const button = document.createElement("button");
   const affordable = run.gold >= relic.price;
   const stateLabel = owned ? "已持有" : affordable ? "可购" : "铜钱不足";
   button.type = "button";
   button.className = "choice-action shop-item shop-item--relic";
-  button.dataset.testid = `shop-relic-${relic.id}`;
+  button.dataset.testid = `shop-relic-${slotId}`;
+  button.dataset.shopRelicId = relic.id;
+  button.dataset.shopSlot = slotId;
   button.dataset.owned = `${owned}`;
   button.dataset.shopOwned = `${owned}`;
   button.dataset.affordable = `${affordable}`;
   button.dataset.shopAffordable = `${affordable}`;
   button.disabled = owned;
   button.innerHTML = `
+    <span class="shop-meta-row">
+      <span>${escapeHtml(label)}</span>
+      <i class="shop-slot-note">${escapeHtml(note)}</i>
+    </span>
     <span class="shop-meta-row">
       <span>${escapeHtml(describeRelicSource(relic.id))}</span>
       <span>${escapeHtml(stateLabel)}</span>

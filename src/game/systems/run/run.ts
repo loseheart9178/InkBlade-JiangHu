@@ -3,10 +3,25 @@ import { chaptersById, type ChapterDefinition, type ChapterId } from "../../cont
 import { charactersById } from "../../content/characters";
 import { enemiesById } from "../../content/enemies";
 import { eventsById, type EventChoiceEffect } from "../../content/events";
-import { relicsById } from "../../content/relics";
+import { relicsById, type RelicDefinition } from "../../content/relics";
 import type { CardArchetypeId, CardDefinition, EnemyDefinition, EnemyIntent } from "../combat/types";
-import { getRelicRewardPool, type RelicRewardSource } from "../relics/relicEffects";
-import type { BattleSpoils, CardRewardDraft, ChapterRewardChoice, CreateRunOptions, MapNode, MapNodePreview, MapNodeType, RunCompletionSnapshot, RunFinalChoiceRecord, RunFinalState, RunState } from "./types";
+import { getRelicRewardPool, getShopRelicPool, type RelicRewardSource } from "../relics/relicEffects";
+import type {
+  BattleSpoils,
+  CardRewardDraft,
+  ChapterRewardChoice,
+  CreateRunOptions,
+  MapNode,
+  MapNodePreview,
+  MapNodeType,
+  RunCompletionSnapshot,
+  RunFinalChoiceRecord,
+  RunFinalState,
+  RunState,
+  ShopCardOffer,
+  ShopDraft,
+  ShopRelicOffer
+} from "./types";
 
 const ZHAO_REWARD_POOL = [
   "zhao_thrust",
@@ -69,6 +84,58 @@ const COMMON_REWARD_POOL = [
   "mind_nuzhan",
   "common_mirror_armor"
 ];
+const SHOP_TRAVEL_CARD_POOL = [
+  "common_pifeng",
+  "common_duanzhu",
+  "common_gedang",
+  "common_xieli",
+  "common_tuna",
+  "common_qingshen",
+  "common_feishi",
+  "common_tashui"
+];
+const SHOP_INK_CARD_POOL = ["ink_modian", "ink_moren", "ink_heiyu", "ink_luoshui_tide", "ink_unwritten_page"];
+const ZHAO_SHOP_ROLE_POOL = [
+  "zhao_thrust",
+  "zhao_white_dragon",
+  "zhao_guardian",
+  "zhao_return_spear",
+  "zhao_river_guard",
+  "zhao_seven_entries",
+  "zhao_spear_wall",
+  "zhao_cloud_pierce"
+];
+const DIAO_SHOP_ROLE_POOL = [
+  "diao_hongyan",
+  "diao_sleeve_blade",
+  "diao_glance",
+  "diao_flying_sleeves",
+  "diao_lijian",
+  "diao_mirror_flower",
+  "diao_lotus_blade",
+  "diao_moonstep"
+];
+const CAI_SHOP_ROLE_POOL = [
+  "cai_clear_tone",
+  "cai_broken_string",
+  "cai_echoing_melody",
+  "cai_listen_still",
+  "cai_clean_string",
+  "cai_shang_tone",
+  "cai_yulan_echo",
+  "cai_cleansing_rain"
+];
+const ZHUGE_SHOP_ROLE_POOL = [
+  "zhuge_empty_city",
+  "zhuge_fire_array",
+  "zhuge_wind_array",
+  "zhuge_stone_array",
+  "zhuge_deduction",
+  "zhuge_plan_set",
+  "zhuge_star_gate",
+  "zhuge_bamboo_slips"
+];
+const SHOP_CARD_PRICE = 35;
 
 const ZHAO_ADVANCED_REWARD_POOL = ["zhao_qixing_spear", "zhao_single_rider", "zhao_seven_entries", "zhao_spear_wall"];
 const DIAO_ADVANCED_REWARD_POOL = ["diao_closed_moon", "diao_jinghong_strike", "diao_step_lotus", "diao_lijian"];
@@ -371,6 +438,52 @@ export function createCardRewardDraft(run: RunState, nodeType: MapNodeType = "ba
     comboHint: comboBias?.hint,
     comboPrimaryCardId: comboBias?.primaryCardId,
     reasons: createCardRewardReasonMap(run, rewardCards)
+  };
+}
+
+export function createShopDraft(run: RunState): ShopDraft {
+  const seed = getShopSeed(run);
+  const roleCardPool = getShopRoleCardPool(run.characterId);
+  const allCardPool = uniqueIds([...SHOP_TRAVEL_CARD_POOL, ...roleCardPool, ...SHOP_INK_CARD_POOL]);
+  const usedCardIds = new Set<string>();
+  const usedRelicIds = new Set<string>();
+  const allRelicPool = getShopRelicPool(run.characterId);
+
+  return {
+    cards: [
+      createShopCardOffer("travel", "行旅常备", "补气护身，稳住行程。", SHOP_TRAVEL_CARD_POOL, allCardPool, seed, usedCardIds),
+      createShopCardOffer("role", "门路秘招", "照顾当前角色的拿牌方向。", roleCardPool, allCardPool, seed + 3, usedCardIds),
+      createShopCardOffer("ink", "偏门异货", "更冒险，也更有记忆点。", SHOP_INK_CARD_POOL, allCardPool, seed + 7, usedCardIds)
+    ],
+    relics: [
+      createShopRelicOffer(
+        "utility",
+        "江湖旧物",
+        "泛用稳妥，谁都能用。",
+        getUtilityShopRelicPool(run),
+        allRelicPool,
+        seed,
+        usedRelicIds
+      ),
+      createShopRelicOffer(
+        "role",
+        "角色法门",
+        "更贴近当前流派。",
+        getRoleShopRelicPool(run),
+        allRelicPool,
+        seed + 5,
+        usedRelicIds
+      ),
+      createShopRelicOffer(
+        "premium",
+        "压箱珍藏",
+        "贵，但值得围着它构筑。",
+        getPremiumShopRelicPool(run),
+        allRelicPool,
+        seed + 11,
+        usedRelicIds
+      )
+    ]
   };
 }
 
@@ -829,6 +942,22 @@ function getRoleRewardPool(characterId: string): string[] {
   return ZHAO_REWARD_POOL;
 }
 
+function getShopRoleCardPool(characterId: string): string[] {
+  if (characterId === "diaochan") {
+    return DIAO_SHOP_ROLE_POOL;
+  }
+
+  if (characterId === "caiwenji") {
+    return CAI_SHOP_ROLE_POOL;
+  }
+
+  if (characterId === "zhugeliang") {
+    return ZHUGE_SHOP_ROLE_POOL;
+  }
+
+  return ZHAO_SHOP_ROLE_POOL;
+}
+
 function getEliteRewardPool(characterId: string): string[] {
   if (characterId === "diaochan") {
     return ELITE_DIAO_REWARD_POOL;
@@ -843,6 +972,119 @@ function getEliteRewardPool(characterId: string): string[] {
   }
 
   return ELITE_ZHAO_REWARD_POOL;
+}
+
+function createShopCardOffer(
+  slotId: ShopCardOffer["slotId"],
+  label: string,
+  note: string,
+  primaryPool: string[],
+  fallbackPool: string[],
+  seed: number,
+  usedCardIds: Set<string>
+): ShopCardOffer {
+  const card = pickUniqueCard(primaryPool, fallbackPool, seed, usedCardIds);
+  usedCardIds.add(card.id);
+  return {
+    slotId,
+    label,
+    note,
+    card,
+    price: SHOP_CARD_PRICE
+  };
+}
+
+function createShopRelicOffer(
+  slotId: ShopRelicOffer["slotId"],
+  label: string,
+  note: string,
+  primaryPool: string[],
+  fallbackPool: string[],
+  seed: number,
+  usedRelicIds: Set<string>
+): ShopRelicOffer {
+  const relic = pickUniqueRelic(primaryPool, fallbackPool, seed, usedRelicIds);
+  usedRelicIds.add(relic.id);
+  return {
+    slotId,
+    label,
+    note,
+    relic
+  };
+}
+
+function pickUniqueCard(primaryPool: string[], fallbackPool: string[], seed: number, usedCardIds: Set<string>): CardDefinition {
+  for (const cardId of createSeededOfferOrder(primaryPool, fallbackPool, seed)) {
+    const card = cardsById[cardId];
+    if (card && !usedCardIds.has(card.id)) {
+      return card;
+    }
+  }
+
+  throw new Error("No shop card available for draft.");
+}
+
+function pickUniqueRelic(primaryPool: string[], fallbackPool: string[], seed: number, usedRelicIds: Set<string>): RelicDefinition {
+  for (const relicId of createSeededOfferOrder(primaryPool, fallbackPool, seed)) {
+    const relic = relicsById[relicId];
+    if (relic && !usedRelicIds.has(relic.id)) {
+      return relic;
+    }
+  }
+
+  throw new Error("No shop relic available for draft.");
+}
+
+function createSeededOfferOrder(primaryPool: string[], fallbackPool: string[], seed: number): string[] {
+  const uniquePrimary = uniqueIds(primaryPool);
+  const uniqueFallback = uniqueIds(fallbackPool.filter((id) => !uniquePrimary.includes(id)));
+  return [...rotateIds(uniquePrimary, seed), ...rotateIds(uniqueFallback, seed + 1)];
+}
+
+function rotateIds(ids: string[], seed: number): string[] {
+  if (ids.length === 0) {
+    return [];
+  }
+
+  const offset = Math.abs(seed) % ids.length;
+  return ids.map((_, index) => ids[(offset + index) % ids.length]);
+}
+
+function uniqueIds(ids: string[]): string[] {
+  return [...new Set(ids)];
+}
+
+function getShopSeed(run: RunState): number {
+  normalizeRunChapterFields(run);
+  const chapterOffset: Record<RunState["chapterId"], number> = {
+    luoshui: 11,
+    bamboo: 37,
+    changan: 71,
+    moyuan: 109
+  };
+
+  return Math.abs(run.mapSeed) + run.rewardHistory.length * 5 + run.visitedNodeIds.length * 7 + chapterOffset[run.chapterId];
+}
+
+function getUtilityShopRelicPool(run: RunState): string[] {
+  return getShopRelicPool(run.characterId).filter((relicId) => {
+    const relic = relicsById[relicId];
+    return relic && !relic.character && relic.rarity !== "rare";
+  });
+}
+
+function getRoleShopRelicPool(run: RunState): string[] {
+  return getShopRelicPool(run.characterId).filter((relicId) => relicsById[relicId]?.character === run.characterId);
+}
+
+function getPremiumShopRelicPool(run: RunState): string[] {
+  const pool = getShopRelicPool(run.characterId);
+  const rarePool = pool.filter((relicId) => relicsById[relicId]?.rarity === "rare");
+  const priceyFallback = pool.filter((relicId) => {
+    const relic = relicsById[relicId];
+    return relic && relic.rarity !== "rare" && relic.price >= 94;
+  });
+  return uniqueIds([...rarePool, ...priceyFallback]);
 }
 
 function normalizeRunComboFields(run: RunState): void {

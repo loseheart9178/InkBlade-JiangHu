@@ -41,6 +41,53 @@ Next step:
 
 - Commit the Wave 35 plan, open a narrow testing worktree for subagent support, then implement shop stock generation with RED-first tests.
 
+Implementation update:
+
+- Committed the Wave 35 plan as `dcd3e11`.
+- Opened a temporary isolated worktree at `.worktrees/wave35-tests` for a test-focused worker agent, then closed both the worker and explorer agents after their findings were integrated.
+- Added a pure `createShopDraft(run)` system API so shop stock is now derived from run state instead of hard-coded in the controller.
+- Replaced the fixed three-card shop stock with deterministic slot-based offers: `行旅常备`, `门路秘招`, and `偏门异货`.
+- Replaced the fixed first-three relic slice with deterministic slot-based relic offers: `江湖旧物`, `角色法门`, and `压箱珍藏`.
+- Kept card prices, relic prices, and the card-removal service unchanged.
+- Updated the shop DOM to expose stable slot-based test ids, visible slot notes, and clearer stock identity without moving gameplay logic into renderer code.
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/run/run-system.test.ts --reporter=dot
+Initial RED result: failed as expected with `TypeError: createShopDraft is not a function`.
+Final result: passed. 1 file / 32 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "shops can add relics"
+Initial RED result: failed as expected because `shop-card-travel` did not exist.
+Final result: passed. 1 Chromium test. Screenshot captured at `test-results/playable-flow-shops-can-add-relics-after-the-first-battle-chromium/wave31-shop-surface.png`.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
+Result: passed. 24 files / 213 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed. Vite v8.0.10 built 45 modules.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed. 26 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Shop cards are still buyable repeatedly within one shop visit; this wave improves stock identity and variety, but does not add one-copy stock depletion for cards.
+- Role and premium relic sub-pools are intentionally thin for some characters, so the fallback logic matters more in late-EA content scaling waves.
+- Mobile-specific shop layout remains out of scope per the desktop-first EA target.
+
+Next step:
+
+- Commit Wave 35 implementation, then move into Wave 36 gameplay teaching and feature showcase pass so external players can understand mind state, ink risk, methods, and route consequences faster.
+
 ### 2026-05-06 18:00 Asia/Shanghai
 
 Wave 34 EA Route Connectors planning started in `.worktrees/wave6-integration` on branch `codex/wave34-ea-route-connectors-plan`.
