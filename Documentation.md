@@ -2,6 +2,53 @@
 
 ## Status Log
 
+### 2026-05-06 23:39 Asia/Shanghai
+
+Wave 38 Browser QA Runtime planning started in `.worktrees/wave6-integration` on branch `codex/wave38-browser-qa-runtime-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/playtest/alpha-acceptance.md`
+- `playwright.config.ts`
+- `package.json`
+- `tests/e2e/visual-smoke.spec.ts`
+- Superpowers `systematic-debugging` workflow notes
+- Superpowers `test-driven-development` workflow notes
+- Superpowers `writing-plans` workflow notes
+- Superpowers `using-git-worktrees` workflow notes
+
+Root-cause evidence:
+
+```text
+node -v && npm -v
+Result: v18.19.1 / 9.2.0.
+
+npm run dev -- --port 5173
+Result: failed; Vite requires Node 20.19+ / 22.12+ and raised ReferenceError: CustomEvent is not defined under Node 18.19.1.
+```
+
+Design added:
+
+- `docs/superpowers/specs/2026-05-06-wave38-browser-qa-runtime-design.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-06-wave38-browser-qa-runtime.md`
+
+Scope decision:
+
+- Wave 38 fixes the browser-QA runtime launcher only. It does not change gameplay, UI presentation, content, assets, Steam/storefront, or release packaging.
+- The target is repeatable autonomous browser verification without manually holding open a bundled-node Vite server.
+
+Next step:
+
+- Commit the Wave 38 design + plan, create isolated test/config worktrees, and dispatch parallel workers.
+
 ### 2026-05-06 23:33 Asia/Shanghai
 
 Wave 37 EA Title And Character Select Polish implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave37-ea-commercial-ui-plan`.
