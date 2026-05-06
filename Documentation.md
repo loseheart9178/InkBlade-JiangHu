@@ -2,6 +2,74 @@
 
 ## Status Log
 
+### 2026-05-06 23:33 Asia/Shanghai
+
+Wave 37 EA Title And Character Select Polish implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave37-ea-commercial-ui-plan`.
+
+Docs/files re-read during implementation:
+
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-06-wave37-title-select-polish-design.md`
+- `docs/superpowers/plans/2026-05-06-wave37-ea-title-select-polish.md`
+- `src/app/appShell.ts`
+- `src/styles/theme.css`
+- `tests/e2e/visual-smoke.spec.ts`
+- Superpowers `subagent-driven-development` workflow notes
+- Superpowers `verification-before-completion` workflow notes
+- Game Studio `game-playtest` workflow notes
+
+What changed:
+
+- Integrated test worker commit `ce505f0` as local commit `cc2c680`: added title/character-select visual-smoke coverage, layout overlap checks, text overflow checks, and screenshot capture.
+- Integrated UI worker commit `74ecfed` as local commit `67e1152`: added title kicker copy, richer role-card markup for all four characters, accessible character labels, and polished paper/ink title-card CSS.
+- Kept this wave presentation-only: character data still comes from `characterList`, and gameplay/run/combat systems were not changed.
+
+RED evidence:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --grep "title character select"
+Worker result on codex/wave37-title-tests: failed as expected, 1 failed; missing getByTestId("title-kicker") before UI implementation.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --grep "title character select"
+Result: passed, 1 browser test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 24 files / 215 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed, 4 browser tests, when run against a Vite dev server launched with the bundled Node v24.14.0 runtime.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed, 28 browser tests, when run against the same bundled-node Vite dev server.
+```
+
+Failure investigated:
+
+- One full visual-smoke attempt failed before the bundled-node Vite server was held open: later tests saw `start-run` disabled while the title shell rendered. Manual browser probing against a bundled-node Vite server showed `.inkblade-app[data-runtime="ready"]` and `start-run` enabled after 3 seconds, and the final visual/playable gates passed there. The project docs already require the bundled Node 24 runtime for autonomous worktrees.
+
+Known gaps / risks:
+
+- This wave improves the title and character-select first impression only; it does not restyle every non-combat panel.
+- Character role-card copy is presentation metadata, so future character balance or resource changes should keep it in sync with `characterList`.
+- Mobile-specific title layout remains intentionally out of scope.
+
+Next step:
+
+- Commit the Documentation update, close Wave 37 workers, remove temporary worktrees, then continue with the next EA commercial polish target.
+
 ### 2026-05-06 23:05 Asia/Shanghai
 
 Wave 37 EA Title And Character Select Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave37-ea-commercial-ui-plan`.
