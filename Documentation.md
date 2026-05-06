@@ -2,6 +2,45 @@
 
 ## Status Log
 
+### 2026-05-06 22:05 Asia/Shanghai
+
+Wave 35 EA Shop Variety planning started in `.worktrees/wave6-integration` on branch `codex/wave35-ea-shop-variety-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/app/inkbladeController.ts`
+- `src/game/systems/run/run.ts`
+- `src/game/systems/run/types.ts`
+- `src/game/systems/relics/relicEffects.ts`
+- `src/game/content/relics.ts`
+- `tests/run/run-system.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- Superpowers `using-git-worktrees` workflow notes
+- Superpowers `subagent-driven-development` workflow notes
+- Superpowers `writing-plans` workflow notes
+- Superpowers `test-driven-development` workflow notes
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-06-wave35-ea-shop-variety.md`
+
+Scope decision:
+
+- Wave 35 focuses on deterministic shop inventory variety and clearer stock identity for the EA playable showcase.
+- Economy numbers, card removal rules, relic prices, save format, Steam/storefront, and release-prep work are out of scope.
+
+Next step:
+
+- Commit the Wave 35 plan, open a narrow testing worktree for subagent support, then implement shop stock generation with RED-first tests.
+
 ### 2026-05-06 18:00 Asia/Shanghai
 
 Wave 34 EA Route Connectors planning started in `.worktrees/wave6-integration` on branch `codex/wave34-ea-route-connectors-plan`.
