@@ -38,6 +38,36 @@ const combatSmokeCharacters = [
   }
 ] as const;
 
+test("title character select presents four readable EA role cards", async ({ page }, testInfo) => {
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await expect(page.getByTestId("screen-title")).toBeVisible();
+  await expect(page.getByTestId("title-kicker")).toContainText("水墨武侠");
+
+  const expectedCards = [
+    { id: "zhaoyun", resource: "枪势", mechanic: /破阵|连攻/, stats: /生命 82/ },
+    { id: "diaochan", resource: "舞势", mechanic: /魅惑|闪避/, stats: /生命 68/ },
+    { id: "caiwenji", resource: "音律", mechanic: /净化|余韵/, stats: /生命 72/ },
+    { id: "zhugeliang", resource: "筹策", mechanic: /观星|布阵/, stats: /生命 66/ }
+  ] as const;
+
+  for (const character of expectedCards) {
+    const card = page.getByTestId(`character-${character.id}`);
+    await expect(card).toBeVisible();
+    await expect(card).toHaveAttribute("type", "button");
+    await expect(card.getByTestId(`character-name-${character.id}`)).toBeVisible();
+    await expect(card.getByTestId(`character-resource-${character.id}`)).toContainText(character.resource);
+    await expect(card.getByTestId(`character-mechanic-${character.id}`)).toContainText(character.mechanic);
+    await expect(card.getByTestId(`character-stats-${character.id}`)).toContainText(character.stats);
+  }
+
+  await expect(page.getByTestId("character-zhaoyun")).toHaveClass(/is-selected/);
+  await expectTitleSurfaceLayout(page);
+  await capturePlaytestScreenshot(page, testInfo, "title-character-select-desktop.png");
+});
+
 test("captures desktop combat smoke screenshots for all four characters", async ({ page }, testInfo) => {
   test.setTimeout(80_000);
 
@@ -296,4 +326,32 @@ function rectsOverlap(
     && first.x + first.width > second.x
     && first.y < second.y + second.height
     && first.y + first.height > second.y;
+}
+
+async function expectTitleSurfaceLayout(page: Page): Promise<void> {
+  const actions = await page.locator(".title-actions").boundingBox();
+  const characterCards = await page.locator(".character-choice").evaluateAll((cards) =>
+    cards.map((card) => {
+      const rect = card.getBoundingClientRect();
+      return {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+        scrollWidth: card.scrollWidth,
+        clientWidth: card.clientWidth,
+        scrollHeight: card.scrollHeight,
+        clientHeight: card.clientHeight
+      };
+    })
+  );
+
+  expect(actions).not.toBeNull();
+  expect(characterCards).toHaveLength(4);
+
+  for (const card of characterCards) {
+    expect(card.scrollWidth).toBeLessThanOrEqual(card.clientWidth + 1);
+    expect(card.scrollHeight).toBeLessThanOrEqual(card.clientHeight + 1);
+    expect(rectsOverlap(card, actions!)).toBe(false);
+  }
 }
