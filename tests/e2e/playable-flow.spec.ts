@@ -167,6 +167,52 @@ test("first combat onboarding hints are compact, dismissible, and persisted", as
   await expect(page.getByTestId("onboarding-hint-combat-hand")).toBeVisible();
 });
 
+test("map and reward tutorial hints render, dismiss, and persist through continue", async ({ page }) => {
+  await startRun(page, "zhaoyun");
+
+  await expect(page.getByTestId("surface-hint-map-route")).toBeVisible();
+  await expect(page.getByTestId("surface-hint-map-mind")).toBeVisible();
+  await expect(page.getByTestId("surface-hint-map-ink")).toBeVisible();
+
+  await page.getByTestId("surface-hint-dismiss-map-route").click();
+  await expect(page.getByTestId("surface-hint-map-route")).toHaveCount(0);
+  await expect(page.getByTestId("surface-hint-map-mind")).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByTestId("continue-run")).toBeEnabled();
+  await page.getByTestId("continue-run").click();
+
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("surface-hint-map-route")).toHaveCount(0);
+  await expect(page.getByTestId("surface-hint-map-mind")).toBeVisible();
+  await expect(page.getByTestId("surface-hint-map-ink")).toBeVisible();
+
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("onboarding-hint-character-zhaoyun")).toBeVisible();
+
+  await winVisibleCombat(page);
+
+  await expect(page.getByTestId("screen-reward")).toBeVisible();
+  await expect(page.getByTestId("surface-hint-reward-choice")).toBeVisible();
+});
+
+test("method reward onboarding hint appears after the first elite victory", async ({ page }) => {
+  test.setTimeout(60_000);
+  await startRun(page, "zhaoyun");
+  await page.getByTestId("map-node-battle-1").click();
+  await winVisibleCombat(page);
+  await page.getByTestId("reward-card").first().click();
+
+  await page.getByTestId("map-node-shop-1").click();
+  await page.getByTestId("shop-leave").click();
+  await page.getByTestId("map-node-elite-1").click();
+  await winVisibleCombat(page, 120, "screen-method-reward");
+
+  await expect(page.getByTestId("screen-method-reward")).toBeVisible();
+  await expect(page.getByTestId("surface-hint-method-overview")).toBeVisible();
+});
+
 test("route map shows risk and reward previews before choosing nodes", async ({ page }, testInfo) => {
   await startRun(page, "zhaoyun", { debugTools: true });
 

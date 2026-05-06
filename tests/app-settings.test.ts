@@ -13,6 +13,7 @@ import {
 import { createCombat } from "../src/game/systems/combat/combat";
 import {
   COMBAT_ONBOARDING_HINT_IDS,
+  createMapOnboardingHints,
   createCombatOnboardingHints
 } from "../src/game/systems/tutorial/onboarding";
 import type { GameStorage } from "../src/game/systems/save/save";
@@ -88,11 +89,24 @@ describe("desktop settings persistence", () => {
         muted: false,
         masterVolume: 80,
         musicVolume: 70,
-        dismissedOnboardingHintIds: ["combat-energy", "missing-hint", "combat-energy", "combat-end-turn"]
+        dismissedOnboardingHintIds: [
+          "combat-energy",
+          "map-route",
+          "missing-hint",
+          "combat-energy",
+          "character-zhaoyun",
+          "combat-end-turn",
+          "map-route"
+        ]
       }
     }));
 
-    expect(loadSettings(storage).dismissedOnboardingHintIds).toEqual(["combat-energy", "combat-end-turn"]);
+    expect(loadSettings(storage).dismissedOnboardingHintIds).toEqual([
+      "combat-energy",
+      "map-route",
+      "character-zhaoyun",
+      "combat-end-turn"
+    ]);
   });
 
   it("selects contextual first-combat onboarding hints and excludes dismissed hints", () => {
@@ -106,10 +120,40 @@ describe("desktop settings persistence", () => {
     });
 
     const allHints = createCombatOnboardingHints(combat, []);
-    expect(allHints.map((hint) => hint.id)).toEqual(COMBAT_ONBOARDING_HINT_IDS);
+    expect(allHints.map((hint) => hint.id)).toEqual([...COMBAT_ONBOARDING_HINT_IDS, "character-zhaoyun"]);
 
     const filtered = createCombatOnboardingHints(combat, ["combat-energy", "combat-end-turn"]);
-    expect(filtered.map((hint) => hint.id)).toEqual(["combat-hand", "combat-intent", "combat-block"]);
+    expect(filtered.map((hint) => hint.id)).toEqual(["combat-hand", "combat-intent", "combat-block", "character-zhaoyun"]);
+  });
+
+  it("adds a role-specific combat onboarding hint for each playable character", () => {
+    const cases = [
+      ["zhaoyun", "character-zhaoyun"],
+      ["diaochan", "character-diaochan"],
+      ["caiwenji", "character-caiwenji"],
+      ["zhugeliang", "character-zhugeliang"]
+    ] as const;
+
+    for (const [characterId, expectedHintId] of cases) {
+      const combat = createCombat({
+        character: charactersById[characterId],
+        cards: cardList,
+        enemies: [enemiesById.enemy_ink_bandit],
+        rngSeed: 22,
+        relicIds: [],
+        shuffleDeck: false
+      });
+
+      const hints = createCombatOnboardingHints(combat, []);
+      expect(hints.at(-1)?.id).toBe(expectedHintId);
+      expect(hints.some((hint) => hint.id === expectedHintId)).toBe(true);
+      expect(createCombatOnboardingHints(combat, [expectedHintId]).some((hint) => hint.id === expectedHintId)).toBe(false);
+    }
+  });
+
+  it("creates map surface hints and respects dismissed ids", () => {
+    expect(createMapOnboardingHints([]).map((hint) => hint.id)).toEqual(["map-route", "map-mind", "map-ink"]);
+    expect(createMapOnboardingHints(["map-route", "combat-energy"]).map((hint) => hint.id)).toEqual(["map-mind", "map-ink"]);
   });
 
   it("exposes a no-op safe procedural audio surface in jsdom", () => {

@@ -47,7 +47,15 @@ import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile 
 import { describeRelicSource } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
-import { createCombatOnboardingHints, dismissOnboardingHint, type CombatOnboardingHint } from "../game/systems/tutorial/onboarding";
+import {
+  createCombatOnboardingHints,
+  createMapOnboardingHints,
+  createMethodOnboardingHints,
+  createRewardOnboardingHints,
+  dismissOnboardingHint,
+  type CombatOnboardingHint,
+  type SurfaceOnboardingHint
+} from "../game/systems/tutorial/onboarding";
 import {
   addRelic,
   advanceToNextChapter,
@@ -135,7 +143,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     host.innerHTML = "";
 
     if (state.screen === "map") {
-      renderMap(host, state, render);
+      renderMap(host, state, render, options.storage, audioFeedback);
       renderDeckOverlayIfOpen(host, state, render);
       persistControllerState(state, options.storage);
       return;
@@ -148,14 +156,14 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     }
 
     if (state.screen === "reward") {
-      renderReward(host, state, render);
+      renderReward(host, state, render, options.storage, audioFeedback);
       renderDeckOverlayIfOpen(host, state, render);
       persistControllerState(state, options.storage);
       return;
     }
 
     if (state.screen === "methodReward") {
-      renderMethodReward(host, state, render);
+      renderMethodReward(host, state, render, options.storage, audioFeedback);
       renderDeckOverlayIfOpen(host, state, render);
       persistControllerState(state, options.storage);
       return;
@@ -751,7 +759,13 @@ function getDebugSkipChapterHandler(state: ControllerState, render: () => void):
   return state.debugToolsEnabled ? () => skipChapterForDebug(state, render) : undefined;
 }
 
-function renderMap(host: HTMLElement, state: ControllerState, render: () => void): void {
+function renderMap(
+  host: HTMLElement,
+  state: ControllerState,
+  render: () => void,
+  storage: GameStorage | undefined,
+  audioFeedback: AudioFeedback
+): void {
   const run = requireRun(state);
   const chapter = getCurrentChapter(run);
   const current = getCurrentNode(run);
@@ -760,6 +774,12 @@ function renderMap(host: HTMLElement, state: ControllerState, render: () => void
   panel.classList.add("map-screen");
 
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
+  if (run.completedChapterIds.length === 0 && run.currentNodeId === "start") {
+    const hints = createMapOnboardingHints(state.settings.dismissedOnboardingHintIds);
+    if (hints.length > 0) {
+      panel.append(createSurfaceOnboardingStrip(hints, state, render, storage, audioFeedback));
+    }
+  }
 
   const path = document.createElement("div");
   path.className = "route-map";
@@ -1141,6 +1161,49 @@ function createCombatOnboardingHint(
   return element;
 }
 
+function createSurfaceOnboardingStrip(
+  hints: SurfaceOnboardingHint[],
+  state: ControllerState,
+  render: () => void,
+  storage: GameStorage | undefined,
+  audioFeedback: AudioFeedback
+): HTMLElement {
+  const strip = document.createElement("div");
+  strip.className = "surface-hint-strip";
+  strip.dataset.testid = "surface-hint-strip";
+
+  for (const hint of hints) {
+    const article = document.createElement("article");
+    article.className = "surface-hint";
+    article.dataset.testid = `surface-hint-${hint.id}`;
+    article.innerHTML = `
+      <strong>${escapeHtml(hint.title)}</strong>
+      <span>${escapeHtml(hint.body)}</span>
+    `;
+
+    const dismiss = document.createElement("button");
+    dismiss.type = "button";
+    dismiss.className = "surface-hint-dismiss";
+    dismiss.dataset.testid = `surface-hint-dismiss-${hint.id}`;
+    dismiss.setAttribute("aria-label", `关闭${hint.title}提示`);
+    dismiss.textContent = "×";
+    dismiss.addEventListener("click", () => {
+      state.settings = {
+        ...state.settings,
+        dismissedOnboardingHintIds: dismissOnboardingHint(state.settings.dismissedOnboardingHintIds, hint.id)
+      };
+      saveSettings(storage, state.settings);
+      audioFeedback.playUi();
+      render();
+    });
+
+    article.append(dismiss);
+    strip.append(article);
+  }
+
+  return strip;
+}
+
 function dispatchBattlefieldChange(chapterId: RunState["chapterId"]): void {
   const battlefieldId = battlefieldAssets[chapterId] ? chapterId : "luoshui";
   window.dispatchEvent(new CustomEvent("inkblade:set-battlefield", {
@@ -1206,13 +1269,25 @@ function handleCombatAfterAction(state: ControllerState, storage: GameStorage | 
   }
 }
 
-function renderMethodReward(host: HTMLElement, state: ControllerState, render: () => void): void {
+function renderMethodReward(
+  host: HTMLElement,
+  state: ControllerState,
+  render: () => void,
+  storage: GameStorage | undefined,
+  audioFeedback: AudioFeedback
+): void {
   const run = requireRun(state);
   const node = getCurrentNode(run);
   const draft = createMethodRewardDraft(run);
   const panel = createPanel("screen-method-reward", "心法");
   panel.classList.add("method-reward-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
+  if (run.methodIds.length === 0) {
+    const hints = createMethodOnboardingHints(state.settings.dismissedOnboardingHintIds);
+    if (hints.length > 0) {
+      panel.append(createSurfaceOnboardingStrip(hints, state, render, storage, audioFeedback));
+    }
+  }
   panel.append(createMessage(draft.reason));
   panel.append(createSpoilsSummary(state.pendingSpoils));
 
@@ -1259,11 +1334,23 @@ function renderMethodReward(host: HTMLElement, state: ControllerState, render: (
   mountChapterPanel(host, panel, run);
 }
 
-function renderReward(host: HTMLElement, state: ControllerState, render: () => void): void {
+function renderReward(
+  host: HTMLElement,
+  state: ControllerState,
+  render: () => void,
+  storage: GameStorage | undefined,
+  audioFeedback: AudioFeedback
+): void {
   const run = requireRun(state);
   const panel = createPanel("screen-reward", "战利");
   panel.classList.add("reward-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
+  if (run.rewardHistory.length === 0) {
+    const hints = createRewardOnboardingHints(state.settings.dismissedOnboardingHintIds);
+    if (hints.length > 0) {
+      panel.append(createSurfaceOnboardingStrip(hints, state, render, storage, audioFeedback));
+    }
+  }
   panel.append(createMessage(state.message));
   panel.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);

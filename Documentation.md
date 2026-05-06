@@ -2,6 +2,77 @@
 
 ## Status Log
 
+### 2026-05-06 22:54 Asia/Shanghai
+
+Wave 36 EA Gameplay Teaching implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave36-ea-gameplay-teaching-plan`.
+
+Docs/files re-read during implementation:
+
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-06-wave36-gameplay-teaching-design.md`
+- `docs/superpowers/plans/2026-05-06-wave36-ea-gameplay-teaching.md`
+- `src/game/systems/tutorial/onboarding.ts`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/app-settings.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- Superpowers `subagent-driven-development` workflow notes
+- Superpowers `verification-before-completion` workflow notes
+- Game Studio `game-playtest` workflow notes
+
+What changed:
+
+- Integrated systems worker commit `efe57ce` from `codex/wave36-hints-systems`: onboarding hint ids now cover combat, role-specific character notes, map route/mind/ink, reward choice, and method overview.
+- Integrated UI worker commit `b5d57ad` from `codex/wave36-hints-ui`: map/reward/method hint strips render on the relevant first-time surfaces, dismiss into persistent settings, and stay out of renderer gameplay logic.
+- Added desktop paper-card styling for surface hints in `src/styles/theme.css`.
+- Added focused unit coverage for normalized tutorial ids, role-specific combat hints, and map hint filtering.
+- Added Playwright coverage for map/reward hint persistence, role combat hint visibility, and first elite method hint visibility.
+
+RED evidence before implementation:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/app-settings.test.ts --reporter=dot
+Result: failed as expected before implementation; broader hint ids were filtered out, role-specific hints were absent, and createMapOnboardingHints was missing.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "onboarding|tutorial|hint"
+Result: failed as expected before implementation; surface-hint-map-route and surface-hint-method-overview were missing from the DOM.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/app-settings.test.ts --reporter=dot
+Result: passed, 1 file / 10 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "onboarding|tutorial|hint"
+Result: passed, 3 browser tests.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 24 files / 215 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed, 28 browser tests; route-map screenshot attachment remained above the byte-size smoke threshold.
+```
+
+Known gaps / risks:
+
+- Teaching remains lightweight hint text only; no glossary drawer expansion, animated arrows, or step-by-step tutorial lockout.
+- Surface hints are first-run oriented and dismissible globally, so future copy changes should preserve stable ids for saved settings.
+- Mobile layout remains intentionally out of scope.
+
+Next step:
+
+- Commit Wave 36 implementation, close and remove the two temporary hint worktrees, then start Wave 37 as a compact commercial UI polish pass for the EA showcase.
+
 ### 2026-05-06 22:48 Asia/Shanghai
 
 Wave 36 EA Gameplay Teaching planning started in `.worktrees/wave6-integration` on branch `codex/wave36-ea-gameplay-teaching-plan`.
