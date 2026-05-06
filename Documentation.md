@@ -2,6 +2,76 @@
 
 ## Status Log
 
+### 2026-05-07 00:02 Asia/Shanghai
+
+Wave 38 Browser QA Runtime implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave38-browser-qa-runtime-plan`.
+
+Docs/files re-read during implementation:
+
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-06-wave38-browser-qa-runtime-design.md`
+- `docs/superpowers/plans/2026-05-06-wave38-browser-qa-runtime.md`
+- `playwright.config.ts`
+- `package.json`
+- `tests/e2e/visual-smoke.spec.ts`
+- Superpowers `systematic-debugging` workflow notes
+- Superpowers `test-driven-development` workflow notes
+- Superpowers `verification-before-completion` workflow notes
+
+What changed:
+
+- Integrated RED worker commit `7171680` as local commit `f22875a`: added `tests/playwright-config.test.ts` to assert Playwright launches Vite with the active Node runtime instead of `npm run dev`.
+- Integrated config worker commit `04c09b0` as local commit `2d16a70`: changed `playwright.config.ts` so `webServer.command` runs `./node_modules/vite/bin/vite.js` through `process.execPath`.
+- Preserved Playwright host, port, URL, timeout, and `reuseExistingServer` behavior.
+
+RED evidence:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playwright-config.test.ts --reporter=dot
+Worker result on codex/wave38-runtime-test: failed as expected, 1 failed; webServer.command was "npm run dev -- --port 5173" and did not contain process.execPath.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playwright-config.test.ts --reporter=dot
+Result: passed, 1 file / 1 test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --grep "title character select"
+Result: passed, 1 browser test with Playwright starting its own Vite webServer.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 25 files / 216 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed, 4 browser tests with Playwright-managed webServer.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed, 28 browser tests with Playwright-managed webServer.
+```
+
+Failure investigated:
+
+- An initial full visual-smoke rerun still failed on disabled `start-run`, while individual title/combat checks passed. After clearing the stale/non-responsive port state and rerunning through the new Playwright command, full visual-smoke and playable-flow both passed without a manually held Vite server. This reinforces that future autonomous browser gates should use the bundled Node command directly and avoid leaving ad hoc server processes on port `5173`.
+
+Known gaps / risks:
+
+- The config test verifies command shape, not the full child-process lifecycle; browser e2e remains the proof for actual server startup.
+- `reuseExistingServer: true` is preserved for developer convenience, so a stale external process on port `5173` can still interfere. If that recurs, the next infrastructure wave should add a preflight/port-owner check.
+
+Next step:
+
+- Commit the Documentation update, close Wave 38 workers, remove temporary worktrees, then continue with the next EA showcase polish milestone.
+
 ### 2026-05-06 23:39 Asia/Shanghai
 
 Wave 38 Browser QA Runtime planning started in `.worktrees/wave6-integration` on branch `codex/wave38-browser-qa-runtime-plan`.
