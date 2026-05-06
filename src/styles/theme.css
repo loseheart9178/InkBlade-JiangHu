@@ -74,41 +74,33 @@ button {
 
 .title-screen {
   position: absolute;
-  top: 9vh;
-  left: 8vw;
-  max-width: min(480px, 86vw);
-  padding-left: 24px;
+  top: 7vh;
+  left: 7vw;
+  display: grid;
+  width: min(780px, 86vw);
+  max-width: min(780px, 86vw);
+  gap: 16px;
+  padding: 24px 0 24px 24px;
   border-left: 5px solid #b7352a;
   color: #2c2924;
 }
 
-.character-select {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0 0 22px;
+.title-kicker {
+  width: fit-content;
+  margin: 0;
+  padding: 5px 10px;
+  border: 1px solid rgba(47, 124, 110, 0.36);
+  border-radius: 999px;
+  color: #f6ecd5;
+  background: rgba(47, 124, 110, 0.88);
+  font-size: 13px;
+  line-height: 1.2;
 }
 
 .title-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-}
-
-.character-choice {
-  min-width: 96px;
-  min-height: 42px;
-  border: 1px solid rgba(44, 41, 36, 0.34);
-  border-radius: 6px;
-  color: #2c2924;
-  background: rgba(246, 236, 213, 0.76);
-  cursor: pointer;
-}
-
-.character-choice.is-selected {
-  border-color: #b7352a;
-  color: #f6ecd5;
-  background: #b7352a;
 }
 
 .title-screen h1 {
@@ -118,8 +110,8 @@ button {
   letter-spacing: 0;
 }
 
-.title-screen p {
-  margin: 16px 0 28px;
+.title-screen > p:not(.title-kicker) {
+  margin: 0 0 2px;
   font-size: clamp(18px, 2.3vw, 28px);
 }
 
@@ -141,6 +133,86 @@ button {
 .title-screen button:disabled {
   cursor: default;
   opacity: 0.72;
+}
+
+.character-select {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 0 0 10px;
+}
+
+.title-screen .character-choice {
+  position: relative;
+  display: grid;
+  min-height: 118px;
+  align-content: start;
+  gap: 5px;
+  padding: 12px 14px;
+  overflow: hidden;
+  border: 1px solid rgba(44, 41, 36, 0.34);
+  border-left: 4px solid rgba(47, 124, 110, 0.76);
+  border-radius: 8px;
+  color: #2c2924;
+  text-align: left;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.9), rgba(239, 226, 195, 0.78)),
+    rgba(246, 236, 213, 0.86);
+  box-shadow: 0 10px 24px rgba(17, 17, 17, 0.14);
+  cursor: pointer;
+}
+
+.title-screen .character-choice.is-selected {
+  border-color: rgba(183, 53, 42, 0.68);
+  border-left-color: #b7352a;
+  color: #2c2924;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.96), rgba(239, 226, 195, 0.9)),
+    rgba(246, 236, 213, 0.96);
+  box-shadow:
+    0 14px 30px rgba(17, 17, 17, 0.2),
+    inset 0 0 0 1px rgba(183, 53, 42, 0.18);
+}
+
+.title-screen .character-choice:hover:not(:disabled) {
+  border-color: rgba(183, 53, 42, 0.58);
+  border-left-color: #b7352a;
+  color: #2c2924;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.98), rgba(239, 226, 195, 0.86)),
+    rgba(246, 236, 213, 0.96);
+}
+
+.character-choice span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.character-choice-name {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.character-choice-role {
+  color: rgba(183, 53, 42, 0.92);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.character-choice-resource,
+.character-choice-mechanic,
+.character-choice-stats {
+  color: rgba(44, 41, 36, 0.78);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.character-choice-mechanic {
+  color: rgba(47, 124, 110, 0.9);
+  font-weight: 700;
 }
 
 .inkblade-app.is-running .title-screen {
