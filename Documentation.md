@@ -2,6 +2,35 @@
 
 ## Status Log
 
+### 2026-05-06 18:00 Asia/Shanghai
+
+Wave 34 EA Route Connectors planning started in `.worktrees/wave6-integration` on branch `codex/wave34-ea-route-connectors-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/e2e/playable-flow.spec.ts`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-06-wave34-ea-route-connectors.md`
+
+Scope decision:
+
+- Wave 34 focuses on visible route connector strokes in the DOM map.
+- Map generation, travel legality, node rewards, node pools, Steam/storefront, and release-prep work are out of scope.
+
+Next step:
+
+- Commit the Wave 34 plan, then implement the connector SVG layer with focused Playwright coverage.
+
 ### 2026-05-06 01:08 Asia/Shanghai
 
 Wave 33 EA Combat Readability planning started in `.worktrees/wave6-integration` on branch `codex/wave33-ea-combat-readability-plan`.
