@@ -2,6 +2,49 @@
 
 ## Status Log
 
+### 2026-05-06 23:05 Asia/Shanghai
+
+Wave 37 EA Title And Character Select Polish planning started in `.worktrees/wave6-integration` on branch `codex/wave37-ea-commercial-ui-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/app/appShell.ts`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/e2e/visual-smoke.spec.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- Superpowers `brainstorming` workflow notes
+- Superpowers `writing-plans` workflow notes
+- Superpowers `using-git-worktrees` workflow notes
+- Superpowers `subagent-driven-development` workflow notes
+
+Design added:
+
+- `docs/superpowers/specs/2026-05-06-wave37-title-select-polish-design.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-06-wave37-ea-title-select-polish.md`
+
+Scope decision:
+
+- Wave 37 focuses on the first playable title and character-select surface so outside players understand the four roles before starting a run.
+- This is presentation-only: no combat rules, route rules, save migration, mobile layout, Steam/storefront, installer, or release packaging work.
+- The user has already granted autonomous approval for plan-to-implementation progression, so the normal interactive design-review gate is treated as satisfied for this overnight continuation.
+
+Next step:
+
+- Commit the Wave 37 design + plan, open isolated test/UI worktrees, and dispatch parallel workers for RED visual smoke and title UI implementation.
+
 ### 2026-05-06 22:54 Asia/Shanghai
 
 Wave 36 EA Gameplay Teaching implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave36-ea-gameplay-teaching-plan`.
