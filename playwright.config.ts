@@ -1,5 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
+function quoteCommandPart(value: string): string {
+  return `"${value.replace(/"/g, "\\\"")}"`;
+}
+
+const viteWebServerCommand = `${quoteCommandPart(process.execPath)} ${quoteCommandPart("./node_modules/vite/bin/vite.js")} --host 127.0.0.1 --port 5173`;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   timeout: 30_000,
@@ -14,7 +20,7 @@ export default defineConfig({
     screenshot: "only-on-failure"
   },
   webServer: {
-    command: "npm run dev -- --port 5173",
+    command: viteWebServerCommand,
     url: "http://127.0.0.1:5173",
     reuseExistingServer: true,
     timeout: 120_000
@@ -26,4 +32,3 @@ export default defineConfig({
     }
   ]
 });
-
