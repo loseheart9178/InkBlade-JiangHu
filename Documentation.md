@@ -2,6 +2,49 @@
 
 ## Status Log
 
+### 2026-05-06 22:48 Asia/Shanghai
+
+Wave 36 EA Gameplay Teaching planning started in `.worktrees/wave6-integration` on branch `codex/wave36-ea-gameplay-teaching-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/game/systems/tutorial/onboarding.ts`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/app-settings.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- Superpowers `using-superpowers` workflow notes
+- Superpowers `brainstorming` workflow notes
+- Superpowers `writing-plans` workflow notes
+- Superpowers `subagent-driven-development` workflow notes
+- Superpowers `using-git-worktrees` workflow notes
+
+Design added:
+
+- `docs/superpowers/specs/2026-05-06-wave36-gameplay-teaching-design.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-06-wave36-ea-gameplay-teaching.md`
+
+Scope decision:
+
+- Wave 36 focuses on lightweight, dismissible gameplay-teaching hints across map, combat, reward, and method surfaces.
+- Heavy tutorial flow, glossary drawer expansion, animated anchor arrows, mobile adaptation, Steam/storefront, and release-prep work are out of scope.
+
+Next step:
+
+- Commit the Wave 36 design + plan, then open isolated worktrees for test and implementation slices before the RED-first pass.
+
 ### 2026-05-06 22:05 Asia/Shanghai
 
 Wave 35 EA Shop Variety planning started in `.worktrees/wave6-integration` on branch `codex/wave35-ea-shop-variety-plan`.
