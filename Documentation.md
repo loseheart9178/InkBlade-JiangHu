@@ -8597,3 +8597,76 @@ Known gaps / risks:
 Next step:
 
 - Commit Wave 10 Task 2, then hand off to the integration branch for manifest binding and card fallback debt audit.
+
+## 2026-05-07 Wave 41 profile goals
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-07-wave41-profile-goals-design.md`
+- `docs/superpowers/plans/2026-05-07-wave41-profile-goals.md`
+
+What changed:
+
+- Added local, platform-free profile goals under `src/game/content/goals.ts`.
+- Added pure profile goal helpers in `src/game/systems/profile/goals.ts`.
+- Extended profile persistence with `completedGoalIds`, challenge victories, legacy normalization, and challenge-aware run result recording.
+- Added title/debug and completed-run summary goal lists with completed/newly-completed highlighting.
+- Fixed the real completion path so `run.challengeId` reaches `recordCompletedRun`, making `goal_ink_rising_clear` and `goal_iron_rain_clear` attainable.
+- Added Playwright coverage for profile goal visibility and selected challenge goal persistence.
+
+Subagents:
+
+- `Volta` implemented the system/profile layer in `codex/wave41-profile-goals-system`; accepted after focused tests, TypeScript, diff-check, and manual/spec review.
+- `Wegener` implemented the app/UI layer in `codex/wave41-profile-goals-ui`; accepted after focused Playwright/Vitest/TypeScript/diff-check and manual review.
+- Two read-only UI reviewer agents failed to run because of the current subagent usage limit; the main agent performed the same read-only spec and code-quality review before integration.
+
+TDD and failures:
+
+```text
+System RED: profile goals tests failed before `src/game/content/goals.ts`, `src/game/systems/profile/goals.ts`, `completedGoalIds`, and `challengeVictories` existed.
+UI RED: Playwright failed before `profile-goals-list` and challenge goal items were rendered.
+Review finding: challenge victory goals were unreachable until `run.challengeId` was passed through the controller completion path; fixed in the UI task.
+```
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/profile/profile-goals.test.ts tests/profile/profile-system.test.ts --reporter=dot
+Result: passed, 2 files / 10 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 29 files / 233 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "profile goals|challenge goal"
+Result: passed, 2 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed, 31 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed, 4 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Goals are local profile objectives only; no Steam achievements, online accounts, cloud sync, or leaderboards are included.
+- The profile goal list is tuned for desktop and uses a compact scroll region; mobile layout remains intentionally out of scope.
+- Challenge goals currently rely on run completion data and debug ending coverage, not a separate achievement/event bus.
+
+Next step:
+
+- Plan the next EA milestone around a desktop-facing showcase improvement that deepens replay readability without touching Steam/storefront/release packaging.
