@@ -166,6 +166,10 @@ export function createAudioFeedback(initialSettings: AudioFeedbackSettings = DEF
       playTone({ frequency: 150, duration: 0.18, type: "sawtooth", volumeScale: 0.18 });
     },
     setSurface(surface: AudioSurface) {
+      if (surface === currentSurface && surface !== "silent" && ambience) {
+        return;
+      }
+
       currentSurface = surface;
       if (surface === "silent") {
         stopAmbience();
@@ -179,10 +183,16 @@ export function createAudioFeedback(initialSettings: AudioFeedbackSettings = DEF
       stopAmbience();
     },
     setSettings(nextSettings: AudioFeedbackSettings) {
+      const previousMusicVolume = settings.musicVolume;
+      const previousMasterVolume = settings.masterVolume;
+      const previousMuted = settings.muted;
       settings = normalizeAudioSettings(nextSettings);
       if (!canPlayMusic(settings)) {
         stopAmbience();
-      } else if (currentSurface !== "silent" && ambience) {
+      } else if (
+        currentSurface !== "silent" &&
+        (!ambience || previousMusicVolume !== settings.musicVolume || previousMasterVolume !== settings.masterVolume || previousMuted !== settings.muted)
+      ) {
         startAmbience(currentSurface);
       }
     },

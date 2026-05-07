@@ -72,11 +72,21 @@ describe("audio feedback routing", () => {
     expect(startedOscillators).toBe(0);
 
     audio.setSettings({ ...DEFAULT_DESKTOP_SETTINGS, musicVolume: 50 });
-    audio.setSurface("map");
     expect(startedOscillators).toBe(1);
 
     audio.setSettings({ ...DEFAULT_DESKTOP_SETTINGS, muted: true });
     audio.setSurface("combat");
+    expect(startedOscillators).toBe(1);
+    audio.dispose();
+  });
+
+  it("keeps the active ambience stable when the same surface renders again", () => {
+    (window as Window & { AudioContext?: typeof AudioContext }).AudioContext = FakeAudioContext as unknown as typeof AudioContext;
+    const audio = createAudioFeedback({ ...DEFAULT_DESKTOP_SETTINGS, musicVolume: 50 });
+
+    audio.setSurface("map");
+    audio.setSurface("map");
+
     expect(startedOscillators).toBe(1);
     audio.dispose();
   });
