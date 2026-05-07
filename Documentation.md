@@ -8809,3 +8809,86 @@ Checked the Wave 43 spec and plan for TODO/TBD placeholders and confirmed the pl
 Next step:
 
 - Execute Wave 43 in isolated worktrees: first the pure deck recap system, then the completed-run UI surface, followed by full verification and documentation.
+
+## 2026-05-07 Wave 43 build recap implementation
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/superpowers/specs/2026-05-07-wave43-build-recap-design.md`
+- `docs/superpowers/plans/2026-05-07-wave43-build-recap.md`
+
+What changed:
+
+- Added pure deck build recap derivation in `src/game/systems/deck/buildRecap.ts`.
+- Added deterministic recap tests for empty decks, Zhao Yun spear-chain decks, mixed support decks, input non-mutation, signature cards, type breakdown, and support cues.
+- Added completed-run recap UI after summary stats and before profile goals/run ledger.
+- Recap UI now shows primary martial style, signature cards, card-type cues, tactical notes, methods, relics, and challenge context.
+- Extended the ending/profile summary browser test to assert `run-build-recap`, `run-build-primary`, and signature-card chips.
+
+Subagents:
+
+- `Dalton` implemented the system task after the first worker was recycled for no progress; the main agent amended the final uncommitted refinement into `da50d4e`.
+- `Pascal` completed read-only spec compliance review for the system task: approved.
+- `Planck` completed read-only code-quality review for the system task: approved.
+- `Hooke` implemented the UI task but did not return a final report before shutdown; the main agent reviewed, verified, and committed its completed file changes.
+- `Confucius` completed read-only spec compliance review for the UI task: approved.
+- `Aquinas` completed read-only code-quality review for the UI task: approved.
+
+TDD and failures:
+
+```text
+System RED: `tests/deck/build-recap.test.ts` initially failed because `src/game/systems/deck/buildRecap.ts` did not exist.
+UI RED: the new Playwright recap assertions failed before the completed-run summary rendered `run-build-recap`.
+Tooling note: `npm install` in fresh worktrees used system Node v18 and emitted engine warnings; all verification used bundled Node v24.14.0.
+```
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/deck/build-recap.test.ts tests/deck/archetype-system.test.ts --reporter=dot
+Result: passed, 2 files / 6 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 31 files / 239 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "ending summary records|run ledger|profile goals" --project=chromium
+Result: passed, 3 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium
+Result: passed, 32 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+```
+
+Known gaps / risks:
+
+- The recap is local and explanatory only; it does not persist separate analytics or replay data.
+- The helper depends on current card archetype tags and card-type metadata, so future card batches should keep those tags accurate.
+- Completed-run recap layout is desktop tuned and chip-based; mobile layout remains intentionally out of scope.
+
+Next step:
+
+- Start the next EA milestone around another player-facing showcase improvement that makes特色玩法 easier to understand during a desktop browser run, still excluding Steam/storefront/release packaging.
