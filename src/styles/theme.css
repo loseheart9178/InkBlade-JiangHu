@@ -142,6 +142,13 @@ button {
   margin: 0 0 10px;
 }
 
+.challenge-select {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(118px, 1fr));
+  gap: 8px;
+  margin: -4px 0 2px;
+}
+
 .title-screen .character-choice {
   position: relative;
   display: grid;
@@ -181,6 +188,38 @@ button {
   background:
     linear-gradient(180deg, rgba(255, 252, 239, 0.98), rgba(239, 226, 195, 0.86)),
     rgba(246, 236, 213, 0.96);
+}
+
+.title-screen .challenge-choice {
+  display: grid;
+  min-width: 0;
+  min-height: 58px;
+  gap: 2px;
+  padding: 8px 10px;
+  border-color: rgba(47, 124, 110, 0.32);
+  color: #2c2924;
+  text-align: left;
+  background: rgba(255, 252, 239, 0.9);
+  box-shadow: none;
+}
+
+.title-screen .challenge-choice:hover:not(:disabled) {
+  border-color: rgba(183, 53, 42, 0.5);
+  color: #2c2924;
+  background: rgba(255, 252, 239, 0.98);
+}
+
+.title-screen .challenge-choice small {
+  color: rgba(44, 41, 36, 0.72);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.title-screen .challenge-choice.is-selected {
+  border-color: rgba(183, 53, 42, 0.72);
+  color: #2c2924;
+  background: rgba(255, 252, 239, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(183, 53, 42, 0.22);
 }
 
 .character-choice span {

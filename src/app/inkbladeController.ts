@@ -1,6 +1,7 @@
 import { cardList, cardsById } from "../game/content/cards";
 import { createAudioFeedback, type AudioFeedback, type AudioSurface } from "./audioFeedback";
 import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPersistence";
+import type { ChallengeProfileId } from "../game/content/challenges";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById, type EventChoiceEffect, type GameEventChoice } from "../game/content/events";
@@ -47,6 +48,7 @@ import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile 
 import { describeRelicSource } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
+import { resolveChallengeProfile } from "../game/systems/challenges/challenges";
 import {
   createCombatOnboardingHints,
   createMapOnboardingHints,
@@ -239,9 +241,9 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
   syncAudioSurface(state, audioFeedback);
 
   return {
-    startRun(characterId: string) {
+    startRun(characterId: string, challengeId?: ChallengeProfileId) {
       audioFeedback.playUi();
-      state.run = createRun(characterId, { mapSeed: generateMapSeed() });
+      state.run = createRun(characterId, { mapSeed: generateMapSeed(), challengeId });
       state.combat = undefined;
       state.rewardCards = [];
       state.pendingSpoils = undefined;
@@ -2066,8 +2068,10 @@ function createRunStatus(
   const logbookCount = getUnlockedLogbookEntries(run).length;
   const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
   const chapter = getCurrentChapter(run);
+  const challenge = resolveChallengeProfile(run.challengeId);
   status.innerHTML = `
     <span data-testid="run-chapter">章节 ${chapter.name}</span>
+    <span data-testid="run-challenge">试炼 ${challenge.name}</span>
     <span>生命 ${run.hp}/${run.maxHp}</span>
     <span>铜钱 ${run.gold}</span>
     <span>牌组 ${run.deck.length}</span>

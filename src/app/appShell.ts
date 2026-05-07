@@ -1,4 +1,5 @@
 import { characterList } from "../game/content/characters";
+import { challengeProfiles, type ChallengeProfileId } from "../game/content/challenges";
 
 const characterChoiceCopy: Record<string, { role: string; mechanic: string; motif: string }> = {
   zhaoyun: {
@@ -30,6 +31,7 @@ export interface AppShell {
   startButton: HTMLButtonElement;
   continueButton: HTMLButtonElement;
   clearSaveButton: HTMLButtonElement;
+  challengeButtons: HTMLButtonElement[];
 }
 
 export function createAppShell(root: HTMLElement): AppShell {
@@ -102,6 +104,30 @@ export function createAppShell(root: HTMLElement): AppShell {
     characterSelect.append(characterButton);
   }
 
+  const challengeSelect = document.createElement("div");
+  challengeSelect.className = "challenge-select";
+  challengeSelect.dataset.testid = "challenge-select";
+  const challengeButtons: HTMLButtonElement[] = [];
+
+  for (const [index, challenge] of challengeProfiles.entries()) {
+    const challengeButton = document.createElement("button");
+    challengeButton.type = "button";
+    challengeButton.dataset.challengeId = challenge.id satisfies ChallengeProfileId;
+    challengeButton.dataset.testid = `challenge-${challenge.id}`;
+    challengeButton.className = index === 0 ? "challenge-choice is-selected" : "challenge-choice";
+
+    const name = document.createElement("span");
+    name.textContent = challenge.name;
+
+    const summary = document.createElement("small");
+    summary.textContent = challenge.summary;
+
+    challengeButton.setAttribute("aria-label", `${challenge.name}，${challenge.summary}`);
+    challengeButton.replaceChildren(name, summary);
+    challengeSelect.append(challengeButton);
+    challengeButtons.push(challengeButton);
+  }
+
   const startButton = document.createElement("button");
   startButton.type = "button";
   startButton.dataset.testid = "start-run";
@@ -121,7 +147,7 @@ export function createAppShell(root: HTMLElement): AppShell {
   titleActions.className = "title-actions";
   titleActions.append(startButton, continueButton, clearSaveButton);
 
-  menu.append(kicker, title, subtitle, characterSelect, titleActions);
+  menu.append(kicker, title, subtitle, characterSelect, challengeSelect, titleActions);
   hudHost.append(menu);
   root.append(phaserHost, hudHost);
 
@@ -131,6 +157,7 @@ export function createAppShell(root: HTMLElement): AppShell {
     hudHost,
     startButton,
     continueButton,
-    clearSaveButton
+    clearSaveButton,
+    challengeButtons
   };
 }

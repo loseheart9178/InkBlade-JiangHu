@@ -34,6 +34,19 @@ test("settings panel opens from title and returns without starting a run", async
   await expect(page.getByTestId("screen-map")).toBeHidden();
 });
 
+test("challenge profile can be selected before starting a run", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("challenge-inkRising").click();
+  await expect(page.getByTestId("challenge-inkRising")).toHaveClass(/is-selected/);
+  await page.getByTestId("start-run").click();
+
+  await expect(page.getByTestId("screen-map")).toBeVisible();
+  await expect(page.getByTestId("run-challenge")).toContainText("墨潮压境");
+});
+
 test("settings persist reduced motion, mute, and volume controls after reload", async ({ page }) => {
   await page.goto("/");
   await page.evaluate(() => window.localStorage.clear());

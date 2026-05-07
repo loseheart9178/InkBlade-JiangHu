@@ -1,4 +1,5 @@
 import { createAppShell, type AppShell } from "./appShell";
+import type { ChallengeProfileId } from "../game/content/challenges";
 
 interface GameAppStorage {
   getItem(key: string): string | null;
@@ -11,7 +12,7 @@ interface GameRuntimeOptions {
 }
 
 export interface GameAppRuntime {
-  startRun(characterId: string): unknown;
+  startRun(characterId: string, challengeId?: ChallengeProfileId): unknown;
   continueRun(): boolean;
   hasSavedRun(): boolean;
   clearSavedRun(): void;
@@ -33,6 +34,7 @@ export interface MountedGameApp {
 export function mountGameApp(root: HTMLElement, options: MountGameAppOptions = {}): MountedGameApp {
   const shell = createAppShell(root);
   let selectedCharacterId = "zhaoyun";
+  let selectedChallengeId: ChallengeProfileId | undefined;
   let runtime: GameAppRuntime | undefined;
 
   shell.hudHost.querySelector<HTMLElement>(".title-screen")?.setAttribute("data-testid", "screen-title");
@@ -70,9 +72,19 @@ export function mountGameApp(root: HTMLElement, options: MountGameAppOptions = {
     });
   });
 
+  shell.hudHost.querySelectorAll<HTMLButtonElement>("[data-challenge-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedChallengeId = (button.dataset.challengeId ?? "standard") as ChallengeProfileId;
+      shell.hudHost.querySelectorAll("[data-challenge-id]").forEach((item) => item.classList.remove("is-selected"));
+      button.classList.add("is-selected");
+    });
+  });
+
   const start = async () => {
     const activeRuntime = await runtimeReady;
-    const activeGame = activeRuntime.startRun(selectedCharacterId);
+    const activeGame = selectedChallengeId
+      ? activeRuntime.startRun(selectedCharacterId, selectedChallengeId)
+      : activeRuntime.startRun(selectedCharacterId);
     refreshSaveButtons();
     return activeGame;
   };
@@ -123,9 +135,9 @@ async function loadDefaultGameRuntime(shell: AppShell, options: GameRuntimeOptio
   };
 
   return {
-    startRun(characterId: string) {
+    startRun(characterId: string, challengeId?: ChallengeProfileId) {
       const activeGame = ensureGame();
-      controller.startRun(characterId);
+      controller.startRun(characterId, challengeId);
       return activeGame;
     },
     continueRun() {
