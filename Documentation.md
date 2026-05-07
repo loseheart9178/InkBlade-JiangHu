@@ -2,6 +2,40 @@
 
 ## Status Log
 
+### 2026-05-07 16:04 Asia/Shanghai
+
+Wave 41 Profile Goals planning started in `.worktrees/wave6-integration` on branch `codex/wave41-profile-goals-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `src/game/systems/profile/profile.ts`
+- `src/game/systems/save/save.ts`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/profile/profile-system.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+
+Created:
+
+- `docs/superpowers/specs/2026-05-07-wave41-profile-goals-design.md`
+- `docs/superpowers/plans/2026-05-07-wave41-profile-goals.md`
+
+Scope decision:
+
+- Wave 41 adds a local, platform-free profile goals layer that gives EA players visible replay objectives.
+- The wave excludes Steam achievements, platform APIs, online accounts, leaderboards, cloud sync, release packaging, mobile layout work, and new art generation.
+- Implementation is split into profile/data helpers first, app surfaces second, and final documentation/verification last.
+
+Next step:
+
+- Create isolated worktrees for Wave 41 profile-goals tasks and dispatch subagents from the saved plan.
+
 ### 2026-05-07 15:53 Asia/Shanghai
 
 Wave 40 Challenge Profiles implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave40-challenge-profiles-plan`.
