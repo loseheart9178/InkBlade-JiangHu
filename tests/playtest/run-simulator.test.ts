@@ -104,6 +104,14 @@ describe("run simulator", () => {
     expect(firstMarkdown).not.toContain("Wave 7 Alpha Balance Report");
   });
 
+  it("includes challenge profile context in balance reports", () => {
+    const report = createBalanceReport({ routeSeed: 9001, challengeId: "inkRising" });
+    const markdown = formatBalanceReportMarkdown(report);
+
+    expect(report.challenge?.id).toBe("inkRising");
+    expect(markdown).toContain("- Challenge: 墨潮压境 (inkRising)");
+  });
+
   it("builds a deterministic multi-seed balance aggregate", () => {
     const report = createBalanceReport({ seeds: [9001, 9002, 9003] });
     const markdown = formatBalanceReportMarkdown(report);

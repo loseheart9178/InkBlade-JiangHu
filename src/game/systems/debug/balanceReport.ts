@@ -1,10 +1,13 @@
 import { chapterList, type ChapterId } from "../../content/chapters";
+import type { ChallengeProfileId } from "../../content/challenges";
 import { characterList } from "../../content/characters";
+import { resolveChallengeProfile } from "../challenges/challenges";
 import { simulateFullRoute, type BattlePlanResult, type FullRouteOptions } from "./runSimulator";
 
 export interface BalanceReportOptions extends FullRouteOptions {
   routeSeed?: number;
   seeds?: number[];
+  challengeId?: ChallengeProfileId;
 }
 
 export const BALANCE_REPORT_ID = "wave24-alpha-balance-v1";
@@ -111,6 +114,10 @@ export interface BalanceReport {
   reportId: typeof BALANCE_REPORT_ID;
   seed: number;
   seeds?: number[];
+  challenge: {
+    id: ChallengeProfileId;
+    name: string;
+  };
   chapters: BalanceReportChapter[];
   characters: BalanceReportCharacter[];
   routes: BalanceRouteEvidence[];
@@ -130,12 +137,14 @@ const PRESSURE_ORDER: Record<BalanceHealingPressure["rating"], number> = {
 export function createBalanceReport(options: BalanceReportOptions = {}): BalanceReport {
   const seeds = normalizeSeeds(options);
   const seed = seeds[0];
+  const challenge = resolveChallengeProfile(options.challengeId);
   const unsafeDamageTaken = options.unsafeDamageTaken ?? DEFAULT_UNSAFE_DAMAGE;
   const routes = seeds.flatMap((routeSeed) =>
     characterList.map((character) => {
       const result = simulateFullRoute(character.id, {
         ...options,
         mapSeed: routeSeed,
+        challengeId: challenge.id,
         unsafeDamageTaken
       });
 
@@ -150,6 +159,10 @@ export function createBalanceReport(options: BalanceReportOptions = {}): Balance
     reportId: BALANCE_REPORT_ID,
     seed,
     ...(seeds.length > 1 ? { seeds } : {}),
+    challenge: {
+      id: challenge.id,
+      name: challenge.name
+    },
     chapters: chapterList.map((chapter) => ({ id: chapter.id, name: chapter.name })),
     characters: characterList.map((character) => ({ id: character.id, name: character.name })),
     routes,
@@ -172,6 +185,7 @@ export function formatBalanceReportMarkdown(report: BalanceReport): string {
     `- Report id: ${report.reportId}`,
     `- Seed: ${report.seed}`,
     ...(report.seeds ? [`- Seeds: ${report.seeds.join(",")}`] : []),
+    `- Challenge: ${report.challenge.name} (${report.challenge.id})`,
     `- Routes completed: ${report.aggregate.completedRoutes}/${report.aggregate.routeCount}`,
     `- Combat samples: ${report.aggregate.combatCount}`,
     `- Timeout risks: ${report.aggregate.timeoutRiskCount}`,

@@ -143,6 +143,7 @@ export interface EnemyState extends CombatantState {
   phase?: string;
   intentIndex: number;
   currentIntent: EnemyIntent;
+  challengeAttackBonus?: number;
 }
 
 export interface CombatPiles {
@@ -235,6 +236,12 @@ export interface CreateCombatInput {
   methodIds?: string[];
   methodLevels?: Record<string, number>;
   shuffleDeck?: boolean;
+  challengeModifiers?: ChallengeCombatModifiers;
+}
+
+export interface ChallengeCombatModifiers {
+  enemyMaxHpMultiplier: number;
+  enemyAttackBonus: number;
 }
 
 export type PlayCardResult =

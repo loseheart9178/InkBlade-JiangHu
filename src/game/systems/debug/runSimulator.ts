@@ -1,7 +1,9 @@
 import { cardList, cardsById } from "../../content/cards";
+import type { ChallengeProfileId } from "../../content/challenges";
 import { charactersById } from "../../content/characters";
 import { chaptersById, type ChapterId } from "../../content/chapters";
 import { enemiesById, enemyList, type ChapterEnemyDefinition } from "../../content/enemies";
+import { getChallengeCombatModifiers } from "../challenges/challenges";
 import { createCombat, endPlayerTurn, playCard } from "../combat/combat";
 import type { CardDefinition, CardEffect, CardInstance, CombatState, EnemyIntent, EnemyState } from "../combat/types";
 import {
@@ -32,6 +34,7 @@ export interface BattlePlanOptions {
   unsafeDamageTaken?: number;
   rngSeed?: number;
   maxCardsPerTurn?: number;
+  challengeId?: ChallengeProfileId;
 }
 
 export interface BattlePlanResult {
@@ -105,7 +108,8 @@ export function simulateBattlePlan(run: RunState, enemyId: string, options: Batt
     rngSeed: options.rngSeed ?? createSimulationSeed(run, enemyId),
     relicIds: [...run.relicIds],
     methodIds: [...run.methodIds],
-    methodLevels: { ...(run.methodLevels ?? {}) }
+    methodLevels: { ...(run.methodLevels ?? {}) },
+    challengeModifiers: getChallengeCombatModifiers(options.challengeId ?? run.challengeId)
   });
 
   const initialHp = combat.player.hp;
@@ -181,7 +185,7 @@ export function summarizeRunPacing(
         continue;
       }
 
-      const run = createPacingRun(chapterId, characterId);
+      const run = createPacingRun(chapterId, characterId, options.challengeId);
       for (const enemy of chapterEnemies) {
         const result = simulateBattlePlan(run, enemy.id, options);
         encounters.push(result);
@@ -212,7 +216,7 @@ export function simulateFullRoute(characterId: string, options: FullRouteOptions
     };
   }
 
-  const run = createRun(characterId, { mapSeed: options.mapSeed ?? 9001 });
+  const run = createRun(characterId, { mapSeed: options.mapSeed ?? 9001, challengeId: options.challengeId });
   const encounters: BattlePlanResult[] = [];
   const warnings: string[] = [];
   const routeNodeIds: string[] = [];
@@ -471,7 +475,7 @@ function estimateEnemyDamage(enemy: EnemyState, baseDamage: number): number {
   const weak = enemy.statuses.weak ?? 0;
   const charmMultiplier = Math.max(0.5, 1 - charm * 0.05);
   const weakMultiplier = weak > 0 ? 0.75 : 1;
-  return Math.floor(Math.max(0, baseDamage) * charmMultiplier * weakMultiplier);
+  return Math.max(0, Math.floor(Math.max(0, baseDamage) * charmMultiplier * weakMultiplier) + (enemy.challengeAttackBonus ?? 0));
 }
 
 function estimateCardDamage(state: CombatState, card: CardInstance, definition: CardDefinition): number {
@@ -725,7 +729,7 @@ const ALPHA_SIMULATION_RELIC_IDS: Record<string, string[]> = {
   zhugeliang: ["relic_starlit_tactical_map", "relic_red_lacquer_token", "relic_memory_bamboo_slip", "relic_ink_washstone"]
 };
 
-function createPacingRun(chapterId: ChapterId, characterId: string): RunState {
+function createPacingRun(chapterId: ChapterId, characterId: string, challengeId?: ChallengeProfileId): RunState {
   const chapterOrder = chaptersById[chapterId].order;
   const run = createDebugRun({
     chapterId,
@@ -735,6 +739,7 @@ function createPacingRun(chapterId: ChapterId, characterId: string): RunState {
     methodIds: getAlphaSimulationMethodIds(characterId),
     methodLevels: getAlphaSimulationMethodLevels(characterId, chapterOrder)
   });
+  run.challengeId = challengeId ?? run.challengeId;
 
   const maxHpBonus = Math.max(0, chapterOrder - 1) * 20 + (chapterId === "moyuan" ? 20 : 0);
   run.maxHp += maxHpBonus;

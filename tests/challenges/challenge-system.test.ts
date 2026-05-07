@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
+import { cardList } from "../../src/game/content/cards";
 import { charactersById } from "../../src/game/content/characters";
 import { challengeProfiles, challengesById, DEFAULT_CHALLENGE_PROFILE_ID } from "../../src/game/content/challenges";
+import { enemiesById } from "../../src/game/content/enemies";
 import {
   applyChallengeToRunStart,
   getChallengeCombatModifiers,
   resolveChallengeProfile
 } from "../../src/game/systems/challenges/challenges";
+import { createCombat, endPlayerTurn } from "../../src/game/systems/combat/combat";
 
 describe("challenge profiles", () => {
   it("defines the EA challenge profile set", () => {
@@ -34,5 +37,21 @@ describe("challenge profiles", () => {
     expect(getChallengeCombatModifiers("standard")).toEqual({ enemyMaxHpMultiplier: 1, enemyAttackBonus: 0 });
     expect(getChallengeCombatModifiers("inkRising").enemyMaxHpMultiplier).toBeGreaterThan(1);
     expect(getChallengeCombatModifiers("ironRain").enemyAttackBonus).toBe(1);
+  });
+
+  it("applies challenge pressure to combat enemies", () => {
+    const combat = createCombat({
+      character: charactersById.zhaoyun,
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 1,
+      shuffleDeck: false,
+      challengeModifiers: { enemyMaxHpMultiplier: 1.08, enemyAttackBonus: 1 }
+    });
+
+    expect(combat.enemies[0].maxHp).toBe(Math.ceil(enemiesById.enemy_ink_bandit.maxHp * 1.08));
+    const before = combat.player.hp;
+    endPlayerTurn(combat);
+    expect(before - combat.player.hp).toBeGreaterThanOrEqual(1);
   });
 });

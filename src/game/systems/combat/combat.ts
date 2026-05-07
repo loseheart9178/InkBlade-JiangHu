@@ -23,7 +23,8 @@ import type {
   CombatVisualEventKind,
   CombatVisualTarget,
   CombatVisualTone,
-  FormationId
+  FormationId,
+  ChallengeCombatModifiers
 } from "./types";
 
 export function createCombat(input: CreateCombatInput): CombatState {
@@ -43,7 +44,7 @@ export function createCombat(input: CreateCombatInput): CombatState {
     shuffleInPlace(draw, rng);
   }
 
-  const enemies = input.enemies.map((enemy, index) => createEnemyState(enemy, index));
+  const enemies = input.enemies.map((enemy, index) => createEnemyState(enemy, index, input.challengeModifiers));
 
   const state: CombatState = {
     turn: 1,
@@ -194,19 +195,21 @@ export function endPlayerTurn(state: CombatState): CombatState {
   return state;
 }
 
-function createEnemyState(definition: EnemyDefinition, index: number): EnemyState {
+function createEnemyState(definition: EnemyDefinition, index: number, challengeModifiers?: ChallengeCombatModifiers): EnemyState {
+  const maxHp = Math.max(1, Math.ceil(definition.maxHp * (challengeModifiers?.enemyMaxHpMultiplier ?? 1)));
   return {
     id: `enemy-${index + 1}`,
     definitionId: definition.id,
     name: definition.name,
-    hp: definition.maxHp,
-    maxHp: definition.maxHp,
+    hp: maxHp,
+    maxHp,
     block: 0,
     statuses: {},
     intents: definition.intents.length > 0 ? definition.intents : [{ type: "idle" }],
     phaseIntents: definition.phaseIntents,
     intentIndex: 0,
-    currentIntent: definition.intents[0] ?? { type: "idle" }
+    currentIntent: definition.intents[0] ?? { type: "idle" },
+    challengeAttackBonus: challengeModifiers?.enemyAttackBonus
   };
 }
 
@@ -688,7 +691,7 @@ function getModifiedEnemyDamage(enemy: EnemyState, baseDamage: number): number {
   if (weak > 0) {
     enemy.statuses.weak = Math.max(0, weak - 1);
   }
-  return Math.floor(baseDamage * charmMultiplier * weakMultiplier);
+  return Math.max(0, Math.floor(baseDamage * charmMultiplier * weakMultiplier) + (enemy.challengeAttackBonus ?? 0));
 }
 
 function healEnemy(state: CombatState, enemy: EnemyState, amount: number): void {
