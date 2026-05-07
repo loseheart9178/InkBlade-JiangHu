@@ -8670,3 +8670,34 @@ Known gaps / risks:
 Next step:
 
 - Plan the next EA milestone around a desktop-facing showcase improvement that deepens replay readability without touching Steam/storefront/release packaging.
+
+## 2026-05-07 Wave 42 run ledger planning
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-07-wave41-profile-goals.md`
+- `docs/superpowers/plans/2026-05-07-wave40-challenge-profiles.md`
+- `docs/superpowers/plans/2026-05-06-wave37-ea-title-select-polish.md`
+
+What changed:
+
+- Created `docs/superpowers/specs/2026-05-07-wave42-run-ledger-design.md`.
+- Created `docs/superpowers/plans/2026-05-07-wave42-run-ledger.md`.
+- Selected a local recent-run ledger as the next EA showcase milestone so profile goals have a player-readable run history around them.
+- Kept Steam achievements, online services, analytics, release packaging, mobile layout, and replay playback out of scope.
+
+Plan self-review:
+
+```text
+Searched the Wave 42 spec and plan for TODO/TBD/placeholder language.
+Result: no placeholders found.
+```
+
+Next step:
+
+- Execute Wave 42 in isolated worktrees: first the profile run-ledger system, then the app ledger surfaces, followed by full verification and documentation.
