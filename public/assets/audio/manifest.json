@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "ambience": {
+    "title": {
+      "fallback": "procedural:ambience:title",
+      "description": "Reserved title-screen ink ambience bed for the opening shell."
+    },
+    "map": {
+      "fallback": "procedural:ambience:map",
+      "description": "Reserved route-map ambience for travel through the chapter topology."
+    },
+    "combat": {
+      "fallback": "procedural:ambience:combat",
+      "description": "Reserved combat ambience bed for battlefield tension."
+    },
+    "reward": {
+      "fallback": "procedural:ambience:reward",
+      "description": "Reserved post-battle reward ambience for card and relic choices."
+    },
+    "event": {
+      "fallback": "procedural:ambience:event",
+      "description": "Reserved story-event ambience for ink-corrupted jianghu encounters."
+    },
+    "shop": {
+      "fallback": "procedural:ambience:shop",
+      "description": "Reserved shop ambience for merchant and deck-service surfaces."
+    },
+    "rest": {
+      "fallback": "procedural:ambience:rest",
+      "description": "Reserved rest-site ambience for healing and card-upgrade pauses."
+    },
+    "final": {
+      "fallback": "procedural:ambience:final",
+      "description": "Reserved finale ambience for victory, defeat, and final-choice screens."
+    }
+  },
+  "sfx": {
+    "ui": {
+      "fallback": "procedural:sfx:ui",
+      "description": "Reserved short UI confirmation sound for buttons and toggles."
+    },
+    "card": {
+      "fallback": "procedural:sfx:card",
+      "description": "Reserved card-play sound for martial technique execution."
+    },
+    "victory": {
+      "fallback": "procedural:sfx:victory",
+      "description": "Reserved victory cue for successful combat resolution."
+    },
+    "defeat": {
+      "fallback": "procedural:sfx:defeat",
+      "description": "Reserved defeat cue for failed combat resolution."
+    },
+    "final-choice": {
+      "fallback": "procedural:sfx:final-choice",
+      "description": "Reserved final-choice cue for chapter-ending decisions."
+    }
+  },
+  "combatCues": {
+    "hit": {
+      "fallback": "procedural:combat:hit",
+      "description": "Reserved combat cue for damage impact and hit feedback."
+    },
+    "block": {
+      "fallback": "procedural:combat:block",
+      "description": "Reserved combat cue for guard, armor, and block feedback."
+    },
+    "status": {
+      "fallback": "procedural:combat:status",
+      "description": "Reserved combat cue for charm, ink, weak, vulnerable, and other status changes."
+    },
+    "turn": {
+      "fallback": "procedural:combat:turn",
+      "description": "Reserved combat cue for player and enemy turn transitions."
+    }
+  }
+}
