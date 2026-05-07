@@ -1,3 +1,5 @@
+import { profileGoalsById, type ProfileGoalId } from "../../content/goals";
+
 export const PROFILE_VERSION = 1;
 
 export interface ProfileStats {
@@ -19,6 +21,8 @@ export interface PlayerProfile {
   unlockedFragments: string[];
   unlockedEndings: string[];
   unlockedCharacterEpilogues: string[];
+  completedGoalIds: ProfileGoalId[];
+  challengeVictories?: string[];
 }
 
 export interface RecordRunResultInput {
@@ -27,6 +31,7 @@ export interface RecordRunResultInput {
   endingId?: string;
   characterEpilogueId?: string;
   chaptersCompleted?: readonly string[];
+  challengeId?: string;
 }
 
 export interface RecordCompletedRunInput extends RecordRunResultInput {
@@ -40,7 +45,9 @@ export function createProfile(): PlayerProfile {
     characterStats: {},
     unlockedFragments: [],
     unlockedEndings: [],
-    unlockedCharacterEpilogues: []
+    unlockedCharacterEpilogues: [],
+    completedGoalIds: [],
+    challengeVictories: []
   };
 }
 
@@ -67,7 +74,10 @@ export function recordRunResult(profile: PlayerProfile, result: RecordRunResultI
     unlockedEndings: result.endingId ? addUnique(normalized.unlockedEndings, result.endingId) : [...normalized.unlockedEndings],
     unlockedCharacterEpilogues: result.characterEpilogueId
       ? addUnique(normalized.unlockedCharacterEpilogues, result.characterEpilogueId)
-      : [...normalized.unlockedCharacterEpilogues]
+      : [...normalized.unlockedCharacterEpilogues],
+    challengeVictories: result.victory && result.challengeId
+      ? addUnique(normalized.challengeVictories ?? [], result.challengeId)
+      : [...(normalized.challengeVictories ?? [])]
   };
 }
 
@@ -130,7 +140,9 @@ export function normalizeProfile(profile: Partial<PlayerProfile> | undefined): P
     characterStats,
     unlockedFragments: uniqueStrings(profile.unlockedFragments),
     unlockedEndings: uniqueStrings(profile.unlockedEndings),
-    unlockedCharacterEpilogues: uniqueStrings(profile.unlockedCharacterEpilogues)
+    unlockedCharacterEpilogues: uniqueStrings(profile.unlockedCharacterEpilogues),
+    completedGoalIds: uniqueGoalIds(profile.completedGoalIds),
+    challengeVictories: uniqueStrings(profile.challengeVictories)
   };
 }
 
@@ -201,6 +213,10 @@ function uniqueStrings(values: unknown): string[] {
   }
 
   return Array.from(new Set(values.filter((value): value is string => typeof value === "string" && value.length > 0)));
+}
+
+function uniqueGoalIds(values: unknown): ProfileGoalId[] {
+  return uniqueStrings(values).filter((goalId): goalId is ProfileGoalId => goalId in profileGoalsById);
 }
 
 function normalizeCount(value: unknown): number {

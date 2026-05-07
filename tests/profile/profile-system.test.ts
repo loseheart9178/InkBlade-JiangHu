@@ -20,6 +20,9 @@ class MemoryStorage implements GameStorage {
 describe("profile system", () => {
   it("records persistent run stats and unlocked fragments", () => {
     const profile = createProfile();
+    expect(profile.completedGoalIds).toEqual([]);
+    expect(profile.challengeVictories).toEqual([]);
+
     const next = recordRunResult(profile, {
       characterId: "zhaoyun",
       victory: true,
@@ -100,6 +103,8 @@ describe("profile system", () => {
       },
       unlockedFragments: ["fragment_heart_mirror", "fragment_heart_mirror", 99],
       unlockedEndings: ["ending_clear_seal"],
+      completedGoalIds: ["goal_first_run", "bad_goal", "goal_first_run"],
+      challengeVictories: ["inkRising", "inkRising", "", 42],
       legacyDebugSkip: true
     }));
 
@@ -112,6 +117,8 @@ describe("profile system", () => {
     expect(profile?.unlockedFragments).toEqual(["fragment_heart_mirror"]);
     expect(profile?.unlockedEndings).toEqual(["ending_clear_seal"]);
     expect(profile?.unlockedCharacterEpilogues).toEqual([]);
+    expect(profile?.completedGoalIds).toEqual(["goal_first_run"]);
+    expect(profile?.challengeVictories).toEqual(["inkRising"]);
     expect(storage.getItem(PROFILE_STORAGE_KEY)).toContain("legacyDebugSkip");
   });
 
@@ -137,7 +144,9 @@ describe("profile system", () => {
           }
         },
         unlockedFragments: "not-an-array",
-        unlockedEndings: ["ending_burn_book", "ending_burn_book"]
+        unlockedEndings: ["ending_burn_book", "ending_burn_book"],
+        completedGoalIds: ["goal_first_victory", "goal_missing", "goal_first_victory"],
+        challengeVictories: ["ironRain", false, "ironRain"]
       }
     }));
 
@@ -154,6 +163,8 @@ describe("profile system", () => {
     expect(profile?.unlockedFragments).toEqual([]);
     expect(profile?.unlockedEndings).toEqual(["ending_burn_book"]);
     expect(profile?.unlockedCharacterEpilogues).toEqual([]);
+    expect(profile?.completedGoalIds).toEqual(["goal_first_victory"]);
+    expect(profile?.challengeVictories).toEqual(["ironRain"]);
   });
 
   it("repairs legacy profile counters so total runs cannot undercount outcomes", () => {
