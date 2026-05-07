@@ -45,6 +45,7 @@ import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/syste
 import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
 import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile } from "../game/systems/profile/profile";
+import { evaluateProfileGoals, recordCompletedGoals } from "../game/systems/profile/goals";
 import { describeRelicSource } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
@@ -125,6 +126,7 @@ interface CompletedRunSummaryView {
   ending: EndingDefinition;
   characterEpilogue: CharacterEpilogueDefinition;
   profile: PlayerProfile;
+  newlyCompletedGoalIds?: string[];
 }
 
 export function createInkbladeController(host: HTMLElement, options: ControllerOptions = {}) {
@@ -370,7 +372,8 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
     completed.textContent = "终章战报";
     completed.addEventListener("click", () => {
       audioFeedback.playUi();
-      state.run = createCompletedDebugRun();
+      const selectedChallengeId = title.querySelector<HTMLElement>(".challenge-choice.is-selected")?.dataset.challengeId;
+      state.run = createCompletedDebugRun(resolveChallengeProfile(selectedChallengeId).id);
       completeRunWithEnding(state, storage);
       audioFeedback.playVictory();
       render();
@@ -485,6 +488,8 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
     createRunSummaryStat("角色档案", `${Object.keys(state.profile.characterStats).length}`)
   );
 
+  const goals = createProfileGoalsList(state.profile);
+
   const actions = document.createElement("div");
   actions.className = "run-summary-actions";
   const back = createAction("返回标题", "收起战报，回到标题。", () => removeTitleShellOverlay(host));
@@ -501,7 +506,7 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
   logbook.disabled = !state.run;
   actions.append(back, logbook);
 
-  panel.append(note, stats, actions);
+  panel.append(note, stats, goals, actions);
   host.append(panel);
 }
 
@@ -1931,6 +1936,8 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     createRunSummaryStat("角色结局", formatUnlockedCharacterEpilogueTitles(summary.profile), "profile-unlocked-epilogues")
   );
 
+  const goals = createProfileGoalsList(summary.profile, summary.newlyCompletedGoalIds);
+
   const restart = createAction("再入江湖", "以同一角色重新开局。", () => {
     state.run = createRun(summary.completion.characterId);
     state.combat = undefined;
@@ -1943,7 +1950,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     render();
   });
 
-  panel.append(createMessage(state.message), ending, epilogue, stats, restart);
+  panel.append(createMessage(state.message), ending, epilogue, stats, goals, restart);
   host.append(panel);
 }
 
@@ -1971,15 +1978,19 @@ function completeRunWithEnding(state: ControllerState, storage: GameStorage | un
     endingId: finalSelection.ending.id,
     characterEpilogueId: finalSelection.characterEpilogue.id,
     chaptersCompleted: completion.completedChapterIds,
-    unlockedFragments: completion.unlockedFragmentIds
+    unlockedFragments: completion.unlockedFragmentIds,
+    challengeId: run.challengeId
   });
+  const goalResult = recordCompletedGoals(state.profile);
+  state.profile = goalResult.profile;
   saveProfile(storage, state.profile);
   clearSavedGame(storage);
   state.completedRunSummary = {
     completion,
     ending: finalSelection.ending,
     characterEpilogue: finalSelection.characterEpilogue,
-    profile: state.profile
+    profile: state.profile,
+    newlyCompletedGoalIds: goalResult.newlyCompletedGoalIds
   };
   state.screen = "runSummary";
   state.message = `${charactersById[completion.characterId].name}抵达${finalSelection.ending.title}与${finalSelection.characterEpilogue.title}。`;
@@ -2015,14 +2026,15 @@ function recordDefeatIfNeeded(state: ControllerState, storage: GameStorage | und
   state.profile = recordRunResult(state.profile, {
     characterId: run.characterId,
     victory: false,
-    chaptersCompleted: run.completedChapterIds
+    chaptersCompleted: run.completedChapterIds,
+    challengeId: run.challengeId
   });
   saveProfile(storage, state.profile);
   clearSavedGame(storage);
 }
 
-function createCompletedDebugRun(): RunState {
-  const run = createRun("zhaoyun", { mapSeed: 52 });
+function createCompletedDebugRun(challengeId?: ChallengeProfileId): RunState {
+  const run = createRun("zhaoyun", { mapSeed: 52, challengeId });
   run.mindTendencies = { ning: 5, nu: 0, bei: 0, mei: 0, luan: 0, wu: 8 };
   recordLogbookEvent(run, "event_heart_mirror");
   recordLogbookBoss(run, "boss_nameless_historian");
@@ -2042,6 +2054,35 @@ function formatUnlockedEndingTitles(profile: PlayerProfile): string {
 function formatUnlockedCharacterEpilogueTitles(profile: PlayerProfile): string {
   const titles = (profile.unlockedCharacterEpilogues ?? []).map((epilogueId) => characterEpiloguesById[epilogueId as keyof typeof characterEpiloguesById]?.title ?? epilogueId);
   return titles.length > 0 ? titles.join("、") : "未解锁";
+}
+
+function createProfileGoalsList(profile: PlayerProfile, highlightIds: readonly string[] = []): HTMLElement {
+  const list = document.createElement("div");
+  list.className = "profile-goals-list";
+  list.dataset.testid = "profile-goals-list";
+
+  const highlights = new Set(highlightIds);
+  for (const record of evaluateProfileGoals(profile)) {
+    const item = document.createElement("article");
+    item.className = record.completed ? "profile-goal-item is-complete" : "profile-goal-item";
+    item.dataset.testid = "profile-goal-item";
+    item.dataset.profileGoalId = record.goal.id;
+    if (highlights.has(record.goal.id)) {
+      item.classList.add("is-new");
+    }
+
+    const title = document.createElement("strong");
+    title.textContent = record.goal.title;
+    const summary = document.createElement("span");
+    summary.textContent = record.goal.summary;
+    const progress = document.createElement("small");
+    progress.textContent = `${Math.min(record.progress.current, record.progress.target)} / ${record.progress.target}`;
+
+    item.append(title, summary, progress);
+    list.append(item);
+  }
+
+  return list;
 }
 
 function createPanel(testId: string, title: string): HTMLElement {

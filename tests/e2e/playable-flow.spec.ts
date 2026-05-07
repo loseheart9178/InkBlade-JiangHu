@@ -134,6 +134,36 @@ test("run summary shell opens from the title debug entry", async ({ page }) => {
   expect(statCount).toBeGreaterThan(2);
 });
 
+test("profile goals surface opens from the title debug profile shell", async ({ page }) => {
+  await page.goto("/?debug=1");
+
+  await page.getByTestId("debug-run-summary").click();
+
+  await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("profile-goals-list")).toBeVisible();
+  await expect(page.getByTestId("profile-goal-item").first()).toContainText(/初入江湖|一卷定尘/);
+});
+
+test("challenge goal completes from selected debug ending and persists", async ({ page }) => {
+  await page.goto("/?debug=1");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("challenge-inkRising").click();
+  await page.getByTestId("debug-ending-summary").click();
+
+  await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  const challengeGoal = page.locator('[data-testid="profile-goal-item"][data-profile-goal-id="goal_ink_rising_clear"]');
+  await expect(challengeGoal).toHaveClass(/is-complete/);
+  await expect(challengeGoal).toHaveClass(/is-new/);
+
+  await page.reload();
+  await page.getByTestId("debug-run-summary").click();
+
+  await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(challengeGoal).toHaveClass(/is-complete/);
+});
+
 test("debug skip advances to the next chapter and refreshes the map backdrop", async ({ page }) => {
   await startRun(page, "zhaoyun", { debugTools: true });
 

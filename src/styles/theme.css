@@ -2112,6 +2112,8 @@ button {
   inset: 42px auto auto 50%;
   width: min(760px, 86vw);
   min-height: min(620px, 82vh);
+  max-height: calc(100vh - 84px);
+  overflow: auto;
   padding: 24px 28px 28px;
   border: 1px solid rgba(44, 41, 36, 0.36);
   border-radius: 8px;
@@ -2211,6 +2213,66 @@ button {
 
 .run-summary-stat span {
   color: rgba(44, 41, 36, 0.68);
+}
+
+.profile-goals-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  width: min(720px, 100%);
+  max-height: min(300px, 34vh);
+  gap: 10px;
+  overflow: auto;
+  padding: 2px;
+}
+
+.profile-goal-item {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(44, 41, 36, 0.18);
+  border-radius: 8px;
+  color: #2c2924;
+  background: rgba(255, 252, 239, 0.78);
+}
+
+.profile-goal-item strong,
+.profile-goal-item span,
+.profile-goal-item small {
+  min-width: 0;
+}
+
+.profile-goal-item strong {
+  color: #5f1d18;
+  font-size: 15px;
+}
+
+.profile-goal-item span {
+  color: rgba(44, 41, 36, 0.76);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.profile-goal-item small {
+  justify-self: start;
+  padding: 2px 7px;
+  border: 1px solid rgba(47, 124, 110, 0.18);
+  border-radius: 999px;
+  color: rgba(47, 124, 110, 0.9);
+  background: rgba(47, 124, 110, 0.08);
+  font-size: 12px;
+}
+
+.profile-goal-item.is-complete {
+  border-color: rgba(47, 124, 110, 0.42);
+  background:
+    linear-gradient(135deg, rgba(47, 124, 110, 0.1), rgba(255, 252, 239, 0.72)),
+    rgba(255, 252, 239, 0.78);
+}
+
+.profile-goal-item.is-new {
+  border-color: rgba(183, 53, 42, 0.64);
+  box-shadow: inset 0 0 0 1px rgba(183, 53, 42, 0.18);
 }
 
 .ending-summary {
