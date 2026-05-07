@@ -2,6 +2,89 @@
 
 ## Status Log
 
+### 2026-05-07 15:53 Asia/Shanghai
+
+Wave 40 Challenge Profiles implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave40-challenge-profiles-plan`.
+
+Docs/skills/files re-read during implementation and verification:
+
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-07-wave40-challenge-profiles-design.md`
+- `docs/superpowers/plans/2026-05-07-wave40-challenge-profiles.md`
+- `src/game/content/challenges.ts`
+- `src/game/systems/challenges/challenges.ts`
+- `src/game/systems/run/run.ts`
+- `src/game/systems/combat/combat.ts`
+- `src/game/systems/debug/runSimulator.ts`
+- `src/game/systems/debug/balanceReport.ts`
+- `src/app/appShell.ts`
+- `src/app/gameApp.ts`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- Game Studio `game-playtest` workflow notes
+- Superpowers `verification-before-completion` workflow notes
+
+What changed:
+
+- Integrated challenge-system worker commit `56792e3` as local commit `d724fb4`: added `standard`, `scarcity`, `inkRising`, and `ironRain` challenge profiles, run-start modifiers, run-state `challengeId`, and challenge helper tests.
+- Added local integration commit `c87dd48`: asserted default runs record `challengeId: "standard"`.
+- Recovered the interrupted combat/report worker output as commit `95cd603`: added combat enemy HP/attack modifiers, simulator challenge propagation, and balance-report challenge markdown.
+- Replaced the disconnected UI worker and integrated replacement commit `276e122` as local commit `c52559b`: added title challenge buttons, selected-challenge runtime plumbing, run-status challenge badge, CSS, and browser coverage.
+- Added local integration commit `0c9ffd3`: connected live app combat creation to `getChallengeCombatModifiers(run.challengeId)`.
+
+TDD and failures:
+
+```text
+Worker A RED: focused Vitest failed for missing challenge system import and missing `run.challengeId`.
+Worker B RED tests were written before implementation; the worker connection did not return a completion notification, but its committed worktree was independently inspected and verified.
+First UI worker disconnected before writing changes, so its clean worktree was discarded and a replacement worker completed the slice.
+Replacement UI worker RED: Playwright failed waiting for missing `challenge-inkRising`.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/challenges/challenge-system.test.ts tests/run/run-system.test.ts --reporter=dot
+Result after Task 1 integration: passed, 2 files / 37 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/challenges/challenge-system.test.ts tests/playtest/run-simulator.test.ts --reporter=dot
+Result after combat/report recovery: passed, 2 files / 13 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/challenges/challenge-system.test.ts tests/run/run-system.test.ts tests/playtest/run-simulator.test.ts tests/app-settings.test.ts tests/app-shell.test.ts --reporter=dot
+Result after final app integration: passed, 5 files / 61 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "challenge profile|settings|boots"
+Result: passed, 5 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 28 files / 229 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed, 29 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed, 4 Chromium tests.
+```
+
+Known gaps / risks:
+
+- `challengeId` remains optional in the `RunState` type so older saves/debug snapshots can be normalized safely; `createRun` always records a concrete challenge id.
+- Current challenge profiles are deterministic local variants, not daily challenges, leaderboards, achievements, or platform services.
+- Challenge balance is intentionally mild for EA showcase safety; deeper tuning should come after broader external playtest notes.
+
+Next step:
+
+- Reclaim Wave 40 worker worktrees, then plan the next EA wave around player-facing profile goals or save recovery UX.
+
 ### 2026-05-07 09:19 Asia/Shanghai
 
 Wave 40 Challenge Profiles planning started in `.worktrees/wave6-integration` on branch `codex/wave40-challenge-profiles-plan`.
