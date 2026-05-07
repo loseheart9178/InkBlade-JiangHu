@@ -8773,3 +8773,39 @@ Known gaps / risks:
 Next step:
 
 - Plan the next EA milestone around a visible gameplay/content showcase improvement, keeping Steam/storefront/release packaging out of scope.
+
+## 2026-05-07 Wave 43 build recap planning
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/superpowers/plans/2026-05-07-wave42-run-ledger.md`
+
+What changed:
+
+- Created `docs/superpowers/specs/2026-05-07-wave43-build-recap-design.md`.
+- Created `docs/superpowers/plans/2026-05-07-wave43-build-recap.md`.
+- Selected completed-run build recap as the next EA showcase milestone so outside testers can read what martial style their deck became after a run.
+- Kept new combat rules, balance tuning, Steam/storefront/release packaging, analytics, new art generation, and mobile layout out of scope.
+
+Plan self-review:
+
+```text
+Checked the Wave 43 spec and plan for TODO/TBD placeholders and confirmed the plan uses concrete files, commands, test ids, and acceptance criteria.
+```
+
+Next step:
+
+- Execute Wave 43 in isolated worktrees: first the pure deck recap system, then the completed-run UI surface, followed by full verification and documentation.
