@@ -2,6 +2,50 @@
 
 ## Status Log
 
+### 2026-05-07 08:27 Asia/Shanghai
+
+Wave 39 Audio Atmosphere planning started in `.worktrees/wave6-integration` on branch `codex/wave39-audio-atmosphere-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `src/app/audioFeedback.ts`
+- `src/app/settingsPersistence.ts`
+- `src/app/inkbladeController.ts`
+- `tests/app-settings.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- Superpowers `using-superpowers` workflow notes
+- Superpowers `brainstorming` workflow notes
+- Superpowers `writing-plans` workflow notes
+- Superpowers `using-git-worktrees` workflow notes
+- Superpowers `subagent-driven-development` workflow notes
+
+Design added:
+
+- `docs/superpowers/specs/2026-05-07-wave39-audio-atmosphere-design.md`
+
+Plan added:
+
+- `docs/superpowers/plans/2026-05-07-wave39-audio-atmosphere.md`
+
+Scope decision:
+
+- Wave 39 adds safe procedural ambience, a separate SFX volume setting, and an audio manifest for final asset slots.
+- The wave intentionally avoids final composed music, external audio files, mobile audio policy work, Steam/storefront, installers, and release packaging.
+- Because the user granted autonomous overnight authority, the normal interactive spec-review gate is treated as satisfied for this continuation.
+
+Next step:
+
+- Commit the Wave 39 design + plan, create isolated worktrees, and execute settings/audio/controller slices with subagents.
+
 ### 2026-05-07 00:02 Asia/Shanghai
 
 Wave 38 Browser QA Runtime implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave38-browser-qa-runtime-plan`.
