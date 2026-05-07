@@ -2039,9 +2039,7 @@ button {
 }
 
 .deck-archetype-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
   gap: 12px;
   padding: 10px 14px;
   border: 1px solid rgba(47, 124, 110, 0.28);
@@ -2065,6 +2063,54 @@ button {
 .deck-archetype-summary small {
   color: #5f1d18;
   font-size: 13px;
+}
+
+.deck-build-compass {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.deck-build-primary {
+  display: grid;
+  gap: 2px;
+}
+
+.deck-build-primary span,
+.deck-build-primary small {
+  min-width: 0;
+  color: rgba(44, 41, 36, 0.68);
+  font-size: 12px;
+}
+
+.deck-build-primary strong {
+  min-width: 0;
+  color: #5f1d18;
+  font-size: 18px;
+}
+
+.deck-build-signatures,
+.deck-build-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.deck-build-signatures span,
+.deck-build-details span {
+  max-width: 100%;
+  padding: 3px 8px;
+  border: 1px solid rgba(44, 41, 36, 0.16);
+  border-radius: 999px;
+  color: rgba(44, 41, 36, 0.78);
+  background: rgba(255, 252, 239, 0.7);
+  font-size: 12px;
+}
+
+.deck-build-signatures span {
+  border-color: rgba(183, 53, 42, 0.22);
+  color: #5f1d18;
+  background: rgba(183, 53, 42, 0.08);
 }
 
 .deck-card-list {

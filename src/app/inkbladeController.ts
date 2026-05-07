@@ -2190,6 +2190,48 @@ function createRunBuildRecapPanel(recap: DeckBuildRecap): HTMLElement {
   return section;
 }
 
+function createDeckBuildCompassPanel(recap: DeckBuildRecap, methodSummary: string): HTMLElement {
+  const section = document.createElement("section");
+  section.className = "deck-build-compass";
+  section.dataset.testid = "deck-build-compass";
+
+  const primary = document.createElement("div");
+  primary.className = "deck-build-primary";
+  primary.dataset.testid = "deck-build-primary";
+  const label = document.createElement("span");
+  label.textContent = "当前流派";
+  const title = document.createElement("strong");
+  title.textContent = recap.primaryLabel;
+  const summary = document.createElement("small");
+  summary.textContent = recap.summary;
+  primary.append(label, title, summary);
+
+  const signatures = document.createElement("div");
+  signatures.className = "deck-build-signatures";
+  const signatureNames = recap.signatureCards.length > 0 ? recap.signatureCards : ["尚无代表招式"];
+  for (const name of signatureNames) {
+    const chip = document.createElement("span");
+    chip.dataset.testid = "deck-build-signature-card";
+    chip.textContent = name;
+    signatures.append(chip);
+  }
+
+  const details = document.createElement("div");
+  details.className = "deck-build-details";
+  const supportSignals = recap.supportSignals.some((signal) => signal.startsWith("心法 ")) ? recap.supportSignals : [`心法 ${methodSummary}`, ...recap.supportSignals];
+  for (const line of [...recap.typeBreakdown, ...recap.tacticalNotes, ...supportSignals]) {
+    const item = document.createElement("span");
+    if (line.startsWith("心法 ")) {
+      item.dataset.testid = "deck-method-summary";
+    }
+    item.textContent = line;
+    details.append(item);
+  }
+
+  section.append(primary, signatures, details);
+  return section;
+}
+
 function createProfileRunRecordItem(record: ProfileRunRecord): HTMLElement {
   const item = document.createElement("article");
   item.className = record.victory ? "profile-run-record is-victory" : "profile-run-record";
@@ -2807,8 +2849,15 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
   }
 
   const run = state.run;
-  const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
-  const methodNames = getRunMethods(run).map((method) => method.name).join("、") || "未定";
+  const runCards = getRunCardDefinitions(run);
+  const archetypeAnalysis = analyzeDeckArchetypes(runCards);
+  const methodNames = getRunMethods(run).map((method) => method.name);
+  const buildRecap = createDeckBuildRecap({
+    cards: runCards,
+    methodNames,
+    relicNames: run.relicIds.map((id) => relicsById[id]?.name ?? id),
+    challengeName: resolveChallengeProfile(run.challengeId).name
+  });
   const overlay = document.createElement("div");
   overlay.className = "deck-overlay";
   overlay.dataset.testid = "deck-viewer";
@@ -2833,12 +2882,8 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
   const summary = document.createElement("div");
   summary.className = "deck-archetype-summary";
   summary.dataset.testid = "deck-archetype-summary";
-  const visibleScores = archetypeAnalysis.scores.filter((score) => score.cardCount > 0).slice(0, 3);
-  summary.innerHTML = `
-    <strong>当前流派：${archetypeAnalysis.summary}</strong>
-    <span>${visibleScores.length > 0 ? visibleScores.map((score) => `${score.label} ${score.cardCount}`).join(" · ") : "多拿带有流派标签的武学后会开始成型。"}</span>
-    <small data-testid="deck-method-summary">心法 ${methodNames}</small>
-  `;
+  summary.setAttribute("aria-label", `当前流派：${archetypeAnalysis.summary}`);
+  summary.append(createDeckBuildCompassPanel(buildRecap, methodNames.join("、") || "未定"));
 
   const list = document.createElement("div");
   list.className = "deck-card-list";

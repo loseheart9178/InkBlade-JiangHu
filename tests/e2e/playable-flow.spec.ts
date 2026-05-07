@@ -396,6 +396,9 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await page.getByTestId("deck-open").click();
   await expect(page.getByTestId("deck-viewer")).toBeVisible();
   await expect(page.getByTestId("deck-archetype-summary")).toContainText("当前流派");
+  await expect(page.getByTestId("deck-build-compass")).toBeVisible();
+  await expect(page.getByTestId("deck-build-primary")).toContainText(/当前流派|尚未成型|流/);
+  await expect(page.getByTestId("deck-build-signature-card").first()).toContainText(/枪击|架枪|龙胆/);
   await expect(page.getByTestId("deck-card")).toHaveCount(10);
   await expect(page.getByTestId("deck-viewer")).toContainText("枪击");
   await page.getByTestId("deck-close").click();
@@ -426,6 +429,13 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expectVerticalGap(page.getByTestId("spoils-summary"), page.getByTestId("reward-card").first(), 8);
   await page.getByTestId("reward-card").first().click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
+  await page.getByTestId("deck-open").click();
+  await expect(page.getByTestId("deck-viewer")).toBeVisible();
+  await expect(page.getByTestId("deck-card")).toHaveCount(11);
+  await expect(page.getByTestId("deck-viewer")).toContainText(/凡|奇|绝/);
+  await expect(page.getByTestId("deck-build-compass")).toBeVisible();
+  await expect(page.getByTestId("deck-build-signature-card").first()).toBeVisible();
+  await page.getByTestId("deck-close").click();
 });
 
 test("shops can add relics after the first battle", async ({ page }, testInfo) => {
