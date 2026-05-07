@@ -2,6 +2,77 @@
 
 ## Status Log
 
+### 2026-05-07 09:08 Asia/Shanghai
+
+Wave 39 Audio Atmosphere implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave39-audio-atmosphere-plan`.
+
+Docs/skills re-read during implementation and verification:
+
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-07-wave39-audio-atmosphere-design.md`
+- `docs/superpowers/plans/2026-05-07-wave39-audio-atmosphere.md`
+- `src/app/audioFeedback.ts`
+- `src/app/settingsPersistence.ts`
+- `src/app/inkbladeController.ts`
+- `tests/app-settings.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- Game Studio `game-playtest` workflow notes
+- Superpowers `verification-before-completion` workflow notes
+
+What changed:
+
+- Integrated settings worker commit `3d70dbe` as local commit `be3491c`: added persisted `sfxVolume`, normalization/default coverage, settings-shell slider `setting-sfx-volume`, and browser persistence coverage.
+- Integrated audio worker commit `dc7dca9` as local commit `aa82f0f`: added procedural WebAudio ambience surfaces, SFX/music volume splitting, ambience stop/start API, and `public/assets/audio/manifest.json` with final audio asset slots.
+- Added local integration commit `7e6b39e`: stabilized ambience state so repeated renders do not restart the same surface and restoring music volume/mute state resumes the active surface.
+- Integrated controller worker commit `9e2f2d6` as local commit `cc124c2`: mapped title, map, combat, reward, event, shop, rest, final, logbook, and compendium screens to ambience surfaces through a controller helper and test seam.
+
+TDD and failures:
+
+```text
+Worker A RED: app-settings Vitest failed for missing `sfxVolume`; focused Playwright failed waiting for missing `setting-sfx-volume`.
+Worker B RED: audio Vitest failed for missing `setSurface`, missing manifest, and SFX ignoring `sfxVolume`.
+Local RED after integration: audio-feedback Vitest failed because restoring music volume did not resume ambience and same-surface renders restarted ambience.
+Playwright full-suite first attempt failed after visual-smoke finished because `playable-flow` and `visual-smoke` were run in parallel and shared the same dev server port; rerunning `playable-flow` alone passed.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/app-settings.test.ts tests/audio-feedback.test.ts tests/audio-manifest.test.ts --reporter=dot
+Result: passed, 3 files / 16 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "settings"
+Result: passed, 2 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 27 files / 222 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed, 4 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed, 28 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Ambience and SFX are procedural fallbacks only; final authored audio files remain future production work.
+- Browser autoplay policy still means ambience may begin only after user interaction, which is acceptable for the current desktop-browser showcase.
+- Full Playwright suites should not be launched in parallel while they share a single configured dev-server port.
+
+Next step:
+
+- Reclaim Wave 39 worker agents/worktrees, then start Wave 40 planning for another small EA showcase polish milestone.
+
 ### 2026-05-07 08:27 Asia/Shanghai
 
 Wave 39 Audio Atmosphere planning started in `.worktrees/wave6-integration` on branch `codex/wave39-audio-atmosphere-plan`.
