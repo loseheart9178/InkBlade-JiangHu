@@ -1,5 +1,5 @@
 import { cardList, cardsById } from "../game/content/cards";
-import { createAudioFeedback, type AudioFeedback } from "./audioFeedback";
+import { createAudioFeedback, type AudioFeedback, type AudioSurface } from "./audioFeedback";
 import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPersistence";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
@@ -89,7 +89,7 @@ import {
   type RunState
 } from "../game/systems/run";
 
-type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "compendium" | "runSummary" | "victory" | "defeat";
+export type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "compendium" | "runSummary" | "victory" | "defeat";
 type CompendiumReturnScreen = Exclude<Screen, "compendium">;
 type MapRouteState = "current" | "available" | "visited" | "locked";
 
@@ -115,6 +115,7 @@ interface ControllerState {
 interface ControllerOptions {
   storage?: GameStorage;
   debugToolsEnabled?: boolean;
+  audioFeedback?: AudioFeedback;
 }
 
 interface CompletedRunSummaryView {
@@ -125,13 +126,14 @@ interface CompletedRunSummaryView {
 }
 
 export function createInkbladeController(host: HTMLElement, options: ControllerOptions = {}) {
-  const audioFeedback = createAudioFeedback(loadSettings(options.storage));
+  const initialSettings = loadSettings(options.storage);
+  const audioFeedback = options.audioFeedback ?? createAudioFeedback(initialSettings);
   const state: ControllerState = {
     screen: "title",
     rewardCards: [],
     deckOpen: false,
     compendiumFilters: createDefaultCompendiumFilters(),
-    settings: loadSettings(options.storage),
+    settings: initialSettings,
     profile: loadProfile(options.storage) ?? createProfile(),
     debugToolsEnabled: options.debugToolsEnabled ?? false,
     message: ""
@@ -141,6 +143,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
 
   const render = () => {
     host.innerHTML = "";
+    syncAudioSurface(state, audioFeedback);
 
     if (state.screen === "map") {
       renderMap(host, state, render, options.storage, audioFeedback);
@@ -233,6 +236,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
   };
 
   installTitleShellControls(host, state, render, options.storage, audioFeedback);
+  syncAudioSurface(state, audioFeedback);
 
   return {
     startRun(characterId: string) {
@@ -277,6 +281,31 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       audioFeedback.dispose();
     }
   };
+}
+
+export function mapScreenToAudioSurface(screen: Screen, returnScreen?: Screen): AudioSurface {
+  if ((screen === "compendium" || screen === "logbook") && returnScreen) {
+    return mapScreenToAudioSurface(returnScreen);
+  }
+
+  if (screen === "map" || screen === "combat" || screen === "event" || screen === "shop" || screen === "rest") {
+    return screen;
+  }
+
+  if (screen === "reward" || screen === "methodReward" || screen === "chapterReward" || screen === "bossReward") {
+    return "reward";
+  }
+
+  if (screen === "finalChoice" || screen === "victory" || screen === "defeat" || screen === "runSummary") {
+    return "final";
+  }
+
+  return "title";
+}
+
+function syncAudioSurface(state: ControllerState, audioFeedback: AudioFeedback): void {
+  const returnScreen = state.screen === "compendium" ? state.compendiumReturnScreen : state.screen === "logbook" ? state.logbookReturnScreen : undefined;
+  audioFeedback.setSurface(mapScreenToAudioSurface(state.screen, returnScreen));
 }
 
 function installTitleShellControls(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {

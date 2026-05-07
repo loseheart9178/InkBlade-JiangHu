@@ -1,5 +1,5 @@
-import { createInkbladeController } from "../src/app/inkbladeController";
-import { createAudioFeedback } from "../src/app/audioFeedback";
+import { createInkbladeController, mapScreenToAudioSurface } from "../src/app/inkbladeController";
+import { createAudioFeedback, type AudioFeedback, type AudioSurface } from "../src/app/audioFeedback";
 import { cardList } from "../src/game/content/cards";
 import { charactersById } from "../src/game/content/characters";
 import { enemiesById } from "../src/game/content/enemies";
@@ -32,6 +32,21 @@ class MemoryStorage implements GameStorage {
   public removeItem(key: string): void {
     this.items.delete(key);
   }
+}
+
+function createFakeAudioFeedback(surfaces: AudioSurface[]): AudioFeedback {
+  return {
+    playUi() {},
+    playCard() {},
+    playVictory() {},
+    playDefeat() {},
+    setSurface(surface) {
+      surfaces.push(surface);
+    },
+    stopAmbience() {},
+    setSettings() {},
+    dispose() {}
+  };
 }
 
 describe("desktop settings persistence", () => {
@@ -175,6 +190,41 @@ describe("desktop settings persistence", () => {
 });
 
 describe("settings shell wiring", () => {
+  it("maps controller screens to ambience surfaces", () => {
+    expect(mapScreenToAudioSurface("title")).toBe("title");
+    expect(mapScreenToAudioSurface("map")).toBe("map");
+    expect(mapScreenToAudioSurface("combat")).toBe("combat");
+    expect(mapScreenToAudioSurface("reward")).toBe("reward");
+    expect(mapScreenToAudioSurface("methodReward")).toBe("reward");
+    expect(mapScreenToAudioSurface("chapterReward")).toBe("reward");
+    expect(mapScreenToAudioSurface("bossReward")).toBe("reward");
+    expect(mapScreenToAudioSurface("event")).toBe("event");
+    expect(mapScreenToAudioSurface("shop")).toBe("shop");
+    expect(mapScreenToAudioSurface("rest")).toBe("rest");
+    expect(mapScreenToAudioSurface("finalChoice")).toBe("final");
+    expect(mapScreenToAudioSurface("victory")).toBe("final");
+    expect(mapScreenToAudioSurface("defeat")).toBe("final");
+    expect(mapScreenToAudioSurface("runSummary")).toBe("final");
+    expect(mapScreenToAudioSurface("compendium", "combat")).toBe("combat");
+    expect(mapScreenToAudioSurface("logbook", "reward")).toBe("reward");
+    expect(mapScreenToAudioSurface("compendium")).toBe("title");
+
+    const surfaces: AudioSurface[] = [];
+    const host = document.createElement("div");
+    host.innerHTML = `<section class="title-screen"><div class="title-actions"></div></section>`;
+    const controller = createInkbladeController(host, {
+      storage: new MemoryStorage(),
+      audioFeedback: createFakeAudioFeedback(surfaces)
+    });
+
+    expect(surfaces.at(-1)).toBe("title");
+    controller.startRun("zhaoyun");
+    expect(surfaces.at(-1)).toBe("map");
+
+    host.querySelector<HTMLButtonElement>("[data-testid='map-node-event-1']")?.click();
+    expect(surfaces.at(-1)).toBe("event");
+  });
+
   it("loads saved values, saves changes, and applies reduced motion class", () => {
     const storage = new MemoryStorage();
     saveSettings(storage, {
