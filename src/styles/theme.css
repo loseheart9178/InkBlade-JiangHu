@@ -2338,6 +2338,58 @@ button {
     rgba(255, 252, 239, 0.78);
 }
 
+.run-build-recap {
+  display: grid;
+  width: min(720px, 100%);
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(47, 124, 110, 0.28);
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, rgba(47, 124, 110, 0.09), rgba(183, 53, 42, 0.07)),
+    rgba(255, 252, 239, 0.76);
+}
+
+.run-build-primary {
+  display: grid;
+  gap: 3px;
+}
+
+.run-build-primary span,
+.run-build-primary small {
+  color: rgba(44, 41, 36, 0.68);
+  font-size: 13px;
+}
+
+.run-build-primary strong {
+  color: #5f1d18;
+  font-size: 20px;
+}
+
+.run-build-signatures,
+.run-build-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.run-build-signatures span,
+.run-build-details span {
+  max-width: 100%;
+  padding: 4px 8px;
+  border: 1px solid rgba(44, 41, 36, 0.16);
+  border-radius: 999px;
+  color: rgba(44, 41, 36, 0.78);
+  background: rgba(255, 252, 239, 0.72);
+  font-size: 12px;
+}
+
+.run-build-signatures span {
+  border-color: rgba(183, 53, 42, 0.22);
+  color: #5f1d18;
+  background: rgba(183, 53, 42, 0.08);
+}
+
 .ending-summary {
   display: grid;
   width: min(720px, 100%);

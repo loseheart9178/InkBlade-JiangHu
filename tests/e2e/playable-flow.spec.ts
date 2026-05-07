@@ -316,6 +316,9 @@ test("ending summary records and persists profile summary", async ({ page }, tes
   await expect(page.getByTestId("ending-id")).toContainText("ending_hidden_wu");
   await expect(page.getByTestId("ending-title")).toContainText("隐藏清悟");
   await expect(page.getByTestId("character-epilogue-title")).toContainText("长坂无名");
+  await expect(page.getByTestId("run-build-recap")).toBeVisible();
+  await expect(page.getByTestId("run-build-primary")).toContainText(/尚未成型|流/);
+  await expect(page.getByTestId("run-build-signature-card").first()).toContainText(/枪击|架枪|龙胆|突刺/);
   await expect(page.getByTestId("run-summary-character")).toContainText("赵云");
   await expect(page.getByTestId("run-summary-chapters")).toContainText("4");
   await expect(page.getByTestId("profile-total-runs")).toContainText("1");

@@ -28,6 +28,7 @@ import {
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, EnemyIntentEffect, MindState, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
+import { createDeckBuildRecap, type DeckBuildRecap } from "../game/systems/deck/buildRecap";
 import { createFinalBossDebugRun } from "../game/systems/debug/debugRun";
 import {
   characterEpiloguesById,
@@ -126,6 +127,7 @@ interface CompletedRunSummaryView {
   completion: RunCompletionSnapshot;
   ending: EndingDefinition;
   characterEpilogue: CharacterEpilogueDefinition;
+  buildRecap: DeckBuildRecap;
   profile: PlayerProfile;
   newlyCompletedGoalIds?: string[];
 }
@@ -1939,6 +1941,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
   );
 
   const goals = createProfileGoalsList(summary.profile, summary.newlyCompletedGoalIds);
+  const buildRecap = createRunBuildRecapPanel(summary.buildRecap);
   const ledger = createProfileRunLedger(summary.profile);
 
   const restart = createAction("再入江湖", "以同一角色重新开局。", () => {
@@ -1953,7 +1956,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     render();
   });
 
-  panel.append(createMessage(state.message), ending, epilogue, stats, goals, ledger, restart);
+  panel.append(createMessage(state.message), ending, epilogue, stats, buildRecap, goals, ledger, restart);
   host.append(panel);
 }
 
@@ -1997,10 +2000,17 @@ function completeRunWithEnding(state: ControllerState, storage: GameStorage | un
   });
   saveProfile(storage, state.profile);
   clearSavedGame(storage);
+  const buildRecap = createDeckBuildRecap({
+    cards: getRunCardDefinitions(run),
+    methodNames: getRunMethods(run).map((method) => method.name),
+    relicNames: run.relicIds.map((id) => relicsById[id]?.name ?? id),
+    challengeName: resolveChallengeProfile(run.challengeId).name
+  });
   state.completedRunSummary = {
     completion,
     ending: finalSelection.ending,
     characterEpilogue: finalSelection.characterEpilogue,
+    buildRecap,
     profile: state.profile,
     newlyCompletedGoalIds: goalResult.newlyCompletedGoalIds
   };
@@ -2138,6 +2148,45 @@ function createProfileRunLedger(profile: PlayerProfile): HTMLElement {
   }
 
   section.append(list);
+  return section;
+}
+
+function createRunBuildRecapPanel(recap: DeckBuildRecap): HTMLElement {
+  const section = document.createElement("section");
+  section.className = "run-build-recap";
+  section.dataset.testid = "run-build-recap";
+
+  const primary = document.createElement("div");
+  primary.className = "run-build-primary";
+  primary.dataset.testid = "run-build-primary";
+
+  const label = document.createElement("span");
+  label.textContent = "本局流派";
+  const title = document.createElement("strong");
+  title.textContent = recap.primaryLabel;
+  const summary = document.createElement("small");
+  summary.textContent = recap.summary;
+  primary.append(label, title, summary);
+
+  const signatures = document.createElement("div");
+  signatures.className = "run-build-signatures";
+  const signatureNames = recap.signatureCards.length > 0 ? recap.signatureCards : ["尚无代表招式"];
+  for (const name of signatureNames) {
+    const chip = document.createElement("span");
+    chip.dataset.testid = "run-build-signature-card";
+    chip.textContent = name;
+    signatures.append(chip);
+  }
+
+  const details = document.createElement("div");
+  details.className = "run-build-details";
+  for (const line of [...recap.typeBreakdown, ...recap.tacticalNotes, ...recap.supportSignals]) {
+    const item = document.createElement("span");
+    item.textContent = line;
+    details.append(item);
+  }
+
+  section.append(primary, signatures, details);
   return section;
 }
 
