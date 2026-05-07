@@ -4,6 +4,7 @@ import { charactersById } from "../../content/characters";
 import { enemiesById } from "../../content/enemies";
 import { eventsById, type EventChoiceEffect } from "../../content/events";
 import { relicsById, type RelicDefinition } from "../../content/relics";
+import { applyChallengeToRunStart, resolveChallengeProfile } from "../challenges/challenges";
 import type { CardArchetypeId, CardDefinition, EnemyDefinition, EnemyIntent } from "../combat/types";
 import { getRelicRewardPool, getShopRelicPool, type RelicRewardSource } from "../relics/relicEffects";
 import type {
@@ -340,6 +341,7 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     throw new Error(`Unknown character: ${characterId}`);
   }
   const mapSeed = options.mapSeed ?? 0;
+  const challengeStart = applyChallengeToRunStart(character, resolveChallengeProfile(options.challengeId), mapSeed);
 
   const deck = character.starterDeck.map((cardId, index) => ({
     instanceId: `run-card-${index + 1}`,
@@ -350,10 +352,11 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
     characterId,
     chapterId: "luoshui",
     completedChapterIds: [],
-    mapSeed,
-    hp: character.maxHp,
-    maxHp: character.maxHp,
-    gold: 99,
+    challengeId: challengeStart.challengeId,
+    mapSeed: challengeStart.mapSeed,
+    hp: challengeStart.hp,
+    maxHp: challengeStart.maxHp,
+    gold: challengeStart.gold,
     deck,
     relicIds: [getStartingRelicId(characterId)],
     methodIds: [],
@@ -371,7 +374,7 @@ export function createRun(characterId: string, options: CreateRunOptions = {}): 
       luan: 0,
       wu: 0
     },
-    mapNodes: createChapterOneMap(characterId, mapSeed),
+    mapNodes: createChapterOneMap(characterId, challengeStart.mapSeed),
     currentNodeId: "start",
     visitedNodeIds: [],
     nextDeckInstanceNumber: deck.length + 1,
@@ -1098,6 +1101,8 @@ function normalizeRunComboFields(run: RunState): void {
 }
 
 function normalizeRunChapterFields(run: RunState): void {
+  run.challengeId = resolveChallengeProfile(run.challengeId).id;
+
   if (!run.chapterId || !chaptersById[run.chapterId]) {
     run.chapterId = "luoshui";
   }

@@ -1,4 +1,5 @@
 import { cardsById } from "../../src/game/content/cards";
+import { charactersById } from "../../src/game/content/characters";
 import { createFinalBossDebugRun } from "../../src/game/systems/debug/debugRun";
 import { getRelicRewardPool } from "../../src/game/systems/relics/relicEffects";
 import {
@@ -59,6 +60,16 @@ describe("run system", () => {
     expect(baseRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_sword_echo");
     expect(variantRun.mapNodes.find((node) => node.id === "elite-1")?.enemyId).toBe("elite_blood_banner");
     expect(variantRun.mapSeed).toBe(1);
+  });
+
+  it("records the selected challenge profile and applies start modifiers", () => {
+    const run = createRun("zhaoyun", { mapSeed: 100, challengeId: "scarcity" });
+
+    expect(run.challengeId).toBe("scarcity");
+    expect(run.mapSeed).toBe(107);
+    expect(run.gold).toBe(55);
+    expect(run.maxHp).toBe(charactersById.zhaoyun.maxHp - 4);
+    expect(run.hp).toBe(run.maxHp);
   });
 
   it("creates data-driven previews for route combat, elite, event, shop, and rest nodes", () => {

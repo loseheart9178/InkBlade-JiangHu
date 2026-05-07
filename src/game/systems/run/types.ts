@@ -1,5 +1,6 @@
 import type { CardDefinition, MindState } from "../combat/types";
 import type { ChapterId } from "../../content/chapters";
+import type { ChallengeProfileId } from "../../content/challenges";
 import type { RelicDefinition } from "../../content/relics";
 
 export type MapNodeType = "start" | "battle" | "elite" | "event" | "shop" | "rest" | "boss";
@@ -35,6 +36,7 @@ export interface RunState {
   characterId: string;
   chapterId: ChapterId;
   completedChapterIds: ChapterId[];
+  challengeId?: ChallengeProfileId;
   mapSeed: number;
   hp: number;
   maxHp: number;
@@ -144,4 +146,5 @@ export interface ChapterRewardChoice {
 
 export interface CreateRunOptions {
   mapSeed?: number;
+  challengeId?: ChallengeProfileId;
 }
