@@ -44,8 +44,9 @@ import {
 import { applyEventChoiceEffects, getAvailableEventChoices } from "../game/systems/events/eventEffects";
 import { getUnlockedLogbookEntries, recordLogbookBoss, recordLogbookEvent } from "../game/systems/logbook/logbook";
 import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferMethodReward } from "../game/systems/methods/methods";
-import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile } from "../game/systems/profile/profile";
+import { createProfile, recordCompletedRun, recordProfileRunRecord, recordRunResult, type PlayerProfile, type ProfileRunRecord } from "../game/systems/profile/profile";
 import { evaluateProfileGoals, recordCompletedGoals } from "../game/systems/profile/goals";
+import { evaluateRunLedger } from "../game/systems/profile/runLedger";
 import { describeRelicSource } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
@@ -489,6 +490,7 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
   );
 
   const goals = createProfileGoalsList(state.profile);
+  const ledger = createProfileRunLedger(state.profile);
 
   const actions = document.createElement("div");
   actions.className = "run-summary-actions";
@@ -506,7 +508,7 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
   logbook.disabled = !state.run;
   actions.append(back, logbook);
 
-  panel.append(note, stats, goals, actions);
+  panel.append(note, stats, goals, ledger, actions);
   host.append(panel);
 }
 
@@ -1937,6 +1939,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
   );
 
   const goals = createProfileGoalsList(summary.profile, summary.newlyCompletedGoalIds);
+  const ledger = createProfileRunLedger(summary.profile);
 
   const restart = createAction("再入江湖", "以同一角色重新开局。", () => {
     state.run = createRun(summary.completion.characterId);
@@ -1950,7 +1953,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     render();
   });
 
-  panel.append(createMessage(state.message), ending, epilogue, stats, goals, restart);
+  panel.append(createMessage(state.message), ending, epilogue, stats, goals, ledger, restart);
   host.append(panel);
 }
 
@@ -1982,7 +1985,16 @@ function completeRunWithEnding(state: ControllerState, storage: GameStorage | un
     challengeId: run.challengeId
   });
   const goalResult = recordCompletedGoals(state.profile);
-  state.profile = goalResult.profile;
+  state.profile = recordProfileRunRecord(goalResult.profile, {
+    characterId: completion.characterId,
+    victory: true,
+    challengeId: run.challengeId,
+    endingId: finalSelection.ending.id,
+    characterEpilogueId: finalSelection.characterEpilogue.id,
+    chaptersCompleted: completion.completedChapterIds,
+    unlockedFragments: completion.unlockedFragmentIds,
+    newlyCompletedGoalIds: goalResult.newlyCompletedGoalIds
+  });
   saveProfile(storage, state.profile);
   clearSavedGame(storage);
   state.completedRunSummary = {
@@ -2028,6 +2040,12 @@ function recordDefeatIfNeeded(state: ControllerState, storage: GameStorage | und
     victory: false,
     chaptersCompleted: run.completedChapterIds,
     challengeId: run.challengeId
+  });
+  state.profile = recordProfileRunRecord(state.profile, {
+    characterId: run.characterId,
+    victory: false,
+    challengeId: run.challengeId,
+    chaptersCompleted: run.completedChapterIds
   });
   saveProfile(storage, state.profile);
   clearSavedGame(storage);
@@ -2083,6 +2101,88 @@ function createProfileGoalsList(profile: PlayerProfile, highlightIds: readonly s
   }
 
   return list;
+}
+
+function createProfileRunLedger(profile: PlayerProfile): HTMLElement {
+  const ledger = evaluateRunLedger(profile);
+  const section = document.createElement("section");
+  section.className = "profile-run-ledger";
+  section.dataset.testid = "profile-run-ledger";
+
+  const bestRun = document.createElement("div");
+  bestRun.className = "profile-best-run";
+  bestRun.dataset.testid = "profile-best-run";
+  const bestLabel = document.createElement("span");
+  const bestValue = document.createElement("strong");
+  if (ledger.bestRun) {
+    bestLabel.textContent = "最佳行旅";
+    bestValue.textContent = formatProfileRunRecordLine(ledger.bestRun);
+  } else {
+    bestLabel.textContent = "";
+    bestValue.textContent = "最佳行旅 尚未记录";
+  }
+  bestRun.append(bestLabel, bestValue);
+  section.append(bestRun);
+
+  const list = document.createElement("div");
+  list.className = "profile-run-records";
+  for (const record of ledger.recentRecords.slice(0, 6)) {
+    list.append(createProfileRunRecordItem(record));
+  }
+
+  if (ledger.recentRecords.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "profile-run-record-empty";
+    empty.textContent = "暂无行旅履历。";
+    list.append(empty);
+  }
+
+  section.append(list);
+  return section;
+}
+
+function createProfileRunRecordItem(record: ProfileRunRecord): HTMLElement {
+  const item = document.createElement("article");
+  item.className = record.victory ? "profile-run-record is-victory" : "profile-run-record";
+  item.dataset.testid = "profile-run-record";
+
+  const title = document.createElement("strong");
+  title.textContent = formatProfileRunRecordLine(record);
+
+  const meta = document.createElement("span");
+  meta.textContent = formatProfileRunRecordMeta(record);
+
+  item.append(title, meta);
+  return item;
+}
+
+function formatProfileRunRecordLine(record: ProfileRunRecord): string {
+  const characterName = charactersById[record.characterId]?.name ?? record.characterId;
+  const result = record.victory ? "胜利" : "梦醒";
+  const chapters = `${record.chaptersCompleted.length}章`;
+  const challenge = resolveChallengeProfile(record.challengeId).name;
+  const ending = record.endingId ? endingsById[record.endingId as keyof typeof endingsById]?.title ?? record.endingId : undefined;
+  return [characterName, result, chapters, challenge, ending].filter(Boolean).join(" · ");
+}
+
+function formatProfileRunRecordMeta(record: ProfileRunRecord): string {
+  const details: string[] = [];
+  if (record.endingId) {
+    const ending = endingsById[record.endingId as keyof typeof endingsById];
+    if (ending) {
+      details.push(`结局 ${ending.summary}`);
+    }
+  }
+
+  if (record.newlyCompletedGoalIds.length > 0) {
+    details.push(`新目标 ${record.newlyCompletedGoalIds.length}`);
+  }
+
+  if (record.unlockedFragments.length > 0) {
+    details.push(`残页 ${record.unlockedFragments.length}`);
+  }
+
+  return details.length > 0 ? details.join(" · ") : "未触发新解锁";
 }
 
 function createPanel(testId: string, title: string): HTMLElement {

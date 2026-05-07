@@ -144,6 +144,23 @@ test("profile goals surface opens from the title debug profile shell", async ({ 
   await expect(page.getByTestId("profile-goal-item").first()).toContainText(/初入江湖|一卷定尘/);
 });
 
+test("run ledger appears in the title debug profile shell", async ({ page }) => {
+  await page.goto("/?debug=1");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("debug-ending-summary").click();
+
+  await expect(page.getByTestId("profile-run-ledger")).toBeVisible();
+  await expect(page.getByTestId("profile-run-record").first()).toContainText(/赵云|胜利|清悟|封印/);
+
+  await page.reload();
+  await page.getByTestId("debug-run-summary").click();
+
+  await expect(page.getByTestId("profile-run-ledger")).toBeVisible();
+  await expect(page.getByTestId("profile-best-run")).toContainText(/赵云|4/);
+});
+
 test("challenge goal completes from selected debug ending and persists", async ({ page }) => {
   await page.goto("/?debug=1");
   await page.evaluate(() => window.localStorage.clear());

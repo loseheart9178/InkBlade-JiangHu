@@ -2275,6 +2275,69 @@ button {
   box-shadow: inset 0 0 0 1px rgba(183, 53, 42, 0.18);
 }
 
+.profile-run-ledger {
+  display: grid;
+  width: min(720px, 100%);
+  max-height: min(250px, 30vh);
+  gap: 8px;
+  overflow: auto;
+  padding: 2px;
+}
+
+.profile-best-run,
+.profile-run-record {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(44, 41, 36, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 252, 239, 0.74);
+}
+
+.profile-best-run {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  border-color: rgba(95, 29, 24, 0.3);
+  background:
+    linear-gradient(135deg, rgba(183, 53, 42, 0.08), rgba(47, 124, 110, 0.08)),
+    rgba(255, 252, 239, 0.8);
+}
+
+.profile-best-run span {
+  color: rgba(44, 41, 36, 0.66);
+  font-size: 13px;
+}
+
+.profile-best-run strong,
+.profile-run-record strong {
+  min-width: 0;
+  color: #5f1d18;
+  font-size: 14px;
+}
+
+.profile-run-records {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.profile-run-record span,
+.profile-run-record-empty {
+  min-width: 0;
+  margin: 0;
+  color: rgba(44, 41, 36, 0.72);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.profile-run-record.is-victory {
+  border-color: rgba(47, 124, 110, 0.44);
+  background:
+    linear-gradient(135deg, rgba(47, 124, 110, 0.1), rgba(255, 252, 239, 0.76)),
+    rgba(255, 252, 239, 0.78);
+}
+
 .ending-summary {
   display: grid;
   width: min(720px, 100%);
