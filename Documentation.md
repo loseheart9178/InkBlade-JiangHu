@@ -8701,3 +8701,75 @@ Result: no placeholders found.
 Next step:
 
 - Execute Wave 42 in isolated worktrees: first the profile run-ledger system, then the app ledger surfaces, followed by full verification and documentation.
+
+## 2026-05-07 Wave 42 run ledger implementation
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-07-wave42-run-ledger-design.md`
+- `docs/superpowers/plans/2026-05-07-wave42-run-ledger.md`
+
+What changed:
+
+- Added bounded local `runRecords` to `PlayerProfile`, with legacy normalization and malformed-record filtering.
+- Added `recordProfileRunRecord()` for victory and defeat ledger entries.
+- Added pure `evaluateRunLedger()` helper for recent records and best-run selection.
+- Recorded victory ledgers after goal completion, preserving challenge, ending, epilogue, chapter, fragment, and newly completed goal context.
+- Recorded defeat ledgers after loss without changing the existing save clear flow.
+- Added compact title/debug and completed-run summary ledger UI with best-run and recent-run cards.
+- Added Playwright coverage for persisted run ledger visibility from the title profile shell.
+
+Subagents:
+
+- `Darwin` implemented the profile/system layer in `codex/wave42-run-ledger-system`; accepted after focused tests, TypeScript, diff-check, and two read-only reviewer approvals.
+- `Gibbs` implemented the app/UI layer in `codex/wave42-run-ledger-ui`; accepted after focused Playwright/Vitest/TypeScript/diff-check and two read-only reviewer approvals.
+
+TDD and failures:
+
+```text
+System RED: run ledger tests failed before `runRecords`, `recordProfileRunRecord`, and `evaluateRunLedger` existed.
+UI RED: the new Playwright run-ledger test failed before `profile-run-ledger` was rendered.
+```
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/profile/run-ledger.test.ts tests/profile/profile-system.test.ts tests/profile/profile-goals.test.ts --reporter=dot
+Result: passed, 3 files / 13 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 30 files / 236 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "run ledger|profile goals|challenge goal"
+Result: passed, 3 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts
+Result: passed, 32 Chromium tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
+Result: passed, 4 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Run records are local and capped to 12; there is no cloud sync, account service, analytics stream, or replay playback.
+- Best-run selection is a simple local sort: victory first, then chapter count, then latest timestamp.
+- Ledger UI is desktop tuned and scrolls compactly inside the profile/summary shell; mobile layout remains out of scope.
+
+Next step:
+
+- Plan the next EA milestone around a visible gameplay/content showcase improvement, keeping Steam/storefront/release packaging out of scope.
