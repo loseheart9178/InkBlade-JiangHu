@@ -22,6 +22,7 @@ describe("profile system", () => {
     const profile = createProfile();
     expect(profile.completedGoalIds).toEqual([]);
     expect(profile.challengeVictories).toEqual([]);
+    expect(profile.runRecords).toEqual([]);
 
     const next = recordRunResult(profile, {
       characterId: "zhaoyun",
@@ -105,6 +106,34 @@ describe("profile system", () => {
       unlockedEndings: ["ending_clear_seal"],
       completedGoalIds: ["goal_first_run", "bad_goal", "goal_first_run"],
       challengeVictories: ["inkRising", "inkRising", "", 42],
+      runRecords: [
+        {
+          id: "run_legacy_valid",
+          characterId: "zhaoyun",
+          victory: true,
+          challengeId: "inkRising",
+          endingId: "ending_clear_seal",
+          characterEpilogueId: "epilogue_zhaoyun_white_dragon_return",
+          chaptersCompleted: ["luoshui", "luoshui", "", 7, "bamboo"],
+          unlockedFragments: ["fragment_heart_mirror", "fragment_heart_mirror", false],
+          newlyCompletedGoalIds: ["goal_first_victory", "bad_goal", "goal_first_victory"],
+          endedAtIso: "2026-05-07T01:00:00.000Z"
+        },
+        {
+          id: "",
+          characterId: "diaochan",
+          victory: false,
+          chaptersCompleted: ["luoshui"],
+          unlockedFragments: [],
+          newlyCompletedGoalIds: [],
+          endedAtIso: "2026-05-07T02:00:00.000Z"
+        },
+        {
+          id: "run_missing_character",
+          victory: false,
+          endedAtIso: "2026-05-07T03:00:00.000Z"
+        }
+      ],
       legacyDebugSkip: true
     }));
 
@@ -119,6 +148,20 @@ describe("profile system", () => {
     expect(profile?.unlockedCharacterEpilogues).toEqual([]);
     expect(profile?.completedGoalIds).toEqual(["goal_first_run"]);
     expect(profile?.challengeVictories).toEqual(["inkRising"]);
+    expect(profile?.runRecords).toEqual([
+      {
+        id: "run_legacy_valid",
+        characterId: "zhaoyun",
+        victory: true,
+        challengeId: "inkRising",
+        endingId: "ending_clear_seal",
+        characterEpilogueId: "epilogue_zhaoyun_white_dragon_return",
+        chaptersCompleted: ["luoshui", "bamboo"],
+        unlockedFragments: ["fragment_heart_mirror"],
+        newlyCompletedGoalIds: ["goal_first_victory"],
+        endedAtIso: "2026-05-07T01:00:00.000Z"
+      }
+    ]);
     expect(storage.getItem(PROFILE_STORAGE_KEY)).toContain("legacyDebugSkip");
   });
 
@@ -146,7 +189,24 @@ describe("profile system", () => {
         unlockedFragments: "not-an-array",
         unlockedEndings: ["ending_burn_book", "ending_burn_book"],
         completedGoalIds: ["goal_first_victory", "goal_missing", "goal_first_victory"],
-        challengeVictories: ["ironRain", false, "ironRain"]
+        challengeVictories: ["ironRain", false, "ironRain"],
+        runRecords: [
+          {
+            id: "run_valid_defeat",
+            characterId: "diaochan",
+            victory: false,
+            chaptersCompleted: ["luoshui", "luoshui", ""],
+            unlockedFragments: ["fragment_heart_mirror", "fragment_heart_mirror"],
+            newlyCompletedGoalIds: ["goal_first_run", "missing_goal"],
+            endedAtIso: "2026-05-07T04:00:00.000Z"
+          },
+          {
+            id: "run_bad_victory_type",
+            characterId: "zhaoyun",
+            victory: "false",
+            endedAtIso: "2026-05-07T05:00:00.000Z"
+          }
+        ]
       }
     }));
 
@@ -165,6 +225,17 @@ describe("profile system", () => {
     expect(profile?.unlockedCharacterEpilogues).toEqual([]);
     expect(profile?.completedGoalIds).toEqual(["goal_first_victory"]);
     expect(profile?.challengeVictories).toEqual(["ironRain"]);
+    expect(profile?.runRecords).toEqual([
+      {
+        id: "run_valid_defeat",
+        characterId: "diaochan",
+        victory: false,
+        chaptersCompleted: ["luoshui"],
+        unlockedFragments: ["fragment_heart_mirror"],
+        newlyCompletedGoalIds: ["goal_first_run"],
+        endedAtIso: "2026-05-07T04:00:00.000Z"
+      }
+    ]);
   });
 
   it("repairs legacy profile counters so total runs cannot undercount outcomes", () => {

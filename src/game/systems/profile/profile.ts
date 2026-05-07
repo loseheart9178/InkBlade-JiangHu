@@ -1,6 +1,7 @@
 import { profileGoalsById, type ProfileGoalId } from "../../content/goals";
 
 export const PROFILE_VERSION = 1;
+export const PROFILE_RUN_RECORD_LIMIT = 12;
 
 export interface ProfileStats {
   totalRuns: number;
@@ -14,6 +15,19 @@ export interface ProfileCharacterStats extends ProfileStats {
   unlockedCharacterEpilogues: string[];
 }
 
+export interface ProfileRunRecord {
+  id: string;
+  characterId: string;
+  victory: boolean;
+  challengeId?: string;
+  endingId?: string;
+  characterEpilogueId?: string;
+  chaptersCompleted: string[];
+  unlockedFragments: string[];
+  newlyCompletedGoalIds: ProfileGoalId[];
+  endedAtIso: string;
+}
+
 export interface PlayerProfile {
   version: typeof PROFILE_VERSION;
   stats: ProfileStats;
@@ -23,6 +37,7 @@ export interface PlayerProfile {
   unlockedCharacterEpilogues: string[];
   completedGoalIds: ProfileGoalId[];
   challengeVictories?: string[];
+  runRecords: ProfileRunRecord[];
 }
 
 export interface RecordRunResultInput {
@@ -38,6 +53,18 @@ export interface RecordCompletedRunInput extends RecordRunResultInput {
   unlockedFragments?: readonly string[];
 }
 
+export interface RecordProfileRunRecordInput {
+  characterId: string;
+  victory: boolean;
+  challengeId?: string;
+  endingId?: string;
+  characterEpilogueId?: string;
+  chaptersCompleted?: readonly string[];
+  unlockedFragments?: readonly string[];
+  newlyCompletedGoalIds?: readonly ProfileGoalId[];
+  endedAtIso?: string;
+}
+
 export function createProfile(): PlayerProfile {
   return {
     version: PROFILE_VERSION,
@@ -47,7 +74,8 @@ export function createProfile(): PlayerProfile {
     unlockedEndings: [],
     unlockedCharacterEpilogues: [],
     completedGoalIds: [],
-    challengeVictories: []
+    challengeVictories: [],
+    runRecords: []
   };
 }
 
@@ -87,6 +115,32 @@ export function recordCompletedRun(profile: PlayerProfile, result: RecordComplet
     next = unlockLogbookFragment(next, fragmentId);
   }
   return next;
+}
+
+export function recordProfileRunRecord(profile: PlayerProfile, input: RecordProfileRunRecordInput): PlayerProfile {
+  const normalized = normalizeProfile(profile);
+  const endedAtIso = input.endedAtIso ?? new Date().toISOString();
+  const record = normalizeRunRecord({
+    id: createRunRecordId(normalized, endedAtIso),
+    characterId: input.characterId,
+    victory: input.victory,
+    challengeId: input.challengeId,
+    endingId: input.endingId,
+    characterEpilogueId: input.characterEpilogueId,
+    chaptersCompleted: [...(input.chaptersCompleted ?? [])],
+    unlockedFragments: [...(input.unlockedFragments ?? [])],
+    newlyCompletedGoalIds: [...(input.newlyCompletedGoalIds ?? [])],
+    endedAtIso
+  });
+
+  if (!record) {
+    return normalized;
+  }
+
+  return {
+    ...normalized,
+    runRecords: [record, ...normalized.runRecords].slice(0, PROFILE_RUN_RECORD_LIMIT)
+  };
 }
 
 export function unlockLogbookFragment(profile: PlayerProfile, fragmentId: string): PlayerProfile {
@@ -142,7 +196,8 @@ export function normalizeProfile(profile: Partial<PlayerProfile> | undefined): P
     unlockedEndings: uniqueStrings(profile.unlockedEndings),
     unlockedCharacterEpilogues: uniqueStrings(profile.unlockedCharacterEpilogues),
     completedGoalIds: uniqueGoalIds(profile.completedGoalIds),
-    challengeVictories: uniqueStrings(profile.challengeVictories)
+    challengeVictories: uniqueStrings(profile.challengeVictories),
+    runRecords: normalizeRunRecords(profile.runRecords)
   };
 }
 
@@ -197,6 +252,61 @@ function normalizeCharacterStats(stats: unknown): ProfileCharacterStats {
     unlockedEndings: uniqueStrings(stats.unlockedEndings),
     unlockedCharacterEpilogues: uniqueStrings(stats.unlockedCharacterEpilogues)
   };
+}
+
+function normalizeRunRecords(records: unknown): ProfileRunRecord[] {
+  if (!Array.isArray(records)) {
+    return [];
+  }
+
+  return records
+    .map(normalizeRunRecord)
+    .filter((record): record is ProfileRunRecord => Boolean(record))
+    .slice(0, PROFILE_RUN_RECORD_LIMIT);
+}
+
+function normalizeRunRecord(record: unknown): ProfileRunRecord | undefined {
+  if (!isRecord(record) || typeof record.id !== "string" || record.id.length === 0) {
+    return undefined;
+  }
+
+  if (typeof record.characterId !== "string" || record.characterId.length === 0) {
+    return undefined;
+  }
+
+  if (typeof record.victory !== "boolean") {
+    return undefined;
+  }
+
+  if (typeof record.endedAtIso !== "string" || record.endedAtIso.length === 0 || Number.isNaN(Date.parse(record.endedAtIso))) {
+    return undefined;
+  }
+
+  return withoutUndefined({
+    id: record.id,
+    characterId: record.characterId,
+    victory: record.victory,
+    challengeId: optionalString(record.challengeId),
+    endingId: optionalString(record.endingId),
+    characterEpilogueId: optionalString(record.characterEpilogueId),
+    chaptersCompleted: uniqueStrings(record.chaptersCompleted),
+    unlockedFragments: uniqueStrings(record.unlockedFragments),
+    newlyCompletedGoalIds: uniqueGoalIds(record.newlyCompletedGoalIds),
+    endedAtIso: record.endedAtIso
+  });
+}
+
+function createRunRecordId(profile: PlayerProfile, endedAtIso: string): string {
+  const safeTimestamp = endedAtIso.replace(/[^0-9A-Za-z]/g, "");
+  return `run_${safeTimestamp}_${profile.runRecords.length + 1}`;
+}
+
+function optionalString(value: unknown): string | undefined {
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function withoutUndefined(record: ProfileRunRecord): ProfileRunRecord {
+  return Object.fromEntries(Object.entries(record).filter(([, value]) => value !== undefined)) as ProfileRunRecord;
 }
 
 function addUnique(values: readonly string[], value: string): string[] {
