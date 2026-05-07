@@ -2,6 +2,48 @@
 
 ## Status Log
 
+### 2026-05-07 09:19 Asia/Shanghai
+
+Wave 40 Challenge Profiles planning started in `.worktrees/wave6-integration` on branch `codex/wave40-challenge-profiles-plan`.
+
+Docs/files read before planning:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `src/game/systems/run/run.ts`
+- `src/game/systems/run/types.ts`
+- `src/game/systems/combat/combat.ts`
+- `src/game/systems/combat/types.ts`
+- `src/game/systems/debug/runSimulator.ts`
+- `src/game/systems/debug/balanceReport.ts`
+- `src/app/appShell.ts`
+- `src/app/gameApp.ts`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/run/run-system.test.ts`
+- `tests/playtest/run-simulator.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+- Superpowers `writing-plans` workflow notes
+
+Created:
+
+- `docs/superpowers/specs/2026-05-07-wave40-challenge-profiles-design.md`
+- `docs/superpowers/plans/2026-05-07-wave40-challenge-profiles.md`
+
+Scope decision:
+
+- Wave 40 adds player-visible challenge profiles as an EA replayability/showcase feature.
+- The wave remains desktop-browser first and excludes Steam/storefront, release packaging, leaderboards, cloud saves, daily backend, mobile layout, and new art generation.
+- Implementation will stage dependencies: challenge data/run contract first, then combat/report and title UI in parallel from that integrated base.
+
+Next step:
+
+- Commit the Wave 40 design + plan, create the first isolated challenge-system worktree, and dispatch a worker for Task 1.
+
 ### 2026-05-07 09:08 Asia/Shanghai
 
 Wave 39 Audio Atmosphere implementation integrated in `.worktrees/wave6-integration` on branch `codex/wave39-audio-atmosphere-plan`.
