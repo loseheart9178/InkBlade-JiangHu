@@ -34,6 +34,7 @@ describe("run system", () => {
 
     expect(run.characterId).toBe("zhaoyun");
     expect(run.chapterId).toBe("luoshui");
+    expect(run.challengeId).toBe("standard");
     expect(getCurrentChapter(run).name).toBe("洛水残照");
     expect(run.deck).toHaveLength(10);
     expect(run.relicIds).toEqual(["relic_white_dragon_tassel"]);
