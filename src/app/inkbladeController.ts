@@ -48,7 +48,7 @@ import { createProfile, recordCompletedRun, recordRunResult, type PlayerProfile 
 import { describeRelicSource } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
-import { resolveChallengeProfile } from "../game/systems/challenges/challenges";
+import { getChallengeCombatModifiers, resolveChallengeProfile } from "../game/systems/challenges/challenges";
 import {
   createCombatOnboardingHints,
   createMapOnboardingHints,
@@ -999,6 +999,7 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
     methodLevels: { ...(run.methodLevels ?? {}) },
     upgradedCardInstanceIds: getUpgradedCombatInstanceIds(run),
     rngSeed: run.deck.length + run.rewardHistory.length + 17,
+    challengeModifiers: getChallengeCombatModifiers(run.challengeId),
     shuffleDeck: true
   });
   state.message = `${enemy.name}显出意图。`;
