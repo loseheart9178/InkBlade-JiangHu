@@ -8892,3 +8892,35 @@ Known gaps / risks:
 Next step:
 
 - Start the next EA milestone around another player-facing showcase improvement that makes特色玩法 easier to understand during a desktop browser run, still excluding Steam/storefront/release packaging.
+
+## 2026-05-07 Wave 44 live build compass planning
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/specs/2026-05-07-wave43-build-recap-design.md`
+- `docs/superpowers/plans/2026-05-07-wave43-build-recap.md`
+
+What changed:
+
+- Created `docs/superpowers/specs/2026-05-07-wave44-live-build-compass-design.md`.
+- Created `docs/superpowers/plans/2026-05-07-wave44-live-build-compass.md`.
+- Selected an in-run deck viewer build compass as the next EA showcase milestone, reusing the Wave 43 pure recap helper.
+- Kept new combat rules, persistence, analytics, Steam/storefront/release packaging, art generation, and mobile layout out of scope.
+
+Plan self-review:
+
+```text
+Checked the Wave 44 spec and plan for TODO/TBD placeholders and confirmed it uses concrete files, commands, test ids, and acceptance criteria.
+```
+
+Next step:
+
+- Execute Wave 44 in an isolated UI worktree, then run focused TypeScript/Playwright verification and update documentation.
