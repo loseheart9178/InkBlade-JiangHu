@@ -418,7 +418,8 @@ function showSettingsShell(host: HTMLElement, state: ControllerState, storage: G
       }
     ),
     createSettingRange("setting-master-volume", "主音量", state.settings.masterVolume, (value) => updateSettings({ masterVolume: value })),
-    createSettingRange("setting-music-volume", "音乐音量", state.settings.musicVolume, (value) => updateSettings({ musicVolume: value }))
+    createSettingRange("setting-music-volume", "音乐音量", state.settings.musicVolume, (value) => updateSettings({ musicVolume: value })),
+    createSettingRange("setting-sfx-volume", "音效音量", state.settings.sfxVolume, (value) => updateSettings({ sfxVolume: value }))
   );
 
   const back = createAction("返回", "收起设置，留在标题。", () => {

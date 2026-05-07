@@ -43,6 +43,7 @@ describe("desktop settings persistence", () => {
       muted: true,
       masterVolume: 24,
       musicVolume: 0,
+      sfxVolume: 75,
       dismissedOnboardingHintIds: ["combat-energy", "combat-hand"]
     };
 
@@ -64,7 +65,8 @@ describe("desktop settings persistence", () => {
         fastCombatText: true,
         muted: false,
         masterVolume: 180,
-        musicVolume: -20
+        musicVolume: -20,
+        sfxVolume: 140
       }
     }));
 
@@ -74,6 +76,7 @@ describe("desktop settings persistence", () => {
       muted: false,
       masterVolume: 100,
       musicVolume: 0,
+      sfxVolume: 100,
       dismissedOnboardingHintIds: []
     });
   });
@@ -89,6 +92,7 @@ describe("desktop settings persistence", () => {
         muted: false,
         masterVolume: 80,
         musicVolume: 70,
+        sfxVolume: 75,
         dismissedOnboardingHintIds: [
           "combat-energy",
           "map-route",
@@ -179,6 +183,7 @@ describe("settings shell wiring", () => {
       muted: false,
       masterVolume: 33,
       musicVolume: 44,
+      sfxVolume: 55,
       dismissedOnboardingHintIds: []
     });
     const host = document.createElement("div");
@@ -194,6 +199,7 @@ describe("settings shell wiring", () => {
     const muted = host.querySelector<HTMLInputElement>("[data-testid='setting-muted']");
     const master = host.querySelector<HTMLInputElement>("[data-testid='setting-master-volume']");
     const music = host.querySelector<HTMLInputElement>("[data-testid='setting-music-volume']");
+    const sfx = host.querySelector<HTMLInputElement>("[data-testid='setting-sfx-volume']");
 
     expect(reduced?.checked).toBe(true);
     expect(fastText?.checked).toBe(true);
@@ -202,6 +208,8 @@ describe("settings shell wiring", () => {
     expect(master?.value).toBe("33");
     expect(music?.disabled).toBe(false);
     expect(music?.value).toBe("44");
+    expect(sfx?.disabled).toBe(false);
+    expect(sfx?.value).toBe("55");
 
     muted!.checked = true;
     muted!.dispatchEvent(new Event("change", { bubbles: true }));
@@ -209,6 +217,8 @@ describe("settings shell wiring", () => {
     master!.dispatchEvent(new Event("input", { bubbles: true }));
     music!.value = "21";
     music!.dispatchEvent(new Event("input", { bubbles: true }));
+    sfx!.value = "31";
+    sfx!.dispatchEvent(new Event("input", { bubbles: true }));
     reduced!.checked = false;
     reduced!.dispatchEvent(new Event("change", { bubbles: true }));
 
@@ -219,6 +229,7 @@ describe("settings shell wiring", () => {
       muted: true,
       masterVolume: 12,
       musicVolume: 21,
+      sfxVolume: 31,
       dismissedOnboardingHintIds: []
     });
   });

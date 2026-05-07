@@ -10,6 +10,7 @@ export interface DesktopSettings {
   muted: boolean;
   masterVolume: number;
   musicVolume: number;
+  sfxVolume: number;
   dismissedOnboardingHintIds: CombatOnboardingHintId[];
 }
 
@@ -25,6 +26,7 @@ export const DEFAULT_DESKTOP_SETTINGS: DesktopSettings = {
   muted: false,
   masterVolume: 80,
   musicVolume: 70,
+  sfxVolume: 75,
   dismissedOnboardingHintIds: []
 };
 
@@ -75,6 +77,7 @@ export function normalizeSettings(value: unknown): DesktopSettings {
     muted: typeof candidate.muted === "boolean" ? candidate.muted : DEFAULT_DESKTOP_SETTINGS.muted,
     masterVolume: normalizeVolume(candidate.masterVolume, DEFAULT_DESKTOP_SETTINGS.masterVolume),
     musicVolume: normalizeVolume(candidate.musicVolume, DEFAULT_DESKTOP_SETTINGS.musicVolume),
+    sfxVolume: normalizeVolume(candidate.sfxVolume, DEFAULT_DESKTOP_SETTINGS.sfxVolume),
     dismissedOnboardingHintIds: normalizeOnboardingHintIds(candidate.dismissedOnboardingHintIds)
   };
 }

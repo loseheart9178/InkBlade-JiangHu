@@ -45,6 +45,7 @@ test("settings persist reduced motion, mute, and volume controls after reload", 
   await page.getByTestId("setting-muted").check();
   await page.getByTestId("setting-master-volume").fill("17");
   await page.getByTestId("setting-music-volume").fill("29");
+  await page.getByTestId("setting-sfx-volume").fill("41");
 
   await expect(page.locator("#hud-host")).toHaveClass(/prefers-reduced-motion/);
   await page.reload();
@@ -56,6 +57,7 @@ test("settings persist reduced motion, mute, and volume controls after reload", 
   await expect(page.getByTestId("setting-muted")).toBeChecked();
   await expect(page.getByTestId("setting-master-volume")).toHaveValue("17");
   await expect(page.getByTestId("setting-music-volume")).toHaveValue("29");
+  await expect(page.getByTestId("setting-sfx-volume")).toHaveValue("41");
   await expect(page.getByTestId("continue-run")).toBeDisabled();
 });
 
