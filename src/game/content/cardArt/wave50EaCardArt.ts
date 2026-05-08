@@ -129,8 +129,8 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_rain_cut",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-pifeng.png",
-    alt: "Rain cut splitting a red ink downpour",
+    assetPath: "/assets/generated/cards/wave59-common-rain-cut-gpt2.png",
+    alt: "Rain cut splitting black rain with a sharp cinnabar saber stroke",
     accent: "red"
   },
   {
@@ -147,15 +147,15 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_paper_ward",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png",
-    alt: "Paper ward reflecting a weak red strike",
+    assetPath: "/assets/generated/cards/wave59-common-paper-ward-gpt2.png",
+    alt: "Paper ward talismans fanning open to dissolve a weak red strike",
     accent: "teal"
   },
   {
     id: "common_old_wine",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-tuna.png",
-    alt: "Old wine breath circle glowing in teal ink",
-    accent: "teal"
+    assetPath: "/assets/generated/cards/wave59-common-old-wine-gpt2.png",
+    alt: "Old clay wine jar releasing gold vapor, teal breath lines, and black ink temptation",
+    accent: "gold"
   },
   {
     id: "common_watch_fire",

@@ -123,8 +123,8 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_lockstep",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-zhuiying.png",
-    alt: "Lockstep attack and footwork crossing in one motion",
+    assetPath: "/assets/generated/cards/wave59-common-lockstep-gpt2.png",
+    alt: "Lockstep advance combining a short blade strike with teal guarded footwork",
     accent: "teal"
   },
   {

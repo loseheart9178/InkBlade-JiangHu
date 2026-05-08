@@ -9858,3 +9858,74 @@ Notes:
 
 - A temporary local `node_modules` symlink was used in the worktree to let Playwright's web server resolve Vite; it is not part of the patch.
 - This worker did not generate new images or touch combat, route, transition, package, audit-script, generated-card, or report files.
+
+## 2026-05-08 Post-EA autonomous polish roadmap
+
+Wave 58 closed the EA visual QA gate. Continued autonomous work is now tracked as post-EA commercial polish rather than EA-blocking scope.
+
+Recorded eight remaining post-EA waves, Wave 59 through Wave 66, in `docs/superpowers/plans/2026-05-08-post-ea-autonomous-polish-roadmap.md`:
+
+- Wave 59: high-priority common card art polish.
+- Wave 60: commercial card frame and hand presentation.
+- Wave 61: combat HUD and feedback layer.
+- Wave 62: scene surfaces V2.
+- Wave 63: title, loading, map, and transition cinematics.
+- Wave 64: remaining card art and asset ledger.
+- Wave 65: responsive, accessibility, and performance QA.
+- Wave 66: post-EA candidate gate.
+
+The roadmap also records frontend design lessons from the Night-Patrol reference repo: full-screen scene surfaces, icon-chip HUD hierarchy, thick illustrated card frames, target ghosts, card fan interactions, settlement/cinematic panels, and resource-dense non-combat screens. These patterns are to be translated into InkBlade's ancient wuxia ink-wash style rather than copied literally.
+
+## 2026-05-08 Wave 59 card art polish
+
+Wave 59 started in worktree `.worktrees/wave59-card-art-polish` on branch `codex/wave59-card-art-polish`.
+
+What changed:
+
+- Generated and normalized eight 512x768 GPT Image 2 card faces for the next severe duplicate/low-resolution common queue:
+  - `common_lockstep`
+  - `common_old_wine`
+  - `common_paper_ward`
+  - `common_rain_cut`
+  - `common_pifeng`
+  - `common_tuna`
+  - `common_mirror_armor`
+  - `common_zhuiying`
+- Updated card art bindings in `wave10CommonCardArt`, `wave49EaCardArt`, and `wave50EaCardArt`.
+- Added `tests/data/wave59-card-art.test.ts`.
+- Updated card-art data tests to treat Wave 59 as the latest runtime replacement for the affected common cards.
+
+Report delta:
+
+- Runtime references remain 228.
+- Unique runtime files increased from 147 to 151.
+- Missing assets remain 0.
+- Card fallback debt remains 0.
+- Duplicate asset groups decreased from 35 to 31.
+- Dimension/crop signals decreased from 22 to 14.
+- Replacement queue top score decreased from 138 to 105.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0.
+
+node scripts/card-art-quality-report.mjs
+Result: passed. cards 150, missing files 0, duplicate asset groups 31, dimension/crop signals 14.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/data/wave59-card-art.test.ts tests/data/wave10-common-card-art.test.ts tests/data/wave21-gpt2-card-art.test.ts tests/data/content.test.ts tests/data/card-art-quality-report.test.ts --reporter=dot
+Result: passed, 5 files / 38 tests.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 35 files / 265 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+```

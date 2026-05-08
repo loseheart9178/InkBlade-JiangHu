@@ -25,11 +25,15 @@ const expectedIds = [
 describe("Wave 10 common card art batch", () => {
   it("defines semantic art and concrete files for every common fallback target", () => {
     expect(wave10CommonCardArt.map((art) => art.id)).toEqual(expectedIds);
+    const wave59GeneratedTargets = new Set(["common_mirror_armor", "common_pifeng", "common_tuna", "common_zhuiying"]);
     for (const art of wave10CommonCardArt) {
-      const expectedAssetPath =
-        art.id === "common_gedang" || art.id === "common_qingshen"
-          ? /^\/assets\/generated\/cards\/wave57-.+\.png$/
-          : /^\/assets\/generated\/cards\/(?:wave10-.+\.svg|gpt2-wave21-.+\.png)$/;
+      let expectedAssetPath = /^\/assets\/generated\/cards\/(?:wave10-.+\.svg|gpt2-wave21-.+\.png)$/;
+      if (art.id === "common_gedang" || art.id === "common_qingshen") {
+        expectedAssetPath = /^\/assets\/generated\/cards\/wave57-.+\.png$/;
+      }
+      if (wave59GeneratedTargets.has(art.id)) {
+        expectedAssetPath = /^\/assets\/generated\/cards\/wave59-.+\.png$/;
+      }
 
       expect(art.assetPath).toMatch(expectedAssetPath);
       expect(art.alt.length).toBeGreaterThan(12);

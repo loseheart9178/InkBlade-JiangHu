@@ -18,19 +18,19 @@ const wave21Targets: Record<string, string> = {
   cai_gong_tone: "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png",
   zhuge_fan_strike: "/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png",
   zhuge_guard: "/assets/generated/cards/gpt2-wave21-zhuge-guard.png",
-  common_pifeng: "/assets/generated/cards/gpt2-wave21-common-pifeng.png",
+  common_pifeng: "/assets/generated/cards/wave59-common-pifeng-gpt2.png",
   common_duanzhu: "/assets/generated/cards/gpt2-wave21-common-duanzhu.png",
   common_gedang: "/assets/generated/cards/wave57-common-gedang-gpt2.png",
   common_xieli: "/assets/generated/cards/gpt2-wave21-common-xieli.png",
-  common_tuna: "/assets/generated/cards/gpt2-wave21-common-tuna.png",
+  common_tuna: "/assets/generated/cards/wave59-common-tuna-gpt2.png",
   common_qingshen: "/assets/generated/cards/wave57-common-qingshen-gpt2.png",
   common_feishi: "/assets/generated/cards/gpt2-wave21-common-feishi.png",
-  common_zhuiying: "/assets/generated/cards/gpt2-wave21-common-zhuiying.png",
-  common_mirror_armor: "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png"
+  common_zhuiying: "/assets/generated/cards/wave59-common-zhuiying-gpt2.png",
+  common_mirror_armor: "/assets/generated/cards/wave59-common-mirror-armor-gpt2.png"
 };
 
 describe("Wave 21 GPT Image 2 starter/common card art batch", () => {
-  it("binds starter and common foundation cards to generated bitmap runtime assets", () => {
+  it("binds starter and common foundation cards to the latest generated bitmap runtime assets", () => {
     for (const [id, assetPath] of Object.entries(wave21Targets)) {
       expect(cardArtById[id]?.assetPath, id).toBe(assetPath);
       expect(assetPath.endsWith(".png"), id).toBe(true);

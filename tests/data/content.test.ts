@@ -823,16 +823,22 @@ describe("content data", () => {
       "common_zhuiying"
     ]);
     const wave57GeneratedTargets = new Set(["common_gedang", "common_qingshen"]);
+    const wave59GeneratedTargets = new Set(["common_mirror_armor", "common_pifeng", "common_tuna", "common_zhuiying"]);
 
     for (const id of wave10FallbackTargets) {
       const card = cardsById[id];
       const art = cardArtById[id];
       const fallbackArt = cardArtById[`type_${card.types[0]}`];
-      const expectedBatch = wave57GeneratedTargets.has(id)
-        ? /^\/assets\/generated\/cards\/wave57-.+\.png$/
-        : wave21UpgradedTargets.has(id)
-          ? /^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/
-          : /^\/assets\/generated\/cards\/wave10-.+\.svg$/;
+      let expectedBatch = /^\/assets\/generated\/cards\/wave10-.+\.svg$/;
+      if (wave21UpgradedTargets.has(id)) {
+        expectedBatch = /^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/;
+      }
+      if (wave57GeneratedTargets.has(id)) {
+        expectedBatch = /^\/assets\/generated\/cards\/wave57-.+\.png$/;
+      }
+      if (wave59GeneratedTargets.has(id)) {
+        expectedBatch = /^\/assets\/generated\/cards\/wave59-.+\.png$/;
+      }
 
       expect(card).toBeDefined();
       expect(art, id).toBeDefined();
@@ -869,7 +875,15 @@ describe("content data", () => {
       common_gedang: "/assets/generated/cards/wave57-common-gedang-gpt2.png",
       common_qingshen: "/assets/generated/cards/wave57-common-qingshen-gpt2.png",
       common_scout_feather: "/assets/generated/cards/wave57-common-scout-feather-gpt2.png",
-      common_sudden_step: "/assets/generated/cards/wave57-common-sudden-step-gpt2.png"
+      common_sudden_step: "/assets/generated/cards/wave57-common-sudden-step-gpt2.png",
+      common_lockstep: "/assets/generated/cards/wave59-common-lockstep-gpt2.png",
+      common_mirror_armor: "/assets/generated/cards/wave59-common-mirror-armor-gpt2.png",
+      common_old_wine: "/assets/generated/cards/wave59-common-old-wine-gpt2.png",
+      common_paper_ward: "/assets/generated/cards/wave59-common-paper-ward-gpt2.png",
+      common_pifeng: "/assets/generated/cards/wave59-common-pifeng-gpt2.png",
+      common_rain_cut: "/assets/generated/cards/wave59-common-rain-cut-gpt2.png",
+      common_tuna: "/assets/generated/cards/wave59-common-tuna-gpt2.png",
+      common_zhuiying: "/assets/generated/cards/wave59-common-zhuiying-gpt2.png"
     };
 
     for (const [cardId, assetPath] of Object.entries(priorityCards)) {

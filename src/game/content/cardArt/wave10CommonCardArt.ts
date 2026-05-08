@@ -21,14 +21,14 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_mirror_armor",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png",
-    alt: "Cracked bronze mirror armor reflecting teal ink",
+    assetPath: "/assets/generated/cards/wave59-common-mirror-armor-gpt2.png",
+    alt: "Cracked bronze mirror armor plates reflecting a red slash into teal guard light",
     accent: "teal"
   },
   {
     id: "common_pifeng",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-pifeng.png",
-    alt: "Wind-cleaving sword arc with red cinnabar motion",
+    assetPath: "/assets/generated/cards/wave59-common-pifeng-gpt2.png",
+    alt: "Wind blade splitting bamboo leaves with teal currents and cinnabar impact",
     accent: "red"
   },
   {
@@ -39,8 +39,8 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_tuna",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-tuna.png",
-    alt: "Breath circle and calm dantian glow in teal ink",
+    assetPath: "/assets/generated/cards/wave59-common-tuna-gpt2.png",
+    alt: "Seated breath regulation with teal dantian rings and a soft paper-light guard",
     accent: "teal"
   },
   {
@@ -51,8 +51,8 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_zhuiying",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-zhuiying.png",
-    alt: "Afterimage footwork shadow crossing teal paper ripples",
+    assetPath: "/assets/generated/cards/wave59-common-zhuiying-gpt2.png",
+    alt: "Chasing shadow footwork with teal afterimages and a restrained red blade arc",
     accent: "teal"
   },
   {

@@ -4,10 +4,10 @@
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
     "runtimeReferenceCount": 228,
-    "uniqueRuntimeFileCount": 147,
+    "uniqueRuntimeFileCount": 151,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 104,
+    "gpt2RuntimeCount": 96,
     "sourceSheetCount": 21,
     "cardFallbackDebtCount": 0
   },
@@ -156,48 +156,6 @@
     },
     {
       "kind": "cardArt",
-      "id": "common_lockstep",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-zhuiying.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_mirror_armor",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_old_wine",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-tuna.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_paper_ward",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_pifeng",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-pifeng.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_rain_cut",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-pifeng.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
       "id": "common_river_stance",
       "paths": [
         "/assets/generated/cards/gpt2-common-xixin.png"
@@ -208,13 +166,6 @@
       "id": "common_travel_medicine",
       "paths": [
         "/assets/generated/cards/gpt2-common-jiexue.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_tuna",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-tuna.png"
       ]
     },
     {
@@ -236,13 +187,6 @@
       "id": "common_xixin",
       "paths": [
         "/assets/generated/cards/gpt2-common-xixin.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_zhuiying",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-zhuiying.png"
       ]
     },
     {

@@ -1,6 +1,6 @@
 # Card Art Quality Report
 
-Generated: 2026-05-08T13:00:55.724Z
+Generated: 2026-05-08T14:35:53.187Z
 
 ## Summary
 
@@ -8,15 +8,15 @@ Generated: 2026-05-08T13:00:55.724Z
 - Card art entries: 155
 - Direct card art bindings: 150
 - Fallback/default card issues: 3
-- Duplicate asset groups: 35
+- Duplicate asset groups: 31
 - Missing files: 0
-- Dimension/crop signals: 22
-- Replacement queue entries: 150
+- Dimension/crop signals: 14
+- Replacement queue entries: 148
 
 ## Runtime Totals
 
 - Runtime references: 228
-- Unique runtime files: 147
+- Unique runtime files: 151
 - Runtime missing files: 0
 - Runtime card fallback debt: 0
 - Runtime source sheets: 21
@@ -52,11 +52,11 @@ Generated: 2026-05-08T13:00:55.724Z
 | `/assets/generated/cards/wave27-zhuge-star-gate.svg` | 3 | 云策 (zhuge_cloud_script), 天机 (zhuge_heavenly_plot), 星门 (zhuge_star_gate) |
 | `/assets/generated/cards/gpt2-diao-lijian.png` | 2 | 灯影顾盼 (diao_lantern_glance), 离间 (diao_lijian) |
 | `/assets/generated/cards/gpt2-diao-lotus-blade.png` | 2 | 莲步藏锋 (diao_lotus_blade), 红绫切 (diao_ribbon_cut) |
-| `/assets/generated/cards/gpt2-wave21-common-mirror-armor.png` | 2 | 镜甲 (common_mirror_armor), 纸符护 (common_paper_ward) |
-| `/assets/generated/cards/gpt2-wave21-common-pifeng.png` | 2 | 劈风 (common_pifeng), 雨斩 (common_rain_cut) |
-| `/assets/generated/cards/gpt2-wave21-common-tuna.png` | 2 | 旧酒 (common_old_wine), 吐纳 (common_tuna) |
-| `/assets/generated/cards/gpt2-wave21-common-zhuiying.png` | 2 | 并步 (common_lockstep), 追影 (common_zhuiying) |
 | `/assets/generated/cards/gpt2-zhao-break-spear.png` | 2 | 破军枪 (zhao_break_spear), 龙牙突 (zhao_dragon_fang) |
+| `/assets/generated/cards/gpt2-zhao-return-spear.png` | 2 | 回马枪 (zhao_return_spear), 渡河刺 (zhao_river_lunge) |
+| `/assets/generated/cards/gpt2-zhao-river-guard.png` | 2 | 云中救 (zhao_cloud_rescue), 截江守势 (zhao_river_guard) |
+| `/assets/generated/cards/gpt2-zhao-white-horse-breakout.png` | 2 | 白马天弧 (zhao_horse_sky_arc), 白马突围 (zhao_white_horse_breakout) |
+| `/assets/generated/cards/wave10-ink-heiyu.svg` | 2 | 黑雨入梦 (ink_heiyu), 泼月 (ink_spilled_moon) |
 
 ## Fallback And Default Art
 
@@ -66,7 +66,7 @@ Generated: 2026-05-08T13:00:55.724Z
 
 ## Dimension And Crop Signals
 
-- Anomalous dimensions: 22
+- Anomalous dimensions: 14
 - Suspicious source-sheet/crop runtime names: 0
 - Source sheets retained for provenance: 21
 
@@ -74,67 +74,67 @@ Generated: 2026-05-08T13:00:55.724Z
 
 | Rank | Score | Card | Rarity | Asset | Reasons |
 | ---: | ---: | --- | --- | --- | --- |
-| 1 | 138 | 并步 (common_lockstep) | common | `/assets/generated/cards/gpt2-wave21-common-zhuiying.png` | common-priority, dimension-anomaly, duplicate-reuse, low-resolution |
-| 2 | 138 | 旧酒 (common_old_wine) | common | `/assets/generated/cards/gpt2-wave21-common-tuna.png` | common-priority, dimension-anomaly, duplicate-reuse, low-resolution |
-| 3 | 138 | 纸符护 (common_paper_ward) | common | `/assets/generated/cards/gpt2-wave21-common-mirror-armor.png` | common-priority, dimension-anomaly, duplicate-reuse, low-resolution |
-| 4 | 138 | 劈风 (common_pifeng) | common | `/assets/generated/cards/gpt2-wave21-common-pifeng.png` | common-priority, dimension-anomaly, duplicate-reuse, low-resolution |
-| 5 | 138 | 雨斩 (common_rain_cut) | common | `/assets/generated/cards/gpt2-wave21-common-pifeng.png` | common-priority, dimension-anomaly, duplicate-reuse, low-resolution |
-| 6 | 138 | 吐纳 (common_tuna) | common | `/assets/generated/cards/gpt2-wave21-common-tuna.png` | common-priority, dimension-anomaly, duplicate-reuse, low-resolution |
-| 7 | 113 | 镜甲 (common_mirror_armor) | uncommon | `/assets/generated/cards/gpt2-wave21-common-mirror-armor.png` | dimension-anomaly, duplicate-reuse, low-resolution |
-| 8 | 113 | 追影 (common_zhuiying) | uncommon | `/assets/generated/cards/gpt2-wave21-common-zhuiying.png` | dimension-anomaly, duplicate-reuse, low-resolution |
-| 9 | 105 | 宫音 (cai_gong_tone) | starter | `/assets/generated/cards/gpt2-wave21-cai-gong-tone.png` | dimension-anomaly, low-resolution, starter-priority |
-| 10 | 105 | 素击 (cai_plain_strike) | starter | `/assets/generated/cards/gpt2-wave21-cai-plain-strike.png` | dimension-anomaly, low-resolution, starter-priority |
-| 11 | 105 | 拂弦 (cai_pluck_string) | starter | `/assets/generated/cards/gpt2-wave21-cai-pluck-string.png` | dimension-anomaly, low-resolution, starter-priority |
-| 12 | 105 | 回袖 (diao_guard) | starter | `/assets/generated/cards/gpt2-wave21-diao-guard.png` | dimension-anomaly, low-resolution, starter-priority |
-| 13 | 105 | 凌波步 (diao_lingbo) | starter | `/assets/generated/cards/gpt2-wave21-diao-lingbo.png` | dimension-anomaly, low-resolution, starter-priority |
-| 14 | 105 | 素刃 (diao_strike) | starter | `/assets/generated/cards/gpt2-wave21-diao-strike.png` | dimension-anomaly, low-resolution, starter-priority |
-| 15 | 105 | 架枪 (zhao_guard) | starter | `/assets/generated/cards/gpt2-wave21-zhao-guard.png` | dimension-anomaly, low-resolution, starter-priority |
-| 16 | 105 | 龙胆 (zhao_longdan) | starter | `/assets/generated/cards/gpt2-wave21-zhao-longdan.png` | dimension-anomaly, low-resolution, starter-priority |
-| 17 | 105 | 枪击 (zhao_strike) | starter | `/assets/generated/cards/gpt2-wave21-zhao-strike.png` | dimension-anomaly, low-resolution, starter-priority |
-| 18 | 105 | 羽扇 (zhuge_fan_strike) | starter | `/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png` | dimension-anomaly, low-resolution, starter-priority |
-| 19 | 105 | 守势 (zhuge_guard) | starter | `/assets/generated/cards/gpt2-wave21-zhuge-guard.png` | dimension-anomaly, low-resolution, starter-priority |
-| 20 | 95 | 断竹 (common_duanzhu) | common | `/assets/generated/cards/gpt2-wave21-common-duanzhu.png` | common-priority, dimension-anomaly, low-resolution |
-| 21 | 95 | 飞石 (common_feishi) | common | `/assets/generated/cards/gpt2-wave21-common-feishi.png` | common-priority, dimension-anomaly, low-resolution |
-| 22 | 95 | 卸力 (common_xieli) | common | `/assets/generated/cards/gpt2-wave21-common-xieli.png` | common-priority, dimension-anomaly, low-resolution |
-| 23 | 85 | 墨契 (ink_black_contract) | ink | `/assets/generated/cards/wave10-ink-modian.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 24 | 85 | 焚书 (ink_burning_letter) | ink | `/assets/generated/cards/wave10-ink-moren.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 25 | 85 | 黑雨入梦 (ink_heiyu) | ink | `/assets/generated/cards/wave10-ink-heiyu.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 26 | 85 | 墨点 (ink_modian) | ink | `/assets/generated/cards/wave10-ink-modian.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 27 | 85 | 墨刃 (ink_moren) | ink | `/assets/generated/cards/wave10-ink-moren.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 28 | 85 | 夜潮 (ink_night_tide) | ink | `/assets/generated/cards/wave27-ink-unwritten-page.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 29 | 85 | 泼月 (ink_spilled_moon) | ink | `/assets/generated/cards/wave10-ink-heiyu.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 30 | 85 | 未写之页 (ink_unwritten_page) | ink | `/assets/generated/cards/wave27-ink-unwritten-page.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
-| 31 | 84 | 拂烬 (cai_clear_ashes) | common | `/assets/generated/cards/wave27-cai-cleansing-rain.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 32 | 84 | 洗尘 (cai_wash_dust) | common | `/assets/generated/cards/wave27-cai-cleansing-rain.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 33 | 84 | 幽兰余响 (cai_yulan_echo) | common | `/assets/generated/cards/wave27-cai-yulan-echo.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 34 | 84 | 月下回旋 (diao_moonstep) | common | `/assets/generated/cards/wave27-diao-moonstep.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 35 | 84 | 纱幕 (diao_silk_veil) | common | `/assets/generated/cards/wave27-diao-moonstep.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 36 | 84 | 燕返步 (diao_swallow_return) | common | `/assets/generated/cards/wave27-diao-moonstep.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 37 | 84 | 沉练 (mind_chenlian) | common | `/assets/generated/cards/wave10-mind-jingxin.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 38 | 84 | 静心 (mind_jingxin) | common | `/assets/generated/cards/wave10-mind-jingxin.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 39 | 84 | 借道 (zhuge_borrowed_path) | common | `/assets/generated/cards/wave27-zhuge-bamboo-slips.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 40 | 84 | 星门 (zhuge_star_gate) | common | `/assets/generated/cards/wave27-zhuge-star-gate.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 41 | 82 | 清心曲 (cai_qingxin_song) | starter | `/assets/generated/cards/gpt2-cai-qingxin-song.png` | duplicate-reuse, starter-priority |
-| 42 | 82 | 惊鸿一击 (diao_jinghong_strike) | rare | `/assets/generated/cards/gpt2-diao-jinghong-strike.png` | duplicate-reuse, signature-priority |
-| 43 | 82 | 七进七出 (zhao_seven_entries) | uncommon | `/assets/generated/cards/gpt2-zhao-seven-entries.png` | duplicate-reuse, signature-priority |
-| 44 | 82 | 枪围如墙 (zhao_spear_wall) | uncommon | `/assets/generated/cards/gpt2-zhao-spear-wall.png` | duplicate-reuse, signature-priority |
-| 45 | 82 | 观星 (zhuge_observe_stars) | starter | `/assets/generated/cards/gpt2-zhuge-observe-stars.png` | duplicate-reuse, starter-priority |
-| 46 | 82 | 八阵 (zhuge_small_eight_array) | starter | `/assets/generated/cards/gpt2-zhuge-eight-array.png` | duplicate-reuse, starter-priority |
-| 47 | 80 | 魅影 (diao_charm) | starter | `/assets/generated/cards/card-red-ribbon-gpt.png` | generic-card-asset, starter-priority |
-| 48 | 80 | 霜袖 (diao_frost_sleeve) | common | `/assets/generated/cards/wave27-diao-silk-snare.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 49 | 80 | 殿后誓 (zhao_rearguard_oath) | common | `/assets/generated/cards/wave27-zhao-oath-guard.svg` | common-priority, duplicate-reuse, vector-placeholder |
-| 50 | 78 | 离间 (diao_lijian) | uncommon | `/assets/generated/cards/gpt2-diao-lijian.png` | duplicate-reuse, signature-priority |
-| 51 | 75 | 洛水墨潮 (ink_luoshui_tide) | rare | `/assets/generated/cards/card-ink-slash-gpt.png` | generic-card-asset, ink-status-priority |
-| 52 | 72 | 霜弦 (cai_frost_strings) | common | `/assets/generated/cards/gpt2-cai-qingxin-song.png` | common-priority, duplicate-reuse |
-| 53 | 72 | 梅音 (cai_plum_tone) | common | `/assets/generated/cards/gpt2-cai-qingxin-song.png` | common-priority, duplicate-reuse |
-| 54 | 72 | 清雾 (common_clear_mist) | common | `/assets/generated/cards/gpt2-common-jiexue.png` | common-priority, duplicate-reuse |
-| 55 | 72 | 解穴 (common_jiexue) | common | `/assets/generated/cards/gpt2-common-jiexue.png` | common-priority, duplicate-reuse |
-| 56 | 72 | 行药 (common_travel_medicine) | common | `/assets/generated/cards/gpt2-common-jiexue.png` | common-priority, duplicate-reuse |
-| 57 | 72 | 灯下算 (zhuge_lamp_calculation) | common | `/assets/generated/cards/gpt2-zhuge-observe-stars.png` | common-priority, duplicate-reuse |
-| 58 | 72 | 芦阵 (zhuge_reed_formation) | common | `/assets/generated/cards/gpt2-zhuge-eight-array.png` | common-priority, duplicate-reuse |
-| 59 | 72 | 望星 (zhuge_stargazer) | common | `/assets/generated/cards/gpt2-zhuge-observe-stars.png` | common-priority, duplicate-reuse |
-| 60 | 68 | 灯影顾盼 (diao_lantern_glance) | common | `/assets/generated/cards/gpt2-diao-lijian.png` | common-priority, duplicate-reuse |
-| ... | ... | 90 additional queue entries in JSON | ... | ... | ... |
+| 1 | 105 | 宫音 (cai_gong_tone) | starter | `/assets/generated/cards/gpt2-wave21-cai-gong-tone.png` | dimension-anomaly, low-resolution, starter-priority |
+| 2 | 105 | 素击 (cai_plain_strike) | starter | `/assets/generated/cards/gpt2-wave21-cai-plain-strike.png` | dimension-anomaly, low-resolution, starter-priority |
+| 3 | 105 | 拂弦 (cai_pluck_string) | starter | `/assets/generated/cards/gpt2-wave21-cai-pluck-string.png` | dimension-anomaly, low-resolution, starter-priority |
+| 4 | 105 | 回袖 (diao_guard) | starter | `/assets/generated/cards/gpt2-wave21-diao-guard.png` | dimension-anomaly, low-resolution, starter-priority |
+| 5 | 105 | 凌波步 (diao_lingbo) | starter | `/assets/generated/cards/gpt2-wave21-diao-lingbo.png` | dimension-anomaly, low-resolution, starter-priority |
+| 6 | 105 | 素刃 (diao_strike) | starter | `/assets/generated/cards/gpt2-wave21-diao-strike.png` | dimension-anomaly, low-resolution, starter-priority |
+| 7 | 105 | 架枪 (zhao_guard) | starter | `/assets/generated/cards/gpt2-wave21-zhao-guard.png` | dimension-anomaly, low-resolution, starter-priority |
+| 8 | 105 | 龙胆 (zhao_longdan) | starter | `/assets/generated/cards/gpt2-wave21-zhao-longdan.png` | dimension-anomaly, low-resolution, starter-priority |
+| 9 | 105 | 枪击 (zhao_strike) | starter | `/assets/generated/cards/gpt2-wave21-zhao-strike.png` | dimension-anomaly, low-resolution, starter-priority |
+| 10 | 105 | 羽扇 (zhuge_fan_strike) | starter | `/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png` | dimension-anomaly, low-resolution, starter-priority |
+| 11 | 105 | 守势 (zhuge_guard) | starter | `/assets/generated/cards/gpt2-wave21-zhuge-guard.png` | dimension-anomaly, low-resolution, starter-priority |
+| 12 | 95 | 断竹 (common_duanzhu) | common | `/assets/generated/cards/gpt2-wave21-common-duanzhu.png` | common-priority, dimension-anomaly, low-resolution |
+| 13 | 95 | 飞石 (common_feishi) | common | `/assets/generated/cards/gpt2-wave21-common-feishi.png` | common-priority, dimension-anomaly, low-resolution |
+| 14 | 95 | 卸力 (common_xieli) | common | `/assets/generated/cards/gpt2-wave21-common-xieli.png` | common-priority, dimension-anomaly, low-resolution |
+| 15 | 85 | 墨契 (ink_black_contract) | ink | `/assets/generated/cards/wave10-ink-modian.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 16 | 85 | 焚书 (ink_burning_letter) | ink | `/assets/generated/cards/wave10-ink-moren.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 17 | 85 | 黑雨入梦 (ink_heiyu) | ink | `/assets/generated/cards/wave10-ink-heiyu.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 18 | 85 | 墨点 (ink_modian) | ink | `/assets/generated/cards/wave10-ink-modian.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 19 | 85 | 墨刃 (ink_moren) | ink | `/assets/generated/cards/wave10-ink-moren.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 20 | 85 | 夜潮 (ink_night_tide) | ink | `/assets/generated/cards/wave27-ink-unwritten-page.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 21 | 85 | 泼月 (ink_spilled_moon) | ink | `/assets/generated/cards/wave10-ink-heiyu.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 22 | 85 | 未写之页 (ink_unwritten_page) | ink | `/assets/generated/cards/wave27-ink-unwritten-page.svg` | duplicate-reuse, ink-status-priority, vector-placeholder |
+| 23 | 84 | 拂烬 (cai_clear_ashes) | common | `/assets/generated/cards/wave27-cai-cleansing-rain.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 24 | 84 | 洗尘 (cai_wash_dust) | common | `/assets/generated/cards/wave27-cai-cleansing-rain.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 25 | 84 | 幽兰余响 (cai_yulan_echo) | common | `/assets/generated/cards/wave27-cai-yulan-echo.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 26 | 84 | 月下回旋 (diao_moonstep) | common | `/assets/generated/cards/wave27-diao-moonstep.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 27 | 84 | 纱幕 (diao_silk_veil) | common | `/assets/generated/cards/wave27-diao-moonstep.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 28 | 84 | 燕返步 (diao_swallow_return) | common | `/assets/generated/cards/wave27-diao-moonstep.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 29 | 84 | 沉练 (mind_chenlian) | common | `/assets/generated/cards/wave10-mind-jingxin.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 30 | 84 | 静心 (mind_jingxin) | common | `/assets/generated/cards/wave10-mind-jingxin.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 31 | 84 | 借道 (zhuge_borrowed_path) | common | `/assets/generated/cards/wave27-zhuge-bamboo-slips.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 32 | 84 | 星门 (zhuge_star_gate) | common | `/assets/generated/cards/wave27-zhuge-star-gate.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 33 | 82 | 清心曲 (cai_qingxin_song) | starter | `/assets/generated/cards/gpt2-cai-qingxin-song.png` | duplicate-reuse, starter-priority |
+| 34 | 82 | 惊鸿一击 (diao_jinghong_strike) | rare | `/assets/generated/cards/gpt2-diao-jinghong-strike.png` | duplicate-reuse, signature-priority |
+| 35 | 82 | 七进七出 (zhao_seven_entries) | uncommon | `/assets/generated/cards/gpt2-zhao-seven-entries.png` | duplicate-reuse, signature-priority |
+| 36 | 82 | 枪围如墙 (zhao_spear_wall) | uncommon | `/assets/generated/cards/gpt2-zhao-spear-wall.png` | duplicate-reuse, signature-priority |
+| 37 | 82 | 观星 (zhuge_observe_stars) | starter | `/assets/generated/cards/gpt2-zhuge-observe-stars.png` | duplicate-reuse, starter-priority |
+| 38 | 82 | 八阵 (zhuge_small_eight_array) | starter | `/assets/generated/cards/gpt2-zhuge-eight-array.png` | duplicate-reuse, starter-priority |
+| 39 | 80 | 魅影 (diao_charm) | starter | `/assets/generated/cards/card-red-ribbon-gpt.png` | generic-card-asset, starter-priority |
+| 40 | 80 | 霜袖 (diao_frost_sleeve) | common | `/assets/generated/cards/wave27-diao-silk-snare.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 41 | 80 | 殿后誓 (zhao_rearguard_oath) | common | `/assets/generated/cards/wave27-zhao-oath-guard.svg` | common-priority, duplicate-reuse, vector-placeholder |
+| 42 | 78 | 离间 (diao_lijian) | uncommon | `/assets/generated/cards/gpt2-diao-lijian.png` | duplicate-reuse, signature-priority |
+| 43 | 75 | 洛水墨潮 (ink_luoshui_tide) | rare | `/assets/generated/cards/card-ink-slash-gpt.png` | generic-card-asset, ink-status-priority |
+| 44 | 72 | 霜弦 (cai_frost_strings) | common | `/assets/generated/cards/gpt2-cai-qingxin-song.png` | common-priority, duplicate-reuse |
+| 45 | 72 | 梅音 (cai_plum_tone) | common | `/assets/generated/cards/gpt2-cai-qingxin-song.png` | common-priority, duplicate-reuse |
+| 46 | 72 | 清雾 (common_clear_mist) | common | `/assets/generated/cards/gpt2-common-jiexue.png` | common-priority, duplicate-reuse |
+| 47 | 72 | 解穴 (common_jiexue) | common | `/assets/generated/cards/gpt2-common-jiexue.png` | common-priority, duplicate-reuse |
+| 48 | 72 | 行药 (common_travel_medicine) | common | `/assets/generated/cards/gpt2-common-jiexue.png` | common-priority, duplicate-reuse |
+| 49 | 72 | 灯下算 (zhuge_lamp_calculation) | common | `/assets/generated/cards/gpt2-zhuge-observe-stars.png` | common-priority, duplicate-reuse |
+| 50 | 72 | 芦阵 (zhuge_reed_formation) | common | `/assets/generated/cards/gpt2-zhuge-eight-array.png` | common-priority, duplicate-reuse |
+| 51 | 72 | 望星 (zhuge_stargazer) | common | `/assets/generated/cards/gpt2-zhuge-observe-stars.png` | common-priority, duplicate-reuse |
+| 52 | 68 | 灯影顾盼 (diao_lantern_glance) | common | `/assets/generated/cards/gpt2-diao-lijian.png` | common-priority, duplicate-reuse |
+| 53 | 68 | 云中救 (zhao_cloud_rescue) | common | `/assets/generated/cards/gpt2-zhao-river-guard.png` | common-priority, duplicate-reuse |
+| 54 | 68 | 龙牙突 (zhao_dragon_fang) | common | `/assets/generated/cards/gpt2-zhao-break-spear.png` | common-priority, duplicate-reuse |
+| 55 | 68 | 回马枪 (zhao_return_spear) | common | `/assets/generated/cards/gpt2-zhao-return-spear.png` | common-priority, duplicate-reuse |
+| 56 | 68 | 渡河刺 (zhao_river_lunge) | common | `/assets/generated/cards/gpt2-zhao-return-spear.png` | common-priority, duplicate-reuse |
+| 57 | 59 | 断雨 (cai_broken_rain) | uncommon | `/assets/generated/cards/wave27-cai-yulan-echo.svg` | duplicate-reuse, vector-placeholder |
+| 58 | 59 | 洗雨调 (cai_cleansing_rain) | uncommon | `/assets/generated/cards/wave27-cai-cleansing-rain.svg` | duplicate-reuse, vector-placeholder |
+| 59 | 59 | 玉夜调 (cai_jade_nocturne) | uncommon | `/assets/generated/cards/wave27-cai-yulan-echo.svg` | duplicate-reuse, vector-placeholder |
+| 60 | 59 | 忘忧 (mind_wangyou) | uncommon | `/assets/generated/cards/wave10-mind-jingxin.svg` | duplicate-reuse, vector-placeholder |
+| ... | ... | 88 additional queue entries in JSON | ... | ... | ... |
 
 ## Full Data
 
