@@ -9146,3 +9146,74 @@ Checked the Wave 46 spec and plan for TODO/TBD placeholders and confirmed the pl
 Next step:
 
 - Execute Wave 46 in an isolated UI worktree, then run focused shop/reward browser verification and update documentation.
+
+## 2026-05-08 Wave 46 shop build fit implementation
+
+Docs and workflow notes read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/superpowers/specs/2026-05-08-wave46-shop-build-fit-design.md`
+- `docs/superpowers/plans/2026-05-08-wave46-shop-build-fit.md`
+- Superpowers `subagent-driven-development`, `using-git-worktrees`, and `verification-before-completion` workflow notes
+
+What changed:
+
+- Integrated UI worker output as `9db801a`: shop card offers now call `createRewardBuildFit(getRunCardDefinitions(run), card)` and expose `data-build-fit-tone`.
+- Added `shop-build-fit` and `shop-build-fit-detail` markup to every shop card offer.
+- Shared reward-fit tone CSS with shop-fit classes for main, branch, utility, and risk chips.
+- Extended the existing shop browser flow to assert travel, role, and ink card fit labels/details, including ink-risk copy.
+
+Subagents and review:
+
+- `Lorentz` implemented the shop build-fit UI task in an isolated worktree and committed `da0a45d`.
+- `Helmholtz` completed read-only spec review and approved the UI task.
+- `Linnaeus` was closed after timing out; main integration review plus focused verification covered the quality gate.
+
+TDD and failures:
+
+```text
+Task 1 RED expectation: new shop-build-fit Playwright assertions target markup that did not exist before implementation.
+The worker completed after a delayed notification; the main flow independently inspected the commit and re-ran all focused checks before integration.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "shops can add relics" --project=chromium
+Result in UI worktree: passed, 1 Chromium test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/deck/reward-fit.test.ts tests/run/run-system.test.ts --reporter=dot
+Result in UI worktree: passed, 2 files / 39 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result in UI worktree: passed.
+
+git diff --check HEAD~1..HEAD
+Result in UI worktree: passed.
+
+git diff --check
+Result in integration worktree: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/deck/reward-fit.test.ts tests/run/run-system.test.ts --reporter=dot
+Result in integration worktree: passed, 2 files / 39 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result in integration worktree: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "shops can add relics|boots, enters a Zhao Yun battle" --project=chromium
+Result in integration worktree: passed, 2 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Shop fit is currently limited to card offers; relics and delete-card service still use their existing explanatory text.
+- The fit text is advisory only and does not alter shop inventory, prices, card pools, or balance.
+- Desktop browser remains the active target; no mobile layout work was added.
+
+Next step:
+
+- Continue the EA build-language pass with a small player-facing surface, likely event choice fit or relic-choice fit, while keeping Steam/storefront/release packaging out of scope.
