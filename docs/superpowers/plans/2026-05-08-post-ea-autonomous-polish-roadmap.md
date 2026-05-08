@@ -27,10 +27,11 @@ For InkBlade, translate these patterns into ancient wuxia ink-wash jianghu style
 
 - Wave 59 is complete: eight high-priority common card faces were generated, normalized, bound, audited, and merged.
 - Wave 60 is complete: combat/reward/shop/deck card frames now share a premium ink-wash card language with accessible cost seals and browser layout gates.
+- Wave 61 is complete: combat resource/status/intent/pile/target feedback HUD surfaces now use clearer ink-wash chips with browser layout gates.
 
 ## Remaining Waves
 
-Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 60, six remain: Wave 61 through Wave 66.
+Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 61, five remain: Wave 62 through Wave 66.
 
 ### Wave 59: High-Priority Common Card Art Polish
 
@@ -65,13 +66,15 @@ Gate: passed. Visual smoke, targeted reward/shop/deck playable-flow checks, Type
 
 ### Wave 61: Combat HUD And Feedback Layer
 
-Upgrade battle readability and feedback:
+Status: complete.
+
+Upgraded battle readability and feedback:
 
 - Icon resource chips, intent plaque, status badges, deck/discard piles, and target ghosts.
 - Stronger card play impact, hit pulse, block gain, status application, and enemy action timing.
 - Reduced-motion parity for every feedback state.
 
-Gate: combat visual smoke captures clear before/after state changes, playable-flow green.
+Gate: passed. Visual smoke, targeted status/route playable-flow checks, TypeScript, Vitest, Vite build, and `git diff --check` are green.
 
 ### Wave 62: Scene Surfaces V2
 

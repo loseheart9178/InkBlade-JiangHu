@@ -1050,8 +1050,12 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   field.dataset.intentPressure = intentPresentation.pressure;
   field.innerHTML = `
     <div class="combatant combatant--player ${createCombatantFeedbackClasses(combat, "player")} ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
-      <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
-      <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}${formatStatusBadges(combat.player.statuses)}</div>
+      ${createCombatResourcePill("player", combat.player.resource.name, `${combat.player.resource.value}/${combat.player.resource.max}`)}
+      ${createCombatStatusLine("player", [
+        { label: "护甲", value: `${combat.player.block}`, tone: "block" },
+        { label: "心境", value: formatMind(combat.player.mind), tone: "mind" },
+        { label: "墨痕", value: `${combat.player.inkMarks}`, tone: "ink" }
+      ], combat.player.statuses)}
       ${createTargetFeedbackMarkup(combat, "player")}
       <div class="combat-standee combat-standee--player combat-standee--${playerPortrait.accent} ${playerIsAttacking ? "is-attacking" : ""}">
         ${playerSprite ? `<div class="combat-sprite combat-sprite--player is-attacking" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>` : ""}
@@ -1064,8 +1068,10 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       ${createPlayedFeedbackMarkup(combat)}
     </div>
     <div class="combatant combatant--enemy ${createCombatantFeedbackClasses(combat, "enemy")} is-pressure-${intentPresentation.type} is-pressure-${intentPresentation.pressure} ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
-      <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
-      <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block}${formatStatusBadges(enemy.statuses)}</div>
+      ${createCombatResourcePill("enemy", "敌势", `${enemy.intentIndex + 1}/${enemy.intents.length}`)}
+      ${createCombatStatusLine("enemy", [
+        { label: "护甲", value: `${enemy.block}`, tone: "block" }
+      ], enemy.statuses)}
       ${createTargetFeedbackMarkup(combat, "enemy")}
       <div class="combat-standee combat-standee--enemy combat-standee--${enemyPortrait.accent} ${enemyIsAttacking ? "is-attacking" : ""}">
         ${enemySprite ? `<div class="combat-sprite combat-sprite--enemy is-attacking" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>` : ""}
@@ -1139,9 +1145,9 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     render();
   });
   controls.append(
-    createPileCounter("抽牌", combat.piles.draw.length),
-    createPileCounter("弃牌", combat.piles.discard.length),
-    createPileCounter("消耗", combat.piles.exhaust.length),
+    createPileCounter("draw", "抽牌", combat.piles.draw.length),
+    createPileCounter("discard", "弃牌", combat.piles.discard.length),
+    createPileCounter("exhaust", "消耗", combat.piles.exhaust.length),
     endTurn
   );
 
@@ -2769,6 +2775,37 @@ function createMeter(testId: string, label: string, value: number, max: number, 
   return meter;
 }
 
+function createCombatResourcePill(owner: "player" | "enemy", label: string, value: string): string {
+  return `
+    <div class="resource-pill resource-pill--${owner}" data-testid="${owner}-resource" aria-label="${escapeAttribute(`${label} ${value}`)}">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+    </div>
+  `;
+}
+
+function createCombatStatusLine(
+  owner: "player" | "enemy",
+  chips: Array<{ label: string; value: string; tone: "block" | "mind" | "ink" }>,
+  statuses: Partial<Record<StatusId, number>>
+): string {
+  return `
+    <div class="status-line status-line--${owner}" data-testid="${owner}-status">
+      ${chips.map((chip) => createStatusChipMarkup(chip.label, chip.value, chip.tone)).join("")}
+      ${formatStatusBadges(statuses)}
+    </div>
+  `;
+}
+
+function createStatusChipMarkup(label: string, value: string, tone: "block" | "mind" | "ink"): string {
+  return `
+    <span class="status-chip status-chip--${tone}">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+    </span>
+  `;
+}
+
 function getIntentPresentation(intent: CombatState["enemies"][number]["currentIntent"]): { type: string; pressure: string; icon: string } {
   if (intent.type === "attack") {
     const totalDamage = intent.damage * intent.hits;
@@ -2832,11 +2869,24 @@ function createIntent(intent: CombatState["enemies"][number]["currentIntent"]): 
   box.innerHTML = `
     <span class="combat-intent-icon" aria-hidden="true">${presentation.icon}</span>
     <span class="combat-intent-kicker">敌意</span>
+    <span class="combat-intent-pressure" data-testid="intent-pressure">${formatIntentPressure(presentation.pressure)}</span>
     <strong class="combat-intent-title" data-testid="combat-intent-title">${escapeHtml(formatIntentTitle(intent))}</strong>
     <span class="combat-intent-detail" data-testid="combat-intent-detail">${escapeHtml(intentDetail)}</span>
     <span class="combat-intent-chips">${formatIntentChips(intent).map(createIntentChipMarkup).join("")}</span>
   `;
   return box;
+}
+
+function formatIntentPressure(pressure: string): string {
+  if (pressure === "high") {
+    return "重压";
+  }
+
+  if (pressure === "medium") {
+    return "逼近";
+  }
+
+  return "轻势";
 }
 
 function formatIntentTitle(intent: CombatState["enemies"][number]["currentIntent"]): string {
@@ -2937,10 +2987,29 @@ function describeIntent(intent: CombatState["enemies"][number]["currentIntent"])
   return "本回合不行动。";
 }
 
-function createPileCounter(label: string, count: number): HTMLElement {
+function createPileCounter(kind: "draw" | "discard" | "exhaust", label: string, count: number): HTMLElement {
   const item = document.createElement("span");
-  item.className = "pile-counter";
-  item.textContent = `${label} ${count}`;
+  const iconByKind: Record<"draw" | "discard" | "exhaust", string> = {
+    draw: "抽",
+    discard: "弃",
+    exhaust: "耗"
+  };
+  const glossaryByKind: Record<"draw" | "discard" | "exhaust", string> = {
+    draw: "resource.drawPile",
+    discard: "resource.discardPile",
+    exhaust: "resource.exhaustPile"
+  };
+  const ariaLabel = `${label}堆 ${count} 张`;
+  item.className = `pile-counter pile-counter--${kind}`;
+  item.dataset.testid = `pile-counter-${kind}`;
+  item.dataset.glossaryId = glossaryByKind[kind];
+  item.title = ariaLabel;
+  item.setAttribute("aria-label", ariaLabel);
+  item.innerHTML = `
+    <span class="pile-counter-icon" aria-hidden="true">${iconByKind[kind]}</span>
+    <span class="pile-counter-label">${label}</span>
+    <strong>${count}</strong>
+  `;
   return item;
 }
 
@@ -3572,13 +3641,13 @@ function formatStatusBadges(statuses: Partial<Record<StatusId, number>>): string
     return "";
   }
 
-  return ` · ${entries.map(([status, amount]) => {
+  return entries.map(([status, amount]) => {
     const layers = amount ?? 0;
     const entry = getGlossaryEntry(`status.${status}`);
     const label = formatStatus(status);
     const tooltip = entry ? formatGlossaryTooltip(entry, `${label} ${layers}层。`) : `${label} ${layers}`;
-    return `<span class="status-badge" data-testid="status-badge" data-glossary-id="${escapeAttribute(entry?.id ?? `status.${status}`)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}">${escapeHtml(label)} ${layers}</span>`;
-  }).join(" · ")}`;
+    return `<span class="status-badge" data-testid="status-badge" data-glossary-id="${escapeAttribute(entry?.id ?? `status.${status}`)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}"><span>${escapeHtml(label)}</span> <strong>${layers}</strong></span>`;
+  }).join("");
 }
 
 function formatRarity(rarity: string): string {

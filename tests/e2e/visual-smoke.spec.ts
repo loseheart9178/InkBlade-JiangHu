@@ -76,8 +76,10 @@ test("captures desktop combat smoke screenshots for all four characters", async 
 
     await expect(page.getByTestId("screen-combat")).toHaveAttribute("data-battlefield", "luoshui");
     await expect(page.getByTestId("player-hp")).toContainText(character.label);
+    await expect(page.getByTestId("player-resource")).toContainText(character.resource);
     await expect(page.getByText(character.resource)).toBeVisible();
     await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
+    await expect(page.getByTestId("enemy-resource")).toContainText(/敌势\s+1\/3/);
     await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", character.standee);
     await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-bandit-standee-cutout\.png$/);
     await expect(page.getByTestId("combat-sprite-player")).toHaveCount(0);
@@ -95,6 +97,10 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("intent")).toHaveAttribute("data-intent-type", /attack|block|special|idle/);
     await expect(page.getByTestId("intent")).toHaveAttribute("data-intent-pressure", /low|medium|high/);
     await expect(page.getByTestId("intent")).toHaveClass(/intent-box--/);
+    await expect(page.getByTestId("intent-pressure")).toContainText(/轻势|逼近|重压/);
+    await expect(page.getByTestId("pile-counter-draw")).toHaveAttribute("data-glossary-id", "resource.drawPile");
+    await expect(page.getByTestId("pile-counter-discard")).toHaveAttribute("data-glossary-id", "resource.discardPile");
+    await expect(page.getByTestId("pile-counter-exhaust")).toHaveAttribute("data-glossary-id", "resource.exhaustPile");
     await expect(page.getByTestId("combo-trail")).toContainText("待发");
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("title", /招式链/);
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("aria-label", /招式链/);
@@ -123,6 +129,7 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
     await expect(page.getByTestId("target-feedback-enemy")).toBeVisible();
     await expect(page.getByTestId("target-feedback-enemy")).toHaveAttribute("data-feedback-kind", /damage|status|block|resource|ink|draw|trigger/);
+    await expect(page.getByTestId("target-feedback-enemy")).toHaveAttribute("data-feedback-tone", /red|teal|gold|ink|neutral|mind/);
     await expect(page.locator(".combatant--enemy")).toHaveClass(/is-target-feedback/);
     await expect(page.getByTestId("played-feedback")).not.toHaveAttribute("data-played-count", "0");
     await expect(page.getByTestId("combat-vfx-slash")).toHaveCount(0);

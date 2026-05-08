@@ -9963,3 +9963,38 @@ Result: passed, 4 Chromium tests.
 NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
 Result: passed, 2 Chromium tests.
 ```
+
+## 2026-05-08 Wave 61 combat HUD and feedback layer
+
+Wave 61 ran in worktree `.worktrees/wave61-combat-hud-feedback` on branch `codex/wave61-combat-hud-feedback`.
+
+What changed:
+
+- Rebuilt player/enemy resource readouts as explicit HUD chips with `player-resource` and `enemy-resource` ids.
+- Converted status lines into chip groups for 护甲, 心境, 墨痕, and glossary-backed combat statuses.
+- Added intent pressure labels to the enemy intent plaque: `轻势`, `逼近`, `重压`.
+- Rebuilt draw/discard/exhaust counters as icon-led pile controls with glossary ids and aria labels.
+- Strengthened target feedback and played-card feedback styling without changing combat rules.
+- Extended visual-smoke browser assertions for resource, intent-pressure, pile glossary, and feedback-tone surfaces.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 35 files / 265 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "Diao Chan starting|can complete the first chapter|can enter a second chapter"
+Result: passed, 3 Chromium tests.
+```
