@@ -9217,3 +9217,42 @@ Known gaps / risks:
 Next step:
 
 - Continue the EA build-language pass with a small player-facing surface, likely event choice fit or relic-choice fit, while keeping Steam/storefront/release packaging out of scope.
+
+## 2026-05-08 Wave 47 relic build fit planning
+
+Docs and workflow notes read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `src/game/content/relics.ts`
+- `src/game/systems/relics/relicEffects.ts`
+- `src/game/systems/run/run.ts`
+- `tests/relics/relic-system.test.ts`
+- Superpowers `brainstorming`, `writing-plans`, and Game Studio `game-ui-frontend` workflow notes
+
+Created:
+
+- `docs/superpowers/specs/2026-05-08-wave47-relic-build-fit-design.md`
+- `docs/superpowers/plans/2026-05-08-wave47-relic-build-fit.md`
+
+Scope decision:
+
+- Wave 47 extends build-fit language from card rewards and shop cards to shop relic offers.
+- The wave adds a pure relic-fit helper and UI chips for shop relics while preserving relic data, triggers, prices, shop generation, combat, persistence, platform/release packaging, new art, and mobile layout.
+- The standing autonomous-development instruction remains active, so design and plan approval were handled with self-review instead of waiting for user input.
+
+Plan self-review:
+
+```text
+Checked the Wave 47 spec and plan for TODO/TBD placeholders and confirmed the plan uses concrete files, commands, test ids, and acceptance criteria.
+```
+
+Next step:
+
+- Execute Wave 47 in isolated system and UI worktrees, then run focused relic/shop browser verification and update documentation.
