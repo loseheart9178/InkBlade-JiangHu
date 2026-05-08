@@ -48,7 +48,15 @@ function getSourcePriority(relicId: string, source: RelicRewardSource): number {
     "relic_red_lacquer_token",
     "relic_silent_zither_string",
     "relic_qingyin_jade",
-    "relic_scribe_red_seal"
+    "relic_scribe_red_seal",
+    "relic_morning_tea_cup",
+    "relic_dark_ink_amulet",
+    "relic_sky_piercer_coin",
+    "relic_silk_step_amulet",
+    "relic_peaceful_scroll",
+    "relic_willow_brace",
+    "relic_qin_resonance_scale",
+    "relic_star_seal_bracket"
   ];
   const shopOrder = [
     "relic_old_wooden_sword",
@@ -59,7 +67,15 @@ function getSourcePriority(relicId: string, source: RelicRewardSource): number {
     "relic_memory_bamboo_slip",
     "relic_qingyin_jade",
     "relic_echoing_jade_chime",
-    "relic_starlit_tactical_map"
+    "relic_starlit_tactical_map",
+    "relic_morning_tea_cup",
+    "relic_dark_ink_amulet",
+    "relic_sky_piercer_coin",
+    "relic_silk_step_amulet",
+    "relic_peaceful_scroll",
+    "relic_willow_brace",
+    "relic_qin_resonance_scale",
+    "relic_star_seal_bracket"
   ];
   const order = source === "shop" ? shopOrder : eliteOrder;
   const index = order.indexOf(relicId);

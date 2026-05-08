@@ -3,11 +3,11 @@
   "visualManifest": "src/game/content/visuals.ts",
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
-    "runtimeReferenceCount": 171,
+    "runtimeReferenceCount": 198,
     "uniqueRuntimeFileCount": 143,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 72,
+    "gpt2RuntimeCount": 88,
     "sourceSheetCount": 21,
     "cardFallbackDebtCount": 0
   },
@@ -51,6 +51,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "cai_frost_strings",
+      "paths": [
+        "/assets/generated/cards/gpt2-cai-qingxin-song.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "cai_gong_tone",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png"
@@ -59,6 +66,13 @@
     {
       "kind": "cardArt",
       "id": "cai_hujia_beat",
+      "paths": [
+        "/assets/generated/cards/gpt2-cai-hujia-beat.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "cai_lingering_chord",
       "paths": [
         "/assets/generated/cards/gpt2-cai-hujia-beat.png"
       ]
@@ -82,6 +96,27 @@
       "id": "cai_qingxin_song",
       "paths": [
         "/assets/generated/cards/gpt2-cai-qingxin-song.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "cai_river_refrain",
+      "paths": [
+        "/assets/generated/cards/gpt2-cai-final-song.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_brush_parry",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-gedang.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_clear_mist",
+      "paths": [
+        "/assets/generated/cards/gpt2-common-jiexue.png"
       ]
     },
     {
@@ -114,6 +149,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_lockstep",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-zhuiying.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "common_mirror_armor",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png"
@@ -129,6 +171,20 @@
     {
       "kind": "cardArt",
       "id": "common_qingshen",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_river_stance",
+      "paths": [
+        "/assets/generated/cards/gpt2-common-xixin.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_scout_feather",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
       ]
@@ -159,6 +215,20 @@
       "id": "common_zhuiying",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-zhuiying.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_crimson_snare",
+      "paths": [
+        "/assets/generated/cards/gpt2-diao-mirror-flower.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_feather_feint",
+      "paths": [
+        "/assets/generated/cards/gpt2-diao-jinghong-strike.png"
       ]
     },
     {
@@ -247,6 +317,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhao_dragon_fang",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-break-spear.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhao_guard",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-zhao-guard.png"
@@ -296,6 +373,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhao_turning_lance",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-seven-entries.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhao_white_horse_breakout",
       "paths": [
         "/assets/generated/cards/gpt2-zhao-white-horse-breakout.png"
@@ -303,7 +387,21 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhao_white_mantle_vow",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-spear-wall.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhuge_borrow_wind",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhuge-borrow-wind.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhuge_command_wind",
       "paths": [
         "/assets/generated/cards/gpt2-zhuge-borrow-wind.png"
       ]
@@ -331,9 +429,23 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhuge_reed_formation",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhuge-eight-array.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhuge_small_eight_array",
       "paths": [
         "/assets/generated/cards/gpt2-zhuge-eight-array.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhuge_stargazer",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhuge-observe-stars.png"
       ]
     },
     {

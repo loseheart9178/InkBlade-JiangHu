@@ -2003,6 +2003,633 @@ export const cardList: CardDefinition[] = [
       ],
       description: "抽3张牌，获得2墨痕。消耗。"
     }
+  },
+  {
+    id: "zhao_dragon_fang",
+    name: "龙牙突",
+    cost: 1,
+    rarity: "common",
+    target: "enemy",
+    character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 9 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成9点伤害，获得1枪势。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 12 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成12点伤害，获得1枪势。"
+    }
+  },
+  {
+    id: "zhao_rearguard_oath",
+    name: "殿后誓",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 7 },
+      { action: "applyStatus", status: "guard", amount: 1 }
+    ],
+    description: "获得7点护甲和1层护主。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 10 },
+        { action: "applyStatus", status: "guard", amount: 1 }
+      ],
+      description: "获得10点护甲和1层护主。"
+    }
+  },
+  {
+    id: "zhao_turning_lance",
+    name: "回锋连刺",
+    cost: 2,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "zhaoyun",
+    archetypes: ["zhao-spear-chain"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 5 },
+      { action: "damage", amount: 5 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "造成5点伤害两次，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 7 },
+        { action: "damage", amount: 7 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "造成7点伤害两次，抽1张牌。"
+    }
+  },
+  {
+    id: "zhao_white_mantle_vow",
+    name: "白袍誓",
+    cost: 2,
+    rarity: "rare",
+    target: "self",
+    character: "zhaoyun",
+    archetypes: ["zhao-guardian-counter"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 12 },
+      { action: "applyStatus", status: "guard", amount: 2 },
+      { action: "gainResource", amount: 2 }
+    ],
+    description: "获得12点护甲、2层护主和2枪势。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 16 },
+        { action: "applyStatus", status: "guard", amount: 2 },
+        { action: "gainResource", amount: 2 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "获得16点护甲、2层护主和2枪势，抽1张牌。"
+    }
+  },
+  {
+    id: "diao_frost_sleeve",
+    name: "霜袖",
+    cost: 1,
+    rarity: "common",
+    target: "enemy",
+    character: "diaochan",
+    archetypes: ["diao-charm-control"],
+    types: ["skill", "body"],
+    effects: [
+      { action: "applyStatus", status: "charm", amount: 2 },
+      { action: "block", amount: 4 }
+    ],
+    description: "施加2层魅惑，获得4点护甲。",
+    upgrade: {
+      effects: [
+        { action: "applyStatus", status: "charm", amount: 3 },
+        { action: "block", amount: 6 }
+      ],
+      description: "施加3层魅惑，获得6点护甲。"
+    }
+  },
+  {
+    id: "diao_swallow_return",
+    name: "燕返步",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "diaochan",
+    archetypes: ["diao-dance-chain"],
+    types: ["body"],
+    effects: [
+      { action: "block", amount: 3 },
+      { action: "draw", amount: 1 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得3点护甲和1舞势，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 5 },
+        { action: "draw", amount: 1 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "获得5点护甲和1舞势，抽1张牌。"
+    }
+  },
+  {
+    id: "diao_crimson_snare",
+    name: "绯罗网",
+    cost: 1,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "diaochan",
+    archetypes: ["diao-charm-control"],
+    types: ["skill"],
+    effects: [
+      { action: "applyStatus", status: "charm", amount: 4 },
+      { action: "applyStatus", status: "weak", amount: 1 }
+    ],
+    description: "施加4层魅惑和1层虚弱。",
+    upgrade: {
+      effects: [
+        { action: "applyStatus", status: "charm", amount: 5 },
+        { action: "applyStatus", status: "weak", amount: 1 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "施加5层魅惑和1层虚弱，抽1张牌。"
+    }
+  },
+  {
+    id: "diao_feather_feint",
+    name: "羽扇佯攻",
+    cost: 2,
+    rarity: "rare",
+    target: "enemy",
+    character: "diaochan",
+    archetypes: ["diao-dance-chain"],
+    types: ["attack", "body"],
+    effects: [
+      { action: "damage", amount: 8 },
+      { action: "applyStatus", status: "charm", amount: 2 },
+      { action: "draw", amount: 1 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成8点伤害，施加2层魅惑，获得1舞势并抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 12 },
+        { action: "applyStatus", status: "charm", amount: 2 },
+        { action: "draw", amount: 1 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成12点伤害，施加2层魅惑，获得1舞势并抽1张牌。"
+    }
+  },
+  {
+    id: "cai_frost_strings",
+    name: "霜弦",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin", "echo"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 5 },
+      { action: "gainResource", amount: 1 },
+      { action: "queueEcho", effects: [{ action: "block", amount: 2 }] }
+    ],
+    description: "获得5点护甲和1音律。余韵：下回合获得2点护甲。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 8 },
+        { action: "gainResource", amount: 1 },
+        { action: "queueEcho", effects: [{ action: "block", amount: 3 }] }
+      ],
+      description: "获得8点护甲和1音律。余韵：下回合获得3点护甲。"
+    }
+  },
+  {
+    id: "cai_wash_dust",
+    name: "洗尘",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-cleanse-melody"],
+    keywords: ["qin", "cleanse"],
+    types: ["skill"],
+    effects: [
+      { action: "cleanseCards", amount: 1 },
+      { action: "block", amount: 5 }
+    ],
+    description: "净化至多1张状态或诅咒牌，获得5点护甲。",
+    upgrade: {
+      effects: [
+        { action: "cleanseCards", amount: 2 },
+        { action: "block", amount: 7 }
+      ],
+      description: "净化至多2张状态或诅咒牌，获得7点护甲。"
+    }
+  },
+  {
+    id: "cai_lingering_chord",
+    name: "余弦",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin", "echo"],
+    types: ["skill"],
+    effects: [
+      { action: "gainResource", amount: 1 },
+      { action: "draw", amount: 1 },
+      { action: "queueEcho", effects: [{ action: "draw", amount: 1 }] }
+    ],
+    description: "获得1音律，抽1张牌。余韵：下回合抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "gainResource", amount: 2 },
+        { action: "draw", amount: 1 },
+        { action: "queueEcho", effects: [{ action: "draw", amount: 1 }] }
+      ],
+      description: "获得2音律，抽1张牌。余韵：下回合抽1张牌。"
+    }
+  },
+  {
+    id: "cai_jade_nocturne",
+    name: "玉夜调",
+    cost: 1,
+    rarity: "uncommon",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-qin-echo"],
+    keywords: ["qin", "echo"],
+    types: ["attack"],
+    effects: [
+      { action: "damage", amount: 7 },
+      { action: "gainResource", amount: 1 },
+      { action: "queueEcho", effects: [{ action: "damage", amount: 4 }] }
+    ],
+    description: "造成7点伤害，获得1音律。余韵：下回合造成4点伤害。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 10 },
+        { action: "gainResource", amount: 1 },
+        { action: "queueEcho", effects: [{ action: "damage", amount: 5 }] }
+      ],
+      description: "造成10点伤害，获得1音律。余韵：下回合造成5点伤害。"
+    }
+  },
+  {
+    id: "cai_river_refrain",
+    name: "河声复调",
+    cost: 2,
+    rarity: "rare",
+    target: "enemy",
+    character: "caiwenji",
+    archetypes: ["cai-cleanse-melody"],
+    keywords: ["qin", "cleanse"],
+    types: ["skill", "attack"],
+    effects: [
+      { action: "damage", amount: 8 },
+      { action: "applyStatus", status: "weak", amount: 1 },
+      { action: "cleanseCards", amount: 1 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "造成8点伤害，施加1层虚弱，净化1张牌并获得1音律。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 12 },
+        { action: "applyStatus", status: "weak", amount: 2 },
+        { action: "cleanseCards", amount: 2 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "造成12点伤害，施加2层虚弱，净化2张牌并获得1音律。"
+    }
+  },
+  {
+    id: "zhuge_stargazer",
+    name: "望星",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    types: ["skill"],
+    effects: [
+      { action: "scry", amount: 3 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "观星3，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "scry", amount: 4 },
+        { action: "draw", amount: 1 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "观星4，抽1张牌，获得1筹策。"
+    }
+  },
+  {
+    id: "zhuge_reed_formation",
+    name: "芦阵",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["formation"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 4 },
+      { action: "setFormation", formation: "eight", name: "芦阵", duration: 2, blockAtTurnEnd: 2 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得4点护甲，布置芦阵2回合：回合结束获得2点护甲。获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 6 },
+        { action: "setFormation", formation: "eight", name: "芦阵", duration: 3, blockAtTurnEnd: 3 },
+        { action: "gainResource", amount: 1 }
+      ],
+      description: "获得6点护甲，布置芦阵3回合：回合结束获得3点护甲。获得1筹策。"
+    }
+  },
+  {
+    id: "zhuge_hidden_route",
+    name: "暗渡",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    types: ["skill"],
+    effects: [
+      { action: "scry", amount: 2 },
+      { action: "block", amount: 6 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "观星2，获得6点护甲，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "scry", amount: 3 },
+        { action: "block", amount: 8 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "观星3，获得8点护甲，抽1张牌。"
+    }
+  },
+  {
+    id: "zhuge_command_wind",
+    name: "令风",
+    cost: 2,
+    rarity: "uncommon",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-formation-wind"],
+    keywords: ["formation"],
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 3 },
+      { action: "setFormation", formation: "wind", name: "令风", duration: 3, drawAtTurnStart: 1 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "获得3点护甲，布置令风3回合：回合开始抽1张牌。获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 5 },
+        { action: "setFormation", formation: "wind", name: "令风", duration: 4, drawAtTurnStart: 1 },
+        { action: "gainResource", amount: 2 }
+      ],
+      description: "获得5点护甲，布置令风4回合：回合开始抽1张牌。获得2筹策。"
+    }
+  },
+  {
+    id: "zhuge_heavenly_plot",
+    name: "天机",
+    cost: 2,
+    rarity: "rare",
+    target: "self",
+    character: "zhugeliang",
+    archetypes: ["zhuge-star-control"],
+    keywords: ["scry"],
+    types: ["skill"],
+    effects: [
+      { action: "scry", amount: 4 },
+      { action: "draw", amount: 2 },
+      { action: "gainResource", amount: 1 }
+    ],
+    description: "观星4，抽2张牌，获得1筹策。",
+    upgrade: {
+      effects: [
+        { action: "scry", amount: 5 },
+        { action: "draw", amount: 2 },
+        { action: "gainResource", amount: 2 }
+      ],
+      description: "观星5，抽2张牌，获得2筹策。"
+    }
+  },
+  {
+    id: "common_scout_feather",
+    name: "探羽",
+    cost: 0,
+    rarity: "common",
+    target: "self",
+    exhaust: true,
+    types: ["body"],
+    effects: [
+      { action: "block", amount: 2 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "获得2点护甲，抽1张牌。消耗。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 4 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "获得4点护甲，抽1张牌。消耗。"
+    }
+  },
+  {
+    id: "common_brush_parry",
+    name: "笔格",
+    cost: 1,
+    rarity: "common",
+    target: "enemy",
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 5 },
+      { action: "applyStatus", status: "weak", amount: 1 }
+    ],
+    description: "获得5点护甲，施加1层虚弱。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 8 },
+        { action: "applyStatus", status: "weak", amount: 1 }
+      ],
+      description: "获得8点护甲，施加1层虚弱。"
+    }
+  },
+  {
+    id: "common_lockstep",
+    name: "并步",
+    cost: 1,
+    rarity: "common",
+    target: "enemy",
+    types: ["attack", "body"],
+    effects: [
+      { action: "damage", amount: 5 },
+      { action: "block", amount: 3 }
+    ],
+    description: "造成5点伤害，获得3点护甲。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 7 },
+        { action: "block", amount: 5 }
+      ],
+      description: "造成7点伤害，获得5点护甲。"
+    }
+  },
+  {
+    id: "common_clear_mist",
+    name: "清雾",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    keywords: ["cleanse"],
+    types: ["skill"],
+    effects: [
+      { action: "cleanseCards", amount: 1 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "净化至多1张状态或诅咒牌，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "cleanseCards", amount: 2 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "净化至多2张状态或诅咒牌，抽1张牌。"
+    }
+  },
+  {
+    id: "common_river_stance",
+    name: "临河势",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    types: ["skill"],
+    effects: [
+      { action: "block", amount: 8 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "获得8点护甲，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "block", amount: 11 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "获得11点护甲，抽1张牌。"
+    }
+  },
+  {
+    id: "mind_chenlian",
+    name: "沉练",
+    cost: 1,
+    rarity: "common",
+    target: "self",
+    types: ["skill", "mind"],
+    effects: [
+      { action: "setMind", mind: "bei", amount: 1 },
+      { action: "block", amount: 4 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "进入悲，获得4点护甲，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "setMind", mind: "bei", amount: 1 },
+        { action: "block", amount: 6 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "进入悲，获得6点护甲，抽1张牌。"
+    }
+  },
+  {
+    id: "mind_taoguang",
+    name: "韬光",
+    cost: 1,
+    rarity: "uncommon",
+    target: "self",
+    types: ["skill", "mind"],
+    effects: [
+      { action: "setMind", mind: "wu", amount: 1 },
+      { action: "scry", amount: 2 },
+      { action: "draw", amount: 1 }
+    ],
+    description: "进入悟，观星2，抽1张牌。",
+    upgrade: {
+      effects: [
+        { action: "setMind", mind: "wu", amount: 1 },
+        { action: "scry", amount: 3 },
+        { action: "draw", amount: 1 }
+      ],
+      description: "进入悟，观星3，抽1张牌。"
+    }
+  },
+  {
+    id: "ink_burning_letter",
+    name: "焚书",
+    cost: 1,
+    rarity: "ink",
+    target: "enemy",
+    exhaust: true,
+    types: ["attack", "ink"],
+    effects: [
+      { action: "damage", amount: 14 },
+      { action: "gainInk", amount: 2 }
+    ],
+    description: "造成14点伤害，获得2墨痕。消耗。",
+    upgrade: {
+      effects: [
+        { action: "damage", amount: 18 },
+        { action: "gainInk", amount: 2 }
+      ],
+      description: "造成18点伤害，获得2墨痕。消耗。"
+    }
+  },
+  {
+    id: "ink_night_tide",
+    name: "夜潮",
+    cost: 0,
+    rarity: "ink",
+    target: "self",
+    exhaust: true,
+    types: ["skill", "ink"],
+    effects: [
+      { action: "draw", amount: 2 },
+      { action: "gainInk", amount: 1 },
+      { action: "applyStatus", status: "vulnerable", amount: 1 }
+    ],
+    description: "抽2张牌，获得1墨痕和1层易伤。消耗。",
+    upgrade: {
+      effects: [
+        { action: "draw", amount: 3 },
+        { action: "gainInk", amount: 1 },
+        { action: "applyStatus", status: "vulnerable", amount: 1 }
+      ],
+      description: "抽3张牌，获得1墨痕和1层易伤。消耗。"
+    }
   }
 ];
 

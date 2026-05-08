@@ -137,7 +137,7 @@ describe("run simulator", () => {
     expect(zhugeRoutes.every((route) => route.turnCounts.total <= 90)).toBe(true);
     expect(zhugeRoutes.every((route) => !route.timeoutRisk.hasTimeout)).toBe(true);
     expect(zhugeRoutes.every((route) => route.unsafeDamageSpikes.length === 0)).toBe(true);
-    expect(watchlistLine).toContain("诸葛亮:high lowest HP 8/10/14 across 3 routes");
+    expect(watchlistLine).toContain("诸葛亮:high lowest HP 8/10/15 across 3 routes");
     expect(watchlistLine).toContain("赵云:high lowest HP 29/38/43 across 3 routes");
     expect(watchlistLine?.match(/诸葛亮/g)).toHaveLength(1);
     expect(watchlistLine?.match(/赵云/g)).toHaveLength(1);

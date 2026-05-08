@@ -9313,3 +9313,111 @@ Checked the Wave 47 spec and plan for TODO/TBD placeholders and confirmed the pl
 Next step:
 
 - Execute Wave 47 in isolated system and UI worktrees, then run focused relic/shop browser verification and update documentation.
+
+## 2026-05-08 Wave 48 relic and event pool expansion implementation
+
+Wave 48 finished on branch `codex/wave47-relic-fit-system`.
+
+Docs and workflow notes re-read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `README.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `src/game/content/relics.ts`
+- `src/game/systems/combat/combat.ts`
+- `src/game/systems/relics/relicEffects.ts`
+- `src/game/content/events.ts`
+- `src/game/systems/events/eventEffects.ts`
+- `tests/relics/relic-system.test.ts`
+- `tests/events/event-system.test.ts`
+- `tests/data/content.test.ts`
+
+What changed:
+
+- Expanded the relic pool from 32 to 40 with six neutral relics plus one Cai Wenji relic and one Zhuge Liang relic.
+- Added the corresponding combat hooks and reward-pool ordering for the new relics.
+- Expanded the event pool from 40 to 45 with one neutral event and one new event each for Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang.
+- Updated the baseline counts in `tests/data/content.test.ts` and refreshed the README baseline note.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run tests/relics/relic-system.test.ts tests/data/content.test.ts --reporter=dot
+Result: passed, 2 files / 56 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run tests/events/event-system.test.ts tests/data/content.test.ts --reporter=dot
+Result: passed, 2 files / 44 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run tests/combat/combat-system.test.ts tests/run/run-system.test.ts tests/relics/relic-build-fit.test.ts --reporter=dot
+Result: passed, 3 files / 78 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vite/bin/vite.js build
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Known gaps / risks:
+
+- Cards are still at 93, so the big EA content-count gap is now squarely in the card pool.
+- This wave adds content and triggers only; no new art, browser UI, or save/migration behavior changed.
+
+Next step:
+
+- Continue with the next card-pool expansion wave so the EA showcase can move toward the 120-card and then 150+ targets.
+
+## 2026-05-08 Wave 49 EA card pool expansion implementation
+
+Wave 49 finished on branch `codex/wave47-relic-fit-system`.
+
+What changed:
+
+- Expanded the card pool from 93 to 120 cards with 27 new cards across Zhao Yun, Diao Chan, Cai Wenji, Zhuge Liang, neutral utility, mind, and ink cards.
+- Raised the EA content baseline to 120 cards, 40 relics, 45 events, 22 logbook fragments, 19 enemies, 4 chapters, 4 characters, and 8 methods.
+- Added direct card-art bindings for every Wave 49 card using existing verified generated card assets, keeping card fallback debt at 0.
+- Wired the new cards into normal rewards, elite rewards, shop travel/role/ink offers, and advanced chapter rewards.
+- Added regression coverage for Wave 49 card art, content-count distribution, reward reachability, elite reachability, and shop reachability.
+- Refreshed the current multi-seed balance watchline after the wider card pool nudged Zhuge Liang's deterministic HP band from `8/10/14` to `8/10/15`.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 198, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 88, source sheets 21, prompt queue targets 54.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run tests/data/content.test.ts tests/run/run-system.test.ts --reporter=dot
+Result: passed, 2 files / 67 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 33 files / 263 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vite/bin/vite.js build
+Result: passed.
+
+git diff --check
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 | rg "Healing pressure watchlist|Zhuge Liang|诸葛亮"
+Result: passed. Watchline includes `诸葛亮:high lowest HP 8/10/15 across 3 routes`.
+```
+
+Known gaps / risks:
+
+- Wave 49 reaches the first EA card-count gate at 120 cards, but the broader late-EA target still wants a 150+ card pool.
+- The new Wave 49 art bindings deliberately reuse verified existing assets instead of adding bespoke new card art.
+- This wave expands content reachability only; it does not add new enemies, chapters, audio, mobile layout, storefront, installer, or release packaging work.
+
+Next step:
+
+- Continue with Wave 50 as a second card-pool expansion toward 150+ cards, then use Wave 51 for EA closeout verification/handoff unless new blocking gaps appear.

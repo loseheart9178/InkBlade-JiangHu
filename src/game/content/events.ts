@@ -1178,6 +1178,142 @@ export const eventList: GameEventDefinition[] = [
         ]
       }
     ]
+  },
+  {
+    id: "event_muddy_ferry_lantern",
+    title: "墨渡残灯",
+    description: "渡口的灯笼被雨打湿，却还照着一截没走完的路。",
+    choices: [
+      {
+        id: "steady_lantern",
+        label: "提灯过渡",
+        summary: "回复8点生命，宁 +1。",
+        effects: [
+          { type: "heal", amount: 8 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "collect_rain_page",
+        label: "拾取残页",
+        summary: "获得未写之页，乱 +1。",
+        effects: [
+          { type: "inkCardOffer", cardId: "ink_unwritten_page" },
+          { type: "mind", mind: "luan", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_spear_oath_pavilion",
+    title: "长槊誓亭",
+    character: "zhaoyun",
+    description: "旧亭里残留着校枪的痕迹，像有人刚把誓言靠在石柱上。",
+    choices: [
+      {
+        id: "hold_the_line",
+        label: "誓守长槊",
+        summary: "获得稳阵，宁 +1。",
+        characterId: "zhaoyun",
+        effects: [
+          { type: "card", cardId: "zhao_stable_formation" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "pursue_the_shadow",
+        label: "乘势追击",
+        summary: "获得七星枪影，怒 +1。",
+        characterId: "zhaoyun",
+        effects: [
+          { type: "card", cardId: "zhao_qixing_spear" },
+          { type: "mind", mind: "nu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_lotus_reflection_stage",
+    title: "莲影回台",
+    character: "diaochan",
+    description: "舞台倒映在水里，像一片能走进去的月光。",
+    choices: [
+      {
+        id: "step_again",
+        label: "重踏步影",
+        summary: "获得凌波步，魅 +1。",
+        characterId: "diaochan",
+        effects: [
+          { type: "card", cardId: "diao_lingbo" },
+          { type: "mind", mind: "mei", amount: 1 }
+        ]
+      },
+      {
+        id: "leave_with_grace",
+        label: "掩扇离席",
+        summary: "回复6点生命，宁 +1。",
+        effects: [
+          { type: "heal", amount: 6 },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_qin_rain_pavilion",
+    title: "雨亭听弦",
+    character: "caiwenji",
+    description: "雨丝打在亭角，像有人在替古琴试音。",
+    choices: [
+      {
+        id: "listen_to_string",
+        label: "拂弦清听",
+        summary: "获得静听，宁 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_listen_still" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "wash_string_with_rain",
+        label: "随雨洗弦",
+        summary: "获得洗雨调，悟 +1。",
+        characterId: "caiwenji",
+        effects: [
+          { type: "card", cardId: "cai_cleansing_rain" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "event_star_board_camp",
+    title: "星盘军帐",
+    character: "zhugeliang",
+    description: "军帐里摆着星盘和沙盘，风从帘外穿过，留下细细的推演痕。",
+    choices: [
+      {
+        id: "set_eight_array",
+        label: "排定八阵",
+        summary: "获得八阵，宁 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_small_eight_array" },
+          { type: "mind", mind: "ning", amount: 1 }
+        ]
+      },
+      {
+        id: "correct_star_positions",
+        label: "校正星位",
+        summary: "获得空城，悟 +1。",
+        characterId: "zhugeliang",
+        effects: [
+          { type: "card", cardId: "zhuge_empty_city" },
+          { type: "mind", mind: "wu", amount: 1 }
+        ]
+      }
+    ]
   }
 ];
 

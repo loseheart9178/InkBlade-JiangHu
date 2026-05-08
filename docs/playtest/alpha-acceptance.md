@@ -10,9 +10,9 @@ Latest art gate verified: 2026-05-05 Wave 21 GPT Image 2 starter/common card art
 
 Latest balance stability gate verified: 2026-05-05 Wave 22 Zhuge Liang balance stability on branch `codex/wave22-zhuge-balance-stability`: multi-seed balance artifact remains 12/12 routes, 84 combat samples, timeout risks 0, unsafe spikes 0, and Zhuge Liang's lowest post-combat HP band improved from `3/3/7` to `8/10/14`.
 
-Latest balance report label gate verified: 2026-05-05 Wave 24 balance report label refresh on branch `codex/wave24-balance-report-label-refresh`; `scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` now emits `# Wave 24 Alpha Balance Report` with report id `wave24-alpha-balance-v1` while preserving the Wave 22 aggregate outcomes.
+Latest balance report label gate verified: 2026-05-05 Wave 24 balance report label refresh on branch `codex/wave24-balance-report-label-refresh`; `scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` now emits `# Wave 24 Alpha Balance Report` with report id `wave24-alpha-balance-v1` while preserving the Wave 22 aggregate structure.
 
-Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 24 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, and the Wave 24 report label/report id above.
+Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 49 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band `8/10/15`, and the Wave 24 report label/report id above.
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
 
@@ -120,7 +120,7 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | Passed, including Zhuge Liang seed `9003` assertions |
-| Multi-seed balance report | `node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` | Passed: 12/12 routes, 84 samples, timeout risks 0, unsafe spikes 0, Zhuge Liang lowest HP band 8/10/14 |
+| Multi-seed balance report | `node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` | Passed: 12/12 routes, 84 samples, timeout risks 0, unsafe spikes 0, Zhuge Liang lowest HP band 8/10/15 |
 | Handoff preflight | `node scripts/handoff-preflight.mjs` | Passed: Node v24.14.0 PASS, report scripts PASS, handoff docs PASS, branch/commit resolved |
 | Alpha handoff report artifact | `node scripts/alpha-handoff-report.mjs --out ... --balance-report ...` | Passed: artifact matched stdout and includes the Wave 24 report label/id plus Wave 23 watchlist readability baseline |
 
@@ -169,14 +169,14 @@ Headline aggregate numbers:
 | Zhao Yun | 3 | 29/38/43 | 24 | 0 | 0 | 3 |
 | Diao Chan | 3 | 26/37/37 | 12 | 0 | 0 | 3 |
 | Cai Wenji | 3 | 10/21/23 | 24 | 0 | 0 | 3 |
-| Zhuge Liang | 3 | 8/10/14 | 24 | 0 | 0 | 3 |
+| Zhuge Liang | 3 | 8/10/15 | 24 | 0 | 0 | 3 |
 
 Findings:
 
 - Aggregate completion is `12/12` deterministic routes.
 - Timeout risk remains clear across all three seeds.
 - Unsafe damage spikes remain clear against the default `24` threshold; the observed maximum equals `24` but does not exceed it.
-- Zhuge Liang's aggregate lowest post-combat HP band is now `8/10/14`; he remains a long-route pressure character, but no longer sits on the near-death `3/3/7` band.
+- Zhuge Liang's aggregate lowest post-combat HP band is now `8/10/15`; he remains a long-route pressure character, but no longer sits on the near-death `3/3/7` band.
 - Healing pressure remains high across all four characters and should be treated as release-watch evidence rather than a blocker by itself.
 
 ## Screenshot Artifacts

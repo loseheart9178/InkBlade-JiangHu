@@ -18,6 +18,14 @@ const wave29EventIds = [
   "event_cloud_water_dream"
 ] as const;
 
+const wave48EventIds = [
+  "event_muddy_ferry_lantern",
+  "event_spear_oath_pavilion",
+  "event_lotus_reflection_stage",
+  "event_qin_rain_pavilion",
+  "event_star_board_camp"
+] as const;
+
 const supportedEventEffectTypes = new Set([
   "gold",
   "card",
@@ -117,11 +125,11 @@ describe("chapter event effects", () => {
 
   it("matches the Wave 29 event-level character distribution", () => {
     expect(countBy(eventList, (event) => event.character ?? "neutral")).toEqual({
-      neutral: 30,
-      zhaoyun: 3,
-      diaochan: 3,
-      caiwenji: 2,
-      zhugeliang: 2
+      neutral: 31,
+      zhaoyun: 4,
+      diaochan: 4,
+      caiwenji: 3,
+      zhugeliang: 3
     });
   });
 
@@ -161,6 +169,34 @@ describe("chapter event effects", () => {
 
     expect(eventLevelCharacterCounts.caiwenji ?? 0).toBeGreaterThanOrEqual(2);
     expect(eventLevelCharacterCounts.zhugeliang ?? 0).toBeGreaterThanOrEqual(2);
+  });
+
+  it("ships the Wave 48 event batch with supported choices and effect payloads", () => {
+    const missingEventIds = wave48EventIds.filter((eventId) => !eventsById[eventId]);
+
+    expect(missingEventIds).toEqual([]);
+
+    for (const eventId of wave48EventIds) {
+      const event = eventsById[eventId];
+
+      expect(event.choices.length, eventId).toBeGreaterThanOrEqual(2);
+
+      for (const choice of event.choices) {
+        expect(choice.summary.trim().length, `${eventId}:${choice.id}`).toBeGreaterThan(0);
+
+        for (const effect of choice.effects) {
+          expect(supportedEventEffectTypes.has(effect.type), `${eventId}:${choice.id}:${effect.type}`).toBe(true);
+
+          if (effect.type === "card" || effect.type === "inkCardOffer") {
+            expect(cardsById[effect.cardId], `${eventId}:${choice.id}:${effect.cardId}`).toBeDefined();
+          }
+
+          if (effect.type === "mind") {
+            expect(supportedMindIds.has(effect.mind), `${eventId}:${choice.id}:${effect.mind}`).toBe(true);
+          }
+        }
+      }
+    }
   });
 
   it("generates varied late event ids from map seeds", () => {

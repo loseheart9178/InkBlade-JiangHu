@@ -111,6 +111,72 @@ describe("run system", () => {
     expect(firstDraft.relics.find((offer) => offer.slotId === "premium")?.relic.rarity).toBe("rare");
   });
 
+  it("routes Wave 49 EA cards into rewards, elite rewards, and shop offers", () => {
+    const expectedRoleCards = [
+      ["zhaoyun", ["zhao_dragon_fang", "zhao_rearguard_oath", "zhao_turning_lance", "zhao_white_mantle_vow"]],
+      ["diaochan", ["diao_frost_sleeve", "diao_swallow_return", "diao_crimson_snare", "diao_feather_feint"]],
+      ["caiwenji", ["cai_frost_strings", "cai_wash_dust", "cai_lingering_chord", "cai_jade_nocturne", "cai_river_refrain"]],
+      ["zhugeliang", ["zhuge_stargazer", "zhuge_reed_formation", "zhuge_hidden_route", "zhuge_command_wind", "zhuge_heavenly_plot"]]
+    ] as const;
+    const expectedEliteCards = [
+      ["zhaoyun", ["zhao_turning_lance", "zhao_white_mantle_vow"]],
+      ["diaochan", ["diao_crimson_snare", "diao_feather_feint"]],
+      ["caiwenji", ["cai_lingering_chord", "cai_river_refrain"]],
+      ["zhugeliang", ["zhuge_command_wind", "zhuge_heavenly_plot"]]
+    ] as const;
+    const expectedNeutralCards = [
+      "common_scout_feather",
+      "common_brush_parry",
+      "common_lockstep",
+      "common_clear_mist",
+      "common_river_stance",
+      "mind_chenlian",
+      "mind_taoguang"
+    ];
+    const expectedInkCards = ["ink_burning_letter", "ink_night_tide"];
+
+    for (const [characterId, expectedIds] of expectedRoleCards) {
+      const rewardSeen = new Set<string>();
+      const shopSeen = new Set<string>();
+
+      for (let seed = 0; seed < 36; seed += 1) {
+        const rewardRun = createRun(characterId);
+        rewardRun.rewardHistory = Array.from({ length: seed }, (_, index) => `offset:${index}`);
+        createCardRewardDraft(rewardRun, "battle").cards.forEach((card) => rewardSeen.add(card.id));
+
+        const shopRun = createRun(characterId, { mapSeed: seed });
+        createShopDraft(shopRun).cards.forEach((offer) => shopSeen.add(offer.card.id));
+      }
+
+      expect([...rewardSeen]).toEqual(expect.arrayContaining([...expectedIds]));
+      expect([...shopSeen]).toEqual(expect.arrayContaining([...expectedIds]));
+    }
+
+    for (const [characterId, expectedIds] of expectedEliteCards) {
+      const eliteSeen = new Set<string>();
+
+      for (let offset = 0; offset < 18; offset += 1) {
+        const run = createRun(characterId);
+        run.rewardHistory = Array.from({ length: offset }, (_, index) => `elite:${index}`);
+        createCardRewardDraft(run, "elite").cards.forEach((card) => eliteSeen.add(card.id));
+      }
+
+      expect([...eliteSeen]).toEqual(expect.arrayContaining([...expectedIds]));
+    }
+
+    const neutralSeen = new Set<string>();
+    const shopSeen = new Set<string>();
+    for (let seed = 0; seed < 36; seed += 1) {
+      const run = createRun("zhaoyun", { mapSeed: seed });
+      run.rewardHistory = Array.from({ length: seed }, (_, index) => `common:${index}`);
+      createCardRewardDraft(run, "battle").cards.forEach((card) => neutralSeen.add(card.id));
+      createShopDraft(run).cards.forEach((offer) => shopSeen.add(offer.card.id));
+    }
+
+    expect([...neutralSeen]).toEqual(expect.arrayContaining(expectedNeutralCards));
+    expect([...shopSeen]).toEqual(expect.arrayContaining([...expectedNeutralCards.slice(0, 5), ...expectedInkCards]));
+   });
+
   it("marks the final chapter boss preview as a route to the ending choice", () => {
     const run = createRun("diaochan", { mapSeed: 3 });
 

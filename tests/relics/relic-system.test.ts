@@ -19,7 +19,7 @@ function playFirst(state: ReturnType<typeof createCombat>, cardId: string, targe
 
 describe("relic reward pools", () => {
   it("defines a larger first-chapter relic pool split by reward source", () => {
-    expect(relicList.length).toBeGreaterThanOrEqual(32);
+    expect(relicList.length).toBeGreaterThanOrEqual(40);
     expect(getRelicRewardPool("elite", "zhaoyun")).toEqual(expect.arrayContaining(["relic_dragon_scale_tip", "relic_changban_iron_seal"]));
     expect(getRelicRewardPool("elite", "diaochan")).toEqual(expect.arrayContaining(["relic_lotus_step_bell", "relic_half_moon_hairpin"]));
     expect(getRelicRewardPool("elite", "caiwenji")).toEqual(expect.arrayContaining(["relic_echoing_jade_chime"]));
@@ -28,12 +28,22 @@ describe("relic reward pools", () => {
     expect(getRelicRewardPool("elite", "diaochan")).toEqual(expect.arrayContaining(["relic_moon_shadow_bell", "relic_silk_scheme_token"]));
     expect(getRelicRewardPool("elite", "caiwenji")).toEqual(expect.arrayContaining(["relic_orchid_jade_pick", "relic_clear_rain_score"]));
     expect(getRelicRewardPool("elite", "zhugeliang")).toEqual(expect.arrayContaining(["relic_astrolabe_shard", "relic_bagua_copper_coin"]));
+    expect(getRelicRewardPool("elite", "zhaoyun")).toEqual(expect.arrayContaining([
+      "relic_morning_tea_cup",
+      "relic_dark_ink_amulet",
+      "relic_sky_piercer_coin",
+      "relic_silk_step_amulet",
+      "relic_peaceful_scroll",
+      "relic_willow_brace"
+    ]));
+    expect(getRelicRewardPool("elite", "caiwenji")).toContain("relic_qin_resonance_scale");
+    expect(getRelicRewardPool("elite", "zhugeliang")).toContain("relic_star_seal_bracket");
     expect(getRelicRewardPool("boss", "zhaoyun").length).toBeGreaterThanOrEqual(6);
     expect(getShopRelicPool("diaochan").length).toBeGreaterThanOrEqual(3);
     expect(getShopRelicPool("zhaoyun")).toContain("relic_traveling_cloak");
     expect(getShopRelicPool("caiwenji")).toContain("relic_echoing_jade_chime");
     expect(getShopRelicPool("zhugeliang")).toContain("relic_starlit_tactical_map");
-    expect(getShopRelicPool()).toEqual(expect.arrayContaining(["relic_still_heart_lantern", "relic_unwritten_inkstone"]));
+    expect(getShopRelicPool()).toEqual(expect.arrayContaining(["relic_still_heart_lantern", "relic_unwritten_inkstone", "relic_morning_tea_cup", "relic_peaceful_scroll"]));
   });
 
   it("elite spoils draw from the expanded unowned pool", () => {
@@ -263,5 +273,142 @@ describe("relic combat hooks", () => {
 
     expect(state.player.resource.value).toBe(4);
     expect(state.combatLog.filter((entry) => entry === "星照阵图")).toHaveLength(1);
+  });
+
+  it("Morning Tea Cup draws opening tempo at combat start", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["zhao_strike", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 36,
+      relicIds: ["relic_morning_tea_cup"],
+      shuffleDeck: false
+    });
+
+    expect(state.piles.hand).toHaveLength(6);
+    expect(state.combatLog.filter((entry) => entry === "晨茶盏")).toHaveLength(1);
+  });
+
+  it("Dark Ink Amulet adds draw and armor on the first ink card", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["ink_unwritten_page", "zhao_strike", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 37,
+      relicIds: ["relic_dark_ink_amulet"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "ink_unwritten_page", "player");
+
+    expect(state.piles.hand).toHaveLength(7);
+    expect(state.combatLog.filter((entry) => entry === "墨影符")).toHaveLength(1);
+  });
+
+  it("Sky Piercer Coin adds armor on the third attack", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["zhao_strike", "zhao_strike", "zhao_strike", "zhao_strike", "zhao_guard"] },
+      cards: cardList,
+      enemies: [{ ...enemiesById.enemy_ink_bandit, maxHp: 50 }],
+      rngSeed: 38,
+      relicIds: ["relic_sky_piercer_coin"],
+      shuffleDeck: false
+    });
+    state.player.energy = 4;
+
+    playFirst(state, "zhao_strike");
+    playFirst(state, "zhao_strike");
+    playFirst(state, "zhao_strike");
+
+    expect(state.player.block).toBe(3);
+    expect(state.combatLog.filter((entry) => entry === "穿云钱")).toHaveLength(1);
+  });
+
+  it("Silk Step Amulet reinforces the first body card", () => {
+    const state = createCombat({
+      character: { ...charactersById.diaochan, starterDeck: ["diao_lingbo", "diao_strike", "diao_guard", "diao_charm", "diao_lotus_blade"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 39,
+      relicIds: ["relic_silk_step_amulet"],
+      shuffleDeck: false
+    });
+
+    playFirst(state, "diao_lingbo", "player");
+
+    expect(state.player.block).toBe(6);
+    expect(state.combatLog.filter((entry) => entry === "绫步佩")).toHaveLength(1);
+  });
+
+  it("Peaceful Scroll adds tempo on the first mind transition", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["mind_jingxin", "zhao_strike", "zhao_guard", "zhao_guard", "zhao_guard", "zhao_guard"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 40,
+      relicIds: ["relic_peaceful_scroll"],
+      shuffleDeck: false
+    });
+    const beforeResource = state.player.resource.value;
+
+    playFirst(state, "mind_jingxin", "player");
+
+    expect(state.player.resource.value).toBe(beforeResource + 1);
+    expect(state.piles.hand).toHaveLength(5);
+    expect(state.combatLog.filter((entry) => entry === "静心卷")).toHaveLength(1);
+  });
+
+  it("Willow Brace refunds resource after the first guard success", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhaoyun, starterDeck: ["zhao_guardian", "zhao_guard", "zhao_strike", "zhao_strike", "zhao_strike"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_ink_bandit],
+      rngSeed: 41,
+      relicIds: ["relic_willow_brace"],
+      shuffleDeck: false
+    });
+    const beforeResource = state.player.resource.value;
+
+    playFirst(state, "zhao_guardian", "player");
+    endPlayerTurn(state);
+
+    expect(state.player.resource.value).toBe(beforeResource + 1);
+    expect(state.combatLog.filter((entry) => entry === "垂柳腕")).toHaveLength(1);
+  });
+
+  it("Qin Resonance Scale adds sound tempo after the first cleanse", () => {
+    const state = createCombat({
+      character: { ...charactersById.caiwenji, starterDeck: ["status_canyin", "cai_cleansing_rain", "cai_echoing_melody", "cai_clear_tone", "cai_listen_still", "cai_broken_string", "cai_qingxin_song"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 42,
+      relicIds: ["relic_qin_resonance_scale"],
+      shuffleDeck: false
+    });
+    const beforeResource = state.player.resource.value;
+
+    playFirst(state, "cai_cleansing_rain", "player");
+
+    expect(state.player.resource.value).toBe(beforeResource + 2);
+    expect(state.piles.hand).toHaveLength(5);
+    expect(state.combatLog.filter((entry) => entry === "琴应鳞")).toHaveLength(1);
+  });
+
+  it("Star Seal Bracket strengthens the first formation card", () => {
+    const state = createCombat({
+      character: { ...charactersById.zhugeliang, starterDeck: ["zhuge_small_eight_array", "zhuge_observe_stars", "zhuge_guard", "zhuge_fan_strike", "zhuge_empty_city"] },
+      cards: cardList,
+      enemies: [enemiesById.enemy_bamboo_wraith],
+      rngSeed: 43,
+      relicIds: ["relic_star_seal_bracket"],
+      shuffleDeck: false
+    });
+    const beforeResource = state.player.resource.value;
+
+    playFirst(state, "zhuge_small_eight_array", "player");
+
+    expect(state.player.resource.value).toBe(beforeResource + 2);
+    expect(state.player.block).toBe(6);
+    expect(state.combatLog.filter((entry) => entry === "星封箍")).toHaveLength(1);
   });
 });

@@ -328,6 +328,82 @@ export const relicList: RelicDefinition[] = [
     price: 128,
     triggerText: "每场战斗首次获得墨痕触发。",
     description: "每场战斗首次获得墨痕时，抽1张牌并获得2点护甲。"
+  },
+  {
+    id: "relic_morning_tea_cup",
+    name: "晨茶盏",
+    rarity: "common",
+    sources: ["elite", "boss", "shop"],
+    price: 66,
+    triggerText: "战斗开始时触发。",
+    description: "战斗开始时，抽1张牌。"
+  },
+  {
+    id: "relic_dark_ink_amulet",
+    name: "墨影符",
+    rarity: "uncommon",
+    sources: ["elite", "boss", "shop"],
+    price: 78,
+    triggerText: "首次获得墨痕时触发。",
+    description: "每场战斗首次获得墨痕时，抽1张牌并获得2点护甲。"
+  },
+  {
+    id: "relic_sky_piercer_coin",
+    name: "穿云钱",
+    rarity: "uncommon",
+    sources: ["elite", "boss", "shop"],
+    price: 80,
+    triggerText: "每场战斗第三张攻击触发。",
+    description: "每场战斗第三张攻击时，获得3点护甲。"
+  },
+  {
+    id: "relic_silk_step_amulet",
+    name: "绫步佩",
+    rarity: "common",
+    sources: ["elite", "boss", "shop"],
+    price: 70,
+    triggerText: "每场战斗第一张身法触发。",
+    description: "每场战斗首次打出身法牌时，获得2点护甲。"
+  },
+  {
+    id: "relic_peaceful_scroll",
+    name: "静心卷",
+    rarity: "uncommon",
+    sources: ["elite", "boss", "shop"],
+    price: 82,
+    triggerText: "每场战斗首次进入心境触发。",
+    description: "每场战斗首次进入任意心境时，获得1点资源并抽1张牌。"
+  },
+  {
+    id: "relic_willow_brace",
+    name: "垂柳腕",
+    rarity: "common",
+    sources: ["elite", "boss", "shop"],
+    price: 68,
+    triggerText: "首次护主成功触发。",
+    description: "每场战斗首次护主抵消伤害时，获得1点资源。"
+  },
+  {
+    id: "relic_qin_resonance_scale",
+    name: "琴应鳞",
+    rarity: "rare",
+    character: "caiwenji",
+    archetypeId: "cai-cleanse-melody",
+    sources: ["elite", "boss", "shop"],
+    price: 118,
+    triggerText: "每场战斗首次净化牌触发。",
+    description: "每场战斗首次打出净化牌时，获得1音律并抽1张牌。"
+  },
+  {
+    id: "relic_star_seal_bracket",
+    name: "星封箍",
+    rarity: "rare",
+    character: "zhugeliang",
+    archetypeId: "zhuge-formation-wind",
+    sources: ["elite", "boss", "shop"],
+    price: 120,
+    triggerText: "每场战斗首次阵法牌触发。",
+    description: "每场战斗首次打出阵法牌时，获得1筹策并获得2点护甲。"
   }
 ];
 

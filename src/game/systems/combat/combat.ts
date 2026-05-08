@@ -901,6 +901,11 @@ function applyCombatStartRelics(state: CombatState): void {
     pushVisualEvent(state, "block", "player", "+3 护甲", "teal", 3);
   }
 
+  if (triggerRelicOnce(state, "relic_morning_tea_cup", "player", "gold")) {
+    drawCards(state, 1, createRng(state.turn * 503 + state.nextInstanceNumber));
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
+
   if (hasRelic(state, "relic_closed_moon_sachet")) {
     const enemy = state.enemies.find((item) => item.hp > 0);
     if (enemy) {
@@ -971,6 +976,13 @@ function triggerInkRelics(state: CombatState, inkAmount: number): void {
     pushVisualEvent(state, "block", "player", "+2 护甲", "ink", 2);
     pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
+
+  if (inkAmount > 0 && triggerRelicOnce(state, "relic_dark_ink_amulet", "player", "ink")) {
+    state.player.block += 2;
+    drawCards(state, 1, createRng(state.turn * 423 + state.nextInstanceNumber));
+    pushVisualEvent(state, "block", "player", "+2 护甲", "ink", 2);
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
 }
 
 function triggerBreakFormationRelics(state: CombatState): void {
@@ -1014,6 +1026,11 @@ function triggerThirdAttackRelics(state: CombatState, targetId: string): void {
     gainResource(state, 1);
     pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "teal", 1);
   }
+
+  if (triggerRelicOnce(state, "relic_sky_piercer_coin", "player", "teal")) {
+    state.player.block += 3;
+    pushVisualEvent(state, "block", "player", "+3 护甲", "teal", 3);
+  }
 }
 
 function triggerGuardSuccessRelics(state: CombatState): void {
@@ -1026,6 +1043,11 @@ function triggerGuardSuccessRelics(state: CombatState): void {
     state.player.block += 3;
     pushVisualEvent(state, "block", "player", "+3 护甲", "teal", 3);
   }
+
+  if (triggerRelicOnce(state, "relic_willow_brace", "player", "teal")) {
+    gainResource(state, 1);
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "teal", 1);
+  }
 }
 
 function triggerBodyRelics(state: CombatState): void {
@@ -1037,6 +1059,11 @@ function triggerBodyRelics(state: CombatState): void {
   if (triggerRelicOnce(state, "relic_moon_shadow_bell", "player", "teal")) {
     state.player.statuses.dodge = (state.player.statuses.dodge ?? 0) + 1;
     pushVisualEvent(state, "status", "player", "闪避 +1", "teal", 1);
+  }
+
+  if (triggerRelicOnce(state, "relic_silk_step_amulet", "player", "teal")) {
+    state.player.block += 2;
+    pushVisualEvent(state, "block", "player", "+2 护甲", "teal", 2);
   }
 }
 
@@ -1069,6 +1096,13 @@ function triggerMindRelics(state: CombatState): void {
     pushVisualEvent(state, "block", "player", "+4 护甲", "gold", 4);
     pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
+
+  if (triggerRelicOnce(state, "relic_peaceful_scroll", "player", "gold")) {
+    gainResource(state, 1);
+    drawCards(state, 1, createRng(state.turn * 459 + state.nextInstanceNumber));
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
+  }
 }
 
 function triggerCleanseRelics(state: CombatState): void {
@@ -1081,6 +1115,13 @@ function triggerCleanseRelics(state: CombatState): void {
   if (triggerRelicOnce(state, "relic_clear_rain_score", "player", "teal")) {
     gainResource(state, 1);
     pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "teal", 1);
+  }
+
+  if (triggerRelicOnce(state, "relic_qin_resonance_scale", "player", "teal")) {
+    gainResource(state, 1);
+    drawCards(state, 1, createRng(state.turn * 471 + state.nextInstanceNumber));
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+    pushVisualEvent(state, "draw", "player", "抽牌 +1", "neutral", 1);
   }
 }
 
@@ -1126,6 +1167,13 @@ function triggerStarlitTacticalMapRelic(state: CombatState): void {
   if (triggerRelicOnce(state, "relic_bagua_copper_coin", "player", "gold")) {
     state.player.block += 4;
     pushVisualEvent(state, "block", "player", "+4 护甲", "gold", 4);
+  }
+
+  if (triggerRelicOnce(state, "relic_star_seal_bracket", "player", "gold")) {
+    gainResource(state, 1);
+    state.player.block += 2;
+    pushVisualEvent(state, "resource", "player", `${state.player.resource.name} +1`, "gold", 1);
+    pushVisualEvent(state, "block", "player", "+2 护甲", "gold", 2);
   }
 }
 

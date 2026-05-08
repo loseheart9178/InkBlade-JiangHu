@@ -57,9 +57,9 @@ describe("content data", () => {
     }).toEqual({
       characters: 4,
       chapters: 4,
-      cards: 93,
-      relics: 32,
-      events: 40,
+      cards: 120,
+      relics: 40,
+      events: 45,
       logbookEntries: 22,
       enemies: 19,
       methods: 8
@@ -67,31 +67,31 @@ describe("content data", () => {
 
     expect(countBy(cardList, (card) => card.rarity)).toEqual({
       starter: 15,
-      common: 38,
-      uncommon: 22,
-      rare: 10,
-      ink: 4,
+      common: 51,
+      uncommon: 30,
+      rare: 14,
+      ink: 6,
       status: 4
     });
     expect(countBy(cardList, (card) => card.character ?? "neutral")).toEqual({
-      zhaoyun: 18,
-      diaochan: 18,
-      caiwenji: 16,
-      zhugeliang: 15,
-      neutral: 26
+      zhaoyun: 22,
+      diaochan: 22,
+      caiwenji: 21,
+      zhugeliang: 20,
+      neutral: 35
     });
     expect(countBy(relicList, (relic) => relic.rarity)).toEqual({
       boss: 4,
-      common: 10,
-      uncommon: 14,
-      rare: 4
+      common: 13,
+      uncommon: 17,
+      rare: 6
     });
     expect(countBy(relicList, (relic) => relic.character ?? "neutral")).toEqual({
       zhaoyun: 5,
       diaochan: 5,
-      caiwenji: 4,
-      zhugeliang: 4,
-      neutral: 14
+      caiwenji: 5,
+      zhugeliang: 5,
+      neutral: 20
     });
 
     const wave27CardIds = [
@@ -120,6 +120,47 @@ describe("content data", () => {
       expectAssetPathToExist(art.assetPath);
     }
 
+    const wave49CardIds = [
+      "zhao_dragon_fang",
+      "zhao_rearguard_oath",
+      "zhao_turning_lance",
+      "zhao_white_mantle_vow",
+      "diao_frost_sleeve",
+      "diao_swallow_return",
+      "diao_crimson_snare",
+      "diao_feather_feint",
+      "cai_frost_strings",
+      "cai_wash_dust",
+      "cai_lingering_chord",
+      "cai_jade_nocturne",
+      "cai_river_refrain",
+      "zhuge_stargazer",
+      "zhuge_reed_formation",
+      "zhuge_hidden_route",
+      "zhuge_command_wind",
+      "zhuge_heavenly_plot",
+      "common_scout_feather",
+      "common_brush_parry",
+      "common_lockstep",
+      "common_clear_mist",
+      "common_river_stance",
+      "mind_chenlian",
+      "mind_taoguang",
+      "ink_burning_letter",
+      "ink_night_tide"
+    ];
+
+    for (const cardId of wave49CardIds) {
+      const card = cardsById[cardId];
+      const art = cardArtById[cardId];
+
+      expect(card, cardId).toBeDefined();
+      expect(art, cardId).toBeDefined();
+      expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/.+\.(png|svg)$/);
+      expect(art.assetPath, cardId).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
+      expectAssetPathToExist(art.assetPath);
+    }
+
     expect(relicList.map((relic) => relic.id)).toEqual(
       expect.arrayContaining([
         "relic_cloud_dragon_scale",
@@ -133,7 +174,15 @@ describe("content data", () => {
         "relic_jianghu_whetstone",
         "relic_traveling_cloak",
         "relic_still_heart_lantern",
-        "relic_unwritten_inkstone"
+        "relic_unwritten_inkstone",
+        "relic_morning_tea_cup",
+        "relic_dark_ink_amulet",
+        "relic_sky_piercer_coin",
+        "relic_silk_step_amulet",
+        "relic_peaceful_scroll",
+        "relic_willow_brace",
+        "relic_qin_resonance_scale",
+        "relic_star_seal_bracket"
       ])
     );
   });
