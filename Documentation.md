@@ -8985,3 +8985,35 @@ Known gaps / risks:
 Next step:
 
 - Start the next EA milestone around reward decision clarity, so the same build language helps players choose cards while drafting instead of only after opening the deck viewer.
+
+## 2026-05-08 Wave 45 reward fit planning
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/specs/2026-05-07-wave44-live-build-compass-design.md`
+- `docs/superpowers/plans/2026-05-07-wave44-live-build-compass.md`
+
+What changed:
+
+- Created `docs/superpowers/specs/2026-05-08-wave45-reward-fit-design.md`.
+- Created `docs/superpowers/plans/2026-05-08-wave45-reward-fit.md`.
+- Selected reward-fit explanations as the next EA showcase milestone so draft choices carry the same build language as the deck compass and run recap.
+- Kept reward-generation weights, combat rules, persistence, analytics, Steam/storefront/release packaging, art generation, and mobile layout out of scope.
+
+Plan self-review:
+
+```text
+Checked the Wave 45 spec and plan for TODO/TBD placeholders and confirmed it uses concrete files, commands, test ids, and acceptance criteria.
+```
+
+Next step:
+
+- Execute Wave 45 in isolated system and UI worktrees, then run focused deck/reward and browser verification.
