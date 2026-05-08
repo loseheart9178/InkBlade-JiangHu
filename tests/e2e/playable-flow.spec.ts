@@ -440,6 +440,7 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("deck-build-primary")).toContainText(/当前流派|尚未成型|流/);
   await expect(page.getByTestId("deck-build-signature-card").first()).toContainText(/枪击|架枪|龙胆/);
   await expect(page.getByTestId("deck-card")).toHaveCount(10);
+  await expect(page.getByTestId("deck-card").first().getByTestId("card-cost")).toBeVisible();
   await expect(page.getByTestId("deck-viewer")).toContainText("枪击");
   await page.getByTestId("deck-close").click();
   await expect(page.getByTestId("deck-viewer")).toBeHidden();
@@ -463,6 +464,7 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("screen-reward")).toBeVisible();
   await expect(page.getByTestId("reward-combo-hint")).toContainText("招式回响");
   await expect(page.getByTestId("reward-card").first()).toHaveAttribute("data-combo-biased", "true");
+  await expect(page.getByTestId("reward-card").first().getByTestId("card-cost")).toBeVisible();
   await expect(page.getByTestId("reward-reason").first()).toContainText("流派");
   await expect(page.getByTestId("reward-archetype-role").first()).toContainText(/主线强化|副线补强|通用补短/);
   await expect(page.getByTestId("reward-build-fit").first()).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
@@ -507,6 +509,7 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expect(travelCard.locator(".card-art")).toBeVisible();
   await expect(travelCard.locator(".card-chrome-row")).toBeVisible();
   await expect(travelCard.locator(".card-keyword-row")).toBeVisible();
+  await expect(travelCard.getByTestId("card-cost")).toBeVisible();
   await expect(travelCard.locator(".shop-price-chip")).toContainText("35");
   await expect(travelCard.getByTestId("shop-build-fit")).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
   await expect(travelCard.getByTestId("shop-build-fit-detail")).toContainText(/流|技法|攻击|墨痕|成型|短板/);

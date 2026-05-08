@@ -1106,7 +1106,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     cardButton.innerHTML = `
       ${createCardArtMarkup(definition)}
       ${createCardChromeMarkup(definition)}
-      <span class="card-cost">${cost}</span>
+      <span class="card-cost" data-testid="card-cost" aria-label="消耗 ${cost}">${cost}</span>
       <strong>${definition.name}${card.upgraded ? " +" : ""}</strong>
       <small class="card-type-line">${formatTypes(definition.types)}</small>
       ${createCardKeywordRowMarkup(definition)}
@@ -1442,6 +1442,7 @@ function renderReward(
     button.innerHTML = `
       ${createCardArtMarkup(card)}
       ${createCardChromeMarkup(card)}
+      <span class="card-cost" data-testid="card-cost" aria-label="消耗 ${getDisplayCost(card)}">${getDisplayCost(card)}</span>
       ${isComboBiased ? `<span class="reward-combo-mark">招式回响</span>` : ""}
       <strong>${card.name}</strong>
       <small class="card-type-line">${formatTypes(card.types)}</small>
@@ -1681,6 +1682,7 @@ function createShopCardAction(run: RunState, offer: ReturnType<typeof createShop
     </span>
     ${createCardArtMarkup(card)}
     ${createCardChromeMarkup(card)}
+    <span class="card-cost" data-testid="card-cost" aria-label="消耗 ${getDisplayCost(card)}">${getDisplayCost(card)}</span>
     <strong>${escapeHtml(card.name)}</strong>
     <small class="card-type-line">${escapeHtml(formatTypes(card.types))}</small>
     ${createCardKeywordRowMarkup(card)}
@@ -3339,7 +3341,7 @@ function renderDeckOverlayIfOpen(host: HTMLElement, state: ControllerState, rend
     item.innerHTML = `
       ${createCardArtMarkup(card)}
       ${createCardChromeMarkup(card)}
-      <span class="card-cost">${getDisplayCost(card, entry.upgraded)}</span>
+      <span class="card-cost" data-testid="card-cost" aria-label="消耗 ${getDisplayCost(card, entry.upgraded)}">${getDisplayCost(card, entry.upgraded)}</span>
       <strong>${card.name}${entry.upgraded ? " +" : ""}</strong>
       <small class="card-type-line">${formatTypes(card.types)}</small>
       ${createCardKeywordRowMarkup(card)}

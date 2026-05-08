@@ -23,13 +23,20 @@ The reference repo at `https://github.com/op7418/Night-Patrol.git` uses a useful
 
 For InkBlade, translate these patterns into ancient wuxia ink-wash jianghu style: xuan paper texture, black ink, jade/teal guard light, cinnabar strike marks, restrained gold accents, brushwork borders, and no modern shrine/ghost-horror literal copying.
 
+## Progress
+
+- Wave 59 is complete: eight high-priority common card faces were generated, normalized, bound, audited, and merged.
+- Wave 60 is complete: combat/reward/shop/deck card frames now share a premium ink-wash card language with accessible cost seals and browser layout gates.
+
 ## Remaining Waves
 
-Eight post-EA waves are planned after Wave 58: Wave 59 through Wave 66.
+Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 60, six remain: Wave 61 through Wave 66.
 
 ### Wave 59: High-Priority Common Card Art Polish
 
-Replace the next severe duplicate/low-resolution common card faces from the quality queue:
+Status: complete.
+
+Replaced the next severe duplicate/low-resolution common card faces from the quality queue:
 
 - `common_lockstep`
 - `common_old_wine`
@@ -44,7 +51,9 @@ Gate: asset audit clean, card-art quality report improved, card-art tests and co
 
 ### Wave 60: Commercial Card Frame And Hand Presentation
 
-Rebuild card chrome toward a premium deckbuilder surface:
+Status: complete.
+
+Rebuilt card chrome toward a premium deckbuilder surface:
 
 - Cost medallion / ink-jade resource seal.
 - Bigger, better protected art window.
@@ -52,7 +61,7 @@ Rebuild card chrome toward a premium deckbuilder surface:
 - Fan hand spacing with stable hover, drag, disabled, and playable states.
 - Card text no-overlap checks at desktop and mobile widths.
 
-Gate: card screenshots readable, no text clipping, hand interaction e2e green.
+Gate: passed. Visual smoke, targeted reward/shop/deck playable-flow checks, TypeScript, Vitest, Vite build, and `git diff --check` are green.
 
 ### Wave 61: Combat HUD And Feedback Layer
 
@@ -123,4 +132,3 @@ Gate: all automated verification passes or blockers are fixed/documented.
 - Dispatch subagents for independent work when usage allows; if subagent quota is unavailable, continue locally without blocking.
 - Merge only after the wave acceptance gate is green.
 - Remove the completed worktree after merge.
-

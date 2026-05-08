@@ -87,6 +87,7 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("card-type-badge").first()).toBeVisible();
     await expect(page.getByTestId("card-rarity-mark").first()).toBeVisible();
     await expect(page.getByTestId("card-keyword-row").first()).toBeVisible();
+    await expect(page.getByTestId("card-cost").first()).toBeVisible();
     await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("title", /。/);
     await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("aria-label", /：/);
     await expect(page.getByTestId("intent")).toHaveAttribute("title", /敌人意图|杀意|运功/);
@@ -281,6 +282,7 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   const handZone = await page.getByTestId("hand-zone").boundingBox();
   const energy = await page.getByTestId("energy").boundingBox();
   const firstCard = await page.locator(".combat-card").first().boundingBox();
+  const cardCost = await page.getByTestId("card-cost").first().boundingBox();
   const heading = await page.getByTestId("screen-combat").locator("h2").boundingBox();
   const intent = await page.getByTestId("intent").boundingBox();
   const topbar = await page.locator(".combat-topbar").boundingBox();
@@ -305,6 +307,7 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   expect(handZone).not.toBeNull();
   expect(energy).not.toBeNull();
   expect(firstCard).not.toBeNull();
+  expect(cardCost).not.toBeNull();
   expect(heading).not.toBeNull();
   expect(intent).not.toBeNull();
   expect(topbar).not.toBeNull();
@@ -317,6 +320,12 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   expect(playerStandee!.y + playerStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(enemyStandee!.y + enemyStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(firstCard!.x - (energy!.x + energy!.width)).toBeGreaterThanOrEqual(28);
+  expect(cardCost!.width).toBeGreaterThanOrEqual(34);
+  expect(cardCost!.height).toBeGreaterThanOrEqual(34);
+  expect(cardCost!.x).toBeGreaterThanOrEqual(firstCard!.x);
+  expect(cardCost!.y).toBeGreaterThanOrEqual(firstCard!.y);
+  expect(cardCost!.x + cardCost!.width).toBeLessThanOrEqual(firstCard!.x + firstCard!.width);
+  expect(cardCost!.y + cardCost!.height).toBeLessThanOrEqual(firstCard!.y + firstCard!.height);
   expect(rectsOverlap(heading!, intent!)).toBe(false);
   expect(rectsOverlap(playedFeedback!, handZone!)).toBe(false);
   expect(rectsOverlap(playedFeedback!, topbar!)).toBe(false);

@@ -9929,3 +9929,37 @@ Result: passed.
 NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
 Result: passed, 4 Chromium tests.
 ```
+
+## 2026-05-08 Wave 60 card frame and hand presentation
+
+Wave 60 ran in worktree `.worktrees/wave60-card-frame-hand` on branch `codex/wave60-card-frame-hand`.
+
+What changed:
+
+- Added accessible `card-cost` seals to combat cards, reward cards, shop card offers, and deck viewer cards.
+- Rebuilt combat card chrome with a larger protected art window, stronger paper/ink frame, jade/cinnabar type badges, rarity plaques, and a stable hover lift.
+- Retuned the hand shelf so the new larger cards keep clear of the energy orb, deck/discard piles, combat log, message strip, and control stack.
+- Extended the premium card frame language to reward, shop, and deck cards while preserving readable hover states.
+- Added browser assertions for cost-seal visibility and stable combat-card bounds.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 35 files / 265 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
+Result: passed, 2 Chromium tests.
+```
