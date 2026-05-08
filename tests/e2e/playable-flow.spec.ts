@@ -481,10 +481,17 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expect(roleRelic).toContainText(/凡|奇|绝/);
   await expect(roleRelic.locator(".shop-slot-note")).toContainText("流派");
   await expect(roleRelic.locator(".shop-price-chip")).toContainText(/铜钱/);
+  await expect(page.getByTestId("shop-relic-fit")).toHaveCount(3);
+  await expect(roleRelic.getByTestId("shop-relic-fit")).toContainText(/流派共鸣|本命支路|开局法门|通用稳固|墨灾奇物|心境辅佐/);
+  await expect(roleRelic.getByTestId("shop-relic-fit-detail")).toContainText(/流|墨痕|心境|所有流派|长期/);
+  await expect(roleRelic).toHaveAttribute("data-build-fit-tone", /main|branch|utility|risk/);
 
   const premiumRelic = page.getByTestId("shop-relic-premium");
   await expect(premiumRelic).toContainText("压箱珍藏");
   await expect(premiumRelic.locator(".shop-slot-note")).toContainText("值得围着它构筑");
+  await expect(premiumRelic.getByTestId("shop-relic-fit")).toContainText(/流派共鸣|本命支路|开局法门|通用稳固|墨灾奇物|心境辅佐/);
+  await expect(premiumRelic.getByTestId("shop-relic-fit-detail")).toContainText(/流|墨痕|心境|所有流派|长期/);
+  await expect(premiumRelic).toHaveAttribute("data-build-fit-tone", /main|branch|utility|risk/);
 
   const removeService = page.getByTestId("shop-remove-card");
   await expect(removeService).toHaveClass(/shop-item--service/);

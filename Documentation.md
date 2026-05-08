@@ -9218,6 +9218,63 @@ Next step:
 
 - Continue the EA build-language pass with a small player-facing surface, likely event choice fit or relic-choice fit, while keeping Steam/storefront/release packaging out of scope.
 
+## 2026-05-08 Wave 47 relic build fit implementation
+
+Wave 47 relic build fit finished on branch `codex/wave47-relic-fit-system`.
+
+Docs and workflow notes re-read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/superpowers/plans/2026-05-08-wave47-relic-build-fit.md`
+- `docs/superpowers/specs/2026-05-08-wave47-relic-build-fit-design.md`
+- `src/game/content/relics.ts`
+- `src/game/systems/relics/relicEffects.ts`
+- `src/game/systems/relics/relicBuildFit.ts`
+- `src/game/systems/run/run.ts`
+- `src/app/inkbladeController.ts`
+- `src/styles/theme.css`
+- `tests/relics/relic-build-fit.test.ts`
+- `tests/e2e/playable-flow.spec.ts`
+
+What changed:
+
+- Wired shop relic offers to `createRelicBuildFit()` and exposed `data-build-fit-tone`.
+- Rendered `shop-relic-fit` and `shop-relic-fit-detail` chips inside relic offers.
+- Shared the existing build-fit tone palette with relic chips in CSS.
+- Added focused Playwright coverage for the three relic shop offers.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run tests/relics/relic-build-fit.test.ts tests/relics/relic-system.test.ts --reporter=dot
+Result: passed, 2 files / 23 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "shops can add relics after the first battle"
+Result: passed, 1 Chromium test.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vite/bin/vite.js build
+Result: passed.
+```
+
+Known gaps / risks:
+
+- The build-fit language is still advisory only; it does not change relic pools, prices, or purchase behavior.
+- The current wave stops at shop relic UI; no new relic content or combat behavior was added.
+
+Next step:
+
+- Continue the EA build-language pass with the next small player-facing surface.
+
 ## 2026-05-08 Wave 47 relic build fit planning
 
 Docs and workflow notes read:

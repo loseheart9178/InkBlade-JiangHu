@@ -49,6 +49,7 @@ import { claimMethodReward, createMethodRewardDraft, getRunMethods, shouldOfferM
 import { createProfile, recordCompletedRun, recordProfileRunRecord, recordRunResult, type PlayerProfile, type ProfileRunRecord } from "../game/systems/profile/profile";
 import { evaluateProfileGoals, recordCompletedGoals } from "../game/systems/profile/goals";
 import { evaluateRunLedger } from "../game/systems/profile/runLedger";
+import { createRelicBuildFit } from "../game/systems/relics/relicBuildFit";
 import { describeRelicSource } from "../game/systems/relics/relicEffects";
 import { createAdvancedRewardDraft, type AdvancedRewardChoice } from "../game/systems/rewards/advancedRewards";
 import { buildCompendium, getCompendiumCategoryLabel, type CompendiumCategory, type CompendiumFilters, type CompendiumItem } from "../game/systems/compendium/compendium";
@@ -1637,6 +1638,7 @@ function createShopRelicAction(
   const button = document.createElement("button");
   const affordable = run.gold >= relic.price;
   const stateLabel = owned ? "已持有" : affordable ? "可购" : "铜钱不足";
+  const fit = createRelicBuildFit(getRunCardDefinitions(run), run.characterId, relic);
   button.type = "button";
   button.className = "choice-action shop-item shop-item--relic";
   button.dataset.testid = `shop-relic-${slotId}`;
@@ -1646,6 +1648,7 @@ function createShopRelicAction(
   button.dataset.shopOwned = `${owned}`;
   button.dataset.affordable = `${affordable}`;
   button.dataset.shopAffordable = `${affordable}`;
+  button.dataset.buildFitTone = fit.tone;
   button.disabled = owned;
   button.innerHTML = `
     <span class="shop-meta-row">
@@ -1659,6 +1662,8 @@ function createShopRelicAction(
     <strong>${escapeHtml(relic.name)}</strong>
     <small class="relic-trigger-text">${escapeHtml(relic.triggerText ?? "常驻生效。")}</small>
     <span class="description">${escapeHtml(relic.description)}</span>
+    <span class="shop-relic-fit shop-relic-fit--${fit.tone}" data-testid="shop-relic-fit">${escapeHtml(fit.label)}</span>
+    <span class="shop-relic-fit-detail" data-testid="shop-relic-fit-detail">${escapeHtml(fit.detail)}</span>
     <span class="shop-price-chip" data-testid="shop-price-chip">${relic.price}铜钱</span>
   `;
   button.addEventListener("click", onClick);
