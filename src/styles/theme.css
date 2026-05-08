@@ -1979,7 +1979,8 @@ button {
   line-height: 1.2;
 }
 
-.reward-build-fit {
+.reward-build-fit,
+.shop-build-fit {
   justify-self: center;
   min-height: 20px;
   padding: 3px 9px;
@@ -1992,31 +1993,36 @@ button {
   box-shadow: inset 0 0 0 1px rgba(255, 252, 239, 0.38);
 }
 
-.reward-build-fit--main {
+.reward-build-fit--main,
+.shop-build-fit--main {
   border-color: rgba(183, 53, 42, 0.36);
   color: #8d2b23;
   background: rgba(255, 235, 225, 0.62);
 }
 
-.reward-build-fit--branch {
+.reward-build-fit--branch,
+.shop-build-fit--branch {
   border-color: rgba(47, 124, 110, 0.34);
   color: #1f5b51;
   background: rgba(234, 247, 239, 0.58);
 }
 
-.reward-build-fit--utility {
+.reward-build-fit--utility,
+.shop-build-fit--utility {
   border-color: rgba(122, 91, 46, 0.3);
   color: #684c25;
   background: rgba(255, 248, 222, 0.6);
 }
 
-.reward-build-fit--risk {
+.reward-build-fit--risk,
+.shop-build-fit--risk {
   border-color: rgba(68, 44, 78, 0.38);
   color: #4d274f;
   background: rgba(239, 229, 244, 0.62);
 }
 
-.reward-build-fit-detail {
+.reward-build-fit-detail,
+.shop-build-fit-detail {
   display: block;
   min-height: 32px;
   padding: 6px 8px;

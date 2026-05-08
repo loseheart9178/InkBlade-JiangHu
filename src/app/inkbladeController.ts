@@ -1599,6 +1599,7 @@ function createShopCardAction(run: RunState, offer: ReturnType<typeof createShop
   const button = document.createElement("button");
   const affordable = run.gold >= price;
   const type = card.types[0] ?? "skill";
+  const fit = createRewardBuildFit(getRunCardDefinitions(run), card);
   button.type = "button";
   button.className = `choice-action shop-item shop-item--card card-type-${type}`;
   button.dataset.testid = `shop-card-${slotId}`;
@@ -1606,6 +1607,7 @@ function createShopCardAction(run: RunState, offer: ReturnType<typeof createShop
   button.dataset.shopSlot = slotId;
   button.dataset.affordable = `${affordable}`;
   button.dataset.shopAffordable = `${affordable}`;
+  button.dataset.buildFitTone = fit.tone;
   button.innerHTML = `
     <span class="shop-meta-row">
       <span>${escapeHtml(label)}</span>
@@ -1617,6 +1619,8 @@ function createShopCardAction(run: RunState, offer: ReturnType<typeof createShop
     <small class="card-type-line">${escapeHtml(formatTypes(card.types))}</small>
     ${createCardKeywordRowMarkup(card)}
     <span class="description card-description">${escapeHtml(card.description ?? "")}</span>
+    <span class="shop-build-fit shop-build-fit--${fit.tone}" data-testid="shop-build-fit">${escapeHtml(fit.label)}</span>
+    <span class="shop-build-fit-detail" data-testid="shop-build-fit-detail">${escapeHtml(fit.detail)}</span>
     <span class="shop-price-chip" data-testid="shop-price-chip">${price}铜钱</span>
   `;
   button.addEventListener("click", onClick);

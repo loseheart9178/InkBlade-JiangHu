@@ -457,14 +457,23 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expect(travelCard.locator(".card-chrome-row")).toBeVisible();
   await expect(travelCard.locator(".card-keyword-row")).toBeVisible();
   await expect(travelCard.locator(".shop-price-chip")).toContainText("35");
+  await expect(travelCard.getByTestId("shop-build-fit")).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
+  await expect(travelCard.getByTestId("shop-build-fit-detail")).toContainText(/流|技法|攻击|墨痕|成型|短板/);
+  await expect(travelCard).toHaveAttribute("data-build-fit-tone", /main|branch|utility|risk/);
 
   const roleCard = page.getByTestId("shop-card-role");
   await expect(roleCard).toContainText("门路秘招");
   await expect(roleCard.locator(".shop-slot-note")).toContainText("当前角色");
+  await expect(roleCard.getByTestId("shop-build-fit")).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
+  await expect(roleCard.getByTestId("shop-build-fit-detail")).toContainText(/流|技法|攻击|墨痕|成型|短板/);
+  await expect(roleCard).toHaveAttribute("data-build-fit-tone", /main|branch|utility|risk/);
 
   const inkCard = page.getByTestId("shop-card-ink");
   await expect(inkCard).toContainText("偏门异货");
   await expect(inkCard.locator(".shop-slot-note")).toContainText("更冒险");
+  await expect(inkCard.getByTestId("shop-build-fit")).toContainText("墨灾取势");
+  await expect(inkCard.getByTestId("shop-build-fit-detail")).toContainText("墨痕");
+  await expect(inkCard).toHaveAttribute("data-build-fit-tone", "risk");
 
   const roleRelic = page.getByTestId("shop-relic-role");
   await expect(roleRelic).toHaveClass(/shop-item--relic/);
