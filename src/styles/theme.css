@@ -57,6 +57,12 @@ button {
 .phaser-host {
   position: absolute;
   inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.phaser-host canvas {
+  pointer-events: none;
 }
 
 .hud-host {
@@ -2206,7 +2212,6 @@ button {
 .event-screen,
 .shop-screen,
 .rest-screen,
-.reward-screen,
 .settings-screen,
 .run-summary-screen,
 .compendium-screen,
@@ -2214,6 +2219,13 @@ button {
 .result-screen {
   align-items: center;
   justify-content: center;
+}
+
+.reward-screen {
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+  padding-bottom: 28px;
 }
 
 .title-shell-panel {

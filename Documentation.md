@@ -9469,3 +9469,61 @@ Known gaps / risks:
 Next step:
 
 - Run Wave 51 as the EA closeout pass: verify current gates, produce/update handoff artifacts if needed, document residual non-blocking risks, and stop adding new gameplay scope unless a blocker appears.
+
+## 2026-05-08 Wave 51 EA closeout verification
+
+Wave 51 closeout finished on branch `codex/wave47-relic-fit-system`.
+
+What changed:
+
+- Ran the EA handoff preflight and generated current local handoff artifacts under `reports/`.
+- Re-ran asset audit, balance report, full Vitest, TypeScript, Vite build, and Chromium e2e after the Wave 50 150-card baseline.
+- Found and fixed a browser closeout bug where tall reward screens could keep `deck-open` visible in the DOM but outside the clickable viewport, while the Phaser layer/root intercepted Playwright clicks.
+- Updated reward screen CSS to top-align and scroll vertically when reward card content becomes tall.
+- Disabled pointer events on the Phaser host/canvas so DOM HUD controls remain the interactive layer.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/handoff-preflight.mjs
+Result: passed. Node v24.14.0 PASS, checkout branch `codex/wave47-relic-fit-system`, commit `022ff3e`, report commands PASS, handoff docs PASS.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 110, source sheets 21, prompt queue targets 54.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+Result: passed. 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band 8/10/15.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
+Result: passed. Artifact generated for branch `codex/wave47-relic-fit-system`, commit `022ff3e`.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "elite victories can award" --project=chromium
+Initial closeout result after the first e2e failure fix: passed, 1 Chromium test.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
+Final result: passed, 36 Chromium tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vite/bin/vite.js build
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Closeout status:
+
+- EA content-count targets are met: 150 cards, 40 relics, 45 events, 22 logbook fragments, 19 enemies, 4 chapters, 4 characters, and 8 methods.
+- Full deterministic systems gate is green: 33 Vitest files / 263 tests.
+- Browser gate is green: 36 Chromium e2e tests.
+- Asset ledger is green: missing 0, ink-pass debt 0, card fallback debt 0.
+- Handoff artifacts were generated locally under `reports/`.
+
+Residual non-blocking risks:
+
+- Many Wave 49/50 card faces reuse existing verified generated assets rather than bespoke per-card art.
+- Desktop Chromium remains the EA target; mobile layout, touch QA, Steam/storefront, installers, depot setup, and release packaging remain out of scope.
+- The balance watchlist still marks all four heroes as high healing pressure, but all representative routes complete with timeout risks 0 and unsafe spikes 0.
+
+Next step:
+
+- Stop adding gameplay scope for this EA closeout branch. If another pass is opened, it should be a release/handoff polish pass, not more content expansion.
