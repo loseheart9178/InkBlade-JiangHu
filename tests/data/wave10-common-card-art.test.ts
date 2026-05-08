@@ -26,7 +26,12 @@ describe("Wave 10 common card art batch", () => {
   it("defines semantic art and concrete files for every common fallback target", () => {
     expect(wave10CommonCardArt.map((art) => art.id)).toEqual(expectedIds);
     for (const art of wave10CommonCardArt) {
-      expect(art.assetPath).toMatch(/^\/assets\/generated\/cards\/(?:wave10-.+\.svg|gpt2-wave21-.+\.png)$/);
+      const expectedAssetPath =
+        art.id === "common_gedang" || art.id === "common_qingshen"
+          ? /^\/assets\/generated\/cards\/wave57-.+\.png$/
+          : /^\/assets\/generated\/cards\/(?:wave10-.+\.svg|gpt2-wave21-.+\.png)$/;
+
+      expect(art.assetPath).toMatch(expectedAssetPath);
       expect(art.alt.length).toBeGreaterThan(12);
       expect(["red", "teal", "ink", "gold"]).toContain(art.accent);
       const filePath = path.join(process.cwd(), "public", art.assetPath.replace(/^\//, ""));

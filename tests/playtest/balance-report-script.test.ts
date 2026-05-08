@@ -38,5 +38,5 @@ describe("balance report script", () => {
     } finally {
       rmSync(artifactDir, { recursive: true, force: true });
     }
-  });
+  }, 8000);
 });

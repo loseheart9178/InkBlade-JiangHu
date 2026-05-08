@@ -20,10 +20,10 @@ const wave21Targets: Record<string, string> = {
   zhuge_guard: "/assets/generated/cards/gpt2-wave21-zhuge-guard.png",
   common_pifeng: "/assets/generated/cards/gpt2-wave21-common-pifeng.png",
   common_duanzhu: "/assets/generated/cards/gpt2-wave21-common-duanzhu.png",
-  common_gedang: "/assets/generated/cards/gpt2-wave21-common-gedang.png",
+  common_gedang: "/assets/generated/cards/wave57-common-gedang-gpt2.png",
   common_xieli: "/assets/generated/cards/gpt2-wave21-common-xieli.png",
   common_tuna: "/assets/generated/cards/gpt2-wave21-common-tuna.png",
-  common_qingshen: "/assets/generated/cards/gpt2-wave21-common-qingshen.png",
+  common_qingshen: "/assets/generated/cards/wave57-common-qingshen-gpt2.png",
   common_feishi: "/assets/generated/cards/gpt2-wave21-common-feishi.png",
   common_zhuiying: "/assets/generated/cards/gpt2-wave21-common-zhuiying.png",
   common_mirror_armor: "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png"

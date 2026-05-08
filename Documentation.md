@@ -2,6 +2,65 @@
 
 ## Status Log
 
+### 2026-05-08 20:56 Asia/Shanghai
+
+Wave 58 EA Visual QA Gate completed in `.worktrees/wave58-ea-visual-qa` on branch `codex/wave58-ea-visual-qa`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-08-wave58-ea-visual-qa.md`
+
+What changed:
+
+- Locked Vite CSS minification to the safe path for this Codex runtime so the production build no longer trips over `lightningcss` native loading.
+- Updated the historical Wave 10 and Wave 21 card-art tests to recognize the new Wave 57 replacement art for `common_gedang` and `common_qingshen`.
+- Raised the balance report script test timeout to keep the local closeout suite stable.
+- Refreshed the card-art quality report in the current worktree.
+
+Findings:
+
+- Runtime references remain 228.
+- Missing assets remain 0.
+- GPT2 runtime assets remain 104.
+- Duplicate asset groups remain 35.
+- The 150-card EA content baseline is intact.
+- Full Chromium e2e and visual smoke coverage passed.
+- The balance watchlist still shows high healing pressure, but representative routes complete cleanly.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 104, source sheets 21, prompt queue targets 54.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/card-art-quality-report.mjs
+Result: passed. cards 150, missing files 0, duplicate asset groups 35, replacement queue 150.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 34 files / 264 tests.
+
+NAPI_RS_FORCE_WASI=1 /Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vite/bin/vite.js build
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+Result: passed. Wave 24 Alpha Balance Report, 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
+Result: passed; local handoff artifact refreshed.
+
+NAPI_RS_FORCE_WASI=1 /Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
+Result: passed, 37 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 /Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+
+git diff --check
+Result: passed.
+```
+
 ### 2026-05-08 20:15 Asia/Shanghai
 
 Wave 57 Generated Art Replacement completed in `.worktrees/wave57-generated-art-replacement` on branch `codex/wave57-generated-art-replacement`.
