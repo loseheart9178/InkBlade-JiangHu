@@ -427,8 +427,12 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("reward-archetype-role").first()).toContainText(/主线强化|副线补强|通用补短/);
   await expect(page.getByTestId("reward-build-fit").first()).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
   await expect(page.getByTestId("reward-build-fit-detail").first()).toContainText(/流|技法|攻击|墨痕|成型|短板/);
+  await expect(page.getByTestId("reward-stage")).toBeVisible();
+  await expect(page.getByTestId("reward-card-case")).toBeVisible();
+  await expect(page.getByTestId("reward-footer")).toBeVisible();
   await expect(page.getByTestId("screen-reward").locator(".game-message")).not.toHaveCSS("position", "absolute");
   await expectVerticalGap(page.getByTestId("spoils-summary"), page.getByTestId("reward-card").first(), 8);
+  await expectVerticalGap(page.getByTestId("reward-card").first(), page.getByTestId("reward-footer"), 8);
   await page.getByTestId("reward-card").first().click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
   await page.getByTestId("deck-open").click();
@@ -449,6 +453,13 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
 
   await page.getByTestId("map-node-shop-1").click();
   await expect(page.getByTestId("screen-shop")).toBeVisible();
+  await expect(page.getByTestId("shop-scene")).toBeVisible();
+  await expect(page.getByTestId("shop-marquee")).toContainText("铜钱");
+  await expect(page.getByTestId("shop-section-cards")).toBeVisible();
+  await expect(page.getByTestId("shop-section-relics")).toBeVisible();
+  await expect(page.getByTestId("shop-section-services")).toBeVisible();
+  await expectVerticalGap(page.getByTestId("shop-section-cards"), page.getByTestId("shop-section-relics"), 8);
+  await expectVerticalGap(page.getByTestId("shop-section-relics"), page.getByTestId("shop-section-services"), 8);
   const travelCard = page.getByTestId("shop-card-travel");
   await expect(travelCard).toHaveClass(/shop-item--card/);
   await expect(travelCard).toContainText("行旅常备");
@@ -534,7 +545,10 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await startRun(page, "zhaoyun");
   await page.getByTestId("map-node-event-1").click();
   await expect(page.getByTestId("screen-event")).toBeVisible();
+  await expect(page.getByTestId("event-layout")).toBeVisible();
   await expect(page.getByTestId("event-hero")).toBeVisible();
+  await expect(page.getByTestId("event-choices")).toBeVisible();
+  await expectNoOverlap(page.getByTestId("event-hero"), page.getByTestId("event-choices"));
   await expect(page.getByTestId("event-scene")).toHaveClass(/event-scene--changban/);
   await expect(page.locator("[data-testid^='event-choice-']")).toHaveCount(2);
   await expect(page.getByTestId("event-choice-guard_cry")).toBeVisible();
@@ -545,6 +559,10 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await expect(page.getByTestId("run-mind-tendencies")).toContainText("宁1");
   await page.getByTestId("map-node-rest-1").click();
   await expect(page.getByTestId("screen-rest")).toBeVisible();
+  await expect(page.getByTestId("rest-scene")).toBeVisible();
+  await expect(page.getByTestId("rest-hero")).toBeVisible();
+  await expect(page.getByTestId("rest-actions")).toBeVisible();
+  await expectNoOverlap(page.getByTestId("rest-hero"), page.getByTestId("rest-actions"));
   await page.getByTestId("rest-upgrade-card").click();
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
@@ -812,4 +830,23 @@ async function expectVerticalGap(upper: Locator, lower: Locator, minimumGap: num
   expect(upperBox).not.toBeNull();
   expect(lowerBox).not.toBeNull();
   expect(lowerBox!.y - (upperBox!.y + upperBox!.height)).toBeGreaterThanOrEqual(minimumGap);
+}
+
+async function expectNoOverlap(first: Locator, second: Locator): Promise<void> {
+  const firstBox = await first.boundingBox();
+  const secondBox = await second.boundingBox();
+
+  expect(firstBox).not.toBeNull();
+  expect(secondBox).not.toBeNull();
+  expect(rectsOverlap(firstBox!, secondBox!)).toBe(false);
+}
+
+function rectsOverlap(
+  first: { x: number; y: number; width: number; height: number },
+  second: { x: number; y: number; width: number; height: number }
+): boolean {
+  return first.x < second.x + second.width
+    && first.x + first.width > second.x
+    && first.y < second.y + second.height
+    && first.y + first.height > second.y;
 }

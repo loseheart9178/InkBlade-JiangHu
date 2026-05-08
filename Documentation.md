@@ -9682,3 +9682,33 @@ Residual non-blocking risks:
 Next step:
 
 - Stop adding gameplay scope for this EA closeout branch. If another pass is opened, it should be a release/handoff polish pass, not more content expansion.
+
+## 2026-05-08 Wave 55 scene surfaces implementation
+
+Wave 55 Worker C finished in worktree `.worktrees/wave55-scene-surfaces`.
+
+What changed:
+
+- Reframed reward picks as a scroll/case surface with `reward-stage`, `reward-card-case`, and `reward-footer` wrappers while preserving card pick, reward-fit, combo mark, spoils, reason text, and skip behavior.
+- Reframed shop as a tea-house merchant scene with `shop-scene`, `shop-marquee`, and separate card/relic/service sections. Existing card, relic, service, price, affordability, owned, and leave interactions remain intact.
+- Reframed event choices as compact jianghu decision slips inside a testable `event-layout` / `event-choices` scene surface.
+- Reframed rest as a quiet ruined-temple repair scene with `rest-scene`, `rest-hero`, and `rest-actions`, while preserving heal and upgrade behavior.
+- Added focused Playwright assertions for the new surface wrappers, adjacent section spacing, and event/rest no-overlap checks.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "reward|shop|event|rest"
+Result: passed, 9 Chromium tests.
+
+git diff --check
+Result: passed.
+```
+
+Notes:
+
+- A temporary local `node_modules` symlink was used in the worktree to let Playwright's web server resolve Vite; it is not part of the patch.
+- This worker did not generate new images or touch combat, route, transition, package, audit-script, generated-card, or report files.

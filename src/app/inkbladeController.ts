@@ -1409,19 +1409,23 @@ function renderReward(
       panel.append(createSurfaceOnboardingStrip(hints, state, render, storage, audioFeedback));
     }
   }
-  panel.append(createMessage(state.message));
-  panel.append(createSpoilsSummary(state.pendingSpoils));
+  const stage = document.createElement("div");
+  stage.className = "scene-surface reward-stage";
+  stage.dataset.testid = "reward-stage";
+  stage.append(createMessage(state.message));
+  stage.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);
   const comboPrimaryCardId = getComboRewardPrimaryCardId(run);
   const rewardReasons = createCardRewardReasonMap(run, state.rewardCards);
   const currentDeckCards = getRunCardDefinitions(run);
   const archetypeAnalysis = analyzeDeckArchetypes(currentDeckCards);
   if (comboHint) {
-    panel.append(createRewardComboHint(comboHint));
+    stage.append(createRewardComboHint(comboHint));
   }
 
   const rewards = document.createElement("div");
   rewards.className = "reward-cards";
+  rewards.dataset.testid = "reward-card-case";
   for (const card of state.rewardCards) {
     const isComboBiased = card.id === comboPrimaryCardId;
     const fit = createRewardBuildFit(currentDeckCards, card);
@@ -1470,7 +1474,13 @@ function renderReward(
     render();
   });
 
-  panel.append(rewards, skip);
+  const footer = document.createElement("div");
+  footer.className = "reward-footer";
+  footer.dataset.testid = "reward-footer";
+  footer.append(skip);
+
+  stage.append(rewards, footer);
+  panel.append(stage);
   mountChapterPanel(host, panel, run);
 }
 
@@ -1484,7 +1494,8 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const layout = document.createElement("div");
-  layout.className = "event-layout";
+  layout.className = "scene-surface event-layout";
+  layout.dataset.testid = "event-layout";
   const hero = document.createElement("section");
   hero.className = "event-hero";
   hero.dataset.testid = "event-hero";
@@ -1503,7 +1514,8 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   layout.append(hero);
 
   const choices = document.createElement("div");
-  choices.className = "event-choices";
+  choices.className = "event-choices event-choice-rail";
+  choices.dataset.testid = "event-choices";
 
   for (const choice of getAvailableEventChoices(event, run.characterId)) {
     const action = createEventChoiceAction(choice, () => {
@@ -1531,6 +1543,20 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   panel.classList.add("shop-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
+  const scene = document.createElement("div");
+  scene.className = "scene-surface shop-scene";
+  scene.dataset.testid = "shop-scene";
+
+  const marquee = document.createElement("div");
+  marquee.className = "shop-marquee";
+  marquee.dataset.testid = "shop-marquee";
+  marquee.innerHTML = `
+    <span>茶亭灯影</span>
+    <strong>铜钱 ${run.gold}</strong>
+    <span>江湖行货</span>
+  `;
+  scene.append(marquee);
+
   const list = document.createElement("div");
   list.className = "shop-list";
 
@@ -1549,6 +1575,12 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
     });
     list.append(button);
   }
+
+  const cardSection = document.createElement("section");
+  cardSection.className = "shop-section shop-section--cards";
+  cardSection.dataset.testid = "shop-section-cards";
+  cardSection.innerHTML = `<h3 class="shop-section-title">武学札</h3>`;
+  cardSection.append(list);
 
   const relicList = document.createElement("div");
   relicList.className = "shop-list shop-list--relics";
@@ -1576,6 +1608,12 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
     relicList.append(button);
   }
 
+  const relicSection = document.createElement("section");
+  relicSection.className = "shop-section shop-section--relics";
+  relicSection.dataset.testid = "shop-section-relics";
+  relicSection.innerHTML = `<h3 class="shop-section-title">法宝匣</h3>`;
+  relicSection.append(relicList);
+
   const serviceList = document.createElement("div");
   serviceList.className = "shop-list shop-list--services";
   const removable = getShopRemovalCandidate(run);
@@ -1599,13 +1637,25 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   });
   serviceList.append(removeButton);
 
+  const serviceSection = document.createElement("section");
+  serviceSection.className = "shop-section shop-section--services";
+  serviceSection.dataset.testid = "shop-section-services";
+  serviceSection.innerHTML = `<h3 class="shop-section-title">修整事</h3>`;
+  serviceSection.append(serviceList);
+
   const leave = createAction("离开茶亭", "继续行旅", () => {
     state.message = "茶香在身后淡去。";
     state.screen = "map";
     render();
   });
   leave.dataset.testid = "shop-leave";
-  panel.append(list, relicList, serviceList, leave);
+  leave.classList.add("shop-leave-action");
+  const footer = document.createElement("div");
+  footer.className = "shop-footer";
+  footer.dataset.testid = "shop-footer";
+  footer.append(leave);
+  scene.append(cardSection, relicSection, serviceSection, footer);
+  panel.append(scene);
   mountChapterPanel(host, panel, run);
 }
 
@@ -1722,6 +1772,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
     render();
   });
   heal.dataset.testid = "rest-heal";
+  heal.classList.add("choice-action--rest", "choice-action--rest-heal");
 
   const candidate = getUpgradeCandidates(run)[0];
   const upgrade = createAction(
@@ -1741,8 +1792,26 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
     }
   );
   upgrade.dataset.testid = "rest-upgrade-card";
+  upgrade.classList.add("choice-action--rest", "choice-action--rest-upgrade");
   upgrade.disabled = !candidate;
-  panel.append(heal, upgrade);
+
+  const scene = document.createElement("div");
+  scene.className = "scene-surface rest-scene";
+  scene.dataset.testid = "rest-scene";
+  const hero = document.createElement("section");
+  hero.className = "rest-hero";
+  hero.dataset.testid = "rest-hero";
+  hero.innerHTML = `
+    <span class="rest-seal">息</span>
+    <h3>废寺夜火</h3>
+    <p>半檐旧雨未干，炉中药香压住黑墨寒气。</p>
+  `;
+  const actions = document.createElement("div");
+  actions.className = "rest-actions";
+  actions.dataset.testid = "rest-actions";
+  actions.append(heal, upgrade);
+  scene.append(hero, actions);
+  panel.append(scene);
   mountChapterPanel(host, panel, run);
 }
 
