@@ -9017,3 +9017,93 @@ Checked the Wave 45 spec and plan for TODO/TBD placeholders and confirmed it use
 Next step:
 
 - Execute Wave 45 in isolated system and UI worktrees, then run focused deck/reward and browser verification.
+
+## 2026-05-08 Wave 45 reward fit implementation
+
+Docs and workflow notes read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/specs/2026-05-08-wave45-reward-fit-design.md`
+- `docs/superpowers/plans/2026-05-08-wave45-reward-fit.md`
+- Superpowers `using-superpowers`, `using-git-worktrees`, `subagent-driven-development`, and `verification-before-completion` workflow notes
+
+What changed:
+
+- Integrated system worker output as `2e4d6ee`: added `createRewardBuildFit()` under `src/game/systems/deck/rewardFit.ts` with deterministic labels for mainline, branch, utility, ink-risk, and empty-deck opening picks.
+- Added `tests/deck/reward-fit.test.ts` covering matching archetype, off-archetype, ink, untagged utility, empty deck, and input mutation safety.
+- Integrated UI worker output as `be667fb`: reward cards now render `reward-build-fit` and `reward-build-fit-detail` chips/details from the current deck, while preserving combo marks, archetype role, reward reason, and card-selection behavior.
+- Added compact reward-fit tone styles for `main`, `branch`, `utility`, and `risk`.
+- Extended the Zhao Yun reward-flow browser test to assert reward-fit label and detail text.
+
+Subagents and review:
+
+- `Gauss` produced the initial pure reward-fit helper and tests, then the main integration flow amended a mutation-safety test gap before committing the accepted task.
+- `Aristotle` approved Task 1 spec compliance.
+- `Rawls` flagged that the mutation-safety test did not exercise the passed deck; the test was fixed and re-run.
+- `Hubble` approved the Task 1 quality re-review after the test fix.
+- `Hume` implemented the reward-fit UI task and committed it in an isolated worktree.
+- `Archimedes` approved Task 2 spec compliance.
+- A slow Task 2 quality reviewer was closed after local review and focused verification completed, to prevent late cross-thread edits.
+
+TDD and failures:
+
+```text
+Task 1 RED expectation: reward-fit tests target a missing `rewardFit.ts` module before helper implementation.
+Quality review found the initial mutation-safety assertion was ineffective because it called `createRewardBuildFit([])` instead of the deck under inspection.
+The mutation-safety test was split into a real deck-preservation case and re-verified.
+Reviewer-side `npm test` attempts under system Node v18 could not start because the installed Vitest/Rolldown stack requires newer Node APIs; main verification used the bundled Node runtime.
+```
+
+Verification:
+
+```text
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/deck/reward-fit.test.ts tests/deck/archetype-system.test.ts --reporter=dot
+Result in Task 1 worktree after test fix: passed, 2 files / 9 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result in Task 1 worktree after test fix: passed.
+
+git diff --check
+Result in Task 1 worktree after test fix: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "boots, enters a Zhao Yun battle" --project=chromium
+Result in Task 2 worktree: passed, 1 Chromium test.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/deck/reward-fit.test.ts tests/deck/archetype-system.test.ts --reporter=dot
+Result in Task 2 worktree: passed, 2 files / 9 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result in Task 2 worktree: passed.
+
+git diff --check HEAD~1..HEAD
+Result in Task 2 worktree: passed.
+
+git diff --check
+Result in integration worktree: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/deck/reward-fit.test.ts tests/deck/build-recap.test.ts tests/deck/archetype-system.test.ts --reporter=dot
+Result in integration worktree: passed, 3 files / 12 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result in integration worktree: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "boots, enters a Zhao Yun battle|ending summary records" --project=chromium
+Result in integration worktree: passed, 2 Chromium tests.
+```
+
+Known gaps / risks:
+
+- Reward-fit copy is explanatory only; it does not alter reward weights, combat rules, save data, or balance.
+- Reward card markup continues to follow the existing controller `innerHTML` pattern using internal content definitions.
+- Desktop browser remains the active target; no mobile-specific layout work was added.
+
+Next step:
+
+- Plan the next EA showcase wave around another player-facing build-choice surface, likely event/shop choice fit or combat build cues, while continuing to exclude Steam/storefront/release packaging.
