@@ -27,6 +27,10 @@
 
 ## Next Waves
 
+See the committed EA closeout roadmap: `docs/superpowers/plans/2026-05-08-ea-commercial-polish-roadmap.md`.
+
+Remaining waves after Wave 52: **6 waves**.
+
 - Wave 53: card-art audit and top-priority replacements.
 - Wave 54: combat feedback, targeting affordances, and richer play/release states.
 - Wave 55: reward/shop/event/rest scene surfaces.

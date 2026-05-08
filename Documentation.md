@@ -2,6 +2,29 @@
 
 ## Status Log
 
+### 2026-05-08 18:45 Asia/Shanghai
+
+EA commercial polish roadmap recorded after Wave 52.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-08-ea-commercial-polish-roadmap.md`
+
+Roadmap decision:
+
+- Remaining waves to EA visual closeout: 6 waves.
+- Wave 53: Card Art Quality Audit And Priority Replacements.
+- Wave 54: Combat Feedback And Targeting Presentation.
+- Wave 55: Reward, Shop, Event, And Rest Scene Surfaces.
+- Wave 56: Route, Victory, Defeat, And Chapter Transition Cinematics.
+- Wave 57: Bulk Generated Art Replacement And Asset Ledger Cleanup.
+- Wave 58: EA Visual QA Gate And Release Closeout.
+- Stop rule: after Wave 58, autonomous polishing stops unless verification exposes a release blocker; further work becomes post-EA backlog.
+
+Updated:
+
+- `docs/superpowers/plans/2026-05-08-wave52-commercial-ui-foundation.md`
+
 ### 2026-05-08 18:30 Asia/Shanghai
 
 Wave 52 Commercial UI Foundation started on branch `codex/wave47-relic-fit-system` after reviewing Night Patrol as an external frontend reference and confirming local Wave 48-51 commits are already ahead of origin.
