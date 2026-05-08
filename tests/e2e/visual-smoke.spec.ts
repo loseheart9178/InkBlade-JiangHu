@@ -91,10 +91,14 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("aria-label", /：/);
     await expect(page.getByTestId("intent")).toHaveAttribute("title", /敌人意图|杀意|运功/);
     await expect(page.getByTestId("intent")).toHaveAttribute("aria-label", /敌人意图/);
+    await expect(page.getByTestId("intent")).toHaveAttribute("data-intent-type", /attack|block|special|idle/);
+    await expect(page.getByTestId("intent")).toHaveAttribute("data-intent-pressure", /low|medium|high/);
+    await expect(page.getByTestId("intent")).toHaveClass(/intent-box--/);
     await expect(page.getByTestId("combo-trail")).toContainText("待发");
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("title", /招式链/);
     await expect(page.getByTestId("combo-trail")).toHaveAttribute("aria-label", /招式链/);
     await expect(page.getByTestId("combo-trail")).toHaveCSS("pointer-events", "auto");
+    await expect(page.getByTestId("played-feedback")).toHaveAttribute("data-played-count", "0");
     if (character.id === "diaochan") {
       const statusBadge = page.getByTestId("status-badge").first();
       await expect(statusBadge).toBeVisible();
@@ -116,11 +120,16 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await playableAttack.click();
     await expect(page.getByTestId("combat-sprite-player")).toHaveCSS("background-image", character.attackSprite);
     await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
+    await expect(page.getByTestId("target-feedback-enemy")).toBeVisible();
+    await expect(page.getByTestId("target-feedback-enemy")).toHaveAttribute("data-feedback-kind", /damage|status|block|resource|ink|draw|trigger/);
+    await expect(page.locator(".combatant--enemy")).toHaveClass(/is-target-feedback/);
+    await expect(page.getByTestId("played-feedback")).not.toHaveAttribute("data-played-count", "0");
     await expect(page.getByTestId("combat-vfx-slash")).toHaveCount(0);
     await expect(page.getByTestId("combat-vfx-sigil")).toHaveCount(0);
     await expect(page.getByTestId("combat-vfx-seal")).toHaveCount(0);
     await expect(page.getByTestId("combat-vfx-ink")).toHaveCount(0);
     await expect(page.getByTestId("combo-trail")).toContainText("攻");
+    await expectDesktopCombatLayout(page);
   }
 });
 
@@ -278,6 +287,7 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   const message = await page.getByTestId("screen-combat").locator(".game-message").boundingBox();
   const combatLog = await page.getByTestId("combat-log").boundingBox();
   const controls = await page.locator(".combat-controls").boundingBox();
+  const playedFeedback = await page.getByTestId("played-feedback").boundingBox();
   const cardRects = await page.locator(".combat-card").evaluateAll((cards) =>
     cards.map((card) => {
       const rect = card.getBoundingClientRect();
@@ -301,12 +311,32 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   expect(message).not.toBeNull();
   expect(combatLog).not.toBeNull();
   expect(controls).not.toBeNull();
+  expect(playedFeedback).not.toBeNull();
   expect(cardRects.length).toBeGreaterThan(0);
 
   expect(playerStandee!.y + playerStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(enemyStandee!.y + enemyStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(firstCard!.x - (energy!.x + energy!.width)).toBeGreaterThanOrEqual(28);
   expect(rectsOverlap(heading!, intent!)).toBe(false);
+  expect(rectsOverlap(playedFeedback!, handZone!)).toBe(false);
+  expect(rectsOverlap(playedFeedback!, topbar!)).toBe(false);
+
+  const feedbackRects = await page.locator("[data-testid^='target-feedback-']").evaluateAll((items) =>
+    items.map((item) => {
+      const rect = item.getBoundingClientRect();
+      return {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height
+      };
+    })
+  );
+
+  for (const feedbackRect of feedbackRects) {
+    expect(rectsOverlap(feedbackRect, handZone!)).toBe(false);
+    expect(rectsOverlap(feedbackRect, topbar!)).toBe(false);
+  }
 
   const expectedCardHeight = Math.round(cardRects[0].height);
   for (const cardRect of cardRects) {

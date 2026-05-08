@@ -1026,6 +1026,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const latestDamageTarget = getLatestDamageTarget(combat);
   const playerIsAttacking = latestDamageTarget === "enemy";
   const enemyIsAttacking = latestDamageTarget === "player";
+  const intentPresentation = getIntentPresentation(enemy.currentIntent);
   const playerSprite = playerIsAttacking ? getCombatAttackSprite(combat.player.characterId) : undefined;
   const enemySprite = enemyIsAttacking ? getCombatAttackSprite(enemy.definitionId) : undefined;
   const comboTrail = createComboTrailMetadata(combat);
@@ -1044,22 +1045,27 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
 
   const field = document.createElement("div");
   field.className = "combat-field";
+  field.dataset.intentType = intentPresentation.type;
+  field.dataset.intentPressure = intentPresentation.pressure;
   field.innerHTML = `
-    <div class="combatant combatant--player ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
+    <div class="combatant combatant--player ${createCombatantFeedbackClasses(combat, "player")} ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
       <div class="resource-pill">${combat.player.resource.name} ${combat.player.resource.value}/${combat.player.resource.max}</div>
       <div class="status-line" data-testid="player-status">护甲 ${combat.player.block} · 心境 ${formatMind(combat.player.mind)} · 墨痕 ${combat.player.inkMarks}${formatStatusBadges(combat.player.statuses)}</div>
+      ${createTargetFeedbackMarkup(combat, "player")}
       <div class="combat-standee combat-standee--player combat-standee--${playerPortrait.accent} ${playerIsAttacking ? "is-attacking" : ""}">
         ${playerSprite ? `<div class="combat-sprite combat-sprite--player is-attacking" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>` : ""}
         <img class="combat-standee-art" data-testid="combat-standee-player" src="${getStandeePath(playerPortrait)}" alt="${playerPortrait.alt}">
       </div>
     </div>
-    <div class="duel-column">
+    <div class="duel-column ${combat.playedCardTypesThisTurn.length > 0 ? "is-combo-active" : ""}" data-intent-pressure="${intentPresentation.pressure}">
       <div class="duel-mark">对决</div>
       <div class="combo-trail" data-testid="combo-trail" title="${escapeAttribute(comboTrail.title)}" aria-label="${escapeAttribute(comboTrail.ariaLabel)}" data-glossary-id="${escapeAttribute(comboTrail.glossaryIds.join(" "))}"><span>招式</span><strong>${escapeHtml(comboTrail.text)}</strong></div>
+      ${createPlayedFeedbackMarkup(combat)}
     </div>
-    <div class="combatant combatant--enemy ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
+    <div class="combatant combatant--enemy ${createCombatantFeedbackClasses(combat, "enemy")} is-pressure-${intentPresentation.type} is-pressure-${intentPresentation.pressure} ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
       <div class="resource-pill">敌势 ${enemy.intentIndex + 1}/${enemy.intents.length}</div>
       <div class="status-line" data-testid="enemy-status">护甲 ${enemy.block}${formatStatusBadges(enemy.statuses)}</div>
+      ${createTargetFeedbackMarkup(combat, "enemy")}
       <div class="combat-standee combat-standee--enemy combat-standee--${enemyPortrait.accent} ${enemyIsAttacking ? "is-attacking" : ""}">
         ${enemySprite ? `<div class="combat-sprite combat-sprite--enemy is-attacking" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>` : ""}
         <img class="combat-standee-art" data-testid="combat-standee-enemy" src="${getStandeePath(enemyPortrait)}" alt="${enemyPortrait.alt}">
@@ -1080,18 +1086,26 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
 
   for (const card of combat.piles.hand) {
     const definition = combat.cardDefinitions[card.definitionId];
+    const cost = getDisplayCost(definition, card.upgraded);
+    const playable = cost <= combat.player.energy;
     const cardButton = document.createElement("button");
     cardButton.type = "button";
     cardButton.className = `combat-card card-type-${definition.types[0]}`;
     if (card.upgraded) {
       cardButton.classList.add("is-upgraded");
     }
+    if (!playable) {
+      cardButton.classList.add("is-unplayable");
+      cardButton.dataset.disabledReason = "energy";
+      cardButton.title = `内力不足：需要${cost}，当前${combat.player.energy}`;
+    }
     cardButton.dataset.testid = `card-${card.instanceId}`;
-    cardButton.disabled = getDisplayCost(definition, card.upgraded) > combat.player.energy;
+    cardButton.dataset.playable = playable ? "true" : "false";
+    cardButton.disabled = !playable;
     cardButton.innerHTML = `
       ${createCardArtMarkup(definition)}
       ${createCardChromeMarkup(definition)}
-      <span class="card-cost">${getDisplayCost(definition, card.upgraded)}</span>
+      <span class="card-cost">${cost}</span>
       <strong>${definition.name}${card.upgraded ? " +" : ""}</strong>
       <small class="card-type-line">${formatTypes(definition.types)}</small>
       ${createCardKeywordRowMarkup(definition)}
@@ -2451,10 +2465,58 @@ function createMeter(testId: string, label: string, value: number, max: number, 
   return meter;
 }
 
+function getIntentPresentation(intent: CombatState["enemies"][number]["currentIntent"]): { type: string; pressure: string; icon: string } {
+  if (intent.type === "attack") {
+    const totalDamage = intent.damage * intent.hits;
+    return {
+      type: "attack",
+      pressure: totalDamage >= 14 ? "high" : totalDamage >= 8 ? "medium" : "low",
+      icon: "杀"
+    };
+  }
+
+  if (intent.type === "block") {
+    return {
+      type: "block",
+      pressure: intent.block >= 12 ? "high" : intent.block >= 7 ? "medium" : "low",
+      icon: "守"
+    };
+  }
+
+  if (intent.type === "special") {
+    const hostileWeight = intent.effects.reduce((weight, effect) => {
+      if (effect.action === "damage") {
+        return weight + effect.amount * (effect.hits ?? 1);
+      }
+
+      if (effect.action === "applyStatus" && effect.target === "player") {
+        return weight + effect.amount * 3;
+      }
+
+      if (effect.action === "addCardToDiscard" || effect.action === "gainInk") {
+        return weight + effect.amount * 2;
+      }
+
+      return weight;
+    }, 0);
+
+    return {
+      type: "special",
+      pressure: hostileWeight >= 12 ? "high" : hostileWeight >= 5 ? "medium" : "low",
+      icon: "术"
+    };
+  }
+
+  return { type: "idle", pressure: "low", icon: "息" };
+}
+
 function createIntent(intent: CombatState["enemies"][number]["currentIntent"]): HTMLElement {
   const box = document.createElement("div");
-  box.className = "intent-box";
+  const presentation = getIntentPresentation(intent);
+  box.className = `intent-box intent-box--${presentation.type} intent-box--pressure-${presentation.pressure}`;
   box.dataset.testid = "intent";
+  box.dataset.intentType = presentation.type;
+  box.dataset.intentPressure = presentation.pressure;
   const surface = getIntentGlossarySurface(intent);
   const intentDetail = describeIntent(intent);
   const tooltip = surface.entry ? formatGlossaryTooltip(surface.entry, intentDetail) : intentDetail;
@@ -2464,6 +2526,7 @@ function createIntent(intent: CombatState["enemies"][number]["currentIntent"]): 
   box.title = tooltip;
   box.setAttribute("aria-label", `敌人意图：${tooltip}`);
   box.innerHTML = `
+    <span class="combat-intent-icon" aria-hidden="true">${presentation.icon}</span>
     <span class="combat-intent-kicker">敌意</span>
     <strong class="combat-intent-title" data-testid="combat-intent-title">${escapeHtml(formatIntentTitle(intent))}</strong>
     <span class="combat-intent-detail" data-testid="combat-intent-detail">${escapeHtml(intentDetail)}</span>
@@ -2720,6 +2783,70 @@ function getCombatVfxTestId(event: CombatVisualEvent): string {
   }
 
   return "combat-vfx-seal";
+}
+
+function createCombatantFeedbackClasses(combat: CombatState, target: "player" | "enemy"): string {
+  const feedback = getLatestTargetFeedback(combat, target);
+  if (!feedback) {
+    return "";
+  }
+
+  return `is-target-feedback is-feedback-${feedback.kind} is-feedback-${feedback.tone}`;
+}
+
+function createTargetFeedbackMarkup(combat: CombatState, target: "player" | "enemy"): string {
+  const feedback = getLatestTargetFeedback(combat, target);
+  if (!feedback) {
+    return "";
+  }
+
+  const label = formatTargetFeedbackKind(feedback.kind);
+  return `
+    <div class="target-feedback target-feedback--${target} target-feedback--${feedback.kind} target-feedback--${feedback.tone}" data-testid="target-feedback-${target}" data-feedback-kind="${feedback.kind}" data-feedback-tone="${feedback.tone}">
+      <span>${label}</span>
+      <strong>${escapeHtml(feedback.label)}</strong>
+    </div>
+  `;
+}
+
+function getLatestTargetFeedback(combat: CombatState, target: "player" | "enemy"): CombatVisualEvent | undefined {
+  const recentEvents = combat.visualEvents.slice(-6);
+  for (let index = recentEvents.length - 1; index >= 0; index -= 1) {
+    const event = recentEvents[index];
+    if (event.target === target && event.kind !== "turn") {
+      return event;
+    }
+  }
+
+  return undefined;
+}
+
+function formatTargetFeedbackKind(kind: CombatVisualEvent["kind"]): string {
+  const labels: Record<CombatVisualEvent["kind"], string> = {
+    damage: "受击",
+    block: "护体",
+    status: "状态",
+    resource: "蓄势",
+    ink: "墨痕",
+    draw: "抽牌",
+    trigger: "触发",
+    turn: "回合"
+  };
+  return labels[kind];
+}
+
+function createPlayedFeedbackMarkup(combat: CombatState): string {
+  const recentTypes = combat.playedCardTypesThisTurn.slice(-3);
+  if (recentTypes.length === 0) {
+    return `<div class="played-feedback played-feedback--idle" data-testid="played-feedback" data-played-count="0"><span>出招</span><strong>候势</strong></div>`;
+  }
+
+  return `
+    <div class="played-feedback" data-testid="played-feedback" data-played-count="${recentTypes.length}">
+      <span>刚出</span>
+      <strong>${escapeHtml(formatTypes(recentTypes))}</strong>
+    </div>
+  `;
 }
 
 function createAction(title: string, body: string, onClick: () => void): HTMLButtonElement {

@@ -2,6 +2,36 @@
 
 ## Status Log
 
+### 2026-05-08 19:20 Asia/Shanghai
+
+Wave 54 Combat Feedback implementation completed in `.worktrees/wave54-combat-feedback` on branch `codex/wave54-combat-feedback`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-08-wave54-combat-feedback.md`
+
+What changed:
+
+- Enemy intent now exposes type and pressure metadata and renders attack/block/special plaques with distinct treatment.
+- Combatants now show target feedback chips for recent damage, block, status, resource, ink, draw, and trigger events.
+- Duel column now includes a played-card feedback chip so click-to-play has immediate response.
+- Disabled hand cards now explain energy shortage through title text and clearer visual treatment.
+- Reduced-motion mode disables nonessential combat feedback animation.
+- Visual smoke coverage now checks intent metadata, played feedback, target feedback, and no-overlap constraints.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+
+git diff --check
+Result: passed.
+```
+
 ### 2026-05-08 19:05 Asia/Shanghai
 
 Autonomous EA worktree execution mode accepted after user delegated follow-up planning, subagent dispatch, verification, and cleanup.
