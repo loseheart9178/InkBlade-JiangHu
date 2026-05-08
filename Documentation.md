@@ -2,6 +2,51 @@
 
 ## Status Log
 
+### 2026-05-08 18:30 Asia/Shanghai
+
+Wave 52 Commercial UI Foundation started on branch `codex/wave47-relic-fit-system` after reviewing Night Patrol as an external frontend reference and confirming local Wave 48-51 commits are already ahead of origin.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-08-wave52-commercial-ui-foundation.md`
+
+Implemented first pass:
+
+- Added shared ink-wash material tokens to `src/styles/theme.css`.
+- Reworked combat top HUD, player/enemy meters, intent plaque, energy orb, and bottom hand tray toward a denser wuxia battle presentation.
+- Reframed combat, reward, shop-card, and deck card surfaces with paper grain, inner borders, larger art windows, cost seals, and type/rarity ornament styling.
+- Adjusted combat message/log vertical spacing after screenshot QA caught overlap with taller cards.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 33 files / 263 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vite/bin/vite.js build
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium
+Result: passed, 32 Chromium tests.
+
+node scripts/audit-generated-assets.mjs
+Result: missing 0, ink-pass debt 0, card fallback debt 0.
+
+git diff --check
+Result: passed.
+```
+
+Scope decision:
+
+- Image generation with `gpt-image-2` is approved for project assets, but Wave 52 starts with reusable UI/card framing first.
+- Full card-art replacement is deferred to Wave 53/57 after a quality audit identifies duplicate reuse, poor sheet slices, tiny source art, and bad crop candidates.
+
 ### 2026-05-07 16:04 Asia/Shanghai
 
 Wave 41 Profile Goals planning started in `.worktrees/wave6-integration` on branch `codex/wave41-profile-goals-plan`.
