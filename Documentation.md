@@ -9107,3 +9107,42 @@ Known gaps / risks:
 Next step:
 
 - Plan the next EA showcase wave around another player-facing build-choice surface, likely event/shop choice fit or combat build cues, while continuing to exclude Steam/storefront/release packaging.
+
+## 2026-05-08 Wave 46 shop build fit planning
+
+Docs and workflow notes read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/plans/2026-05-05-ea-playable-showcase-roadmap.md`
+- `docs/superpowers/plans/2026-05-05-wave31-ea-reward-shop-polish.md`
+- `docs/superpowers/specs/2026-05-08-wave45-reward-fit-design.md`
+- `docs/superpowers/plans/2026-05-08-wave45-reward-fit.md`
+- Superpowers `brainstorming`, `writing-plans`, and Game Studio `game-ui-frontend` workflow notes
+
+Created:
+
+- `docs/superpowers/specs/2026-05-08-wave46-shop-build-fit-design.md`
+- `docs/superpowers/plans/2026-05-08-wave46-shop-build-fit.md`
+
+Scope decision:
+
+- Wave 46 extends the Wave45 build-fit language to shop card offers so paid card choices explain whether they reinforce, pivot, cover, or risk the current deck.
+- The wave deliberately excludes shop generation, pricing, relic/service fit, economy, combat, persistence, analytics, Steam/storefront/release packaging, new art, and mobile layout work.
+- The user has an explicit standing instruction to continue autonomously without approval gates, so the design/plan review gate was handled by self-review instead of waiting for a manual response.
+
+Plan self-review:
+
+```text
+Checked the Wave 46 spec and plan for TODO/TBD placeholders and confirmed the plan uses concrete files, commands, test ids, and acceptance criteria.
+```
+
+Next step:
+
+- Execute Wave 46 in an isolated UI worktree, then run focused shop/reward browser verification and update documentation.
