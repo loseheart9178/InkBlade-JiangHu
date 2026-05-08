@@ -822,14 +822,17 @@ describe("content data", () => {
       "common_xieli",
       "common_zhuiying"
     ]);
+    const wave57GeneratedTargets = new Set(["common_gedang", "common_qingshen"]);
 
     for (const id of wave10FallbackTargets) {
       const card = cardsById[id];
       const art = cardArtById[id];
       const fallbackArt = cardArtById[`type_${card.types[0]}`];
-      const expectedBatch = wave21UpgradedTargets.has(id)
-        ? /^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/
-        : /^\/assets\/generated\/cards\/wave10-.+\.svg$/;
+      const expectedBatch = wave57GeneratedTargets.has(id)
+        ? /^\/assets\/generated\/cards\/wave57-.+\.png$/
+        : wave21UpgradedTargets.has(id)
+          ? /^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/
+          : /^\/assets\/generated\/cards\/wave10-.+\.svg$/;
 
       expect(card).toBeDefined();
       expect(art, id).toBeDefined();
@@ -860,7 +863,13 @@ describe("content data", () => {
       zhuge_observe_stars: "/assets/generated/cards/gpt2-zhuge-observe-stars.png",
       zhuge_small_eight_array: "/assets/generated/cards/gpt2-zhuge-eight-array.png",
       zhuge_borrow_wind: "/assets/generated/cards/gpt2-zhuge-borrow-wind.png",
-      status_redacted_history: "/assets/generated/cards/gpt2-status-redacted-history.png"
+      status_redacted_history: "/assets/generated/cards/gpt2-status-redacted-history.png",
+      common_bamboo_guard: "/assets/generated/cards/wave57-common-bamboo-guard-gpt2.png",
+      common_brush_parry: "/assets/generated/cards/wave57-common-brush-parry-gpt2.png",
+      common_gedang: "/assets/generated/cards/wave57-common-gedang-gpt2.png",
+      common_qingshen: "/assets/generated/cards/wave57-common-qingshen-gpt2.png",
+      common_scout_feather: "/assets/generated/cards/wave57-common-scout-feather-gpt2.png",
+      common_sudden_step: "/assets/generated/cards/wave57-common-sudden-step-gpt2.png"
     };
 
     for (const [cardId, assetPath] of Object.entries(priorityCards)) {

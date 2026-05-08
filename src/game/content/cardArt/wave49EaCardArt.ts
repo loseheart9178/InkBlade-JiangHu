@@ -111,14 +111,14 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_scout_feather",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-qingshen.png",
-    alt: "Scout feather drifting over teal travel ripples",
+    assetPath: "/assets/generated/cards/wave57-common-scout-feather-gpt2.png",
+    alt: "Scout feather tracing teal wind lines above a misty ridge",
     accent: "teal"
   },
   {
     id: "common_brush_parry",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-gedang.png",
-    alt: "Brush parry crossing dark guard strokes over teal paper",
+    assetPath: "/assets/generated/cards/wave57-common-brush-parry-gpt2.png",
+    alt: "Brush parry sweeping a black-ink stroke into a teal guard bloom",
     accent: "teal"
   },
   {

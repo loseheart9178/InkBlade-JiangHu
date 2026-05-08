@@ -123,8 +123,8 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_bamboo_guard",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-gedang.png",
-    alt: "Bamboo guard raised in layered teal brush strokes",
+    assetPath: "/assets/generated/cards/wave57-common-bamboo-guard-gpt2.png",
+    alt: "Bamboo guard bound into a teal ward with ink-wash splinters",
     accent: "teal"
   },
   {
@@ -141,8 +141,8 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_sudden_step",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-qingshen.png",
-    alt: "Sudden step crossing teal paper ripples",
+    assetPath: "/assets/generated/cards/wave57-common-sudden-step-gpt2.png",
+    alt: "Sudden step bursting through teal paper ripples and dark speed strokes",
     accent: "teal"
   },
   {

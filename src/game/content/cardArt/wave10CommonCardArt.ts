@@ -15,8 +15,8 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_gedang",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-gedang.png",
-    alt: "Crossed guard strokes over a teal shield wash",
+    assetPath: "/assets/generated/cards/wave57-common-gedang-gpt2.png",
+    alt: "Ink-wash guard block with a teal circular ward and cinnabar blade sparks",
     accent: "teal"
   },
   {
@@ -33,8 +33,8 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_qingshen",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-qingshen.png",
-    alt: "Light-foot step over rippled paper in teal ink",
+    assetPath: "/assets/generated/cards/wave57-common-qingshen-gpt2.png",
+    alt: "Light-foot wuxia step over water with teal ripples and feather brush marks",
     accent: "teal"
   },
   {

@@ -4,10 +4,10 @@
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
     "runtimeReferenceCount": 228,
-    "uniqueRuntimeFileCount": 143,
+    "uniqueRuntimeFileCount": 147,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 110,
+    "gpt2RuntimeCount": 104,
     "sourceSheetCount": 21,
     "cardFallbackDebtCount": 0
   },
@@ -128,20 +128,6 @@
     },
     {
       "kind": "cardArt",
-      "id": "common_bamboo_guard",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-gedang.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_brush_parry",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-gedang.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
       "id": "common_clear_mist",
       "paths": [
         "/assets/generated/cards/gpt2-common-jiexue.png"
@@ -159,13 +145,6 @@
       "id": "common_feishi",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-feishi.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_gedang",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-gedang.png"
       ]
     },
     {
@@ -212,13 +191,6 @@
     },
     {
       "kind": "cardArt",
-      "id": "common_qingshen",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
       "id": "common_rain_cut",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-pifeng.png"
@@ -229,20 +201,6 @@
       "id": "common_river_stance",
       "paths": [
         "/assets/generated/cards/gpt2-common-xixin.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_scout_feather",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "common_sudden_step",
-      "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
       ]
     },
     {

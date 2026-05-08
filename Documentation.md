@@ -2,6 +2,59 @@
 
 ## Status Log
 
+### 2026-05-08 20:15 Asia/Shanghai
+
+Wave 57 Generated Art Replacement completed in `.worktrees/wave57-generated-art-replacement` on branch `codex/wave57-generated-art-replacement`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-08-wave57-generated-art-replacement.md`
+- `public/assets/generated/cards/wave57-common-bamboo-guard-gpt2.png`
+- `public/assets/generated/cards/wave57-common-brush-parry-gpt2.png`
+- `public/assets/generated/cards/wave57-common-gedang-gpt2.png`
+- `public/assets/generated/cards/wave57-common-qingshen-gpt2.png`
+- `public/assets/generated/cards/wave57-common-scout-feather-gpt2.png`
+- `public/assets/generated/cards/wave57-common-sudden-step-gpt2.png`
+
+What changed:
+
+- Replaced the two worst duplicate, low-resolution common card-art groups from the Wave 53 queue.
+- Gave `common_gedang`, `common_bamboo_guard`, `common_brush_parry`, `common_qingshen`, `common_scout_feather`, and `common_sudden_step` unique 512x768 ink-wuxia card art.
+- Updated card-art bindings and alt text in Wave 10, Wave 49, and Wave 50 card-art maps.
+- Refreshed the generated asset audit and card-art quality report.
+
+Findings:
+
+- Runtime references remain 228.
+- Missing assets remain 0.
+- Runtime card fallback debt remains 0.
+- GPT2 runtime assets decreased from 110 to 104.
+- Duplicate asset groups decreased from 37 to 35.
+- Dimension/crop signals decreased from 28 to 22.
+- The six replaced cards no longer appear at the top of the ranked replacement queue.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 104, source sheets 21, prompt queue targets 54.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/card-art-quality-report.mjs
+Result: passed. cards 150, missing files 0, duplicate asset groups 35, replacement queue 150.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/vitest/vitest.mjs run tests/data/card-art-quality-report.test.ts tests/data/content.test.ts --reporter=dot
+Result: passed, 2 files / 34 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+
+git diff --check
+Result: passed.
+```
+
 ### 2026-05-08 20:05 Asia/Shanghai
 
 Wave 56 Route/Victory/Defeat/Chapter Transition Cinematics implementation started in `.worktrees/wave56-transition-cinematics` on branch `codex/wave56-transition-cinematics`.
