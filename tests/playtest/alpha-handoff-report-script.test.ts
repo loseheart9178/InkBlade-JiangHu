@@ -45,7 +45,7 @@ describe("alpha handoff report script", () => {
       expect(stdout).toContain("Wave 24 balance report label");
       expect(stdout).toContain("# Wave 24 Alpha Balance Report");
       expect(stdout).toContain("wave24-alpha-balance-v1");
-      expect(stdout).toContain("Current multi-seed balance artifact: Wave 49 card-pool refresh, 12/12 routes, 84 combat samples");
+      expect(stdout).toContain("Current multi-seed balance artifact: Wave 50 card-pool refresh, 12/12 routes, 84 combat samples");
       expect(stdout).toContain("Zhuge Liang lowest HP band 8/10/15");
       expect(stdout).not.toContain("current Wave 20 baseline");
       expect(stdout).toContain("docs/playtest/desktop-playtest-checklist.md");

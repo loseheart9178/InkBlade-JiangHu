@@ -153,7 +153,7 @@ The Wave 20 final Playwright Chromium desktop result is 27/27 passing tests. Use
 
 - Runtime card fallback debt is 0. Wave 21 starter/common card faces are GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG faces are readable alpha coverage until optional bitmap passes replace them.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`. The generic enemy slash strip is not acceptable for those combatants.
-- The Wave 49 multi-seed report completes 12/12 routes across 84 combat samples with timeout risks 0 and unsafe spikes 0; Zhuge Liang's lowest HP band is now 8/10/15 after the card-pool expansion, so he remains a long-route pressure watch item rather than a near-death stability risk.
+- The Wave 50 multi-seed report completes 12/12 routes across 84 combat samples with timeout risks 0 and unsafe spikes 0; Zhuge Liang's lowest HP band is now 8/10/15 after the card-pool expansion, so he remains a long-route pressure watch item rather than a near-death stability risk.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
 - Production audio, Steam packaging, mobile layout, and touch controls are not in this pass.
 

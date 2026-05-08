@@ -57,7 +57,7 @@ describe("content data", () => {
     }).toEqual({
       characters: 4,
       chapters: 4,
-      cards: 120,
+      cards: 150,
       relics: 40,
       events: 45,
       logbookEntries: 22,
@@ -67,18 +67,18 @@ describe("content data", () => {
 
     expect(countBy(cardList, (card) => card.rarity)).toEqual({
       starter: 15,
-      common: 51,
-      uncommon: 30,
-      rare: 14,
-      ink: 6,
+      common: 65,
+      uncommon: 40,
+      rare: 18,
+      ink: 8,
       status: 4
     });
     expect(countBy(cardList, (card) => card.character ?? "neutral")).toEqual({
-      zhaoyun: 22,
-      diaochan: 22,
-      caiwenji: 21,
-      zhugeliang: 20,
-      neutral: 35
+      zhaoyun: 27,
+      diaochan: 27,
+      caiwenji: 26,
+      zhugeliang: 25,
+      neutral: 45
     });
     expect(countBy(relicList, (relic) => relic.rarity)).toEqual({
       boss: 4,
@@ -151,6 +151,50 @@ describe("content data", () => {
     ];
 
     for (const cardId of wave49CardIds) {
+      const card = cardsById[cardId];
+      const art = cardArtById[cardId];
+
+      expect(card, cardId).toBeDefined();
+      expect(art, cardId).toBeDefined();
+      expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/.+\.(png|svg)$/);
+      expect(art.assetPath, cardId).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
+      expectAssetPathToExist(art.assetPath);
+    }
+
+    const wave50CardIds = [
+      "zhao_cloud_rescue",
+      "zhao_river_lunge",
+      "zhao_spear_reversal",
+      "zhao_horse_sky_arc",
+      "zhao_dragon_courage",
+      "diao_lantern_glance",
+      "diao_silk_veil",
+      "diao_reflecting_fan",
+      "diao_ribbon_cut",
+      "diao_moon_palace_pledge",
+      "cai_plum_tone",
+      "cai_clear_ashes",
+      "cai_returning_hum",
+      "cai_broken_rain",
+      "cai_song_of_exile",
+      "zhuge_lamp_calculation",
+      "zhuge_borrowed_path",
+      "zhuge_feather_order",
+      "zhuge_stone_gate",
+      "zhuge_cloud_script",
+      "common_bamboo_guard",
+      "common_rain_cut",
+      "common_travel_medicine",
+      "common_sudden_step",
+      "common_paper_ward",
+      "common_old_wine",
+      "common_watch_fire",
+      "mind_wangyou",
+      "ink_black_contract",
+      "ink_spilled_moon"
+    ];
+
+    for (const cardId of wave50CardIds) {
       const card = cardsById[cardId];
       const art = cardArtById[cardId];
 

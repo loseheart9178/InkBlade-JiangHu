@@ -9421,3 +9421,51 @@ Known gaps / risks:
 Next step:
 
 - Continue with Wave 50 as a second card-pool expansion toward 150+ cards, then use Wave 51 for EA closeout verification/handoff unless new blocking gaps appear.
+
+## 2026-05-08 Wave 50 150-card EA pool implementation
+
+Wave 50 finished on branch `codex/wave47-relic-fit-system`.
+
+What changed:
+
+- Expanded the card pool from 120 to 150 cards with 30 additional late-EA cards.
+- Added five cards for each playable hero and ten neutral cards, raising character pool counts to Zhao Yun 27, Diao Chan 27, Cai Wenji 26, Zhuge Liang 25, and neutral 45.
+- Raised rarity distribution to starter 15, common 65, uncommon 40, rare 18, ink 8, and status 4.
+- Added direct card-art bindings for every Wave 50 card with existing verified generated assets, keeping card fallback debt at 0.
+- Wired the new cards into normal rewards, elite rewards, shop travel/role/ink offers, and advanced chapter rewards.
+- Updated content baselines, reward/shop reachability tests, README, playtest acceptance docs, desktop checklist, and alpha handoff report text for the 150-card EA baseline.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run tests/data/content.test.ts tests/run/run-system.test.ts --reporter=dot
+Result: passed, 2 files / 67 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 110, source sheets 21, prompt queue targets 54.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 33 files / 263 tests.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vite/bin/vite.js build
+Result: passed.
+
+git diff --check
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 | rg "Healing pressure watchlist|Zhuge Liang|诸葛亮"
+Result: passed. Watchline remains `诸葛亮:high lowest HP 8/10/15 across 3 routes`.
+```
+
+Known gaps / risks:
+
+- Wave 50 reaches the 150-card EA content target using reused verified card art; bespoke art for each new card remains optional polish.
+- The content target is now met, so remaining EA work should focus on closeout verification and handoff clarity rather than more raw scope.
+- This wave does not add new chapters, enemies, audio, mobile layout, storefront, installer, or release packaging work.
+
+Next step:
+
+- Run Wave 51 as the EA closeout pass: verify current gates, produce/update handoff artifacts if needed, document residual non-blocking risks, and stop adding new gameplay scope unless a blocker appears.

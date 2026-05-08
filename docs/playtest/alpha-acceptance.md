@@ -12,7 +12,7 @@ Latest balance stability gate verified: 2026-05-05 Wave 22 Zhuge Liang balance s
 
 Latest balance report label gate verified: 2026-05-05 Wave 24 balance report label refresh on branch `codex/wave24-balance-report-label-refresh`; `scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` now emits `# Wave 24 Alpha Balance Report` with report id `wave24-alpha-balance-v1` while preserving the Wave 22 aggregate structure.
 
-Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 49 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band `8/10/15`, and the Wave 24 report label/report id above.
+Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 50 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band `8/10/15`, and the Wave 24 report label/report id above.
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
 

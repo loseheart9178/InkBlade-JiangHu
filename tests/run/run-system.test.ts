@@ -111,18 +111,72 @@ describe("run system", () => {
     expect(firstDraft.relics.find((offer) => offer.slotId === "premium")?.relic.rarity).toBe("rare");
   });
 
-  it("routes Wave 49 EA cards into rewards, elite rewards, and shop offers", () => {
+  it("routes late EA card expansions into rewards, elite rewards, and shop offers", () => {
     const expectedRoleCards = [
-      ["zhaoyun", ["zhao_dragon_fang", "zhao_rearguard_oath", "zhao_turning_lance", "zhao_white_mantle_vow"]],
-      ["diaochan", ["diao_frost_sleeve", "diao_swallow_return", "diao_crimson_snare", "diao_feather_feint"]],
-      ["caiwenji", ["cai_frost_strings", "cai_wash_dust", "cai_lingering_chord", "cai_jade_nocturne", "cai_river_refrain"]],
-      ["zhugeliang", ["zhuge_stargazer", "zhuge_reed_formation", "zhuge_hidden_route", "zhuge_command_wind", "zhuge_heavenly_plot"]]
+      [
+        "zhaoyun",
+        [
+          "zhao_dragon_fang",
+          "zhao_rearguard_oath",
+          "zhao_turning_lance",
+          "zhao_white_mantle_vow",
+          "zhao_cloud_rescue",
+          "zhao_river_lunge",
+          "zhao_spear_reversal",
+          "zhao_horse_sky_arc",
+          "zhao_dragon_courage"
+        ]
+      ],
+      [
+        "diaochan",
+        [
+          "diao_frost_sleeve",
+          "diao_swallow_return",
+          "diao_crimson_snare",
+          "diao_feather_feint",
+          "diao_lantern_glance",
+          "diao_silk_veil",
+          "diao_reflecting_fan",
+          "diao_ribbon_cut",
+          "diao_moon_palace_pledge"
+        ]
+      ],
+      [
+        "caiwenji",
+        [
+          "cai_frost_strings",
+          "cai_wash_dust",
+          "cai_lingering_chord",
+          "cai_jade_nocturne",
+          "cai_river_refrain",
+          "cai_plum_tone",
+          "cai_clear_ashes",
+          "cai_returning_hum",
+          "cai_broken_rain",
+          "cai_song_of_exile"
+        ]
+      ],
+      [
+        "zhugeliang",
+        [
+          "zhuge_stargazer",
+          "zhuge_reed_formation",
+          "zhuge_hidden_route",
+          "zhuge_command_wind",
+          "zhuge_heavenly_plot",
+          "zhuge_lamp_calculation",
+          "zhuge_borrowed_path",
+          "zhuge_feather_order",
+          "zhuge_stone_gate",
+          "zhuge_cloud_script"
+        ]
+      ]
     ] as const;
     const expectedEliteCards = [
-      ["zhaoyun", ["zhao_turning_lance", "zhao_white_mantle_vow"]],
-      ["diaochan", ["diao_crimson_snare", "diao_feather_feint"]],
-      ["caiwenji", ["cai_lingering_chord", "cai_river_refrain"]],
-      ["zhugeliang", ["zhuge_command_wind", "zhuge_heavenly_plot"]]
+      ["zhaoyun", ["zhao_turning_lance", "zhao_white_mantle_vow", "zhao_spear_reversal", "zhao_horse_sky_arc", "zhao_dragon_courage"]],
+      ["diaochan", ["diao_crimson_snare", "diao_feather_feint", "diao_reflecting_fan", "diao_ribbon_cut", "diao_moon_palace_pledge"]],
+      ["caiwenji", ["cai_lingering_chord", "cai_river_refrain", "cai_returning_hum", "cai_broken_rain", "cai_song_of_exile"]],
+      ["zhugeliang", ["zhuge_command_wind", "zhuge_heavenly_plot", "zhuge_feather_order", "zhuge_stone_gate", "zhuge_cloud_script"]]
     ] as const;
     const expectedNeutralCards = [
       "common_scout_feather",
@@ -131,9 +185,31 @@ describe("run system", () => {
       "common_clear_mist",
       "common_river_stance",
       "mind_chenlian",
-      "mind_taoguang"
+      "mind_taoguang",
+      "common_bamboo_guard",
+      "common_rain_cut",
+      "common_travel_medicine",
+      "common_sudden_step",
+      "common_paper_ward",
+      "common_old_wine",
+      "common_watch_fire",
+      "mind_wangyou"
     ];
-    const expectedInkCards = ["ink_burning_letter", "ink_night_tide"];
+    const expectedTravelShopCards = [
+      "common_scout_feather",
+      "common_brush_parry",
+      "common_lockstep",
+      "common_clear_mist",
+      "common_river_stance",
+      "common_bamboo_guard",
+      "common_rain_cut",
+      "common_travel_medicine",
+      "common_sudden_step",
+      "common_paper_ward",
+      "common_old_wine",
+      "common_watch_fire"
+    ];
+    const expectedInkCards = ["ink_burning_letter", "ink_night_tide", "ink_black_contract", "ink_spilled_moon"];
 
     for (const [characterId, expectedIds] of expectedRoleCards) {
       const rewardSeen = new Set<string>();
@@ -170,12 +246,14 @@ describe("run system", () => {
       const run = createRun("zhaoyun", { mapSeed: seed });
       run.rewardHistory = Array.from({ length: seed }, (_, index) => `common:${index}`);
       createCardRewardDraft(run, "battle").cards.forEach((card) => neutralSeen.add(card.id));
-      createShopDraft(run).cards.forEach((offer) => shopSeen.add(offer.card.id));
+
+      const shopRun = createRun("zhaoyun", { mapSeed: seed });
+      createShopDraft(shopRun).cards.forEach((offer) => shopSeen.add(offer.card.id));
     }
 
     expect([...neutralSeen]).toEqual(expect.arrayContaining(expectedNeutralCards));
-    expect([...shopSeen]).toEqual(expect.arrayContaining([...expectedNeutralCards.slice(0, 5), ...expectedInkCards]));
-   });
+    expect([...shopSeen]).toEqual(expect.arrayContaining([...expectedTravelShopCards, ...expectedInkCards]));
+  });
 
   it("marks the final chapter boss preview as a route to the ending choice", () => {
     const run = createRun("diaochan", { mapSeed: 3 });

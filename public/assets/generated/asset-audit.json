@@ -3,11 +3,11 @@
   "visualManifest": "src/game/content/visuals.ts",
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
-    "runtimeReferenceCount": 198,
+    "runtimeReferenceCount": 228,
     "uniqueRuntimeFileCount": 143,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 88,
+    "gpt2RuntimeCount": 110,
     "sourceSheetCount": 21,
     "cardFallbackDebtCount": 0
   },
@@ -93,6 +93,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "cai_plum_tone",
+      "paths": [
+        "/assets/generated/cards/gpt2-cai-qingxin-song.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "cai_qingxin_song",
       "paths": [
         "/assets/generated/cards/gpt2-cai-qingxin-song.png"
@@ -100,9 +107,30 @@
     },
     {
       "kind": "cardArt",
+      "id": "cai_returning_hum",
+      "paths": [
+        "/assets/generated/cards/gpt2-cai-hujia-beat.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "cai_river_refrain",
       "paths": [
         "/assets/generated/cards/gpt2-cai-final-song.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "cai_song_of_exile",
+      "paths": [
+        "/assets/generated/cards/gpt2-cai-final-song.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_bamboo_guard",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-gedang.png"
       ]
     },
     {
@@ -163,6 +191,20 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_old_wine",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-tuna.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_paper_ward",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-mirror-armor.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "common_pifeng",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-pifeng.png"
@@ -173,6 +215,13 @@
       "id": "common_qingshen",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_rain_cut",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-pifeng.png"
       ]
     },
     {
@@ -191,9 +240,30 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_sudden_step",
+      "paths": [
+        "/assets/generated/cards/gpt2-wave21-common-qingshen.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_travel_medicine",
+      "paths": [
+        "/assets/generated/cards/gpt2-common-jiexue.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "common_tuna",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-common-tuna.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_watch_fire",
+      "paths": [
+        "/assets/generated/cards/gpt2-common-xixin.png"
       ]
     },
     {
@@ -254,6 +324,13 @@
     },
     {
       "kind": "cardArt",
+      "id": "diao_lantern_glance",
+      "paths": [
+        "/assets/generated/cards/gpt2-diao-lijian.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "diao_lijian",
       "paths": [
         "/assets/generated/cards/gpt2-diao-lijian.png"
@@ -278,6 +355,27 @@
       "id": "diao_mirror_flower",
       "paths": [
         "/assets/generated/cards/gpt2-diao-mirror-flower.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_moon_palace_pledge",
+      "paths": [
+        "/assets/generated/cards/gpt2-diao-jinghong-strike.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_reflecting_fan",
+      "paths": [
+        "/assets/generated/cards/gpt2-diao-mirror-flower.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "diao_ribbon_cut",
+      "paths": [
+        "/assets/generated/cards/gpt2-diao-lotus-blade.png"
       ]
     },
     {
@@ -317,6 +415,20 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhao_cloud_rescue",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-river-guard.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_dragon_courage",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-seven-entries.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhao_dragon_fang",
       "paths": [
         "/assets/generated/cards/gpt2-zhao-break-spear.png"
@@ -327,6 +439,13 @@
       "id": "zhao_guard",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-zhao-guard.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_horse_sky_arc",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-white-horse-breakout.png"
       ]
     },
     {
@@ -352,9 +471,23 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhao_river_lunge",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-return-spear.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhao_seven_entries",
       "paths": [
         "/assets/generated/cards/gpt2-zhao-seven-entries.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhao_spear_reversal",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhao-spear-wall.png"
       ]
     },
     {
@@ -415,9 +548,23 @@
     },
     {
       "kind": "cardArt",
+      "id": "zhuge_feather_order",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhuge-borrow-wind.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "zhuge_guard",
       "paths": [
         "/assets/generated/cards/gpt2-wave21-zhuge-guard.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhuge_lamp_calculation",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhuge-observe-stars.png"
       ]
     },
     {
@@ -446,6 +593,13 @@
       "id": "zhuge_stargazer",
       "paths": [
         "/assets/generated/cards/gpt2-zhuge-observe-stars.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "zhuge_stone_gate",
+      "paths": [
+        "/assets/generated/cards/gpt2-zhuge-eight-array.png"
       ]
     },
     {

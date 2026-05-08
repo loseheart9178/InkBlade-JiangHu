@@ -37,7 +37,12 @@ const ZHAO_REWARD_POOL = [
   "zhao_dragon_fang",
   "zhao_rearguard_oath",
   "zhao_turning_lance",
-  "zhao_white_mantle_vow"
+  "zhao_white_mantle_vow",
+  "zhao_cloud_rescue",
+  "zhao_river_lunge",
+  "zhao_spear_reversal",
+  "zhao_horse_sky_arc",
+  "zhao_dragon_courage"
 ];
 const DIAO_REWARD_POOL = [
   "diao_hongyan",
@@ -52,7 +57,12 @@ const DIAO_REWARD_POOL = [
   "diao_frost_sleeve",
   "diao_swallow_return",
   "diao_crimson_snare",
-  "diao_feather_feint"
+  "diao_feather_feint",
+  "diao_lantern_glance",
+  "diao_silk_veil",
+  "diao_reflecting_fan",
+  "diao_ribbon_cut",
+  "diao_moon_palace_pledge"
 ];
 const CAI_REWARD_POOL = [
   "cai_clear_tone",
@@ -68,7 +78,12 @@ const CAI_REWARD_POOL = [
   "cai_wash_dust",
   "cai_lingering_chord",
   "cai_jade_nocturne",
-  "cai_river_refrain"
+  "cai_river_refrain",
+  "cai_plum_tone",
+  "cai_clear_ashes",
+  "cai_returning_hum",
+  "cai_broken_rain",
+  "cai_song_of_exile"
 ];
 const ZHUGE_REWARD_POOL = [
   "zhuge_empty_city",
@@ -84,7 +99,12 @@ const ZHUGE_REWARD_POOL = [
   "zhuge_reed_formation",
   "zhuge_hidden_route",
   "zhuge_command_wind",
-  "zhuge_heavenly_plot"
+  "zhuge_heavenly_plot",
+  "zhuge_lamp_calculation",
+  "zhuge_borrowed_path",
+  "zhuge_feather_order",
+  "zhuge_stone_gate",
+  "zhuge_cloud_script"
 ];
 const ELITE_ZHAO_REWARD_POOL = [
   "zhao_qixing_spear",
@@ -93,7 +113,10 @@ const ELITE_ZHAO_REWARD_POOL = [
   "zhao_break_spear",
   "zhao_single_rider",
   "zhao_turning_lance",
-  "zhao_white_mantle_vow"
+  "zhao_white_mantle_vow",
+  "zhao_spear_reversal",
+  "zhao_horse_sky_arc",
+  "zhao_dragon_courage"
 ];
 const ELITE_DIAO_REWARD_POOL = [
   "diao_closed_moon",
@@ -102,7 +125,10 @@ const ELITE_DIAO_REWARD_POOL = [
   "diao_step_lotus",
   "diao_red_ribbon",
   "diao_crimson_snare",
-  "diao_feather_feint"
+  "diao_feather_feint",
+  "diao_reflecting_fan",
+  "diao_ribbon_cut",
+  "diao_moon_palace_pledge"
 ];
 const ELITE_CAI_REWARD_POOL = [
   "cai_soul_ferry",
@@ -111,7 +137,10 @@ const ELITE_CAI_REWARD_POOL = [
   "cai_clean_string",
   "cai_five_tones_start",
   "cai_lingering_chord",
-  "cai_river_refrain"
+  "cai_river_refrain",
+  "cai_returning_hum",
+  "cai_broken_rain",
+  "cai_song_of_exile"
 ];
 const ELITE_ZHUGE_REWARD_POOL = [
   "zhuge_borrow_wind",
@@ -120,7 +149,10 @@ const ELITE_ZHUGE_REWARD_POOL = [
   "zhuge_straw_boats",
   "zhuge_wind_array",
   "zhuge_command_wind",
-  "zhuge_heavenly_plot"
+  "zhuge_heavenly_plot",
+  "zhuge_feather_order",
+  "zhuge_stone_gate",
+  "zhuge_cloud_script"
 ];
 const COMMON_REWARD_POOL = [
   "common_pifeng",
@@ -140,7 +172,15 @@ const COMMON_REWARD_POOL = [
   "common_clear_mist",
   "common_river_stance",
   "mind_chenlian",
-  "mind_taoguang"
+  "mind_taoguang",
+  "common_bamboo_guard",
+  "common_rain_cut",
+  "common_travel_medicine",
+  "common_sudden_step",
+  "common_paper_ward",
+  "common_old_wine",
+  "common_watch_fire",
+  "mind_wangyou"
 ];
 const SHOP_TRAVEL_CARD_POOL = [
   "common_pifeng",
@@ -155,7 +195,14 @@ const SHOP_TRAVEL_CARD_POOL = [
   "common_brush_parry",
   "common_lockstep",
   "common_clear_mist",
-  "common_river_stance"
+  "common_river_stance",
+  "common_bamboo_guard",
+  "common_rain_cut",
+  "common_travel_medicine",
+  "common_sudden_step",
+  "common_paper_ward",
+  "common_old_wine",
+  "common_watch_fire"
 ];
 const SHOP_INK_CARD_POOL = [
   "ink_modian",
@@ -164,7 +211,9 @@ const SHOP_INK_CARD_POOL = [
   "ink_luoshui_tide",
   "ink_unwritten_page",
   "ink_burning_letter",
-  "ink_night_tide"
+  "ink_night_tide",
+  "ink_black_contract",
+  "ink_spilled_moon"
 ];
 const ZHAO_SHOP_ROLE_POOL = [
   "zhao_thrust",
@@ -178,7 +227,12 @@ const ZHAO_SHOP_ROLE_POOL = [
   "zhao_dragon_fang",
   "zhao_rearguard_oath",
   "zhao_turning_lance",
-  "zhao_white_mantle_vow"
+  "zhao_white_mantle_vow",
+  "zhao_cloud_rescue",
+  "zhao_river_lunge",
+  "zhao_spear_reversal",
+  "zhao_horse_sky_arc",
+  "zhao_dragon_courage"
 ];
 const DIAO_SHOP_ROLE_POOL = [
   "diao_hongyan",
@@ -192,7 +246,12 @@ const DIAO_SHOP_ROLE_POOL = [
   "diao_frost_sleeve",
   "diao_swallow_return",
   "diao_crimson_snare",
-  "diao_feather_feint"
+  "diao_feather_feint",
+  "diao_lantern_glance",
+  "diao_silk_veil",
+  "diao_reflecting_fan",
+  "diao_ribbon_cut",
+  "diao_moon_palace_pledge"
 ];
 const CAI_SHOP_ROLE_POOL = [
   "cai_clear_tone",
@@ -207,7 +266,12 @@ const CAI_SHOP_ROLE_POOL = [
   "cai_wash_dust",
   "cai_lingering_chord",
   "cai_jade_nocturne",
-  "cai_river_refrain"
+  "cai_river_refrain",
+  "cai_plum_tone",
+  "cai_clear_ashes",
+  "cai_returning_hum",
+  "cai_broken_rain",
+  "cai_song_of_exile"
 ];
 const ZHUGE_SHOP_ROLE_POOL = [
   "zhuge_empty_city",
@@ -222,7 +286,12 @@ const ZHUGE_SHOP_ROLE_POOL = [
   "zhuge_reed_formation",
   "zhuge_hidden_route",
   "zhuge_command_wind",
-  "zhuge_heavenly_plot"
+  "zhuge_heavenly_plot",
+  "zhuge_lamp_calculation",
+  "zhuge_borrowed_path",
+  "zhuge_feather_order",
+  "zhuge_stone_gate",
+  "zhuge_cloud_script"
 ];
 const SHOP_CARD_PRICE = 35;
 
@@ -232,7 +301,9 @@ const ZHAO_ADVANCED_REWARD_POOL = [
   "zhao_seven_entries",
   "zhao_spear_wall",
   "zhao_white_mantle_vow",
-  "zhao_turning_lance"
+  "zhao_turning_lance",
+  "zhao_dragon_courage",
+  "zhao_horse_sky_arc"
 ];
 const DIAO_ADVANCED_REWARD_POOL = [
   "diao_closed_moon",
@@ -240,7 +311,9 @@ const DIAO_ADVANCED_REWARD_POOL = [
   "diao_step_lotus",
   "diao_lijian",
   "diao_feather_feint",
-  "diao_crimson_snare"
+  "diao_crimson_snare",
+  "diao_moon_palace_pledge",
+  "diao_ribbon_cut"
 ];
 const CAI_ADVANCED_REWARD_POOL = [
   "cai_final_song",
@@ -248,7 +321,9 @@ const CAI_ADVANCED_REWARD_POOL = [
   "cai_hujia_beat",
   "cai_clean_string",
   "cai_river_refrain",
-  "cai_lingering_chord"
+  "cai_lingering_chord",
+  "cai_song_of_exile",
+  "cai_broken_rain"
 ];
 const ZHUGE_ADVANCED_REWARD_POOL = [
   "zhuge_starfall",
@@ -256,7 +331,9 @@ const ZHUGE_ADVANCED_REWARD_POOL = [
   "zhuge_plan_set",
   "zhuge_straw_boats",
   "zhuge_heavenly_plot",
-  "zhuge_command_wind"
+  "zhuge_command_wind",
+  "zhuge_cloud_script",
+  "zhuge_stone_gate"
 ];
 
 const LATE_EVENT_POOL = [

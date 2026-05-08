@@ -46,7 +46,7 @@ Commit: \`${commit || "unknown"}\`
 - Wave 23 balance report readability: healing pressure is summarized once per stressed character with aggregate lowest HP bands, making Zhuge Liang \`8/10/14\` visible in the watchlist instead of repeated route labels.
 - Wave 24 balance report label: markdown starts \`# Wave 24 Alpha Balance Report\` with report id \`wave24-alpha-balance-v1\`.
 - Wave 15-19 handoff kit: refreshed desktop playtest checklist, external bug intake guide, alpha handoff report, npm report scripts, Node 24 runtime docs, and handoff preflight.
-- Current multi-seed balance artifact: Wave 49 card-pool refresh, 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band 8/10/15.
+- Current multi-seed balance artifact: Wave 50 card-pool refresh, 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band 8/10/15.
 - Wave 21 resolves Milestone 58 for starter/common card faces with 20 GPT Image 2 bitmap runtime crops; remaining art polish is optional non-starter bitmap replacement.
 
 ## Local Run

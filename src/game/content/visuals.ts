@@ -3,6 +3,7 @@ import { wave10CommonCardArt } from "./cardArt/wave10CommonCardArt";
 import { wave10ZhaoDiaoCardArt } from "./cardArt/wave10ZhaoDiaoCardArt";
 import { wave27EaCardArt } from "./cardArt/wave27EaCardArt";
 import { wave49EaCardArt } from "./cardArt/wave49EaCardArt";
+import { wave50EaCardArt } from "./cardArt/wave50EaCardArt";
 import type { CardVisualCueId, CombatVisualTone } from "../systems/combat/types";
 
 export interface CombatPortraitDefinition {
@@ -435,6 +436,7 @@ export const cardArtList: CardArtDefinition[] = [
   ...wave10CaiZhugeCardArt,
   ...wave27EaCardArt,
   ...wave49EaCardArt,
+  ...wave50EaCardArt,
   {
     id: "type_attack",
     assetPath: "/assets/generated/cards/card-red-spear-gpt.png",
