@@ -2,6 +2,7 @@ import { cardList, cardsById } from "../game/content/cards";
 import { createAudioFeedback, type AudioFeedback, type AudioSurface } from "./audioFeedback";
 import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPersistence";
 import type { ChallengeProfileId } from "../game/content/challenges";
+import { chapterList } from "../game/content/chapters";
 import { charactersById } from "../game/content/characters";
 import { enemiesById } from "../game/content/enemies";
 import { eventsById, type EventChoiceEffect, type GameEventChoice } from "../game/content/events";
@@ -1819,10 +1820,13 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const run = requireRun(state);
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
-  panel.classList.add("chapter-reward-screen", "reward-screen");
+  panel.classList.add("chapter-reward-screen", "reward-screen", "transition-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
-  panel.append(createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`));
-  panel.append(createSpoilsSummary(state.pendingSpoils));
+  panel.append(
+    createChapterTransitionHero(run, "chapterReward"),
+    createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`),
+    createTransitionSpoilsDossier(state.pendingSpoils, "chapter")
+  );
 
   const choices = document.createElement("div");
   choices.className = "chapter-reward-list";
@@ -1843,7 +1847,8 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const advancedDraft = createAdvancedRewardDraft(run, "boss");
   const advancedClaimed = hasAdvancedRewardClaimed(run, chapter.id);
   const advanced = document.createElement("div");
-  advanced.className = "advanced-reward-list";
+  advanced.className = "advanced-reward-list transition-choice-section";
+  advanced.dataset.testid = "advanced-reward-dossier";
   advanced.append(createMessage(advancedDraft.reason));
 
   for (const choice of advancedDraft.choices) {
@@ -1864,7 +1869,16 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
     advanced.append(button);
   }
 
-  panel.append(choices, advanced);
+  const chapterChoices = document.createElement("section");
+  chapterChoices.className = "transition-choice-section chapter-reward-dossier";
+  chapterChoices.dataset.testid = "chapter-reward-dossier";
+  chapterChoices.innerHTML = `
+    <small>章末抄录</small>
+    <h3>${escapeHtml(chapter.name)}留下的成长</h3>
+  `;
+  chapterChoices.append(choices);
+
+  panel.append(chapterChoices, advanced);
   mountChapterPanel(host, panel, run);
 }
 
@@ -1873,10 +1887,13 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   const chapter = getCurrentChapter(run);
   const nextChapter = getNextChapter(run);
   const panel = createPanel("screen-boss-reward", "首领战利");
-  panel.classList.add("reward-screen");
+  panel.classList.add("boss-reward-screen", "reward-screen", "transition-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
-  panel.append(createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`));
-  panel.append(createSpoilsSummary(state.pendingSpoils));
+  panel.append(
+    createChapterTransitionHero(run, "bossReward"),
+    createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`),
+    createTransitionSpoilsDossier(state.pendingSpoils, "boss")
+  );
 
   const continueButton = createAction(nextChapter ? "前往下一章" : "收束本章", nextChapter ? `带着章末成长进入${nextChapter.name}。` : "带着战利离开此地。", () => {
     state.pendingSpoils = undefined;
@@ -1895,6 +1912,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
     }
     render();
   });
+  continueButton.classList.add("transition-primary-action");
   continueButton.dataset.testid = "boss-reward-continue";
   panel.append(continueButton);
   mountChapterPanel(host, panel, run);
@@ -1903,9 +1921,12 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
 function renderFinalChoice(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
   const run = requireRun(state);
   const panel = createPanel("screen-final-choice", "终局选择");
-  panel.classList.add("final-choice-screen", "result-screen");
+  panel.classList.add("final-choice-screen", "result-screen", "transition-screen");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), undefined, getDebugSkipChapterHandler(state, render)));
-  panel.append(createMessage("墨书摊开，黑水照见你的心境与墨痕。可见的道路并不都能抵达；不可见的路，只有真正放下时才会显形。"));
+  panel.append(
+    createFinalChoiceRitual(run),
+    createMessage("墨书摊开，黑水照见你的心境与墨痕。可见的道路并不都能抵达；不可见的路，只有真正放下时才会显形。")
+  );
 
   const list = document.createElement("div");
   list.className = "final-choice-list";
@@ -1924,16 +1945,219 @@ function renderFinalChoice(host: HTMLElement, state: ControllerState, render: ()
       render();
     });
     button.classList.add("final-choice-option");
+    button.classList.add(choice.eligible ? "is-eligible" : "is-locked");
     button.dataset.testid = "final-choice-option";
     button.dataset.choiceId = choice.id;
     button.dataset.choiceEligible = `${choice.eligible}`;
     button.dataset.choiceRequirement = choice.requirement;
     button.disabled = !choice.eligible;
+    button.insertAdjacentHTML(
+      "beforeend",
+      `<span class="final-choice-state" data-testid="final-choice-option-state">${choice.eligible ? "可定稿" : "墨色未足"}</span>`
+    );
     list.append(button);
   }
 
   panel.append(list);
   mountChapterPanel(host, panel, run);
+}
+
+function createChapterTransitionHero(run: RunState, kind: "chapterReward" | "bossReward"): HTMLElement {
+  const chapter = getCurrentChapter(run);
+  const nextChapter = getNextChapter(run);
+  const isChapterReward = kind === "chapterReward";
+  const hero = document.createElement("section");
+  hero.className = `transition-hero transition-hero--${isChapterReward ? "chapter" : "boss"}`;
+  hero.dataset.testid = isChapterReward ? "chapter-transition-hero" : "boss-transition-hero";
+  hero.innerHTML = `
+    <small>${isChapterReward ? "章末幕" : nextChapter ? "行旅过场" : "终局幕前"}</small>
+    <h3 data-testid="${isChapterReward ? "chapter-transition-title" : "boss-transition-title"}">${escapeHtml(
+      isChapterReward
+        ? `${chapter.name} · 残页落定`
+        : nextChapter
+          ? `${chapter.name} → ${nextChapter.name}`
+          : `${chapter.name} · 终页将启`
+    )}</h3>
+    <p>${escapeHtml(isChapterReward ? chapter.bossVictoryCopy : nextChapter ? `${chapter.subtitle} 下一卷将把你带向${nextChapter.subtitle}` : "黑水照见所有来路，最后的落笔已经近了。")}</p>
+  `;
+  hero.append(
+    createTransitionMeta([
+      { label: "当前章", value: chapter.mapTitle, testId: "transition-current-chapter" },
+      { label: nextChapter ? "下一章" : "下一幕", value: nextChapter?.mapTitle ?? "终局选择", testId: "transition-next-chapter" },
+      { label: "已过章节", value: `${run.completedChapterIds.length}` },
+      { label: "心境", value: formatRunMindTendencies(run) }
+    ]),
+    createChapterProgress(run)
+  );
+  return hero;
+}
+
+function createFinalChoiceRitual(run: RunState): HTMLElement {
+  const chapter = getCurrentChapter(run);
+  const character = charactersById[run.characterId];
+  const choices = getAvailableFinalChoices(run);
+  const eligibleCount = choices.filter((choice) => choice.eligible).length;
+  const ritual = document.createElement("section");
+  ritual.className = "final-choice-ritual transition-hero transition-hero--final";
+  ritual.dataset.testid = "final-choice-ritual";
+  ritual.innerHTML = `
+    <small>墨书终页</small>
+    <h3>谁来定稿这场黑雨</h3>
+    <p>${escapeHtml(chapter.bossVictoryCopy)} ${escapeHtml(character.name)}站在墨渊之前，选择不再只是奖励，而是把这一局写成何种结局。</p>
+  `;
+  ritual.append(
+    createTransitionMeta([
+      { label: "执笔者", value: character.name, testId: "final-choice-character" },
+      { label: "终局候选", value: `${eligibleCount}/${choices.length}`, testId: "final-choice-eligible-count" },
+      { label: "墨录残页", value: `${getUnlockedLogbookEntries(run).length}` },
+      { label: "心境", value: formatRunMindTendencies(run) }
+    ]),
+    createChapterProgress(run)
+  );
+  return ritual;
+}
+
+function createRunSummaryDossier(summary: CompletedRunSummaryView): HTMLElement {
+  const character = charactersById[summary.completion.characterId];
+  const dossier = document.createElement("section");
+  dossier.className = "run-summary-dossier transition-hero transition-hero--summary";
+  dossier.dataset.testid = "run-summary-dossier";
+  dossier.innerHTML = `
+    <small>终局战报</small>
+    <h3>${escapeHtml(summary.ending.title)}</h3>
+    <p>${escapeHtml(character.name)}的行旅已经归卷：江湖结局写作“${summary.ending.title}”，角色后日谈落为“${summary.characterEpilogue.title}”。</p>
+  `;
+  dossier.append(createTransitionMeta([
+    { label: "角色", value: character.name },
+    { label: "章节", value: `${summary.completion.completedChapterIds.length}` },
+    { label: "生命", value: `${summary.completion.hp}/${summary.completion.maxHp}` },
+    { label: "铜钱", value: `${summary.completion.gold}` },
+    { label: "牌组", value: `${summary.completion.deckSize}` },
+    { label: "法宝", value: `${summary.completion.relicCount}` },
+    { label: "新目标", value: `${summary.newlyCompletedGoalIds?.length ?? 0}` }
+  ]));
+  return dossier;
+}
+
+function createResultDossier(screen: "victory" | "defeat", run: RunState | undefined): HTMLElement {
+  const isVictory = screen === "victory";
+  const character = run ? charactersById[run.characterId] : undefined;
+  const chapter = run ? getCurrentChapter(run) : undefined;
+  const dossier = document.createElement("section");
+  dossier.className = `result-dossier transition-hero transition-hero--${isVictory ? "victory" : "defeat"}`;
+  dossier.dataset.testid = "result-dossier";
+  dossier.innerHTML = `
+    <small>${isVictory ? "胜局收束" : "梦醒卷宗"}</small>
+    <h3 data-testid="result-outcome">${isVictory ? "本章告捷" : "黑雨止步"}</h3>
+    <p>${escapeHtml(isVictory ? "此段江湖暂时收束，新的雨声仍在远处。" : "这一夜没能走到天明，但卷宗仍记下你抵达过哪里、带着什么醒来。")}</p>
+  `;
+
+  if (!run || !character || !chapter) {
+    dossier.append(createTransitionMeta([{ label: "记录", value: "未留下完整行旅" }]));
+    return dossier;
+  }
+
+  dossier.append(createTransitionMeta([
+    { label: "角色", value: character.name, testId: "result-character" },
+    { label: "所在章", value: chapter.name, testId: "result-chapter" },
+    { label: "已过章节", value: `${run.completedChapterIds.length}` },
+    { label: "生命", value: `${Math.max(0, run.hp)}/${run.maxHp}` },
+    { label: "牌组", value: `${run.deck.length}` },
+    { label: "法宝", value: `${run.relicIds.length}` },
+    { label: "心境", value: formatRunMindTendencies(run) }
+  ]));
+  return dossier;
+}
+
+function createTransitionMeta(items: Array<{ label: string; value: string; testId?: string }>): HTMLElement {
+  const meta = document.createElement("div");
+  meta.className = "transition-meta";
+  meta.dataset.testid = "transition-meta";
+  for (const item of items) {
+    const chip = document.createElement("span");
+    if (item.testId) {
+      chip.dataset.testid = item.testId;
+    }
+    chip.innerHTML = `<small>${escapeHtml(item.label)}</small><strong>${escapeHtml(item.value)}</strong>`;
+    meta.append(chip);
+  }
+  return meta;
+}
+
+function createChapterProgress(run: RunState): HTMLElement {
+  const currentChapter = getCurrentChapter(run);
+  const nextChapter = getNextChapter(run);
+  const progress = document.createElement("div");
+  progress.className = "chapter-transition-progress";
+  progress.dataset.testid = "chapter-transition-progress";
+
+  for (const chapter of chapterList) {
+    const state = getChapterProgressState(run, chapter.id, currentChapter.id, nextChapter?.id);
+    const item = document.createElement("span");
+    item.className = `chapter-progress-item chapter-progress-item--${state}`;
+    item.dataset.chapterId = chapter.id;
+    item.dataset.chapterState = state;
+    item.innerHTML = `
+      <small>${chapter.order}</small>
+      <strong>${escapeHtml(chapter.name)}</strong>
+      <em>${formatChapterProgressState(state)}</em>
+    `;
+    progress.append(item);
+  }
+
+  return progress;
+}
+
+function getChapterProgressState(
+  run: RunState,
+  chapterId: RunState["chapterId"],
+  currentChapterId: RunState["chapterId"],
+  nextChapterId: RunState["chapterId"] | undefined
+): "complete" | "current" | "next" | "final" | "locked" {
+  if (chapterId === currentChapterId && !nextChapterId && run.completedChapterIds.includes(chapterId)) {
+    return "final";
+  }
+
+  if (chapterId === currentChapterId) {
+    return "current";
+  }
+
+  if (run.completedChapterIds.includes(chapterId)) {
+    return "complete";
+  }
+
+  if (chapterId === nextChapterId) {
+    return "next";
+  }
+
+  return "locked";
+}
+
+function formatChapterProgressState(state: "complete" | "current" | "next" | "final" | "locked"): string {
+  switch (state) {
+    case "complete":
+      return "已定";
+    case "current":
+      return "此章";
+    case "next":
+      return "将至";
+    case "final":
+      return "终页";
+    case "locked":
+      return "未至";
+  }
+}
+
+function createTransitionSpoilsDossier(spoils: BattleSpoils | undefined, kind: "chapter" | "boss"): HTMLElement {
+  const dossier = document.createElement("section");
+  dossier.className = `transition-spoils transition-spoils--${kind}`;
+  dossier.dataset.testid = `${kind}-spoils-dossier`;
+  dossier.innerHTML = `
+    <small>${kind === "chapter" ? "战后入册" : "首领战利"}</small>
+    <h3>${kind === "chapter" ? "余墨、铜钱与法宝已经归档" : "收拢战利，准备换幕"}</h3>
+  `;
+  dossier.append(createSpoilsSummary(spoils));
+  return dossier;
 }
 
 function renderLogbook(host: HTMLElement, state: ControllerState, render: () => void): void {
@@ -1973,13 +2197,16 @@ function renderLogbook(host: HTMLElement, state: ControllerState, render: () => 
 
 function renderResult(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = state.run;
-  const panel = createPanel(state.screen === "victory" ? "screen-victory" : "screen-defeat", state.screen === "victory" ? "本章告捷" : "梦醒听雨亭");
-  panel.classList.add("result-screen");
-  panel.append(createMessage(state.message));
+  const resultScreen = state.screen === "victory" ? "victory" : "defeat";
+  const panel = createPanel(resultScreen === "victory" ? "screen-victory" : "screen-defeat", resultScreen === "victory" ? "本章告捷" : "梦醒听雨亭");
+  panel.classList.add("result-screen", "transition-screen", `result-screen--${resultScreen}`);
+  panel.append(createResultDossier(resultScreen, run), createMessage(state.message));
 
   const restart = document.createElement("button");
   restart.type = "button";
-  restart.textContent = "再入江湖";
+  restart.className = "choice-action result-primary-action";
+  restart.dataset.testid = "result-restart";
+  restart.innerHTML = "<strong>再入江湖</strong><span>从新的渡口重新开局。</span>";
   restart.addEventListener("click", () => {
     state.run = createRun(run?.characterId ?? "zhaoyun");
     state.combat = undefined;
@@ -1996,7 +2223,7 @@ function renderResult(host: HTMLElement, state: ControllerState, render: () => v
 function renderRunSummary(host: HTMLElement, state: ControllerState, render: () => void): void {
   const summary = state.completedRunSummary;
   const panel = createPanel("screen-run-summary", "行旅结算");
-  panel.classList.add("run-summary-screen", "result-screen");
+  panel.classList.add("run-summary-screen", "result-screen", "transition-screen");
 
   if (!summary) {
     panel.append(createMessage("尚无可结算的行旅。"));
@@ -2041,6 +2268,10 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
   const goals = createProfileGoalsList(summary.profile, summary.newlyCompletedGoalIds);
   const buildRecap = createRunBuildRecapPanel(summary.buildRecap);
   const ledger = createProfileRunLedger(summary.profile);
+  const summaryScroll = document.createElement("div");
+  summaryScroll.className = "run-summary-scroll";
+  summaryScroll.dataset.testid = "run-summary-scroll";
+  summaryScroll.append(ending, epilogue, stats, buildRecap, goals, ledger);
 
   const restart = createAction("再入江湖", "以同一角色重新开局。", () => {
     state.run = createRun(summary.completion.characterId);
@@ -2053,8 +2284,10 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     state.screen = "map";
     render();
   });
+  restart.classList.add("result-primary-action");
+  restart.dataset.testid = "run-summary-restart";
 
-  panel.append(createMessage(state.message), ending, epilogue, stats, buildRecap, goals, ledger, restart);
+  panel.append(createRunSummaryDossier(summary), createMessage(state.message), summaryScroll, restart);
   host.append(panel);
 }
 

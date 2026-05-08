@@ -2,6 +2,40 @@
 
 ## Status Log
 
+### 2026-05-08 20:05 Asia/Shanghai
+
+Wave 56 Route/Victory/Defeat/Chapter Transition Cinematics implementation started in `.worktrees/wave56-transition-cinematics` on branch `codex/wave56-transition-cinematics`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-08-wave56-transition-cinematics.md`
+
+What changed:
+
+- Chapter reward and boss reward screens now use authored transition hero panels, chapter progress strips, and spoils dossiers before continuing.
+- Final choice now opens with a ritual dossier summarizing actor, eligible ending count, logbook fragments, and mind state while preserving existing eligibility and ending selection logic.
+- Run summary now presents a top-level battle report dossier with ending, epilogue, build recap, goals, and ledger grouped in a scrollable report body.
+- Victory/defeat result screens now present compact dossiers with run context and restart action.
+- Reduced-motion mode disables the new nonessential transition animations.
+- Playwright coverage was extended for chapter transition, final boss route, run summary, and defeat result surfaces.
+
+Verification:
+
+```text
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/Users/lushihao/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node /Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "chapter|ending|final boss|run summary|defeat|victory"
+Result: passed, 9 Chromium tests.
+
+git diff --check
+Result: passed.
+```
+
+Verification note:
+
+- First Playwright attempt reused a stale Vite server from the main checkout on port 5173, so new worktree-only test ids were absent. The stale server was stopped, a temporary `node_modules` symlink was created for this worktree, the focused suite passed, and the symlink was removed.
+
 ### 2026-05-08 19:25 Asia/Shanghai
 
 Wave 53 Card Art Quality Audit completed in `.worktrees/wave53-card-art-audit` on branch `codex/wave53-card-art-audit`.

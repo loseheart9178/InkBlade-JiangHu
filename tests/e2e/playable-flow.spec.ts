@@ -312,6 +312,9 @@ test("ending summary records and persists profile summary", async ({ page }, tes
   await page.getByTestId("debug-ending-summary").click();
 
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("run-summary-dossier")).toContainText("隐藏清悟");
+  await expect(page.getByTestId("run-summary-scroll")).toBeVisible();
+  await expect(page.getByTestId("run-summary-restart")).toBeVisible();
   await expect(page.getByTestId("ending-summary")).toBeVisible();
   await expect(page.getByTestId("ending-id")).toContainText("ending_hidden_wu");
   await expect(page.getByTestId("ending-title")).toContainText("隐藏清悟");
@@ -355,11 +358,18 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await winVisibleCombat(page, 120, "screen-chapter-reward");
 
   await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
+  await expect(page.getByTestId("chapter-transition-hero")).toContainText("墨渊照心");
+  await expect(page.getByTestId("chapter-spoils-dossier")).toContainText(/铜钱|战利/);
   await page.getByTestId("chapter-reward-choice").first().click();
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
+  await expect(page.getByTestId("boss-transition-hero")).toContainText("终页将启");
+  await expect(page.getByTestId("transition-next-chapter")).toContainText("终局选择");
   await page.getByTestId("boss-reward-continue").click();
 
   await expect(page.getByTestId("screen-final-choice")).toBeVisible();
+  await expect(page.getByTestId("final-choice-ritual")).toContainText("墨书终页");
+  await expect(page.getByTestId("final-choice-eligible-count")).toContainText(/1\/4|2\/4|3\/4|4\/4/);
+  await expect(page.getByTestId("chapter-transition-progress")).toContainText("墨渊照心");
   await expect(page.getByTestId("screen-final-choice")).toHaveAttribute("data-final-choice-count", "4");
   await expect(page.getByTestId("final-choice-option")).toContainText(["封印墨渊", "焚毁墨书", "接管墨书", "与心魔合一"]);
   await expect(page.getByTestId("final-choice-option").filter({ hasText: "封印墨渊" })).toHaveAttribute("data-choice-eligible", "true");
@@ -378,6 +388,8 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await page.getByTestId("final-choice-option").filter({ hasText: "封印墨渊" }).click();
 
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("run-summary-dossier")).toContainText("清明封印");
+  await expect(page.getByTestId("run-summary-scroll")).toBeVisible();
   await expect(page.getByTestId("ending-summary")).toBeVisible();
   await expect(page.getByTestId("ending-title")).toContainText("清明封印");
   await expect(page.getByTestId("character-epilogue-title")).toContainText("白龙归阵");
@@ -386,6 +398,34 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await expect(page.getByTestId("profile-total-runs")).toContainText("1");
   await expect(page.getByTestId("profile-unlocked-endings")).not.toContainText("未解锁");
   await expect(page.getByTestId("profile-unlocked-epilogues")).toContainText("白龙归阵");
+});
+
+test("defeat result presents a dossier and clears saved continue", async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.goto("/");
+  await page.evaluate(() => window.localStorage.clear());
+  await page.reload();
+
+  await page.getByTestId("start-run").click();
+  await page.getByTestId("map-node-battle-1").click();
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+
+  for (let turn = 0; turn < 24; turn += 1) {
+    if (await page.getByTestId("screen-defeat").isVisible().catch(() => false)) {
+      break;
+    }
+
+    await page.getByTestId("end-turn").click();
+  }
+
+  await expect(page.getByTestId("screen-defeat")).toBeVisible();
+  await expect(page.getByTestId("result-dossier")).toContainText("梦醒卷宗");
+  await expect(page.getByTestId("result-character")).toContainText("赵云");
+  await expect(page.getByTestId("result-chapter")).toContainText("洛水残照");
+  await expect(page.getByTestId("result-restart")).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByTestId("continue-run")).toBeDisabled();
 });
 
 test("boots, enters a Zhao Yun battle, wins, and returns to the route map", async ({ page }, testInfo) => {
@@ -731,6 +771,9 @@ test("can complete the first chapter through the event and rest route", async ({
   await expect(page.getByTestId("screen-method-reward")).toBeVisible();
   await page.locator("[data-testid^='method-choice-']").first().click();
   await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
+  await expect(page.getByTestId("chapter-transition-hero")).toContainText("洛水残照");
+  await expect(page.getByTestId("chapter-transition-progress")).toContainText("竹林听雨");
+  await expect(page.getByTestId("chapter-spoils-dossier")).toContainText(/铜钱|战利/);
   await expect(page.getByTestId("chapter-reward-choice")).toHaveCount(3);
   await expect(page.getByTestId("advanced-reward-choice")).toHaveCount(4);
   await page.getByTestId("advanced-reward-choice").first().click();
@@ -740,6 +783,8 @@ test("can complete the first chapter through the event and rest route", async ({
   await page.getByTestId("deck-close").click();
   await page.getByTestId("chapter-reward-choice").first().click();
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
+  await expect(page.getByTestId("boss-transition-hero")).toContainText("洛水残照");
+  await expect(page.getByTestId("transition-next-chapter")).toContainText("第二章 · 竹林听雨");
   await page.getByTestId("boss-reward-continue").click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
   await expect(page.getByTestId("screen-map")).toHaveAttribute("data-battlefield", "bamboo");
