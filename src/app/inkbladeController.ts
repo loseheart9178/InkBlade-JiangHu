@@ -29,6 +29,7 @@ import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/co
 import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, EnemyIntentEffect, MindState, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import { createDeckBuildRecap, type DeckBuildRecap } from "../game/systems/deck/buildRecap";
+import { createRewardBuildFit } from "../game/systems/deck/rewardFit";
 import { createFinalBossDebugRun } from "../game/systems/debug/debugRun";
 import {
   characterEpiloguesById,
@@ -1398,7 +1399,8 @@ function renderReward(
   const comboHint = getComboRewardHint(run);
   const comboPrimaryCardId = getComboRewardPrimaryCardId(run);
   const rewardReasons = createCardRewardReasonMap(run, state.rewardCards);
-  const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
+  const currentDeckCards = getRunCardDefinitions(run);
+  const archetypeAnalysis = analyzeDeckArchetypes(currentDeckCards);
   if (comboHint) {
     panel.append(createRewardComboHint(comboHint));
   }
@@ -1407,6 +1409,7 @@ function renderReward(
   rewards.className = "reward-cards";
   for (const card of state.rewardCards) {
     const isComboBiased = card.id === comboPrimaryCardId;
+    const fit = createRewardBuildFit(currentDeckCards, card);
     const button = document.createElement("button");
     button.type = "button";
     button.className = `reward-card card-type-${card.types[0]}`;
@@ -1415,6 +1418,7 @@ function renderReward(
     }
     button.dataset.testid = "reward-card";
     button.dataset.comboBiased = isComboBiased ? "true" : "false";
+    button.dataset.buildFitTone = fit.tone;
     button.innerHTML = `
       ${createCardArtMarkup(card)}
       ${createCardChromeMarkup(card)}
@@ -1424,6 +1428,8 @@ function renderReward(
       ${createCardKeywordRowMarkup(card)}
       <span class="card-description">${card.description ?? ""}</span>
       <span class="reward-archetype-role" data-testid="reward-archetype-role">${getCardArchetypeRole(card, archetypeAnalysis)}</span>
+      <span class="reward-build-fit reward-build-fit--${fit.tone}" data-testid="reward-build-fit">${fit.label}</span>
+      <span class="reward-build-fit-detail" data-testid="reward-build-fit-detail">${fit.detail}</span>
       <span class="reward-reason" data-testid="reward-reason">${rewardReasons[card.id] ?? ""}</span>
     `;
     button.addEventListener("click", () => {

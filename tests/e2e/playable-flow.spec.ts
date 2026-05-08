@@ -425,6 +425,8 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("reward-card").first()).toHaveAttribute("data-combo-biased", "true");
   await expect(page.getByTestId("reward-reason").first()).toContainText("流派");
   await expect(page.getByTestId("reward-archetype-role").first()).toContainText(/主线强化|副线补强|通用补短/);
+  await expect(page.getByTestId("reward-build-fit").first()).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
+  await expect(page.getByTestId("reward-build-fit-detail").first()).toContainText(/流|技法|攻击|墨痕|成型|短板/);
   await expect(page.getByTestId("screen-reward").locator(".game-message")).not.toHaveCSS("position", "absolute");
   await expectVerticalGap(page.getByTestId("spoils-summary"), page.getByTestId("reward-card").first(), 8);
   await page.getByTestId("reward-card").first().click();
