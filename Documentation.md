@@ -8924,3 +8924,64 @@ Checked the Wave 44 spec and plan for TODO/TBD placeholders and confirmed it use
 Next step:
 
 - Execute Wave 44 in an isolated UI worktree, then run focused TypeScript/Playwright verification and update documentation.
+
+## 2026-05-08 Wave 44 live build compass implementation
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/playtest/alpha-acceptance.md`
+- `docs/superpowers/specs/2026-05-07-wave44-live-build-compass-design.md`
+- `docs/superpowers/plans/2026-05-07-wave44-live-build-compass.md`
+
+What changed:
+
+- Reused `createDeckBuildRecap()` inside the in-run deck viewer.
+- Replaced the deck viewer archetype summary inner HTML with DOM-rendered live build compass content.
+- Added deck compass chips for current style, signature cards, card-type spread, tactical notes, method, relic, and challenge support.
+- Preserved the existing `deck-archetype-summary`, deck card list, deck close behavior, and completed-run build recap.
+- Extended the Zhao Yun desktop browser flow to verify the compass before combat and again after deck growth.
+
+Subagents:
+
+- `Ohm` started the UI task but stopped responding after adding browser assertions; the main agent completed controller/CSS integration and verification.
+- `Euclid` completed read-only spec and quality review for the Wave 44 UI task: approved.
+
+TDD and failures:
+
+```text
+UI RED: Playwright assertions for `deck-build-compass`, `deck-build-primary`, and `deck-build-signature-card` failed before the deck viewer rendered the live compass.
+Tooling note: `npm install` in the fresh UI worktree used system Node v18 and emitted engine warnings; all verification used bundled Node v24.14.0.
+```
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/deck/build-recap.test.ts tests/deck/archetype-system.test.ts --reporter=dot
+Result: passed, 2 files / 6 tests.
+
+/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "boots, enters a Zhao Yun battle|ending summary records" --project=chromium
+Result: passed, 2 Chromium tests.
+```
+
+Known gaps / risks:
+
+- The live compass is explanatory only and does not change reward drafting or combat balance.
+- The compass depends on current card archetype and type tags; future content should keep those tags accurate.
+- Deck viewer layout remains desktop tuned; mobile layout is still intentionally out of scope.
+
+Next step:
+
+- Start the next EA milestone around reward decision clarity, so the same build language helps players choose cards while drafting instead of only after opening the deck viewer.
