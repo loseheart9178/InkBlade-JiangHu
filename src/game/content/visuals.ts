@@ -223,19 +223,19 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "zhao_strike",
-    assetPath: "/assets/generated/cards/gpt2-wave21-zhao-strike.png",
+    assetPath: "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
     alt: "Zhao Yun spear strike card art in teal ink",
     accent: "teal"
   },
   {
     id: "zhao_guard",
-    assetPath: "/assets/generated/cards/gpt2-wave21-zhao-guard.png",
+    assetPath: "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
     alt: "Zhao Yun guard card art with spear wall",
     accent: "teal"
   },
   {
     id: "zhao_longdan",
-    assetPath: "/assets/generated/cards/gpt2-wave21-zhao-longdan.png",
+    assetPath: "/assets/generated/cards/wave64-zhao-longdan-gpt2.png",
     alt: "Zhao Yun Longdan card art with white dragon spear",
     accent: "teal"
   },
@@ -277,19 +277,19 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "diao_strike",
-    assetPath: "/assets/generated/cards/gpt2-wave21-diao-strike.png",
+    assetPath: "/assets/generated/cards/wave64-diao-strike-gpt2.png",
     alt: "Diao Chan fan strike card art in red silk ink",
     accent: "red"
   },
   {
     id: "diao_guard",
-    assetPath: "/assets/generated/cards/gpt2-wave21-diao-guard.png",
+    assetPath: "/assets/generated/cards/wave64-diao-guard-gpt2.png",
     alt: "Diao Chan guarded dance card art with ribbon screen",
     accent: "red"
   },
   {
     id: "diao_lingbo",
-    assetPath: "/assets/generated/cards/gpt2-wave21-diao-lingbo.png",
+    assetPath: "/assets/generated/cards/wave64-diao-lingbo-gpt2.png",
     alt: "Diao Chan Lingbo step card art with petal footwork",
     accent: "teal"
   },
@@ -361,19 +361,19 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "cai_plain_strike",
-    assetPath: "/assets/generated/cards/gpt2-wave21-cai-plain-strike.png",
+    assetPath: "/assets/generated/cards/wave64-cai-plain-strike-gpt2.png",
     alt: "Cai Wenji plain strike card art with qin-string slash",
     accent: "teal"
   },
   {
     id: "cai_pluck_string",
-    assetPath: "/assets/generated/cards/gpt2-wave21-cai-pluck-string.png",
+    assetPath: "/assets/generated/cards/wave64-cai-pluck-string-gpt2.png",
     alt: "Cai Wenji pluck string card art with teal sound waves",
     accent: "teal"
   },
   {
     id: "cai_gong_tone",
-    assetPath: "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png",
+    assetPath: "/assets/generated/cards/wave64-cai-gong-tone-gpt2.png",
     alt: "Cai Wenji gong tone card art with resonant jade wave",
     accent: "gold"
   },
@@ -397,13 +397,13 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "zhuge_fan_strike",
-    assetPath: "/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png",
+    assetPath: "/assets/generated/cards/wave64-zhuge-fan-strike-gpt2.png",
     alt: "Zhuge Liang fan strike card art with wind and star chart",
     accent: "teal"
   },
   {
     id: "zhuge_guard",
-    assetPath: "/assets/generated/cards/gpt2-wave21-zhuge-guard.png",
+    assetPath: "/assets/generated/cards/wave64-zhuge-guard-gpt2.png",
     alt: "Zhuge Liang guard card art with formation shield",
     accent: "teal"
   },

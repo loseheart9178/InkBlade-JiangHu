@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-08T14:35:53.187Z",
-  "projectRoot": "/Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/.worktrees/wave59-card-art-polish",
+  "generatedAt": "2026-05-09T04:31:07.769Z",
+  "projectRoot": "/Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/.worktrees/wave64-asset-ledger",
   "inputs": {
     "cards": "src/game/content/cards.ts",
     "visuals": "src/game/content/visuals.ts",
@@ -24,9 +24,9 @@
     "genericAssetCount": 3,
     "duplicateAssetGroupCount": 31,
     "suspiciousCropSignalCount": 0,
-    "anomalousDimensionCount": 14,
+    "anomalousDimensionCount": 0,
     "queueCount": 148,
-    "queueTopScore": 105,
+    "queueTopScore": 85,
     "formatDistribution": {
       "png": 83,
       "svg": 67
@@ -52,7 +52,7 @@
       "missingCount": 0,
       "inkPassDebtCount": 0,
       "cardFallbackDebtCount": 0,
-      "gpt2RuntimeCount": 96,
+      "gpt2RuntimeCount": 122,
       "sourceSheetCount": 21
     }
   },
@@ -1065,289 +1065,7 @@
     "png": 83,
     "svg": 67
   },
-  "dimensionFindings": [
-    {
-      "id": "zhao_strike",
-      "name": "枪击",
-      "character": "zhaoyun",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-strike.png",
-      "artId": "zhao_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "zhao_guard",
-      "name": "架枪",
-      "character": "zhaoyun",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-guard.png",
-      "artId": "zhao_guard",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "zhao_longdan",
-      "name": "龙胆",
-      "character": "zhaoyun",
-      "rarity": "starter",
-      "types": [
-        "attack",
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-longdan.png",
-      "artId": "zhao_longdan",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "diao_strike",
-      "name": "素刃",
-      "character": "diaochan",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-strike.png",
-      "artId": "diao_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "diao_guard",
-      "name": "回袖",
-      "character": "diaochan",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-guard.png",
-      "artId": "diao_guard",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "diao_lingbo",
-      "name": "凌波步",
-      "character": "diaochan",
-      "rarity": "starter",
-      "types": [
-        "body"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-lingbo.png",
-      "artId": "diao_lingbo",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "cai_plain_strike",
-      "name": "素击",
-      "character": "caiwenji",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-plain-strike.png",
-      "artId": "cai_plain_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "cai_pluck_string",
-      "name": "拂弦",
-      "character": "caiwenji",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-pluck-string.png",
-      "artId": "cai_pluck_string",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "cai_gong_tone",
-      "name": "宫音",
-      "character": "caiwenji",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png",
-      "artId": "cai_gong_tone",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "zhuge_fan_strike",
-      "name": "羽扇",
-      "character": "zhugeliang",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png",
-      "artId": "zhuge_fan_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "zhuge_guard",
-      "name": "守势",
-      "character": "zhugeliang",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhuge-guard.png",
-      "artId": "zhuge_guard",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "common_duanzhu",
-      "name": "断竹",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-duanzhu.png",
-      "artId": "common_duanzhu",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "common_xieli",
-      "name": "卸力",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-xieli.png",
-      "artId": "common_xieli",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    },
-    {
-      "id": "common_feishi",
-      "name": "飞石",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-feishi.png",
-      "artId": "common_feishi",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "qualityFlags": [
-        "low-resolution"
-      ]
-    }
-  ],
+  "dimensionFindings": [],
   "sourceSheetSignals": {
     "sourceSheetCount": 21,
     "sourceSheets": [
@@ -1450,16 +1168,14 @@
       ],
       "artId": "zhao_strike",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-strike.png",
+      "assetPath": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_guard",
@@ -1471,16 +1187,14 @@
       ],
       "artId": "zhao_guard",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-guard.png",
+      "assetPath": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_longdan",
@@ -1493,16 +1207,14 @@
       ],
       "artId": "zhao_longdan",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-longdan.png",
+      "assetPath": "/assets/generated/cards/wave64-zhao-longdan-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_thrust",
@@ -1659,16 +1371,14 @@
       ],
       "artId": "diao_strike",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-strike.png",
+      "assetPath": "/assets/generated/cards/wave64-diao-strike-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_guard",
@@ -1680,16 +1390,14 @@
       ],
       "artId": "diao_guard",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-guard.png",
+      "assetPath": "/assets/generated/cards/wave64-diao-guard-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_charm",
@@ -1722,16 +1430,14 @@
       ],
       "artId": "diao_lingbo",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-lingbo.png",
+      "assetPath": "/assets/generated/cards/wave64-diao-lingbo-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_hongyan",
@@ -1869,16 +1575,14 @@
       ],
       "artId": "cai_plain_strike",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-plain-strike.png",
+      "assetPath": "/assets/generated/cards/wave64-cai-plain-strike-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_pluck_string",
@@ -1890,16 +1594,14 @@
       ],
       "artId": "cai_pluck_string",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-pluck-string.png",
+      "assetPath": "/assets/generated/cards/wave64-cai-pluck-string-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_gong_tone",
@@ -1911,16 +1613,14 @@
       ],
       "artId": "cai_gong_tone",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png",
+      "assetPath": "/assets/generated/cards/wave64-cai-gong-tone-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_qingxin_song",
@@ -2158,16 +1858,14 @@
       ],
       "artId": "zhuge_fan_strike",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png",
+      "assetPath": "/assets/generated/cards/wave64-zhuge-fan-strike-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_guard",
@@ -2179,16 +1877,14 @@
       ],
       "artId": "zhuge_guard",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhuge-guard.png",
+      "assetPath": "/assets/generated/cards/wave64-zhuge-guard-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_observe_stars",
@@ -2445,16 +2141,14 @@
       ],
       "artId": "common_duanzhu",
       "artSource": "wave10CommonCardArt.ts:wave10CommonCardArt",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-duanzhu.png",
+      "assetPath": "/assets/generated/cards/wave64-common-duanzhu-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "common_gedang",
@@ -2485,16 +2179,14 @@
       ],
       "artId": "common_xieli",
       "artSource": "wave10CommonCardArt.ts:wave10CommonCardArt",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-xieli.png",
+      "assetPath": "/assets/generated/cards/wave64-common-xieli-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "common_tuna",
@@ -2544,16 +2236,14 @@
       ],
       "artId": "common_feishi",
       "artSource": "wave10CommonCardArt.ts:wave10CommonCardArt",
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-feishi.png",
+      "assetPath": "/assets/generated/cards/wave64-common-feishi-gpt2.png",
       "format": "png",
       "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "low-resolution"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "common_zhuiying",
@@ -4499,357 +4189,6 @@
   "replacementQueue": [
     {
       "rank": 1,
-      "cardId": "cai_gong_tone",
-      "name": "宫音",
-      "character": "caiwenji",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png",
-      "artId": "cai_gong_tone",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 2,
-      "cardId": "cai_plain_strike",
-      "name": "素击",
-      "character": "caiwenji",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-plain-strike.png",
-      "artId": "cai_plain_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 3,
-      "cardId": "cai_pluck_string",
-      "name": "拂弦",
-      "character": "caiwenji",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-cai-pluck-string.png",
-      "artId": "cai_pluck_string",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 4,
-      "cardId": "diao_guard",
-      "name": "回袖",
-      "character": "diaochan",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-guard.png",
-      "artId": "diao_guard",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 5,
-      "cardId": "diao_lingbo",
-      "name": "凌波步",
-      "character": "diaochan",
-      "rarity": "starter",
-      "types": [
-        "body"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-lingbo.png",
-      "artId": "diao_lingbo",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 6,
-      "cardId": "diao_strike",
-      "name": "素刃",
-      "character": "diaochan",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-diao-strike.png",
-      "artId": "diao_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 7,
-      "cardId": "zhao_guard",
-      "name": "架枪",
-      "character": "zhaoyun",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-guard.png",
-      "artId": "zhao_guard",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 8,
-      "cardId": "zhao_longdan",
-      "name": "龙胆",
-      "character": "zhaoyun",
-      "rarity": "starter",
-      "types": [
-        "attack",
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-longdan.png",
-      "artId": "zhao_longdan",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 9,
-      "cardId": "zhao_strike",
-      "name": "枪击",
-      "character": "zhaoyun",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhao-strike.png",
-      "artId": "zhao_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 10,
-      "cardId": "zhuge_fan_strike",
-      "name": "羽扇",
-      "character": "zhugeliang",
-      "rarity": "starter",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png",
-      "artId": "zhuge_fan_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 11,
-      "cardId": "zhuge_guard",
-      "name": "守势",
-      "character": "zhugeliang",
-      "rarity": "starter",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-zhuge-guard.png",
-      "artId": "zhuge_guard",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 105,
-      "reasons": [
-        "dimension-anomaly",
-        "low-resolution",
-        "starter-priority"
-      ]
-    },
-    {
-      "rank": 12,
-      "cardId": "common_duanzhu",
-      "name": "断竹",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-duanzhu.png",
-      "artId": "common_duanzhu",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 95,
-      "reasons": [
-        "common-priority",
-        "dimension-anomaly",
-        "low-resolution"
-      ]
-    },
-    {
-      "rank": 13,
-      "cardId": "common_feishi",
-      "name": "飞石",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-feishi.png",
-      "artId": "common_feishi",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 95,
-      "reasons": [
-        "common-priority",
-        "dimension-anomaly",
-        "low-resolution"
-      ]
-    },
-    {
-      "rank": 14,
-      "cardId": "common_xieli",
-      "name": "卸力",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-wave21-common-xieli.png",
-      "artId": "common_xieli",
-      "format": "png",
-      "dimensions": {
-        "width": 256,
-        "height": 307,
-        "aspectRatio": 0.834
-      },
-      "reuseCount": 1,
-      "score": 95,
-      "reasons": [
-        "common-priority",
-        "dimension-anomaly",
-        "low-resolution"
-      ]
-    },
-    {
-      "rank": 15,
       "cardId": "ink_black_contract",
       "name": "墨契",
       "character": "neutral",
@@ -4875,7 +4214,7 @@
       ]
     },
     {
-      "rank": 16,
+      "rank": 2,
       "cardId": "ink_burning_letter",
       "name": "焚书",
       "character": "neutral",
@@ -4901,7 +4240,7 @@
       ]
     },
     {
-      "rank": 17,
+      "rank": 3,
       "cardId": "ink_heiyu",
       "name": "黑雨入梦",
       "character": "neutral",
@@ -4928,7 +4267,7 @@
       ]
     },
     {
-      "rank": 18,
+      "rank": 4,
       "cardId": "ink_modian",
       "name": "墨点",
       "character": "neutral",
@@ -4954,7 +4293,7 @@
       ]
     },
     {
-      "rank": 19,
+      "rank": 5,
       "cardId": "ink_moren",
       "name": "墨刃",
       "character": "neutral",
@@ -4980,7 +4319,7 @@
       ]
     },
     {
-      "rank": 20,
+      "rank": 6,
       "cardId": "ink_night_tide",
       "name": "夜潮",
       "character": "neutral",
@@ -5006,7 +4345,7 @@
       ]
     },
     {
-      "rank": 21,
+      "rank": 7,
       "cardId": "ink_spilled_moon",
       "name": "泼月",
       "character": "neutral",
@@ -5032,7 +4371,7 @@
       ]
     },
     {
-      "rank": 22,
+      "rank": 8,
       "cardId": "ink_unwritten_page",
       "name": "未写之页",
       "character": "neutral",
@@ -5058,7 +4397,7 @@
       ]
     },
     {
-      "rank": 23,
+      "rank": 9,
       "cardId": "cai_clear_ashes",
       "name": "拂烬",
       "character": "caiwenji",
@@ -5083,7 +4422,7 @@
       ]
     },
     {
-      "rank": 24,
+      "rank": 10,
       "cardId": "cai_wash_dust",
       "name": "洗尘",
       "character": "caiwenji",
@@ -5108,7 +4447,7 @@
       ]
     },
     {
-      "rank": 25,
+      "rank": 11,
       "cardId": "cai_yulan_echo",
       "name": "幽兰余响",
       "character": "caiwenji",
@@ -5133,7 +4472,7 @@
       ]
     },
     {
-      "rank": 26,
+      "rank": 12,
       "cardId": "diao_moonstep",
       "name": "月下回旋",
       "character": "diaochan",
@@ -5158,7 +4497,7 @@
       ]
     },
     {
-      "rank": 27,
+      "rank": 13,
       "cardId": "diao_silk_veil",
       "name": "纱幕",
       "character": "diaochan",
@@ -5183,7 +4522,7 @@
       ]
     },
     {
-      "rank": 28,
+      "rank": 14,
       "cardId": "diao_swallow_return",
       "name": "燕返步",
       "character": "diaochan",
@@ -5208,7 +4547,7 @@
       ]
     },
     {
-      "rank": 29,
+      "rank": 15,
       "cardId": "mind_chenlian",
       "name": "沉练",
       "character": "neutral",
@@ -5234,7 +4573,7 @@
       ]
     },
     {
-      "rank": 30,
+      "rank": 16,
       "cardId": "mind_jingxin",
       "name": "静心",
       "character": "neutral",
@@ -5260,7 +4599,7 @@
       ]
     },
     {
-      "rank": 31,
+      "rank": 17,
       "cardId": "zhuge_borrowed_path",
       "name": "借道",
       "character": "zhugeliang",
@@ -5285,7 +4624,7 @@
       ]
     },
     {
-      "rank": 32,
+      "rank": 18,
       "cardId": "zhuge_star_gate",
       "name": "星门",
       "character": "zhugeliang",
@@ -5310,7 +4649,7 @@
       ]
     },
     {
-      "rank": 33,
+      "rank": 19,
       "cardId": "cai_qingxin_song",
       "name": "清心曲",
       "character": "caiwenji",
@@ -5334,7 +4673,7 @@
       ]
     },
     {
-      "rank": 34,
+      "rank": 20,
       "cardId": "diao_jinghong_strike",
       "name": "惊鸿一击",
       "character": "diaochan",
@@ -5359,7 +4698,7 @@
       ]
     },
     {
-      "rank": 35,
+      "rank": 21,
       "cardId": "zhao_seven_entries",
       "name": "七进七出",
       "character": "zhaoyun",
@@ -5384,7 +4723,7 @@
       ]
     },
     {
-      "rank": 36,
+      "rank": 22,
       "cardId": "zhao_spear_wall",
       "name": "枪围如墙",
       "character": "zhaoyun",
@@ -5409,7 +4748,7 @@
       ]
     },
     {
-      "rank": 37,
+      "rank": 23,
       "cardId": "zhuge_observe_stars",
       "name": "观星",
       "character": "zhugeliang",
@@ -5433,7 +4772,7 @@
       ]
     },
     {
-      "rank": 38,
+      "rank": 24,
       "cardId": "zhuge_small_eight_array",
       "name": "八阵",
       "character": "zhugeliang",
@@ -5457,7 +4796,7 @@
       ]
     },
     {
-      "rank": 39,
+      "rank": 25,
       "cardId": "diao_charm",
       "name": "魅影",
       "character": "diaochan",
@@ -5481,7 +4820,7 @@
       ]
     },
     {
-      "rank": 40,
+      "rank": 26,
       "cardId": "diao_frost_sleeve",
       "name": "霜袖",
       "character": "diaochan",
@@ -5507,7 +4846,7 @@
       ]
     },
     {
-      "rank": 41,
+      "rank": 27,
       "cardId": "zhao_rearguard_oath",
       "name": "殿后誓",
       "character": "zhaoyun",
@@ -5532,7 +4871,7 @@
       ]
     },
     {
-      "rank": 42,
+      "rank": 28,
       "cardId": "diao_lijian",
       "name": "离间",
       "character": "diaochan",
@@ -5557,7 +4896,7 @@
       ]
     },
     {
-      "rank": 43,
+      "rank": 29,
       "cardId": "ink_luoshui_tide",
       "name": "洛水墨潮",
       "character": "neutral",
@@ -5582,7 +4921,7 @@
       ]
     },
     {
-      "rank": 44,
+      "rank": 30,
       "cardId": "cai_frost_strings",
       "name": "霜弦",
       "character": "caiwenji",
@@ -5606,7 +4945,7 @@
       ]
     },
     {
-      "rank": 45,
+      "rank": 31,
       "cardId": "cai_plum_tone",
       "name": "梅音",
       "character": "caiwenji",
@@ -5630,7 +4969,7 @@
       ]
     },
     {
-      "rank": 46,
+      "rank": 32,
       "cardId": "common_clear_mist",
       "name": "清雾",
       "character": "neutral",
@@ -5654,7 +4993,7 @@
       ]
     },
     {
-      "rank": 47,
+      "rank": 33,
       "cardId": "common_jiexue",
       "name": "解穴",
       "character": "neutral",
@@ -5678,7 +5017,7 @@
       ]
     },
     {
-      "rank": 48,
+      "rank": 34,
       "cardId": "common_travel_medicine",
       "name": "行药",
       "character": "neutral",
@@ -5702,7 +5041,7 @@
       ]
     },
     {
-      "rank": 49,
+      "rank": 35,
       "cardId": "zhuge_lamp_calculation",
       "name": "灯下算",
       "character": "zhugeliang",
@@ -5726,7 +5065,7 @@
       ]
     },
     {
-      "rank": 50,
+      "rank": 36,
       "cardId": "zhuge_reed_formation",
       "name": "芦阵",
       "character": "zhugeliang",
@@ -5750,7 +5089,7 @@
       ]
     },
     {
-      "rank": 51,
+      "rank": 37,
       "cardId": "zhuge_stargazer",
       "name": "望星",
       "character": "zhugeliang",
@@ -5774,7 +5113,7 @@
       ]
     },
     {
-      "rank": 52,
+      "rank": 38,
       "cardId": "diao_lantern_glance",
       "name": "灯影顾盼",
       "character": "diaochan",
@@ -5798,7 +5137,7 @@
       ]
     },
     {
-      "rank": 53,
+      "rank": 39,
       "cardId": "zhao_cloud_rescue",
       "name": "云中救",
       "character": "zhaoyun",
@@ -5823,7 +5162,7 @@
       ]
     },
     {
-      "rank": 54,
+      "rank": 40,
       "cardId": "zhao_dragon_fang",
       "name": "龙牙突",
       "character": "zhaoyun",
@@ -5847,7 +5186,7 @@
       ]
     },
     {
-      "rank": 55,
+      "rank": 41,
       "cardId": "zhao_return_spear",
       "name": "回马枪",
       "character": "zhaoyun",
@@ -5872,7 +5211,7 @@
       ]
     },
     {
-      "rank": 56,
+      "rank": 42,
       "cardId": "zhao_river_lunge",
       "name": "渡河刺",
       "character": "zhaoyun",
@@ -5896,7 +5235,7 @@
       ]
     },
     {
-      "rank": 57,
+      "rank": 43,
       "cardId": "cai_broken_rain",
       "name": "断雨",
       "character": "caiwenji",
@@ -5920,7 +5259,7 @@
       ]
     },
     {
-      "rank": 58,
+      "rank": 44,
       "cardId": "cai_cleansing_rain",
       "name": "洗雨调",
       "character": "caiwenji",
@@ -5944,7 +5283,7 @@
       ]
     },
     {
-      "rank": 59,
+      "rank": 45,
       "cardId": "cai_jade_nocturne",
       "name": "玉夜调",
       "character": "caiwenji",
@@ -5968,7 +5307,7 @@
       ]
     },
     {
-      "rank": 60,
+      "rank": 46,
       "cardId": "mind_wangyou",
       "name": "忘忧",
       "character": "neutral",
@@ -5993,7 +5332,7 @@
       ]
     },
     {
-      "rank": 61,
+      "rank": 47,
       "cardId": "zhuge_bamboo_slips",
       "name": "简策",
       "character": "zhugeliang",
@@ -6017,7 +5356,7 @@
       ]
     },
     {
-      "rank": 62,
+      "rank": 48,
       "cardId": "zhuge_cloud_script",
       "name": "云策",
       "character": "zhugeliang",
@@ -6041,7 +5380,7 @@
       ]
     },
     {
-      "rank": 63,
+      "rank": 49,
       "cardId": "zhuge_heavenly_plot",
       "name": "天机",
       "character": "zhugeliang",
@@ -6065,7 +5404,7 @@
       ]
     },
     {
-      "rank": 64,
+      "rank": 50,
       "cardId": "zhuge_hidden_route",
       "name": "暗渡",
       "character": "zhugeliang",
@@ -6089,7 +5428,7 @@
       ]
     },
     {
-      "rank": 65,
+      "rank": 51,
       "cardId": "diao_silk_snare",
       "name": "绫罗缚心",
       "character": "diaochan",
@@ -6113,7 +5452,7 @@
       ]
     },
     {
-      "rank": 66,
+      "rank": 52,
       "cardId": "mind_taoguang",
       "name": "韬光",
       "character": "neutral",
@@ -6138,7 +5477,7 @@
       ]
     },
     {
-      "rank": 67,
+      "rank": 53,
       "cardId": "mind_zhaoxin",
       "name": "照心",
       "character": "neutral",
@@ -6163,7 +5502,7 @@
       ]
     },
     {
-      "rank": 68,
+      "rank": 54,
       "cardId": "zhao_oath_guard",
       "name": "白袍护誓",
       "character": "zhaoyun",
@@ -6187,7 +5526,7 @@
       ]
     },
     {
-      "rank": 69,
+      "rank": 55,
       "cardId": "cai_final_song",
       "name": "终曲",
       "character": "caiwenji",
@@ -6210,7 +5549,7 @@
       ]
     },
     {
-      "rank": 70,
+      "rank": 56,
       "cardId": "cai_hujia_beat",
       "name": "胡笳一拍",
       "character": "caiwenji",
@@ -6233,7 +5572,7 @@
       ]
     },
     {
-      "rank": 71,
+      "rank": 57,
       "cardId": "cai_lingering_chord",
       "name": "余弦",
       "character": "caiwenji",
@@ -6256,7 +5595,7 @@
       ]
     },
     {
-      "rank": 72,
+      "rank": 58,
       "cardId": "cai_returning_hum",
       "name": "回吟",
       "character": "caiwenji",
@@ -6279,7 +5618,7 @@
       ]
     },
     {
-      "rank": 73,
+      "rank": 59,
       "cardId": "cai_river_refrain",
       "name": "河声复调",
       "character": "caiwenji",
@@ -6303,7 +5642,7 @@
       ]
     },
     {
-      "rank": 74,
+      "rank": 60,
       "cardId": "cai_song_of_exile",
       "name": "胡笳归梦",
       "character": "caiwenji",
@@ -6326,7 +5665,7 @@
       ]
     },
     {
-      "rank": 75,
+      "rank": 61,
       "cardId": "common_river_stance",
       "name": "临河势",
       "character": "neutral",
@@ -6349,7 +5688,7 @@
       ]
     },
     {
-      "rank": 76,
+      "rank": 62,
       "cardId": "common_watch_fire",
       "name": "守火",
       "character": "neutral",
@@ -6372,7 +5711,7 @@
       ]
     },
     {
-      "rank": 77,
+      "rank": 63,
       "cardId": "common_xixin",
       "name": "洗心",
       "character": "neutral",
@@ -6396,7 +5735,7 @@
       ]
     },
     {
-      "rank": 78,
+      "rank": 64,
       "cardId": "diao_crimson_snare",
       "name": "绯罗网",
       "character": "diaochan",
@@ -6419,7 +5758,7 @@
       ]
     },
     {
-      "rank": 79,
+      "rank": 65,
       "cardId": "diao_feather_feint",
       "name": "羽扇佯攻",
       "character": "diaochan",
@@ -6443,7 +5782,7 @@
       ]
     },
     {
-      "rank": 80,
+      "rank": 66,
       "cardId": "diao_mirror_flower",
       "name": "镜中花",
       "character": "diaochan",
@@ -6466,7 +5805,7 @@
       ]
     },
     {
-      "rank": 81,
+      "rank": 67,
       "cardId": "diao_moon_palace_pledge",
       "name": "月宫誓",
       "character": "diaochan",
@@ -6489,7 +5828,7 @@
       ]
     },
     {
-      "rank": 82,
+      "rank": 68,
       "cardId": "diao_reflecting_fan",
       "name": "照扇",
       "character": "diaochan",
@@ -6512,7 +5851,7 @@
       ]
     },
     {
-      "rank": 83,
+      "rank": 69,
       "cardId": "zhao_dragon_courage",
       "name": "龙胆照阵",
       "character": "zhaoyun",
@@ -6535,7 +5874,7 @@
       ]
     },
     {
-      "rank": 84,
+      "rank": 70,
       "cardId": "zhao_spear_reversal",
       "name": "回枪",
       "character": "zhaoyun",
@@ -6558,7 +5897,7 @@
       ]
     },
     {
-      "rank": 85,
+      "rank": 71,
       "cardId": "zhao_turning_lance",
       "name": "回锋连刺",
       "character": "zhaoyun",
@@ -6581,7 +5920,7 @@
       ]
     },
     {
-      "rank": 86,
+      "rank": 72,
       "cardId": "zhao_white_mantle_vow",
       "name": "白袍誓",
       "character": "zhaoyun",
@@ -6604,7 +5943,7 @@
       ]
     },
     {
-      "rank": 87,
+      "rank": 73,
       "cardId": "zhuge_borrow_wind",
       "name": "借风",
       "character": "zhugeliang",
@@ -6628,7 +5967,7 @@
       ]
     },
     {
-      "rank": 88,
+      "rank": 74,
       "cardId": "zhuge_command_wind",
       "name": "令风",
       "character": "zhugeliang",
@@ -6651,7 +5990,7 @@
       ]
     },
     {
-      "rank": 89,
+      "rank": 75,
       "cardId": "zhuge_feather_order",
       "name": "羽令",
       "character": "zhugeliang",
@@ -6674,7 +6013,7 @@
       ]
     },
     {
-      "rank": 90,
+      "rank": 76,
       "cardId": "zhuge_stone_gate",
       "name": "石门",
       "character": "zhugeliang",
@@ -6697,7 +6036,7 @@
       ]
     },
     {
-      "rank": 91,
+      "rank": 77,
       "cardId": "diao_closed_moon",
       "name": "闭月回风",
       "character": "diaochan",
@@ -6721,7 +6060,7 @@
       ]
     },
     {
-      "rank": 92,
+      "rank": 78,
       "cardId": "diao_lotus_blade",
       "name": "莲步藏锋",
       "character": "diaochan",
@@ -6745,7 +6084,7 @@
       ]
     },
     {
-      "rank": 93,
+      "rank": 79,
       "cardId": "diao_ribbon_cut",
       "name": "红绫切",
       "character": "diaochan",
@@ -6769,7 +6108,7 @@
       ]
     },
     {
-      "rank": 94,
+      "rank": 80,
       "cardId": "zhao_break_spear",
       "name": "破军枪",
       "character": "zhaoyun",
@@ -6792,7 +6131,7 @@
       ]
     },
     {
-      "rank": 95,
+      "rank": 81,
       "cardId": "zhao_horse_sky_arc",
       "name": "白马天弧",
       "character": "zhaoyun",
@@ -6815,7 +6154,7 @@
       ]
     },
     {
-      "rank": 96,
+      "rank": 82,
       "cardId": "zhao_river_guard",
       "name": "截江守势",
       "character": "zhaoyun",
@@ -6838,7 +6177,7 @@
       ]
     },
     {
-      "rank": 97,
+      "rank": 83,
       "cardId": "zhao_white_horse_breakout",
       "name": "白马突围",
       "character": "zhaoyun",
@@ -6861,7 +6200,7 @@
       ]
     },
     {
-      "rank": 98,
+      "rank": 84,
       "cardId": "status_rain_chill",
       "name": "雨寒",
       "character": "neutral",
@@ -6885,7 +6224,7 @@
       ]
     },
     {
-      "rank": 99,
+      "rank": 85,
       "cardId": "cai_broken_string",
       "name": "断弦",
       "character": "caiwenji",
@@ -6909,7 +6248,7 @@
       ]
     },
     {
-      "rank": 100,
+      "rank": 86,
       "cardId": "cai_clear_tone",
       "name": "清音",
       "character": "caiwenji",
@@ -6933,7 +6272,7 @@
       ]
     },
     {
-      "rank": 101,
+      "rank": 87,
       "cardId": "cai_echoing_melody",
       "name": "余韵",
       "character": "caiwenji",
@@ -6957,7 +6296,7 @@
       ]
     },
     {
-      "rank": 102,
+      "rank": 88,
       "cardId": "cai_listen_still",
       "name": "静听",
       "character": "caiwenji",
@@ -6981,7 +6320,7 @@
       ]
     },
     {
-      "rank": 103,
+      "rank": 89,
       "cardId": "cai_shang_tone",
       "name": "商音",
       "character": "caiwenji",
@@ -7005,7 +6344,7 @@
       ]
     },
     {
-      "rank": 104,
+      "rank": 90,
       "cardId": "common_cangfeng",
       "name": "藏锋",
       "character": "neutral",
@@ -7029,7 +6368,7 @@
       ]
     },
     {
-      "rank": 105,
+      "rank": 91,
       "cardId": "common_tashui",
       "name": "踏水",
       "character": "neutral",
@@ -7053,7 +6392,7 @@
       ]
     },
     {
-      "rank": 106,
+      "rank": 92,
       "cardId": "diao_falling_fan",
       "name": "落英扇",
       "character": "diaochan",
@@ -7077,7 +6416,7 @@
       ]
     },
     {
-      "rank": 107,
+      "rank": 93,
       "cardId": "diao_glance",
       "name": "回眸",
       "character": "diaochan",
@@ -7101,7 +6440,7 @@
       ]
     },
     {
-      "rank": 108,
+      "rank": 94,
       "cardId": "diao_hongyan",
       "name": "红颜",
       "character": "diaochan",
@@ -7125,7 +6464,7 @@
       ]
     },
     {
-      "rank": 109,
+      "rank": 95,
       "cardId": "diao_sleeve_blade",
       "name": "袖中刃",
       "character": "diaochan",
@@ -7149,7 +6488,7 @@
       ]
     },
     {
-      "rank": 110,
+      "rank": 96,
       "cardId": "mind_luanxin",
       "name": "乱心",
       "character": "neutral",
@@ -7174,7 +6513,7 @@
       ]
     },
     {
-      "rank": 111,
+      "rank": 97,
       "cardId": "mind_nuzhan",
       "name": "怒斩",
       "character": "neutral",
@@ -7199,7 +6538,7 @@
       ]
     },
     {
-      "rank": 112,
+      "rank": 98,
       "cardId": "zhao_cloud_pierce",
       "name": "云龙穿阵",
       "character": "zhaoyun",
@@ -7223,7 +6562,7 @@
       ]
     },
     {
-      "rank": 113,
+      "rank": 99,
       "cardId": "zhao_guardian",
       "name": "护主",
       "character": "zhaoyun",
@@ -7247,7 +6586,7 @@
       ]
     },
     {
-      "rank": 114,
+      "rank": 100,
       "cardId": "zhao_stable_formation",
       "name": "稳阵",
       "character": "zhaoyun",
@@ -7271,7 +6610,7 @@
       ]
     },
     {
-      "rank": 115,
+      "rank": 101,
       "cardId": "zhao_sweep",
       "name": "横扫",
       "character": "zhaoyun",
@@ -7295,7 +6634,7 @@
       ]
     },
     {
-      "rank": 116,
+      "rank": 102,
       "cardId": "zhao_thrust",
       "name": "突刺",
       "character": "zhaoyun",
@@ -7319,7 +6658,7 @@
       ]
     },
     {
-      "rank": 117,
+      "rank": 103,
       "cardId": "zhao_white_dragon",
       "name": "白龙探爪",
       "character": "zhaoyun",
@@ -7343,7 +6682,7 @@
       ]
     },
     {
-      "rank": 118,
+      "rank": 104,
       "cardId": "zhuge_deduction",
       "name": "推演",
       "character": "zhugeliang",
@@ -7367,7 +6706,7 @@
       ]
     },
     {
-      "rank": 119,
+      "rank": 105,
       "cardId": "zhuge_empty_city",
       "name": "空城",
       "character": "zhugeliang",
@@ -7391,7 +6730,7 @@
       ]
     },
     {
-      "rank": 120,
+      "rank": 106,
       "cardId": "zhuge_fire_array",
       "name": "火阵",
       "character": "zhugeliang",
@@ -7415,7 +6754,7 @@
       ]
     },
     {
-      "rank": 121,
+      "rank": 107,
       "cardId": "zhuge_stone_array",
       "name": "石阵",
       "character": "zhugeliang",
@@ -7439,7 +6778,7 @@
       ]
     },
     {
-      "rank": 122,
+      "rank": 108,
       "cardId": "zhuge_wind_array",
       "name": "风阵",
       "character": "zhugeliang",
@@ -7463,7 +6802,261 @@
       ]
     },
     {
-      "rank": 123,
+      "rank": 109,
+      "cardId": "cai_gong_tone",
+      "name": "宫音",
+      "character": "caiwenji",
+      "rarity": "starter",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-cai-gong-tone-gpt2.png",
+      "artId": "cai_gong_tone",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 110,
+      "cardId": "cai_plain_strike",
+      "name": "素击",
+      "character": "caiwenji",
+      "rarity": "starter",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-cai-plain-strike-gpt2.png",
+      "artId": "cai_plain_strike",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 111,
+      "cardId": "cai_pluck_string",
+      "name": "拂弦",
+      "character": "caiwenji",
+      "rarity": "starter",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-cai-pluck-string-gpt2.png",
+      "artId": "cai_pluck_string",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 112,
+      "cardId": "diao_guard",
+      "name": "回袖",
+      "character": "diaochan",
+      "rarity": "starter",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-diao-guard-gpt2.png",
+      "artId": "diao_guard",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 113,
+      "cardId": "diao_lingbo",
+      "name": "凌波步",
+      "character": "diaochan",
+      "rarity": "starter",
+      "types": [
+        "body"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-diao-lingbo-gpt2.png",
+      "artId": "diao_lingbo",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 114,
+      "cardId": "diao_strike",
+      "name": "素刃",
+      "character": "diaochan",
+      "rarity": "starter",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-diao-strike-gpt2.png",
+      "artId": "diao_strike",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 115,
+      "cardId": "zhao_guard",
+      "name": "架枪",
+      "character": "zhaoyun",
+      "rarity": "starter",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+      "artId": "zhao_guard",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 116,
+      "cardId": "zhao_longdan",
+      "name": "龙胆",
+      "character": "zhaoyun",
+      "rarity": "starter",
+      "types": [
+        "attack",
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-zhao-longdan-gpt2.png",
+      "artId": "zhao_longdan",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 117,
+      "cardId": "zhao_strike",
+      "name": "枪击",
+      "character": "zhaoyun",
+      "rarity": "starter",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+      "artId": "zhao_strike",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 118,
+      "cardId": "zhuge_fan_strike",
+      "name": "羽扇",
+      "character": "zhugeliang",
+      "rarity": "starter",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-zhuge-fan-strike-gpt2.png",
+      "artId": "zhuge_fan_strike",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 119,
+      "cardId": "zhuge_guard",
+      "name": "守势",
+      "character": "zhugeliang",
+      "rarity": "starter",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-zhuge-guard-gpt2.png",
+      "artId": "zhuge_guard",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "starter-priority"
+      ]
+    },
+    {
+      "rank": 120,
       "cardId": "status_canyin",
       "name": "残音",
       "character": "neutral",
@@ -7487,7 +7080,7 @@
       ]
     },
     {
-      "rank": 124,
+      "rank": 121,
       "cardId": "status_redacted_history",
       "name": "涂史",
       "character": "neutral",
@@ -7511,7 +7104,7 @@
       ]
     },
     {
-      "rank": 125,
+      "rank": 122,
       "cardId": "status_zayin",
       "name": "杂音",
       "character": "neutral",
@@ -7534,7 +7127,7 @@
       ]
     },
     {
-      "rank": 126,
+      "rank": 123,
       "cardId": "common_bamboo_guard",
       "name": "竹护",
       "character": "neutral",
@@ -7557,7 +7150,7 @@
       ]
     },
     {
-      "rank": 127,
+      "rank": 124,
       "cardId": "common_brush_parry",
       "name": "笔格",
       "character": "neutral",
@@ -7580,7 +7173,53 @@
       ]
     },
     {
-      "rank": 128,
+      "rank": 125,
+      "cardId": "common_duanzhu",
+      "name": "断竹",
+      "character": "neutral",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-common-duanzhu-gpt2.png",
+      "artId": "common_duanzhu",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 126,
+      "cardId": "common_feishi",
+      "name": "飞石",
+      "character": "neutral",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-common-feishi-gpt2.png",
+      "artId": "common_feishi",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 127,
       "cardId": "common_gedang",
       "name": "格挡",
       "character": "neutral",
@@ -7603,7 +7242,7 @@
       ]
     },
     {
-      "rank": 129,
+      "rank": 128,
       "cardId": "common_lockstep",
       "name": "并步",
       "character": "neutral",
@@ -7627,7 +7266,7 @@
       ]
     },
     {
-      "rank": 130,
+      "rank": 129,
       "cardId": "common_old_wine",
       "name": "旧酒",
       "character": "neutral",
@@ -7650,7 +7289,7 @@
       ]
     },
     {
-      "rank": 131,
+      "rank": 130,
       "cardId": "common_paper_ward",
       "name": "纸符护",
       "character": "neutral",
@@ -7673,7 +7312,7 @@
       ]
     },
     {
-      "rank": 132,
+      "rank": 131,
       "cardId": "common_pifeng",
       "name": "劈风",
       "character": "neutral",
@@ -7696,7 +7335,7 @@
       ]
     },
     {
-      "rank": 133,
+      "rank": 132,
       "cardId": "common_qingshen",
       "name": "轻身",
       "character": "neutral",
@@ -7719,7 +7358,7 @@
       ]
     },
     {
-      "rank": 134,
+      "rank": 133,
       "cardId": "common_rain_cut",
       "name": "雨斩",
       "character": "neutral",
@@ -7742,7 +7381,7 @@
       ]
     },
     {
-      "rank": 135,
+      "rank": 134,
       "cardId": "common_scout_feather",
       "name": "探羽",
       "character": "neutral",
@@ -7765,7 +7404,7 @@
       ]
     },
     {
-      "rank": 136,
+      "rank": 135,
       "cardId": "common_sudden_step",
       "name": "骤步",
       "character": "neutral",
@@ -7788,7 +7427,7 @@
       ]
     },
     {
-      "rank": 137,
+      "rank": 136,
       "cardId": "common_tuna",
       "name": "吐纳",
       "character": "neutral",
@@ -7798,6 +7437,29 @@
       ],
       "assetPath": "/assets/generated/cards/wave59-common-tuna-gpt2.png",
       "artId": "common_tuna",
+      "format": "png",
+      "dimensions": {
+        "width": 512,
+        "height": 768,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 137,
+      "cardId": "common_xieli",
+      "name": "卸力",
+      "character": "neutral",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave64-common-xieli-gpt2.png",
+      "artId": "common_xieli",
       "format": "png",
       "dimensions": {
         "width": 512,

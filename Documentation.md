@@ -2,6 +2,65 @@
 
 ## Status Log
 
+### 2026-05-09 12:40 Asia/Shanghai
+
+Wave 64 Remaining Card Art And Asset Ledger completed in `.worktrees/wave64-asset-ledger` on branch `codex/wave64-asset-ledger`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-09-wave64-asset-ledger.md`
+- `tests/data/wave64-card-art.test.ts`
+- `public/assets/generated/cards/wave64-*.png`
+
+What changed:
+
+- Replaced 11 low-resolution starter card faces with 512x768 Wave64 generated PNGs: Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang starter cards now bind to `wave64-*-gpt2.png` runtime assets.
+- Replaced `common_duanzhu`, `common_feishi`, and `common_xieli` with 512x768 Wave64 generated PNGs.
+- Used existing high-resolution GPT2 character source sheets for the starter crops and a new built-in image generation for `common_feishi`; generated originals remain in `/Users/lushihao/.codex/generated_images/019e062b-68bb-7612-a1ce-93441b49eaa8/`.
+- Updated Wave21/Wave10/content data tests so "latest generated bitmap runtime assets" now points at Wave64 for the 14 replaced cards.
+- Added Wave64 data coverage for file existence, PNG magic bytes, 512x768 dimensions, and asset-audit inclusion.
+- Updated `scripts/audit-generated-assets.mjs` so GPT2 runtime accounting recognizes both `gpt2-*` prefixes and `*-gpt2.png` suffixes.
+- Regenerated `public/assets/generated/asset-audit.json` and `reports/card-art-quality-report.*`.
+- Updated the post-EA polish roadmap so Wave64 is complete and only Wave65-Wave66 remain.
+
+Findings:
+
+- Asset audit: runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 122, source sheets 21.
+- Card-art quality report: dimension/crop signals are now 0; the top queue is now ink/mind/status vector placeholders, duplicate signature reuse, and generic early card assets rather than low-resolution bad crops.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 122, source sheets 21, prompt queue targets 54.
+
+node scripts/card-art-quality-report.mjs
+Result: passed. cards 150, missing files 0, duplicate asset groups 31, replacement queue 148.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/data/wave64-card-art.test.ts tests/data/wave21-gpt2-card-art.test.ts tests/data/wave10-common-card-art.test.ts tests/data/content.test.ts tests/data/card-art-quality-report.test.ts --reporter=dot
+Result: passed, 5 files / 39 tests.
+
+git diff --check
+Result: passed.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 36 files / 267 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+```
+
+Verification note:
+
+- A test/doc worker updated only the four allowed data-test files, then the main thread reviewed the diff and reran the targeted suite.
+- Combat visual smoke screenshots were reviewed for the Wave64 card windows after the browser run.
+
 ### 2026-05-09 00:00 Asia/Shanghai
 
 Wave 63 Cinematic Route Polish completed in `.worktrees/wave63-cinematic-route-polish` on branch `codex/wave63-cinematic-route-polish`.

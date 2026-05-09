@@ -7,7 +7,7 @@
     "uniqueRuntimeFileCount": 151,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 96,
+    "gpt2RuntimeCount": 122,
     "sourceSheetCount": 21,
     "cardFallbackDebtCount": 0
   },
@@ -60,7 +60,7 @@
       "kind": "cardArt",
       "id": "cai_gong_tone",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-cai-gong-tone.png"
+        "/assets/generated/cards/wave64-cai-gong-tone-gpt2.png"
       ]
     },
     {
@@ -81,14 +81,14 @@
       "kind": "cardArt",
       "id": "cai_plain_strike",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-cai-plain-strike.png"
+        "/assets/generated/cards/wave64-cai-plain-strike-gpt2.png"
       ]
     },
     {
       "kind": "cardArt",
       "id": "cai_pluck_string",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-cai-pluck-string.png"
+        "/assets/generated/cards/wave64-cai-pluck-string-gpt2.png"
       ]
     },
     {
@@ -128,6 +128,20 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_bamboo_guard",
+      "paths": [
+        "/assets/generated/cards/wave57-common-bamboo-guard-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_brush_parry",
+      "paths": [
+        "/assets/generated/cards/wave57-common-brush-parry-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "common_clear_mist",
       "paths": [
         "/assets/generated/cards/gpt2-common-jiexue.png"
@@ -137,14 +151,21 @@
       "kind": "cardArt",
       "id": "common_duanzhu",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-duanzhu.png"
+        "/assets/generated/cards/wave64-common-duanzhu-gpt2.png"
       ]
     },
     {
       "kind": "cardArt",
       "id": "common_feishi",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-feishi.png"
+        "/assets/generated/cards/wave64-common-feishi-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_gedang",
+      "paths": [
+        "/assets/generated/cards/wave57-common-gedang-gpt2.png"
       ]
     },
     {
@@ -156,6 +177,55 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_lockstep",
+      "paths": [
+        "/assets/generated/cards/wave59-common-lockstep-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_mirror_armor",
+      "paths": [
+        "/assets/generated/cards/wave59-common-mirror-armor-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_old_wine",
+      "paths": [
+        "/assets/generated/cards/wave59-common-old-wine-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_paper_ward",
+      "paths": [
+        "/assets/generated/cards/wave59-common-paper-ward-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_pifeng",
+      "paths": [
+        "/assets/generated/cards/wave59-common-pifeng-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_qingshen",
+      "paths": [
+        "/assets/generated/cards/wave57-common-qingshen-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_rain_cut",
+      "paths": [
+        "/assets/generated/cards/wave59-common-rain-cut-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "common_river_stance",
       "paths": [
         "/assets/generated/cards/gpt2-common-xixin.png"
@@ -163,9 +233,30 @@
     },
     {
       "kind": "cardArt",
+      "id": "common_scout_feather",
+      "paths": [
+        "/assets/generated/cards/wave57-common-scout-feather-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_sudden_step",
+      "paths": [
+        "/assets/generated/cards/wave57-common-sudden-step-gpt2.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
       "id": "common_travel_medicine",
       "paths": [
         "/assets/generated/cards/gpt2-common-jiexue.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_tuna",
+      "paths": [
+        "/assets/generated/cards/wave59-common-tuna-gpt2.png"
       ]
     },
     {
@@ -179,7 +270,7 @@
       "kind": "cardArt",
       "id": "common_xieli",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-common-xieli.png"
+        "/assets/generated/cards/wave64-common-xieli-gpt2.png"
       ]
     },
     {
@@ -187,6 +278,13 @@
       "id": "common_xixin",
       "paths": [
         "/assets/generated/cards/gpt2-common-xixin.png"
+      ]
+    },
+    {
+      "kind": "cardArt",
+      "id": "common_zhuiying",
+      "paths": [
+        "/assets/generated/cards/wave59-common-zhuiying-gpt2.png"
       ]
     },
     {
@@ -214,7 +312,7 @@
       "kind": "cardArt",
       "id": "diao_guard",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-diao-guard.png"
+        "/assets/generated/cards/wave64-diao-guard-gpt2.png"
       ]
     },
     {
@@ -242,7 +340,7 @@
       "kind": "cardArt",
       "id": "diao_lingbo",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-diao-lingbo.png"
+        "/assets/generated/cards/wave64-diao-lingbo-gpt2.png"
       ]
     },
     {
@@ -284,7 +382,7 @@
       "kind": "cardArt",
       "id": "diao_strike",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-diao-strike.png"
+        "/assets/generated/cards/wave64-diao-strike-gpt2.png"
       ]
     },
     {
@@ -340,7 +438,7 @@
       "kind": "cardArt",
       "id": "zhao_guard",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-zhao-guard.png"
+        "/assets/generated/cards/wave64-zhao-guard-gpt2.png"
       ]
     },
     {
@@ -354,7 +452,7 @@
       "kind": "cardArt",
       "id": "zhao_longdan",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-zhao-longdan.png"
+        "/assets/generated/cards/wave64-zhao-longdan-gpt2.png"
       ]
     },
     {
@@ -403,7 +501,7 @@
       "kind": "cardArt",
       "id": "zhao_strike",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-zhao-strike.png"
+        "/assets/generated/cards/wave64-zhao-strike-gpt2.png"
       ]
     },
     {
@@ -445,7 +543,7 @@
       "kind": "cardArt",
       "id": "zhuge_fan_strike",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-zhuge-fan-strike.png"
+        "/assets/generated/cards/wave64-zhuge-fan-strike-gpt2.png"
       ]
     },
     {
@@ -459,7 +557,7 @@
       "kind": "cardArt",
       "id": "zhuge_guard",
       "paths": [
-        "/assets/generated/cards/gpt2-wave21-zhuge-guard.png"
+        "/assets/generated/cards/wave64-zhuge-guard-gpt2.png"
       ]
     },
     {
@@ -667,9 +765,51 @@
     },
     {
       "kind": "combatSpriteSheet",
+      "id": "bamboo_phalanx_attack",
+      "paths": [
+        "/assets/sprites/bamboo-phalanx-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "bamboo_soldier_attack",
+      "paths": [
+        "/assets/sprites/bamboo-soldier-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "bamboo_wraith_attack",
+      "paths": [
+        "/assets/sprites/bamboo-wraith-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "broken_scholar_attack",
+      "paths": [
+        "/assets/sprites/broken-scholar-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "caiwenji_attack",
+      "paths": [
+        "/assets/sprites/caiwenji-qin-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
       "id": "diaochan_attack",
       "paths": [
         "/assets/sprites/diaochan-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "history_scribe_attack",
+      "paths": [
+        "/assets/sprites/history-scribe-attack-strip-gpt2.png"
       ]
     },
     {
@@ -681,6 +821,20 @@
     },
     {
       "kind": "combatSpriteSheet",
+      "id": "lubu_shadow_attack",
+      "paths": [
+        "/assets/sprites/lubu-shadow-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "nameless_historian_attack",
+      "paths": [
+        "/assets/sprites/nameless-historian-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
       "id": "paper_umbrella_attack",
       "paths": [
         "/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png"
@@ -688,9 +842,37 @@
     },
     {
       "kind": "combatSpriteSheet",
+      "id": "qin_demon_attack",
+      "paths": [
+        "/assets/sprites/qin-demon-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "qin_score_attack",
+      "paths": [
+        "/assets/sprites/qin-score-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "scribe_officer_attack",
+      "paths": [
+        "/assets/sprites/scribe-officer-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
       "id": "zhaoyun_attack",
       "paths": [
         "/assets/sprites/zhaoyun-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "zhugeliang_attack",
+      "paths": [
+        "/assets/sprites/zhugeliang-formation-strip-gpt2.png"
       ]
     }
   ],

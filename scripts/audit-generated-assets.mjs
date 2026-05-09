@@ -187,7 +187,7 @@ function groupBySemanticAsset(references) {
 
 function isGpt2RuntimeAsset(assetPath) {
   const fileName = path.posix.basename(assetPath).toLowerCase();
-  return fileName.startsWith("gpt2-") || fileName.includes("-gpt-v2");
+  return fileName.startsWith("gpt2-") || fileName.includes("-gpt-v2") || /-gpt2\.(?:png|jpe?g|webp)$/.test(fileName);
 }
 
 function findSourceSheets(rootDir) {

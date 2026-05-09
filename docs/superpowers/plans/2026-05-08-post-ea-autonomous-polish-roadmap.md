@@ -30,10 +30,11 @@ For InkBlade, translate these patterns into ancient wuxia ink-wash jianghu style
 - Wave 61 is complete: combat resource/status/intent/pile/target feedback HUD surfaces now use clearer ink-wash chips with browser layout gates.
 - Wave 62 is complete: reward/shop/event/rest scene surfaces now share explicit scene headers, richer paper layers, and browser header/no-overlap gates.
 - Wave 63 is complete: title route ledger, route cinematic header, journey strip, route-map visual polish, and transition cinematic rail now have focused Playwright assertions.
+- Wave 64 is complete: the top 14 low-resolution starter/common card faces were replaced by 512x768 generated PNGs, the asset audit now counts `*-gpt2.png` runtime assets, and the card-art quality report has 0 dimension/crop signals.
 
 ## Remaining Waves
 
-Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 63, three remain: Wave 64 through Wave 66.
+Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 64, two remain: Wave 65 through Wave 66.
 
 ### Wave 59: High-Priority Common Card Art Polish
 
@@ -105,14 +106,16 @@ Gate: full route flow green, visual smoke green, transition does not race save/c
 
 ### Wave 64: Remaining Card Art And Asset Ledger
 
-Continue replacing visible placeholder groups:
+Status: complete.
 
-- Starter low-resolution cards.
-- Ink/mind/status vector placeholders.
-- Signature card duplicate groups.
-- Report clear final/deferred asset classes.
+Replaced the severe low-resolution/crop findings at the top of the quality queue:
 
-Gate: no severe bad-crop/runtime duplicate remains in the top quality queue.
+- Starter low-resolution cards: `zhao_strike`, `zhao_guard`, `zhao_longdan`, `diao_strike`, `diao_guard`, `diao_lingbo`, `cai_plain_strike`, `cai_pluck_string`, `cai_gong_tone`, `zhuge_fan_strike`, and `zhuge_guard`.
+- Common low-resolution cards: `common_duanzhu`, `common_feishi`, and `common_xieli`.
+- Asset ledger accounting now counts generated files with either a `gpt2-` prefix or a `-gpt2` suffix.
+- The remaining top queue is now ink/mind/status vector placeholders, duplicate signature-card reuse, and three generic early card assets rather than bad crops.
+
+Gate: passed. Asset audit is clean, card-art quality report shows 0 dimension/crop signals, targeted data tests, full Vitest, TypeScript, Vite build, and visual smoke are green.
 
 ### Wave 65: Responsive, Accessibility, And Performance QA
 

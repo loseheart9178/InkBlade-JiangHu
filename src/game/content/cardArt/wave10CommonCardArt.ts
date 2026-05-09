@@ -3,14 +3,14 @@ import type { CardArtDefinition } from "../visuals";
 export const wave10CommonCardArt: CardArtDefinition[] = [
   {
     id: "common_duanzhu",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-duanzhu.png",
-    alt: "Snapped bamboo blade and red splinters in ink-wash card art",
+    assetPath: "/assets/generated/cards/wave64-common-duanzhu-gpt2.png",
+    alt: "Crossed broken bamboo staves with teal rain arcs and cinnabar splinters",
     accent: "red"
   },
   {
     id: "common_feishi",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-feishi.png",
-    alt: "Thrown stone cutting through rain rings in red ink",
+    assetPath: "/assets/generated/cards/wave64-common-feishi-gpt2.png",
+    alt: "Thrown river stone cutting teal rain rings with a cinnabar impact trail",
     accent: "red"
   },
   {
@@ -45,8 +45,8 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "common_xieli",
-    assetPath: "/assets/generated/cards/gpt2-wave21-common-xieli.png",
-    alt: "Redirected force curve bending a broken arrow aside",
+    assetPath: "/assets/generated/cards/wave64-common-xieli-gpt2.png",
+    alt: "Redirected force shattering against a cracked bronze mirror guard",
     accent: "teal"
   },
   {

@@ -738,22 +738,22 @@ describe("content data", () => {
   });
 
   it("binds semantic starter card art away from shared type fallbacks", () => {
-    const starterArtIds = [
-      "zhao_strike",
-      "zhao_guard",
-      "zhao_longdan",
-      "diao_strike",
-      "diao_guard",
-      "diao_lingbo",
-      "cai_plain_strike",
-      "cai_pluck_string",
-      "cai_gong_tone",
-      "zhuge_fan_strike",
-      "zhuge_guard"
-    ];
+    const starterArtPaths: Record<string, string> = {
+      zhao_strike: "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+      zhao_guard: "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+      zhao_longdan: "/assets/generated/cards/wave64-zhao-longdan-gpt2.png",
+      diao_strike: "/assets/generated/cards/wave64-diao-strike-gpt2.png",
+      diao_guard: "/assets/generated/cards/wave64-diao-guard-gpt2.png",
+      diao_lingbo: "/assets/generated/cards/wave64-diao-lingbo-gpt2.png",
+      cai_plain_strike: "/assets/generated/cards/wave64-cai-plain-strike-gpt2.png",
+      cai_pluck_string: "/assets/generated/cards/wave64-cai-pluck-string-gpt2.png",
+      cai_gong_tone: "/assets/generated/cards/wave64-cai-gong-tone-gpt2.png",
+      zhuge_fan_strike: "/assets/generated/cards/wave64-zhuge-fan-strike-gpt2.png",
+      zhuge_guard: "/assets/generated/cards/wave64-zhuge-guard-gpt2.png"
+    };
 
-    for (const id of starterArtIds) {
-      expect(cardArtById[id]?.assetPath).toMatch(/^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/);
+    for (const [id, assetPath] of Object.entries(starterArtPaths)) {
+      expect(cardArtById[id]?.assetPath).toBe(assetPath);
       expect(cardArtById[id]?.assetPath).not.toBe(cardArtById.type_attack.assetPath);
       expect(cardArtById[id]?.assetPath).not.toBe(cardArtById.type_skill.assetPath);
       expectAssetPathToExist(cardArtById[id]?.assetPath);
@@ -811,17 +811,7 @@ describe("content data", () => {
 
     expect(new Set(wave10FallbackTargets).size).toBe(45);
 
-    const wave21UpgradedTargets = new Set([
-      "common_duanzhu",
-      "common_feishi",
-      "common_gedang",
-      "common_mirror_armor",
-      "common_pifeng",
-      "common_qingshen",
-      "common_tuna",
-      "common_xieli",
-      "common_zhuiying"
-    ]);
+    const wave64GeneratedTargets = new Set(["common_duanzhu", "common_feishi", "common_xieli"]);
     const wave57GeneratedTargets = new Set(["common_gedang", "common_qingshen"]);
     const wave59GeneratedTargets = new Set(["common_mirror_armor", "common_pifeng", "common_tuna", "common_zhuiying"]);
 
@@ -830,8 +820,8 @@ describe("content data", () => {
       const art = cardArtById[id];
       const fallbackArt = cardArtById[`type_${card.types[0]}`];
       let expectedBatch = /^\/assets\/generated\/cards\/wave10-.+\.svg$/;
-      if (wave21UpgradedTargets.has(id)) {
-        expectedBatch = /^\/assets\/generated\/cards\/gpt2-wave21-.+\.png$/;
+      if (wave64GeneratedTargets.has(id)) {
+        expectedBatch = /^\/assets\/generated\/cards\/wave64-.+\.png$/;
       }
       if (wave57GeneratedTargets.has(id)) {
         expectedBatch = /^\/assets\/generated\/cards\/wave57-.+\.png$/;
