@@ -2,6 +2,57 @@
 
 ## Status Log
 
+### 2026-05-09 14:45 Asia/Shanghai
+
+Wave 65 Responsive, Accessibility, And Performance QA completed in `.worktrees/wave65-responsive-a11y-perf` on branch `codex/wave65-responsive-a11y-perf`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-09-wave65-responsive-a11y-perf.md`
+- `scripts/perf-budget.mjs`
+- `tests/e2e/responsive-a11y.spec.ts`
+- `tests/playtest/perf-budget-script.test.ts`
+
+What changed:
+
+- Added a responsive/a11y browser gate covering 390x844 title/map/combat layout, keyboard-only character/challenge/start/map/combat entry, reduced-motion combat readability, and bounded screenshots.
+- Added `aria-pressed` synchronization for title character and challenge choices, plus a visible focus treatment for HUD buttons, inputs, and selects.
+- Added screenshot-size upper bounds to the existing visual smoke and playable-flow screenshot helpers.
+- Added a reusable build/asset performance budget CLI and `perf:budget` package script covering JS/CSS chunk size, public asset totals, card/sprite folders, single raster/card PNG sizes, and generated asset-audit counts.
+- Added a cleanup regression test for failed budget builds so temporary `.perf-budget-build-*` directories are removed on both success and failure.
+- Updated the post-EA polish roadmap so Wave65 is complete and Wave66 is the only remaining wave.
+
+Verification:
+
+```text
+node node_modules/vitest/vitest.mjs run tests/playtest/perf-budget-script.test.ts --reporter=dot
+Result: passed, 1 file / 3 tests. The cleanup test was confirmed red first, then green after the try/finally fix.
+
+node scripts/perf-budget.mjs --build
+Result: passed. Phaser 1.15 MiB raw / 311.3 KiB gzip; largest other JS 310.7 KiB raw / 79.2 KiB gzip; largest CSS 120.0 KiB; public/assets 222.95 MiB; generated/cards 36.56 MiB; sprites 31.23 MiB; largest card PNG 806.3 KiB; largest non-source raster 3.43 MiB; asset audit missing 0, card fallback debt 0, runtime files 151, source sheets 21.
+
+node node_modules/vitest/vitest.mjs run tests/playtest/perf-budget-script.test.ts tests/app-shell.test.ts --reporter=dot
+Result: passed, 2 files / 7 tests.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/responsive-a11y.spec.ts --project=chromium
+Result: passed, 3 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium --grep "title character select|desktop combat smoke"
+Result: passed, 2 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 37 files / 270 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
 ### 2026-05-09 12:40 Asia/Shanghai
 
 Wave 64 Remaining Card Art And Asset Ledger completed in `.worktrees/wave64-asset-ledger` on branch `codex/wave64-asset-ledger`.

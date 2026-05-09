@@ -67,16 +67,24 @@ export function mountGameApp(root: HTMLElement, options: MountGameAppOptions = {
   shell.hudHost.querySelectorAll<HTMLButtonElement>("[data-character-id]").forEach((button) => {
     button.addEventListener("click", () => {
       selectedCharacterId = button.dataset.characterId ?? "zhaoyun";
-      shell.hudHost.querySelectorAll("[data-character-id]").forEach((item) => item.classList.remove("is-selected"));
+      shell.hudHost.querySelectorAll<HTMLButtonElement>("[data-character-id]").forEach((item) => {
+        item.classList.remove("is-selected");
+        item.setAttribute("aria-pressed", "false");
+      });
       button.classList.add("is-selected");
+      button.setAttribute("aria-pressed", "true");
     });
   });
 
   shell.hudHost.querySelectorAll<HTMLButtonElement>("[data-challenge-id]").forEach((button) => {
     button.addEventListener("click", () => {
       selectedChallengeId = (button.dataset.challengeId ?? "standard") as ChallengeProfileId;
-      shell.hudHost.querySelectorAll("[data-challenge-id]").forEach((item) => item.classList.remove("is-selected"));
+      shell.hudHost.querySelectorAll<HTMLButtonElement>("[data-challenge-id]").forEach((item) => {
+        item.classList.remove("is-selected");
+        item.setAttribute("aria-pressed", "false");
+      });
       button.classList.add("is-selected");
+      button.setAttribute("aria-pressed", "true");
     });
   });
 

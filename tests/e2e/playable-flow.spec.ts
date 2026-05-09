@@ -897,6 +897,7 @@ async function capturePlaytestScreenshot(page: Page, testInfo: TestInfo, fileNam
   const path = testInfo.outputPath(fileName);
   const screenshot = await page.screenshot({ path, fullPage: true });
   expect(screenshot.byteLength).toBeGreaterThan(25_000);
+  expect(screenshot.byteLength).toBeLessThan(5 * 1024 * 1024);
   await testInfo.attach(fileName, { path, contentType: "image/png" });
 }
 

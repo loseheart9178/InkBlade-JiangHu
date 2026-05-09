@@ -99,6 +99,16 @@ button {
   pointer-events: auto;
 }
 
+.hud-host button:focus-visible,
+.hud-host input:focus-visible,
+.hud-host select:focus-visible {
+  outline: 3px solid rgba(238, 190, 91, 0.96);
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 5px rgba(47, 124, 110, 0.24),
+    0 8px 24px rgba(17, 17, 17, 0.18);
+}
+
 .title-screen {
   position: absolute;
   top: 5vh;

@@ -17,6 +17,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
+    "perf:budget": "node scripts/perf-budget.mjs --build",
     "report:balance": "node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md",
     "report:handoff": "node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md",
     "handoff:preflight": "node scripts/handoff-preflight.mjs"

@@ -94,6 +94,7 @@ export function createAppShell(root: HTMLElement): AppShell {
     characterButton.dataset.characterId = character.id;
     characterButton.dataset.testid = `character-${character.id}`;
     characterButton.className = index === 0 ? "character-choice is-selected" : "character-choice";
+    characterButton.setAttribute("aria-pressed", index === 0 ? "true" : "false");
 
     const copy = characterChoiceCopy[character.id];
     const name = document.createElement("span");
@@ -139,6 +140,7 @@ export function createAppShell(root: HTMLElement): AppShell {
     challengeButton.dataset.challengeId = challenge.id satisfies ChallengeProfileId;
     challengeButton.dataset.testid = `challenge-${challenge.id}`;
     challengeButton.className = index === 0 ? "challenge-choice is-selected" : "challenge-choice";
+    challengeButton.setAttribute("aria-pressed", index === 0 ? "true" : "false");
 
     const name = document.createElement("span");
     name.textContent = challenge.name;

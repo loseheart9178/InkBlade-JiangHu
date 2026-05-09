@@ -31,10 +31,11 @@ For InkBlade, translate these patterns into ancient wuxia ink-wash jianghu style
 - Wave 62 is complete: reward/shop/event/rest scene surfaces now share explicit scene headers, richer paper layers, and browser header/no-overlap gates.
 - Wave 63 is complete: title route ledger, route cinematic header, journey strip, route-map visual polish, and transition cinematic rail now have focused Playwright assertions.
 - Wave 64 is complete: the top 14 low-resolution starter/common card faces were replaced by 512x768 generated PNGs, the asset audit now counts `*-gpt2.png` runtime assets, and the card-art quality report has 0 dimension/crop signals.
+- Wave 65 is complete: responsive/mobile, keyboard/focus, reduced-motion, screenshot-size, and build/asset budget gates now protect the polished UI before final candidate closeout.
 
 ## Remaining Waves
 
-Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 64, two remain: Wave 65 through Wave 66.
+Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 65, one remains: Wave 66.
 
 ### Wave 59: High-Priority Common Card Art Polish
 
@@ -119,6 +120,8 @@ Gate: passed. Asset audit is clean, card-art quality report shows 0 dimension/cr
 
 ### Wave 65: Responsive, Accessibility, And Performance QA
 
+Status: complete.
+
 Harden the polished UI:
 
 - Desktop and mobile no-overlap screenshots.
@@ -126,7 +129,7 @@ Harden the polished UI:
 - Keyboard/focus pass for important controls.
 - Asset-size and build chunk budget review.
 
-Gate: TypeScript, unit, build, visual smoke, full Chromium e2e, and targeted mobile screenshots green.
+Gate: passed. Responsive/a11y Playwright, targeted visual smoke screenshot bounds, TypeScript, full Vitest, Vite build, performance budget, and `git diff --check` are green.
 
 ### Wave 66: Post-EA Candidate Gate
 
