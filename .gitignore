@@ -5,6 +5,7 @@ test-results/
 coverage/
 .vite/
 reports/
+.superpowers/
 .worktrees
 .worktrees/
 *.log
