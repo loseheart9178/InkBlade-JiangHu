@@ -814,6 +814,7 @@ function renderMap(
   const chapter = getCurrentChapter(run);
   const current = getCurrentNode(run);
   const available = getAvailableNodes(run);
+  const availableIds = new Set(available.map((item) => item.id));
   const panel = createPanel("screen-map", chapter.mapTitle);
   panel.classList.add("map-screen");
 
@@ -825,11 +826,12 @@ function renderMap(
     }
   }
 
+  panel.append(createRouteCinematicHeader(run, current, available, availableIds));
+
   const path = document.createElement("div");
   path.className = "route-map";
   const mapColumns = Math.max(...run.mapNodes.map((node) => node.floor)) + 1;
   path.style.setProperty("--map-columns", `${mapColumns}`);
-  const availableIds = new Set(available.map((item) => item.id));
   path.append(createRouteConnectorLayer(run, current, availableIds, mapColumns));
 
   for (const node of run.mapNodes) {
@@ -878,6 +880,104 @@ function renderMap(
 
   panel.append(path);
   mountChapterPanel(host, panel, run);
+}
+
+function createRouteCinematicHeader(run: RunState, current: MapNode, available: MapNode[], availableIds: Set<string>): HTMLElement {
+  const chapter = getCurrentChapter(run);
+  const nextChapter = getNextChapter(run);
+  const header = document.createElement("section");
+  header.className = "route-cinematic-header";
+  header.dataset.testid = "route-cinematic-header";
+  header.dataset.chapterId = chapter.id;
+  header.style.setProperty("--map-columns", `${Math.max(...run.mapNodes.map((node) => node.floor)) + 1}`);
+  header.innerHTML = `
+    <div class="route-cinematic-copy">
+      <small>行旅线报 · 第${chapter.order}幕</small>
+      <h3>${escapeHtml(chapter.name)}</h3>
+      <p>${escapeHtml(chapter.subtitle)} 当前停驻${escapeHtml(current.label)}，下一步可择${available.length}条路。</p>
+    </div>
+  `;
+
+  const signals = document.createElement("div");
+  signals.className = "route-signal-stack";
+  signals.dataset.testid = "route-signal-stack";
+  const signalItems = [
+    { label: "当前", value: current.label },
+    { label: "可行", value: available.length > 0 ? available.map((node) => node.label).join(" / ") : "首领已临" },
+    { label: "下一卷", value: nextChapter?.mapTitle ?? "终局选择" }
+  ];
+  for (const item of signalItems) {
+    const signal = document.createElement("span");
+    signal.innerHTML = `<small>${escapeHtml(item.label)}</small><strong>${escapeHtml(item.value)}</strong>`;
+    signals.append(signal);
+  }
+
+  header.append(createRouteJourneyStrip(run, current, availableIds), signals);
+  return header;
+}
+
+function createRouteJourneyStrip(run: RunState, current: MapNode, availableIds: Set<string>): HTMLElement {
+  const strip = document.createElement("div");
+  strip.className = "route-journey-strip";
+  strip.dataset.testid = "route-journey-strip";
+  const maxFloor = Math.max(...run.mapNodes.map((node) => node.floor));
+
+  for (let floor = 0; floor <= maxFloor; floor += 1) {
+    const nodes = run.mapNodes.filter((node) => node.floor === floor);
+    const availableCount = nodes.filter((node) => availableIds.has(node.id)).length;
+    const visitedCount = nodes.filter((node) => run.visitedNodeIds.includes(node.id)).length;
+    const state = floor < current.floor || visitedCount === nodes.length
+      ? "visited"
+      : floor === current.floor
+        ? "current"
+        : availableCount > 0
+          ? "available"
+          : "locked";
+    const step = document.createElement("span");
+    step.className = `route-journey-step route-journey-step--${state}`;
+    step.dataset.routeStepState = state;
+    step.dataset.floor = `${floor}`;
+    step.innerHTML = `
+      <small>${floor + 1}</small>
+      <strong>${escapeHtml(formatRouteJourneyStepTitle(state, current, nodes, availableCount))}</strong>
+      <em>${escapeHtml(formatRouteJourneyStepMeta(state, nodes, availableCount, visitedCount))}</em>
+    `;
+    strip.append(step);
+  }
+
+  return strip;
+}
+
+function formatRouteJourneyStepTitle(state: string, current: MapNode, nodes: MapNode[], availableCount: number): string {
+  if (state === "current") {
+    return current.label;
+  }
+
+  if (state === "available") {
+    return `${availableCount}处可行`;
+  }
+
+  if (state === "visited") {
+    return "已行";
+  }
+
+  return nodes.some((node) => node.type === "boss") ? "首领幕" : "未至";
+}
+
+function formatRouteJourneyStepMeta(state: string, nodes: MapNode[], availableCount: number, visitedCount: number): string {
+  if (state === "available") {
+    return `可选 ${availableCount}/${nodes.length}`;
+  }
+
+  if (state === "visited") {
+    return `足迹 ${visitedCount}/${nodes.length}`;
+  }
+
+  if (state === "current") {
+    return "落脚";
+  }
+
+  return `${nodes.length}处`;
 }
 
 function createRouteConnectorLayer(run: RunState, current: MapNode, availableIds: Set<string>, mapColumns: number): SVGSVGElement {
@@ -1993,6 +2093,11 @@ function createChapterTransitionHero(run: RunState, kind: "chapterReward" | "bos
     <p>${escapeHtml(isChapterReward ? chapter.bossVictoryCopy : nextChapter ? `${chapter.subtitle} 下一卷将把你带向${nextChapter.subtitle}` : "黑水照见所有来路，最后的落笔已经近了。")}</p>
   `;
   hero.append(
+    createTransitionCinematicRail([
+      { label: chapter.name, value: isChapterReward ? "首领已破" : "此章收束", state: "complete" },
+      { label: isChapterReward ? "章末悟境" : "换幕战利", value: isChapterReward ? "择成长" : "收战利", state: "current" },
+      { label: nextChapter?.name ?? "终局选择", value: nextChapter ? "将启" : "待定稿", state: "next" }
+    ]),
     createTransitionMeta([
       { label: "当前章", value: chapter.mapTitle, testId: "transition-current-chapter" },
       { label: nextChapter ? "下一章" : "下一幕", value: nextChapter?.mapTitle ?? "终局选择", testId: "transition-next-chapter" },
@@ -2018,6 +2123,11 @@ function createFinalChoiceRitual(run: RunState): HTMLElement {
     <p>${escapeHtml(chapter.bossVictoryCopy)} ${escapeHtml(character.name)}站在墨渊之前，选择不再只是奖励，而是把这一局写成何种结局。</p>
   `;
   ritual.append(
+    createTransitionCinematicRail([
+      { label: chapter.name, value: "终章已破", state: "complete" },
+      { label: "墨书终页", value: "择结局", state: "current" },
+      { label: "后日谈", value: `${eligibleCount}/${choices.length}`, state: "next" }
+    ]),
     createTransitionMeta([
       { label: "执笔者", value: character.name, testId: "final-choice-character" },
       { label: "终局候选", value: `${eligibleCount}/${choices.length}`, testId: "final-choice-eligible-count" },
@@ -2039,15 +2149,22 @@ function createRunSummaryDossier(summary: CompletedRunSummaryView): HTMLElement 
     <h3>${escapeHtml(summary.ending.title)}</h3>
     <p>${escapeHtml(character.name)}的行旅已经归卷：江湖结局写作“${summary.ending.title}”，角色后日谈落为“${summary.characterEpilogue.title}”。</p>
   `;
-  dossier.append(createTransitionMeta([
-    { label: "角色", value: character.name },
-    { label: "章节", value: `${summary.completion.completedChapterIds.length}` },
-    { label: "生命", value: `${summary.completion.hp}/${summary.completion.maxHp}` },
-    { label: "铜钱", value: `${summary.completion.gold}` },
-    { label: "牌组", value: `${summary.completion.deckSize}` },
-    { label: "法宝", value: `${summary.completion.relicCount}` },
-    { label: "新目标", value: `${summary.newlyCompletedGoalIds?.length ?? 0}` }
-  ]));
+  dossier.append(
+    createTransitionCinematicRail([
+      { label: "终局", value: summary.ending.title, state: "complete" },
+      { label: character.name, value: "归卷", state: "current" },
+      { label: summary.characterEpilogue.title, value: "后日谈", state: "next" }
+    ]),
+    createTransitionMeta([
+      { label: "角色", value: character.name },
+      { label: "章节", value: `${summary.completion.completedChapterIds.length}` },
+      { label: "生命", value: `${summary.completion.hp}/${summary.completion.maxHp}` },
+      { label: "铜钱", value: `${summary.completion.gold}` },
+      { label: "牌组", value: `${summary.completion.deckSize}` },
+      { label: "法宝", value: `${summary.completion.relicCount}` },
+      { label: "新目标", value: `${summary.newlyCompletedGoalIds?.length ?? 0}` }
+    ])
+  );
   return dossier;
 }
 
@@ -2065,20 +2182,46 @@ function createResultDossier(screen: "victory" | "defeat", run: RunState | undef
   `;
 
   if (!run || !character || !chapter) {
+    dossier.append(createTransitionCinematicRail([
+      { label: "行旅", value: "未成卷", state: "current" },
+      { label: "卷宗", value: "缺页", state: "locked" },
+      { label: "重启", value: "待启程", state: "next" }
+    ]));
     dossier.append(createTransitionMeta([{ label: "记录", value: "未留下完整行旅" }]));
     return dossier;
   }
 
-  dossier.append(createTransitionMeta([
-    { label: "角色", value: character.name, testId: "result-character" },
-    { label: "所在章", value: chapter.name, testId: "result-chapter" },
-    { label: "已过章节", value: `${run.completedChapterIds.length}` },
-    { label: "生命", value: `${Math.max(0, run.hp)}/${run.maxHp}` },
-    { label: "牌组", value: `${run.deck.length}` },
-    { label: "法宝", value: `${run.relicIds.length}` },
-    { label: "心境", value: formatRunMindTendencies(run) }
-  ]));
+  dossier.append(
+    createTransitionCinematicRail([
+      { label: chapter.name, value: isVictory ? "告捷" : "止步", state: isVictory ? "complete" : "current" },
+      { label: character.name, value: "入卷", state: "current" },
+      { label: isVictory ? "下一卷" : "重开", value: isVictory ? "可续行" : "待再试", state: "next" }
+    ]),
+    createTransitionMeta([
+      { label: "角色", value: character.name, testId: "result-character" },
+      { label: "所在章", value: chapter.name, testId: "result-chapter" },
+      { label: "已过章节", value: `${run.completedChapterIds.length}` },
+      { label: "生命", value: `${Math.max(0, run.hp)}/${run.maxHp}` },
+      { label: "牌组", value: `${run.deck.length}` },
+      { label: "法宝", value: `${run.relicIds.length}` },
+      { label: "心境", value: formatRunMindTendencies(run) }
+    ])
+  );
   return dossier;
+}
+
+function createTransitionCinematicRail(items: Array<{ label: string; value: string; state: "complete" | "current" | "next" | "locked" }>): HTMLElement {
+  const rail = document.createElement("div");
+  rail.className = "transition-cinematic-rail";
+  rail.dataset.testid = "transition-cinematic-rail";
+  for (const item of items) {
+    const step = document.createElement("span");
+    step.className = `transition-cinematic-step transition-cinematic-step--${item.state}`;
+    step.dataset.transitionStepState = item.state;
+    step.innerHTML = `<small>${escapeHtml(item.value)}</small><strong>${escapeHtml(item.label)}</strong>`;
+    rail.append(step);
+  }
+  return rail;
 }
 
 function createTransitionMeta(items: Array<{ label: string; value: string; testId?: string }>): HTMLElement {

@@ -56,10 +56,34 @@ export function createAppShell(root: HTMLElement): AppShell {
   const subtitle = document.createElement("p");
   subtitle.textContent = "以墨为刃，以心为牌";
 
+  const titleSeal = document.createElement("div");
+  titleSeal.className = "title-seal";
+  titleSeal.setAttribute("aria-hidden", "true");
+  titleSeal.textContent = "墨";
+
   const kicker = document.createElement("p");
   kicker.className = "title-kicker";
   kicker.dataset.testid = "title-kicker";
   kicker.textContent = "水墨武侠卡牌构筑 Roguelike";
+
+  const titleLedger = document.createElement("div");
+  titleLedger.className = "title-route-ledger";
+  titleLedger.dataset.testid = "title-route-ledger";
+  const titleLedgerItems = [
+    { label: "执笔者", value: "四位侠客" },
+    { label: "江湖卷", value: "四章墨雨" },
+    { label: "战斗核", value: "牌组构筑" },
+    { label: "终局", value: "心境定稿" }
+  ];
+  for (const item of titleLedgerItems) {
+    const entry = document.createElement("span");
+    const label = document.createElement("small");
+    label.textContent = item.label;
+    const value = document.createElement("strong");
+    value.textContent = item.value;
+    entry.append(label, value);
+    titleLedger.append(entry);
+  }
 
   const characterSelect = document.createElement("div");
   characterSelect.className = "character-select";
@@ -147,7 +171,7 @@ export function createAppShell(root: HTMLElement): AppShell {
   titleActions.className = "title-actions";
   titleActions.append(startButton, continueButton, clearSaveButton);
 
-  menu.append(kicker, title, subtitle, characterSelect, challengeSelect, titleActions);
+  menu.append(titleSeal, kicker, title, subtitle, titleLedger, characterSelect, challengeSelect, titleActions);
   hudHost.append(menu);
   root.append(phaserHost, hudHost);
 

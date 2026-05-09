@@ -2,6 +2,55 @@
 
 ## Status Log
 
+### 2026-05-09 00:00 Asia/Shanghai
+
+Wave 63 Cinematic Route Polish completed in `.worktrees/wave63-cinematic-route-polish` on branch `codex/wave63-cinematic-route-polish`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-09-wave63-cinematic-route-polish.md`
+
+What changed:
+
+- Rebuilt the title first viewport as a layered paper/ink title scroll with a cinnabar seal, loading brush thread, and `title-route-ledger`.
+- Added a `route-cinematic-header`, `route-signal-stack`, and `route-journey-strip` above the route map so chapter, current node, available paths, and next chapter read as one authored route beat.
+- Polished route map framing, connector glow, available-node emphasis, mobile stacking, and reduced-motion handling without changing map generation or route rules.
+- Added `transition-cinematic-rail` to chapter reward, boss reward, final choice, result, and run-summary dossiers.
+- Added title visual smoke assertions for the title route ledger and its route-sign summary.
+- Extended route-map e2e coverage for the cinematic route header, line-report stack, and route journey strip before and after a debug chapter advance.
+- Extended chapter and final-route transition coverage for the cinematic transition rail on chapter reward and boss reward screens.
+- Updated the post-EA polish roadmap so Wave 63 is marked complete and keeps the save/continue race gate explicit.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 35 files / 265 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "route map shows|final boss route|complete the first chapter"
+Result: passed, 3 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium
+Result: passed, 33 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+```
+
+Verification note:
+
+- Focused Playwright assertions were first prepared by a docs/tests worker, then integrated with the implementation source changes in the same Wave 63 worktree.
+- A full playable-flow run caught the title shell overlay z-index issue; the title shell panel now sits above the title scroll, and the title/settings/challenge entry smoke was rerun after the fix.
+
 ### 2026-05-08 20:56 Asia/Shanghai
 
 Wave 58 EA Visual QA Gate completed in `.worktrees/wave58-ea-visual-qa` on branch `codex/wave58-ea-visual-qa`.

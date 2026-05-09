@@ -45,6 +45,9 @@ test("title character select presents four readable EA role cards", async ({ pag
 
   await expect(page.getByTestId("screen-title")).toBeVisible();
   await expect(page.getByTestId("title-kicker")).toContainText("水墨武侠");
+  await expect(page.getByTestId("title-route-ledger")).toBeVisible();
+  await expect(page.getByTestId("title-route-ledger")).toContainText(/执笔者[\s\S]*四位侠客[\s\S]*江湖卷[\s\S]*四章墨雨/);
+  await expect(page.getByTestId("title-route-ledger")).toContainText(/战斗核[\s\S]*牌组构筑[\s\S]*终局[\s\S]*心境定稿/);
 
   const expectedCards = [
     { id: "zhaoyun", resource: "枪势", mechanic: /破阵|连攻/, stats: /生命 82/ },
@@ -376,6 +379,7 @@ function rectsOverlap(
 
 async function expectTitleSurfaceLayout(page: Page): Promise<void> {
   const actions = await page.locator(".title-actions").boundingBox();
+  const routeLedger = await page.getByTestId("title-route-ledger").boundingBox();
   const characterCards = await page.locator(".character-choice").evaluateAll((cards) =>
     cards.map((card) => {
       const rect = card.getBoundingClientRect();
@@ -393,11 +397,13 @@ async function expectTitleSurfaceLayout(page: Page): Promise<void> {
   );
 
   expect(actions).not.toBeNull();
+  expect(routeLedger).not.toBeNull();
   expect(characterCards).toHaveLength(4);
 
   for (const card of characterCards) {
     expect(card.scrollWidth).toBeLessThanOrEqual(card.clientWidth + 1);
     expect(card.scrollHeight).toBeLessThanOrEqual(card.clientHeight + 1);
     expect(rectsOverlap(card, actions!)).toBe(false);
+    expect(rectsOverlap(card, routeLedger!)).toBe(false);
   }
 }

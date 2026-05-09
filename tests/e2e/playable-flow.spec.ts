@@ -278,6 +278,13 @@ test("method reward onboarding hint appears after the first elite victory", asyn
 test("route map shows risk and reward previews before choosing nodes", async ({ page }, testInfo) => {
   await startRun(page, "zhaoyun", { debugTools: true });
 
+  await expect(page.getByTestId("route-cinematic-header")).toBeVisible();
+  await expect(page.getByTestId("route-cinematic-header")).toContainText("洛水残照");
+  await expect(page.getByTestId("route-cinematic-header")).toContainText(/行旅线报|第1幕|下一卷|竹林听雨/);
+  await expect(page.getByTestId("route-journey-strip")).toBeVisible();
+  await expect(page.locator(".route-journey-step").first()).toHaveAttribute("data-route-step-state", "current");
+  await expect(page.getByTestId("route-journey-strip")).toContainText(/落脚|可选|首领幕/);
+  await expect(page.getByTestId("route-signal-stack")).toContainText(/当前|可行|下一卷/);
   const currentNode = page.getByTestId("map-node-start");
   await expect(currentNode).toHaveAttribute("data-route-state", "current");
   await expect(currentNode.getByTestId("map-node-state-start")).toContainText("当前");
@@ -300,6 +307,10 @@ test("route map shows risk and reward previews before choosing nodes", async ({ 
 
   await page.getByTestId("debug-skip-chapter").click();
 
+  await expect(page.getByTestId("route-cinematic-header")).toContainText("竹林听雨");
+  await expect(page.getByTestId("route-cinematic-header")).toContainText(/第2幕|下一卷|长安墨城/);
+  await expect(page.locator(".route-journey-step").first()).toHaveAttribute("data-route-step-state", "current");
+  await expect(page.getByTestId("route-journey-strip")).toContainText(/落脚|可选|首领幕/);
   await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势|金币\+12/);
   await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/荒寺夜琴|心境/);
 });
@@ -359,11 +370,16 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
 
   await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
   await expect(page.getByTestId("chapter-transition-hero")).toContainText("墨渊照心");
+  await expect(page.getByTestId("transition-cinematic-rail")).toBeVisible();
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText("墨渊照心");
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText(/章末悟境|终局选择/);
   await expect(page.getByTestId("chapter-spoils-dossier")).toContainText(/铜钱|战利/);
   await page.getByTestId("chapter-reward-choice").first().click();
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await expect(page.getByTestId("boss-transition-hero")).toContainText("终页将启");
   await expect(page.getByTestId("transition-next-chapter")).toContainText("终局选择");
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText("终局选择");
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText(/墨渊照心|换幕战利/);
   await page.getByTestId("boss-reward-continue").click();
 
   await expect(page.getByTestId("screen-final-choice")).toBeVisible();
@@ -784,6 +800,9 @@ test("can complete the first chapter through the event and rest route", async ({
   await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
   await expect(page.getByTestId("chapter-transition-hero")).toContainText("洛水残照");
   await expect(page.getByTestId("chapter-transition-progress")).toContainText("竹林听雨");
+  await expect(page.getByTestId("transition-cinematic-rail")).toBeVisible();
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText("洛水残照");
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText(/章末悟境|竹林听雨/);
   await expect(page.getByTestId("chapter-spoils-dossier")).toContainText(/铜钱|战利/);
   await expect(page.getByTestId("chapter-reward-choice")).toHaveCount(3);
   await expect(page.getByTestId("advanced-reward-choice")).toHaveCount(4);
@@ -796,6 +815,8 @@ test("can complete the first chapter through the event and rest route", async ({
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
   await expect(page.getByTestId("boss-transition-hero")).toContainText("洛水残照");
   await expect(page.getByTestId("transition-next-chapter")).toContainText("第二章 · 竹林听雨");
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText("洛水残照");
+  await expect(page.getByTestId("transition-cinematic-rail")).toContainText(/换幕战利|竹林听雨/);
   await page.getByTestId("boss-reward-continue").click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
   await expect(page.getByTestId("screen-map")).toHaveAttribute("data-battlefield", "bamboo");

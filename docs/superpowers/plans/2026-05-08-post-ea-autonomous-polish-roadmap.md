@@ -29,10 +29,11 @@ For InkBlade, translate these patterns into ancient wuxia ink-wash jianghu style
 - Wave 60 is complete: combat/reward/shop/deck card frames now share a premium ink-wash card language with accessible cost seals and browser layout gates.
 - Wave 61 is complete: combat resource/status/intent/pile/target feedback HUD surfaces now use clearer ink-wash chips with browser layout gates.
 - Wave 62 is complete: reward/shop/event/rest scene surfaces now share explicit scene headers, richer paper layers, and browser header/no-overlap gates.
+- Wave 63 is complete: title route ledger, route cinematic header, journey strip, route-map visual polish, and transition cinematic rail now have focused Playwright assertions.
 
 ## Remaining Waves
 
-Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 62, four remain: Wave 63 through Wave 66.
+Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 63, three remain: Wave 64 through Wave 66.
 
 ### Wave 59: High-Priority Common Card Art Polish
 
@@ -91,14 +92,16 @@ Gate: passed. Reward/shop/event/rest browser flows, scene-header assertions, Typ
 
 ### Wave 63: Title, Loading, Map, And Transition Cinematics
 
+Status: complete.
+
 Make the route feel authored:
 
-- First-viewport title/background treatment.
-- Loading brush-thread transition.
-- Route map node and path polish.
-- Chapter entry, victory, defeat, and elite/boss settlement composition.
+- First-viewport title/background treatment, including a visible route ledger for the four chapter beats.
+- Route map cinematic header and journey strip that keep the current chapter and upcoming route readable.
+- Route map node, path, line-report, and progress polish without regressing existing risk/reward previews.
+- Chapter entry, victory, defeat, and elite/boss settlement composition, including a transition cinematic rail.
 
-Gate: full route flow green, transition does not race save/continue logic.
+Gate: full route flow green, visual smoke green, transition does not race save/continue logic.
 
 ### Wave 64: Remaining Card Art And Asset Ledger
 
