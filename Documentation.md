@@ -9998,3 +9998,42 @@ Result: passed, 4 Chromium tests.
 NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "Diao Chan starting|can complete the first chapter|can enter a second chapter"
 Result: passed, 3 Chromium tests.
 ```
+
+## 2026-05-09 Wave 62 scene surfaces V2
+
+Wave 62 ran in `.worktrees/wave62-scene-surfaces-v2` on branch `codex/wave62-scene-surfaces-v2`.
+
+What changed:
+
+- Added a reusable `scene-header` component for reward, shop, event, and rest surfaces.
+- Reward now anchors `reward-stage` with `战利落定`.
+- Shop now anchors `shop-scene` with `茶亭游商`.
+- Event now anchors `event-layout` with event-specific scene headers.
+- Rest now anchors `rest-scene` with `废寺静修`.
+- Strengthened paper/ink scene backgrounds and section rails while preserving existing route decisions.
+- Added Playwright assertions that each scene wrapper exposes its matching visible header.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 35 files / 265 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
+Result: passed, 2 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "event route can upgrade|Cai Wenji event route|Zhuge Liang event route"
+Result: passed, 3 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "reward|shop|event|rest"
+Result: passed, 9 Chromium tests.
+```

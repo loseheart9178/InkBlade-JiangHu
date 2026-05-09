@@ -28,10 +28,11 @@ For InkBlade, translate these patterns into ancient wuxia ink-wash jianghu style
 - Wave 59 is complete: eight high-priority common card faces were generated, normalized, bound, audited, and merged.
 - Wave 60 is complete: combat/reward/shop/deck card frames now share a premium ink-wash card language with accessible cost seals and browser layout gates.
 - Wave 61 is complete: combat resource/status/intent/pile/target feedback HUD surfaces now use clearer ink-wash chips with browser layout gates.
+- Wave 62 is complete: reward/shop/event/rest scene surfaces now share explicit scene headers, richer paper layers, and browser header/no-overlap gates.
 
 ## Remaining Waves
 
-Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 61, five remain: Wave 62 through Wave 66.
+Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 62, four remain: Wave 63 through Wave 66.
 
 ### Wave 59: High-Priority Common Card Art Polish
 
@@ -78,13 +79,15 @@ Gate: passed. Visual smoke, targeted status/route playable-flow checks, TypeScri
 
 ### Wave 62: Scene Surfaces V2
 
-Deepen reward, shop, event, rest, compendium, and run summary screens:
+Status: complete.
 
-- Merchant/rest/event backgrounds or generated stills where useful.
-- Better section hierarchy for cards/relics/services/choices.
-- Settlement affordances for skip/leave/confirm actions.
+Deepened reward, shop, event, and rest scene surfaces:
 
-Gate: reward/shop/event/rest flows unchanged, no-overlap browser checks green.
+- Reusable scene headers for reward, shop, event, and rest.
+- Stronger section hierarchy for reward cards, shop cards/relics/services, event choices, and rest actions.
+- More authored paper/ink background layering while preserving existing settlement affordances.
+
+Gate: passed. Reward/shop/event/rest browser flows, scene-header assertions, TypeScript, Vitest, Vite build, and `git diff --check` are green.
 
 ### Wave 63: Title, Loading, Map, And Transition Cinematics
 

@@ -1419,6 +1419,7 @@ function renderReward(
   const stage = document.createElement("div");
   stage.className = "scene-surface reward-stage";
   stage.dataset.testid = "reward-stage";
+  stage.append(createSceneHeader("reward", "赏", "战利落定", "择一式入卷，或换铜钱续行。"));
   stage.append(createMessage(state.message));
   stage.append(createSpoilsSummary(state.pendingSpoils));
   const comboHint = getComboRewardHint(run);
@@ -1504,6 +1505,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const layout = document.createElement("div");
   layout.className = "scene-surface event-layout";
   layout.dataset.testid = "event-layout";
+  layout.append(createSceneHeader("event", eventScene.mark, event.title, eventScene.kicker));
   const hero = document.createElement("section");
   hero.className = "event-hero";
   hero.dataset.testid = "event-hero";
@@ -1554,6 +1556,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   const scene = document.createElement("div");
   scene.className = "scene-surface shop-scene";
   scene.dataset.testid = "shop-scene";
+  scene.append(createSceneHeader("shop", "商", "茶亭游商", "灯影下挑武学、法宝与修整。"));
 
   const marquee = document.createElement("div");
   marquee.className = "shop-marquee";
@@ -1807,6 +1810,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   const scene = document.createElement("div");
   scene.className = "scene-surface rest-scene";
   scene.dataset.testid = "rest-scene";
+  scene.append(createSceneHeader("rest", "息", "废寺静修", "一夜火光，换伤势稍平或旧招更利。"));
   const hero = document.createElement("section");
   hero.className = "rest-hero";
   hero.dataset.testid = "rest-hero";
@@ -2756,6 +2760,20 @@ function createRewardComboHint(hint: string): HTMLElement {
   element.dataset.testid = "reward-combo-hint";
   element.textContent = hint;
   return element;
+}
+
+function createSceneHeader(surface: "reward" | "event" | "shop" | "rest", seal: string, title: string, body: string): HTMLElement {
+  const header = document.createElement("section");
+  header.className = `scene-header scene-header--${surface}`;
+  header.dataset.testid = `${surface}-scene-header`;
+  header.innerHTML = `
+    <span class="scene-header-seal" aria-hidden="true">${escapeHtml(seal)}</span>
+    <span class="scene-header-copy">
+      <strong>${escapeHtml(title)}</strong>
+      <small>${escapeHtml(body)}</small>
+    </span>
+  `;
+  return header;
 }
 
 function createMeter(testId: string, label: string, value: number, max: number, accent: string, portraitPath?: string): HTMLElement {

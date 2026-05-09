@@ -470,6 +470,8 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("reward-build-fit").first()).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
   await expect(page.getByTestId("reward-build-fit-detail").first()).toContainText(/流|技法|攻击|墨痕|成型|短板/);
   await expect(page.getByTestId("reward-stage")).toBeVisible();
+  await expect(page.getByTestId("reward-stage").getByTestId("reward-scene-header")).toBeVisible();
+  await expect(page.getByTestId("reward-scene-header")).toContainText("战利落定");
   await expect(page.getByTestId("reward-card-case")).toBeVisible();
   await expect(page.getByTestId("reward-footer")).toBeVisible();
   await expect(page.getByTestId("screen-reward").locator(".game-message")).not.toHaveCSS("position", "absolute");
@@ -496,6 +498,8 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await page.getByTestId("map-node-shop-1").click();
   await expect(page.getByTestId("screen-shop")).toBeVisible();
   await expect(page.getByTestId("shop-scene")).toBeVisible();
+  await expect(page.getByTestId("shop-scene").getByTestId("shop-scene-header")).toBeVisible();
+  await expect(page.getByTestId("shop-scene-header")).toContainText("茶亭游商");
   await expect(page.getByTestId("shop-marquee")).toContainText("铜钱");
   await expect(page.getByTestId("shop-section-cards")).toBeVisible();
   await expect(page.getByTestId("shop-section-relics")).toBeVisible();
@@ -589,6 +593,8 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await page.getByTestId("map-node-event-1").click();
   await expect(page.getByTestId("screen-event")).toBeVisible();
   await expect(page.getByTestId("event-layout")).toBeVisible();
+  await expect(page.getByTestId("event-layout").getByTestId("event-scene-header")).toBeVisible();
+  await expect(page.getByTestId("event-scene-header")).toContainText("长坂回声");
   await expect(page.getByTestId("event-hero")).toBeVisible();
   await expect(page.getByTestId("event-choices")).toBeVisible();
   await expectNoOverlap(page.getByTestId("event-hero"), page.getByTestId("event-choices"));
@@ -603,6 +609,8 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await page.getByTestId("map-node-rest-1").click();
   await expect(page.getByTestId("screen-rest")).toBeVisible();
   await expect(page.getByTestId("rest-scene")).toBeVisible();
+  await expect(page.getByTestId("rest-scene").getByTestId("rest-scene-header")).toBeVisible();
+  await expect(page.getByTestId("rest-scene-header")).toContainText("废寺静修");
   await expect(page.getByTestId("rest-hero")).toBeVisible();
   await expect(page.getByTestId("rest-actions")).toBeVisible();
   await expectNoOverlap(page.getByTestId("rest-hero"), page.getByTestId("rest-actions"));
