@@ -6,9 +6,9 @@ Baseline commit: `3673103`
 
 ## Status
 
-Wave 58 closed the EA visual QA gate. The build is already suitable for external EA visual/playtest review: TypeScript, Vitest, Vite build, full Chromium e2e, visual smoke, asset audit, balance report, and handoff report were green at closeout.
+Wave 66 closed the post-EA autonomous commercial-polish roadmap. The current build is ready for external EA visual/playtest review: TypeScript, Vitest, Vite build, full Chromium e2e, visual smoke, responsive/a11y, asset audit, card-art quality report, performance budget, balance report, and handoff report were green at closeout.
 
-Further autonomous work should therefore be tracked as post-EA commercial polish rather than EA blockers. The goal is to keep improving screenshot quality and production feel without expanding gameplay scope.
+Further work should be tracked as external review feedback or deferred backlog rather than pre-EA autonomous waves.
 
 ## Reference Direction From Night-Patrol
 
@@ -32,10 +32,11 @@ For InkBlade, translate these patterns into ancient wuxia ink-wash jianghu style
 - Wave 63 is complete: title route ledger, route cinematic header, journey strip, route-map visual polish, and transition cinematic rail now have focused Playwright assertions.
 - Wave 64 is complete: the top 14 low-resolution starter/common card faces were replaced by 512x768 generated PNGs, the asset audit now counts `*-gpt2.png` runtime assets, and the card-art quality report has 0 dimension/crop signals.
 - Wave 65 is complete: responsive/mobile, keyboard/focus, reduced-motion, screenshot-size, and build/asset budget gates now protect the polished UI before final candidate closeout.
+- Wave 66 is complete: the final candidate gate refreshed README, alpha acceptance, alpha handoff output, reports, and full verification evidence; no planned post-EA waves remain.
 
 ## Remaining Waves
 
-Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 65, one remains: Wave 66.
+Eight post-EA waves were planned after Wave 58: Wave 59 through Wave 66. After Wave 66, no planned post-EA waves remain.
 
 ### Wave 59: High-Priority Common Card Art Polish
 
@@ -133,13 +134,15 @@ Gate: passed. Responsive/a11y Playwright, targeted visual smoke screenshot bound
 
 ### Wave 66: Post-EA Candidate Gate
 
+Status: complete.
+
 Run the release-style closeout again after the post-EA polish:
 
 - Full audit, tests, build, balance, handoff, screenshots, and documentation refresh.
 - Known risks and deferred backlog.
 - Stop rule for the next external review candidate.
 
-Gate: all automated verification passes or blockers are fixed/documented.
+Gate: passed. Asset audit, card-art quality report, performance budget, TypeScript, full Vitest, Vite build, full Chromium e2e, handoff preflight, balance report generation, alpha handoff generation, and `git diff --check` are green.
 
 ## Execution Model
 

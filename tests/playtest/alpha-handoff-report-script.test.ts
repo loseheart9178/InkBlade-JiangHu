@@ -37,21 +37,24 @@ describe("alpha handoff report script", () => {
       expect(stdout).toContain("Generated: 2026-05-05T05:15:00.000Z");
       expect(stdout).toContain("Branch: `codex/test-handoff`");
       expect(stdout).toContain("Commit: `abc1234`");
-      expect(stdout).toContain("Wave 20 full desktop gate remains the latest full Chromium e2e gate");
-      expect(stdout).toContain("Vitest 24 files / 200 tests");
-      expect(stdout).toContain("Zhuge Liang lowest HP band improved to 8/10/14");
-      expect(stdout).toContain("Wave 23 balance report readability");
-      expect(stdout).toContain("healing pressure is summarized once per stressed character");
+      expect(stdout).toContain("Wave 66 candidate gate");
+      expect(stdout).toContain("Vitest 37 files / 270 tests");
+      expect(stdout).toContain("asset audit 228 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0");
+      expect(stdout).toContain("GPT2 runtime assets 122 / source sheets 21");
+      expect(stdout).toContain("performance budget PASS");
+      expect(stdout).toContain("Desktop Chromium remains the active external QA target");
+      expect(stdout).toContain("Wave65 protects narrow mobile layout smoke coverage");
       expect(stdout).toContain("Wave 24 balance report label");
       expect(stdout).toContain("# Wave 24 Alpha Balance Report");
       expect(stdout).toContain("wave24-alpha-balance-v1");
-      expect(stdout).toContain("Current multi-seed balance artifact: Wave 50 card-pool refresh, 12/12 routes, 84 combat samples");
+      expect(stdout).toContain("Current multi-seed balance artifact: 12/12 routes, 84 combat samples");
       expect(stdout).toContain("Zhuge Liang lowest HP band 8/10/15");
-      expect(stdout).not.toContain("current Wave 20 baseline");
+      expect(stdout).not.toContain("Wave 20 full desktop gate remains the latest");
+      expect(stdout).not.toContain("/mnt/c/Users/loseheart");
       expect(stdout).toContain("docs/playtest/desktop-playtest-checklist.md");
       expect(stdout).toContain("docs/playtest/external-bug-intake.md");
       expect(stdout).toContain("Balance artifact: `reports/balance-report.md`");
-      expect(stdout).toContain("Wave 21 resolves Milestone 58");
+      expect(stdout).toContain("node scripts/perf-budget.mjs --build");
     } finally {
       rmSync(artifactDir, { recursive: true, force: true });
     }

@@ -1,18 +1,18 @@
 # Alpha Acceptance Playtest
 
-Current EA direction is a desktop browser playable showcase: outside players should be able to see and play the distinctive jianghu deckbuilding loop, ink-wash battlefield, character card pools, and commercial-quality content/art direction without storefront or installer work. Chromium desktop through Playwright remains the active QA target; mobile layout, touch input, Steam/storefront work, installers, depot setup, and release packaging are outside the current EA plan.
+Current EA direction is a desktop browser playable showcase: outside players should be able to see and play the distinctive jianghu deckbuilding loop, ink-wash battlefield, character card pools, and commercial-quality content/art direction without storefront or installer work. Chromium desktop through Playwright remains the active external QA target; Wave65 protects narrow mobile layout smoke coverage, while touch input, mobile release support, Steam/storefront work, installers, depot setup, and release packaging are outside the current EA plan.
 
-Wave 20 remains the latest full release-gate refresh for the historical desktop browser alpha baseline.
+Wave 66 is the current post-EA candidate gate and closes the planned autonomous wave roadmap.
 
-Last full gate verified: 2026-05-05 Wave 20 release-gate refresh on branch `codex/wave20-release-gate-refresh`.
+Latest full gate verified: 2026-05-09 Wave 66 post-EA candidate gate on branch `codex/wave66-post-ea-candidate-gate`: TypeScript, Vitest 37 files / 270 tests, Vite build, 40 Chromium e2e tests, asset audit 228 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 122 / source sheets 21, card-art quality report missing files 0, performance budget PASS, balance artifact, handoff preflight, and alpha handoff report.
 
-Latest art gate verified: 2026-05-05 Wave 21 GPT Image 2 starter/common card art on branch `codex/wave21-gpt2-card-art`: Vitest 24 files / 200 tests, TypeScript compile, Vite build, Playwright visual smoke 3 Chromium tests, and asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
+Latest art ledger verified: 2026-05-09 Wave 66 candidate gate keeps 150 cards, missing files 0, duplicate asset groups 31, and replacement queue 148. The queue is non-blocking art backlog, not an EA blocker.
 
-Latest balance stability gate verified: 2026-05-05 Wave 22 Zhuge Liang balance stability on branch `codex/wave22-zhuge-balance-stability`: multi-seed balance artifact remains 12/12 routes, 84 combat samples, timeout risks 0, unsafe spikes 0, and Zhuge Liang's lowest post-combat HP band improved from `3/3/7` to `8/10/14`.
+Latest balance stability gate verified: 2026-05-09 Wave 66 candidate gate: multi-seed balance artifact remains 12/12 routes, 84 combat samples, timeout risks 0, unsafe spikes 0, and Zhuge Liang's lowest post-combat HP band is `8/10/15`.
 
-Latest balance report label gate verified: 2026-05-05 Wave 24 balance report label refresh on branch `codex/wave24-balance-report-label-refresh`; `scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` now emits `# Wave 24 Alpha Balance Report` with report id `wave24-alpha-balance-v1` while preserving the Wave 22 aggregate structure.
+Latest balance report label remains `# Wave 24 Alpha Balance Report` with report id `wave24-alpha-balance-v1`; the label is historical, while the generated artifact content is current to Wave66.
 
-Wave 7 through Wave 14 balance-report and acceptance sections remain historical references below. The current Wave 50 multi-seed artifact result is 12/12 completed routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band `8/10/15`, and the Wave 24 report label/report id above.
+Wave 7 through Wave 24 balance-report and acceptance sections remain historical references below. The current Wave66 candidate result is 12/12 completed routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band `8/10/15`, and no planned autonomous waves remaining.
 
 External bug reports should use [external-bug-intake.md](external-bug-intake.md) for setup/build fields, severity labels, route tags, evidence requirements, and the copy-ready report template.
 
@@ -20,18 +20,20 @@ For an external tester QA artifact, generate `reports/alpha-handoff.md` with `sc
 
 ## Runnable Commands
 
-Normal `npm` commands require Node 24 or newer. Autonomous worktrees should use the bundled Node v24.14.0 path below.
+Normal `npm` commands require Node 24 or newer.
 
 Run `npm run handoff:preflight` before a handoff session to catch stale Node/runtime or missing report-doc setup quickly.
 
-Use the bundled Node runtime for autonomous worktrees:
+Useful full-gate commands:
 
 ```bash
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+node scripts/audit-generated-assets.mjs
+node scripts/card-art-quality-report.mjs
+node scripts/perf-budget.mjs --build
+node node_modules/typescript/bin/tsc --noEmit
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
 ```
 
 Useful focused reruns:
@@ -40,14 +42,14 @@ Useful focused reruns:
 npm run handoff:preflight
 npm run report:balance
 npm run report:handoff
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --grep "final boss route"
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts -g "debug skip|compendium|墨录图鉴"
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "final boss route"
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium -g "debug skip|compendium|墨录图鉴"
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+node node_modules/vitest/vitest.mjs run tests/playtest/run-simulator.test.ts tests/data/content.test.ts tests/run/run-system.test.ts --reporter=dot
+node scripts/balance-report.mjs --markdown
+node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003
+node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
 ```
 
 ## Playable Scope
@@ -65,7 +67,7 @@ npm run report:handoff
 
 Wave 20 scope: refresh the current release gate after Waves 15-19 external playtest docs, alpha handoff report, npm report scripts, Node 24 runtime requirement docs, and handoff preflight tooling. It also fixes two handoff QA issues found during the gate: the four-character visual smoke test now has an explicit long timeout budget, and bundled Node handoff scripts can resolve branch/commit from git metadata even when `git` is not launchable from the Windows Node process.
 
-Final Wave 20 gate: Vitest 23 files / 198 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0, the multi-seed balance report artifact matched stdout, handoff preflight reported Node v24.14.0 PASS with branch/commit metadata, and the alpha handoff report artifact matched stdout with the current Wave 20 baseline.
+Final Wave 20 gate: Vitest 23 files / 198 tests, TypeScript compile passed, Vite build passed without the previous Phaser chunk warning, Playwright 27 Chromium desktop tests passed, asset audit reported 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0, the multi-seed balance report artifact matched stdout, handoff preflight reported Node v24.14.0 PASS with branch/commit metadata, and the alpha handoff report artifact matched stdout with the then-current Wave 20 baseline.
 
 ## Wave 11 Alpha Backlog Closure Acceptance
 
@@ -106,23 +108,25 @@ Final Wave 10 gate: Vitest 18 files / 186 tests, TypeScript compile passed, Vite
 
 | Check | Command or Evidence | Current Result |
 |---|---|---|
-| Generated asset references have no missing runtime files | bundled `node.exe scripts/audit-generated-assets.mjs` | Passed: runtime refs 159, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 72, source sheets 21 |
-| Deterministic unit coverage | bundled `vitest.mjs run` | Passed: 24 files / 200 tests |
-| TypeScript compile check | bundled `typescript/bin/tsc --noEmit` | Passed |
-| Production build | bundled `vite/bin/vite.js build` | Passed without the previous lazy Phaser chunk-size warning |
-| Desktop browser e2e | bundled `@playwright/test/cli.js test tests/e2e` | Passed: 27 Chromium tests |
+| Generated asset references have no missing runtime files | `node scripts/audit-generated-assets.mjs` | Passed: runtime refs 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 122, source sheets 21 |
+| Card-art quality report | `node scripts/card-art-quality-report.mjs` | Passed: cards 150, missing files 0, duplicate asset groups 31, replacement queue 148 |
+| Performance budget | `node scripts/perf-budget.mjs --build` | Passed: Phaser 1.15 MiB raw / 311.3 KiB gzip; largest other JS 310.7 KiB raw / 79.2 KiB gzip; largest CSS 120.0 KiB; public assets 222.95 MiB |
+| Deterministic unit coverage | `NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot` | Passed: 37 files / 270 tests |
+| TypeScript compile check | `node node_modules/typescript/bin/tsc --noEmit` | Passed |
+| Production build | `NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build` | Passed |
+| Desktop browser e2e | `NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium` | Passed: 40 Chromium tests |
 | Boot and four-character selector | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Final boss route and final choice | `tests/e2e/playable-flow.spec.ts --grep "final boss route"` | Passed within full Playwright suite |
 | Debug skip | `tests/e2e/playable-flow.spec.ts` | Passed; `调试跳章` remains hidden by default and available through the explicit debug gate |
-| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed; Wave 14 unlock metadata, counts, badges, and `all/reference/unlocked/locked` filtering remain covered under the Wave 20 gate |
+| Compendium | `tests/compendium/compendium-system.test.ts`, `tests/e2e/playable-flow.spec.ts` | Passed; Wave 14 unlock metadata, counts, badges, and `all/reference/unlocked/locked` filtering remain covered under the Wave66 gate |
 | Glossary metadata | `tests/data/content.test.ts`, `tests/e2e/visual-smoke.spec.ts` | Passed, including Wave 11 combat status badge metadata |
-| Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Passed: 3 Chromium visual-smoke tests; Wave 21 starter/common PNG card art is accepted |
+| Four character combat smoke screenshots | `tests/e2e/visual-smoke.spec.ts` | Passed: visual-smoke covers title cards, four-character combat screenshots, non-Luoshui chapter context, and semantic attack strips |
 | Save/continue after reload | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Debug ending/profile summary | `tests/e2e/playable-flow.spec.ts` | Passed |
 | Four-character alpha route simulator | `tests/playtest/run-simulator.test.ts` | Passed, including Zhuge Liang seed `9003` assertions |
 | Multi-seed balance report | `node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003` | Passed: 12/12 routes, 84 samples, timeout risks 0, unsafe spikes 0, Zhuge Liang lowest HP band 8/10/15 |
 | Handoff preflight | `node scripts/handoff-preflight.mjs` | Passed: Node v24.14.0 PASS, report scripts PASS, handoff docs PASS, branch/commit resolved |
-| Alpha handoff report artifact | `node scripts/alpha-handoff-report.mjs --out ... --balance-report ...` | Passed: artifact matched stdout and includes the Wave 24 report label/id plus Wave 23 watchlist readability baseline |
+| Alpha handoff report artifact | `node scripts/alpha-handoff-report.mjs --out ... --balance-report ...` | Passed: artifact matched stdout and includes the Wave66 candidate baseline plus Wave24 report label/id |
 
 ## Wave 7 Balance Report Findings
 
@@ -193,14 +197,14 @@ The Playwright HTML report and `test-results/` output include these attached des
 
 ### Gameplay Blockers
 
-- No Wave 20 desktop gameplay blockers were found in the full integration gate.
+- No Wave66 candidate blockers were found in the full integration gate.
 - Stable combat hand layout remains covered by Playwright visual smoke.
-- Zhuge Liang seed `9003` completes in the Wave 20 multi-seed outcome.
+- Zhuge Liang seed `9003` completes in the current multi-seed outcome.
 
 ### Non-Blocking Backlog
 
-- Runtime card fallback debt is 0 after Wave 10 semantic SVG card integration and asset audit verification.
-- Wave 21 upgrades the starter/common card faces to GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG card faces are readable alpha coverage until optional bitmap passes replace them.
+- Runtime card fallback debt is 0 after Wave 10 semantic SVG card integration and later generated bitmap passes.
+- Waves 21, 57, 59, and 64 upgraded the worst starter/common card faces to generated bitmap PNGs; remaining duplicate/generic art queue entries are non-blocking backlog for later review.
 - First-chapter semantic attack strips are bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; the generic enemy slash strip is not acceptable for their combat identity.
-- The lazy Phaser runtime chunk now has an explicit `1300` kB Vite warning budget so future chunk growth is actionable.
-- Production audio depth, broader external playtest instructions, content polish, and art-quality passes remain future EA polish. Steam/storefront and release packaging work are excluded from the current EA plan.
+- Wave65 protects Phaser/runtime chunk growth, asset folders, single card PNGs, and non-source raster size with `scripts/perf-budget.mjs`.
+- No planned post-EA autonomous waves remain after Wave66. Production audio depth, future art-quality replacement, reliability work, Steam/storefront, release packaging, mobile touch QA, and broad localization should be filed as external review feedback or deferred backlog.

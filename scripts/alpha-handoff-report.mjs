@@ -39,15 +39,14 @@ Commit: \`${commit || "unknown"}\`
 
 ## Current Acceptance Baseline
 
-- Desktop Chromium is the active alpha target; mobile layout and touch QA remain out of scope.
-- Wave 20 full desktop gate remains the latest full Chromium e2e gate: Vitest 23 files / 198 tests, TypeScript, Vite build, Playwright 27 Chromium desktop tests, asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0, and balance artifact stdout match.
-- Wave 21 art gate: Vitest 24 files / 200 tests, TypeScript, Vite build, Playwright visual smoke 3 Chromium tests, asset audit 159 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21.
-- Wave 22 balance stability: multi-seed balance remains 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, and Zhuge Liang lowest HP band improved to 8/10/14.
-- Wave 23 balance report readability: healing pressure is summarized once per stressed character with aggregate lowest HP bands, making Zhuge Liang \`8/10/14\` visible in the watchlist instead of repeated route labels.
+- Wave 66 candidate gate: TypeScript, Vitest 37 files / 270 tests, Vite build, full Chromium e2e, visual smoke, responsive/a11y, asset audit, card-art quality report, performance budget PASS, balance, and handoff report are green.
+- Desktop Chromium remains the active external QA target; Wave65 protects narrow mobile layout smoke coverage, while touch QA and mobile release support remain out of current EA scope.
+- Current asset gate: asset audit 228 runtime references / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 122 / source sheets 21.
+- Current art ledger: 150 cards, missing files 0, duplicate asset groups 31, replacement queue 148; remaining queue items are non-blocking art backlog rather than EA blockers.
 - Wave 24 balance report label: markdown starts \`# Wave 24 Alpha Balance Report\` with report id \`wave24-alpha-balance-v1\`.
-- Wave 15-19 handoff kit: refreshed desktop playtest checklist, external bug intake guide, alpha handoff report, npm report scripts, Node 24 runtime docs, and handoff preflight.
-- Current multi-seed balance artifact: Wave 50 card-pool refresh, 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band 8/10/15.
-- Wave 21 resolves Milestone 58 for starter/common card faces with 20 GPT Image 2 bitmap runtime crops; remaining art polish is optional non-starter bitmap replacement.
+- Current multi-seed balance artifact: 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, Zhuge Liang lowest HP band 8/10/15.
+- Waves 59-65 completed post-EA commercial polish across card art, premium card frames, combat HUD feedback, scene surfaces, route cinematics, responsive/a11y checks, and performance budgets.
+- No planned post-EA autonomous waves remain after Wave66; future work should be filed as external review feedback or deferred backlog.
 
 ## Local Run
 
@@ -56,21 +55,24 @@ npm install
 npm run dev
 \`\`\`
 
-Bundled runtime:
+Direct runtime:
 
 \`\`\`bash
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js --host 127.0.0.1
+node node_modules/vite/bin/vite.js --host 127.0.0.1
 \`\`\`
 
 ## Verification Commands
 
 \`\`\`bash
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+node scripts/audit-generated-assets.mjs
+node scripts/card-art-quality-report.mjs
+node scripts/perf-budget.mjs --build
+node node_modules/typescript/bin/tsc --noEmit
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
+node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
 \`\`\`
 
 ## Playtest Documents

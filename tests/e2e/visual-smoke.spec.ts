@@ -72,7 +72,7 @@ test("title character select presents four readable EA role cards", async ({ pag
 });
 
 test("captures desktop combat smoke screenshots for all four characters", async ({ page }, testInfo) => {
-  test.setTimeout(80_000);
+  test.setTimeout(140_000);
 
   for (const character of combatSmokeCharacters) {
     await startDesktopCombat(page, character.id);

@@ -2,6 +2,57 @@
 
 ## Status Log
 
+### 2026-05-09 16:12 Asia/Shanghai
+
+Wave 66 Post-EA Candidate Gate completed in `.worktrees/wave66-post-ea-candidate-gate` on branch `codex/wave66-post-ea-candidate-gate`.
+
+Created:
+
+- `docs/superpowers/plans/2026-05-09-wave66-post-ea-candidate-gate.md`
+- Local ignored artifacts: `reports/balance-report.md`, `reports/alpha-handoff.md`
+
+What changed:
+
+- Re-ran the final candidate gate after Waves 59-65 and refreshed the tracked card-art quality reports.
+- Updated `README.md`, `docs/playtest/alpha-acceptance.md`, and `scripts/alpha-handoff-report.mjs` from stale Wave20/WSL-era wording to the Wave66 macOS/Node candidate baseline.
+- Updated `tests/playtest/alpha-handoff-report-script.test.ts` so the generated alpha handoff report must include the Wave66 baseline and must not include the old WSL runtime path.
+- Increased the four-character combat visual smoke timeout from 80s to 140s because the full Chromium suite can spend about 1.5 minutes on that heavy screenshot path under three-worker load.
+- Marked the post-EA polish roadmap closed: after Wave66, no planned autonomous post-EA waves remain.
+
+Verification:
+
+```text
+node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 122, source sheets 21, prompt queue targets 54.
+
+node scripts/card-art-quality-report.mjs
+Result: passed. cards 150, missing files 0, duplicate asset groups 31, replacement queue 148.
+
+node scripts/perf-budget.mjs --build
+Result: passed. Phaser 1.15 MiB raw / 311.3 KiB gzip; largest other JS 310.7 KiB raw / 79.2 KiB gzip; largest CSS 120.0 KiB; public/assets 222.95 MiB; generated/cards 36.56 MiB; sprites 31.23 MiB; largest card PNG 806.3 KiB; largest non-source raster 3.43 MiB; asset audit missing 0, card fallback debt 0, runtime files 151, source sheets 21.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run --reporter=dot
+Result: passed, 37 files / 270 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
+Result: passed, 40 Chromium tests.
+
+node scripts/handoff-preflight.mjs
+Result: checklist passed. Node v24.14.0 PASS, report scripts PASS, handoff documents PASS.
+
+node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+Result: passed. 12/12 routes, 84 combat samples, timeout risks 0, unsafe damage spikes 0, highest healing pressure high.
+
+node scripts/alpha-handoff-report.mjs --out reports/alpha-handoff.md --balance-report reports/balance-report.md
+Result: passed. Local ignored artifact generated with Wave66 candidate baseline.
+```
+
 ### 2026-05-09 14:45 Asia/Shanghai
 
 Wave 65 Responsive, Accessibility, And Performance QA completed in `.worktrees/wave65-responsive-a11y-perf` on branch `codex/wave65-responsive-a11y-perf`.

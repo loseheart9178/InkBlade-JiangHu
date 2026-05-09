@@ -13,12 +13,12 @@ npm run dev
 
 The verified autonomous runtime is Node v24.14.0. Older Node 18 shells cannot run the current Vite/Rolldown toolchain.
 
-Open the Vite URL, usually `http://127.0.0.1:5173/`, in a desktop Chromium browser. Desktop browser play is the active EA target; mobile layout and touch QA are paused.
+Open the Vite URL, usually `http://127.0.0.1:5173/`, in a desktop Chromium browser. Desktop Chromium remains the active external QA target; Wave65 protects narrow mobile layout smoke coverage, while touch QA and mobile release support remain out of current EA scope.
 
-Autonomous worktrees should use the bundled Node runtime:
+Autonomous worktrees can run Vite directly with the repo-local toolchain:
 
 ```bash
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js --host 127.0.0.1
+node node_modules/vite/bin/vite.js --host 127.0.0.1
 ```
 
 ## Test Commands
@@ -33,17 +33,19 @@ npm run test:e2e
 node scripts/audit-generated-assets.mjs
 ```
 
-Bundled Node equivalents:
+Direct Node equivalents:
 
 ```bash
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vitest/vitest.mjs run
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/typescript/bin/tsc --noEmit
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/vite/bin/vite.js build
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe ./node_modules/@playwright/test/cli.js test tests/e2e
-/mnt/c/Users/loseheart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe scripts/audit-generated-assets.mjs
+node node_modules/vitest/vitest.mjs run
+node node_modules/typescript/bin/tsc --noEmit
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
+node scripts/audit-generated-assets.mjs
+node scripts/card-art-quality-report.mjs
+node scripts/perf-budget.mjs --build
 ```
 
-Wave 20 release verification completed on branch `codex/wave20-release-gate-refresh`: Vitest 23 files / 198 tests, TypeScript, Vite build without the previous Phaser chunk-size warning, Playwright 27 Chromium desktop tests, asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0, multi-seed balance artifact output matching stdout, handoff preflight, and alpha handoff artifact output matching stdout. Wave 21 then resolves Milestone 58 for starter/common card faces with 20 GPT Image 2 bitmap runtime crops while preserving the Wave 9/10 SVG readability assets as historical fallbacks; its art gate passed Vitest 24 files / 200 tests, TypeScript, Vite build, Playwright visual smoke 3 Chromium tests, and asset audit 159 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 72 / source sheets 21. Wave 50 raises the current EA baseline to 150 cards, 40 relics, 45 events, 22 logbook fragments, 19 enemies, 4 chapters, 4 characters, and 8 methods.
+Wave 66 is the current EA candidate gate: TypeScript, Vitest 37 files / 270 tests, Vite build, 40 Chromium e2e tests, asset audit 228 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 122 / source sheets 21, card-art quality report with 150 cards and missing files 0, performance budget PASS, 12/12 multi-seed balance routes, handoff preflight, and alpha handoff artifact generation. Wave 50 remains the content-count baseline at 150 cards, 40 relics, 45 events, 22 logbook fragments, 19 enemies, 4 chapters, 4 characters, and 8 methods.
 
 ## Carry-Forward: Compendium Unlock Depth
 
@@ -104,7 +106,7 @@ Wave 10 removes the remaining runtime card-art fallback debt while preserving th
 - Binds those assets through card-art modules imported by `src/game/content/visuals.ts`.
 - Updates the generated asset audit so card-art modules are counted in runtime references and `cardFallbackDebt` reports 0.
 
-Desktop browser remains the active release target. Wave 10 changed art bindings and audit coverage only; the current Wave 20 gate still covers gameplay pacing with the 12/12 multi-seed balance report and 27 Chromium desktop tests.
+Desktop browser remains the active release target. Wave 10 changed art bindings and audit coverage only; the current Wave66 gate covers gameplay pacing with the 12/12 multi-seed balance report and 40 Chromium tests.
 
 ## Desktop Playtest Route
 
@@ -128,12 +130,12 @@ External testers should file issues with [external-bug-intake.md](docs/playtest/
 
 ## Known Gaps
 
-- Runtime card fallback debt is now 0. Wave 21 upgrades the starter/common card faces to GPT Image 2 bitmap PNGs; remaining Wave 10 semantic SVG card faces are readable historical/runtime coverage until future optional bitmap passes replace them.
+- Runtime card fallback debt is 0. Waves 21, 57, 59, and 64 upgraded the worst starter/common card faces to generated bitmap PNGs; remaining duplicate/generic art queue entries are non-blocking backlog for later review.
 - First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
-- The Wave 50 multi-seed balance pass keeps all 12/12 routes complete with 84 samples, timeout risks 0, unsafe spikes 0, and leaves Zhuge Liang's lowest post-combat HP band at `8/10/15` while keeping him a high-strategy pressure character.
+- The Wave66 multi-seed balance gate keeps all 12/12 routes complete with 84 samples, timeout risks 0, unsafe spikes 0, and leaves Zhuge Liang's lowest post-combat HP band at `8/10/15` while keeping him a high-strategy pressure character.
 - Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
-- Steam/storefront work, installers, depot setup, and release packaging are outside the current EA plan. Browser-playable content depth, presentation polish, art quality, audio atmosphere, and reliability remain active EA workstreams.
-- Mobile layout, touch QA, and broad localization polish remain paused unless reopened explicitly.
+- Steam/storefront work, installers, depot setup, and release packaging are outside the current EA plan.
+- No planned post-EA autonomous waves remain after Wave66. Future presentation polish, art-quality replacement, audio atmosphere, reliability work, mobile touch QA, and broad localization should be filed as external review feedback or deferred backlog.
 
 ## Bug Report Template
 
