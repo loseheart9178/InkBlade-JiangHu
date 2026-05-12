@@ -2,6 +2,43 @@
 
 ## Status Log
 
+### 2026-05-12 23:25 Asia/Shanghai
+
+Completed desktop card-art visual QA across the remaining card surfaces.
+
+What changed:
+
+- Rechecked visible card instances in deck viewer, combat hand, reward, and shop at `1280x720`.
+- Found that deck viewer, reward, and shop still used shallow landscape card-art rows, so portrait assets such as `foundation-v16-zhao-thrust.png` could still read as compressed or partially hidden outside combat.
+- Updated reward, shop, and deck card layouts to use dedicated portrait-oriented card-art windows with cost, title, type badges, keywords, and descriptions outside the art rectangle.
+- Added Playwright assertions in the deck/reward/shop flows so portrait card images must use a portrait art window, retain `object-fit: contain`, and avoid overlap with card chrome.
+
+Verification:
+
+```text
+Desktop QA script
+Result: passed after fix. 21 visible card instances checked across deck viewer, combat hand, reward, and shop; failures 0.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters a Zhao Yun battle"
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "shops can add relics"
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium --grep "captures desktop combat smoke"
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Next step:
+
+- Use the desktop QA screenshots under `output/card-art-qa/` for a quick human approval pass, then proceed with combat UI kit Gate 1 approval from the desktop landscape target.
+
 ### 2026-05-12 22:55 Asia/Shanghai
 
 Fixed the desktop card-art occlusion issue reported on the `枪击` card.

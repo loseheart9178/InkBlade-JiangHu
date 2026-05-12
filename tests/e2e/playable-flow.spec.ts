@@ -457,6 +457,7 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("deck-build-signature-card").first()).toContainText(/枪击|架枪|龙胆/);
   await expect(page.getByTestId("deck-card")).toHaveCount(10);
   await expect(page.getByTestId("deck-card").first().getByTestId("card-cost")).toBeVisible();
+  await expectCardArtWindowClear(page.getByTestId("deck-card").first());
   await expect(page.getByTestId("deck-viewer")).toContainText("枪击");
   await page.getByTestId("deck-close").click();
   await expect(page.getByTestId("deck-viewer")).toBeHidden();
@@ -481,6 +482,7 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("reward-combo-hint")).toContainText("招式回响");
   await expect(page.getByTestId("reward-card").first()).toHaveAttribute("data-combo-biased", "true");
   await expect(page.getByTestId("reward-card").first().getByTestId("card-cost")).toBeVisible();
+  await expectCardArtWindowClear(page.getByTestId("reward-card").first());
   await expect(page.getByTestId("reward-reason").first()).toContainText("流派");
   await expect(page.getByTestId("reward-archetype-role").first()).toContainText(/主线强化|副线补强|通用补短/);
   await expect(page.getByTestId("reward-build-fit").first()).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
@@ -530,6 +532,7 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expect(travelCard.locator(".card-chrome-row")).toBeVisible();
   await expect(travelCard.locator(".card-keyword-row")).toBeVisible();
   await expect(travelCard.getByTestId("card-cost")).toBeVisible();
+  await expectCardArtWindowClear(travelCard);
   await expect(travelCard.locator(".shop-price-chip")).toContainText("35");
   await expect(travelCard.getByTestId("shop-build-fit")).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
   await expect(travelCard.getByTestId("shop-build-fit-detail")).toContainText(/流|技法|攻击|墨痕|成型|短板/);
@@ -908,6 +911,58 @@ async function expectVerticalGap(upper: Locator, lower: Locator, minimumGap: num
   expect(upperBox).not.toBeNull();
   expect(lowerBox).not.toBeNull();
   expect(lowerBox!.y - (upperBox!.y + upperBox!.height)).toBeGreaterThanOrEqual(minimumGap);
+}
+
+async function expectCardArtWindowClear(card: Locator): Promise<void> {
+  const metrics = await card.evaluate((item) => {
+    const readRect = (element: Element | null) => {
+      if (!element) {
+        return undefined;
+      }
+      const rect = element.getBoundingClientRect();
+      return {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+        right: rect.right,
+        bottom: rect.bottom
+      };
+    };
+    const overlaps = (first?: ReturnType<typeof readRect>, second?: ReturnType<typeof readRect>) =>
+      Boolean(first && second
+        && first.x < second.right
+        && first.right > second.x
+        && first.y < second.bottom
+        && first.bottom > second.y);
+
+    const art = readRect(item.querySelector(".card-art"));
+    const image = item.querySelector<HTMLImageElement>(".card-art img");
+    const cardRect = readRect(item);
+    const naturalRatio = image && image.naturalWidth > 0 ? image.naturalHeight / image.naturalWidth : 1;
+    const artRatio = art ? art.height / art.width : 0;
+    const controls = [
+      item.querySelector(".card-cost"),
+      item.querySelector("strong"),
+      item.querySelector(".card-chrome-row"),
+      item.querySelector(".card-type-line"),
+      item.querySelector(".card-keyword-row"),
+      item.querySelector(".card-description")
+    ];
+
+    return {
+      artRatio,
+      artHeightShare: art && cardRect ? art.height / cardRect.height : 0,
+      objectFit: image ? getComputedStyle(image).objectFit : "",
+      portraitWindowForPortraitImage: naturalRatio > 1.25 ? artRatio > 1 : true,
+      overlapsArt: controls.some((control) => overlaps(readRect(control), art))
+    };
+  });
+
+  expect(metrics.objectFit).toBe("contain");
+  expect(metrics.portraitWindowForPortraitImage).toBe(true);
+  expect(metrics.artHeightShare).toBeGreaterThanOrEqual(0.25);
+  expect(metrics.overlapsArt).toBe(false);
 }
 
 async function expectNoOverlap(first: Locator, second: Locator): Promise<void> {

@@ -2907,8 +2907,9 @@ button {
 }
 
 .reward-card {
-  grid-template-rows: 128px 20px auto auto 30px auto auto auto;
-  min-height: 420px;
+  grid-template-rows: 28px 120px 18px 12px 20px 32px auto auto auto auto;
+  gap: 6px;
+  min-height: 400px;
   padding: 16px 14px 14px;
   border: 2px solid var(--card-frame);
   border-radius: 8px;
@@ -2929,7 +2930,22 @@ button {
 }
 
 .reward-card .card-art {
-  min-height: 128px;
+  grid-row: 2;
+  justify-self: center;
+  width: min(100%, 88px);
+  min-height: 0;
+}
+
+.reward-card strong,
+.deck-card strong {
+  grid-row: 1;
+  align-self: center;
+  padding-left: 34px;
+}
+
+.reward-card .card-description,
+.deck-card .card-description {
+  grid-row: 6;
 }
 
 .reward-card:hover:not(:disabled) {
@@ -3005,8 +3021,8 @@ button {
 }
 
 .shop-item--card {
-  grid-template-rows: auto 108px 20px auto auto 28px auto 1fr auto;
-  min-height: 382px;
+  grid-template-rows: 24px 140px 18px 20px 12px 22px 34px auto 42px auto;
+  min-height: 442px;
   padding: 12px;
   border: 2px solid var(--card-frame);
   border-top: 5px solid rgba(183, 53, 42, 0.68);
@@ -3022,7 +3038,27 @@ button {
 }
 
 .shop-item--card .card-art {
-  min-height: 108px;
+  grid-row: 2;
+  justify-self: center;
+  width: min(100%, 108px);
+  min-height: 0;
+}
+
+.shop-item--card strong {
+  grid-row: 4;
+  align-self: center;
+}
+
+.shop-item--card .card-type-line {
+  grid-row: 5;
+}
+
+.shop-item--card .card-keyword-row {
+  grid-row: 6;
+}
+
+.shop-item--card .card-description {
+  grid-row: 7;
 }
 
 .shop-item--card:hover:not(:disabled) {
@@ -3139,6 +3175,7 @@ button {
 }
 
 .shop-meta-row {
+  grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3176,6 +3213,7 @@ button {
 }
 
 .shop-price-chip {
+  grid-row: 10;
   display: inline-flex;
   justify-self: center;
   align-items: center;
@@ -3826,9 +3864,9 @@ button {
 .deck-card {
   position: relative;
   display: grid;
-  grid-template-rows: 108px 20px auto auto 28px 1fr;
+  grid-template-rows: 28px 132px 18px 12px 22px 1fr;
   gap: 5px;
-  min-height: 306px;
+  min-height: 350px;
   padding: 16px 12px 12px;
   overflow: hidden;
   border: 2px solid var(--card-frame);
@@ -3845,7 +3883,10 @@ button {
 }
 
 .deck-card .card-art {
-  min-height: 108px;
+  grid-row: 2;
+  justify-self: center;
+  width: min(100%, 104px);
+  min-height: 0;
 }
 
 .deck-card strong {
