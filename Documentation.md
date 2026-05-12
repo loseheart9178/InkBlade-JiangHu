@@ -2,6 +2,30 @@
 
 ## Status Log
 
+### 2026-05-12 23:45 Asia/Shanghai
+
+Prepared the Combat UI Kit Gate 1 desktop approval package.
+
+What changed:
+
+- Added `docs/superpowers/approvals/2026-05-12-combat-ui-kit-gate1-desktop-approval.md` with the approval recommendation, scope, screenshot list, QA result, verification commands, and known non-blockers.
+- Recorded the current Gate 1 decision boundary: desktop-landscape approval only; mobile portrait artifacts remain historical/reference and non-blocking.
+- Summarized the card-art window QA across deck viewer, combat hand, reward, and shop: 21 visible card instances checked, current gate failures 0.
+
+Verification:
+
+```text
+node -e "const r=require('./output/card-art-qa/report.json'); const failures=r.filter(x=>x.hasAnyOverlap||!x.portraitWindowForPortraitImage||(x.artHeightShare<0.25)); const by={}; for (const x of r) by[x.surface]=(by[x.surface]||0)+1; console.log(JSON.stringify({total:r.length,bySurface:by,currentGateFailures:failures.length,minArtHeightShare:Math.min(...r.map(x=>x.artHeightShare))},null,2));"
+Result: total 21, currentGateFailures 0, minArtHeightShare 0.26.
+
+git diff --check
+Result: passed.
+```
+
+Next step:
+
+- Ask for the user's explicit Gate 1 approval. If approved, start Gate 2 production combat UI kit integration.
+
 ### 2026-05-12 23:25 Asia/Shanghai
 
 Completed desktop card-art visual QA across the remaining card surfaces.
