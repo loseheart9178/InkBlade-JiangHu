@@ -57,7 +57,7 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "diao_moon_palace_pledge",
-    assetPath: "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+    assetPath: "/assets/generated/cards/foundation-red-v16-diao-moon-palace-pledge.png",
     alt: "Diao Chan moon palace pledge with a bright ribbon strike",
     accent: "gold"
   },

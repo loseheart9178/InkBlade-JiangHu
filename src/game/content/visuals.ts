@@ -307,7 +307,7 @@ export const cardArtList: CardArtDefinition[] = [
   },
   {
     id: "diao_jinghong_strike",
-    assetPath: "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+    assetPath: "/assets/generated/cards/foundation-red-v16-diao-jinghong-strike.png",
     alt: "Diao Chan swan-strike ribbon ink card art",
     accent: "red"
   },
@@ -567,7 +567,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "sword_echo_attack",
-    assetPath: "/assets/sprites/wave9-sword-echo-attack-strip.svg",
+    assetPath: "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -575,7 +575,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "blood_banner_attack",
-    assetPath: "/assets/sprites/wave9-blood-banner-attack-strip.svg",
+    assetPath: "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -583,7 +583,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "ink_dongzhuo_boss_attack",
-    assetPath: "/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg",
+    assetPath: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,

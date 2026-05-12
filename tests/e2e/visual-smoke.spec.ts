@@ -2,9 +2,9 @@ import { expect, type Page, type TestInfo, test } from "@playwright/test";
 import { getCombatAttackSprite } from "../../src/game/content/visuals";
 
 const firstChapterSemanticEnemyAttacks = {
-  elite_sword_echo: "/assets/sprites/wave9-sword-echo-attack-strip.svg",
-  elite_blood_banner: "/assets/sprites/wave9-blood-banner-attack-strip.svg",
-  boss_ink_dongzhuo: "/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg"
+  elite_sword_echo: "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
+  elite_blood_banner: "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
+  boss_ink_dongzhuo: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png"
 } as const;
 
 const combatSmokeCharacters = [

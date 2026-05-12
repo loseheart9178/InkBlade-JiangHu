@@ -45,7 +45,7 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "diao_feather_feint",
-    assetPath: "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+    assetPath: "/assets/generated/cards/foundation-red-v16-diao-feather-feint.png",
     alt: "Diao Chan feather feint with a bright ribbon strike",
     accent: "red"
   },

@@ -24,6 +24,20 @@ Audit rerun in the integrated Wave 21 branch on 2026-05-05 passed with the count
 
 `cardFallbackDebt` is now 0 at runtime. Wave 10 replaced the remaining shared type-level card bindings with repo-local semantic SVG files under `public/assets/generated/cards/`. Wave 21 upgrades the starter readability and common foundation subset to GPT Image 2 bitmap PNGs while keeping the Wave 9/10 SVGs in the repo as historical readability coverage.
 
+2026-05-12 Phase C/D non-V16 import:
+
+- Imported and bound 29 available foundation PNGs from the Phase C/D delivery material:
+  - V11 Zhao: `zhao_qixing_spear`, `zhao_single_rider`, `zhao_white_dragon`.
+  - V12 Diao red contract: `diao_falling_fan`, `diao_glance`, `diao_hongyan`, `diao_red_ribbon`, `diao_sleeve_blade`, `diao_step_lotus`.
+  - V13 Cai: `cai_broken_string`, `cai_clean_string`, `cai_clear_tone`, `cai_echoing_melody`, `cai_five_tones_start`, `cai_listen_still`, `cai_shang_tone`, `cai_soul_ferry`.
+  - V14 Zhuge star contract: `zhuge_deduction`, `zhuge_fire_array`, `zhuge_plan_set`, `zhuge_starfall`, `zhuge_stone_array`, `zhuge_straw_boats`, `zhuge_wind_array`.
+  - V15 EA wave carryover: `zhao_oath_guard`, `diao_silk_snare`, `cai_cleansing_rain`, `zhuge_bamboo_slips`, `mind_zhaoxin`.
+- Imported `docs/art/card-foundation-generation-queue-v16.md` from the combat-ui-kit worktree as the remaining V16 generation queue.
+- Follow-up import completed the Phase C/D set to all 37 listed delivery files, including the eight late-discovered downloads: `zhao_guardian`, `zhao_stable_formation`, `zhao_sweep`, `zhao_thrust`, `zhuge_empty_city`, `zhao_cloud_pierce`, `common_tashui`, and `common_cangfeng`.
+- Imported the 24 V16 generated images from `.codex/generated_images/019e1a06-9ff2-7170-bf41-b44ea57ec024` by queue order and bound all 24 runtime targets. No V16 file was an exact duplicate of a Phase C/D file; 19 are same-card regenerated alternatives and 5 are new card targets: `diao_jinghong_strike`, `diao_feather_feint`, `diao_moon_palace_pledge`, `mind_luanxin`, and `mind_nuzhan`.
+- Current runtime policy: V16 wins for its 24 queue targets; Phase C/D remains imported as source/runtime history, with the 18 non-overridden Phase C/D cards still bound directly.
+- V16 browser visual QA passed on 2026-05-12: all 24 V16 PNGs loaded, card-frame previews stayed readable, the 19 same-card regenerated alternatives were not content-level duplicates, and no rollback to Phase C/D was selected.
+
 Wave 10 status:
 
 - Added and bound 45 semantic SVG card faces for common, ink, mind, status, Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang fallback targets.
@@ -107,23 +121,20 @@ Special shared-asset cleanup:
 
 The observed-bugfix branch quarantined known annotated/marked generated outputs instead of editing binary artifacts in place. Wave 9 replaced the earlier standee-only attack feedback with semantic SVG attack strips so first-chapter stand-ins no longer use the generic slash strip at runtime.
 
-Wave 9 Task 3 replaced the standee-only attack feedback with semantic repo-local SVG strips. These are not GPT Image 2 bitmap regenerations, so bespoke GPT Image 2 standee/strip regeneration remains an art-quality backlog, but the runtime no longer falls back to generic slash or quarantined annotated attack PNGs for the three first-chapter stand-ins.
+Wave 9 Task 3 replaced the standee-only attack feedback with semantic repo-local SVG strips. A later GPT v2 binding pass promoted the clean 2048x512 attack strips for the three first-chapter stand-ins while keeping the quarantined standee cutouts out of runtime. The runtime no longer falls back to generic slash strips or Wave 9 SVG attack placeholders for these enemies.
 
 | Enemy | Current standee binding | Current attack binding | Regeneration target |
 |---|---|---|---|
-| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | `/assets/sprites/wave9-sword-echo-attack-strip.svg` semantic Wave 9 SVG | Generate clean Sword Echo standee and GPT Image 2 four-frame attack strip when art quality backlog resumes |
-| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | `/assets/sprites/wave9-blood-banner-attack-strip.svg` semantic Wave 9 SVG | Generate clean Blood Banner standee and GPT Image 2 four-frame attack strip when art quality backlog resumes |
-| `boss_ink_dongzhuo` / 墨影董卓 | `/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png` vetted boss standee | `/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg` semantic Wave 9 SVG | Generate clean Dong Zhuo boss GPT Image 2 four-frame attack strip when art quality backlog resumes |
+| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | `/assets/sprites/sword-echo-attack-strip-gpt-v2.png` GPT v2 strip | Generate clean Sword Echo standee when art quality backlog resumes |
+| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | `/assets/sprites/blood-banner-attack-strip-gpt-v2.png` GPT v2 strip | Generate clean Blood Banner standee when art quality backlog resumes |
+| `boss_ink_dongzhuo` / 墨影董卓 | `/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png` vetted boss standee | `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png` GPT v2 strip | Boss standee and strip are covered |
 
 Do not rebind the quarantined annotated paths without regenerated clean sources:
 
 - `/assets/generated/sword-echo-standee-gpt-v2-cutout.png`
 - `/assets/generated/blood-banner-standee-gpt-v2-cutout.png`
-- `/assets/sprites/sword-echo-attack-strip-gpt-v2.png`
-- `/assets/sprites/blood-banner-attack-strip-gpt-v2.png`
-- `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png`
 
-Do not use `/assets/sprites/enemy-slash-strip.svg` as a runtime combatant sprite for these stand-ins. User playtest feedback showed the generic silhouette reads as a different enemy during attacks. The generic slash strip is not an acceptable runtime binding for `elite_sword_echo`, `elite_blood_banner`, or `boss_ink_dongzhuo`; use the semantic Wave 9 SVG strips until future clean GPT Image 2 strips replace them.
+Do not use `/assets/sprites/enemy-slash-strip.svg` as a runtime combatant sprite for these stand-ins. User playtest feedback showed the generic silhouette reads as a different enemy during attacks. The generic slash strip is not an acceptable runtime binding for `elite_sword_echo`, `elite_blood_banner`, or `boss_ink_dongzhuo`; use the GPT v2 attack strips above.
 
 ## Priority Targets
 

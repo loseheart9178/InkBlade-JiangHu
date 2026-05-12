@@ -4,7 +4,7 @@
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
     "runtimeReferenceCount": 228,
-    "uniqueRuntimeFileCount": 151,
+    "uniqueRuntimeFileCount": 158,
     "missingCount": 0,
     "inkPassDebtCount": 0,
     "gpt2RuntimeCount": 122,
@@ -296,13 +296,6 @@
     },
     {
       "kind": "cardArt",
-      "id": "diao_feather_feint",
-      "paths": [
-        "/assets/generated/cards/gpt2-diao-jinghong-strike.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
       "id": "diao_flying_sleeves",
       "paths": [
         "/assets/generated/cards/gpt2-diao-flying-sleeves.png"
@@ -313,13 +306,6 @@
       "id": "diao_guard",
       "paths": [
         "/assets/generated/cards/wave64-diao-guard-gpt2.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "diao_jinghong_strike",
-      "paths": [
-        "/assets/generated/cards/gpt2-diao-jinghong-strike.png"
       ]
     },
     {
@@ -355,13 +341,6 @@
       "id": "diao_mirror_flower",
       "paths": [
         "/assets/generated/cards/gpt2-diao-mirror-flower.png"
-      ]
-    },
-    {
-      "kind": "cardArt",
-      "id": "diao_moon_palace_pledge",
-      "paths": [
-        "/assets/generated/cards/gpt2-diao-jinghong-strike.png"
       ]
     },
     {
@@ -786,6 +765,13 @@
     },
     {
       "kind": "combatSpriteSheet",
+      "id": "blood_banner_attack",
+      "paths": [
+        "/assets/sprites/blood-banner-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
       "id": "broken_scholar_attack",
       "paths": [
         "/assets/sprites/broken-scholar-attack-strip-gpt2.png"
@@ -817,6 +803,13 @@
       "id": "ink_bandit_attack",
       "paths": [
         "/assets/sprites/ink-bandit-attack-strip-gpt-v2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "ink_dongzhuo_boss_attack",
+      "paths": [
+        "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png"
       ]
     },
     {
@@ -859,6 +852,13 @@
       "id": "scribe_officer_attack",
       "paths": [
         "/assets/sprites/scribe-officer-attack-strip-gpt2.png"
+      ]
+    },
+    {
+      "kind": "combatSpriteSheet",
+      "id": "sword_echo_attack",
+      "paths": [
+        "/assets/sprites/sword-echo-attack-strip-gpt-v2.png"
       ]
     },
     {

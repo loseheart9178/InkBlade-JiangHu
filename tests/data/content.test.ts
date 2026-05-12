@@ -23,10 +23,7 @@ const { battlefieldAssets, cardArtById, combatPortraitsById, combatSpriteSheetsB
 
 const annotatedArtifactPaths = new Set([
   "/assets/generated/sword-echo-standee-gpt-v2-cutout.png",
-  "/assets/generated/blood-banner-standee-gpt-v2-cutout.png",
-  "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
-  "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
-  "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png"
+  "/assets/generated/blood-banner-standee-gpt-v2-cutout.png"
 ]);
 
 const supportedActions = new Set([
@@ -115,7 +112,7 @@ describe("content data", () => {
 
       expect(card, cardId).toBeDefined();
       expect(art, cardId).toBeDefined();
-      expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/wave27-.+\.svg$/);
+      expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/(?:wave27-.+\.svg|foundation-(?:red-|star-)?v15-.+\.png|foundation-(?:red-|star-)?v16-.+\.png)$/);
       expect(art.assetPath, cardId).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
       expectAssetPathToExist(art.assetPath);
     }
@@ -203,6 +200,108 @@ describe("content data", () => {
       expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/.+\.(png|svg)$/);
       expect(art.assetPath, cardId).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
       expectAssetPathToExist(art.assetPath);
+    }
+
+    const phaseCdFoundationFiles = [
+      "/assets/generated/cards/foundation-v11-zhao-guardian.png",
+      "/assets/generated/cards/foundation-v11-zhao-qixing-spear.png",
+      "/assets/generated/cards/foundation-v11-zhao-single-rider.png",
+      "/assets/generated/cards/foundation-v11-zhao-stable-formation.png",
+      "/assets/generated/cards/foundation-v11-zhao-sweep.png",
+      "/assets/generated/cards/foundation-v11-zhao-thrust.png",
+      "/assets/generated/cards/foundation-v11-zhao-white-dragon.png",
+      "/assets/generated/cards/foundation-red-v12-diao-falling-fan.png",
+      "/assets/generated/cards/foundation-red-v12-diao-glance.png",
+      "/assets/generated/cards/foundation-red-v12-diao-hongyan.png",
+      "/assets/generated/cards/foundation-red-v12-diao-red-ribbon.png",
+      "/assets/generated/cards/foundation-red-v12-diao-sleeve-blade.png",
+      "/assets/generated/cards/foundation-red-v12-diao-step-lotus.png",
+      "/assets/generated/cards/foundation-v13-cai-broken-string.png",
+      "/assets/generated/cards/foundation-v13-cai-clean-string.png",
+      "/assets/generated/cards/foundation-v13-cai-clear-tone.png",
+      "/assets/generated/cards/foundation-v13-cai-echoing-melody.png",
+      "/assets/generated/cards/foundation-v13-cai-five-tones-start.png",
+      "/assets/generated/cards/foundation-v13-cai-listen-still.png",
+      "/assets/generated/cards/foundation-v13-cai-shang-tone.png",
+      "/assets/generated/cards/foundation-v13-cai-soul-ferry.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-deduction.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-empty-city.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-fire-array.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-plan-set.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-starfall.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-stone-array.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-straw-boats.png",
+      "/assets/generated/cards/foundation-star-v14-zhuge-wind-array.png",
+      "/assets/generated/cards/foundation-v15-cai-cleansing-rain.png",
+      "/assets/generated/cards/foundation-red-v15-diao-silk-snare.png",
+      "/assets/generated/cards/foundation-v15-zhao-cloud-pierce.png",
+      "/assets/generated/cards/foundation-v15-zhao-oath-guard.png",
+      "/assets/generated/cards/foundation-star-v15-zhuge-bamboo-slips.png",
+      "/assets/generated/cards/foundation-v15-common-tashui.png",
+      "/assets/generated/cards/foundation-v15-common-cangfeng.png",
+      "/assets/generated/cards/foundation-v15-mind-zhaoxin.png"
+    ] as const;
+
+    for (const assetPath of phaseCdFoundationFiles) {
+      expectAssetPathToExist(assetPath);
+    }
+
+    const phaseCdRuntimeHoldovers = {
+      zhao_qixing_spear: "/assets/generated/cards/foundation-v11-zhao-qixing-spear.png",
+      zhao_single_rider: "/assets/generated/cards/foundation-v11-zhao-single-rider.png",
+      diao_red_ribbon: "/assets/generated/cards/foundation-red-v12-diao-red-ribbon.png",
+      diao_step_lotus: "/assets/generated/cards/foundation-red-v12-diao-step-lotus.png",
+      cai_clean_string: "/assets/generated/cards/foundation-v13-cai-clean-string.png",
+      cai_five_tones_start: "/assets/generated/cards/foundation-v13-cai-five-tones-start.png",
+      cai_soul_ferry: "/assets/generated/cards/foundation-v13-cai-soul-ferry.png",
+      zhuge_fire_array: "/assets/generated/cards/foundation-star-v14-zhuge-fire-array.png",
+      zhuge_plan_set: "/assets/generated/cards/foundation-star-v14-zhuge-plan-set.png",
+      zhuge_starfall: "/assets/generated/cards/foundation-star-v14-zhuge-starfall.png",
+      zhuge_stone_array: "/assets/generated/cards/foundation-star-v14-zhuge-stone-array.png",
+      zhuge_straw_boats: "/assets/generated/cards/foundation-star-v14-zhuge-straw-boats.png",
+      zhuge_wind_array: "/assets/generated/cards/foundation-star-v14-zhuge-wind-array.png",
+      cai_cleansing_rain: "/assets/generated/cards/foundation-v15-cai-cleansing-rain.png",
+      diao_silk_snare: "/assets/generated/cards/foundation-red-v15-diao-silk-snare.png",
+      zhao_oath_guard: "/assets/generated/cards/foundation-v15-zhao-oath-guard.png",
+      zhuge_bamboo_slips: "/assets/generated/cards/foundation-star-v15-zhuge-bamboo-slips.png",
+      mind_zhaoxin: "/assets/generated/cards/foundation-v15-mind-zhaoxin.png"
+    } as const;
+
+    for (const [cardId, assetPath] of Object.entries(phaseCdRuntimeHoldovers)) {
+      expect(cardArtById[cardId]?.assetPath, cardId).toBe(assetPath);
+      expectAssetPathToExist(assetPath);
+    }
+
+    const foundationV16Art = {
+      diao_jinghong_strike: "/assets/generated/cards/foundation-red-v16-diao-jinghong-strike.png",
+      diao_feather_feint: "/assets/generated/cards/foundation-red-v16-diao-feather-feint.png",
+      diao_moon_palace_pledge: "/assets/generated/cards/foundation-red-v16-diao-moon-palace-pledge.png",
+      cai_broken_string: "/assets/generated/cards/foundation-v16-cai-broken-string.png",
+      cai_clear_tone: "/assets/generated/cards/foundation-v16-cai-clear-tone.png",
+      cai_echoing_melody: "/assets/generated/cards/foundation-v16-cai-echoing-melody.png",
+      cai_listen_still: "/assets/generated/cards/foundation-v16-cai-listen-still.png",
+      cai_shang_tone: "/assets/generated/cards/foundation-v16-cai-shang-tone.png",
+      common_cangfeng: "/assets/generated/cards/foundation-v16-common-cangfeng.png",
+      common_tashui: "/assets/generated/cards/foundation-v16-common-tashui.png",
+      diao_falling_fan: "/assets/generated/cards/foundation-red-v16-diao-falling-fan.png",
+      diao_glance: "/assets/generated/cards/foundation-red-v16-diao-glance.png",
+      diao_hongyan: "/assets/generated/cards/foundation-red-v16-diao-hongyan.png",
+      diao_sleeve_blade: "/assets/generated/cards/foundation-red-v16-diao-sleeve-blade.png",
+      mind_luanxin: "/assets/generated/cards/foundation-v16-mind-luanxin.png",
+      mind_nuzhan: "/assets/generated/cards/foundation-v16-mind-nuzhan.png",
+      zhao_cloud_pierce: "/assets/generated/cards/foundation-v16-zhao-cloud-pierce.png",
+      zhao_guardian: "/assets/generated/cards/foundation-v16-zhao-guardian.png",
+      zhao_stable_formation: "/assets/generated/cards/foundation-v16-zhao-stable-formation.png",
+      zhao_sweep: "/assets/generated/cards/foundation-v16-zhao-sweep.png",
+      zhao_thrust: "/assets/generated/cards/foundation-v16-zhao-thrust.png",
+      zhao_white_dragon: "/assets/generated/cards/foundation-v16-zhao-white-dragon.png",
+      zhuge_deduction: "/assets/generated/cards/foundation-star-v16-zhuge-deduction.png",
+      zhuge_empty_city: "/assets/generated/cards/foundation-star-v16-zhuge-empty-city.png"
+    } as const;
+
+    for (const [cardId, assetPath] of Object.entries(foundationV16Art)) {
+      expect(cardArtById[cardId]?.assetPath, cardId).toBe(assetPath);
+      expectAssetPathToExist(assetPath);
     }
 
     expect(relicList.map((relic) => relic.id)).toEqual(
@@ -623,7 +722,7 @@ describe("content data", () => {
     }
   });
 
-  it("does not bind known annotated artifact outputs to runtime combat visuals", () => {
+  it("does not bind known annotated standee artifact outputs to runtime combat visuals", () => {
     const runtimePaths = [
       ...Object.values(combatPortraitsById).flatMap((portrait) => [portrait.assetPath, portrait.standeePath].filter((assetPath): assetPath is string => Boolean(assetPath))),
       ...Object.values(combatSpriteSheetsById).map((sheet) => sheet.assetPath)
@@ -676,15 +775,15 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.paper_umbrella_attack.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
   });
 
-  it("binds first chapter stand-in enemies to semantic Wave 9 attack strips", () => {
+  it("binds first chapter stand-in enemies to generated GPT v2 attack strips", () => {
     const genericSlashBindings = visuals.combatSpriteSheetList
       .filter((sheet) => sheet.assetPath === "/assets/sprites/enemy-slash-strip.svg")
       .map((sheet) => sheet.id);
 
     expect(genericSlashBindings).toEqual([]);
-    expect(visuals.getCombatAttackSprite("elite_sword_echo")?.assetPath).toBe("/assets/sprites/wave9-sword-echo-attack-strip.svg");
-    expect(visuals.getCombatAttackSprite("elite_blood_banner")?.assetPath).toBe("/assets/sprites/wave9-blood-banner-attack-strip.svg");
-    expect(visuals.getCombatAttackSprite("boss_ink_dongzhuo")?.assetPath).toBe("/assets/sprites/wave9-ink-dongzhuo-boss-attack-strip.svg");
+    expect(visuals.getCombatAttackSprite("elite_sword_echo")?.assetPath).toBe("/assets/sprites/sword-echo-attack-strip-gpt-v2.png");
+    expect(visuals.getCombatAttackSprite("elite_blood_banner")?.assetPath).toBe("/assets/sprites/blood-banner-attack-strip-gpt-v2.png");
+    expect(visuals.getCombatAttackSprite("boss_ink_dongzhuo")?.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png");
     for (const id of ["elite_sword_echo", "elite_blood_banner", "boss_ink_dongzhuo"]) {
       expect(visuals.getCombatAttackSprite(id)?.assetPath).not.toBe("/assets/sprites/enemy-slash-strip.svg");
     }
@@ -814,6 +913,41 @@ describe("content data", () => {
     const wave64GeneratedTargets = new Set(["common_duanzhu", "common_feishi", "common_xieli"]);
     const wave57GeneratedTargets = new Set(["common_gedang", "common_qingshen"]);
     const wave59GeneratedTargets = new Set(["common_mirror_armor", "common_pifeng", "common_tuna", "common_zhuiying"]);
+    const phaseCdGeneratedTargets = new Set([
+      "zhao_qixing_spear",
+      "zhao_single_rider",
+      "diao_red_ribbon",
+      "diao_step_lotus",
+      "cai_clean_string",
+      "cai_five_tones_start",
+      "cai_soul_ferry",
+      "zhuge_fire_array",
+      "zhuge_plan_set",
+      "zhuge_starfall",
+      "zhuge_stone_array",
+      "zhuge_straw_boats",
+      "zhuge_wind_array"
+    ]);
+    const foundationV16GeneratedTargets = new Set([
+      "zhao_guardian",
+      "zhao_stable_formation",
+      "zhao_sweep",
+      "zhao_thrust",
+      "zhao_white_dragon",
+      "diao_falling_fan",
+      "diao_glance",
+      "diao_hongyan",
+      "diao_sleeve_blade",
+      "cai_broken_string",
+      "cai_clear_tone",
+      "cai_echoing_melody",
+      "cai_listen_still",
+      "cai_shang_tone",
+      "mind_luanxin",
+      "mind_nuzhan",
+      "zhuge_deduction",
+      "zhuge_empty_city"
+    ]);
 
     for (const id of wave10FallbackTargets) {
       const card = cardsById[id];
@@ -829,6 +963,12 @@ describe("content data", () => {
       if (wave59GeneratedTargets.has(id)) {
         expectedBatch = /^\/assets\/generated\/cards\/wave59-.+\.png$/;
       }
+      if (phaseCdGeneratedTargets.has(id)) {
+        expectedBatch = /^\/assets\/generated\/cards\/foundation-(?:red-|star-)?v1[1-4]-.+\.png$/;
+      }
+      if (foundationV16GeneratedTargets.has(id)) {
+        expectedBatch = /^\/assets\/generated\/cards\/foundation-(?:red-|star-)?v16-.+\.png$/;
+      }
 
       expect(card).toBeDefined();
       expect(art, id).toBeDefined();
@@ -841,7 +981,7 @@ describe("content data", () => {
   it("uses GPT Image 2 card art for the currently visible priority card faces", () => {
     const priorityCards = {
       zhao_river_guard: "/assets/generated/cards/gpt2-zhao-river-guard.png",
-      diao_jinghong_strike: "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+      diao_jinghong_strike: "/assets/generated/cards/foundation-red-v16-diao-jinghong-strike.png",
       common_jiexue: "/assets/generated/cards/gpt2-common-jiexue.png",
       common_xixin: "/assets/generated/cards/gpt2-common-xixin.png",
       zhao_seven_entries: "/assets/generated/cards/gpt2-zhao-seven-entries.png",

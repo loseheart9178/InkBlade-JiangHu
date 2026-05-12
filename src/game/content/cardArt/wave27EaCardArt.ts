@@ -3,13 +3,13 @@ import type { CardArtDefinition } from "../visuals";
 export const wave27EaCardArt: CardArtDefinition[] = [
   {
     id: "zhao_cloud_pierce",
-    assetPath: "/assets/generated/cards/wave27-zhao-cloud-pierce.svg",
+    assetPath: "/assets/generated/cards/foundation-v16-zhao-cloud-pierce.png",
     alt: "Zhao Yun cloud-dragon spear pierce in red and teal ink",
     accent: "red"
   },
   {
     id: "zhao_oath_guard",
-    assetPath: "/assets/generated/cards/wave27-zhao-oath-guard.svg",
+    assetPath: "/assets/generated/cards/foundation-v15-zhao-oath-guard.png",
     alt: "Zhao Yun white cloak oath guard with teal spear ward",
     accent: "teal"
   },
@@ -21,7 +21,7 @@ export const wave27EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "diao_silk_snare",
-    assetPath: "/assets/generated/cards/wave27-diao-silk-snare.svg",
+    assetPath: "/assets/generated/cards/foundation-red-v15-diao-silk-snare.png",
     alt: "Diao Chan silk snare binding a cinnabar heart knot",
     accent: "red"
   },
@@ -33,7 +33,7 @@ export const wave27EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "cai_cleansing_rain",
-    assetPath: "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
+    assetPath: "/assets/generated/cards/foundation-v15-cai-cleansing-rain.png",
     alt: "Cai Wenji cleansing rain over guqin strings",
     accent: "teal"
   },
@@ -45,25 +45,25 @@ export const wave27EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "zhuge_bamboo_slips",
-    assetPath: "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
+    assetPath: "/assets/generated/cards/foundation-star-v15-zhuge-bamboo-slips.png",
     alt: "Zhuge Liang bamboo slips with plotted star lines",
     accent: "teal"
   },
   {
     id: "common_cangfeng",
-    assetPath: "/assets/generated/cards/wave27-common-cangfeng.svg",
+    assetPath: "/assets/generated/cards/foundation-v16-common-cangfeng.png",
     alt: "Hidden blade guarded under teal brush shadows",
     accent: "teal"
   },
   {
     id: "common_tashui",
-    assetPath: "/assets/generated/cards/wave27-common-tashui.svg",
+    assetPath: "/assets/generated/cards/foundation-v16-common-tashui.png",
     alt: "Light step crossing ink water ripples",
     accent: "teal"
   },
   {
     id: "mind_zhaoxin",
-    assetPath: "/assets/generated/cards/wave27-mind-zhaoxin.svg",
+    assetPath: "/assets/generated/cards/foundation-v15-mind-zhaoxin.png",
     alt: "Clear heart mirror opening into gold insight",
     accent: "gold"
   },

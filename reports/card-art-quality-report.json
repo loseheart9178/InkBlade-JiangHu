@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-09T07:04:26.402Z",
-  "projectRoot": "/Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu/.worktrees/wave66-post-ea-candidate-gate",
+  "generatedAt": "2026-05-12T11:45:56.909Z",
+  "projectRoot": "/Users/lushihao/Desktop/InkBlade-JiangHu/InkBlade-JiangHu",
   "inputs": {
     "cards": "src/game/content/cards.ts",
     "visuals": "src/game/content/visuals.ts",
@@ -22,14 +22,14 @@
     "fallbackCount": 0,
     "missingFileCount": 0,
     "genericAssetCount": 3,
-    "duplicateAssetGroupCount": 31,
+    "duplicateAssetGroupCount": 27,
     "suspiciousCropSignalCount": 0,
     "anomalousDimensionCount": 0,
-    "queueCount": 148,
+    "queueCount": 131,
     "queueTopScore": 85,
     "formatDistribution": {
-      "png": 83,
-      "svg": 67
+      "png": 122,
+      "svg": 28
     },
     "rarityDistribution": {
       "common": 65,
@@ -48,7 +48,7 @@
     },
     "runtimeAssetAudit": {
       "runtimeReferenceCount": 228,
-      "uniqueRuntimeFileCount": 151,
+      "uniqueRuntimeFileCount": 158,
       "missingCount": 0,
       "inkPassDebtCount": 0,
       "cardFallbackDebtCount": 0,
@@ -57,8 +57,8 @@
     }
   },
   "duplicateReuse": {
-    "totalDuplicateAssets": 31,
-    "totalCardsUsingDuplicateAssets": 80,
+    "totalDuplicateAssets": 27,
+    "totalCardsUsingDuplicateAssets": 69,
     "groups": [
       {
         "assetPath": "/assets/generated/cards/gpt2-cai-final-song.png",
@@ -223,40 +223,6 @@
             "types": [
               "skill",
               "mind"
-            ]
-          }
-        ]
-      },
-      {
-        "assetPath": "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
-        "reuseCount": 3,
-        "cards": [
-          {
-            "id": "diao_feather_feint",
-            "name": "羽扇佯攻",
-            "character": "diaochan",
-            "rarity": "rare",
-            "types": [
-              "attack",
-              "body"
-            ]
-          },
-          {
-            "id": "diao_jinghong_strike",
-            "name": "惊鸿一击",
-            "character": "diaochan",
-            "rarity": "rare",
-            "types": [
-              "attack"
-            ]
-          },
-          {
-            "id": "diao_moon_palace_pledge",
-            "name": "月宫誓",
-            "character": "diaochan",
-            "rarity": "rare",
-            "types": [
-              "skill"
             ]
           }
         ]
@@ -497,39 +463,6 @@
         ]
       },
       {
-        "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
-        "reuseCount": 3,
-        "cards": [
-          {
-            "id": "cai_cleansing_rain",
-            "name": "洗雨调",
-            "character": "caiwenji",
-            "rarity": "uncommon",
-            "types": [
-              "skill"
-            ]
-          },
-          {
-            "id": "cai_clear_ashes",
-            "name": "拂烬",
-            "character": "caiwenji",
-            "rarity": "common",
-            "types": [
-              "skill"
-            ]
-          },
-          {
-            "id": "cai_wash_dust",
-            "name": "洗尘",
-            "character": "caiwenji",
-            "rarity": "common",
-            "types": [
-              "skill"
-            ]
-          }
-        ]
-      },
-      {
         "assetPath": "/assets/generated/cards/wave27-cai-yulan-echo.svg",
         "reuseCount": 3,
         "cards": [
@@ -591,39 +524,6 @@
             "rarity": "common",
             "types": [
               "body"
-            ]
-          }
-        ]
-      },
-      {
-        "assetPath": "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
-        "reuseCount": 3,
-        "cards": [
-          {
-            "id": "zhuge_bamboo_slips",
-            "name": "简策",
-            "character": "zhugeliang",
-            "rarity": "uncommon",
-            "types": [
-              "skill"
-            ]
-          },
-          {
-            "id": "zhuge_borrowed_path",
-            "name": "借道",
-            "character": "zhugeliang",
-            "rarity": "common",
-            "types": [
-              "skill"
-            ]
-          },
-          {
-            "id": "zhuge_hidden_route",
-            "name": "暗渡",
-            "character": "zhugeliang",
-            "rarity": "uncommon",
-            "types": [
-              "skill"
             ]
           }
         ]
@@ -889,24 +789,23 @@
         ]
       },
       {
-        "assetPath": "/assets/generated/cards/wave27-diao-silk-snare.svg",
+        "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
         "reuseCount": 2,
         "cards": [
           {
-            "id": "diao_frost_sleeve",
-            "name": "霜袖",
-            "character": "diaochan",
+            "id": "cai_clear_ashes",
+            "name": "拂烬",
+            "character": "caiwenji",
             "rarity": "common",
             "types": [
-              "skill",
-              "body"
+              "skill"
             ]
           },
           {
-            "id": "diao_silk_snare",
-            "name": "绫罗缚心",
-            "character": "diaochan",
-            "rarity": "uncommon",
+            "id": "cai_wash_dust",
+            "name": "洗尘",
+            "character": "caiwenji",
+            "rarity": "common",
             "types": [
               "skill"
             ]
@@ -940,49 +839,23 @@
         ]
       },
       {
-        "assetPath": "/assets/generated/cards/wave27-mind-zhaoxin.svg",
+        "assetPath": "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
         "reuseCount": 2,
         "cards": [
           {
-            "id": "mind_taoguang",
-            "name": "韬光",
-            "character": "neutral",
-            "rarity": "uncommon",
-            "types": [
-              "skill",
-              "mind"
-            ]
-          },
-          {
-            "id": "mind_zhaoxin",
-            "name": "照心",
-            "character": "neutral",
-            "rarity": "rare",
-            "types": [
-              "skill",
-              "mind"
-            ]
-          }
-        ]
-      },
-      {
-        "assetPath": "/assets/generated/cards/wave27-zhao-oath-guard.svg",
-        "reuseCount": 2,
-        "cards": [
-          {
-            "id": "zhao_oath_guard",
-            "name": "白袍护誓",
-            "character": "zhaoyun",
-            "rarity": "uncommon",
+            "id": "zhuge_borrowed_path",
+            "name": "借道",
+            "character": "zhugeliang",
+            "rarity": "common",
             "types": [
               "skill"
             ]
           },
           {
-            "id": "zhao_rearguard_oath",
-            "name": "殿后誓",
-            "character": "zhaoyun",
-            "rarity": "common",
+            "id": "zhuge_hidden_route",
+            "name": "暗渡",
+            "character": "zhugeliang",
+            "rarity": "uncommon",
             "types": [
               "skill"
             ]
@@ -1062,8 +935,8 @@
   },
   "missingFiles": [],
   "formatDistribution": {
-    "png": 83,
-    "svg": 67
+    "png": 122,
+    "svg": 28
   },
   "dimensionFindings": [],
   "sourceSheetSignals": {
@@ -1226,16 +1099,14 @@
       ],
       "artId": "zhao_thrust",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhao-thrust.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-thrust.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_white_dragon",
@@ -1247,16 +1118,14 @@
       ],
       "artId": "zhao_white_dragon",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhao-white-dragon.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-white-dragon.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_sweep",
@@ -1268,16 +1137,14 @@
       ],
       "artId": "zhao_sweep",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhao-sweep.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-sweep.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_guardian",
@@ -1289,16 +1156,14 @@
       ],
       "artId": "zhao_guardian",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhao-guardian.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-guardian.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_stable_formation",
@@ -1310,16 +1175,14 @@
       ],
       "artId": "zhao_stable_formation",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhao-stable-formation.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-stable-formation.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_break_spear",
@@ -1350,16 +1213,14 @@
       ],
       "artId": "zhao_single_rider",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhao-single-rider.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v11-zhao-single-rider.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_strike",
@@ -1449,16 +1310,14 @@
       ],
       "artId": "diao_hongyan",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-diao-hongyan.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-hongyan.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_falling_fan",
@@ -1470,16 +1329,14 @@
       ],
       "artId": "diao_falling_fan",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-diao-falling-fan.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-falling-fan.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_sleeve_blade",
@@ -1491,16 +1348,14 @@
       ],
       "artId": "diao_sleeve_blade",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-diao-sleeve-blade.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-sleeve-blade.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_glance",
@@ -1512,16 +1367,14 @@
       ],
       "artId": "diao_glance",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-diao-glance.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-glance.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_red_ribbon",
@@ -1533,16 +1386,14 @@
       ],
       "artId": "diao_red_ribbon",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-diao-red-ribbon.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v12-diao-red-ribbon.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_step_lotus",
@@ -1554,16 +1405,14 @@
       ],
       "artId": "diao_step_lotus",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-diao-step-lotus.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v12-diao-step-lotus.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_plain_strike",
@@ -1651,16 +1500,14 @@
       ],
       "artId": "cai_clear_tone",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-clear-tone.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-clear-tone.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_broken_string",
@@ -1672,16 +1519,14 @@
       ],
       "artId": "cai_broken_string",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-broken-string.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-broken-string.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_echoing_melody",
@@ -1693,16 +1538,14 @@
       ],
       "artId": "cai_echoing_melody",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-echoing-melody.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-echoing-melody.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_five_tones_start",
@@ -1714,16 +1557,14 @@
       ],
       "artId": "cai_five_tones_start",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-five-tones-start.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v13-cai-five-tones-start.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_hujia_beat",
@@ -1754,16 +1595,14 @@
       ],
       "artId": "cai_listen_still",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-listen-still.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-listen-still.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_soul_ferry",
@@ -1776,16 +1615,14 @@
       ],
       "artId": "cai_soul_ferry",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-soul-ferry.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v13-cai-soul-ferry.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_clean_string",
@@ -1797,16 +1634,14 @@
       ],
       "artId": "cai_clean_string",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-clean-string.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v13-cai-clean-string.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_shang_tone",
@@ -1818,16 +1653,14 @@
       ],
       "artId": "cai_shang_tone",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-cai-shang-tone.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-shang-tone.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_final_song",
@@ -1934,16 +1767,14 @@
       ],
       "artId": "zhuge_empty_city",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-empty-city.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v16-zhuge-empty-city.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_borrow_wind",
@@ -1975,16 +1806,14 @@
       ],
       "artId": "zhuge_fire_array",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-fire-array.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-fire-array.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_wind_array",
@@ -1996,16 +1825,14 @@
       ],
       "artId": "zhuge_wind_array",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-wind-array.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-wind-array.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_stone_array",
@@ -2017,16 +1844,14 @@
       ],
       "artId": "zhuge_stone_array",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-stone-array.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-stone-array.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_deduction",
@@ -2038,16 +1863,14 @@
       ],
       "artId": "zhuge_deduction",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-deduction.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v16-zhuge-deduction.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_plan_set",
@@ -2059,16 +1882,14 @@
       ],
       "artId": "zhuge_plan_set",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-plan-set.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-plan-set.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_straw_boats",
@@ -2080,16 +1901,14 @@
       ],
       "artId": "zhuge_straw_boats",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-straw-boats.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-straw-boats.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_starfall",
@@ -2101,16 +1920,14 @@
       ],
       "artId": "zhuge_starfall",
       "artSource": "wave10CaiZhugeCardArt.ts:wave10CaiZhugeCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhuge-starfall.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-starfall.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "common_pifeng",
@@ -2298,16 +2115,14 @@
       ],
       "artId": "mind_nuzhan",
       "artSource": "wave10CommonCardArt.ts:wave10CommonCardArt",
-      "assetPath": "/assets/generated/cards/wave10-mind-nuzhan.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-mind-nuzhan.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "mind_luanxin",
@@ -2320,16 +2135,14 @@
       ],
       "artId": "mind_luanxin",
       "artSource": "wave10CommonCardArt.ts:wave10CommonCardArt",
-      "assetPath": "/assets/generated/cards/wave10-mind-luanxin.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-mind-luanxin.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "ink_modian",
@@ -2527,16 +2340,14 @@
       ],
       "artId": "zhao_qixing_spear",
       "artSource": "wave10ZhaoDiaoCardArt.ts:wave10ZhaoDiaoCardArt",
-      "assetPath": "/assets/generated/cards/wave10-zhao-qixing-spear.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v11-zhao-qixing-spear.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_river_guard",
@@ -2689,12 +2500,12 @@
       "visualCue": "diao-jinghong-strike",
       "artId": "diao_jinghong_strike",
       "artSource": "visuals.ts:cardArtList",
-      "assetPath": "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-jinghong-strike.png",
       "format": "png",
       "dimensions": {
-        "width": 512,
-        "height": 320,
-        "aspectRatio": 1.6
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "qualityFlags": []
     },
@@ -2807,16 +2618,14 @@
       ],
       "artId": "zhao_cloud_pierce",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-zhao-cloud-pierce.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-cloud-pierce.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhao_oath_guard",
@@ -2828,16 +2637,14 @@
       ],
       "artId": "zhao_oath_guard",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-zhao-oath-guard.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v15-zhao-oath-guard.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "diao_moonstep",
@@ -2870,16 +2677,14 @@
       ],
       "artId": "diao_silk_snare",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-diao-silk-snare.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v15-diao-silk-snare.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "cai_yulan_echo",
@@ -2912,16 +2717,14 @@
       ],
       "artId": "cai_cleansing_rain",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v15-cai-cleansing-rain.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "zhuge_star_gate",
@@ -2954,16 +2757,14 @@
       ],
       "artId": "zhuge_bamboo_slips",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-star-v15-zhuge-bamboo-slips.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "common_cangfeng",
@@ -2975,16 +2776,14 @@
       ],
       "artId": "common_cangfeng",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-common-cangfeng.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-common-cangfeng.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "common_tashui",
@@ -2996,16 +2795,14 @@
       ],
       "artId": "common_tashui",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-common-tashui.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-common-tashui.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "mind_zhaoxin",
@@ -3018,16 +2815,14 @@
       ],
       "artId": "mind_zhaoxin",
       "artSource": "wave27EaCardArt.ts:wave27EaCardArt",
-      "assetPath": "/assets/generated/cards/wave27-mind-zhaoxin.svg",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v15-mind-zhaoxin.png",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
-      "qualityFlags": [
-        "vector-placeholder"
-      ]
+      "qualityFlags": []
     },
     {
       "id": "ink_unwritten_page",
@@ -3202,12 +2997,12 @@
       ],
       "artId": "diao_feather_feint",
       "artSource": "wave49EaCardArt.ts:wave49EaCardArt",
-      "assetPath": "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-feather-feint.png",
       "format": "png",
       "dimensions": {
-        "width": 512,
-        "height": 320,
-        "aspectRatio": 1.6
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "qualityFlags": []
     },
@@ -3779,12 +3574,12 @@
       ],
       "artId": "diao_moon_palace_pledge",
       "artSource": "wave50EaCardArt.ts:wave50EaCardArt",
-      "assetPath": "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-moon-palace-pledge.png",
       "format": "png",
       "dimensions": {
-        "width": 512,
-        "height": 320,
-        "aspectRatio": 1.6
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "qualityFlags": []
     },
@@ -4398,56 +4193,6 @@
     },
     {
       "rank": 9,
-      "cardId": "cai_clear_ashes",
-      "name": "拂烬",
-      "character": "caiwenji",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
-      "artId": "cai_clear_ashes",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 3,
-      "score": 84,
-      "reasons": [
-        "common-priority",
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 10,
-      "cardId": "cai_wash_dust",
-      "name": "洗尘",
-      "character": "caiwenji",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
-      "artId": "cai_wash_dust",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 3,
-      "score": 84,
-      "reasons": [
-        "common-priority",
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 11,
       "cardId": "cai_yulan_echo",
       "name": "幽兰余响",
       "character": "caiwenji",
@@ -4472,7 +4217,7 @@
       ]
     },
     {
-      "rank": 12,
+      "rank": 10,
       "cardId": "diao_moonstep",
       "name": "月下回旋",
       "character": "diaochan",
@@ -4497,7 +4242,7 @@
       ]
     },
     {
-      "rank": 13,
+      "rank": 11,
       "cardId": "diao_silk_veil",
       "name": "纱幕",
       "character": "diaochan",
@@ -4522,7 +4267,7 @@
       ]
     },
     {
-      "rank": 14,
+      "rank": 12,
       "cardId": "diao_swallow_return",
       "name": "燕返步",
       "character": "diaochan",
@@ -4547,7 +4292,7 @@
       ]
     },
     {
-      "rank": 15,
+      "rank": 13,
       "cardId": "mind_chenlian",
       "name": "沉练",
       "character": "neutral",
@@ -4573,7 +4318,7 @@
       ]
     },
     {
-      "rank": 16,
+      "rank": 14,
       "cardId": "mind_jingxin",
       "name": "静心",
       "character": "neutral",
@@ -4599,32 +4344,7 @@
       ]
     },
     {
-      "rank": 17,
-      "cardId": "zhuge_borrowed_path",
-      "name": "借道",
-      "character": "zhugeliang",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
-      "artId": "zhuge_borrowed_path",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 3,
-      "score": 84,
-      "reasons": [
-        "common-priority",
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 18,
+      "rank": 15,
       "cardId": "zhuge_star_gate",
       "name": "星门",
       "character": "zhugeliang",
@@ -4649,7 +4369,7 @@
       ]
     },
     {
-      "rank": 19,
+      "rank": 16,
       "cardId": "cai_qingxin_song",
       "name": "清心曲",
       "character": "caiwenji",
@@ -4673,32 +4393,7 @@
       ]
     },
     {
-      "rank": 20,
-      "cardId": "diao_jinghong_strike",
-      "name": "惊鸿一击",
-      "character": "diaochan",
-      "rarity": "rare",
-      "types": [
-        "attack"
-      ],
-      "visualCue": "diao-jinghong-strike",
-      "assetPath": "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
-      "artId": "diao_jinghong_strike",
-      "format": "png",
-      "dimensions": {
-        "width": 512,
-        "height": 320,
-        "aspectRatio": 1.6
-      },
-      "reuseCount": 3,
-      "score": 82,
-      "reasons": [
-        "duplicate-reuse",
-        "signature-priority"
-      ]
-    },
-    {
-      "rank": 21,
+      "rank": 17,
       "cardId": "zhao_seven_entries",
       "name": "七进七出",
       "character": "zhaoyun",
@@ -4723,7 +4418,7 @@
       ]
     },
     {
-      "rank": 22,
+      "rank": 18,
       "cardId": "zhao_spear_wall",
       "name": "枪围如墙",
       "character": "zhaoyun",
@@ -4748,7 +4443,7 @@
       ]
     },
     {
-      "rank": 23,
+      "rank": 19,
       "cardId": "zhuge_observe_stars",
       "name": "观星",
       "character": "zhugeliang",
@@ -4772,7 +4467,7 @@
       ]
     },
     {
-      "rank": 24,
+      "rank": 20,
       "cardId": "zhuge_small_eight_array",
       "name": "八阵",
       "character": "zhugeliang",
@@ -4796,7 +4491,57 @@
       ]
     },
     {
-      "rank": 25,
+      "rank": 21,
+      "cardId": "cai_clear_ashes",
+      "name": "拂烬",
+      "character": "caiwenji",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
+      "artId": "cai_clear_ashes",
+      "format": "svg",
+      "dimensions": {
+        "width": 640,
+        "height": 900,
+        "aspectRatio": 0.711
+      },
+      "reuseCount": 2,
+      "score": 80,
+      "reasons": [
+        "common-priority",
+        "duplicate-reuse",
+        "vector-placeholder"
+      ]
+    },
+    {
+      "rank": 22,
+      "cardId": "cai_wash_dust",
+      "name": "洗尘",
+      "character": "caiwenji",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
+      "artId": "cai_wash_dust",
+      "format": "svg",
+      "dimensions": {
+        "width": 640,
+        "height": 900,
+        "aspectRatio": 0.711
+      },
+      "reuseCount": 2,
+      "score": 80,
+      "reasons": [
+        "common-priority",
+        "duplicate-reuse",
+        "vector-placeholder"
+      ]
+    },
+    {
+      "rank": 23,
       "cardId": "diao_charm",
       "name": "魅影",
       "character": "diaochan",
@@ -4820,42 +4565,16 @@
       ]
     },
     {
-      "rank": 26,
-      "cardId": "diao_frost_sleeve",
-      "name": "霜袖",
-      "character": "diaochan",
-      "rarity": "common",
-      "types": [
-        "skill",
-        "body"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-diao-silk-snare.svg",
-      "artId": "diao_frost_sleeve",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 2,
-      "score": 80,
-      "reasons": [
-        "common-priority",
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 27,
-      "cardId": "zhao_rearguard_oath",
-      "name": "殿后誓",
-      "character": "zhaoyun",
+      "rank": 24,
+      "cardId": "zhuge_borrowed_path",
+      "name": "借道",
+      "character": "zhugeliang",
       "rarity": "common",
       "types": [
         "skill"
       ],
-      "assetPath": "/assets/generated/cards/wave27-zhao-oath-guard.svg",
-      "artId": "zhao_rearguard_oath",
+      "assetPath": "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
+      "artId": "zhuge_borrowed_path",
       "format": "svg",
       "dimensions": {
         "width": 640,
@@ -4871,7 +4590,7 @@
       ]
     },
     {
-      "rank": 28,
+      "rank": 25,
       "cardId": "diao_lijian",
       "name": "离间",
       "character": "diaochan",
@@ -4896,7 +4615,7 @@
       ]
     },
     {
-      "rank": 29,
+      "rank": 26,
       "cardId": "ink_luoshui_tide",
       "name": "洛水墨潮",
       "character": "neutral",
@@ -4921,7 +4640,7 @@
       ]
     },
     {
-      "rank": 30,
+      "rank": 27,
       "cardId": "cai_frost_strings",
       "name": "霜弦",
       "character": "caiwenji",
@@ -4945,7 +4664,7 @@
       ]
     },
     {
-      "rank": 31,
+      "rank": 28,
       "cardId": "cai_plum_tone",
       "name": "梅音",
       "character": "caiwenji",
@@ -4969,7 +4688,7 @@
       ]
     },
     {
-      "rank": 32,
+      "rank": 29,
       "cardId": "common_clear_mist",
       "name": "清雾",
       "character": "neutral",
@@ -4993,7 +4712,7 @@
       ]
     },
     {
-      "rank": 33,
+      "rank": 30,
       "cardId": "common_jiexue",
       "name": "解穴",
       "character": "neutral",
@@ -5017,7 +4736,7 @@
       ]
     },
     {
-      "rank": 34,
+      "rank": 31,
       "cardId": "common_travel_medicine",
       "name": "行药",
       "character": "neutral",
@@ -5041,7 +4760,7 @@
       ]
     },
     {
-      "rank": 35,
+      "rank": 32,
       "cardId": "zhuge_lamp_calculation",
       "name": "灯下算",
       "character": "zhugeliang",
@@ -5065,7 +4784,7 @@
       ]
     },
     {
-      "rank": 36,
+      "rank": 33,
       "cardId": "zhuge_reed_formation",
       "name": "芦阵",
       "character": "zhugeliang",
@@ -5089,7 +4808,7 @@
       ]
     },
     {
-      "rank": 37,
+      "rank": 34,
       "cardId": "zhuge_stargazer",
       "name": "望星",
       "character": "zhugeliang",
@@ -5113,7 +4832,7 @@
       ]
     },
     {
-      "rank": 38,
+      "rank": 35,
       "cardId": "diao_lantern_glance",
       "name": "灯影顾盼",
       "character": "diaochan",
@@ -5137,7 +4856,7 @@
       ]
     },
     {
-      "rank": 39,
+      "rank": 36,
       "cardId": "zhao_cloud_rescue",
       "name": "云中救",
       "character": "zhaoyun",
@@ -5162,7 +4881,7 @@
       ]
     },
     {
-      "rank": 40,
+      "rank": 37,
       "cardId": "zhao_dragon_fang",
       "name": "龙牙突",
       "character": "zhaoyun",
@@ -5186,7 +4905,7 @@
       ]
     },
     {
-      "rank": 41,
+      "rank": 38,
       "cardId": "zhao_return_spear",
       "name": "回马枪",
       "character": "zhaoyun",
@@ -5211,7 +4930,7 @@
       ]
     },
     {
-      "rank": 42,
+      "rank": 39,
       "cardId": "zhao_river_lunge",
       "name": "渡河刺",
       "character": "zhaoyun",
@@ -5235,7 +4954,7 @@
       ]
     },
     {
-      "rank": 43,
+      "rank": 40,
       "cardId": "cai_broken_rain",
       "name": "断雨",
       "character": "caiwenji",
@@ -5259,31 +4978,7 @@
       ]
     },
     {
-      "rank": 44,
-      "cardId": "cai_cleansing_rain",
-      "name": "洗雨调",
-      "character": "caiwenji",
-      "rarity": "uncommon",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
-      "artId": "cai_cleansing_rain",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 3,
-      "score": 59,
-      "reasons": [
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 45,
+      "rank": 41,
       "cardId": "cai_jade_nocturne",
       "name": "玉夜调",
       "character": "caiwenji",
@@ -5307,7 +5002,7 @@
       ]
     },
     {
-      "rank": 46,
+      "rank": 42,
       "cardId": "mind_wangyou",
       "name": "忘忧",
       "character": "neutral",
@@ -5332,31 +5027,7 @@
       ]
     },
     {
-      "rank": 47,
-      "cardId": "zhuge_bamboo_slips",
-      "name": "简策",
-      "character": "zhugeliang",
-      "rarity": "uncommon",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
-      "artId": "zhuge_bamboo_slips",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 3,
-      "score": 59,
-      "reasons": [
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 48,
+      "rank": 43,
       "cardId": "zhuge_cloud_script",
       "name": "云策",
       "character": "zhugeliang",
@@ -5380,7 +5051,7 @@
       ]
     },
     {
-      "rank": 49,
+      "rank": 44,
       "cardId": "zhuge_heavenly_plot",
       "name": "天机",
       "character": "zhugeliang",
@@ -5404,7 +5075,7 @@
       ]
     },
     {
-      "rank": 50,
+      "rank": 45,
       "cardId": "zhuge_hidden_route",
       "name": "暗渡",
       "character": "zhugeliang",
@@ -5420,30 +5091,6 @@
         "height": 900,
         "aspectRatio": 0.711
       },
-      "reuseCount": 3,
-      "score": 59,
-      "reasons": [
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 51,
-      "cardId": "diao_silk_snare",
-      "name": "绫罗缚心",
-      "character": "diaochan",
-      "rarity": "uncommon",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-diao-silk-snare.svg",
-      "artId": "diao_silk_snare",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
       "reuseCount": 2,
       "score": 55,
       "reasons": [
@@ -5452,81 +5099,7 @@
       ]
     },
     {
-      "rank": 52,
-      "cardId": "mind_taoguang",
-      "name": "韬光",
-      "character": "neutral",
-      "rarity": "uncommon",
-      "types": [
-        "skill",
-        "mind"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-mind-zhaoxin.svg",
-      "artId": "mind_taoguang",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 2,
-      "score": 55,
-      "reasons": [
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 53,
-      "cardId": "mind_zhaoxin",
-      "name": "照心",
-      "character": "neutral",
-      "rarity": "rare",
-      "types": [
-        "skill",
-        "mind"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-mind-zhaoxin.svg",
-      "artId": "mind_zhaoxin",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 2,
-      "score": 55,
-      "reasons": [
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 54,
-      "cardId": "zhao_oath_guard",
-      "name": "白袍护誓",
-      "character": "zhaoyun",
-      "rarity": "uncommon",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-zhao-oath-guard.svg",
-      "artId": "zhao_oath_guard",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 2,
-      "score": 55,
-      "reasons": [
-        "duplicate-reuse",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 55,
+      "rank": 46,
       "cardId": "cai_final_song",
       "name": "终曲",
       "character": "caiwenji",
@@ -5549,7 +5122,7 @@
       ]
     },
     {
-      "rank": 56,
+      "rank": 47,
       "cardId": "cai_hujia_beat",
       "name": "胡笳一拍",
       "character": "caiwenji",
@@ -5572,7 +5145,7 @@
       ]
     },
     {
-      "rank": 57,
+      "rank": 48,
       "cardId": "cai_lingering_chord",
       "name": "余弦",
       "character": "caiwenji",
@@ -5595,7 +5168,7 @@
       ]
     },
     {
-      "rank": 58,
+      "rank": 49,
       "cardId": "cai_returning_hum",
       "name": "回吟",
       "character": "caiwenji",
@@ -5618,7 +5191,7 @@
       ]
     },
     {
-      "rank": 59,
+      "rank": 50,
       "cardId": "cai_river_refrain",
       "name": "河声复调",
       "character": "caiwenji",
@@ -5642,7 +5215,7 @@
       ]
     },
     {
-      "rank": 60,
+      "rank": 51,
       "cardId": "cai_song_of_exile",
       "name": "胡笳归梦",
       "character": "caiwenji",
@@ -5665,7 +5238,7 @@
       ]
     },
     {
-      "rank": 61,
+      "rank": 52,
       "cardId": "common_river_stance",
       "name": "临河势",
       "character": "neutral",
@@ -5688,7 +5261,7 @@
       ]
     },
     {
-      "rank": 62,
+      "rank": 53,
       "cardId": "common_watch_fire",
       "name": "守火",
       "character": "neutral",
@@ -5711,7 +5284,7 @@
       ]
     },
     {
-      "rank": 63,
+      "rank": 54,
       "cardId": "common_xixin",
       "name": "洗心",
       "character": "neutral",
@@ -5735,7 +5308,7 @@
       ]
     },
     {
-      "rank": 64,
+      "rank": 55,
       "cardId": "diao_crimson_snare",
       "name": "绯罗网",
       "character": "diaochan",
@@ -5758,31 +5331,7 @@
       ]
     },
     {
-      "rank": 65,
-      "cardId": "diao_feather_feint",
-      "name": "羽扇佯攻",
-      "character": "diaochan",
-      "rarity": "rare",
-      "types": [
-        "attack",
-        "body"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
-      "artId": "diao_feather_feint",
-      "format": "png",
-      "dimensions": {
-        "width": 512,
-        "height": 320,
-        "aspectRatio": 1.6
-      },
-      "reuseCount": 3,
-      "score": 47,
-      "reasons": [
-        "duplicate-reuse"
-      ]
-    },
-    {
-      "rank": 66,
+      "rank": 56,
       "cardId": "diao_mirror_flower",
       "name": "镜中花",
       "character": "diaochan",
@@ -5805,30 +5354,7 @@
       ]
     },
     {
-      "rank": 67,
-      "cardId": "diao_moon_palace_pledge",
-      "name": "月宫誓",
-      "character": "diaochan",
-      "rarity": "rare",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/gpt2-diao-jinghong-strike.png",
-      "artId": "diao_moon_palace_pledge",
-      "format": "png",
-      "dimensions": {
-        "width": 512,
-        "height": 320,
-        "aspectRatio": 1.6
-      },
-      "reuseCount": 3,
-      "score": 47,
-      "reasons": [
-        "duplicate-reuse"
-      ]
-    },
-    {
-      "rank": 68,
+      "rank": 57,
       "cardId": "diao_reflecting_fan",
       "name": "照扇",
       "character": "diaochan",
@@ -5851,7 +5377,7 @@
       ]
     },
     {
-      "rank": 69,
+      "rank": 58,
       "cardId": "zhao_dragon_courage",
       "name": "龙胆照阵",
       "character": "zhaoyun",
@@ -5874,7 +5400,7 @@
       ]
     },
     {
-      "rank": 70,
+      "rank": 59,
       "cardId": "zhao_spear_reversal",
       "name": "回枪",
       "character": "zhaoyun",
@@ -5897,7 +5423,7 @@
       ]
     },
     {
-      "rank": 71,
+      "rank": 60,
       "cardId": "zhao_turning_lance",
       "name": "回锋连刺",
       "character": "zhaoyun",
@@ -5920,7 +5446,7 @@
       ]
     },
     {
-      "rank": 72,
+      "rank": 61,
       "cardId": "zhao_white_mantle_vow",
       "name": "白袍誓",
       "character": "zhaoyun",
@@ -5943,7 +5469,7 @@
       ]
     },
     {
-      "rank": 73,
+      "rank": 62,
       "cardId": "zhuge_borrow_wind",
       "name": "借风",
       "character": "zhugeliang",
@@ -5967,7 +5493,7 @@
       ]
     },
     {
-      "rank": 74,
+      "rank": 63,
       "cardId": "zhuge_command_wind",
       "name": "令风",
       "character": "zhugeliang",
@@ -5990,7 +5516,7 @@
       ]
     },
     {
-      "rank": 75,
+      "rank": 64,
       "cardId": "zhuge_feather_order",
       "name": "羽令",
       "character": "zhugeliang",
@@ -6013,7 +5539,7 @@
       ]
     },
     {
-      "rank": 76,
+      "rank": 65,
       "cardId": "zhuge_stone_gate",
       "name": "石门",
       "character": "zhugeliang",
@@ -6036,7 +5562,7 @@
       ]
     },
     {
-      "rank": 77,
+      "rank": 66,
       "cardId": "diao_closed_moon",
       "name": "闭月回风",
       "character": "diaochan",
@@ -6060,7 +5586,7 @@
       ]
     },
     {
-      "rank": 78,
+      "rank": 67,
       "cardId": "diao_lotus_blade",
       "name": "莲步藏锋",
       "character": "diaochan",
@@ -6084,7 +5610,7 @@
       ]
     },
     {
-      "rank": 79,
+      "rank": 68,
       "cardId": "diao_ribbon_cut",
       "name": "红绫切",
       "character": "diaochan",
@@ -6108,7 +5634,7 @@
       ]
     },
     {
-      "rank": 80,
+      "rank": 69,
       "cardId": "zhao_break_spear",
       "name": "破军枪",
       "character": "zhaoyun",
@@ -6131,7 +5657,7 @@
       ]
     },
     {
-      "rank": 81,
+      "rank": 70,
       "cardId": "zhao_horse_sky_arc",
       "name": "白马天弧",
       "character": "zhaoyun",
@@ -6154,7 +5680,7 @@
       ]
     },
     {
-      "rank": 82,
+      "rank": 71,
       "cardId": "zhao_river_guard",
       "name": "截江守势",
       "character": "zhaoyun",
@@ -6177,7 +5703,7 @@
       ]
     },
     {
-      "rank": 83,
+      "rank": 72,
       "cardId": "zhao_white_horse_breakout",
       "name": "白马突围",
       "character": "zhaoyun",
@@ -6200,7 +5726,7 @@
       ]
     },
     {
-      "rank": 84,
+      "rank": 73,
       "cardId": "status_rain_chill",
       "name": "雨寒",
       "character": "neutral",
@@ -6224,281 +5750,17 @@
       ]
     },
     {
-      "rank": 85,
-      "cardId": "cai_broken_string",
-      "name": "断弦",
-      "character": "caiwenji",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-cai-broken-string.svg",
-      "artId": "cai_broken_string",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 86,
-      "cardId": "cai_clear_tone",
-      "name": "清音",
-      "character": "caiwenji",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-cai-clear-tone.svg",
-      "artId": "cai_clear_tone",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 87,
-      "cardId": "cai_echoing_melody",
-      "name": "余韵",
-      "character": "caiwenji",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-cai-echoing-melody.svg",
-      "artId": "cai_echoing_melody",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 88,
-      "cardId": "cai_listen_still",
-      "name": "静听",
-      "character": "caiwenji",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-cai-listen-still.svg",
-      "artId": "cai_listen_still",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 89,
-      "cardId": "cai_shang_tone",
-      "name": "商音",
-      "character": "caiwenji",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-cai-shang-tone.svg",
-      "artId": "cai_shang_tone",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 90,
-      "cardId": "common_cangfeng",
-      "name": "藏锋",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-common-cangfeng.svg",
-      "artId": "common_cangfeng",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 91,
-      "cardId": "common_tashui",
-      "name": "踏水",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "body"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-common-tashui.svg",
-      "artId": "common_tashui",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 92,
-      "cardId": "diao_falling_fan",
-      "name": "落英扇",
+      "rank": 74,
+      "cardId": "diao_frost_sleeve",
+      "name": "霜袖",
       "character": "diaochan",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-diao-falling-fan.svg",
-      "artId": "diao_falling_fan",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 93,
-      "cardId": "diao_glance",
-      "name": "回眸",
-      "character": "diaochan",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-diao-glance.svg",
-      "artId": "diao_glance",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 94,
-      "cardId": "diao_hongyan",
-      "name": "红颜",
-      "character": "diaochan",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-diao-hongyan.svg",
-      "artId": "diao_hongyan",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 95,
-      "cardId": "diao_sleeve_blade",
-      "name": "袖中刃",
-      "character": "diaochan",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-diao-sleeve-blade.svg",
-      "artId": "diao_sleeve_blade",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 96,
-      "cardId": "mind_luanxin",
-      "name": "乱心",
-      "character": "neutral",
       "rarity": "common",
       "types": [
         "skill",
-        "mind"
+        "body"
       ],
-      "assetPath": "/assets/generated/cards/wave10-mind-luanxin.svg",
-      "artId": "mind_luanxin",
+      "assetPath": "/assets/generated/cards/wave27-diao-silk-snare.svg",
+      "artId": "diao_frost_sleeve",
       "format": "svg",
       "dimensions": {
         "width": 640,
@@ -6513,65 +5775,16 @@
       ]
     },
     {
-      "rank": 97,
-      "cardId": "mind_nuzhan",
-      "name": "怒斩",
-      "character": "neutral",
-      "rarity": "common",
-      "types": [
-        "attack",
-        "mind"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-mind-nuzhan.svg",
-      "artId": "mind_nuzhan",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 98,
-      "cardId": "zhao_cloud_pierce",
-      "name": "云龙穿阵",
-      "character": "zhaoyun",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave27-zhao-cloud-pierce.svg",
-      "artId": "zhao_cloud_pierce",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 99,
-      "cardId": "zhao_guardian",
-      "name": "护主",
+      "rank": 75,
+      "cardId": "zhao_rearguard_oath",
+      "name": "殿后誓",
       "character": "zhaoyun",
       "rarity": "common",
       "types": [
         "skill"
       ],
-      "assetPath": "/assets/generated/cards/wave10-zhao-guardian.svg",
-      "artId": "zhao_guardian",
+      "assetPath": "/assets/generated/cards/wave27-zhao-oath-guard.svg",
+      "artId": "zhao_rearguard_oath",
       "format": "svg",
       "dimensions": {
         "width": 640,
@@ -6586,223 +5799,7 @@
       ]
     },
     {
-      "rank": 100,
-      "cardId": "zhao_stable_formation",
-      "name": "稳阵",
-      "character": "zhaoyun",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhao-stable-formation.svg",
-      "artId": "zhao_stable_formation",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 101,
-      "cardId": "zhao_sweep",
-      "name": "横扫",
-      "character": "zhaoyun",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhao-sweep.svg",
-      "artId": "zhao_sweep",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 102,
-      "cardId": "zhao_thrust",
-      "name": "突刺",
-      "character": "zhaoyun",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhao-thrust.svg",
-      "artId": "zhao_thrust",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 103,
-      "cardId": "zhao_white_dragon",
-      "name": "白龙探爪",
-      "character": "zhaoyun",
-      "rarity": "common",
-      "types": [
-        "attack"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhao-white-dragon.svg",
-      "artId": "zhao_white_dragon",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 104,
-      "cardId": "zhuge_deduction",
-      "name": "推演",
-      "character": "zhugeliang",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-deduction.svg",
-      "artId": "zhuge_deduction",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 105,
-      "cardId": "zhuge_empty_city",
-      "name": "空城",
-      "character": "zhugeliang",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-empty-city.svg",
-      "artId": "zhuge_empty_city",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 106,
-      "cardId": "zhuge_fire_array",
-      "name": "火阵",
-      "character": "zhugeliang",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-fire-array.svg",
-      "artId": "zhuge_fire_array",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 107,
-      "cardId": "zhuge_stone_array",
-      "name": "石阵",
-      "character": "zhugeliang",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-stone-array.svg",
-      "artId": "zhuge_stone_array",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 108,
-      "cardId": "zhuge_wind_array",
-      "name": "风阵",
-      "character": "zhugeliang",
-      "rarity": "common",
-      "types": [
-        "skill"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-wind-array.svg",
-      "artId": "zhuge_wind_array",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 37,
-      "reasons": [
-        "common-priority",
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 109,
+      "rank": 76,
       "cardId": "cai_gong_tone",
       "name": "宫音",
       "character": "caiwenji",
@@ -6825,7 +5822,7 @@
       ]
     },
     {
-      "rank": 110,
+      "rank": 77,
       "cardId": "cai_plain_strike",
       "name": "素击",
       "character": "caiwenji",
@@ -6848,7 +5845,7 @@
       ]
     },
     {
-      "rank": 111,
+      "rank": 78,
       "cardId": "cai_pluck_string",
       "name": "拂弦",
       "character": "caiwenji",
@@ -6871,7 +5868,7 @@
       ]
     },
     {
-      "rank": 112,
+      "rank": 79,
       "cardId": "diao_guard",
       "name": "回袖",
       "character": "diaochan",
@@ -6894,7 +5891,31 @@
       ]
     },
     {
-      "rank": 113,
+      "rank": 80,
+      "cardId": "diao_jinghong_strike",
+      "name": "惊鸿一击",
+      "character": "diaochan",
+      "rarity": "rare",
+      "types": [
+        "attack"
+      ],
+      "visualCue": "diao-jinghong-strike",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-jinghong-strike.png",
+      "artId": "diao_jinghong_strike",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 35,
+      "reasons": [
+        "signature-priority"
+      ]
+    },
+    {
+      "rank": 81,
       "cardId": "diao_lingbo",
       "name": "凌波步",
       "character": "diaochan",
@@ -6917,7 +5938,7 @@
       ]
     },
     {
-      "rank": 114,
+      "rank": 82,
       "cardId": "diao_strike",
       "name": "素刃",
       "character": "diaochan",
@@ -6940,7 +5961,7 @@
       ]
     },
     {
-      "rank": 115,
+      "rank": 83,
       "cardId": "zhao_guard",
       "name": "架枪",
       "character": "zhaoyun",
@@ -6963,7 +5984,7 @@
       ]
     },
     {
-      "rank": 116,
+      "rank": 84,
       "cardId": "zhao_longdan",
       "name": "龙胆",
       "character": "zhaoyun",
@@ -6987,7 +6008,7 @@
       ]
     },
     {
-      "rank": 117,
+      "rank": 85,
       "cardId": "zhao_strike",
       "name": "枪击",
       "character": "zhaoyun",
@@ -7010,7 +6031,7 @@
       ]
     },
     {
-      "rank": 118,
+      "rank": 86,
       "cardId": "zhuge_fan_strike",
       "name": "羽扇",
       "character": "zhugeliang",
@@ -7033,7 +6054,7 @@
       ]
     },
     {
-      "rank": 119,
+      "rank": 87,
       "cardId": "zhuge_guard",
       "name": "守势",
       "character": "zhugeliang",
@@ -7056,7 +6077,7 @@
       ]
     },
     {
-      "rank": 120,
+      "rank": 88,
       "cardId": "status_canyin",
       "name": "残音",
       "character": "neutral",
@@ -7080,7 +6101,7 @@
       ]
     },
     {
-      "rank": 121,
+      "rank": 89,
       "cardId": "status_redacted_history",
       "name": "涂史",
       "character": "neutral",
@@ -7104,7 +6125,7 @@
       ]
     },
     {
-      "rank": 122,
+      "rank": 90,
       "cardId": "status_zayin",
       "name": "杂音",
       "character": "neutral",
@@ -7127,7 +6148,122 @@
       ]
     },
     {
-      "rank": 123,
+      "rank": 91,
+      "cardId": "cai_broken_string",
+      "name": "断弦",
+      "character": "caiwenji",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-broken-string.png",
+      "artId": "cai_broken_string",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 92,
+      "cardId": "cai_clear_tone",
+      "name": "清音",
+      "character": "caiwenji",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-clear-tone.png",
+      "artId": "cai_clear_tone",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 93,
+      "cardId": "cai_echoing_melody",
+      "name": "余韵",
+      "character": "caiwenji",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-echoing-melody.png",
+      "artId": "cai_echoing_melody",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 94,
+      "cardId": "cai_listen_still",
+      "name": "静听",
+      "character": "caiwenji",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-listen-still.png",
+      "artId": "cai_listen_still",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 95,
+      "cardId": "cai_shang_tone",
+      "name": "商音",
+      "character": "caiwenji",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-cai-shang-tone.png",
+      "artId": "cai_shang_tone",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 96,
       "cardId": "common_bamboo_guard",
       "name": "竹护",
       "character": "neutral",
@@ -7150,7 +6286,7 @@
       ]
     },
     {
-      "rank": 124,
+      "rank": 97,
       "cardId": "common_brush_parry",
       "name": "笔格",
       "character": "neutral",
@@ -7173,7 +6309,30 @@
       ]
     },
     {
-      "rank": 125,
+      "rank": 98,
+      "cardId": "common_cangfeng",
+      "name": "藏锋",
+      "character": "neutral",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-common-cangfeng.png",
+      "artId": "common_cangfeng",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 99,
       "cardId": "common_duanzhu",
       "name": "断竹",
       "character": "neutral",
@@ -7196,7 +6355,7 @@
       ]
     },
     {
-      "rank": 126,
+      "rank": 100,
       "cardId": "common_feishi",
       "name": "飞石",
       "character": "neutral",
@@ -7219,7 +6378,7 @@
       ]
     },
     {
-      "rank": 127,
+      "rank": 101,
       "cardId": "common_gedang",
       "name": "格挡",
       "character": "neutral",
@@ -7242,7 +6401,7 @@
       ]
     },
     {
-      "rank": 128,
+      "rank": 102,
       "cardId": "common_lockstep",
       "name": "并步",
       "character": "neutral",
@@ -7266,7 +6425,7 @@
       ]
     },
     {
-      "rank": 129,
+      "rank": 103,
       "cardId": "common_old_wine",
       "name": "旧酒",
       "character": "neutral",
@@ -7289,7 +6448,7 @@
       ]
     },
     {
-      "rank": 130,
+      "rank": 104,
       "cardId": "common_paper_ward",
       "name": "纸符护",
       "character": "neutral",
@@ -7312,7 +6471,7 @@
       ]
     },
     {
-      "rank": 131,
+      "rank": 105,
       "cardId": "common_pifeng",
       "name": "劈风",
       "character": "neutral",
@@ -7335,7 +6494,7 @@
       ]
     },
     {
-      "rank": 132,
+      "rank": 106,
       "cardId": "common_qingshen",
       "name": "轻身",
       "character": "neutral",
@@ -7358,7 +6517,7 @@
       ]
     },
     {
-      "rank": 133,
+      "rank": 107,
       "cardId": "common_rain_cut",
       "name": "雨斩",
       "character": "neutral",
@@ -7381,7 +6540,7 @@
       ]
     },
     {
-      "rank": 134,
+      "rank": 108,
       "cardId": "common_scout_feather",
       "name": "探羽",
       "character": "neutral",
@@ -7404,7 +6563,7 @@
       ]
     },
     {
-      "rank": 135,
+      "rank": 109,
       "cardId": "common_sudden_step",
       "name": "骤步",
       "character": "neutral",
@@ -7427,7 +6586,30 @@
       ]
     },
     {
-      "rank": 136,
+      "rank": 110,
+      "cardId": "common_tashui",
+      "name": "踏水",
+      "character": "neutral",
+      "rarity": "common",
+      "types": [
+        "body"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-common-tashui.png",
+      "artId": "common_tashui",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 111,
       "cardId": "common_tuna",
       "name": "吐纳",
       "character": "neutral",
@@ -7450,7 +6632,7 @@
       ]
     },
     {
-      "rank": 137,
+      "rank": 112,
       "cardId": "common_xieli",
       "name": "卸力",
       "character": "neutral",
@@ -7473,7 +6655,30 @@
       ]
     },
     {
-      "rank": 138,
+      "rank": 113,
+      "cardId": "diao_falling_fan",
+      "name": "落英扇",
+      "character": "diaochan",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-falling-fan.png",
+      "artId": "diao_falling_fan",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 114,
       "cardId": "diao_flying_sleeves",
       "name": "飞袖连环",
       "character": "diaochan",
@@ -7496,224 +6701,387 @@
       ]
     },
     {
-      "rank": 139,
-      "cardId": "cai_clean_string",
-      "name": "净弦",
-      "character": "caiwenji",
-      "rarity": "uncommon",
+      "rank": 115,
+      "cardId": "diao_glance",
+      "name": "回眸",
+      "character": "diaochan",
+      "rarity": "common",
       "types": [
         "skill"
       ],
-      "assetPath": "/assets/generated/cards/wave10-cai-clean-string.svg",
-      "artId": "cai_clean_string",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-glance.png",
+      "artId": "diao_glance",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 140,
-      "cardId": "cai_five_tones_start",
-      "name": "五音初起",
-      "character": "caiwenji",
-      "rarity": "uncommon",
+      "rank": 116,
+      "cardId": "diao_hongyan",
+      "name": "红颜",
+      "character": "diaochan",
+      "rarity": "common",
       "types": [
-        "skill"
+        "attack"
       ],
-      "assetPath": "/assets/generated/cards/wave10-cai-five-tones-start.svg",
-      "artId": "cai_five_tones_start",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-hongyan.png",
+      "artId": "diao_hongyan",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 141,
-      "cardId": "cai_soul_ferry",
-      "name": "渡魂曲",
-      "character": "caiwenji",
-      "rarity": "rare",
+      "rank": 117,
+      "cardId": "diao_sleeve_blade",
+      "name": "袖中刃",
+      "character": "diaochan",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-red-v16-diao-sleeve-blade.png",
+      "artId": "diao_sleeve_blade",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 118,
+      "cardId": "mind_luanxin",
+      "name": "乱心",
+      "character": "neutral",
+      "rarity": "common",
       "types": [
         "skill",
-        "attack"
+        "mind"
       ],
-      "assetPath": "/assets/generated/cards/wave10-cai-soul-ferry.svg",
-      "artId": "cai_soul_ferry",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-mind-luanxin.png",
+      "artId": "mind_luanxin",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 142,
-      "cardId": "diao_red_ribbon",
-      "name": "红绫牵",
-      "character": "diaochan",
-      "rarity": "uncommon",
+      "rank": 119,
+      "cardId": "mind_nuzhan",
+      "name": "怒斩",
+      "character": "neutral",
+      "rarity": "common",
       "types": [
-        "skill"
+        "attack",
+        "mind"
       ],
-      "assetPath": "/assets/generated/cards/wave10-diao-red-ribbon.svg",
-      "artId": "diao_red_ribbon",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-mind-nuzhan.png",
+      "artId": "mind_nuzhan",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 143,
-      "cardId": "diao_step_lotus",
-      "name": "步步生莲",
-      "character": "diaochan",
-      "rarity": "rare",
-      "types": [
-        "body"
-      ],
-      "assetPath": "/assets/generated/cards/wave10-diao-step-lotus.svg",
-      "artId": "diao_step_lotus",
-      "format": "svg",
-      "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
-      },
-      "reuseCount": 1,
-      "score": 12,
-      "reasons": [
-        "vector-placeholder"
-      ]
-    },
-    {
-      "rank": 144,
-      "cardId": "zhao_qixing_spear",
-      "name": "七星枪影",
+      "rank": 120,
+      "cardId": "zhao_cloud_pierce",
+      "name": "云龙穿阵",
       "character": "zhaoyun",
-      "rarity": "rare",
+      "rarity": "common",
       "types": [
         "attack"
       ],
-      "assetPath": "/assets/generated/cards/wave10-zhao-qixing-spear.svg",
-      "artId": "zhao_qixing_spear",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-cloud-pierce.png",
+      "artId": "zhao_cloud_pierce",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 145,
-      "cardId": "zhao_single_rider",
-      "name": "单骑救主",
+      "rank": 121,
+      "cardId": "zhao_guardian",
+      "name": "护主",
       "character": "zhaoyun",
-      "rarity": "rare",
+      "rarity": "common",
       "types": [
         "skill"
       ],
-      "assetPath": "/assets/generated/cards/wave10-zhao-single-rider.svg",
-      "artId": "zhao_single_rider",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-guardian.png",
+      "artId": "zhao_guardian",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 146,
-      "cardId": "zhuge_plan_set",
-      "name": "计定",
-      "character": "zhugeliang",
-      "rarity": "uncommon",
+      "rank": 122,
+      "cardId": "zhao_stable_formation",
+      "name": "稳阵",
+      "character": "zhaoyun",
+      "rarity": "common",
       "types": [
         "skill"
       ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-plan-set.svg",
-      "artId": "zhuge_plan_set",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-stable-formation.png",
+      "artId": "zhao_stable_formation",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 147,
-      "cardId": "zhuge_starfall",
-      "name": "星落",
-      "character": "zhugeliang",
-      "rarity": "rare",
+      "rank": 123,
+      "cardId": "zhao_sweep",
+      "name": "横扫",
+      "character": "zhaoyun",
+      "rarity": "common",
       "types": [
         "attack"
       ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-starfall.svg",
-      "artId": "zhuge_starfall",
-      "format": "svg",
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-sweep.png",
+      "artId": "zhao_sweep",
+      "format": "png",
       "dimensions": {
-        "width": 640,
-        "height": 900,
-        "aspectRatio": 0.711
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
       },
       "reuseCount": 1,
-      "score": 12,
+      "score": 25,
       "reasons": [
-        "vector-placeholder"
+        "common-priority"
       ]
     },
     {
-      "rank": 148,
-      "cardId": "zhuge_straw_boats",
-      "name": "草船",
+      "rank": 124,
+      "cardId": "zhao_thrust",
+      "name": "突刺",
+      "character": "zhaoyun",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-thrust.png",
+      "artId": "zhao_thrust",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 125,
+      "cardId": "zhao_white_dragon",
+      "name": "白龙探爪",
+      "character": "zhaoyun",
+      "rarity": "common",
+      "types": [
+        "attack"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-v16-zhao-white-dragon.png",
+      "artId": "zhao_white_dragon",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 126,
+      "cardId": "zhuge_deduction",
+      "name": "推演",
       "character": "zhugeliang",
-      "rarity": "uncommon",
+      "rarity": "common",
       "types": [
         "skill"
       ],
-      "assetPath": "/assets/generated/cards/wave10-zhuge-straw-boats.svg",
-      "artId": "zhuge_straw_boats",
+      "assetPath": "/assets/generated/cards/foundation-star-v16-zhuge-deduction.png",
+      "artId": "zhuge_deduction",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 127,
+      "cardId": "zhuge_empty_city",
+      "name": "空城",
+      "character": "zhugeliang",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-star-v16-zhuge-empty-city.png",
+      "artId": "zhuge_empty_city",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 128,
+      "cardId": "zhuge_fire_array",
+      "name": "火阵",
+      "character": "zhugeliang",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-fire-array.png",
+      "artId": "zhuge_fire_array",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 129,
+      "cardId": "zhuge_stone_array",
+      "name": "石阵",
+      "character": "zhugeliang",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-stone-array.png",
+      "artId": "zhuge_stone_array",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 130,
+      "cardId": "zhuge_wind_array",
+      "name": "风阵",
+      "character": "zhugeliang",
+      "rarity": "common",
+      "types": [
+        "skill"
+      ],
+      "assetPath": "/assets/generated/cards/foundation-star-v14-zhuge-wind-array.png",
+      "artId": "zhuge_wind_array",
+      "format": "png",
+      "dimensions": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": 0.667
+      },
+      "reuseCount": 1,
+      "score": 25,
+      "reasons": [
+        "common-priority"
+      ]
+    },
+    {
+      "rank": 131,
+      "cardId": "mind_taoguang",
+      "name": "韬光",
+      "character": "neutral",
+      "rarity": "uncommon",
+      "types": [
+        "skill",
+        "mind"
+      ],
+      "assetPath": "/assets/generated/cards/wave27-mind-zhaoxin.svg",
+      "artId": "mind_taoguang",
       "format": "svg",
       "dimensions": {
         "width": 640,

@@ -790,7 +790,7 @@ test("can complete the first chapter through the event and rest route", async ({
   await page.getByTestId("end-turn").click();
   await expect(page.locator(".combat-standee--enemy")).toHaveClass(/is-attacking/);
   await expect(page.getByTestId("combat-standee-enemy")).toHaveAttribute("src", /gpt2-ink-dongzhuo-boss-standee-cutout\.png$/);
-  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /wave9-ink-dongzhuo-boss-attack-strip\.svg/);
+  await expect(page.getByTestId("combat-sprite-enemy")).toHaveCSS("background-image", /ink-dongzhuo-boss-attack-strip-gpt-v2\.png/);
   await expect(page.getByTestId("combat-sprite-enemy")).not.toHaveCSS("background-image", /enemy-slash-strip\.svg/);
   await expect(page.getByTestId("combat-log")).toContainText("宫宴压迫");
   await expect(page.getByTestId("player-status")).toContainText("墨痕 1");

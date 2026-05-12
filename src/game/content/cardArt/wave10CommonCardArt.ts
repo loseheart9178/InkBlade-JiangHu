@@ -81,13 +81,13 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "mind_luanxin",
-    assetPath: "/assets/generated/cards/wave10-mind-luanxin.svg",
+    assetPath: "/assets/generated/cards/foundation-v16-mind-luanxin.png",
     alt: "Tangled heart line and unstable black brushwork",
     accent: "ink"
   },
   {
     id: "mind_nuzhan",
-    assetPath: "/assets/generated/cards/wave10-mind-nuzhan.svg",
+    assetPath: "/assets/generated/cards/foundation-v16-mind-nuzhan.png",
     alt: "Anger slash rising with cinnabar battle sparks",
     accent: "red"
   },

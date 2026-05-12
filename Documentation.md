@@ -10039,6 +10039,171 @@ Next step:
 
 - Stop adding gameplay scope for this EA closeout branch. If another pass is opened, it should be a release/handoff polish pass, not more content expansion.
 
+## 2026-05-12 Remaining first-chapter attack asset binding
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/art/gpt2-priority-queue.md`
+
+What changed:
+
+- Bound the remaining clean first-chapter GPT v2 attack strips into `src/game/content/visuals.ts`:
+  - `elite_sword_echo` -> `/assets/sprites/sword-echo-attack-strip-gpt-v2.png`
+  - `elite_blood_banner` -> `/assets/sprites/blood-banner-attack-strip-gpt-v2.png`
+  - `boss_ink_dongzhuo` -> `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png`
+- Kept the known problematic sword echo and blood banner GPT v2 standee cutouts quarantined from runtime.
+- Updated content and browser expectations so the three enemies no longer point at Wave 9 SVG attack placeholders.
+- Updated `docs/art/gpt2-priority-queue.md` to record that the attack-strip portion of the old first-chapter elite regeneration debt is now closed while standee cleanup remains scoped to future art work.
+
+Verification:
+
+```text
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/data/content.test.ts --reporter=dot
+Result: passed, 1 file / 33 tests.
+
+node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 125, source sheets 21, prompt queue targets 54.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/data/content.test.ts tests/audio-manifest.test.ts --reporter=dot
+Result: passed, 2 files / 34 tests.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium --grep "first chapter stand-ins"
+Result: passed, 1 Chromium test.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "can complete the first chapter through the event and rest route"
+Result: passed, 1 Chromium test.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+```
+
+Next step:
+
+- If another art pass starts, prioritize fresh sword echo and blood banner standee replacements; the attack strips are now bound.
+
+## 2026-05-12 Phase C+D non-V16 art import
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `.worktrees/combat-ui-kit/art-deliveries/2026-05-11-phase-c-d-prompts/DELIVERY.md`
+- `.worktrees/combat-ui-kit/docs/art/card-foundation-generation-queue-v16.md`
+
+What changed:
+
+- Imported the available Phase C/D non-V16 foundation PNGs into `public/assets/generated/cards/`.
+- Bound 29 delivered PNGs across V11 Zhao, V12 Diao red contract, V13 Cai, V14 Zhuge star contract, and V15 EA carryover in the card-art manifests.
+- Added a content regression that pins each imported Phase C/D runtime binding and verifies the asset file exists.
+- Imported `docs/art/card-foundation-generation-queue-v16.md` to track the remaining V16 queue.
+- Initial repo/worktree check did not find V16 PNG files; a later follow-up located the V16 batch under `.codex/generated_images` and bound it in the next entry.
+
+Verification:
+
+```text
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/data/content.test.ts --reporter=dot
+Result: failed first as expected on zhao_qixing_spear still pointing at Wave10 SVG, then passed after binding; 1 file / 33 tests.
+
+node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 125, source sheets 21, prompt queue targets 54.
+
+node scripts/card-art-quality-report.mjs
+Result: passed. cards 150, missing files 0, duplicate asset groups 28, replacement queue 133.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+```
+
+Next step:
+
+- Superseded by the follow-up entry below: V16 outputs were found, imported, and bound.
+
+## 2026-05-12 Phase C+D completion and V16 binding
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/art/card-foundation-generation-queue-v16.md`
+- `.worktrees/combat-ui-kit/art-deliveries/2026-05-11-phase-c-d-prompts/DELIVERY.md`
+
+What changed:
+
+- Found the remaining generated card images outside the repo:
+  - Phase C/D downloads in `/Users/lushihao/Downloads` after 2026-05-12 09:00.
+  - V16 generation batch in `/Users/lushihao/.codex/generated_images/019e1a06-9ff2-7170-bf41-b44ea57ec024`.
+- Completed the Phase C/D import to all 37 delivery files. The eight previously missing files are:
+  - `foundation-v11-zhao-guardian.png`
+  - `foundation-v11-zhao-stable-formation.png`
+  - `foundation-v11-zhao-sweep.png`
+  - `foundation-v11-zhao-thrust.png`
+  - `foundation-star-v14-zhuge-empty-city.png`
+  - `foundation-v15-zhao-cloud-pierce.png`
+  - `foundation-v15-common-tashui.png`
+  - `foundation-v15-common-cangfeng.png`
+- Imported the 24 V16 files by `docs/art/card-foundation-generation-queue-v16.md` order and renamed them to their runtime destination filenames under `public/assets/generated/cards/`.
+- Checked V16 against Phase C/D:
+  - exact duplicate files: 0.
+  - same-card regenerated alternatives: 19.
+  - new V16-only targets: `diao_jinghong_strike`, `diao_feather_feint`, `diao_moon_palace_pledge`, `mind_luanxin`, `mind_nuzhan`.
+- Bound all 24 V16 targets as the current runtime art. The 18 Phase C/D cards not covered by V16 remain bound to their V11-V15 PNGs.
+- Updated content tests so they separately pin:
+  - all 37 Phase C/D files exist,
+  - 18 Phase C/D runtime holdovers remain bound,
+  - all 24 V16 runtime bindings exist and are current.
+- Ran the V16 browser visual QA gallery after user review agreed the V16 choices were acceptable:
+  - all 24 V16 PNGs loaded in browser and report as `1024x1536`,
+  - combat-card, reward-card, and deck-card previews showed readable subjects with the runtime `object-fit: contain` treatment,
+  - the 19 same-card Phase C/D vs V16 pairs were regenerated alternatives rather than content-level duplicates,
+  - no V16 rollback candidate was found.
+
+Verification:
+
+```text
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/data/content.test.ts --reporter=dot
+Result: failed first on missing Phase C/D/V16 assets, then passed after import and binding; 1 file / 33 tests.
+
+node scripts/audit-generated-assets.mjs
+Result: passed. runtime references 228, missing 0, ink-pass debt 0, card fallback debt 0, GPT2 runtime assets 122, source sheets 21, prompt queue targets 54.
+
+node scripts/card-art-quality-report.mjs
+Result: passed. cards 150, missing files 0, duplicate asset groups 27, replacement queue 131.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+npx playwright screenshot --full-page http://127.0.0.1:4187/reports/v16-card-art-qa/index.html output/playwright/v16-card-art-qa/full-page.png
+Result: passed. Captured the V16 browser QA gallery screenshot at output/playwright/v16-card-art-qa/full-page.png.
+```
+
+Next step:
+
+- Close the asset-import checkpoint with a final verification pass, then begin the combat-ui-kit Gate 1 prototype work. Do not start production combat UI integration until the high-fidelity browser prototype and screenshots are approved.
+
 ## 2026-05-08 Wave 55 scene surfaces implementation
 
 Wave 55 Worker C finished in worktree `.worktrees/wave55-scene-surfaces`.
