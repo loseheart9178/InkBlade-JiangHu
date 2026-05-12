@@ -9,7 +9,7 @@ async function expectCardTitlesClearArt(page: Page): Promise<void> {
       const objectFit = artImage ? getComputedStyle(artImage).objectFit : undefined;
 
       return title && art
-        ? { titleBottom: title.bottom, artTop: art.top, artHeight: art.height, cardHeight: item.getBoundingClientRect().height, objectFit }
+        ? { titleBottom: title.bottom, artTop: art.top, artWidth: art.width, artHeight: art.height, cardHeight: item.getBoundingClientRect().height, objectFit }
         : undefined;
     })
   );
@@ -17,7 +17,8 @@ async function expectCardTitlesClearArt(page: Page): Promise<void> {
   for (const rect of cardRects) {
     expect(rect).toBeDefined();
     expect(rect!.titleBottom).toBeLessThanOrEqual(rect!.artTop - 2);
-    expect(rect!.artHeight).toBeGreaterThan(rect!.cardHeight * 0.34);
+    expect(rect!.artHeight).toBeGreaterThan(rect!.cardHeight * 0.48);
+    expect(rect!.artWidth).toBeLessThan(rect!.artHeight);
     expect(rect!.objectFit).toBe("contain");
   }
 }

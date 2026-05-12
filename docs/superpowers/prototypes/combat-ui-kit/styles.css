@@ -286,10 +286,10 @@ button {
 .card-row {
   position: absolute;
   right: clamp(126px, 13vw, 220px);
-  bottom: 24px;
+  bottom: 12px;
   left: clamp(126px, 13vw, 220px);
   display: grid;
-  grid-template-columns: repeat(4, minmax(128px, 168px));
+  grid-template-columns: repeat(4, minmax(150px, 208px));
   justify-content: center;
   gap: clamp(10px, 1.4vw, 22px);
 }
@@ -365,9 +365,9 @@ button {
 .combat-ui-prototype-card-art {
   position: absolute;
   top: 18%;
-  right: 14%;
-  left: 14%;
-  height: 38%;
+  right: 21%;
+  left: 21%;
+  height: 49.5%;
   overflow: hidden;
   border-radius: 7px;
   background: rgba(241, 226, 188, 0.68);
@@ -382,7 +382,7 @@ button {
 
 .card-type {
   position: absolute;
-  top: 59.8%;
+  top: 72.5%;
   right: 16%;
   left: 16%;
   color: #f9e8c2;
@@ -395,7 +395,7 @@ button {
 .card-text {
   position: absolute;
   right: 16%;
-  bottom: 12%;
+  bottom: 6.8%;
   left: 16%;
   display: -webkit-box;
   overflow: hidden;
