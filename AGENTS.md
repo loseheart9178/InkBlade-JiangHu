@@ -22,9 +22,10 @@
 ## Engineering Standards
 
 - Stack: Phaser + TypeScript + Vite, with DOM HUD/menu overlay.
-- Current platform priority: desktop browser first. Do not spend implementation time on mobile layout, mobile input, or mobile screenshot adaptation unless the user explicitly reopens mobile support.
+- Current platform priority: desktop landscape browser first. Do not spend implementation time on mobile portrait (`390x844` / 竖屏) layout, mobile input, or mobile screenshot adaptation unless the user explicitly reopens mobile support.
+- UI approval and visual QA must judge combat UI kit work against desktop landscape screenshots first, such as `1440x900` or `1280x720`. Existing mobile screenshots are reference artifacts only and must not drive implementation tradeoffs while mobile support is paused.
 - Tests: Vitest for deterministic simulation modules. Use test-first for gameplay rules and bug fixes.
-- Browser QA: run a local dev server and use Playwright or equivalent browser checks for boot, screenshots, input, and desktop layout. Mobile checks are paused unless explicitly requested.
+- Browser QA: run a local dev server and use Playwright or equivalent browser checks for boot, screenshots, input, and desktop landscape layout. Mobile portrait checks are paused unless explicitly requested.
 - File boundaries:
   - `src/game/systems/`: pure gameplay logic.
   - `src/game/data/`: declarative game content.

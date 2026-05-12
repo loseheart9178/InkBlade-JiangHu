@@ -2,6 +2,26 @@
 
 ## Status Log
 
+### 2026-05-12 22:20 Asia/Shanghai
+
+Recorded the desktop-landscape scope clarification after card-art overlap review.
+
+What changed:
+
+- Updated project rules so the active target is desktop landscape browser QA, not mobile portrait adaptation.
+- Clarified that mobile portrait (`390x844` / 竖屏) layout, touch adaptation, and mobile screenshot QA are paused unless the user explicitly reopens mobile support.
+- Added the same override to the combat UI kit plan so Gate 1/Gate 2 approval uses desktop landscape screenshots and does not treat existing mobile screenshots as blockers.
+
+Verification:
+
+```text
+git diff --check
+```
+
+Next step:
+
+- Resume combat UI/card-frame polish against desktop landscape screenshots only, then proceed with the approval/integration gate from that target.
+
 ### 2026-05-09 16:12 Asia/Shanghai
 
 Wave 66 Post-EA Candidate Gate completed in `.worktrees/wave66-post-ea-candidate-gate` on branch `codex/wave66-post-ea-candidate-gate`.

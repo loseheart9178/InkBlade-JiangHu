@@ -13,7 +13,7 @@ The slice should prove the core promise:
 ## In Scope For This Development Pass
 
 - Browser-playable 2D prototype.
-- Desktop browser is the active target for this development phase; mobile adaptation is temporarily out of scope unless explicitly requested later.
+- Desktop landscape browser is the active target for this development phase; mobile portrait/竖屏 adaptation is temporarily out of scope unless explicitly requested later.
 - Phaser canvas for battlefield presentation.
 - DOM HUD for text-heavy combat controls and menus.
 - Character select with at least Zhao Yun and Diao Chan playable.
@@ -61,7 +61,7 @@ The slice should prove the core promise:
 - Audio production.
 - Steam packaging.
 - Meta progression, achievements, daily challenges.
-- Mobile layout and touch-specific adaptation during the current desktop-first phase.
+- Mobile portrait/竖屏 layout, mobile screenshot QA, and touch-specific adaptation during the current desktop-landscape phase.
 
 ## Acceptance Criteria
 
@@ -74,7 +74,7 @@ The slice should prove the core promise:
 - At least one特色系统, either mind state or ink mark, is visible and has gameplay impact.
 - The build passes TypeScript/Vite build.
 - Core simulation modules have automated tests.
-- A desktop browser playtest confirms boot, card play, end turn, reward transition, and desktop visual sanity.
+- A desktop landscape browser playtest confirms boot, card play, end turn, reward transition, and desktop visual sanity.
 
 ## Done When
 

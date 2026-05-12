@@ -6,7 +6,9 @@
 
 **Architecture:** Pure TypeScript systems own combat, cards, rewards, map, and run state. Phaser renders the battlefield and effects. DOM overlays render dense HUD, cards, rewards, character select, map, shop, rest, and event surfaces.
 
-**Current Platform Priority:** Desktop browser first. Mobile layout and touch adaptation are paused until the user explicitly requests mobile work again.
+**Current Platform Priority:** Desktop landscape browser first. Mobile portrait/竖屏 layout, touch adaptation, and mobile screenshot QA are paused until the user explicitly requests mobile work again.
+
+**Current UI Approval Rule:** Combat UI and card-frame polish should be reviewed against desktop landscape screenshots first. Do not trade off desktop card-art readability to satisfy mobile portrait artifacts while mobile support is paused.
 
 **Tech Stack:** Vite, TypeScript, Phaser, Vitest, Playwright, CSS custom properties.
 

@@ -15,6 +15,7 @@
 - Design spec: `docs/superpowers/specs/2026-05-09-combat-ui-kit-design.md`
 - Approved concept image: `docs/superpowers/specs/assets/2026-05-09-combat-ui-kit-concept.png`
 - User gate: no production UI code changes before the user approves a high-fidelity browser prototype and preview screenshots.
+- Current scope override (2026-05-12): Gate 1/Gate 2 approval is desktop-landscape only. Do not spend implementation time on mobile portrait (`390x844` / 竖屏) adaptation or touch layout; mobile screenshot artifacts in this plan are non-blocking historical/reference deliverables unless the user explicitly reopens mobile support.
 - Local note: `reports/card-art-quality-report.json` and `reports/card-art-quality-report.md` may already be dirty from report regeneration. Do not stage, revert, or rewrite those files for this plan.
 - PSD smoke result already verified in `/tmp`: `ag-psd@30.1.1` can write a layered PSD from `imageData`, and `readPsd(..., { skipLayerImageData: true })` reads it back as `8BPS 16x16 test transparent layer`.
 
