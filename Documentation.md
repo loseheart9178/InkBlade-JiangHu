@@ -2,6 +2,37 @@
 
 ## Status Log
 
+### 2026-05-12 22:55 Asia/Shanghai
+
+Fixed the desktop card-art occlusion issue reported on the `枪击` card.
+
+What changed:
+
+- Reworked desktop combat cards so card art uses a dedicated portrait-oriented window instead of the previous shallow landscape row.
+- Kept cost, title, type badges, keyword chips, and description outside the card-art rectangle; the regression now checks those regions do not overlap the art.
+- Raised the combat log slightly so the taller desktop cards do not cover it.
+- Updated the combat UI kit prototype desktop card-art window and refreshed its desktop screenshot. The mobile portrait prototype test is skipped because mobile portrait QA is paused by current project scope.
+
+Verification:
+
+```text
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/combat-ui-prototype.spec.ts --project=chromium
+Result: passed. 1 desktop Chromium test passed, 1 mobile portrait test skipped by scope.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium --grep "captures desktop combat smoke"
+Result: passed. 1 Chromium desktop combat visual test passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+git diff --check
+Result: passed.
+```
+
+Next step:
+
+- Review the desktop combat screenshot with the updated `枪击` card, then continue Gate 1 approval or production integration only from the desktop landscape target.
+
 ### 2026-05-12 22:20 Asia/Shanghai
 
 Recorded the desktop-landscape scope clarification after card-art overlap review.

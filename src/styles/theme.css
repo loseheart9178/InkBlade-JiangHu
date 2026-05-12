@@ -2124,12 +2124,12 @@ button {
 .combat-log {
   position: absolute;
   right: 50%;
-  bottom: 260px;
+  bottom: 286px;
   z-index: 4;
   display: flex;
   justify-content: center;
   gap: 8px;
-  min-height: 30px;
+  min-height: 0;
   max-width: min(760px, 56vw);
   flex-wrap: wrap;
   color: #2c2924;
@@ -2271,12 +2271,12 @@ button {
   --card-corner: 8px;
   position: relative;
   display: grid;
-  grid-template-rows: 84px 20px 22px 14px 28px minmax(28px, 1fr);
-  gap: 4px;
-  width: clamp(140px, 10.7vw, 164px);
-  height: 244px;
+  grid-template-rows: 28px 112px 18px 12px 20px minmax(20px, 1fr);
+  gap: 3px;
+  width: clamp(150px, 11.3vw, 176px);
+  height: 254px;
   min-height: 0;
-  padding: 12px 11px 10px;
+  padding: 10px 10px 9px;
   overflow: hidden;
   border: 2px solid var(--card-frame);
   border-radius: var(--card-corner);
@@ -2355,6 +2355,12 @@ button {
     0 4px 10px rgba(17, 17, 17, 0.08);
 }
 
+.combat-card .card-art {
+  grid-row: 2;
+  justify-self: center;
+  width: min(100%, 96px);
+}
+
 .card-art img {
   display: block;
   width: 100%;
@@ -2382,11 +2388,12 @@ button {
 }
 
 .card-chrome-row {
+  grid-row: 3;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 20px;
+  height: 18px;
   min-height: 0;
   overflow: hidden;
 }
@@ -2395,7 +2402,7 @@ button {
 .card-rarity-mark {
   display: inline-grid;
   min-width: 24px;
-  height: 20px;
+  height: 18px;
   place-items: center;
   padding: 0 6px;
   border: 1px solid rgba(255, 252, 239, 0.36);
@@ -2428,22 +2435,24 @@ button {
 }
 
 .card-type-line {
+  grid-row: 4;
   display: block;
-  min-height: 14px;
+  min-height: 12px;
   overflow: hidden;
   color: var(--cinnabar-dark);
   font-size: 11px;
-  line-height: 14px;
+  line-height: 12px;
   text-align: center;
 }
 
 .card-keyword-row {
+  grid-row: 5;
   display: flex;
   align-content: flex-start;
   justify-content: center;
   gap: 4px;
-  min-height: 28px;
-  max-height: 28px;
+  min-height: 20px;
+  max-height: 20px;
   flex-wrap: wrap;
   overflow: hidden;
 }
@@ -2548,11 +2557,11 @@ button {
 
 .card-cost {
   position: absolute;
-  top: 8px;
+  top: 7px;
   left: 8px;
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   place-items: center;
   border: 2px solid rgba(246, 236, 213, 0.82);
   border-radius: 50%;
@@ -2565,16 +2574,18 @@ button {
     0 5px 12px rgba(17, 17, 17, 0.32),
     inset 0 0 0 1px rgba(238, 190, 91, 0.26),
     inset 0 0 14px rgba(238, 190, 91, 0.12);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
   text-shadow: 0 1px 0 rgba(17, 17, 17, 0.45);
 }
 
 .combat-card strong {
+  grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 20px;
+  padding-left: 34px;
   overflow: hidden;
   color: var(--ink-black);
   font-size: 16px;
@@ -2598,8 +2609,9 @@ button {
 }
 
 .combat-card .card-description {
+  grid-row: 6;
   display: -webkit-box;
-  min-height: 28px;
+  min-height: 20px;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
