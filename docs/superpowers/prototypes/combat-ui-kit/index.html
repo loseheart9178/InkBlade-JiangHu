@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Combat UI Kit Prototype</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="prototype-stage" data-testid="combat-ui-prototype">
+      <div class="battlefield" aria-hidden="true">
+        <div class="moonwash"></div>
+        <div class="standee standee-player"></div>
+        <div class="standee standee-enemy"></div>
+      </div>
+
+      <section class="hud hud-player" data-testid="prototype-player-hud" aria-label="赵云状态">
+        <img class="hud-frame" src="/assets/generated/ui/combat-hud/hud-frame-player.png" alt="">
+        <div class="hud-copy">
+          <span class="hud-name">赵云</span>
+          <span class="hud-health">52 / 64</span>
+          <span class="hud-resource">真气 3</span>
+        </div>
+        <div class="status-row">
+          <img data-testid="prototype-status-icon" src="/assets/generated/ui/combat-hud/status-block.png" alt="护">
+          <img data-testid="prototype-status-icon" src="/assets/generated/ui/combat-hud/status-mind.png" alt="心">
+          <img data-testid="prototype-status-icon" src="/assets/generated/ui/combat-hud/resource-armor.png" alt="甲">
+        </div>
+      </section>
+
+      <section class="hud hud-enemy" data-testid="prototype-enemy-hud" aria-label="墨化山贼状态">
+        <img class="hud-frame" src="/assets/generated/ui/combat-hud/hud-frame-enemy.png" alt="">
+        <div class="hud-copy">
+          <span class="hud-name">墨化山贼</span>
+          <span class="hud-health">38 / 38</span>
+          <span class="hud-resource">墨势 2</span>
+        </div>
+        <div class="status-row">
+          <img data-testid="prototype-status-icon" src="/assets/generated/ui/combat-hud/status-bleed.png" alt="创">
+          <img data-testid="prototype-status-icon" src="/assets/generated/ui/combat-hud/status-vulnerable.png" alt="破">
+          <img data-testid="prototype-status-icon" src="/assets/generated/ui/combat-hud/status-charm.png" alt="魅">
+        </div>
+      </section>
+
+      <section class="intent" data-testid="prototype-intent" aria-label="敌人意图">
+        <img src="/assets/generated/ui/combat-hud/intent-crest.png" alt="">
+        <strong>重劈</strong>
+        <span>12</span>
+      </section>
+
+      <section class="message-strip" data-testid="prototype-message" aria-live="polite">敌势渐沉，枪锋可入。</section>
+
+      <section class="hand-zone" data-testid="prototype-hand" aria-label="手牌">
+        <img class="hand-shelf" src="/assets/generated/ui/combat-hud/hand-shelf.png" alt="">
+        <div class="energy-cluster">
+          <img src="/assets/generated/ui/combat-hud/energy-orb.png" alt="">
+          <span>3</span>
+        </div>
+        <div class="pile-cluster">
+          <span><img src="/assets/generated/ui/combat-hud/pile-seal.png" alt=""> 18</span>
+          <span><img src="/assets/generated/ui/combat-hud/pile-seal.png" alt=""> 4</span>
+        </div>
+        <div class="card-row">
+          <button class="prototype-card" data-testid="prototype-card" data-card-name="枪击" type="button">
+            <img class="card-frame" src="/assets/generated/ui/combat-hud/card-frame-common.png" alt="">
+            <span class="card-cost">1</span>
+            <span class="card-title">枪击</span>
+            <span class="combat-ui-prototype-card-art"><img src="/assets/generated/cards/foundation-v16-zhao-thrust.png" alt=""></span>
+            <span class="card-type">攻击</span>
+            <span class="card-text">造成 7 点伤害。</span>
+          </button>
+          <button class="prototype-card" data-testid="prototype-card" data-card-name="架枪" type="button">
+            <img class="card-frame" src="/assets/generated/ui/combat-hud/card-frame-uncommon.png" alt="">
+            <span class="card-cost">1</span>
+            <span class="card-title">架枪</span>
+            <span class="combat-ui-prototype-card-art"><img src="/assets/generated/cards/foundation-v16-zhao-guardian.png" alt=""></span>
+            <span class="card-type">技法</span>
+            <span class="card-text">获得 8 点格挡。</span>
+          </button>
+          <button class="prototype-card" data-testid="prototype-card" data-card-name="飞石" type="button">
+            <img class="card-frame" src="/assets/generated/ui/combat-hud/card-frame-rare.png" alt="">
+            <span class="card-cost">0</span>
+            <span class="card-title">飞石</span>
+            <span class="combat-ui-prototype-card-art"><img src="/assets/generated/cards/foundation-v16-zhao-cloud-pierce.png" alt=""></span>
+            <span class="card-type">攻击</span>
+            <span class="card-text">造成 4 点伤害，抽 1 张。</span>
+          </button>
+          <button class="prototype-card" data-testid="prototype-card" data-card-name="格挡" type="button">
+            <img class="card-frame" src="/assets/generated/ui/combat-hud/card-frame-event.png" alt="">
+            <span class="card-cost">1</span>
+            <span class="card-title">格挡</span>
+            <span class="combat-ui-prototype-card-art"><img src="/assets/generated/cards/foundation-v15-zhao-oath-guard.png" alt=""></span>
+            <span class="card-type">身法</span>
+            <span class="card-text">获得 6 点格挡，保留。</span>
+          </button>
+        </div>
+      </section>
+    </main>
+    <script src="./prototype.js"></script>
+  </body>
+</html>

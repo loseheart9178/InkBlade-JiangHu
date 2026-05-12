@@ -121,6 +121,9 @@ describe("combat UI kit manifest", () => {
     expect(manifest.prototype.path).toBe("docs/superpowers/prototypes/combat-ui-kit/index.html");
     expect(manifest.prototype.desktopScreenshot).toBe("docs/superpowers/prototypes/combat-ui-kit/screenshots/desktop.png");
     expect(manifest.prototype.mobileScreenshot).toBe("docs/superpowers/prototypes/combat-ui-kit/screenshots/mobile.png");
+    expect(existsSync(join(projectRoot, manifest.prototype.path))).toBe(true);
+    expect(existsSync(join(projectRoot, manifest.prototype.desktopScreenshot))).toBe(true);
+    expect(existsSync(join(projectRoot, manifest.prototype.mobileScreenshot))).toBe(true);
   });
 
   it("keeps every runtime asset as a transparent PNG with stable dimensions", () => {
