@@ -1,0 +1,231 @@
+{
+  "version": 1,
+  "name": "combat-ui-kit",
+  "sourceSpec": "docs/superpowers/specs/2026-05-09-combat-ui-kit-design.md",
+  "approvedConcept": "docs/superpowers/specs/assets/2026-05-09-combat-ui-kit-concept.png",
+  "psdSources": [
+    {
+      "id": "combat-hud",
+      "path": "assets/source/ui/combat-hud/combat-hud-kit.psd",
+      "requiredLayerNames": [
+        "battlefield vignette",
+        "player status plate",
+        "enemy status plate",
+        "enemy intent crest",
+        "status icon rail",
+        "hand shelf",
+        "energy orb",
+        "pile counter seals",
+        "gold ink ornaments"
+      ]
+    },
+    {
+      "id": "card-frame",
+      "path": "assets/source/ui/cards/card-frame-kit.psd",
+      "requiredLayerNames": [
+        "card frame common",
+        "card frame uncommon",
+        "card frame rare",
+        "card frame event",
+        "cost seal",
+        "art window mask",
+        "type plaque",
+        "keyword ribbon"
+      ]
+    },
+    {
+      "id": "status-icons",
+      "path": "assets/source/ui/icons/status-icon-kit.psd",
+      "requiredLayerNames": [
+        "status block icon",
+        "status mind icon",
+        "status ink icon",
+        "status bleed icon",
+        "status vulnerable icon",
+        "status charm icon",
+        "resource attack icon",
+        "resource armor icon",
+        "resource charm icon"
+      ]
+    }
+  ],
+  "runtime": {
+    "assets": [
+      {
+        "id": "hud-frame-player",
+        "kind": "nine-slice",
+        "width": 420,
+        "height": 128,
+        "nineSlice": {
+          "top": 38,
+          "right": 62,
+          "bottom": 38,
+          "left": 62
+        },
+        "sourceLayer": "player status plate",
+        "src": "/assets/generated/ui/combat-hud/hud-frame-player.png"
+      },
+      {
+        "id": "hud-frame-enemy",
+        "kind": "nine-slice",
+        "width": 420,
+        "height": 128,
+        "nineSlice": {
+          "top": 38,
+          "right": 62,
+          "bottom": 38,
+          "left": 62
+        },
+        "sourceLayer": "enemy status plate",
+        "src": "/assets/generated/ui/combat-hud/hud-frame-enemy.png"
+      },
+      {
+        "id": "intent-crest",
+        "kind": "ornament",
+        "width": 156,
+        "height": 156,
+        "sourceLayer": "enemy intent crest",
+        "src": "/assets/generated/ui/combat-hud/intent-crest.png"
+      },
+      {
+        "id": "hand-shelf",
+        "kind": "nine-slice",
+        "width": 1680,
+        "height": 320,
+        "nineSlice": {
+          "top": 92,
+          "right": 180,
+          "bottom": 70,
+          "left": 180
+        },
+        "sourceLayer": "hand shelf",
+        "src": "/assets/generated/ui/combat-hud/hand-shelf.png"
+      },
+      {
+        "id": "energy-orb",
+        "kind": "ornament",
+        "width": 148,
+        "height": 148,
+        "sourceLayer": "energy orb",
+        "src": "/assets/generated/ui/combat-hud/energy-orb.png"
+      },
+      {
+        "id": "pile-seal",
+        "kind": "ornament",
+        "width": 82,
+        "height": 82,
+        "sourceLayer": "pile counter seals",
+        "src": "/assets/generated/ui/combat-hud/pile-seal.png"
+      },
+      {
+        "id": "card-frame-common",
+        "kind": "card-frame",
+        "width": 340,
+        "height": 476,
+        "sourceLayer": "card frame common",
+        "src": "/assets/generated/ui/combat-hud/card-frame-common.png"
+      },
+      {
+        "id": "card-frame-uncommon",
+        "kind": "card-frame",
+        "width": 340,
+        "height": 476,
+        "sourceLayer": "card frame uncommon",
+        "src": "/assets/generated/ui/combat-hud/card-frame-uncommon.png"
+      },
+      {
+        "id": "card-frame-rare",
+        "kind": "card-frame",
+        "width": 340,
+        "height": 476,
+        "sourceLayer": "card frame rare",
+        "src": "/assets/generated/ui/combat-hud/card-frame-rare.png"
+      },
+      {
+        "id": "card-frame-event",
+        "kind": "card-frame",
+        "width": 340,
+        "height": 476,
+        "sourceLayer": "card frame event",
+        "src": "/assets/generated/ui/combat-hud/card-frame-event.png"
+      },
+      {
+        "id": "status-block",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "status block icon",
+        "src": "/assets/generated/ui/combat-hud/status-block.png"
+      },
+      {
+        "id": "status-mind",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "status mind icon",
+        "src": "/assets/generated/ui/combat-hud/status-mind.png"
+      },
+      {
+        "id": "status-ink",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "status ink icon",
+        "src": "/assets/generated/ui/combat-hud/status-ink.png"
+      },
+      {
+        "id": "status-bleed",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "status bleed icon",
+        "src": "/assets/generated/ui/combat-hud/status-bleed.png"
+      },
+      {
+        "id": "status-vulnerable",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "status vulnerable icon",
+        "src": "/assets/generated/ui/combat-hud/status-vulnerable.png"
+      },
+      {
+        "id": "status-charm",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "status charm icon",
+        "src": "/assets/generated/ui/combat-hud/status-charm.png"
+      },
+      {
+        "id": "resource-attack",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "resource attack icon",
+        "src": "/assets/generated/ui/combat-hud/resource-attack.png"
+      },
+      {
+        "id": "resource-armor",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "resource armor icon",
+        "src": "/assets/generated/ui/combat-hud/resource-armor.png"
+      },
+      {
+        "id": "resource-charm",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "resource charm icon",
+        "src": "/assets/generated/ui/combat-hud/resource-charm.png"
+      }
+    ]
+  },
+  "prototype": {
+    "path": "docs/superpowers/prototypes/combat-ui-kit/index.html",
+    "desktopScreenshot": "docs/superpowers/prototypes/combat-ui-kit/screenshots/desktop.png",
+    "mobileScreenshot": "docs/superpowers/prototypes/combat-ui-kit/screenshots/mobile.png"
+  }
+}
