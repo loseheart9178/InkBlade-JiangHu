@@ -1,4 +1,22 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+async function expectCardTitlesClearArt(page: Page): Promise<void> {
+  const cardRects = await page.getByTestId("prototype-card").evaluateAll((items) =>
+    items.map((item) => {
+      const title = item.querySelector(".card-title")?.getBoundingClientRect();
+      const art = item.querySelector(".combat-ui-prototype-card-art")?.getBoundingClientRect();
+
+      return title && art
+        ? { titleBottom: title.bottom, artTop: art.top }
+        : undefined;
+    })
+  );
+
+  for (const rect of cardRects) {
+    expect(rect).toBeDefined();
+    expect(rect!.titleBottom).toBeLessThanOrEqual(rect!.artTop - 2);
+  }
+}
 
 test("combat UI kit prototype is framed and interactive on desktop", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -11,6 +29,7 @@ test("combat UI kit prototype is framed and interactive on desktop", async ({ pa
   await expect(page.getByTestId("prototype-hand")).toBeVisible();
   await expect(page.getByTestId("prototype-card")).toHaveCount(4);
   await expect(page.getByTestId("prototype-status-icon")).toHaveCount(6);
+  await expectCardTitlesClearArt(page);
 
   const hasVerticalScroll = await page.evaluate(() => document.documentElement.scrollHeight > window.innerHeight + 2);
   expect(hasVerticalScroll).toBe(false);
@@ -32,6 +51,7 @@ test("combat UI kit prototype remains readable on mobile", async ({ page }, test
 
   await expect(page.getByTestId("combat-ui-prototype")).toBeVisible();
   await expect(page.getByTestId("prototype-card")).toHaveCount(4);
+  await expectCardTitlesClearArt(page);
 
   const cards = await page.getByTestId("prototype-card").evaluateAll((items) =>
     items.map((item) => {
