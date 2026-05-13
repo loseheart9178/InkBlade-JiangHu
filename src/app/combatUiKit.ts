@@ -52,7 +52,7 @@ export function getCombatUiAsset(id: CombatUiAssetId): string {
   return combatUiAssets[id];
 }
 
-export type CombatUiCardRarity = "starter" | "common" | "uncommon" | "rare" | "event" | "ink" | "curse";
+export type CombatUiCardRarity = "starter" | "common" | "uncommon" | "rare" | "event" | "ink" | "curse" | "status";
 
 export function getCombatUiCardFrameAssetId(rarity: CombatUiCardRarity): CombatUiAssetId {
   if (rarity === "uncommon") {

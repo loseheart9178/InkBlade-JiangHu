@@ -1211,7 +1211,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     const cardButton = document.createElement("button");
     cardButton.type = "button";
     cardButton.className = `combat-card card-type-${definition.types[0]}`;
-    cardButton.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCombatUiCardFrameAssetId(definition.rarity === "status" ? "common" : definition.rarity))}")`);
+    cardButton.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCombatUiCardFrameAssetId(definition.rarity))}")`);
     if (card.upgraded) {
       cardButton.classList.add("is-upgraded");
     }
@@ -1554,7 +1554,7 @@ function renderReward(
     const button = document.createElement("button");
     button.type = "button";
     button.className = `reward-card reward-card--kit card-type-${card.types[0]}`;
-    button.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCombatUiCardFrameAssetId(card.rarity === "status" ? "common" : card.rarity))}")`);
+    button.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCombatUiCardFrameAssetId(card.rarity))}")`);
     if (isComboBiased) {
       button.classList.add("is-combo-biased");
     }
@@ -1793,7 +1793,7 @@ function createShopCardAction(run: RunState, offer: ReturnType<typeof createShop
   const fit = createRewardBuildFit(getRunCardDefinitions(run), card);
   button.type = "button";
   button.className = `choice-action shop-item shop-item--card shop-item--kit card-type-${type}`;
-  button.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCombatUiCardFrameAssetId(card.rarity === "status" ? "common" : card.rarity))}")`);
+  button.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCombatUiCardFrameAssetId(card.rarity))}")`);
   button.dataset.testid = `shop-card-${slotId}`;
   button.dataset.shopCardId = card.id;
   button.dataset.shopSlot = slotId;
