@@ -89,10 +89,18 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("combat-sprite-enemy")).toHaveCount(0);
     await expect(page.getByTestId("card-art").first()).toHaveAttribute("src", /^\/assets\/generated\/cards\/.+\.(png|svg)$/);
     await expect(page.getByTestId("card-art").first()).toHaveCSS("object-fit", "contain");
+    await expect(page.locator(".combat-card").first()).toHaveAttribute("style", /--ui-kit-card-frame/);
+    await expect(page.locator(".combat-card .card-art").first()).toHaveClass(/card-art--kit/);
     await expect(page.getByTestId("card-type-badge").first()).toBeVisible();
     await expect(page.getByTestId("card-rarity-mark").first()).toBeVisible();
     await expect(page.getByTestId("card-keyword-row").first()).toBeVisible();
     await expect(page.getByTestId("card-cost").first()).toBeVisible();
+    await expect(page.getByTestId("player-status")).toHaveClass(/status-line--kit/);
+    await expect(page.getByTestId("enemy-status")).toHaveClass(/status-line--kit/);
+    await expect(page.getByTestId("status-icon").first()).toBeVisible();
+    await expect(page.getByTestId("player-resource")).toHaveClass(/resource-pill--kit/);
+    await expect(page.getByTestId("resource-icon").first()).toBeVisible();
+    await expect(page.getByTestId("energy")).toHaveClass(/energy-orb--kit/);
     await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("title", /。/);
     await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("aria-label", /：/);
     await expect(page.getByTestId("intent")).toHaveAttribute("title", /敌人意图|杀意|运功/);

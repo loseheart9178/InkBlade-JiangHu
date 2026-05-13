@@ -1,5 +1,12 @@
 import { cardList, cardsById } from "../game/content/cards";
 import { createAudioFeedback, type AudioFeedback, type AudioSurface } from "./audioFeedback";
+import {
+  combatResourceIconByOwner,
+  combatStatusIconByStatus,
+  combatStatusIconByTone,
+  getCombatUiAsset,
+  type CombatUiAssetId
+} from "./combatUiKit";
 import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPersistence";
 import type { ChallengeProfileId } from "../game/content/challenges";
 import { chapterList } from "../game/content/chapters";
@@ -1135,6 +1142,12 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   panel.classList.add("combat-screen");
   panel.classList.add(`combat-screen--${run.chapterId}`);
   panel.dataset.battlefield = run.chapterId;
+  panel.style.setProperty("--ui-kit-hand-shelf", `url("${getCombatUiAsset("hand-shelf")}")`);
+  panel.style.setProperty("--ui-kit-energy-orb", `url("${getCombatUiAsset("energy-orb")}")`);
+  panel.style.setProperty("--ui-kit-player-hud", `url("${getCombatUiAsset("hud-frame-player")}")`);
+  panel.style.setProperty("--ui-kit-enemy-hud", `url("${getCombatUiAsset("hud-frame-enemy")}")`);
+  panel.style.setProperty("--ui-kit-intent-crest", `url("${getCombatUiAsset("intent-crest")}")`);
+  panel.style.setProperty("--ui-kit-pile-seal", `url("${getCombatUiAsset("pile-seal")}")`);
 
   const top = document.createElement("div");
   top.className = "combat-topbar";
@@ -1186,7 +1199,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   hand.dataset.testid = "hand-zone";
 
   const energy = document.createElement("div");
-  energy.className = "energy-orb";
+  energy.className = "energy-orb energy-orb--kit";
   energy.dataset.testid = "energy";
   energy.textContent = `${combat.player.energy}/${combat.player.maxEnergy}`;
   hand.append(energy);
@@ -1198,6 +1211,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     const cardButton = document.createElement("button");
     cardButton.type = "button";
     cardButton.className = `combat-card card-type-${definition.types[0]}`;
+    cardButton.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCardFrameAssetId(definition.rarity))}")`);
     if (card.upgraded) {
       cardButton.classList.add("is-upgraded");
     }
@@ -2937,8 +2951,10 @@ function createMeter(testId: string, label: string, value: number, max: number, 
 }
 
 function createCombatResourcePill(owner: "player" | "enemy", label: string, value: string): string {
+  const iconId = combatResourceIconByOwner[owner];
   return `
-    <div class="resource-pill resource-pill--${owner}" data-testid="${owner}-resource" aria-label="${escapeAttribute(`${label} ${value}`)}">
+    <div class="resource-pill resource-pill--${owner} resource-pill--kit" data-testid="${owner}-resource" aria-label="${escapeAttribute(`${label} ${value}`)}">
+      <img class="resource-icon" data-testid="resource-icon" src="${getCombatUiAsset(iconId)}" alt="">
       <span>${escapeHtml(label)}</span>
       <strong>${escapeHtml(value)}</strong>
     </div>
@@ -2951,7 +2967,7 @@ function createCombatStatusLine(
   statuses: Partial<Record<StatusId, number>>
 ): string {
   return `
-    <div class="status-line status-line--${owner}" data-testid="${owner}-status">
+    <div class="status-line status-line--${owner} status-line--kit" data-testid="${owner}-status">
       ${chips.map((chip) => createStatusChipMarkup(chip.label, chip.value, chip.tone)).join("")}
       ${formatStatusBadges(statuses)}
     </div>
@@ -2959,8 +2975,10 @@ function createCombatStatusLine(
 }
 
 function createStatusChipMarkup(label: string, value: string, tone: "block" | "mind" | "ink"): string {
+  const iconId = combatStatusIconByTone[tone];
   return `
-    <span class="status-chip status-chip--${tone}">
+    <span class="status-chip status-chip--${tone} status-chip--kit">
+      <img class="status-icon" data-testid="status-icon" src="${getCombatUiAsset(iconId)}" alt="">
       <span>${escapeHtml(label)}</span>
       <strong>${escapeHtml(value)}</strong>
     </span>
@@ -3619,7 +3637,7 @@ function getStandeePath(portrait: ReturnType<typeof getCombatPortrait>): string 
 
 function createCardArtMarkup(card: CardDefinition): string {
   const art = getCardArt(card);
-  return `<span class="card-art card-art--${art.accent}"><img data-testid="card-art" src="${art.assetPath}" alt="${art.alt}"></span>`;
+  return `<span class="card-art card-art--${art.accent} card-art--kit"><img data-testid="card-art" src="${art.assetPath}" alt="${art.alt}"></span>`;
 }
 
 function createCardChromeMarkup(card: CardDefinition): string {
@@ -3629,6 +3647,22 @@ function createCardChromeMarkup(card: CardDefinition): string {
       <span class="card-rarity-mark card-rarity-mark--${card.rarity}" data-testid="card-rarity-mark">${formatRarity(card.rarity)}</span>
     </span>
   `;
+}
+
+function getCardFrameAssetId(rarity: CardDefinition["rarity"]): CombatUiAssetId {
+  if (rarity === "uncommon") {
+    return "card-frame-uncommon";
+  }
+
+  if (rarity === "rare") {
+    return "card-frame-rare";
+  }
+
+  if (rarity === "event") {
+    return "card-frame-event";
+  }
+
+  return "card-frame-common";
 }
 
 function createCardKeywordRowMarkup(card: CardDefinition): string {
@@ -3807,7 +3841,8 @@ function formatStatusBadges(statuses: Partial<Record<StatusId, number>>): string
     const entry = getGlossaryEntry(`status.${status}`);
     const label = formatStatus(status);
     const tooltip = entry ? formatGlossaryTooltip(entry, `${label} ${layers}层。`) : `${label} ${layers}`;
-    return `<span class="status-badge" data-testid="status-badge" data-glossary-id="${escapeAttribute(entry?.id ?? `status.${status}`)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}"><span>${escapeHtml(label)}</span> <strong>${layers}</strong></span>`;
+    const iconId = combatStatusIconByStatus[status] ?? "status-ink";
+    return `<span class="status-badge status-badge--kit" data-testid="status-badge" data-glossary-id="${escapeAttribute(entry?.id ?? `status.${status}`)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}"><img class="status-icon" data-testid="status-icon" src="${getCombatUiAsset(iconId)}" alt=""><span>${escapeHtml(label)}</span> <strong>${layers}</strong></span>`;
   }).join("");
 }
 

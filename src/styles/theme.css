@@ -1071,6 +1071,12 @@ button {
 }
 
 .combat-screen {
+  --ui-kit-player-hud: none;
+  --ui-kit-enemy-hud: none;
+  --ui-kit-intent-crest: none;
+  --ui-kit-hand-shelf: none;
+  --ui-kit-energy-orb: none;
+  --ui-kit-pile-seal: none;
   inset: 0;
   display: block;
   padding: 10px 20px 12px;
@@ -1137,6 +1143,7 @@ button {
 }
 
 .combat-meter {
+  position: relative;
   display: grid;
   grid-template-columns: 74px minmax(210px, 1fr);
   align-items: center;
@@ -1152,6 +1159,34 @@ button {
   box-shadow:
     0 10px 28px rgba(17, 17, 17, 0.24),
     inset 0 0 0 1px rgba(255, 252, 239, 0.1);
+  overflow: hidden;
+}
+
+.combat-meter::before,
+.intent-box::before,
+.hand-zone::before,
+.energy-orb--kit::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+.combat-topbar .combat-meter:first-child::before {
+  background-image: var(--ui-kit-player-hud);
+}
+
+.combat-topbar .combat-meter:last-child::before {
+  background-image: var(--ui-kit-enemy-hud);
+}
+
+.combat-meter > * {
+  position: relative;
+  z-index: 1;
 }
 
 .combat-meter span,
@@ -1229,13 +1264,24 @@ button {
     inset 0 0 0 1px rgba(255, 252, 239, 0.08);
 }
 
+.intent-box::before {
+  background-image: var(--ui-kit-intent-crest);
+  opacity: 0.2;
+}
+
 .intent-box::after {
   position: absolute;
   inset: 6px;
+  z-index: 1;
   content: "";
   border: 1px solid rgba(246, 236, 213, 0.1);
   border-radius: 5px;
   pointer-events: none;
+}
+
+.intent-box > * {
+  position: relative;
+  z-index: 2;
 }
 
 .combat-intent-icon {
@@ -1448,11 +1494,11 @@ button {
 }
 
 .combatant > .resource-pill {
-  top: 2px;
+  top: 8px;
 }
 
 .combatant > .status-line {
-  top: 42px;
+  top: 64px;
 }
 
 .resource-pill {
@@ -1469,6 +1515,22 @@ button {
     0 8px 20px rgba(17, 17, 17, 0.14),
     inset 0 0 0 1px rgba(255, 255, 255, 0.42);
   white-space: nowrap;
+}
+
+.resource-pill--kit {
+  min-height: 36px;
+  padding-left: 5px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.95), rgba(232, 242, 232, 0.86)),
+    rgba(246, 236, 213, 0.94);
+}
+
+.resource-icon,
+.status-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .resource-pill span {
@@ -1516,6 +1578,13 @@ button {
     inset 0 0 0 1px rgba(255, 255, 255, 0.32);
 }
 
+.status-line--kit {
+  gap: 6px;
+  max-width: min(430px, 38vw);
+  background: rgba(17, 17, 17, 0.26);
+  backdrop-filter: blur(3px);
+}
+
 .status-chip,
 .status-badge {
   display: inline-flex;
@@ -1530,6 +1599,14 @@ button {
   font-size: 11px;
   line-height: 1;
   white-space: nowrap;
+}
+
+.status-chip--kit,
+.status-badge--kit {
+  min-height: 30px;
+  padding: 3px 8px 3px 4px;
+  border-color: rgba(246, 236, 213, 0.24);
+  background: rgba(255, 252, 239, 0.74);
 }
 
 .status-chip > span,
@@ -2245,6 +2322,16 @@ button {
   perspective: 900px;
 }
 
+.hand-zone::before {
+  background-image: var(--ui-kit-hand-shelf);
+  opacity: 0.48;
+}
+
+.hand-zone .energy-orb,
+.hand-zone .combat-card {
+  z-index: 1;
+}
+
 .energy-orb {
   position: absolute;
   bottom: 28px;
@@ -2267,8 +2354,21 @@ button {
     inset 0 0 22px rgba(246, 236, 213, 0.22);
 }
 
+.energy-orb--kit {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(246, 236, 213, 0.22), transparent 18%),
+    radial-gradient(circle, rgba(47, 124, 110, 0.88) 0 42%, rgba(22, 45, 40, 0.86) 58%, rgba(17, 17, 17, 0.78) 100%);
+}
+
+.energy-orb--kit::before {
+  background-image: var(--ui-kit-energy-orb);
+  opacity: 0.76;
+}
+
 .combat-card {
   --card-corner: 8px;
+  --ui-kit-card-frame: none;
   position: relative;
   display: grid;
   grid-template-rows: 28px 112px 18px 12px 20px minmax(20px, 1fr);
@@ -2309,8 +2409,12 @@ button {
   border: 1px solid rgba(44, 41, 36, 0.18);
   border-radius: 6px;
   background:
+    var(--ui-kit-card-frame, none),
     linear-gradient(90deg, transparent 0 10px, var(--card-ornament) 10px 11px, transparent 11px calc(100% - 11px), var(--card-ornament) calc(100% - 11px) calc(100% - 10px), transparent calc(100% - 10px)),
     linear-gradient(180deg, transparent 0 12px, rgba(44, 41, 36, 0.1) 12px 13px, transparent 13px calc(100% - 13px), rgba(44, 41, 36, 0.1) calc(100% - 13px) calc(100% - 12px), transparent calc(100% - 12px));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%, auto, auto;
   pointer-events: none;
 }
 
@@ -2327,6 +2431,10 @@ button {
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(238, 190, 91, 0.2), transparent 66%);
   pointer-events: none;
+}
+
+.combat-card::before {
+  opacity: 0.42;
 }
 
 .combat-card > *,
@@ -2369,6 +2477,12 @@ button {
   object-position: center;
   mix-blend-mode: multiply;
   filter: contrast(1.08) saturate(0.96);
+}
+
+.card-art--kit img {
+  object-fit: contain;
+  object-position: center;
+  mix-blend-mode: normal;
 }
 
 .card-art--red {
@@ -2587,11 +2701,11 @@ button {
   min-height: 20px;
   padding-left: 34px;
   overflow: hidden;
-  color: var(--ink-black);
+  color: #f7e7bd;
   font-size: 16px;
   line-height: 1.1;
   text-align: center;
-  text-shadow: 0 1px 0 rgba(255, 252, 239, 0.55);
+  text-shadow: 0 2px 4px rgba(17, 17, 17, 0.62);
 }
 
 .reward-card strong,
@@ -2613,6 +2727,9 @@ button {
   display: -webkit-box;
   min-height: 20px;
   overflow: hidden;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: rgba(255, 252, 239, 0.66);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   font-size: 11px;

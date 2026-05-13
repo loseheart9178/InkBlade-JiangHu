@@ -10524,3 +10524,40 @@ Result: passed, 3 Chromium tests.
 NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "reward|shop|event|rest"
 Result: passed, 9 Chromium tests.
 ```
+
+## 2026-05-13 Combat UI Kit Gate 2
+
+Gate 2 integrated the approved combat UI kit into the production desktop combat surface.
+
+What changed:
+
+- Added `src/app/combatUiKit.ts` as the typed runtime asset contract for the approved transparent PNG slices.
+- Wired the combat root to expose UI kit CSS variables for HUD plates, enemy intent, hand shelf, energy orb, pile seals, and rarity card frames.
+- Added status/resource icons to combat HUD chips while preserving the existing DOM HUD and Phaser battlefield split.
+- Applied the approved card frame slices to hand cards while keeping generated card art in `object-fit: contain` for uncut card-art review.
+- Extended desktop combat visual smoke coverage for UI kit classes, icons, and asset-backed cards.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/ui-assets/ui-kit-manifest.test.ts --reporter=dot
+Result: passed, 1 file / 3 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/combat-ui-prototype.spec.ts --project=chromium
+Result: passed, 1 desktop test; mobile skipped by current desktop-landscape Gate override.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium --grep "captures desktop combat smoke"
+Result: passed, 1 Chromium test covering all four characters.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed, 4 Chromium tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+```
