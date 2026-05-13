@@ -4791,6 +4791,15 @@ button {
   padding: 22px 28px 28px;
 }
 
+.compendium-screen--kit,
+.logbook-screen--kit {
+  background:
+    radial-gradient(circle at 86% 12%, rgba(183, 53, 42, 0.12), transparent 24%),
+    radial-gradient(circle at 14% 86%, rgba(47, 124, 110, 0.12), transparent 28%),
+    linear-gradient(145deg, rgba(255, 252, 239, 0.94), rgba(239, 226, 195, 0.84)),
+    var(--paper-grain);
+}
+
 .compendium-screen.title-shell-panel {
   overflow: auto;
 }
@@ -4802,6 +4811,16 @@ button {
   justify-content: center;
   gap: 8px;
   width: min(1040px, 94vw);
+}
+
+.compendium-tabs--kit,
+.compendium-filters--kit {
+  padding: 8px;
+  border: 1px solid rgba(44, 41, 36, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.6), rgba(239, 226, 195, 0.3)),
+    rgba(255, 252, 239, 0.22);
 }
 
 .compendium-tab {
@@ -4866,6 +4885,13 @@ button {
   padding: 2px 6px 6px;
 }
 
+.compendium-list--kit {
+  padding: 8px;
+  border: 1px solid rgba(44, 41, 36, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 252, 239, 0.22);
+}
+
 .compendium-group {
   display: grid;
   gap: 9px;
@@ -4894,6 +4920,23 @@ button {
   background:
     linear-gradient(145deg, rgba(246, 236, 213, 0.93), rgba(47, 124, 110, 0.07)),
     rgba(246, 236, 213, 0.86);
+}
+
+.compendium-item--kit {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 12px 26px rgba(17, 17, 17, 0.12),
+    inset 0 0 0 1px rgba(255, 252, 239, 0.28);
+}
+
+.compendium-item--kit::before {
+  position: absolute;
+  inset: 7px;
+  content: "";
+  border: 1px solid rgba(44, 41, 36, 0.1);
+  border-radius: 5px;
+  pointer-events: none;
 }
 
 .compendium-item--cards {
@@ -4940,6 +4983,10 @@ button {
   text-align: center;
 }
 
+.compendium-unlock-badge--kit {
+  box-shadow: inset 0 0 0 1px rgba(255, 252, 239, 0.22);
+}
+
 .compendium-unlock-badge--unlocked {
   border-color: rgba(47, 124, 110, 0.34);
   color: #2f7c6e;
@@ -4973,6 +5020,11 @@ button {
   align-self: end;
 }
 
+.compendium-meta--kit span {
+  border-color: rgba(47, 124, 110, 0.18);
+  background: rgba(255, 252, 239, 0.62);
+}
+
 .compendium-meta span {
   padding: 3px 6px;
   border: 1px solid rgba(44, 41, 36, 0.18);
@@ -4989,6 +5041,13 @@ button {
   width: min(1040px, 94vw);
 }
 
+.logbook-list--kit {
+  padding: 8px;
+  border: 1px solid rgba(44, 41, 36, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 252, 239, 0.22);
+}
+
 .logbook-entry,
 .logbook-empty {
   padding: 18px;
@@ -4998,6 +5057,28 @@ button {
     linear-gradient(145deg, rgba(246, 236, 213, 0.92), rgba(47, 124, 110, 0.08)),
     rgba(246, 236, 213, 0.86);
   box-shadow: 0 12px 28px rgba(17, 17, 17, 0.16);
+}
+
+.logbook-entry--kit {
+  position: relative;
+  overflow: hidden;
+  border-left: 4px solid rgba(47, 124, 110, 0.72);
+  box-shadow:
+    0 14px 30px rgba(17, 17, 17, 0.14),
+    inset 0 0 0 1px rgba(255, 252, 239, 0.28);
+}
+
+.logbook-entry--kit::before {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 20px;
+  content: "";
+  border: 1px solid rgba(183, 53, 42, 0.36);
+  border-radius: 4px;
+  background: rgba(183, 53, 42, 0.18);
+  transform: rotate(3deg);
 }
 
 .logbook-entry strong {

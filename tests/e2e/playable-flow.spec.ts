@@ -89,15 +89,21 @@ test("compendium 墨录图鉴 opens from title and filters cards", async ({ page
 
   await page.getByTestId("compendium-title-open").click();
   await expect(page.getByTestId("screen-compendium")).toBeVisible();
+  await expect(page.getByTestId("screen-compendium")).toHaveClass(/compendium-screen--kit/);
   await expect(page.getByTestId("screen-compendium")).toContainText("墨录图鉴");
   await expect(page.getByTestId("screen-compendium")).toHaveAttribute("data-unlocked-count", "0");
+  await expect(page.locator(".compendium-tabs")).toHaveClass(/compendium-tabs--kit/);
+  await expect(page.locator(".compendium-filters")).toHaveClass(/compendium-filters--kit/);
+  await expect(page.locator(".compendium-list")).toHaveClass(/compendium-list--kit/);
   const lockedCount = Number(await page.getByTestId("screen-compendium").getAttribute("data-locked-count"));
   const referenceCount = Number(await page.getByTestId("screen-compendium").getAttribute("data-reference-count"));
   expect(lockedCount).toBeGreaterThan(0);
   expect(referenceCount).toBeGreaterThan(0);
 
   await page.getByTestId("compendium-tab-story").click();
+  await expect(page.getByTestId("compendium-item").first()).toHaveClass(/compendium-item--kit/);
   await expect(page.getByTestId("compendium-item").first()).toHaveAttribute("data-unlock-state", "locked");
+  await expect(page.getByTestId("compendium-unlock-badge").first()).toHaveClass(/compendium-unlock-badge--kit/);
   await expect(page.getByTestId("compendium-unlock-badge").first()).toContainText("未录");
   await page.getByTestId("compendium-filter-unlock").selectOption("locked");
   await expect(page.getByTestId("compendium-item").first()).toHaveAttribute("data-unlock-state", "locked");
@@ -689,6 +695,9 @@ test("logbook opens from run status and shows unlocked story fragments", async (
   await page.getByTestId("logbook-open").click();
 
   await expect(page.getByTestId("screen-logbook")).toBeVisible();
+  await expect(page.getByTestId("screen-logbook")).toHaveClass(/logbook-screen--kit/);
+  await expect(page.locator(".logbook-list")).toHaveClass(/logbook-list--kit/);
+  await expect(page.getByTestId("logbook-entry").first()).toHaveClass(/logbook-entry--kit/);
   await expect(page.getByTestId("logbook-entry").first()).toContainText(/长坂|洛水|黑雨|无名/);
   await page.getByTestId("logbook-back").click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
@@ -702,9 +711,12 @@ test("墨录图鉴 compendium opens from map and returns to the previous run scr
   await page.getByTestId("compendium-open").click();
 
   await expect(page.getByTestId("screen-compendium")).toBeVisible();
+  await expect(page.getByTestId("screen-compendium")).toHaveClass(/compendium-screen--kit/);
   await expect(page.getByTestId("screen-compendium")).toContainText("招式链");
   await page.getByTestId("compendium-tab-enemies").click();
   await page.getByTestId("compendium-filter-chapter").selectOption("luoshui");
+  await expect(page.getByTestId("compendium-item").first()).toHaveClass(/compendium-item--kit/);
+  await expect(page.locator(".compendium-meta").first()).toHaveClass(/compendium-meta--kit/);
   await expect(page.getByTestId("screen-compendium")).toContainText("墨影董卓");
 
   await page.getByTestId("compendium-back").click();
