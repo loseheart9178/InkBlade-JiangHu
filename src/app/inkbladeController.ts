@@ -836,7 +836,7 @@ function renderMap(
   panel.append(createRouteCinematicHeader(run, current, available, availableIds));
 
   const path = document.createElement("div");
-  path.className = "route-map";
+  path.className = "route-map route-map--kit";
   const mapColumns = Math.max(...run.mapNodes.map((node) => node.floor)) + 1;
   path.style.setProperty("--map-columns", `${mapColumns}`);
   path.append(createRouteConnectorLayer(run, current, availableIds, mapColumns));
@@ -846,13 +846,14 @@ function renderMap(
     const routeState = getMapRouteState(run, node, current, availableIds);
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `map-node map-node--${node.type}`;
+    button.className = `map-node map-node--kit map-node--${node.type}`;
     button.classList.add(`is-${routeState}`);
     button.dataset.testid = `map-node-${node.id}`;
     button.dataset.floor = `${node.floor}`;
     button.dataset.lane = `${node.lane}`;
     button.dataset.previewTone = preview.tone;
     button.dataset.routeState = routeState;
+    button.dataset.mapNodeType = node.type;
     button.style.gridColumn = `${node.floor + 1}`;
     button.style.gridRow = `${node.lane + 1}`;
     button.innerHTML = `
@@ -860,8 +861,8 @@ function renderMap(
       <span class="map-node-state" data-testid="map-node-state-${escapeAttribute(node.id)}">${formatMapRouteState(routeState)}</span>
       <strong>${escapeHtml(node.label)}</strong>
       <small>${escapeHtml(formatMapNodeMeta(node))}</small>
-      <span class="map-node-preview" data-testid="map-node-preview-${escapeAttribute(node.id)}">${escapeHtml(preview.detail)}</span>
-      <span class="map-node-reward" data-testid="map-node-reward-${escapeAttribute(node.id)}">${escapeHtml(preview.reward)}</span>
+      <span class="map-node-preview map-node-preview--kit" data-testid="map-node-preview-${escapeAttribute(node.id)}">${escapeHtml(preview.detail)}</span>
+      <span class="map-node-reward map-node-reward--kit" data-testid="map-node-reward-${escapeAttribute(node.id)}">${escapeHtml(preview.reward)}</span>
       <span class="map-node-tags" aria-hidden="true">${preview.tags.map((tag) => `<i>${escapeHtml(tag)}</i>`).join("")}</span>
     `;
     button.disabled = routeState !== "available";
@@ -893,7 +894,7 @@ function createRouteCinematicHeader(run: RunState, current: MapNode, available: 
   const chapter = getCurrentChapter(run);
   const nextChapter = getNextChapter(run);
   const header = document.createElement("section");
-  header.className = "route-cinematic-header";
+  header.className = "route-cinematic-header route-cinematic-header--kit";
   header.dataset.testid = "route-cinematic-header";
   header.dataset.chapterId = chapter.id;
   header.style.setProperty("--map-columns", `${Math.max(...run.mapNodes.map((node) => node.floor)) + 1}`);
@@ -925,7 +926,7 @@ function createRouteCinematicHeader(run: RunState, current: MapNode, available: 
 
 function createRouteJourneyStrip(run: RunState, current: MapNode, availableIds: Set<string>): HTMLElement {
   const strip = document.createElement("div");
-  strip.className = "route-journey-strip";
+  strip.className = "route-journey-strip route-journey-strip--kit";
   strip.dataset.testid = "route-journey-strip";
   const maxFloor = Math.max(...run.mapNodes.map((node) => node.floor));
 
@@ -991,7 +992,7 @@ function createRouteConnectorLayer(run: RunState, current: MapNode, availableIds
   const laneCount = Math.max(...run.mapNodes.map((node) => node.lane)) + 1;
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   const nodeMap = new Map(run.mapNodes.map((node) => [node.id, node]));
-  svg.classList.add("route-connectors");
+  svg.classList.add("route-connectors", "route-connectors--kit");
   svg.dataset.testid = "route-connectors";
   svg.setAttribute("viewBox", `0 0 ${mapColumns * 100 + Math.max(0, mapColumns - 1) * 18} ${laneCount * 112 + Math.max(0, laneCount - 1) * 14}`);
   svg.setAttribute("preserveAspectRatio", "none");
