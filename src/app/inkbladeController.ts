@@ -1618,7 +1618,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const layout = document.createElement("div");
-  layout.className = "scene-surface event-layout";
+  layout.className = "scene-surface event-layout event-layout--kit";
   layout.dataset.testid = "event-layout";
   layout.append(createSceneHeader("event", eventScene.mark, event.title, eventScene.kicker));
   const hero = document.createElement("section");
@@ -1639,7 +1639,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   layout.append(hero);
 
   const choices = document.createElement("div");
-  choices.className = "event-choices event-choice-rail";
+  choices.className = "event-choices event-choice-rail event-choices--kit";
   choices.dataset.testid = "event-choices";
 
   for (const choice of getAvailableEventChoices(event, run.characterId)) {
@@ -1900,7 +1900,8 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
     render();
   });
   heal.dataset.testid = "rest-heal";
-  heal.classList.add("choice-action--rest", "choice-action--rest-heal");
+  heal.dataset.restAction = "heal";
+  heal.classList.add("choice-action--rest", "choice-action--rest-heal", "choice-action--rest-kit");
 
   const candidate = getUpgradeCandidates(run)[0];
   const upgrade = createAction(
@@ -1920,11 +1921,12 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
     }
   );
   upgrade.dataset.testid = "rest-upgrade-card";
-  upgrade.classList.add("choice-action--rest", "choice-action--rest-upgrade");
+  upgrade.dataset.restAction = "upgrade";
+  upgrade.classList.add("choice-action--rest", "choice-action--rest-upgrade", "choice-action--rest-kit");
   upgrade.disabled = !candidate;
 
   const scene = document.createElement("div");
-  scene.className = "scene-surface rest-scene";
+  scene.className = "scene-surface rest-scene rest-scene--kit";
   scene.dataset.testid = "rest-scene";
   scene.append(createSceneHeader("rest", "息", "废寺静修", "一夜火光，换伤势稍平或旧招更利。"));
   const hero = document.createElement("section");
@@ -1936,7 +1938,7 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
     <p>半檐旧雨未干，炉中药香压住黑墨寒气。</p>
   `;
   const actions = document.createElement("div");
-  actions.className = "rest-actions";
+  actions.className = "rest-actions rest-actions--kit";
   actions.dataset.testid = "rest-actions";
   actions.append(heal, upgrade);
   scene.append(hero, actions);
@@ -3415,8 +3417,9 @@ function createAction(title: string, body: string, onClick: () => void): HTMLBut
 function createEventChoiceAction(choice: GameEventChoice, onClick: () => void): HTMLButtonElement {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "choice-action choice-action--event";
+  button.className = "choice-action choice-action--event choice-action--event-kit";
   button.dataset.testid = `event-choice-${choice.id}`;
+  button.dataset.eventChoiceTone = getEventChoiceTone(choice);
   button.innerHTML = `
     <strong>${escapeHtml(choice.label)}</strong>
     <span>${escapeHtml(choice.summary)}</span>
@@ -3426,6 +3429,11 @@ function createEventChoiceAction(choice: GameEventChoice, onClick: () => void): 
   `;
   button.addEventListener("click", onClick);
   return button;
+}
+
+function getEventChoiceTone(choice: GameEventChoice): "gain" | "cost" | "ink" | "mind" | "upgrade" {
+  const tones = choice.effects.map((effect) => describeEventEffect(effect).tone);
+  return tones.find((tone) => tone === "cost" || tone === "ink" || tone === "mind") ?? tones.find((tone) => tone === "upgrade") ?? "gain";
 }
 
 function createEventEffectChipMarkup(effect: EventChoiceEffect): string {
