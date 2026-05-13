@@ -33,7 +33,7 @@
 
 - [ ] **Step 1: Add reward assertions**
 
-In the reward part of the `"combo-aware rewards explain why cards are offered"` test, immediately after:
+In the reward part of the `"boots, enters a Zhao Yun battle, wins, and returns to the route map"` test, immediately after:
 
 ```ts
 await expect(page.getByTestId("reward-card").first().getByTestId("card-cost")).toBeVisible();
@@ -92,7 +92,7 @@ await expect(removeService).not.toHaveClass(/shop-item--kit/);
 Run:
 
 ```bash
-NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "combo-aware rewards|shops can add"
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
 ```
 
 Expected: fail because reward cards do not have `reward-card--kit` and shop card offers do not have `shop-item--kit` or `--ui-kit-card-frame`.
@@ -220,7 +220,7 @@ button.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getComb
 Run:
 
 ```bash
-NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "combo-aware rewards|shops can add"
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
 ```
 
 Expected: pass.
@@ -291,7 +291,7 @@ Run:
 
 ```bash
 git diff --check
-NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "combo-aware rewards|shops can add"
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
 ```
 
 Expected: both pass.
@@ -330,7 +330,7 @@ Result: passed.
 NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/ui-assets/ui-kit-manifest.test.ts --reporter=dot
 Result: passed.
 
-NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "combo-aware rewards|shops can add"
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
 Result: passed.
 
 NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
@@ -349,7 +349,7 @@ Run:
 git diff --check
 node node_modules/typescript/bin/tsc --noEmit
 NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/ui-assets/ui-kit-manifest.test.ts --reporter=dot
-NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "combo-aware rewards|shops can add"
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
 NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
 NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
 ```
