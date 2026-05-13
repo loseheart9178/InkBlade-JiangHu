@@ -35,6 +35,10 @@ test("settings panel opens from title and returns without starting a run", async
 
   await page.getByTestId("settings-open").click();
   await expect(page.getByTestId("screen-settings")).toBeVisible();
+  await expect(page.getByTestId("screen-settings")).toHaveClass(/settings-screen--kit/);
+  await expect(page.getByTestId("screen-settings")).toHaveClass(/title-shell-panel--kit/);
+  await expect(page.locator(".settings-list")).toHaveClass(/settings-list--kit/);
+  await expect(page.locator(".settings-row").first()).toHaveClass(/settings-row--kit/);
   await expect(page.getByTestId("setting-reduced-motion")).toBeVisible();
   await page.getByTestId("settings-back").click();
 
@@ -73,6 +77,7 @@ test("settings persist reduced motion, mute, and volume controls after reload", 
 
   await expect(page.locator("#hud-host")).toHaveClass(/prefers-reduced-motion/);
   await page.getByTestId("settings-open").click();
+  await expect(page.getByTestId("screen-settings")).toHaveClass(/settings-screen--kit/);
   await expect(page.getByTestId("setting-reduced-motion")).toBeChecked();
   await expect(page.getByTestId("setting-fast-combat-text")).toBeChecked();
   await expect(page.getByTestId("setting-muted")).toBeChecked();
@@ -142,8 +147,15 @@ test("public playable surface hides internal debug shortcuts by default", async 
 test("run summary shell opens from the title debug entry", async ({ page }) => {
   await page.goto("/?debug=1");
 
+  await expect(page.getByTestId("debug-run-summary")).toHaveClass(/title-debug-action--kit/);
+  await expect(page.getByTestId("debug-ending-summary")).toHaveClass(/title-debug-action--kit/);
+  await expect(page.getByTestId("debug-final-route")).toHaveClass(/title-debug-action--kit/);
   await page.getByTestId("debug-run-summary").click();
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("screen-run-summary")).toHaveClass(/title-shell-panel--kit/);
+  await expect(page.getByTestId("screen-run-summary")).toHaveClass(/run-summary-screen--kit/);
+  await expect(page.locator(".run-summary-stats")).toHaveClass(/run-summary-stats--kit/);
+  await expect(page.locator(".run-summary-actions")).toHaveClass(/run-summary-actions--kit/);
   const statCount = await page.getByTestId("run-summary-stat").count();
   expect(statCount).toBeGreaterThan(2);
 });
@@ -155,6 +167,8 @@ test("profile goals surface opens from the title debug profile shell", async ({ 
 
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
   await expect(page.getByTestId("profile-goals-list")).toBeVisible();
+  await expect(page.getByTestId("profile-goals-list")).toHaveClass(/profile-goals-list--kit/);
+  await expect(page.getByTestId("profile-goal-item").first()).toHaveClass(/profile-goal-item--kit/);
   await expect(page.getByTestId("profile-goal-item").first()).toContainText(/初入江湖|一卷定尘/);
 });
 
@@ -166,12 +180,16 @@ test("run ledger appears in the title debug profile shell", async ({ page }) => 
   await page.getByTestId("debug-ending-summary").click();
 
   await expect(page.getByTestId("profile-run-ledger")).toBeVisible();
+  await expect(page.getByTestId("profile-run-ledger")).toHaveClass(/profile-run-ledger--kit/);
+  await expect(page.locator(".profile-best-run")).toHaveClass(/profile-best-run--kit/);
+  await expect(page.getByTestId("profile-run-record").first()).toHaveClass(/profile-run-record--kit/);
   await expect(page.getByTestId("profile-run-record").first()).toContainText(/赵云|胜利|清悟|封印/);
 
   await page.reload();
   await page.getByTestId("debug-run-summary").click();
 
   await expect(page.getByTestId("profile-run-ledger")).toBeVisible();
+  await expect(page.getByTestId("profile-run-ledger")).toHaveClass(/profile-run-ledger--kit/);
   await expect(page.getByTestId("profile-best-run")).toContainText(/赵云|4/);
 });
 
