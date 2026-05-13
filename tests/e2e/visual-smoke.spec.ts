@@ -44,6 +44,8 @@ test("title character select presents four readable EA role cards", async ({ pag
   await page.reload();
 
   await expect(page.getByTestId("screen-title")).toBeVisible();
+  await expect(page.locator("#hud-host")).toHaveClass(/ui-kit-visual-qa/);
+  await expect(page.locator("#hud-host")).toHaveAttribute("data-ui-kit-gates", "3-8");
   await expect(page.getByTestId("title-kicker")).toContainText("水墨武侠");
   await expect(page.getByTestId("title-route-ledger")).toBeVisible();
   await expect(page.getByTestId("title-route-ledger")).toContainText(/执笔者[\s\S]*四位侠客[\s\S]*江湖卷[\s\S]*四章墨雨/);
@@ -62,6 +64,7 @@ test("title character select presents four readable EA role cards", async ({ pag
     await expect(card).toHaveAttribute("type", "button");
     await expect(card).toHaveClass(/character-choice--kit/);
     await expect(card).toHaveAttribute("data-character-role", character.id);
+    await expect(card).toHaveCSS("overflow-wrap", "anywhere");
     await expect(card.getByTestId(`character-name-${character.id}`)).toBeVisible();
     await expect(card.getByTestId(`character-resource-${character.id}`)).toContainText(character.resource);
     await expect(card.getByTestId(`character-mechanic-${character.id}`)).toContainText(character.mechanic);

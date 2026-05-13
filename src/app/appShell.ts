@@ -44,7 +44,8 @@ export function createAppShell(root: HTMLElement): AppShell {
 
   const hudHost = document.createElement("div");
   hudHost.id = "hud-host";
-  hudHost.className = "hud-host";
+  hudHost.className = "hud-host ui-kit-visual-qa";
+  hudHost.dataset.uiKitGates = "3-8";
 
   const menu = document.createElement("section");
   menu.className = "title-screen title-screen--kit";

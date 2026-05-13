@@ -109,6 +109,20 @@ button {
     0 8px 24px rgba(17, 17, 17, 0.18);
 }
 
+.ui-kit-visual-qa .character-choice--kit,
+.ui-kit-visual-qa .challenge-choice--kit,
+.ui-kit-visual-qa .map-node--kit,
+.ui-kit-visual-qa .map-node-preview--kit,
+.ui-kit-visual-qa .map-node-reward--kit,
+.ui-kit-visual-qa .reward-card--kit,
+.ui-kit-visual-qa .shop-item--kit,
+.ui-kit-visual-qa .choice-action--event-kit,
+.ui-kit-visual-qa .choice-action--rest-kit,
+.ui-kit-visual-qa .compendium-item--kit,
+.ui-kit-visual-qa .logbook-entry--kit {
+  overflow-wrap: anywhere;
+}
+
 .title-screen {
   position: absolute;
   top: 5vh;
