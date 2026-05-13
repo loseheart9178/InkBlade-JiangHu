@@ -47,7 +47,7 @@ export function createAppShell(root: HTMLElement): AppShell {
   hudHost.className = "hud-host";
 
   const menu = document.createElement("section");
-  menu.className = "title-screen";
+  menu.className = "title-screen title-screen--kit";
   menu.setAttribute("aria-label", "主菜单");
 
   const title = document.createElement("h1");
@@ -67,7 +67,7 @@ export function createAppShell(root: HTMLElement): AppShell {
   kicker.textContent = "水墨武侠卡牌构筑 Roguelike";
 
   const titleLedger = document.createElement("div");
-  titleLedger.className = "title-route-ledger";
+  titleLedger.className = "title-route-ledger title-route-ledger--kit";
   titleLedger.dataset.testid = "title-route-ledger";
   const titleLedgerItems = [
     { label: "执笔者", value: "四位侠客" },
@@ -86,14 +86,15 @@ export function createAppShell(root: HTMLElement): AppShell {
   }
 
   const characterSelect = document.createElement("div");
-  characterSelect.className = "character-select";
+  characterSelect.className = "character-select character-select--kit";
 
   for (const [index, character] of characterList.entries()) {
     const characterButton = document.createElement("button");
     characterButton.type = "button";
     characterButton.dataset.characterId = character.id;
     characterButton.dataset.testid = `character-${character.id}`;
-    characterButton.className = index === 0 ? "character-choice is-selected" : "character-choice";
+    characterButton.className = index === 0 ? "character-choice character-choice--kit is-selected" : "character-choice character-choice--kit";
+    characterButton.dataset.characterRole = character.id;
     characterButton.setAttribute("aria-pressed", index === 0 ? "true" : "false");
 
     const copy = characterChoiceCopy[character.id];
@@ -130,7 +131,7 @@ export function createAppShell(root: HTMLElement): AppShell {
   }
 
   const challengeSelect = document.createElement("div");
-  challengeSelect.className = "challenge-select";
+  challengeSelect.className = "challenge-select challenge-select--kit";
   challengeSelect.dataset.testid = "challenge-select";
   const challengeButtons: HTMLButtonElement[] = [];
 
@@ -139,7 +140,7 @@ export function createAppShell(root: HTMLElement): AppShell {
     challengeButton.type = "button";
     challengeButton.dataset.challengeId = challenge.id satisfies ChallengeProfileId;
     challengeButton.dataset.testid = `challenge-${challenge.id}`;
-    challengeButton.className = index === 0 ? "challenge-choice is-selected" : "challenge-choice";
+    challengeButton.className = index === 0 ? "challenge-choice challenge-choice--kit is-selected" : "challenge-choice challenge-choice--kit";
     challengeButton.setAttribute("aria-pressed", index === 0 ? "true" : "false");
 
     const name = document.createElement("span");
@@ -170,7 +171,7 @@ export function createAppShell(root: HTMLElement): AppShell {
   clearSaveButton.textContent = "清除存档";
 
   const titleActions = document.createElement("div");
-  titleActions.className = "title-actions";
+  titleActions.className = "title-actions title-actions--kit";
   titleActions.append(startButton, continueButton, clearSaveButton);
 
   menu.append(titleSeal, kicker, title, subtitle, titleLedger, characterSelect, challengeSelect, titleActions);

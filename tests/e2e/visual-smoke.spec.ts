@@ -60,6 +60,8 @@ test("title character select presents four readable EA role cards", async ({ pag
     const card = page.getByTestId(`character-${character.id}`);
     await expect(card).toBeVisible();
     await expect(card).toHaveAttribute("type", "button");
+    await expect(card).toHaveClass(/character-choice--kit/);
+    await expect(card).toHaveAttribute("data-character-role", character.id);
     await expect(card.getByTestId(`character-name-${character.id}`)).toBeVisible();
     await expect(card.getByTestId(`character-resource-${character.id}`)).toContainText(character.resource);
     await expect(card.getByTestId(`character-mechanic-${character.id}`)).toContainText(character.mechanic);

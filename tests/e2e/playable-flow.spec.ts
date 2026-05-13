@@ -6,12 +6,20 @@ test("boots to title and exposes all four character choices before a run", async
   await page.reload();
 
   await expect(page.getByTestId("screen-title")).toBeVisible();
+  await expect(page.getByTestId("screen-title")).toHaveClass(/title-screen--kit/);
   await expect(page.getByText("云水江湖")).toBeVisible();
+  await expect(page.getByTestId("title-route-ledger")).toHaveClass(/title-route-ledger--kit/);
+  await expect(page.locator(".character-select")).toHaveClass(/character-select--kit/);
+  await expect(page.locator(".challenge-select")).toHaveClass(/challenge-select--kit/);
+  await expect(page.locator(".title-actions")).toHaveClass(/title-actions--kit/);
   await expect(page.getByTestId("character-zhaoyun")).toBeVisible();
   await expect(page.getByTestId("character-diaochan")).toBeVisible();
   await expect(page.getByTestId("character-caiwenji")).toBeVisible();
   await expect(page.getByTestId("character-zhugeliang")).toBeVisible();
+  await expect(page.getByTestId("character-zhaoyun")).toHaveClass(/character-choice--kit/);
+  await expect(page.getByTestId("character-zhaoyun")).toHaveAttribute("data-character-role", "zhaoyun");
   await expect(page.getByTestId("character-zhaoyun")).toHaveClass(/is-selected/);
+  await expect(page.getByTestId("challenge-standard")).toHaveClass(/challenge-choice--kit/);
 
   await page.getByTestId("character-zhugeliang").click();
 
