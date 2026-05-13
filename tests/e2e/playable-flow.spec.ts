@@ -394,13 +394,19 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await winVisibleCombat(page, 120, "screen-chapter-reward");
 
   await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
+  await expect(page.getByTestId("screen-chapter-reward")).toHaveClass(/transition-screen--kit/);
+  await expect(page.getByTestId("screen-chapter-reward")).toHaveClass(/chapter-reward-screen--kit/);
   await expect(page.getByTestId("chapter-transition-hero")).toContainText("墨渊照心");
+  await expect(page.getByTestId("chapter-transition-hero")).toHaveClass(/transition-hero--kit/);
   await expect(page.getByTestId("transition-cinematic-rail")).toBeVisible();
+  await expect(page.getByTestId("transition-cinematic-rail").first()).toHaveClass(/transition-cinematic-rail--kit/);
   await expect(page.getByTestId("transition-cinematic-rail")).toContainText("墨渊照心");
   await expect(page.getByTestId("transition-cinematic-rail")).toContainText(/章末悟境|终局选择/);
   await expect(page.getByTestId("chapter-spoils-dossier")).toContainText(/铜钱|战利/);
+  await expect(page.getByTestId("chapter-spoils-dossier")).toHaveClass(/transition-spoils--kit/);
   await page.getByTestId("chapter-reward-choice").first().click();
   await expect(page.getByTestId("screen-boss-reward")).toBeVisible();
+  await expect(page.getByTestId("screen-boss-reward")).toHaveClass(/boss-reward-screen--kit/);
   await expect(page.getByTestId("boss-transition-hero")).toContainText("终页将启");
   await expect(page.getByTestId("transition-next-chapter")).toContainText("终局选择");
   await expect(page.getByTestId("transition-cinematic-rail")).toContainText("终局选择");
@@ -408,11 +414,15 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await page.getByTestId("boss-reward-continue").click();
 
   await expect(page.getByTestId("screen-final-choice")).toBeVisible();
+  await expect(page.getByTestId("screen-final-choice")).toHaveClass(/final-choice-screen--kit/);
   await expect(page.getByTestId("final-choice-ritual")).toContainText("墨书终页");
+  await expect(page.getByTestId("final-choice-ritual")).toHaveClass(/transition-hero--kit/);
+  await expect(page.locator(".final-choice-list")).toHaveClass(/final-choice-list--kit/);
   await expect(page.getByTestId("final-choice-eligible-count")).toContainText(/1\/4|2\/4|3\/4|4\/4/);
   await expect(page.getByTestId("chapter-transition-progress")).toContainText("墨渊照心");
   await expect(page.getByTestId("screen-final-choice")).toHaveAttribute("data-final-choice-count", "4");
   await expect(page.getByTestId("final-choice-option")).toContainText(["封印墨渊", "焚毁墨书", "接管墨书", "与心魔合一"]);
+  await expect(page.getByTestId("final-choice-option").first()).toHaveClass(/final-choice-option--kit/);
   await expect(page.getByTestId("final-choice-option").filter({ hasText: "封印墨渊" })).toHaveAttribute("data-choice-eligible", "true");
   await expect(page.getByTestId("final-choice-option").filter({ hasText: "焚毁墨书" })).toHaveAttribute("data-choice-eligible", "false");
   await expect(page.getByTestId("final-choice-option").filter({ hasText: "焚毁墨书" })).toHaveAttribute("data-choice-requirement", /怒意足够/);
@@ -429,8 +439,11 @@ test("final boss route reaches ending and profile summary", async ({ page }) => 
   await page.getByTestId("final-choice-option").filter({ hasText: "封印墨渊" }).click();
 
   await expect(page.getByTestId("screen-run-summary")).toBeVisible();
+  await expect(page.getByTestId("screen-run-summary")).toHaveClass(/run-summary-screen--kit/);
   await expect(page.getByTestId("run-summary-dossier")).toContainText("清明封印");
+  await expect(page.getByTestId("run-summary-dossier")).toHaveClass(/transition-hero--kit/);
   await expect(page.getByTestId("run-summary-scroll")).toBeVisible();
+  await expect(page.getByTestId("run-summary-scroll")).toHaveClass(/run-summary-scroll--kit/);
   await expect(page.getByTestId("ending-summary")).toBeVisible();
   await expect(page.getByTestId("ending-title")).toContainText("清明封印");
   await expect(page.getByTestId("character-epilogue-title")).toContainText("白龙归阵");
@@ -460,7 +473,10 @@ test("defeat result presents a dossier and clears saved continue", async ({ page
   }
 
   await expect(page.getByTestId("screen-defeat")).toBeVisible();
+  await expect(page.getByTestId("screen-defeat")).toHaveClass(/result-screen--kit/);
   await expect(page.getByTestId("result-dossier")).toContainText("梦醒卷宗");
+  await expect(page.getByTestId("result-dossier")).toHaveClass(/result-dossier--kit/);
+  await expect(page.getByTestId("result-dossier")).toHaveClass(/transition-hero--kit/);
   await expect(page.getByTestId("result-character")).toContainText("赵云");
   await expect(page.getByTestId("result-chapter")).toContainText("洛水残照");
   await expect(page.getByTestId("result-restart")).toBeVisible();
@@ -854,12 +870,17 @@ test("can complete the first chapter through the event and rest route", async ({
   await expect(page.getByTestId("screen-method-reward")).toBeVisible();
   await page.locator("[data-testid^='method-choice-']").first().click();
   await expect(page.getByTestId("screen-chapter-reward")).toBeVisible();
+  await expect(page.getByTestId("screen-chapter-reward")).toHaveClass(/transition-screen--kit/);
+  await expect(page.getByTestId("screen-chapter-reward")).toHaveClass(/chapter-reward-screen--kit/);
   await expect(page.getByTestId("chapter-transition-hero")).toContainText("洛水残照");
+  await expect(page.getByTestId("chapter-transition-hero")).toHaveClass(/transition-hero--kit/);
   await expect(page.getByTestId("chapter-transition-progress")).toContainText("竹林听雨");
   await expect(page.getByTestId("transition-cinematic-rail")).toBeVisible();
+  await expect(page.getByTestId("transition-cinematic-rail").first()).toHaveClass(/transition-cinematic-rail--kit/);
   await expect(page.getByTestId("transition-cinematic-rail")).toContainText("洛水残照");
   await expect(page.getByTestId("transition-cinematic-rail")).toContainText(/章末悟境|竹林听雨/);
   await expect(page.getByTestId("chapter-spoils-dossier")).toContainText(/铜钱|战利/);
+  await expect(page.getByTestId("chapter-spoils-dossier")).toHaveClass(/transition-spoils--kit/);
   await expect(page.getByTestId("chapter-reward-choice")).toHaveCount(3);
   await expect(page.getByTestId("advanced-reward-choice")).toHaveCount(4);
   await page.getByTestId("advanced-reward-choice").first().click();

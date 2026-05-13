@@ -1951,7 +1951,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const run = requireRun(state);
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
-  panel.classList.add("chapter-reward-screen", "reward-screen", "transition-screen");
+  panel.classList.add("chapter-reward-screen", "chapter-reward-screen--kit", "reward-screen", "transition-screen", "transition-screen--kit");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
   panel.append(
     createChapterTransitionHero(run, "chapterReward"),
@@ -1960,7 +1960,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   );
 
   const choices = document.createElement("div");
-  choices.className = "chapter-reward-list";
+  choices.className = "chapter-reward-list chapter-reward-list--kit";
 
   for (const choice of createChapterRewardChoices(run)) {
     const button = createAction(choice.title, choice.summary, () => {
@@ -1969,7 +1969,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
       state.screen = "bossReward";
       render();
     });
-    button.classList.add("chapter-reward-choice");
+    button.classList.add("chapter-reward-choice", "chapter-reward-choice--kit");
     button.dataset.testid = "chapter-reward-choice";
     button.dataset.choiceId = choice.id;
     choices.append(button);
@@ -1978,7 +1978,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const advancedDraft = createAdvancedRewardDraft(run, "boss");
   const advancedClaimed = hasAdvancedRewardClaimed(run, chapter.id);
   const advanced = document.createElement("div");
-  advanced.className = "advanced-reward-list transition-choice-section";
+  advanced.className = "advanced-reward-list transition-choice-section transition-choice-section--kit";
   advanced.dataset.testid = "advanced-reward-dossier";
   advanced.append(createMessage(advancedDraft.reason));
 
@@ -1993,7 +1993,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
       state.message = claimAdvancedReward(run, choice, chapter.id);
       render();
     });
-    button.classList.add("advanced-reward-choice");
+    button.classList.add("advanced-reward-choice", "advanced-reward-choice--kit");
     button.dataset.testid = "advanced-reward-choice";
     button.dataset.choiceId = choice.id;
     button.disabled = advancedClaimed;
@@ -2001,7 +2001,7 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   }
 
   const chapterChoices = document.createElement("section");
-  chapterChoices.className = "transition-choice-section chapter-reward-dossier";
+  chapterChoices.className = "transition-choice-section transition-choice-section--kit chapter-reward-dossier";
   chapterChoices.dataset.testid = "chapter-reward-dossier";
   chapterChoices.innerHTML = `
     <small>章末抄录</small>
@@ -2018,7 +2018,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   const chapter = getCurrentChapter(run);
   const nextChapter = getNextChapter(run);
   const panel = createPanel("screen-boss-reward", "首领战利");
-  panel.classList.add("boss-reward-screen", "reward-screen", "transition-screen");
+  panel.classList.add("boss-reward-screen", "boss-reward-screen--kit", "reward-screen", "transition-screen", "transition-screen--kit");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
   panel.append(
     createChapterTransitionHero(run, "bossReward"),
@@ -2043,7 +2043,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
     }
     render();
   });
-  continueButton.classList.add("transition-primary-action");
+  continueButton.classList.add("transition-primary-action", "transition-primary-action--kit");
   continueButton.dataset.testid = "boss-reward-continue";
   panel.append(continueButton);
   mountChapterPanel(host, panel, run);
@@ -2052,7 +2052,7 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
 function renderFinalChoice(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined): void {
   const run = requireRun(state);
   const panel = createPanel("screen-final-choice", "终局选择");
-  panel.classList.add("final-choice-screen", "result-screen", "transition-screen");
+  panel.classList.add("final-choice-screen", "final-choice-screen--kit", "result-screen", "result-screen--kit", "transition-screen", "transition-screen--kit");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), undefined, getDebugSkipChapterHandler(state, render)));
   panel.append(
     createFinalChoiceRitual(run),
@@ -2060,7 +2060,7 @@ function renderFinalChoice(host: HTMLElement, state: ControllerState, render: ()
   );
 
   const list = document.createElement("div");
-  list.className = "final-choice-list";
+  list.className = "final-choice-list final-choice-list--kit";
   const choices = getAvailableFinalChoices(run);
   panel.dataset.finalChoiceCount = `${choices.length}`;
   for (const choice of choices) {
@@ -2075,7 +2075,7 @@ function renderFinalChoice(host: HTMLElement, state: ControllerState, render: ()
       completeRunWithEnding(state, storage, selection);
       render();
     });
-    button.classList.add("final-choice-option");
+    button.classList.add("final-choice-option", "final-choice-option--kit");
     button.classList.add(choice.eligible ? "is-eligible" : "is-locked");
     button.dataset.testid = "final-choice-option";
     button.dataset.choiceId = choice.id;
@@ -2098,7 +2098,7 @@ function createChapterTransitionHero(run: RunState, kind: "chapterReward" | "bos
   const nextChapter = getNextChapter(run);
   const isChapterReward = kind === "chapterReward";
   const hero = document.createElement("section");
-  hero.className = `transition-hero transition-hero--${isChapterReward ? "chapter" : "boss"}`;
+  hero.className = `transition-hero transition-hero--kit transition-hero--${isChapterReward ? "chapter" : "boss"}`;
   hero.dataset.testid = isChapterReward ? "chapter-transition-hero" : "boss-transition-hero";
   hero.innerHTML = `
     <small>${isChapterReward ? "章末幕" : nextChapter ? "行旅过场" : "终局幕前"}</small>
@@ -2134,7 +2134,7 @@ function createFinalChoiceRitual(run: RunState): HTMLElement {
   const choices = getAvailableFinalChoices(run);
   const eligibleCount = choices.filter((choice) => choice.eligible).length;
   const ritual = document.createElement("section");
-  ritual.className = "final-choice-ritual transition-hero transition-hero--final";
+  ritual.className = "final-choice-ritual final-choice-ritual--kit transition-hero transition-hero--kit transition-hero--final";
   ritual.dataset.testid = "final-choice-ritual";
   ritual.innerHTML = `
     <small>墨书终页</small>
@@ -2161,7 +2161,7 @@ function createFinalChoiceRitual(run: RunState): HTMLElement {
 function createRunSummaryDossier(summary: CompletedRunSummaryView): HTMLElement {
   const character = charactersById[summary.completion.characterId];
   const dossier = document.createElement("section");
-  dossier.className = "run-summary-dossier transition-hero transition-hero--summary";
+  dossier.className = "run-summary-dossier run-summary-dossier--kit transition-hero transition-hero--kit transition-hero--summary";
   dossier.dataset.testid = "run-summary-dossier";
   dossier.innerHTML = `
     <small>终局战报</small>
@@ -2192,7 +2192,7 @@ function createResultDossier(screen: "victory" | "defeat", run: RunState | undef
   const character = run ? charactersById[run.characterId] : undefined;
   const chapter = run ? getCurrentChapter(run) : undefined;
   const dossier = document.createElement("section");
-  dossier.className = `result-dossier transition-hero transition-hero--${isVictory ? "victory" : "defeat"}`;
+  dossier.className = `result-dossier result-dossier--kit transition-hero transition-hero--kit transition-hero--${isVictory ? "victory" : "defeat"}`;
   dossier.dataset.testid = "result-dossier";
   dossier.innerHTML = `
     <small>${isVictory ? "胜局收束" : "梦醒卷宗"}</small>
@@ -2231,7 +2231,7 @@ function createResultDossier(screen: "victory" | "defeat", run: RunState | undef
 
 function createTransitionCinematicRail(items: Array<{ label: string; value: string; state: "complete" | "current" | "next" | "locked" }>): HTMLElement {
   const rail = document.createElement("div");
-  rail.className = "transition-cinematic-rail";
+  rail.className = "transition-cinematic-rail transition-cinematic-rail--kit";
   rail.dataset.testid = "transition-cinematic-rail";
   for (const item of items) {
     const step = document.createElement("span");
@@ -2245,7 +2245,7 @@ function createTransitionCinematicRail(items: Array<{ label: string; value: stri
 
 function createTransitionMeta(items: Array<{ label: string; value: string; testId?: string }>): HTMLElement {
   const meta = document.createElement("div");
-  meta.className = "transition-meta";
+  meta.className = "transition-meta transition-meta--kit";
   meta.dataset.testid = "transition-meta";
   for (const item of items) {
     const chip = document.createElement("span");
@@ -2262,7 +2262,7 @@ function createChapterProgress(run: RunState): HTMLElement {
   const currentChapter = getCurrentChapter(run);
   const nextChapter = getNextChapter(run);
   const progress = document.createElement("div");
-  progress.className = "chapter-transition-progress";
+  progress.className = "chapter-transition-progress chapter-transition-progress--kit";
   progress.dataset.testid = "chapter-transition-progress";
 
   for (const chapter of chapterList) {
@@ -2324,7 +2324,7 @@ function formatChapterProgressState(state: "complete" | "current" | "next" | "fi
 
 function createTransitionSpoilsDossier(spoils: BattleSpoils | undefined, kind: "chapter" | "boss"): HTMLElement {
   const dossier = document.createElement("section");
-  dossier.className = `transition-spoils transition-spoils--${kind}`;
+  dossier.className = `transition-spoils transition-spoils--kit transition-spoils--${kind}`;
   dossier.dataset.testid = `${kind}-spoils-dossier`;
   dossier.innerHTML = `
     <small>${kind === "chapter" ? "战后入册" : "首领战利"}</small>
@@ -2373,12 +2373,12 @@ function renderResult(host: HTMLElement, state: ControllerState, render: () => v
   const run = state.run;
   const resultScreen = state.screen === "victory" ? "victory" : "defeat";
   const panel = createPanel(resultScreen === "victory" ? "screen-victory" : "screen-defeat", resultScreen === "victory" ? "本章告捷" : "梦醒听雨亭");
-  panel.classList.add("result-screen", "transition-screen", `result-screen--${resultScreen}`);
+  panel.classList.add("result-screen", "result-screen--kit", "transition-screen", "transition-screen--kit", `result-screen--${resultScreen}`);
   panel.append(createResultDossier(resultScreen, run), createMessage(state.message));
 
   const restart = document.createElement("button");
   restart.type = "button";
-  restart.className = "choice-action result-primary-action";
+  restart.className = "choice-action result-primary-action result-primary-action--kit";
   restart.dataset.testid = "result-restart";
   restart.innerHTML = "<strong>再入江湖</strong><span>从新的渡口重新开局。</span>";
   restart.addEventListener("click", () => {
@@ -2397,7 +2397,7 @@ function renderResult(host: HTMLElement, state: ControllerState, render: () => v
 function renderRunSummary(host: HTMLElement, state: ControllerState, render: () => void): void {
   const summary = state.completedRunSummary;
   const panel = createPanel("screen-run-summary", "行旅结算");
-  panel.classList.add("run-summary-screen", "result-screen", "transition-screen");
+  panel.classList.add("run-summary-screen", "run-summary-screen--kit", "result-screen", "result-screen--kit", "transition-screen", "transition-screen--kit");
 
   if (!summary) {
     panel.append(createMessage("尚无可结算的行旅。"));
@@ -2407,7 +2407,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
 
   const character = charactersById[summary.completion.characterId];
   const ending = document.createElement("section");
-  ending.className = "ending-summary";
+  ending.className = "ending-summary ending-summary--kit";
   ending.dataset.testid = "ending-summary";
   ending.innerHTML = `
     <small data-testid="ending-id">${summary.ending.id}</small>
@@ -2417,7 +2417,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
   `;
 
   const epilogue = document.createElement("section");
-  epilogue.className = "character-epilogue-summary";
+  epilogue.className = "character-epilogue-summary character-epilogue-summary--kit";
   epilogue.dataset.testid = "character-epilogue-summary";
   epilogue.innerHTML = `
     <small data-testid="character-epilogue-id">${summary.characterEpilogue.id}</small>
@@ -2427,7 +2427,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
   `;
 
   const stats = document.createElement("div");
-  stats.className = "run-summary-stats";
+  stats.className = "run-summary-stats run-summary-stats--kit";
   stats.append(
     createRunSummaryStat("角色", character.name, "run-summary-character"),
     createRunSummaryStat("已过章节", `${summary.completion.completedChapterIds.length}`, "run-summary-chapters"),
@@ -2443,7 +2443,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
   const buildRecap = createRunBuildRecapPanel(summary.buildRecap);
   const ledger = createProfileRunLedger(summary.profile);
   const summaryScroll = document.createElement("div");
-  summaryScroll.className = "run-summary-scroll";
+  summaryScroll.className = "run-summary-scroll run-summary-scroll--kit";
   summaryScroll.dataset.testid = "run-summary-scroll";
   summaryScroll.append(ending, epilogue, stats, buildRecap, goals, ledger);
 
@@ -2458,7 +2458,7 @@ function renderRunSummary(host: HTMLElement, state: ControllerState, render: () 
     state.screen = "map";
     render();
   });
-  restart.classList.add("result-primary-action");
+  restart.classList.add("result-primary-action", "result-primary-action--kit");
   restart.dataset.testid = "run-summary-restart";
 
   panel.append(createRunSummaryDossier(summary), createMessage(state.message), summaryScroll, restart);
