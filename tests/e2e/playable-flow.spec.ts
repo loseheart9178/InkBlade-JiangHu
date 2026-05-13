@@ -279,29 +279,40 @@ test("route map shows risk and reward previews before choosing nodes", async ({ 
   await startRun(page, "zhaoyun", { debugTools: true });
 
   await expect(page.getByTestId("route-cinematic-header")).toBeVisible();
+  await expect(page.getByTestId("route-cinematic-header")).toHaveClass(/route-cinematic-header--kit/);
   await expect(page.getByTestId("route-cinematic-header")).toContainText("洛水残照");
   await expect(page.getByTestId("route-cinematic-header")).toContainText(/行旅线报|第1幕|下一卷|竹林听雨/);
   await expect(page.getByTestId("route-journey-strip")).toBeVisible();
+  await expect(page.getByTestId("route-journey-strip")).toHaveClass(/route-journey-strip--kit/);
   await expect(page.locator(".route-journey-step").first()).toHaveAttribute("data-route-step-state", "current");
   await expect(page.getByTestId("route-journey-strip")).toContainText(/落脚|可选|首领幕/);
   await expect(page.getByTestId("route-signal-stack")).toContainText(/当前|可行|下一卷/);
   const currentNode = page.getByTestId("map-node-start");
   await expect(currentNode).toHaveAttribute("data-route-state", "current");
   await expect(currentNode.getByTestId("map-node-state-start")).toContainText("当前");
+  await expect(page.locator(".route-map")).toHaveClass(/route-map--kit/);
   await expect(page.getByTestId("route-connectors")).toBeVisible();
+  await expect(page.getByTestId("route-connectors")).toHaveClass(/route-connectors--kit/);
   await expect(page.getByTestId("route-connector-start-battle-1")).toHaveAttribute("data-route-connector-state", "available");
   await expect(page.getByTestId("route-connector-start-event-1")).toHaveAttribute("data-route-connector-state", "available");
   await expect(page.getByTestId("route-connector-battle-1-shop-1")).toHaveAttribute("data-route-connector-state", "locked");
 
   const battleNode = page.getByTestId("map-node-battle-1");
+  await expect(battleNode).toHaveClass(/map-node--kit/);
+  await expect(battleNode).toHaveAttribute("data-map-node-type", "battle");
   await expect(battleNode).toHaveAttribute("data-route-state", "available");
   await expect(battleNode.getByTestId("map-node-state-battle-1")).toContainText("可走");
+  await expect(page.getByTestId("map-node-preview-battle-1")).toHaveClass(/map-node-preview--kit/);
   await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势8|金币\+12/);
+  await expect(page.getByTestId("map-node-reward-battle-1")).toHaveClass(/map-node-reward--kit/);
   await expect(page.getByTestId("map-node-reward-battle-1")).toContainText("金币+12 / 三选一武学");
+  await expect(page.getByTestId("map-node-event-1")).toHaveAttribute("data-map-node-type", "event");
   await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/护住哭声|心境/);
   await expect(page.getByTestId("map-node-reward-event-1")).toContainText("事件收益 / 代价");
+  await expect(page.getByTestId("map-node-shop-1")).toHaveAttribute("data-map-node-type", "shop");
   await expect(page.getByTestId("map-node-preview-shop-1")).toContainText("当前铜钱99");
   await expect(page.getByTestId("map-node-reward-shop-1")).toContainText("消费铜钱 / 调整牌组");
+  await expect(page.getByTestId("map-node-rest-1")).toHaveAttribute("data-map-node-type", "rest");
   await expect(page.getByTestId("map-node-preview-rest-1")).toContainText("回复约30%生命");
   await capturePlaytestScreenshot(page, testInfo, "wave32-route-map-surface.png");
 
