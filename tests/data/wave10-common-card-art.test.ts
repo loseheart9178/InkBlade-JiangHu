@@ -38,6 +38,9 @@ describe("Wave 10 common card art batch", () => {
       if (wave59GeneratedTargets.has(art.id)) {
         expectedAssetPath = /^\/assets\/generated\/cards\/wave59-.+\.png$/;
       }
+      if (art.id === "mind_luanxin" || art.id === "mind_nuzhan") {
+        expectedAssetPath = /^\/assets\/generated\/cards\/foundation-v16-.+\.png$/;
+      }
 
       expect(art.assetPath).toMatch(expectedAssetPath);
       expect(art.alt.length).toBeGreaterThan(12);

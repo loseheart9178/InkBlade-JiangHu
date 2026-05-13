@@ -10208,6 +10208,7 @@ What changed:
 - Kept generated card art in `object-fit: contain` for uncut card-art review.
 - Preserved reward drafting, shop pricing, relic purchases, card removal, and build-fit guidance.
 - Added focused Playwright assertions for Reward and Shop UI kit integration.
+- Refreshed stale Wave 10 card-art data tests so they validate the current foundation PNG bindings as concrete runtime files.
 
 Verification:
 
@@ -10220,6 +10221,12 @@ Result: passed.
 
 NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/ui-assets/ui-kit-manifest.test.ts --reporter=dot
 Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/data/wave10-zhao-diao-card-art.test.ts tests/data/wave10-common-card-art.test.ts tests/data/wave10-cai-zhuge-card-art.test.ts --reporter=dot
+Result: passed, 3 files / 3 tests.
+
+npm test -- --reporter=dot
+Result: passed, 38 files / 273 tests.
 
 NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
 Result: passed.
