@@ -2437,6 +2437,18 @@ button {
   opacity: 0.42;
 }
 
+.reward-card--kit::before,
+.shop-item--kit::after {
+  background:
+    var(--ui-kit-card-frame, none),
+    linear-gradient(90deg, transparent 0 10px, var(--card-ornament) 10px 11px, transparent 11px calc(100% - 11px), var(--card-ornament) calc(100% - 11px) calc(100% - 10px), transparent calc(100% - 10px)),
+    linear-gradient(180deg, transparent 0 12px, rgba(44, 41, 36, 0.1) 12px 13px, transparent 13px calc(100% - 13px), rgba(44, 41, 36, 0.1) calc(100% - 13px) calc(100% - 12px), transparent calc(100% - 12px));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%, auto, auto;
+  opacity: 0.42;
+}
+
 .combat-card > *,
 .reward-card > *,
 .deck-card > *,
@@ -2479,7 +2491,9 @@ button {
   filter: contrast(1.08) saturate(0.96);
 }
 
-.card-art--kit img {
+.card-art--kit img,
+.reward-card--kit .card-art img,
+.shop-item--kit .card-art img {
   object-fit: contain;
   object-position: center;
   mix-blend-mode: normal;
@@ -2905,6 +2919,7 @@ button {
 }
 
 .reward-stage .reward-cards {
+  position: relative;
   align-items: stretch;
   width: 100%;
   padding: 12px;
@@ -2962,6 +2977,7 @@ button {
 }
 
 .shop-section {
+  position: relative;
   display: grid;
   gap: 10px;
   padding: 12px;
@@ -2975,6 +2991,25 @@ button {
 
 .shop-section--cards {
   border-color: rgba(183, 53, 42, 0.2);
+}
+
+.reward-stage .reward-cards::before,
+.shop-section--cards::before {
+  position: absolute;
+  inset: 6px;
+  z-index: 0;
+  content: "";
+  border-radius: 7px;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(238, 190, 91, 0.16), transparent 64%),
+    linear-gradient(90deg, transparent, rgba(47, 124, 110, 0.1), transparent);
+  pointer-events: none;
+}
+
+.reward-stage .reward-cards > *,
+.shop-section > * {
+  position: relative;
+  z-index: 1;
 }
 
 .shop-section--relics {
