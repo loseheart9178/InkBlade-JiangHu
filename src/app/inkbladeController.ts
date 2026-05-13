@@ -367,7 +367,7 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
   if (!actions.querySelector("[data-testid='debug-run-summary']")) {
     const summary = document.createElement("button");
     summary.type = "button";
-    summary.className = "title-debug-action";
+    summary.className = "title-debug-action title-debug-action--kit";
     summary.dataset.testid = "debug-run-summary";
     summary.textContent = "档案战报";
     summary.addEventListener("click", () => {
@@ -380,7 +380,7 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
   if (!actions.querySelector("[data-testid='debug-ending-summary']")) {
     const completed = document.createElement("button");
     completed.type = "button";
-    completed.className = "title-debug-action";
+    completed.className = "title-debug-action title-debug-action--kit";
     completed.dataset.testid = "debug-ending-summary";
     completed.textContent = "终章战报";
     completed.addEventListener("click", () => {
@@ -397,7 +397,7 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
   if (!actions.querySelector("[data-testid='debug-final-route']")) {
     const finalRoute = document.createElement("button");
     finalRoute.type = "button";
-    finalRoute.className = "title-debug-action";
+    finalRoute.className = "title-debug-action title-debug-action--kit";
     finalRoute.dataset.testid = "debug-final-route";
     finalRoute.textContent = "终章路线";
     finalRoute.addEventListener("click", () => {
@@ -419,7 +419,7 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
 function showSettingsShell(host: HTMLElement, state: ControllerState, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
   removeTitleShellOverlay(host);
   const panel = createPanel("screen-settings", "设置");
-  panel.classList.add("settings-screen", "title-shell-panel");
+  panel.classList.add("settings-screen", "settings-screen--kit", "title-shell-panel", "title-shell-panel--kit");
   panel.dataset.titleShellOverlay = "true";
 
   const note = document.createElement("p");
@@ -435,7 +435,7 @@ function showSettingsShell(host: HTMLElement, state: ControllerState, storage: G
   };
 
   const settingsList = document.createElement("div");
-  settingsList.className = "settings-list";
+  settingsList.className = "settings-list settings-list--kit";
   settingsList.append(
     createSettingToggle(
       "setting-reduced-motion",
@@ -482,7 +482,7 @@ function showSettingsShell(host: HTMLElement, state: ControllerState, storage: G
 function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: () => void): void {
   removeTitleShellOverlay(host);
   const panel = createPanel("screen-run-summary", "行旅结算");
-  panel.classList.add("run-summary-screen", "title-shell-panel");
+  panel.classList.add("run-summary-screen", "run-summary-screen--kit", "title-shell-panel", "title-shell-panel--kit");
   panel.dataset.titleShellOverlay = "true";
 
   const note = document.createElement("p");
@@ -490,7 +490,7 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
   note.textContent = "档案中的行旅与结局会保存在本机。";
 
   const stats = document.createElement("div");
-  stats.className = "run-summary-stats";
+  stats.className = "run-summary-stats run-summary-stats--kit";
   stats.append(
     createRunSummaryStat("总行旅", `${state.profile.stats.totalRuns}`, "profile-total-runs"),
     createRunSummaryStat("胜利", `${state.profile.stats.victories}`),
@@ -505,7 +505,7 @@ function showRunSummaryShell(host: HTMLElement, state: ControllerState, render: 
   const ledger = createProfileRunLedger(state.profile);
 
   const actions = document.createElement("div");
-  actions.className = "run-summary-actions";
+  actions.className = "run-summary-actions run-summary-actions--kit";
   const back = createAction("返回标题", "收起战报，回到标题。", () => removeTitleShellOverlay(host));
   back.dataset.testid = "run-summary-back";
   const logbook = createAction("打开墨录", state.run ? "查看本局已录残页。" : "当前没有正在进行的行旅。", () => {
@@ -534,6 +534,7 @@ function showCompendiumTitleShell(host: HTMLElement, state: ControllerState): vo
     "收起图鉴，回到主菜单。"
   );
   panel.classList.add("title-shell-panel");
+  panel.classList.add("title-shell-panel--kit");
   panel.dataset.titleShellOverlay = "true";
   host.append(panel);
 }
@@ -752,7 +753,7 @@ function formatCompendiumUnlockState(state: NonNullable<CompendiumItem["unlockSt
 
 function createSettingToggle(testId: string, title: string, description: string, checked: boolean, onChange: (checked: boolean) => void): HTMLElement {
   const row = document.createElement("label");
-  row.className = "settings-row";
+  row.className = "settings-row settings-row--kit";
 
   const input = document.createElement("input");
   input.type = "checkbox";
@@ -768,7 +769,7 @@ function createSettingToggle(testId: string, title: string, description: string,
 
 function createSettingRange(testId: string, title: string, value: number, onChange: (value: number) => void): HTMLElement {
   const row = document.createElement("label");
-  row.className = "settings-row";
+  row.className = "settings-row settings-row--kit";
 
   const copy = document.createElement("span");
   copy.innerHTML = `<strong>${title}</strong><small>${value}%</small>`;
@@ -791,7 +792,7 @@ function createSettingRange(testId: string, title: string, value: number, onChan
 
 function createRunSummaryStat(label: string, value: string, testId?: string): HTMLElement {
   const row = document.createElement("div");
-  row.className = "run-summary-stat";
+  row.className = "run-summary-stat run-summary-stat--kit";
   row.dataset.testid = testId ?? "run-summary-stat";
   row.innerHTML = `<span>${label}</span><strong>${value}</strong>`;
   return row;
@@ -2591,13 +2592,13 @@ function formatUnlockedCharacterEpilogueTitles(profile: PlayerProfile): string {
 
 function createProfileGoalsList(profile: PlayerProfile, highlightIds: readonly string[] = []): HTMLElement {
   const list = document.createElement("div");
-  list.className = "profile-goals-list";
+  list.className = "profile-goals-list profile-goals-list--kit";
   list.dataset.testid = "profile-goals-list";
 
   const highlights = new Set(highlightIds);
   for (const record of evaluateProfileGoals(profile)) {
     const item = document.createElement("article");
-    item.className = record.completed ? "profile-goal-item is-complete" : "profile-goal-item";
+    item.className = record.completed ? "profile-goal-item profile-goal-item--kit is-complete" : "profile-goal-item profile-goal-item--kit";
     item.dataset.testid = "profile-goal-item";
     item.dataset.profileGoalId = record.goal.id;
     if (highlights.has(record.goal.id)) {
@@ -2621,11 +2622,11 @@ function createProfileGoalsList(profile: PlayerProfile, highlightIds: readonly s
 function createProfileRunLedger(profile: PlayerProfile): HTMLElement {
   const ledger = evaluateRunLedger(profile);
   const section = document.createElement("section");
-  section.className = "profile-run-ledger";
+  section.className = "profile-run-ledger profile-run-ledger--kit";
   section.dataset.testid = "profile-run-ledger";
 
   const bestRun = document.createElement("div");
-  bestRun.className = "profile-best-run";
+  bestRun.className = "profile-best-run profile-best-run--kit";
   bestRun.dataset.testid = "profile-best-run";
   const bestLabel = document.createElement("span");
   const bestValue = document.createElement("strong");
@@ -2640,14 +2641,14 @@ function createProfileRunLedger(profile: PlayerProfile): HTMLElement {
   section.append(bestRun);
 
   const list = document.createElement("div");
-  list.className = "profile-run-records";
+  list.className = "profile-run-records profile-run-records--kit";
   for (const record of ledger.recentRecords.slice(0, 6)) {
     list.append(createProfileRunRecordItem(record));
   }
 
   if (ledger.recentRecords.length === 0) {
     const empty = document.createElement("p");
-    empty.className = "profile-run-record-empty";
+    empty.className = "profile-run-record-empty profile-run-record-empty--kit";
     empty.textContent = "暂无行旅履历。";
     list.append(empty);
   }
@@ -2739,7 +2740,7 @@ function createDeckBuildCompassPanel(recap: DeckBuildRecap, methodSummary: strin
 
 function createProfileRunRecordItem(record: ProfileRunRecord): HTMLElement {
   const item = document.createElement("article");
-  item.className = record.victory ? "profile-run-record is-victory" : "profile-run-record";
+  item.className = record.victory ? "profile-run-record profile-run-record--kit is-victory" : "profile-run-record profile-run-record--kit";
   item.dataset.testid = "profile-run-record";
 
   const title = document.createElement("strong");
