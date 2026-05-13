@@ -133,6 +133,20 @@ button {
     inset 0 0 0 1px rgba(255, 252, 239, 0.42);
 }
 
+.title-screen--kit {
+  border-color: rgba(95, 29, 24, 0.34);
+  border-left-color: rgba(183, 53, 42, 0.9);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(183, 53, 42, 0.18), transparent 24%),
+    radial-gradient(circle at 12% 86%, rgba(47, 124, 110, 0.15), transparent 28%),
+    linear-gradient(105deg, rgba(255, 252, 239, 0.97), rgba(239, 226, 195, 0.86) 58%, rgba(47, 124, 110, 0.18)),
+    var(--paper-grain);
+  box-shadow:
+    0 26px 64px rgba(17, 17, 17, 0.22),
+    inset 0 0 0 1px rgba(255, 252, 239, 0.46),
+    inset 0 0 0 10px rgba(255, 252, 239, 0.08);
+}
+
 .title-screen::before,
 .title-screen::after {
   position: absolute;
@@ -208,6 +222,10 @@ button {
   gap: 10px;
 }
 
+.title-actions--kit {
+  padding-top: 2px;
+}
+
 .inkblade-app[data-runtime="loading"] .title-actions::before {
   flex: 0 0 88px;
   height: 3px;
@@ -258,6 +276,15 @@ button {
   width: min(760px, 100%);
 }
 
+.title-route-ledger--kit {
+  padding: 8px;
+  border: 1px solid rgba(44, 41, 36, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.56), rgba(239, 226, 195, 0.28)),
+    rgba(255, 252, 239, 0.22);
+}
+
 .title-route-ledger span {
   display: grid;
   min-width: 0;
@@ -292,11 +319,27 @@ button {
   margin: 0 0 10px;
 }
 
+.character-select--kit {
+  padding: 8px;
+  border: 1px solid rgba(44, 41, 36, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.46), rgba(239, 226, 195, 0.24)),
+    rgba(255, 252, 239, 0.18);
+}
+
 .challenge-select {
   display: grid;
   grid-template-columns: repeat(4, minmax(118px, 1fr));
   gap: 8px;
   margin: -4px 0 2px;
+}
+
+.challenge-select--kit {
+  padding: 8px;
+  border: 1px solid rgba(44, 41, 36, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 252, 239, 0.2);
 }
 
 .title-screen .character-choice {
@@ -317,6 +360,42 @@ button {
     rgba(246, 236, 213, 0.86);
   box-shadow: 0 10px 24px rgba(17, 17, 17, 0.14);
   cursor: pointer;
+}
+
+.title-screen .character-choice--kit {
+  border-color: rgba(95, 29, 24, 0.3);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.94), rgba(239, 226, 195, 0.78)),
+    radial-gradient(circle at 92% 18%, rgba(47, 124, 110, 0.1), transparent 26%),
+    rgba(246, 236, 213, 0.9);
+  box-shadow:
+    0 12px 26px rgba(17, 17, 17, 0.14),
+    inset 0 0 0 1px rgba(255, 252, 239, 0.28);
+}
+
+.title-screen .character-choice--kit::before {
+  position: absolute;
+  inset: 7px;
+  z-index: 0;
+  content: "";
+  border: 1px solid rgba(44, 41, 36, 0.1);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.title-screen .character-choice--kit > * {
+  position: relative;
+  z-index: 1;
+}
+
+.title-screen .character-choice--kit[data-character-role="zhaoyun"],
+.title-screen .character-choice--kit[data-character-role="diaochan"] {
+  border-left-color: rgba(183, 53, 42, 0.76);
+}
+
+.title-screen .character-choice--kit[data-character-role="caiwenji"],
+.title-screen .character-choice--kit[data-character-role="zhugeliang"] {
+  border-left-color: rgba(47, 124, 110, 0.76);
 }
 
 .title-screen .character-choice.is-selected {
@@ -351,6 +430,14 @@ button {
   text-align: left;
   background: rgba(255, 252, 239, 0.9);
   box-shadow: none;
+}
+
+.title-screen .challenge-choice--kit {
+  border-color: rgba(47, 124, 110, 0.3);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.92), rgba(239, 226, 195, 0.72)),
+    rgba(255, 252, 239, 0.88);
+  box-shadow: inset 0 0 0 1px rgba(255, 252, 239, 0.24);
 }
 
 .title-screen .challenge-choice:hover:not(:disabled) {
