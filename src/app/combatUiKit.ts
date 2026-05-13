@@ -51,3 +51,21 @@ export const combatResourceIconByOwner = {
 export function getCombatUiAsset(id: CombatUiAssetId): string {
   return combatUiAssets[id];
 }
+
+export type CombatUiCardRarity = "starter" | "common" | "uncommon" | "rare" | "event" | "ink" | "curse";
+
+export function getCombatUiCardFrameAssetId(rarity: CombatUiCardRarity): CombatUiAssetId {
+  if (rarity === "uncommon") {
+    return "card-frame-uncommon";
+  }
+
+  if (rarity === "rare" || rarity === "ink" || rarity === "curse") {
+    return "card-frame-rare";
+  }
+
+  if (rarity === "event") {
+    return "card-frame-event";
+  }
+
+  return "card-frame-common";
+}
