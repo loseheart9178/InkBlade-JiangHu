@@ -620,14 +620,18 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await page.getByTestId("map-node-event-1").click();
   await expect(page.getByTestId("screen-event")).toBeVisible();
   await expect(page.getByTestId("event-layout")).toBeVisible();
+  await expect(page.getByTestId("event-layout")).toHaveClass(/event-layout--kit/);
   await expect(page.getByTestId("event-layout").getByTestId("event-scene-header")).toBeVisible();
   await expect(page.getByTestId("event-scene-header")).toContainText("长坂回声");
   await expect(page.getByTestId("event-hero")).toBeVisible();
   await expect(page.getByTestId("event-choices")).toBeVisible();
+  await expect(page.getByTestId("event-choices")).toHaveClass(/event-choices--kit/);
   await expectNoOverlap(page.getByTestId("event-hero"), page.getByTestId("event-choices"));
   await expect(page.getByTestId("event-scene")).toHaveClass(/event-scene--changban/);
   await expect(page.locator("[data-testid^='event-choice-']")).toHaveCount(2);
   await expect(page.getByTestId("event-choice-guard_cry")).toBeVisible();
+  await expect(page.getByTestId("event-choice-guard_cry")).toHaveClass(/choice-action--event-kit/);
+  await expect(page.getByTestId("event-choice-guard_cry")).toHaveAttribute("data-event-choice-tone", /gain|mind|ink|cost|upgrade/);
   await page.getByTestId("event-choice-carve_names").click();
 
   await expect(page.getByTestId("screen-map")).toBeVisible();
@@ -636,10 +640,16 @@ test("event route can upgrade a deck card at rest", async ({ page }) => {
   await page.getByTestId("map-node-rest-1").click();
   await expect(page.getByTestId("screen-rest")).toBeVisible();
   await expect(page.getByTestId("rest-scene")).toBeVisible();
+  await expect(page.getByTestId("rest-scene")).toHaveClass(/rest-scene--kit/);
   await expect(page.getByTestId("rest-scene").getByTestId("rest-scene-header")).toBeVisible();
   await expect(page.getByTestId("rest-scene-header")).toContainText("废寺静修");
   await expect(page.getByTestId("rest-hero")).toBeVisible();
   await expect(page.getByTestId("rest-actions")).toBeVisible();
+  await expect(page.getByTestId("rest-actions")).toHaveClass(/rest-actions--kit/);
+  await expect(page.getByTestId("rest-heal")).toHaveClass(/choice-action--rest-kit/);
+  await expect(page.getByTestId("rest-heal")).toHaveAttribute("data-rest-action", "heal");
+  await expect(page.getByTestId("rest-upgrade-card")).toHaveClass(/choice-action--rest-kit/);
+  await expect(page.getByTestId("rest-upgrade-card")).toHaveAttribute("data-rest-action", "upgrade");
   await expectNoOverlap(page.getByTestId("rest-hero"), page.getByTestId("rest-actions"));
   await page.getByTestId("rest-upgrade-card").click();
 
@@ -724,8 +734,12 @@ test("Cai Wenji event route presents polished choice effects and logbook feedbac
   await page.getByTestId("map-node-event-1").click();
 
   await expect(page.getByTestId("screen-event")).toBeVisible();
+  await expect(page.getByTestId("event-layout")).toHaveClass(/event-layout--kit/);
+  await expect(page.getByTestId("event-choices")).toHaveClass(/event-choices--kit/);
   await expect(page.getByTestId("event-scene")).toHaveClass(/event-scene--score/);
   await expect(page.getByTestId("event-kicker")).toContainText("蔡文姬");
+  await expect(page.getByTestId("event-choice-continue_clear_phrase")).toHaveClass(/choice-action--event-kit/);
+  await expect(page.getByTestId("event-choice-continue_clear_phrase")).toHaveAttribute("data-event-choice-tone", /gain|mind|ink|cost|upgrade/);
   await expect(page.getByTestId("event-effect-chip").first()).toBeVisible();
   await expect(page.getByTestId("event-effect-chip").first()).toHaveAttribute("data-effect-tone", /gain|mind|ink|cost/);
   await expect(page.locator("[data-testid='event-effect-chip']").filter({ hasText: /获得|心境|墨灾|生命|铜钱/ }).first()).toBeVisible();

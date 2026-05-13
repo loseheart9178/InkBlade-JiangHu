@@ -4871,6 +4871,19 @@ button {
     var(--paper-grain);
 }
 
+.event-layout--kit {
+  border-color: rgba(95, 29, 24, 0.34);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(183, 53, 42, 0.14), transparent 24%),
+    radial-gradient(circle at 18% 88%, rgba(47, 124, 110, 0.14), transparent 30%),
+    linear-gradient(145deg, rgba(255, 252, 239, 0.9), rgba(239, 226, 195, 0.72)),
+    var(--paper-grain);
+  box-shadow:
+    0 22px 54px rgba(17, 17, 17, 0.16),
+    inset 0 0 0 1px rgba(255, 252, 239, 0.34),
+    inset 0 0 0 10px rgba(255, 252, 239, 0.1);
+}
+
 .event-layout .scene-header {
   grid-column: 1 / -1;
 }
@@ -5097,9 +5110,36 @@ button {
     inset 0 0 0 1px rgba(255, 255, 255, 0.22);
 }
 
+.event-choices--kit {
+  position: relative;
+  border-color: rgba(95, 29, 24, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.8), rgba(239, 226, 195, 0.54)),
+    radial-gradient(circle at 50% 0%, rgba(238, 190, 91, 0.12), transparent 36%),
+    rgba(255, 252, 239, 0.48);
+}
+
+.event-choices--kit::before {
+  position: absolute;
+  top: -10px;
+  left: 18px;
+  width: 44px;
+  height: 24px;
+  content: "";
+  border: 1px solid rgba(183, 53, 42, 0.42);
+  border-radius: 4px;
+  background:
+    linear-gradient(135deg, rgba(183, 53, 42, 0.74), rgba(95, 29, 24, 0.68)),
+    var(--paper-grain);
+  box-shadow: 0 8px 16px rgba(17, 17, 17, 0.16);
+  transform: rotate(-3deg);
+}
+
 .choice-action--event {
+  position: relative;
   width: 100%;
   min-height: 92px;
+  overflow: hidden;
   border-left: 5px solid rgba(183, 53, 42, 0.74);
   border-color: rgba(44, 41, 36, 0.3);
   border-radius: 7px;
@@ -5109,6 +5149,43 @@ button {
   box-shadow:
     0 10px 22px rgba(17, 17, 17, 0.12),
     inset 0 0 0 1px rgba(255, 252, 239, 0.28);
+}
+
+.choice-action--event-kit {
+  border-color: rgba(95, 29, 24, 0.32);
+  background:
+    linear-gradient(90deg, rgba(255, 252, 239, 0.96), rgba(239, 226, 195, 0.84)),
+    radial-gradient(circle at 92% 22%, rgba(47, 124, 110, 0.1), transparent 26%),
+    rgba(246, 236, 213, 0.94);
+}
+
+.choice-action--event-kit::before {
+  position: absolute;
+  inset: 7px;
+  z-index: 0;
+  content: "";
+  border: 1px solid rgba(44, 41, 36, 0.12);
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, transparent 0 11px, rgba(183, 53, 42, 0.24) 11px 12px, transparent 12px calc(100% - 12px), rgba(183, 53, 42, 0.24) calc(100% - 12px) calc(100% - 11px), transparent calc(100% - 11px)),
+    linear-gradient(180deg, transparent 0 11px, rgba(44, 41, 36, 0.08) 11px 12px, transparent 12px calc(100% - 12px), rgba(44, 41, 36, 0.08) calc(100% - 12px) calc(100% - 11px), transparent calc(100% - 11px));
+  pointer-events: none;
+}
+
+.choice-action--event-kit > * {
+  position: relative;
+  z-index: 1;
+}
+
+.choice-action--event-kit[data-event-choice-tone="gain"],
+.choice-action--event-kit[data-event-choice-tone="upgrade"] {
+  border-left-color: rgba(47, 124, 110, 0.78);
+}
+
+.choice-action--event-kit[data-event-choice-tone="cost"],
+.choice-action--event-kit[data-event-choice-tone="ink"],
+.choice-action--event-kit[data-event-choice-tone="mind"] {
+  border-left-color: rgba(183, 53, 42, 0.82);
 }
 
 .choice-action--event strong {
@@ -5193,6 +5270,19 @@ button {
     var(--paper-grain);
 }
 
+.rest-scene--kit {
+  border-color: rgba(47, 124, 110, 0.34);
+  background:
+    radial-gradient(circle at 18% 16%, rgba(238, 190, 91, 0.13), transparent 28%),
+    radial-gradient(circle at 92% 82%, rgba(183, 53, 42, 0.1), transparent 28%),
+    linear-gradient(145deg, rgba(255, 252, 239, 0.9), rgba(239, 226, 195, 0.72)),
+    var(--paper-grain);
+  box-shadow:
+    0 22px 54px rgba(17, 17, 17, 0.15),
+    inset 0 0 0 1px rgba(255, 252, 239, 0.34),
+    inset 0 0 0 10px rgba(255, 252, 239, 0.1);
+}
+
 .rest-scene .scene-header {
   grid-column: 1 / -1;
 }
@@ -5264,9 +5354,24 @@ button {
   gap: 12px;
 }
 
+.rest-actions--kit {
+  position: relative;
+  padding: 12px;
+  border: 1px solid rgba(44, 41, 36, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 239, 0.72), rgba(239, 226, 195, 0.42)),
+    rgba(255, 252, 239, 0.36);
+  box-shadow:
+    0 12px 26px rgba(17, 17, 17, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
 .choice-action--rest {
+  position: relative;
   width: 100%;
   min-height: 118px;
+  overflow: hidden;
   padding: 18px;
   border-left: 5px solid rgba(47, 124, 110, 0.7);
   border-color: rgba(44, 41, 36, 0.32);
@@ -5276,6 +5381,32 @@ button {
   box-shadow:
     0 12px 28px rgba(17, 17, 17, 0.14),
     inset 0 0 0 1px rgba(255, 252, 239, 0.28);
+}
+
+.choice-action--rest-kit::before {
+  position: absolute;
+  inset: 7px;
+  z-index: 0;
+  content: "";
+  border: 1px solid rgba(44, 41, 36, 0.12);
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, transparent 0 11px, rgba(47, 124, 110, 0.22) 11px 12px, transparent 12px calc(100% - 12px), rgba(47, 124, 110, 0.22) calc(100% - 12px) calc(100% - 11px), transparent calc(100% - 11px)),
+    linear-gradient(180deg, transparent 0 11px, rgba(44, 41, 36, 0.08) 11px 12px, transparent 12px calc(100% - 12px), rgba(44, 41, 36, 0.08) calc(100% - 12px) calc(100% - 11px), transparent calc(100% - 11px));
+  pointer-events: none;
+}
+
+.choice-action--rest-kit > * {
+  position: relative;
+  z-index: 1;
+}
+
+.choice-action--rest-kit[data-rest-action="heal"] {
+  border-left-color: rgba(47, 124, 110, 0.78);
+}
+
+.choice-action--rest-kit[data-rest-action="upgrade"] {
+  border-left-color: rgba(183, 53, 42, 0.78);
 }
 
 .choice-action--rest-upgrade {
