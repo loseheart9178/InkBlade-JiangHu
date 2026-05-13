@@ -568,7 +568,7 @@ function createCompendiumPanel(
   const compendium = buildCompendium(state.compendiumFilters, state.profile);
   const referenceCount = Math.max(0, compendium.filteredCount - compendium.unlockSummary.total);
   const panel = createPanel("screen-compendium", "墨录图鉴");
-  panel.classList.add("compendium-screen");
+  panel.classList.add("compendium-screen", "compendium-screen--kit");
   panel.dataset.unlockedCount = `${compendium.unlockSummary.unlocked}`;
   panel.dataset.lockedCount = `${compendium.unlockSummary.locked}`;
   panel.dataset.referenceCount = `${referenceCount}`;
@@ -578,7 +578,7 @@ function createCompendiumPanel(
   note.textContent = "卡牌、法宝、敌影、招式链与残页汇在一处，方便开局前和行旅中快速翻查。";
 
   const tabs = document.createElement("div");
-  tabs.className = "compendium-tabs";
+  tabs.className = "compendium-tabs compendium-tabs--kit";
   const allTab = createCompendiumTab("all", "全部", compendium.totalCount, state.compendiumFilters.category === "all", () => {
     state.compendiumFilters = { ...state.compendiumFilters, category: "all", character: "all", rarity: "all", chapter: "all", unlock: "all" };
     refresh();
@@ -599,7 +599,7 @@ function createCompendiumPanel(
   }
 
   const filters = document.createElement("div");
-  filters.className = "compendium-filters";
+  filters.className = "compendium-filters compendium-filters--kit";
   filters.append(
     createCompendiumSelect("compendium-filter-character", "角色", state.compendiumFilters.character, compendium.facets.characters, (value) => {
       state.compendiumFilters = { ...state.compendiumFilters, character: value };
@@ -625,7 +625,7 @@ function createCompendiumPanel(
   summary.textContent = `显示 ${compendium.filteredCount} / ${compendium.totalCount} 条 · 已录 ${compendium.unlockSummary.unlocked} · 未录 ${compendium.unlockSummary.locked} · 参照 ${referenceCount}`;
 
   const list = document.createElement("div");
-  list.className = "compendium-list";
+  list.className = "compendium-list compendium-list--kit";
   if (compendium.groups.length === 0) {
     const empty = document.createElement("p");
     empty.className = "compendium-empty";
@@ -704,7 +704,7 @@ function createCompendiumUnlockFacets(
 function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
   const article = document.createElement("article");
   const unlockState = item.unlockState ?? "reference";
-  article.className = `compendium-item compendium-item--${item.category}`;
+  article.className = `compendium-item compendium-item--kit compendium-item--${item.category}`;
   article.dataset.testid = "compendium-item";
   article.dataset.category = item.category;
   article.dataset.unlockState = unlockState;
@@ -717,7 +717,7 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
   const title = document.createElement("h4");
   title.textContent = item.title;
   const unlockBadge = document.createElement("span");
-  unlockBadge.className = `compendium-unlock-badge compendium-unlock-badge--${unlockState}`;
+  unlockBadge.className = `compendium-unlock-badge compendium-unlock-badge--kit compendium-unlock-badge--${unlockState}`;
   unlockBadge.dataset.testid = "compendium-unlock-badge";
   unlockBadge.textContent = formatCompendiumUnlockState(unlockState);
   unlockBadge.title = item.unlockReason ?? unlockBadge.textContent;
@@ -728,7 +728,7 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
   const body = document.createElement("p");
   body.textContent = item.body;
   const meta = document.createElement("div");
-  meta.className = "compendium-meta";
+  meta.className = "compendium-meta compendium-meta--kit";
   for (const entry of item.meta.filter(Boolean).slice(0, 4)) {
     const chip = document.createElement("span");
     chip.textContent = entry;
@@ -2338,11 +2338,11 @@ function renderLogbook(host: HTMLElement, state: ControllerState, render: () => 
   const run = requireRun(state);
   const entries = getUnlockedLogbookEntries(run);
   const panel = createPanel("screen-logbook", "墨录");
-  panel.classList.add("logbook-screen");
+  panel.classList.add("logbook-screen", "logbook-screen--kit");
   panel.append(createRunStatus(run, "已录下的江湖残页。", () => openDeck(state, render), undefined, undefined, getDebugSkipChapterHandler(state, render)));
 
   const list = document.createElement("div");
-  list.className = "logbook-list";
+  list.className = "logbook-list logbook-list--kit";
 
   if (entries.length === 0) {
     const empty = document.createElement("p");
@@ -2353,7 +2353,7 @@ function renderLogbook(host: HTMLElement, state: ControllerState, render: () => 
 
   for (const entry of entries) {
     const item = document.createElement("article");
-    item.className = "logbook-entry";
+    item.className = "logbook-entry logbook-entry--kit";
     item.dataset.testid = "logbook-entry";
     item.innerHTML = `<strong>${entry.title}</strong><p>${entry.body}</p>`;
     list.append(item);
