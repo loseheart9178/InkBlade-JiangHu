@@ -10197,6 +10197,40 @@ NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
 Result: passed.
 ```
 
+## 2026-05-13 Combat UI Kit Gate 3 Reward And Shop
+
+Gate 3 extended the approved combat UI kit card-frame language into desktop Reward and Shop surfaces.
+
+What changed:
+
+- Shared card rarity to UI kit frame selection through `src/app/combatUiKit.ts`, including `status` rarity fallback to the common frame.
+- Applied approved card frame slices to reward cards and shop card offers.
+- Kept generated card art in `object-fit: contain` for uncut card-art review.
+- Preserved reward drafting, shop pricing, relic purchases, card removal, and build-fit guidance.
+- Added focused Playwright assertions for Reward and Shop UI kit integration.
+
+Verification:
+
+```text
+git diff --check
+Result: passed.
+
+node node_modules/typescript/bin/tsc --noEmit
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/ui-assets/ui-kit-manifest.test.ts --reporter=dot
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/playable-flow.spec.ts --project=chromium --grep "boots, enters|shops can add"
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: passed.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+```
+
 Next step:
 
 - If another art pass starts, prioritize fresh sword echo and blood banner standee replacements; the attack strips are now bound.
