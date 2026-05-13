@@ -482,6 +482,9 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("reward-combo-hint")).toContainText("招式回响");
   await expect(page.getByTestId("reward-card").first()).toHaveAttribute("data-combo-biased", "true");
   await expect(page.getByTestId("reward-card").first().getByTestId("card-cost")).toBeVisible();
+  await expect(page.getByTestId("reward-card").first()).toHaveClass(/reward-card--kit/);
+  await expect(page.getByTestId("reward-card").first()).toHaveAttribute("style", /--ui-kit-card-frame/);
+  await expect(page.getByTestId("reward-card").first().locator(".card-art")).toHaveClass(/card-art--kit/);
   await expectCardArtWindowClear(page.getByTestId("reward-card").first());
   await expect(page.getByTestId("reward-reason").first()).toContainText("流派");
   await expect(page.getByTestId("reward-archetype-role").first()).toContainText(/主线强化|副线补强|通用补短/);
@@ -526,6 +529,9 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expectVerticalGap(page.getByTestId("shop-section-relics"), page.getByTestId("shop-section-services"), 8);
   const travelCard = page.getByTestId("shop-card-travel");
   await expect(travelCard).toHaveClass(/shop-item--card/);
+  await expect(travelCard).toHaveClass(/shop-item--kit/);
+  await expect(travelCard).toHaveAttribute("style", /--ui-kit-card-frame/);
+  await expect(travelCard.locator(".card-art")).toHaveClass(/card-art--kit/);
   await expect(travelCard).toContainText("行旅常备");
   await expect(travelCard).toContainText("补气护身");
   await expect(travelCard.locator(".card-art")).toBeVisible();
@@ -554,6 +560,7 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
 
   const roleRelic = page.getByTestId("shop-relic-role");
   await expect(roleRelic).toHaveClass(/shop-item--relic/);
+  await expect(roleRelic).not.toHaveClass(/shop-item--kit/);
   await expect(roleRelic).toContainText("角色法门");
   await expect(roleRelic).toContainText(/凡|奇|绝/);
   await expect(roleRelic.locator(".shop-slot-note")).toContainText("流派");
@@ -572,6 +579,7 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
 
   const removeService = page.getByTestId("shop-remove-card");
   await expect(removeService).toHaveClass(/shop-item--service/);
+  await expect(removeService).not.toHaveClass(/shop-item--kit/);
   await expect(removeService.locator(".shop-service-target")).toContainText("枪击");
   await expect(removeService.locator(".shop-price-chip")).toContainText("50");
   await capturePlaytestScreenshot(page, testInfo, "wave31-shop-surface.png");
