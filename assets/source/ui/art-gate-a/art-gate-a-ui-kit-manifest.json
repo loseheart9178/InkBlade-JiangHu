@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "name": "art-gate-a-ui-bitmap-kit",
+  "mode": "imagegen-source-pass",
+  "generatedImageBatch": "/Users/lushihao/.codex/generated_images/019e1fb7-8ab8-74a1-ae01-14bcd27cf46e",
+  "runtimeBase": "/assets/generated/ui/art-gate-a/",
+  "assets": [
+    {
+      "id": "xuan-paper-main-panel",
+      "role": "main-panel",
+      "src": "/assets/generated/ui/art-gate-a/xuan-paper-main-panel.png",
+      "rawSource": "assets/source/ui/_ai-raw/art-gate-a/xuan-paper-main-panel.png",
+      "psd": "assets/source/ui/art-gate-a/xuan-paper-main-panel.psd",
+      "layerPngDir": "assets/source/ui/art-gate-a/layers/xuan-paper-main-panel",
+      "cssVariable": "--art-gate-main-panel",
+      "width": 1586,
+      "height": 992,
+      "requiredLayerNames": [
+        "paper",
+        "ink wash",
+        "cinnabar seal",
+        "jade accent",
+        "frame",
+        "shadow"
+      ]
+    },
+    {
+      "id": "cinnabar-chapter-seal",
+      "role": "chapter-seal",
+      "src": "/assets/generated/ui/art-gate-a/cinnabar-chapter-seal.png",
+      "rawSource": "assets/source/ui/_ai-raw/art-gate-a/cinnabar-chapter-seal.png",
+      "psd": "assets/source/ui/art-gate-a/cinnabar-chapter-seal.psd",
+      "layerPngDir": "assets/source/ui/art-gate-a/layers/cinnabar-chapter-seal",
+      "cssVariable": "--art-gate-chapter-seal",
+      "width": 1254,
+      "height": 1254,
+      "requiredLayerNames": [
+        "paper",
+        "ink wash",
+        "cinnabar seal",
+        "jade accent",
+        "frame",
+        "shadow"
+      ]
+    },
+    {
+      "id": "map-route-scroll-board",
+      "role": "route-map-scroll",
+      "src": "/assets/generated/ui/art-gate-a/map-route-scroll-board.png",
+      "rawSource": "assets/source/ui/_ai-raw/art-gate-a/map-route-scroll-board.png",
+      "psd": "assets/source/ui/art-gate-a/map-route-scroll-board.psd",
+      "layerPngDir": "assets/source/ui/art-gate-a/layers/map-route-scroll-board",
+      "cssVariable": "--art-gate-map-scroll",
+      "width": 1774,
+      "height": 887,
+      "requiredLayerNames": [
+        "paper",
+        "ink wash",
+        "cinnabar seal",
+        "jade accent",
+        "frame",
+        "shadow"
+      ]
+    },
+    {
+      "id": "character-select-card-bg",
+      "role": "character-select-card",
+      "src": "/assets/generated/ui/art-gate-a/character-select-card-bg.png",
+      "rawSource": "assets/source/ui/_ai-raw/art-gate-a/character-select-card-bg.png",
+      "psd": "assets/source/ui/art-gate-a/character-select-card-bg.psd",
+      "layerPngDir": "assets/source/ui/art-gate-a/layers/character-select-card-bg",
+      "cssVariable": "--art-gate-character-card",
+      "width": 1086,
+      "height": 1448,
+      "requiredLayerNames": [
+        "paper",
+        "ink wash",
+        "cinnabar seal",
+        "jade accent",
+        "frame",
+        "shadow"
+      ]
+    },
+    {
+      "id": "decision-card-bg",
+      "role": "decision-card",
+      "src": "/assets/generated/ui/art-gate-a/decision-card-bg.png",
+      "rawSource": "assets/source/ui/_ai-raw/art-gate-a/decision-card-bg.png",
+      "psd": "assets/source/ui/art-gate-a/decision-card-bg.psd",
+      "layerPngDir": "assets/source/ui/art-gate-a/layers/decision-card-bg",
+      "cssVariable": "--art-gate-decision-card",
+      "width": 1043,
+      "height": 1508,
+      "requiredLayerNames": [
+        "paper",
+        "ink wash",
+        "cinnabar seal",
+        "jade accent",
+        "frame",
+        "shadow"
+      ]
+    }
+  ]
+}

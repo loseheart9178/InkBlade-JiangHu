@@ -20,6 +20,11 @@
   --card-inner: rgba(255, 252, 239, 0.86);
   --card-ornament: rgba(183, 53, 42, 0.42);
   --card-glow: rgba(238, 190, 91, 0.24);
+  --art-gate-main-panel: url("/assets/generated/ui/art-gate-a/xuan-paper-main-panel.png");
+  --art-gate-chapter-seal: url("/assets/generated/ui/art-gate-a/cinnabar-chapter-seal.png");
+  --art-gate-map-scroll: url("/assets/generated/ui/art-gate-a/map-route-scroll-board.png");
+  --art-gate-character-card: url("/assets/generated/ui/art-gate-a/character-select-card-bg.png");
+  --art-gate-decision-card: url("/assets/generated/ui/art-gate-a/decision-card-bg.png");
   color: #2c2924;
   background: #efe2c3;
   font-family:
@@ -162,9 +167,8 @@ button {
   border-color: rgba(95, 29, 24, 0.34);
   border-left-color: rgba(183, 53, 42, 0.9);
   background:
-    radial-gradient(circle at 82% 18%, rgba(183, 53, 42, 0.18), transparent 24%),
-    radial-gradient(circle at 12% 86%, rgba(47, 124, 110, 0.15), transparent 28%),
-    linear-gradient(105deg, rgba(255, 252, 239, 0.97), rgba(239, 226, 195, 0.86) 58%, rgba(47, 124, 110, 0.18)),
+    linear-gradient(105deg, rgba(255, 252, 239, 0.9), rgba(239, 226, 195, 0.7) 58%, rgba(47, 124, 110, 0.12)),
+    var(--art-gate-main-panel) center / cover no-repeat,
     var(--paper-grain);
   box-shadow:
     0 26px 64px rgba(17, 17, 17, 0.22),
@@ -219,6 +223,8 @@ button {
   border: 1px solid rgba(246, 236, 213, 0.38);
   color: #f6ecd5;
   background:
+    linear-gradient(180deg, rgba(183, 53, 42, 0.72), rgba(95, 29, 24, 0.76)),
+    var(--art-gate-chapter-seal) center / cover no-repeat,
     linear-gradient(180deg, rgba(183, 53, 42, 0.94), rgba(95, 29, 24, 0.94)),
     #7f1f1a;
   font-size: 34px;
@@ -390,8 +396,8 @@ button {
 .title-screen .character-choice--kit {
   border-color: rgba(95, 29, 24, 0.3);
   background:
-    linear-gradient(180deg, rgba(255, 252, 239, 0.94), rgba(239, 226, 195, 0.78)),
-    radial-gradient(circle at 92% 18%, rgba(47, 124, 110, 0.1), transparent 26%),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.84), rgba(239, 226, 195, 0.66)),
+    var(--art-gate-character-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.9);
   box-shadow:
     0 12px 26px rgba(17, 17, 17, 0.14),
@@ -811,9 +817,8 @@ button {
   border-color: rgba(95, 29, 24, 0.3);
   border-left-color: rgba(183, 53, 42, 0.86);
   background:
-    radial-gradient(circle at 88% 8%, rgba(183, 53, 42, 0.13), transparent 24%),
-    radial-gradient(circle at 16% 92%, rgba(47, 124, 110, 0.14), transparent 28%),
-    linear-gradient(115deg, rgba(255, 252, 239, 0.94), rgba(239, 226, 195, 0.76) 58%, rgba(47, 124, 110, 0.18)),
+    linear-gradient(115deg, rgba(255, 252, 239, 0.88), rgba(239, 226, 195, 0.66) 58%, rgba(47, 124, 110, 0.12)),
+    var(--art-gate-main-panel) center / cover no-repeat,
     var(--paper-grain);
   box-shadow:
     0 20px 48px rgba(17, 17, 17, 0.16),
@@ -1015,11 +1020,10 @@ button {
   border-color: rgba(95, 29, 24, 0.34);
   background:
     linear-gradient(90deg, rgba(44, 41, 36, 0.1) 1px, transparent 1px),
-    radial-gradient(circle at 24% 28%, rgba(183, 53, 42, 0.16), transparent 30%),
-    radial-gradient(circle at 86% 74%, rgba(47, 124, 110, 0.14), transparent 28%),
-    linear-gradient(180deg, rgba(255, 252, 239, 0.64), rgba(239, 226, 195, 0.36)),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.46), rgba(239, 226, 195, 0.26)),
+    var(--art-gate-map-scroll) center / cover no-repeat,
     var(--paper-grain);
-  background-size: calc(100% / var(--map-columns, 6)) 100%, auto, auto, auto, auto;
+  background-size: calc(100% / var(--map-columns, 6)) 100%, auto, cover, auto;
   box-shadow:
     0 22px 54px rgba(17, 17, 17, 0.16),
     inset 0 0 0 1px rgba(255, 252, 239, 0.38),
@@ -1116,6 +1120,8 @@ button {
   border-color: rgba(95, 29, 24, 0.28);
   background:
     radial-gradient(circle at 50% 35%, rgba(255, 252, 239, 0.92), rgba(239, 226, 195, 0.42) 58%, rgba(44, 41, 36, 0.08)),
+    linear-gradient(145deg, rgba(255, 252, 239, 0.74), rgba(239, 226, 195, 0.58)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.72);
   box-shadow:
     0 10px 22px rgba(17, 17, 17, 0.12),
@@ -3669,8 +3675,8 @@ button {
   border-radius: 8px;
   background:
     radial-gradient(ellipse at 50% 6%, rgba(238, 190, 91, 0.2), transparent 42%),
-    linear-gradient(180deg, rgba(255, 252, 239, 0.9), rgba(237, 223, 194, 0.96)),
-    var(--paper-grain),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.72), rgba(237, 223, 194, 0.78)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.94);
   box-shadow:
     var(--shadow-soft),
@@ -3722,8 +3728,8 @@ button {
   color: var(--ink-stone);
   background:
     radial-gradient(ellipse at 50% 6%, rgba(238, 190, 91, 0.26), transparent 44%),
-    linear-gradient(180deg, rgba(255, 252, 239, 0.96), rgba(237, 223, 194, 0.98)),
-    var(--paper-grain),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.82), rgba(237, 223, 194, 0.84)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.98);
   box-shadow:
     0 18px 38px rgba(17, 17, 17, 0.24),
@@ -3773,7 +3779,8 @@ button {
   overflow: hidden;
   border-color: rgba(44, 41, 36, 0.46);
   background:
-    linear-gradient(180deg, rgba(255, 252, 239, 0.9), rgba(237, 223, 194, 0.86)),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.76), rgba(237, 223, 194, 0.7)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.92);
   box-shadow:
     0 12px 28px rgba(17, 17, 17, 0.14),
@@ -3800,8 +3807,8 @@ button {
   border-top: 5px solid rgba(183, 53, 42, 0.68);
   background:
     radial-gradient(ellipse at 50% 9%, rgba(238, 190, 91, 0.18), transparent 45%),
-    linear-gradient(180deg, rgba(255, 252, 239, 0.92), rgba(237, 223, 194, 0.96)),
-    var(--paper-grain),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.72), rgba(237, 223, 194, 0.8)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.94);
   box-shadow:
     0 14px 30px rgba(17, 17, 17, 0.16),
@@ -4064,8 +4071,8 @@ button {
   color: var(--ink-stone);
   background:
     radial-gradient(ellipse at 50% 9%, rgba(238, 190, 91, 0.24), transparent 46%),
-    linear-gradient(180deg, rgba(255, 252, 239, 0.96), rgba(237, 223, 194, 0.98)),
-    var(--paper-grain),
+    linear-gradient(180deg, rgba(255, 252, 239, 0.82), rgba(237, 223, 194, 0.84)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.98);
   transform: translateY(-5px);
 }
@@ -5165,6 +5172,7 @@ button {
   color: #f6ecd5;
   background:
     radial-gradient(circle at 38% 28%, rgba(255, 252, 239, 0.18), transparent 26%),
+    var(--art-gate-chapter-seal) center / cover no-repeat,
     linear-gradient(145deg, rgba(127, 31, 26, 0.92), rgba(95, 29, 24, 0.94));
   font-size: 26px;
   line-height: 1;
@@ -5199,6 +5207,7 @@ button {
 .scene-header--rest .scene-header-seal {
   background:
     radial-gradient(circle at 38% 28%, rgba(255, 252, 239, 0.18), transparent 26%),
+    var(--art-gate-chapter-seal) center / cover no-repeat,
     linear-gradient(145deg, rgba(47, 124, 110, 0.92), rgba(31, 91, 81, 0.94));
 }
 
@@ -5206,6 +5215,7 @@ button {
   color: #2c2924;
   background:
     radial-gradient(circle at 38% 28%, rgba(255, 252, 239, 0.26), transparent 26%),
+    var(--art-gate-chapter-seal) center / cover no-repeat,
     linear-gradient(145deg, rgba(238, 190, 91, 0.92), rgba(180, 123, 33, 0.88));
 }
 
@@ -5261,7 +5271,8 @@ button {
 .title-shell-panel--kit {
   border-color: rgba(95, 29, 24, 0.24);
   background:
-    linear-gradient(135deg, rgba(255, 252, 239, 0.94), rgba(246, 236, 213, 0.86) 54%, rgba(47, 124, 110, 0.08)),
+    linear-gradient(135deg, rgba(255, 252, 239, 0.86), rgba(246, 236, 213, 0.72) 54%, rgba(47, 124, 110, 0.06)),
+    var(--art-gate-main-panel) center / cover no-repeat,
     var(--paper-grain);
   box-shadow:
     0 24px 54px rgba(17, 17, 17, 0.18),
@@ -6406,8 +6417,8 @@ button {
 .choice-action--event-kit {
   border-color: rgba(95, 29, 24, 0.32);
   background:
-    linear-gradient(90deg, rgba(255, 252, 239, 0.96), rgba(239, 226, 195, 0.84)),
-    radial-gradient(circle at 92% 22%, rgba(47, 124, 110, 0.1), transparent 26%),
+    linear-gradient(90deg, rgba(255, 252, 239, 0.78), rgba(239, 226, 195, 0.68)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.94);
 }
 
@@ -6525,9 +6536,8 @@ button {
 .rest-scene--kit {
   border-color: rgba(47, 124, 110, 0.34);
   background:
-    radial-gradient(circle at 18% 16%, rgba(238, 190, 91, 0.13), transparent 28%),
-    radial-gradient(circle at 92% 82%, rgba(183, 53, 42, 0.1), transparent 28%),
-    linear-gradient(145deg, rgba(255, 252, 239, 0.9), rgba(239, 226, 195, 0.72)),
+    linear-gradient(145deg, rgba(255, 252, 239, 0.78), rgba(239, 226, 195, 0.58)),
+    var(--art-gate-main-panel) center / cover no-repeat,
     var(--paper-grain);
   box-shadow:
     0 22px 54px rgba(17, 17, 17, 0.15),
@@ -6580,7 +6590,10 @@ button {
   place-items: center;
   border: 1px solid rgba(246, 236, 213, 0.34);
   color: #f6ecd5;
-  background: rgba(183, 53, 42, 0.82);
+  background:
+    linear-gradient(180deg, rgba(183, 53, 42, 0.62), rgba(95, 29, 24, 0.66)),
+    var(--art-gate-chapter-seal) center / cover no-repeat,
+    rgba(183, 53, 42, 0.82);
   font-size: 32px;
   line-height: 1;
   box-shadow: 0 10px 22px rgba(17, 17, 17, 0.24);
@@ -6628,7 +6641,8 @@ button {
   border-left: 5px solid rgba(47, 124, 110, 0.7);
   border-color: rgba(44, 41, 36, 0.32);
   background:
-    linear-gradient(145deg, rgba(255, 252, 239, 0.92), rgba(239, 226, 195, 0.78)),
+    linear-gradient(145deg, rgba(255, 252, 239, 0.76), rgba(239, 226, 195, 0.64)),
+    var(--art-gate-decision-card) center / cover no-repeat,
     rgba(246, 236, 213, 0.9);
   box-shadow:
     0 12px 28px rgba(17, 17, 17, 0.14),

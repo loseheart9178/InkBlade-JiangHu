@@ -10602,3 +10602,62 @@ Result: passed, 4 Chromium tests.
 NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
 Result: passed.
 ```
+
+## 2026-05-13 Art Gate A UI bitmap and PSD source pass
+
+Completed the Art Gate A pass requested by the user: generated true UI bitmap assets, packed Photoshop-readable PSD sources, and wired the runtime CSS away from pure gradient-only surfaces.
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+
+What changed:
+
+- Added Imagegen raw PNG sources under `assets/source/ui/_ai-raw/art-gate-a/` for:
+  - 宣纸主面板底纹
+  - 朱砂印章 / 章节印
+  - 地图路线纸卷底板
+  - 角色选择卡背景
+  - Reward/Shop/Event/Rest 通用决策卡底纹
+- Added `scripts/build-art-gate-a-ui-kit.mjs`, which writes:
+  - runtime PNGs to `public/assets/generated/ui/art-gate-a/`
+  - PSD sources to `assets/source/ui/art-gate-a/*.psd`
+  - extracted layer PNGs to `assets/source/ui/art-gate-a/layers/`
+  - `assets/source/ui/art-gate-a/art-gate-a-ui-kit-manifest.json`
+- Each PSD contains named layers: `paper`, `ink wash`, `cinnabar seal`, `jade accent`, `frame`, and `shadow`.
+- Wired the runtime bitmap variables into `src/styles/theme.css` for title/main panels, route map scroll, character cards, map nodes, reward cards, shop cards, event choices, rest choices, title shell panels, and seal surfaces.
+- Added `tests/ui-assets/art-gate-a-ui-kit.test.ts` to verify manifest registration, runtime PNG dimensions, PSD layer names, and stylesheet wiring.
+- Captured before/after desktop screenshots in `output/art-gate-a/`:
+  - `before-title.png` / `after-title.png`
+  - `before-map.png` / `after-map.png`
+  - `before-reward.png` / `after-reward.png`
+
+Verification:
+
+```text
+node scripts/build-art-gate-a-ui-kit.mjs
+Result: passed. Wrote 5 Art Gate A runtime PNGs and layered PSD files.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vitest/vitest.mjs run tests/ui-assets/art-gate-a-ui-kit.test.ts tests/ui-assets/ui-kit-manifest.test.ts --reporter=dot
+Result: passed, 2 files / 6 tests.
+
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+Result: passed.
+
+Playwright screenshot pass at 1440x900
+Result: passed. Captured title, map, and reward before/after screenshots under `output/art-gate-a/`.
+
+Screenshot pixel sanity:
+title avg rgb delta 8.02; map avg rgb delta 12.56; reward avg rgb delta 1.10.
+```
+
+Remaining risks:
+
+- Reward-card screenshots show a subtler aggregate delta because the screen is dominated by the larger chapter backdrop and reward stage. The decision-card bitmap is wired, but later art iteration can make the card-local texture stronger if desired.
+- Generated PSD layers are algorithmic separations from the Imagegen composite sources, intended as Photoshop-readable handoff layers rather than fully hand-painted independent source layers.
