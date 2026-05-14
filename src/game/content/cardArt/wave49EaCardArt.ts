@@ -9,7 +9,7 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "zhao_rearguard_oath",
-    assetPath: "/assets/generated/cards/wave27-zhao-oath-guard.svg",
+    assetPath: "/assets/generated/cards/foundation-v15-zhao-oath-guard.png",
     alt: "Zhao Yun rearguard oath under a white-cloak ward",
     accent: "teal"
   },
@@ -27,13 +27,13 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "diao_frost_sleeve",
-    assetPath: "/assets/generated/cards/wave27-diao-silk-snare.svg",
+    assetPath: "/assets/generated/cards/foundation-red-v15-diao-silk-snare.png",
     alt: "Diao Chan frost sleeve binding a heart knot in moonlit silk",
     accent: "red"
   },
   {
     id: "diao_swallow_return",
-    assetPath: "/assets/generated/cards/wave27-diao-moonstep.svg",
+    assetPath: "/assets/generated/cards/imagegen-diao-moonstep-v1.png",
     alt: "Diao Chan swallow return footwork over moonlit ripples",
     accent: "teal"
   },
@@ -57,7 +57,7 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "cai_wash_dust",
-    assetPath: "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
+    assetPath: "/assets/generated/cards/foundation-v15-cai-cleansing-rain.png",
     alt: "Cai Wenji washing dust from strings in rain and jade ink",
     accent: "teal"
   },
@@ -69,7 +69,7 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "cai_jade_nocturne",
-    assetPath: "/assets/generated/cards/wave27-cai-yulan-echo.svg",
+    assetPath: "/assets/generated/cards/imagegen-cai-yulan-echo-v1.png",
     alt: "Cai Wenji jade nocturne with orchid echo rings",
     accent: "teal"
   },
@@ -93,7 +93,7 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "zhuge_hidden_route",
-    assetPath: "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
+    assetPath: "/assets/generated/cards/foundation-star-v15-zhuge-bamboo-slips.png",
     alt: "Zhuge Liang hidden route marked across bamboo slips",
     accent: "teal"
   },
@@ -105,7 +105,7 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "zhuge_heavenly_plot",
-    assetPath: "/assets/generated/cards/wave27-zhuge-star-gate.svg",
+    assetPath: "/assets/generated/cards/imagegen-zhuge-star-gate-v1.png",
     alt: "Zhuge Liang heavenly plot opening a gold star gate",
     accent: "gold"
   },
@@ -141,25 +141,25 @@ export const wave49EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "mind_chenlian",
-    assetPath: "/assets/generated/cards/wave10-mind-jingxin.svg",
+    assetPath: "/assets/generated/cards/imagegen-mind-jingxin-v1.png",
     alt: "Mind of restrained grief held inside a quiet teal ring",
     accent: "teal"
   },
   {
     id: "mind_taoguang",
-    assetPath: "/assets/generated/cards/wave27-mind-zhaoxin.svg",
+    assetPath: "/assets/generated/cards/foundation-v15-mind-zhaoxin.png",
     alt: "Concealed light opening a gold insight seam through mist",
     accent: "gold"
   },
   {
     id: "ink_burning_letter",
-    assetPath: "/assets/generated/cards/wave10-ink-moren.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-moren-v1.png",
     alt: "Burning letter collapsing into a black ink blade",
     accent: "ink"
   },
   {
     id: "ink_night_tide",
-    assetPath: "/assets/generated/cards/wave27-ink-unwritten-page.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-unwritten-page-v1.png",
     alt: "Night tide dragging a torn page through black rain",
     accent: "ink"
   }

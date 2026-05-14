@@ -39,7 +39,7 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "diao_silk_veil",
-    assetPath: "/assets/generated/cards/wave27-diao-moonstep.svg",
+    assetPath: "/assets/generated/cards/imagegen-diao-moonstep-v1.png",
     alt: "Diao Chan silk veil folding into teal footwork",
     accent: "teal"
   },
@@ -69,7 +69,7 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "cai_clear_ashes",
-    assetPath: "/assets/generated/cards/wave27-cai-cleansing-rain.svg",
+    assetPath: "/assets/generated/cards/foundation-v15-cai-cleansing-rain.png",
     alt: "Cai Wenji clear ashes washed from strings by rain",
     accent: "teal"
   },
@@ -81,7 +81,7 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "cai_broken_rain",
-    assetPath: "/assets/generated/cards/wave27-cai-yulan-echo.svg",
+    assetPath: "/assets/generated/cards/imagegen-cai-yulan-echo-v1.png",
     alt: "Cai Wenji broken rain over orchid echo strokes",
     accent: "red"
   },
@@ -99,7 +99,7 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "zhuge_borrowed_path",
-    assetPath: "/assets/generated/cards/wave27-zhuge-bamboo-slips.svg",
+    assetPath: "/assets/generated/cards/foundation-star-v15-zhuge-bamboo-slips.png",
     alt: "Zhuge Liang borrowed path marked across bamboo slips",
     accent: "teal"
   },
@@ -117,7 +117,7 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "zhuge_cloud_script",
-    assetPath: "/assets/generated/cards/wave27-zhuge-star-gate.svg",
+    assetPath: "/assets/generated/cards/imagegen-zhuge-star-gate-v1.png",
     alt: "Zhuge Liang cloud script opening a star gate",
     accent: "gold"
   },
@@ -165,19 +165,19 @@ export const wave50EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "mind_wangyou",
-    assetPath: "/assets/generated/cards/wave10-mind-jingxin.svg",
+    assetPath: "/assets/generated/cards/imagegen-mind-jingxin-v1.png",
     alt: "Forget-sorrow mind ring opening into a calm teal wash",
     accent: "teal"
   },
   {
     id: "ink_black_contract",
-    assetPath: "/assets/generated/cards/wave10-ink-modian.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-modian-v1.png",
     alt: "Black contract sealed by a spreading ink dot",
     accent: "ink"
   },
   {
     id: "ink_spilled_moon",
-    assetPath: "/assets/generated/cards/wave10-ink-heiyu.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-heiyu-v1.png",
     alt: "Spilled moon sinking through black rain",
     accent: "ink"
   }

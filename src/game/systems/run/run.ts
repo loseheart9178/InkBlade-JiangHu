@@ -182,6 +182,7 @@ const COMMON_REWARD_POOL = [
   "common_watch_fire",
   "mind_wangyou"
 ];
+const EARLY_LUOSHUI_SUSTAIN_POOL = ["common_tuna", "common_qingshen", "common_xixin", "common_jiexue"];
 const SHOP_TRAVEL_CARD_POOL = [
   "common_pifeng",
   "common_duanzhu",
@@ -621,8 +622,18 @@ export function createCardRewardDraft(run: RunState, nodeType: MapNodeType = "ba
     addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
   } else {
     addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + (comboBias ? 1 : 0), 1);
+    if (run.chapterId === "luoshui" && nodeType === "battle" && offset < 2) {
+      addRotatedCards(cards, EARLY_LUOSHUI_SUSTAIN_POOL, offset, cards.length + 1);
+    }
     addRotatedCards(cards, COMMON_REWARD_POOL, offset + cards.length, 3);
     addRotatedCards(cards, getRoleRewardPool(run.characterId), offset + cards.length + 1, 3);
+  }
+
+  if (run.chapterId === "luoshui" && nodeType === "battle" && offset < 2 && !cards.slice(0, 3).some((card) => EARLY_LUOSHUI_SUSTAIN_POOL.includes(card.id))) {
+    const sustainCard = pickRotatedCard(EARLY_LUOSHUI_SUSTAIN_POOL, offset, cards);
+    if (sustainCard) {
+      cards.splice(Math.min(cards.length, comboBias ? 2 : 1), 0, sustainCard);
+    }
   }
 
   const rewardCards = cards.slice(0, 3);
@@ -1120,6 +1131,18 @@ function addRotatedCards(cards: CardDefinition[], cardIds: string[], offset: num
     const cardId = cardIds[(offset + index) % cardIds.length];
     addCardsById(cards, [cardId]);
   }
+}
+
+function pickRotatedCard(cardIds: string[], offset: number, existingCards: CardDefinition[]): CardDefinition | undefined {
+  for (let index = 0; index < cardIds.length; index += 1) {
+    const cardId = cardIds[(offset + index) % cardIds.length];
+    const card = cardsById[cardId];
+    if (card && !existingCards.some((item) => item.id === card.id)) {
+      return card;
+    }
+  }
+
+  return undefined;
 }
 
 function getRoleRewardPool(characterId: string): string[] {

@@ -124,6 +124,8 @@ function main() {
 
 function summarize(cardBindings, artById, assetAudit, queue, duplicateGroups) {
   const formatDistribution = countBy(cardBindings, (binding) => binding.asset.format);
+  formatDistribution.png ??= 0;
+  formatDistribution.svg ??= 0;
   const rarityDistribution = countBy(cardBindings, (binding) => binding.rarity);
   const characterDistribution = countBy(cardBindings, (binding) => binding.character);
   const directArtCount = cardBindings.filter((binding) => !binding.qualityFlags.includes("missing-card-art-id")).length;

@@ -27,6 +27,7 @@ describe("Wave 10 common card art batch", () => {
     expect(wave10CommonCardArt.map((art) => art.id)).toEqual(expectedIds);
     const wave64GeneratedTargets = new Set(["common_duanzhu", "common_feishi", "common_xieli"]);
     const wave59GeneratedTargets = new Set(["common_mirror_armor", "common_pifeng", "common_tuna", "common_zhuiying"]);
+    const imagegenTargets = new Set(["ink_heiyu", "ink_modian", "ink_moren", "mind_jingxin", "status_rain_chill"]);
     for (const art of wave10CommonCardArt) {
       let expectedAssetPath = /^\/assets\/generated\/cards\/wave10-.+\.svg$/;
       if (wave64GeneratedTargets.has(art.id)) {
@@ -40,6 +41,9 @@ describe("Wave 10 common card art batch", () => {
       }
       if (art.id === "mind_luanxin" || art.id === "mind_nuzhan") {
         expectedAssetPath = /^\/assets\/generated\/cards\/foundation-v16-.+\.png$/;
+      }
+      if (imagegenTargets.has(art.id)) {
+        expectedAssetPath = /^\/assets\/generated\/cards\/imagegen-.+-v1\.png$/;
       }
 
       expect(art.assetPath).toMatch(expectedAssetPath);

@@ -13,6 +13,16 @@ type UiKitAsset = {
   src: string;
   width: number;
   height: number;
+  rawSource: {
+    kind: "imagegen" | "fallback";
+    path: string;
+    sheet?: {
+      col: number;
+      row: number;
+      cols: number;
+      rows: number;
+    };
+  };
   nineSlice?: {
     top: number;
     right: number;
@@ -33,6 +43,12 @@ type UiKitManifest = {
   name: "combat-ui-kit";
   sourceSpec: string;
   approvedConcept: string;
+  aiRawSources: Array<{
+    id: string;
+    kind: "imagegen";
+    path: string;
+    notes: string;
+  }>;
   psdSources: PsdSource[];
   runtime: {
     assets: UiKitAsset[];
@@ -55,7 +71,49 @@ const requiredRuntimeAssetIds = [
   "card-frame-uncommon",
   "card-frame-rare",
   "card-frame-event",
+  "map-battle",
+  "map-elite",
+  "map-boss",
+  "map-shop",
+  "map-event",
+  "map-rest",
+  "map-route",
+  "resource-deck",
+  "resource-coin",
+  "resource-logbook",
+  "resource-health",
   "status-block",
+  "status-armor",
+  "status-mind",
+  "status-ink",
+  "status-bleed",
+  "status-vulnerable",
+  "status-charm",
+  "resource-attack",
+  "resource-armor",
+  "resource-charm"
+] as const;
+
+const imagegenBackedAssetIds = [
+  "hud-frame-player",
+  "hud-frame-enemy",
+  "intent-crest",
+  "hand-shelf",
+  "energy-orb",
+  "pile-seal",
+  "map-battle",
+  "map-elite",
+  "map-boss",
+  "map-shop",
+  "map-event",
+  "map-rest",
+  "map-route",
+  "resource-deck",
+  "resource-coin",
+  "resource-logbook",
+  "resource-health",
+  "status-block",
+  "status-armor",
   "status-mind",
   "status-ink",
   "status-bleed",
@@ -112,6 +170,21 @@ describe("combat UI kit manifest", () => {
     expect(existsSync(join(projectRoot, manifest.sourceSpec))).toBe(true);
     expect(manifest.approvedConcept).toBe("docs/superpowers/specs/assets/2026-05-09-combat-ui-kit-concept.png");
     expect(existsSync(join(projectRoot, manifest.approvedConcept))).toBe(true);
+    expect(manifest.aiRawSources).toContainEqual({
+      id: "imagegen-icon-sheet-v1",
+      kind: "imagegen",
+      path: "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+      notes: expect.stringContaining("4x4")
+    });
+    expect(manifest.aiRawSources).toContainEqual({
+      id: "imagegen-hud-sheet-v1",
+      kind: "imagegen",
+      path: "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+      notes: expect.stringContaining("2x3")
+    });
+    for (const source of manifest.aiRawSources) {
+      expect(existsSync(join(projectRoot, source.path)), source.path).toBe(true);
+    }
     expect(manifest.psdSources.map((source) => source.path).sort()).toEqual([
       "assets/source/ui/cards/card-frame-kit.psd",
       "assets/source/ui/combat-hud/combat-hud-kit.psd",
@@ -139,6 +212,10 @@ describe("combat UI kit manifest", () => {
       expect(png.width, asset.id).toBeGreaterThanOrEqual(32);
       expect(png.height, asset.id).toBeGreaterThanOrEqual(32);
       expect(hasTransparentPixels(png), asset.id).toBe(true);
+      expect(existsSync(join(projectRoot, asset.rawSource.path)), asset.id).toBe(true);
+      if ((imagegenBackedAssetIds as readonly string[]).includes(asset.id)) {
+        expect(asset.rawSource.kind, asset.id).toBe("imagegen");
+      }
 
       if (asset.kind === "nine-slice") {
         expect(asset.nineSlice, asset.id).toBeDefined();

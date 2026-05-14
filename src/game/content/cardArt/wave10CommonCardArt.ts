@@ -57,25 +57,25 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "ink_heiyu",
-    assetPath: "/assets/generated/cards/wave10-ink-heiyu.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-heiyu-v1.png",
     alt: "Black rain falling into dream mist and ink pools",
     accent: "ink"
   },
   {
     id: "ink_modian",
-    assetPath: "/assets/generated/cards/wave10-ink-modian.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-modian-v1.png",
     alt: "Spreading ink dot corrupting xuan paper fibers",
     accent: "ink"
   },
   {
     id: "ink_moren",
-    assetPath: "/assets/generated/cards/wave10-ink-moren.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-moren-v1.png",
     alt: "Black blade rising from a pooled ink shadow",
     accent: "ink"
   },
   {
     id: "mind_jingxin",
-    assetPath: "/assets/generated/cards/wave10-mind-jingxin.svg",
+    assetPath: "/assets/generated/cards/imagegen-mind-jingxin-v1.png",
     alt: "Still heart held inside a clear teal water ring",
     accent: "teal"
   },
@@ -93,7 +93,7 @@ export const wave10CommonCardArt: CardArtDefinition[] = [
   },
   {
     id: "status_rain_chill",
-    assetPath: "/assets/generated/cards/wave10-status-rain-chill.svg",
+    assetPath: "/assets/generated/cards/imagegen-status-rain-chill-v1.png",
     alt: "Cold rain needles and frost ink over dark paper",
     accent: "ink"
   }

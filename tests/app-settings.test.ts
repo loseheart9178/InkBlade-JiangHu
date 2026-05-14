@@ -225,6 +225,81 @@ describe("settings shell wiring", () => {
     expect(surfaces.at(-1)).toBe("event");
   });
 
+  it("renders compact map nodes and top status chips with full details in titles", () => {
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage: new MemoryStorage() });
+
+    controller.startRun("zhaoyun");
+
+    const battleNode = host.querySelector<HTMLElement>("[data-testid='map-node-battle-1']");
+    expect(battleNode?.querySelector("[data-testid='map-node-details-battle-1']")).not.toBeNull();
+    expect(battleNode?.querySelector("[data-testid='map-node-preview-battle-1']")).not.toBeNull();
+
+    const relicChip = host.querySelector<HTMLElement>("[data-testid='run-relics']");
+    const methodChip = host.querySelector<HTMLElement>("[data-testid='run-methods']");
+    const archetypeChip = host.querySelector<HTMLElement>("[data-testid='run-archetype']");
+
+    expect(relicChip?.dataset.statusKind).toBe("relics");
+    expect(methodChip?.dataset.statusKind).toBe("methods");
+    expect(archetypeChip?.dataset.statusKind).toBe("archetype");
+    expect(relicChip?.getAttribute("title")).toContain("法宝");
+    expect(methodChip?.getAttribute("title")).toContain("心法");
+    expect(archetypeChip?.getAttribute("title")).toContain("流派");
+    expect(relicChip?.textContent?.length).toBeLessThanOrEqual(12);
+    expect(methodChip?.textContent?.length).toBeLessThanOrEqual(12);
+    expect(archetypeChip?.textContent?.length).toBeLessThanOrEqual(14);
+  });
+
+  it("shows card art thumbnails in compendium card entries", () => {
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage: new MemoryStorage() });
+
+    controller.startRun("zhaoyun");
+    host.querySelector<HTMLButtonElement>("[data-testid='compendium-open']")?.click();
+
+    const cardEntry = host.querySelector<HTMLElement>("[data-category='cards']");
+    const art = cardEntry?.querySelector<HTMLImageElement>("[data-testid='card-art']");
+    expect(cardEntry).not.toBeNull();
+    expect(art?.getAttribute("src")).toMatch(/^\/assets\//);
+  });
+
+  it("renders the in-run compendium with a dedicated scroll region before the return action", () => {
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage: new MemoryStorage() });
+
+    controller.startRun("zhaoyun");
+    host.querySelector<HTMLButtonElement>("[data-testid='compendium-open']")?.click();
+
+    const panel = host.querySelector<HTMLElement>("[data-testid='screen-compendium']");
+    const list = panel?.querySelector<HTMLElement>("[data-testid='compendium-scroll-region']");
+    const back = panel?.querySelector<HTMLButtonElement>("[data-testid='compendium-back']");
+    expect(panel).not.toBeNull();
+    expect(list).not.toBeNull();
+    expect(back).not.toBeNull();
+    if (!panel || !list || !back) {
+      throw new Error("Expected the compendium panel, scroll region, and back action to render.");
+    }
+
+    expect(list.classList.contains("compendium-list")).toBe(true);
+    expect(back.classList.contains("compendium-back-action")).toBe(true);
+    expect(back.parentElement).toBe(panel);
+    expect(list.compareDocumentPosition(back) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("shows imagegen relic art thumbnails in compendium relic entries", () => {
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage: new MemoryStorage() });
+
+    controller.startRun("zhaoyun");
+    host.querySelector<HTMLButtonElement>("[data-testid='compendium-open']")?.click();
+    host.querySelector<HTMLButtonElement>("[data-testid='compendium-tab-relics']")?.click();
+
+    const relicEntry = host.querySelector<HTMLElement>("[data-category='relics']");
+    const art = relicEntry?.querySelector<HTMLImageElement>("[data-testid='relic-art'] img");
+    expect(relicEntry).not.toBeNull();
+    expect(art?.getAttribute("src")).toMatch(/^\/assets\/generated\/relics\/imagegen-.+\.png$/);
+  });
+
   it("loads saved values, saves changes, and applies reduced motion class", () => {
     const storage = new MemoryStorage();
     saveSettings(storage, {
@@ -307,6 +382,27 @@ describe("settings shell wiring", () => {
 
     expect(continuedHost.querySelector("[data-testid='onboarding-hint-combat-energy']")).toBeNull();
     expect(continuedHost.querySelector("[data-testid='onboarding-hint-combat-hand']")).not.toBeNull();
+  });
+
+  it("renders combat resource HUD and status tooltips inside the top HUD groups", () => {
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage: new MemoryStorage() });
+
+    controller.startRun("diaochan");
+    host.querySelector<HTMLButtonElement>("[data-testid='map-node-battle-1']")?.click();
+
+    expect(host.querySelector("[data-testid='player-hud-group'] [data-testid='player-resource']")?.textContent).toContain("舞势");
+    expect(host.querySelector("[data-testid='enemy-hud-group'] [data-testid='enemy-resource']")?.textContent).toContain("敌势");
+    expect(host.querySelector(".combat-field [data-testid='player-resource']")).toBeNull();
+    expect(host.querySelector(".combat-field [data-testid='enemy-resource']")).toBeNull();
+
+    const statusChip = host.querySelector<HTMLElement>(".status-chip");
+    const statusBadge = host.querySelector<HTMLElement>("[data-testid='status-badge']");
+    expect(statusChip?.getAttribute("title")).toBe(statusChip?.dataset.tooltip);
+    expect(statusChip?.getAttribute("aria-label")).toBe(statusChip?.dataset.tooltip);
+    expect(statusChip?.getAttribute("tabindex")).toBe("0");
+    expect(statusBadge?.dataset.tooltip).toMatch(/：/);
+    expect(statusBadge?.getAttribute("tabindex")).toBe("0");
   });
 
   it("does not mark onboarding complete when debug skip advances the route", () => {

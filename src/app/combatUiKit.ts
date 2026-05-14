@@ -11,7 +11,19 @@ export const combatUiAssetIds = [
   "card-frame-uncommon",
   "card-frame-rare",
   "card-frame-event",
+  "map-battle",
+  "map-elite",
+  "map-boss",
+  "map-shop",
+  "map-event",
+  "map-rest",
+  "map-route",
+  "resource-health",
+  "resource-coin",
+  "resource-deck",
+  "resource-logbook",
   "status-block",
+  "status-armor",
   "status-mind",
   "status-ink",
   "status-bleed",
@@ -29,7 +41,7 @@ export const combatUiAssets: Record<CombatUiAssetId, string> = Object.fromEntrie
 ) as Record<CombatUiAssetId, string>;
 
 export const combatStatusIconByTone = {
-  block: "status-block",
+  block: "status-armor",
   mind: "status-mind",
   ink: "status-ink"
 } as const satisfies Record<"block" | "mind" | "ink", CombatUiAssetId>;
@@ -37,7 +49,7 @@ export const combatStatusIconByTone = {
 export const combatStatusIconByStatus = {
   charm: "status-charm",
   dodge: "status-block",
-  guard: "status-block",
+  guard: "status-armor",
   ink: "status-ink",
   vulnerable: "status-vulnerable",
   weak: "status-vulnerable"
@@ -47,6 +59,23 @@ export const combatResourceIconByOwner = {
   player: "resource-attack",
   enemy: "resource-charm"
 } as const satisfies Record<"player" | "enemy", CombatUiAssetId>;
+
+export const runStatusIconByKind = {
+  health: "resource-health",
+  gold: "resource-coin",
+  deck: "resource-deck",
+  logbook: "resource-logbook"
+} as const satisfies Record<"health" | "gold" | "deck" | "logbook", CombatUiAssetId>;
+
+export const mapNodeIconByType = {
+  start: "map-event",
+  battle: "map-battle",
+  elite: "map-elite",
+  event: "map-event",
+  shop: "map-shop",
+  rest: "map-rest",
+  boss: "map-boss"
+} as const satisfies Record<"start" | "battle" | "elite" | "event" | "shop" | "rest" | "boss", CombatUiAssetId>;
 
 export function getCombatUiAsset(id: CombatUiAssetId): string {
   return combatUiAssets[id];

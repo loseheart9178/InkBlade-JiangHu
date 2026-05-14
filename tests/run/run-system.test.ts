@@ -255,6 +255,39 @@ describe("run system", () => {
     expect([...shopSeen]).toEqual(expect.arrayContaining([...expectedTravelShopCards, ...expectedInkCards]));
   });
 
+  it("includes a sustain card in the first two Luoshui battle reward drafts for each hero", () => {
+    const sustainCardIds = new Set(["common_tuna", "common_qingshen", "common_xixin", "common_jiexue"]);
+    const characterIds = ["zhaoyun", "diaochan", "caiwenji", "zhugeliang"];
+
+    for (const characterId of characterIds) {
+      const earlyRewardIds = new Set<string>();
+
+      for (let offset = 0; offset < 2; offset += 1) {
+        const run = createRun(characterId);
+        run.rewardHistory = Array.from({ length: offset }, (_, index) => `early:${index}`);
+        expect(run.chapterId).toBe("luoshui");
+
+        createCardRewardDraft(run, "battle").cards.forEach((card) => earlyRewardIds.add(card.id));
+      }
+
+      expect([...earlyRewardIds].some((cardId) => sustainCardIds.has(cardId))).toBe(true);
+    }
+  });
+
+  it("keeps early Luoshui sustain visible when combo-biased rewards are active", () => {
+    const sustainCardIds = new Set(["common_tuna", "common_qingshen", "common_xixin", "common_jiexue"]);
+    const run = createRun("zhaoyun");
+    recordRunCombatCombos(run, ["lianzhan"]);
+
+    const draft = createCardRewardDraft(run, "battle");
+    const rewardIds = draft.cards.map((card) => card.id);
+
+    expect(draft.comboId).toBe("lianzhan");
+    expect(rewardIds[0]).toBe("zhao_white_dragon");
+    expect(rewardIds).toContain("common_feishi");
+    expect(rewardIds.some((cardId) => sustainCardIds.has(cardId))).toBe(true);
+  });
+
   it("marks the final chapter boss preview as a route to the ending choice", () => {
     const run = createRun("diaochan", { mapSeed: 3 });
 

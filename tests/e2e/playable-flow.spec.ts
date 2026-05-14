@@ -100,6 +100,8 @@ test("compendium 墨录图鉴 opens from title and filters cards", async ({ page
   await expect(page.locator(".compendium-tabs")).toHaveClass(/compendium-tabs--kit/);
   await expect(page.locator(".compendium-filters")).toHaveClass(/compendium-filters--kit/);
   await expect(page.locator(".compendium-list")).toHaveClass(/compendium-list--kit/);
+  await expectWideCompendiumLayout(page);
+  await expectCompendiumScrollsWithinPanel(page);
   const lockedCount = Number(await page.getByTestId("screen-compendium").getAttribute("data-locked-count"));
   const referenceCount = Number(await page.getByTestId("screen-compendium").getAttribute("data-reference-count"));
   expect(lockedCount).toBeGreaterThan(0);
@@ -122,6 +124,17 @@ test("compendium 墨录图鉴 opens from title and filters cards", async ({ page
 
   await expect(page.getByTestId("compendium-item").first()).toContainText(/枪击|架枪|龙胆/);
   await expect(page.getByTestId("screen-compendium")).not.toContainText("素刃");
+
+  await page.getByTestId("compendium-filter-character").selectOption("all");
+  await page.getByTestId("compendium-filter-rarity").selectOption("all");
+  await page.getByTestId("compendium-tab-relics").click();
+  await expect(page.getByTestId("compendium-relic-art").first()).toBeVisible();
+  await expect(page.getByTestId("compendium-relic-art").first().locator("img")).toHaveAttribute("src", /\/assets\/generated\/relics\/imagegen-.+\.png$/);
+
+  await page.getByTestId("compendium-tab-enemies").click();
+  await expect(page.getByTestId("compendium-enemy-art").first()).toBeVisible();
+  await expect(page.getByTestId("compendium-enemy-art").first().locator("img")).toHaveAttribute("src", /standee-cutout\.png$/);
+  await expectWideCompendiumLayout(page);
 
   await page.getByTestId("compendium-back").click();
   await expect(page.getByTestId("screen-title")).toBeVisible();
@@ -334,17 +347,33 @@ test("route map shows risk and reward previews before choosing nodes", async ({ 
   await expect(battleNode).toHaveAttribute("data-map-node-type", "battle");
   await expect(battleNode).toHaveAttribute("data-route-state", "available");
   await expect(battleNode.getByTestId("map-node-state-battle-1")).toContainText("可走");
+  await battleNode.hover();
   await expect(page.getByTestId("map-node-preview-battle-1")).toHaveClass(/map-node-preview--kit/);
   await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势8|金币\+12/);
   await expect(page.getByTestId("map-node-reward-battle-1")).toHaveClass(/map-node-reward--kit/);
   await expect(page.getByTestId("map-node-reward-battle-1")).toContainText("金币+12 / 三选一武学");
+  const hoveredLayering = await page.evaluate(() => {
+    const hoveredNode = document.querySelector<HTMLElement>("[data-testid='map-node-battle-1']");
+    const siblingNode = document.querySelector<HTMLElement>("[data-testid='map-node-event-1']");
+    const details = document.querySelector<HTMLElement>("[data-testid='map-node-details-battle-1']");
+    return {
+      hoveredZIndex: Number(window.getComputedStyle(hoveredNode as HTMLElement).zIndex),
+      siblingZIndex: Number(window.getComputedStyle(siblingNode as HTMLElement).zIndex),
+      detailsZIndex: Number(window.getComputedStyle(details as HTMLElement).zIndex)
+    };
+  });
+  expect(hoveredLayering.hoveredZIndex).toBeGreaterThan(hoveredLayering.siblingZIndex);
+  expect(hoveredLayering.detailsZIndex).toBeGreaterThanOrEqual(100);
   await expect(page.getByTestId("map-node-event-1")).toHaveAttribute("data-map-node-type", "event");
+  await page.getByTestId("map-node-event-1").hover();
   await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/护住哭声|心境/);
   await expect(page.getByTestId("map-node-reward-event-1")).toContainText("事件收益 / 代价");
   await expect(page.getByTestId("map-node-shop-1")).toHaveAttribute("data-map-node-type", "shop");
+  await page.getByTestId("map-node-shop-1").hover();
   await expect(page.getByTestId("map-node-preview-shop-1")).toContainText("当前铜钱99");
   await expect(page.getByTestId("map-node-reward-shop-1")).toContainText("消费铜钱 / 调整牌组");
   await expect(page.getByTestId("map-node-rest-1")).toHaveAttribute("data-map-node-type", "rest");
+  await page.getByTestId("map-node-rest-1").hover();
   await expect(page.getByTestId("map-node-preview-rest-1")).toContainText("回复约30%生命");
   await capturePlaytestScreenshot(page, testInfo, "wave32-route-map-surface.png");
 
@@ -354,7 +383,9 @@ test("route map shows risk and reward previews before choosing nodes", async ({ 
   await expect(page.getByTestId("route-cinematic-header")).toContainText(/第2幕|下一卷|长安墨城/);
   await expect(page.locator(".route-journey-step").first()).toHaveAttribute("data-route-step-state", "current");
   await expect(page.getByTestId("route-journey-strip")).toContainText(/落脚|可选|首领幕/);
+  await page.getByTestId("map-node-battle-1").hover();
   await expect(page.getByTestId("map-node-preview-battle-1")).toContainText(/最高攻势|金币\+12/);
+  await page.getByTestId("map-node-event-1").hover();
   await expect(page.getByTestId("map-node-preview-event-1")).toContainText(/荒寺夜琴|心境/);
 });
 
@@ -524,6 +555,8 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
 
   await expect(page.getByTestId("screen-combat")).toBeVisible();
   await expect(page.getByTestId("energy")).toBeVisible();
+  await expect(page.getByTestId("player-hud-group").getByTestId("player-resource")).toContainText(/枪势\s+0\/6/);
+  await expect(page.locator(".combat-field [data-testid='player-resource']")).toHaveCount(0);
   await expect(page.getByTestId("player-hp")).toContainText("赵云");
   await expect(page.getByTestId("enemy-hp")).toContainText("墨化山贼");
   await expect(page.getByTestId("combat-standee-player")).toHaveAttribute("src", /zhaoyun-standee-gpt-v2-cutout\.png$/);
@@ -534,6 +567,11 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("combat-build-readout")).toContainText("法宝 白龙枪缨");
   await expect(page.getByTestId("combat-build-readout")).toContainText("心法 未定");
   await capturePlaytestScreenshot(page, testInfo, "wave33-combat-readability.png");
+
+  await page.locator("#hud-host").evaluate((host) => host.classList.add("prefers-reduced-motion"));
+  await page.locator(".combat-card:not([disabled])").filter({ hasText: "攻" }).first().click();
+  await expect(page.getByTestId("target-feedback-enemy")).toBeHidden();
+  await page.locator("#hud-host").evaluate((host) => host.classList.remove("prefers-reduced-motion"));
 
   await winVisibleCombat(page);
 
@@ -557,6 +595,9 @@ test("boots, enters a Zhao Yun battle, wins, and returns to the route map", asyn
   await expect(page.getByTestId("screen-reward").locator(".game-message")).not.toHaveCSS("position", "absolute");
   await expectVerticalGap(page.getByTestId("spoils-summary"), page.getByTestId("reward-card").first(), 8);
   await expectVerticalGap(page.getByTestId("reward-card").first(), page.getByTestId("reward-footer"), 8);
+  await expectInsideViewport(page.getByTestId("reward-card").first());
+  await expectInsideViewport(page.getByTestId("reward-card").last());
+  await expectInsideViewport(page.getByTestId("reward-footer"));
   await page.getByTestId("reward-card").first().click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
   await page.getByTestId("deck-open").click();
@@ -581,43 +622,74 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expect(page.getByTestId("shop-scene").getByTestId("shop-scene-header")).toBeVisible();
   await expect(page.getByTestId("shop-scene-header")).toContainText("茶亭游商");
   await expect(page.getByTestId("shop-marquee")).toContainText("铜钱");
+  await expect(page.getByTestId("shop-tabs")).toBeVisible();
+  await expect(page.getByTestId("shop-tab-cards")).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByTestId("shop-tab-relics")).toHaveAttribute("aria-selected", "false");
+  await expect(page.getByTestId("shop-tab-services")).toHaveAttribute("aria-selected", "false");
   await expect(page.getByTestId("shop-section-cards")).toBeVisible();
-  await expect(page.getByTestId("shop-section-relics")).toBeVisible();
-  await expect(page.getByTestId("shop-section-services")).toBeVisible();
-  await expectVerticalGap(page.getByTestId("shop-section-cards"), page.getByTestId("shop-section-relics"), 8);
-  await expectVerticalGap(page.getByTestId("shop-section-relics"), page.getByTestId("shop-section-services"), 8);
+  await expect(page.getByTestId("shop-section-relics")).toBeHidden();
+  await expect(page.getByTestId("shop-section-services")).toBeHidden();
   const travelCard = page.getByTestId("shop-card-travel");
   await expect(travelCard).toHaveClass(/shop-item--card/);
   await expect(travelCard).toHaveClass(/shop-item--kit/);
   await expect(travelCard).toHaveAttribute("style", /--ui-kit-card-frame/);
+  await expect(travelCard.locator(".shop-card-front")).toBeVisible();
+  await expect(travelCard.locator(".shop-card-back")).toBeHidden();
+  await expect(travelCard.locator(".shop-card-front .shop-slot-note")).toHaveCount(0);
+  await expect(travelCard.locator(".shop-flip-hint")).toBeHidden();
+  await travelCard.hover();
+  await expect(travelCard.locator(".shop-flip-hint")).toBeVisible();
+  await expect(travelCard.locator(".shop-flip-hint")).toContainText("翻转查看详细信息");
+  await expect(travelCard.locator(".shop-card-note")).toContainText("补气护身");
   await expect(travelCard.locator(".card-art")).toHaveClass(/card-art--kit/);
   await expect(travelCard).toContainText("行旅常备");
   await expect(travelCard).toContainText("补气护身");
   await expect(travelCard.locator(".card-art")).toBeVisible();
   await expect(travelCard.locator(".card-chrome-row")).toBeVisible();
-  await expect(travelCard.locator(".card-keyword-row")).toBeVisible();
   await expect(travelCard.getByTestId("card-cost")).toBeVisible();
   await expectCardArtWindowClear(travelCard);
-  await expect(travelCard.locator(".shop-price-chip")).toContainText("35");
-  await expect(travelCard.getByTestId("shop-build-fit")).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
-  await expect(travelCard.getByTestId("shop-build-fit-detail")).toContainText(/流|技法|攻击|墨痕|成型|短板/);
+  await expect(travelCard.getByTestId("shop-price-chip")).toContainText("35");
   await expect(travelCard).toHaveAttribute("data-build-fit-tone", /main|branch|utility|risk/);
+  await expect(page.locator(".run-status-chip[title^='牌组 '] strong")).toHaveText("11");
+  await travelCard.click();
+  await expect(travelCard).toHaveAttribute("data-flipped", "true");
+  await expect(travelCard).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".run-status-chip[title^='牌组 '] strong")).toHaveText("11");
+  await expect(travelCard.locator(".shop-card-back")).toBeVisible();
+  await expect(travelCard.locator(".shop-card-back .card-keyword-row")).toBeVisible();
+  await expect(travelCard.locator(".shop-card-back").getByTestId("shop-build-fit")).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
+  await expect(travelCard.locator(".shop-card-back").getByTestId("shop-build-fit-detail")).toContainText(/流|技法|攻击|墨痕|成型|短板/);
+  await expect(travelCard.locator(".shop-card-back")).toContainText("点击价格购入");
+  await travelCard.click();
+  await expect(travelCard).toHaveAttribute("data-flipped", "false");
+  await expect(travelCard.locator(".shop-card-front")).toBeVisible();
+  await expect(travelCard.locator(".shop-card-back")).toBeHidden();
+  await travelCard.click();
+  await expect(travelCard).toHaveAttribute("data-flipped", "true");
 
   const roleCard = page.getByTestId("shop-card-role");
   await expect(roleCard).toContainText("门路秘招");
-  await expect(roleCard.locator(".shop-slot-note")).toContainText("当前角色");
+  await expect(roleCard.locator(".shop-card-front .shop-slot-note")).toHaveCount(0);
+  await expect(roleCard.locator(".shop-card-note")).toContainText("当前角色");
   await expect(roleCard.getByTestId("shop-build-fit")).toContainText(/顺势精进|另开支路|补足周旋|墨灾取势|开局定向/);
   await expect(roleCard.getByTestId("shop-build-fit-detail")).toContainText(/流|技法|攻击|墨痕|成型|短板/);
   await expect(roleCard).toHaveAttribute("data-build-fit-tone", /main|branch|utility|risk/);
 
   const inkCard = page.getByTestId("shop-card-ink");
   await expect(inkCard).toContainText("偏门异货");
-  await expect(inkCard.locator(".shop-slot-note")).toContainText("更冒险");
+  await expect(inkCard.locator(".shop-card-front .shop-slot-note")).toHaveCount(0);
+  await expect(inkCard.locator(".shop-card-note")).toContainText("更冒险");
   await expect(inkCard.getByTestId("shop-build-fit")).toContainText("墨灾取势");
   await expect(inkCard.getByTestId("shop-build-fit-detail")).toContainText("墨痕");
   await expect(inkCard).toHaveAttribute("data-build-fit-tone", "risk");
 
   const roleRelic = page.getByTestId("shop-relic-role");
+  await page.getByTestId("shop-tab-relics").click();
+  await expect(page.getByTestId("shop-tab-cards")).toHaveAttribute("aria-selected", "false");
+  await expect(page.getByTestId("shop-tab-relics")).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByTestId("shop-section-cards")).toBeHidden();
+  await expect(page.getByTestId("shop-section-relics")).toBeVisible();
+  await expect(page.getByTestId("shop-section-services")).toBeHidden();
   await expect(roleRelic).toHaveClass(/shop-item--relic/);
   await expect(roleRelic).not.toHaveClass(/shop-item--kit/);
   await expect(roleRelic).toContainText("角色法门");
@@ -636,19 +708,47 @@ test("shops can add relics after the first battle", async ({ page }, testInfo) =
   await expect(premiumRelic.getByTestId("shop-relic-fit-detail")).toContainText(/流|墨痕|心境|所有流派|长期/);
   await expect(premiumRelic).toHaveAttribute("data-build-fit-tone", /main|branch|utility|risk/);
 
+  await page.getByTestId("shop-tab-services").click();
+  await expect(page.getByTestId("shop-section-cards")).toBeHidden();
+  await expect(page.getByTestId("shop-section-relics")).toBeHidden();
+  await expect(page.getByTestId("shop-section-services")).toBeVisible();
   const removeService = page.getByTestId("shop-remove-card");
   await expect(removeService).toHaveClass(/shop-item--service/);
   await expect(removeService).not.toHaveClass(/shop-item--kit/);
   await expect(removeService.locator(".shop-service-target")).toContainText("枪击");
   await expect(removeService.locator(".shop-price-chip")).toContainText("50");
+  await expectInsideViewport(page.getByTestId("shop-leave"));
   await capturePlaytestScreenshot(page, testInfo, "wave31-shop-surface.png");
 
+  await page.getByTestId("shop-tab-relics").click();
   await page.getByTestId("shop-relic-role").click();
 
   await expect(page.getByText(/^购得法宝：/)).toBeVisible();
   await expect(page.getByTestId("shop-relic-role")).toBeDisabled();
   await page.getByTestId("shop-leave").click();
   await expect(page.getByTestId("screen-map")).toBeVisible();
+});
+
+test("shop flipped cards can be purchased with keyboard activation", async ({ page }) => {
+  await startRun(page, "zhaoyun");
+  await page.getByTestId("map-node-battle-1").click();
+  await winVisibleCombat(page);
+  await expect(page.getByTestId("reward-skip")).toBeVisible();
+  await page.getByTestId("reward-card").first().click();
+
+  await page.getByTestId("map-node-shop-1").click();
+  await expect(page.getByTestId("screen-shop")).toBeVisible();
+  await expect(page.locator(".run-status-chip[title^='牌组 '] strong")).toHaveText("11");
+
+  const travelCard = page.getByTestId("shop-card-travel");
+  await travelCard.focus();
+  await page.keyboard.press("Enter");
+  await expect(travelCard).toHaveAttribute("data-flipped", "true");
+  await expect(page.locator(".run-status-chip[title^='牌组 '] strong")).toHaveText("11");
+
+  await page.keyboard.press("Enter");
+  await expect(page.getByText(/^购得/)).toBeVisible();
+  await expect(page.locator(".run-status-chip[title^='牌组 '] strong")).toHaveText("12");
 });
 
 test("elite victories can award and persist a heart method", async ({ page }) => {
@@ -747,10 +847,14 @@ test("墨录图鉴 compendium opens from map and returns to the previous run scr
   await expect(page.getByTestId("screen-compendium")).toBeVisible();
   await expect(page.getByTestId("screen-compendium")).toHaveClass(/compendium-screen--kit/);
   await expect(page.getByTestId("screen-compendium")).toContainText("招式链");
+  await expectCompendiumScrollsWithinPanel(page);
   await page.getByTestId("compendium-tab-enemies").click();
   await page.getByTestId("compendium-filter-chapter").selectOption("luoshui");
   await expect(page.getByTestId("compendium-item").first()).toHaveClass(/compendium-item--kit/);
   await expect(page.locator(".compendium-meta").first()).toHaveClass(/compendium-meta--kit/);
+  await expect(page.getByTestId("compendium-enemy-art").first()).toBeVisible();
+  await expect(page.getByTestId("compendium-enemy-art").first().locator("img")).toHaveAttribute("src", /standee-cutout\.png$/);
+  await expectWideCompendiumLayout(page);
   await expect(page.getByTestId("screen-compendium")).toContainText("墨影董卓");
 
   await page.getByTestId("compendium-back").click();
@@ -1011,6 +1115,10 @@ async function expectCardArtWindowClear(card: Locator): Promise<void> {
       if (!element) {
         return undefined;
       }
+      const style = window.getComputedStyle(element);
+      if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) {
+        return undefined;
+      }
       const rect = element.getBoundingClientRect();
       return {
         x: rect.x,
@@ -1039,7 +1147,11 @@ async function expectCardArtWindowClear(card: Locator): Promise<void> {
       item.querySelector(".card-chrome-row"),
       item.querySelector(".card-type-line"),
       item.querySelector(".card-keyword-row"),
-      item.querySelector(".card-description")
+      item.querySelector(".card-description"),
+      item.querySelector(".shop-card-note"),
+      item.querySelector(".shop-card-footer"),
+      item.querySelector(".shop-flip-hint"),
+      item.querySelector(".shop-price-chip")
     ];
 
     return {
@@ -1064,6 +1176,71 @@ async function expectNoOverlap(first: Locator, second: Locator): Promise<void> {
   expect(firstBox).not.toBeNull();
   expect(secondBox).not.toBeNull();
   expect(rectsOverlap(firstBox!, secondBox!)).toBe(false);
+}
+
+async function expectInsideViewport(locator: Locator): Promise<void> {
+  const metrics = await locator.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      x: rect.x,
+      y: rect.y,
+      right: rect.right,
+      bottom: rect.bottom,
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight
+    };
+  });
+
+  expect(metrics.x).toBeGreaterThanOrEqual(-1);
+  expect(metrics.y).toBeGreaterThanOrEqual(-1);
+  expect(metrics.right).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+  expect(metrics.bottom).toBeLessThanOrEqual(metrics.viewportHeight + 1);
+}
+
+async function expectWideCompendiumLayout(page: Page): Promise<void> {
+  const metrics = await page.getByTestId("screen-compendium").evaluate((panel) => {
+    const panelRect = panel.getBoundingClientRect();
+    const list = panel.querySelector<HTMLElement>(".compendium-list");
+    const listRect = list?.getBoundingClientRect();
+    return {
+      panelWidth: panelRect.width,
+      viewportWidth: window.innerWidth,
+      panelRight: panelRect.right,
+      listClientWidth: list?.clientWidth ?? 0,
+      listScrollWidth: list?.scrollWidth ?? 0,
+      listWidth: listRect?.width ?? 0
+    };
+  });
+
+  expect(metrics.panelWidth).toBeGreaterThanOrEqual(metrics.viewportWidth * 0.9);
+  expect(metrics.panelRight).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+  expect(metrics.listWidth).toBeGreaterThan(0);
+  expect(metrics.listScrollWidth).toBeLessThanOrEqual(metrics.listClientWidth + 1);
+}
+
+async function expectCompendiumScrollsWithinPanel(page: Page): Promise<void> {
+  const metrics = await page.getByTestId("screen-compendium").evaluate((panel) => {
+    const list = panel.querySelector<HTMLElement>("[data-testid='compendium-scroll-region']");
+    const back = panel.querySelector<HTMLElement>("[data-testid='compendium-back']");
+    if (!list || !back) {
+      return { hasLayout: false, canScroll: false, listBottom: 0, backTop: 0 };
+    }
+
+    const before = list.scrollTop;
+    list.scrollTop = list.scrollHeight;
+    const listRect = list.getBoundingClientRect();
+    const backRect = back.getBoundingClientRect();
+    return {
+      hasLayout: true,
+      canScroll: list.scrollHeight > list.clientHeight && list.scrollTop > before,
+      listBottom: listRect.bottom,
+      backTop: backRect.top
+    };
+  });
+
+  expect(metrics.hasLayout).toBe(true);
+  expect(metrics.canScroll).toBe(true);
+  expect(metrics.backTop).toBeGreaterThanOrEqual(metrics.listBottom);
 }
 
 function rectsOverlap(

@@ -1,4 +1,4 @@
-import { expect, type Page, type TestInfo, test } from "@playwright/test";
+import { expect, type Locator, type Page, type TestInfo, test } from "@playwright/test";
 import { getCombatAttackSprite } from "../../src/game/content/visuals";
 
 const firstChapterSemanticEnemyAttacks = {
@@ -104,6 +104,9 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("enemy-status")).toHaveClass(/status-line--kit/);
     await expect(page.getByTestId("status-icon").first()).toBeVisible();
     await expect(page.getByTestId("player-resource")).toHaveClass(/resource-pill--kit/);
+    await expect(page.getByTestId("player-hud-group").getByTestId("player-resource")).toBeVisible();
+    await expect(page.locator(".combat-field [data-testid='player-resource']")).toHaveCount(0);
+    await expect(page.locator(".combat-field [data-testid='enemy-resource']")).toHaveCount(0);
     await expect(page.getByTestId("resource-icon").first()).toBeVisible();
     await expect(page.getByTestId("energy")).toHaveClass(/energy-orb--kit/);
     await expect(page.getByTestId("glossary-chip").first()).toHaveAttribute("title", /。/);
@@ -128,6 +131,8 @@ test("captures desktop combat smoke screenshots for all four characters", async 
       await expect(statusBadge).toHaveAttribute("data-glossary-id", /status\./);
       await expect(statusBadge).toHaveAttribute("title", /：/);
       await expect(statusBadge).toHaveAttribute("aria-label", /：/);
+      await expect(statusBadge).toHaveAttribute("data-tooltip", /：/);
+      await expectStatusTooltipVisible(statusBadge);
     }
     await expectDesktopCombatLayout(page);
 
@@ -147,6 +152,7 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("target-feedback-enemy")).toHaveAttribute("data-feedback-kind", /damage|status|block|resource|ink|draw|trigger/);
     await expect(page.getByTestId("target-feedback-enemy")).toHaveAttribute("data-feedback-tone", /red|teal|gold|ink|neutral|mind/);
     await expect(page.locator(".combatant--enemy")).toHaveClass(/is-target-feedback/);
+    await expect(page.getByTestId("target-feedback-enemy")).toBeHidden({ timeout: 3_600 });
     await expect(page.getByTestId("played-feedback")).not.toHaveAttribute("data-played-count", "0");
     await expect(page.getByTestId("combat-vfx-slash")).toHaveCount(0);
     await expect(page.getByTestId("combat-vfx-sigil")).toHaveCount(0);
@@ -155,6 +161,17 @@ test("captures desktop combat smoke screenshots for all four characters", async 
     await expect(page.getByTestId("combo-trail")).toContainText("攻");
     await expectDesktopCombatLayout(page);
   }
+});
+
+test("mobile combat HUD keeps meters and status stacks inside the viewport", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await startDesktopCombat(page, "zhaoyun");
+
+  await expect(page.getByTestId("screen-combat")).toBeVisible();
+  await expect(page.getByTestId("player-hud-group").getByTestId("player-resource")).toBeVisible();
+  await expect(page.getByTestId("enemy-hud-group").getByTestId("enemy-resource")).toBeVisible();
+  await expectMobileCombatLayout(page);
+  await capturePlaytestScreenshot(page, testInfo, "combat-zhaoyun-mobile-hud.png");
 });
 
 test("captures a non-Luoshui chapter battlefield context", async ({ page }, testInfo) => {
@@ -305,6 +322,12 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   const enemyStandee = await page.getByTestId("combat-standee-enemy").boundingBox();
   const handZone = await page.getByTestId("hand-zone").boundingBox();
   const energy = await page.getByTestId("energy").boundingBox();
+  const playerHp = await page.getByTestId("player-hp").boundingBox();
+  const enemyHp = await page.getByTestId("enemy-hp").boundingBox();
+  const playerStatus = await page.getByTestId("player-status").boundingBox();
+  const enemyStatus = await page.getByTestId("enemy-status").boundingBox();
+  const playerResource = await page.getByTestId("player-resource").boundingBox();
+  const enemyResource = await page.getByTestId("enemy-resource").boundingBox();
   const firstCard = await page.locator(".combat-card").first().boundingBox();
   const firstCardArtFrame = await page.locator(".combat-card .card-art").first().boundingBox();
   const cardCost = await page.getByTestId("card-cost").first().boundingBox();
@@ -334,6 +357,12 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   expect(enemyStandee).not.toBeNull();
   expect(handZone).not.toBeNull();
   expect(energy).not.toBeNull();
+  expect(playerHp).not.toBeNull();
+  expect(enemyHp).not.toBeNull();
+  expect(playerStatus).not.toBeNull();
+  expect(enemyStatus).not.toBeNull();
+  expect(playerResource).not.toBeNull();
+  expect(enemyResource).not.toBeNull();
   expect(firstCard).not.toBeNull();
   expect(firstCardArtFrame).not.toBeNull();
   expect(cardCost).not.toBeNull();
@@ -351,7 +380,24 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
 
   expect(playerStandee!.y + playerStandee!.height).toBeLessThan(handZone!.y + 24);
   expect(enemyStandee!.y + enemyStandee!.height).toBeLessThan(handZone!.y + 24);
+  expect(Math.abs(energy!.width - energy!.height)).toBeLessThanOrEqual(1);
   expect(firstCard!.x - (energy!.x + energy!.width)).toBeGreaterThanOrEqual(28);
+  expect(playerStatus!.x).toBeGreaterThanOrEqual(playerHp!.x + playerHp!.width - 1);
+  expect(playerStatus!.y + playerStatus!.height).toBeGreaterThan(playerHp!.y);
+  expect(playerStatus!.y).toBeLessThan(playerHp!.y + playerHp!.height);
+  expect(enemyStatus!.x + enemyStatus!.width).toBeLessThanOrEqual(enemyHp!.x + 1);
+  expect(enemyStatus!.y + enemyStatus!.height).toBeGreaterThan(enemyHp!.y);
+  expect(enemyStatus!.y).toBeLessThan(enemyHp!.y + enemyHp!.height);
+  await expect(page.locator(".combat-field [data-testid='player-status']")).toHaveCount(0);
+  await expect(page.locator(".combat-field [data-testid='enemy-status']")).toHaveCount(0);
+  await expect(page.locator(".combat-field [data-testid='player-resource']")).toHaveCount(0);
+  await expect(page.locator(".combat-field [data-testid='enemy-resource']")).toHaveCount(0);
+  await expect(page.getByTestId("player-hud-group").getByTestId("player-resource")).toBeVisible();
+  await expect(page.getByTestId("enemy-hud-group").getByTestId("enemy-resource")).toBeVisible();
+  expect(rectsOverlap(playerStatus!, playerStandee!)).toBe(false);
+  expect(rectsOverlap(enemyStatus!, enemyStandee!)).toBe(false);
+  expect(rectsOverlap(playerResource!, playerStandee!)).toBe(false);
+  expect(rectsOverlap(enemyResource!, enemyStandee!)).toBe(false);
   expect(cardCost!.width).toBeGreaterThanOrEqual(30);
   expect(cardCost!.height).toBeGreaterThanOrEqual(30);
   expect(cardCost!.x).toBeGreaterThanOrEqual(firstCard!.x);
@@ -369,14 +415,18 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
   expect(rectsOverlap(playedFeedback!, topbar!)).toBe(false);
 
   const feedbackRects = await page.locator("[data-testid^='target-feedback-']").evaluateAll((items) =>
-    items.map((item) => {
+    items.flatMap((item) => {
+      const style = window.getComputedStyle(item);
+      if (style.visibility === "hidden" || Number(style.opacity) === 0) {
+        return [];
+      }
       const rect = item.getBoundingClientRect();
-      return {
+      return [{
         x: rect.x,
         y: rect.y,
         width: rect.width,
         height: rect.height
-      };
+      }];
     })
   );
 
@@ -393,6 +443,73 @@ async function expectDesktopCombatLayout(page: Page): Promise<void> {
     expect(rectsOverlap(cardRect, combatLog!)).toBe(false);
     expect(rectsOverlap(cardRect, controls!)).toBe(false);
   }
+}
+
+async function expectStatusTooltipVisible(status: Locator): Promise<void> {
+  await status.focus();
+  await expect.poll(async () =>
+    status.evaluate((node) => {
+      const style = window.getComputedStyle(node, "::after");
+      return {
+        content: style.content,
+        opacity: Number(style.opacity)
+      };
+    })
+  ).toMatchObject({
+    content: expect.stringMatching(/护甲|心境|墨痕|：/),
+    opacity: expect.any(Number)
+  });
+  const opacity = await status.evaluate((node) => Number(window.getComputedStyle(node, "::after").opacity));
+  expect(opacity).toBeGreaterThan(0.5);
+}
+
+async function expectMobileCombatLayout(page: Page): Promise<void> {
+  const topbar = page.locator(".combat-topbar");
+  const screen = page.getByTestId("screen-combat");
+  const playerHud = page.getByTestId("player-hud-group");
+  const enemyHud = page.getByTestId("enemy-hud-group");
+  const playerMeter = page.getByTestId("player-hp");
+  const enemyMeter = page.getByTestId("enemy-hp");
+  const intent = page.getByTestId("intent");
+
+  const metrics = await page.evaluate(() => {
+    const read = (selector: string) => {
+      const element = document.querySelector<HTMLElement>(selector);
+      const rect = element?.getBoundingClientRect();
+      return rect ? { x: rect.x, y: rect.y, width: rect.width, height: rect.height } : null;
+    };
+    const top = document.querySelector<HTMLElement>(".combat-topbar");
+    const screenNode = document.querySelector<HTMLElement>("[data-testid='screen-combat']");
+    return {
+      viewportWidth: window.innerWidth,
+      topbarScrollWidth: top?.scrollWidth ?? 0,
+      topbarClientWidth: top?.clientWidth ?? 0,
+      screenScrollWidth: screenNode?.scrollWidth ?? 0,
+      screenClientWidth: screenNode?.clientWidth ?? 0,
+      playerHud: read("[data-testid='player-hud-group']"),
+      enemyHud: read("[data-testid='enemy-hud-group']"),
+      playerMeter: read("[data-testid='player-hp']"),
+      enemyMeter: read("[data-testid='enemy-hp']"),
+      intent: read("[data-testid='intent']")
+    };
+  });
+
+  await expect(topbar).toBeVisible();
+  await expect(screen).toBeVisible();
+  await expect(playerHud).toBeVisible();
+  await expect(enemyHud).toBeVisible();
+  await expect(playerMeter).toBeVisible();
+  await expect(enemyMeter).toBeVisible();
+  await expect(intent).toBeVisible();
+  expect(metrics.topbarScrollWidth).toBeLessThanOrEqual(metrics.topbarClientWidth + 1);
+  expect(metrics.screenScrollWidth).toBeLessThanOrEqual(metrics.screenClientWidth + 1);
+  for (const rect of [metrics.playerHud, metrics.enemyHud, metrics.playerMeter, metrics.enemyMeter, metrics.intent]) {
+    expect(rect).not.toBeNull();
+    expect(rect!.x).toBeGreaterThanOrEqual(-1);
+    expect(rect!.x + rect!.width).toBeLessThanOrEqual(metrics.viewportWidth + 1);
+  }
+  expect(rectsOverlap(metrics.intent!, metrics.playerHud!)).toBe(false);
+  expect(rectsOverlap(metrics.intent!, metrics.enemyHud!)).toBe(false);
 }
 
 function rectsOverlap(

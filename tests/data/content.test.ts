@@ -112,7 +112,7 @@ describe("content data", () => {
 
       expect(card, cardId).toBeDefined();
       expect(art, cardId).toBeDefined();
-      expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/(?:wave27-.+\.svg|foundation-(?:red-|star-)?v15-.+\.png|foundation-(?:red-|star-)?v16-.+\.png)$/);
+      expect(art.assetPath, cardId).toMatch(/^\/assets\/generated\/cards\/(?:imagegen-.+-v1|foundation-(?:red-|star-)?v15-.+|foundation-(?:red-|star-)?v16-.+)\.png$/);
       expect(art.assetPath, cardId).not.toBe(cardArtById[`type_${card.types[0]}`]?.assetPath);
       expectAssetPathToExist(art.assetPath);
     }
@@ -948,6 +948,7 @@ describe("content data", () => {
       "zhuge_deduction",
       "zhuge_empty_city"
     ]);
+    const imagegenCommonTargets = new Set(["ink_heiyu", "ink_modian", "ink_moren", "mind_jingxin", "status_rain_chill"]);
 
     for (const id of wave10FallbackTargets) {
       const card = cardsById[id];
@@ -968,6 +969,9 @@ describe("content data", () => {
       }
       if (foundationV16GeneratedTargets.has(id)) {
         expectedBatch = /^\/assets\/generated\/cards\/foundation-(?:red-|star-)?v16-.+\.png$/;
+      }
+      if (imagegenCommonTargets.has(id)) {
+        expectedBatch = /^\/assets\/generated\/cards\/imagegen-.+-v1\.png$/;
       }
 
       expect(card).toBeDefined();

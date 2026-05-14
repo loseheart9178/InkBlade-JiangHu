@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { writePsdBuffer } from "ag-psd";
@@ -13,25 +13,37 @@ const cardSourceDir = join(projectRoot, "assets/source/ui/cards");
 const iconSourceDir = join(projectRoot, "assets/source/ui/icons");
 
 const runtimeAssets = [
-  { id: "hud-frame-player", kind: "nine-slice", width: 420, height: 128, nineSlice: { top: 38, right: 62, bottom: 38, left: 62 }, source: "hud-frame-player.png", sourceLayer: "player status plate" },
-  { id: "hud-frame-enemy", kind: "nine-slice", width: 420, height: 128, nineSlice: { top: 38, right: 62, bottom: 38, left: 62 }, source: "hud-frame-enemy.png", sourceLayer: "enemy status plate" },
-  { id: "intent-crest", kind: "ornament", width: 156, height: 156, source: "intent-crest.png", sourceLayer: "enemy intent crest" },
-  { id: "hand-shelf", kind: "nine-slice", width: 1680, height: 320, nineSlice: { top: 92, right: 180, bottom: 70, left: 180 }, source: "hand-shelf.png", sourceLayer: "hand shelf" },
-  { id: "energy-orb", kind: "ornament", width: 148, height: 148, source: "energy-orb.png", sourceLayer: "energy orb" },
-  { id: "pile-seal", kind: "ornament", width: 82, height: 82, source: "pile-seal.png", sourceLayer: "pile counter seals" },
+  { id: "hud-frame-player", kind: "nine-slice", width: 420, height: 128, nineSlice: { top: 38, right: 62, bottom: 38, left: 62 }, source: "imagegen-hud-sheet-v1.png", sheet: { col: 0, row: 0, cols: 2, rows: 3 }, sourceLayer: "player status plate", imagegen: true },
+  { id: "hud-frame-enemy", kind: "nine-slice", width: 420, height: 128, nineSlice: { top: 38, right: 62, bottom: 38, left: 62 }, source: "imagegen-hud-sheet-v1.png", sheet: { col: 1, row: 0, cols: 2, rows: 3 }, sourceLayer: "enemy status plate", imagegen: true },
+  { id: "intent-crest", kind: "ornament", width: 156, height: 156, source: "imagegen-hud-sheet-v1.png", sheet: { col: 0, row: 2, cols: 2, rows: 3 }, sourceLayer: "enemy intent crest", imagegen: true },
+  { id: "hand-shelf", kind: "nine-slice", width: 1680, height: 320, nineSlice: { top: 92, right: 180, bottom: 70, left: 180 }, source: "imagegen-hud-sheet-v1.png", sheet: { col: 0, row: 1, cols: 2, rows: 3 }, sourceLayer: "hand shelf", imagegen: true },
+  { id: "energy-orb", kind: "ornament", width: 148, height: 148, source: "imagegen-hud-sheet-v1.png", sheet: { col: 1, row: 1, cols: 2, rows: 3 }, sourceLayer: "energy orb", imagegen: true },
+  { id: "pile-seal", kind: "ornament", width: 82, height: 82, source: "imagegen-hud-sheet-v1.png", sheet: { col: 1, row: 2, cols: 2, rows: 3 }, sourceLayer: "pile counter seals", imagegen: true },
   { id: "card-frame-common", kind: "card-frame", width: 340, height: 476, source: "card-frame-common.png", sourceLayer: "card frame common" },
   { id: "card-frame-uncommon", kind: "card-frame", width: 340, height: 476, source: "card-frame-uncommon.png", sourceLayer: "card frame uncommon" },
   { id: "card-frame-rare", kind: "card-frame", width: 340, height: 476, source: "card-frame-rare.png", sourceLayer: "card frame rare" },
   { id: "card-frame-event", kind: "card-frame", width: 340, height: 476, source: "card-frame-event.png", sourceLayer: "card frame event" },
-  { id: "status-block", kind: "icon", width: 72, height: 72, source: "status-icon-sheet.png", sheet: { col: 0, row: 0, cols: 3, rows: 2 }, sourceLayer: "status block icon" },
-  { id: "status-mind", kind: "icon", width: 72, height: 72, source: "status-icon-sheet.png", sheet: { col: 1, row: 0, cols: 3, rows: 2 }, sourceLayer: "status mind icon" },
-  { id: "status-ink", kind: "icon", width: 72, height: 72, source: "status-icon-sheet.png", sheet: { col: 2, row: 0, cols: 3, rows: 2 }, sourceLayer: "status ink icon" },
-  { id: "status-bleed", kind: "icon", width: 72, height: 72, source: "status-icon-sheet.png", sheet: { col: 0, row: 1, cols: 3, rows: 2 }, sourceLayer: "status bleed icon" },
-  { id: "status-vulnerable", kind: "icon", width: 72, height: 72, source: "status-icon-sheet.png", sheet: { col: 1, row: 1, cols: 3, rows: 2 }, sourceLayer: "status vulnerable icon" },
-  { id: "status-charm", kind: "icon", width: 72, height: 72, source: "status-icon-sheet.png", sheet: { col: 2, row: 1, cols: 3, rows: 2 }, sourceLayer: "status charm icon" },
-  { id: "resource-attack", kind: "icon", width: 72, height: 72, source: "resource-icon-sheet.png", sheet: { col: 0, row: 0, cols: 3, rows: 1 }, sourceLayer: "resource attack icon" },
-  { id: "resource-armor", kind: "icon", width: 72, height: 72, source: "resource-icon-sheet.png", sheet: { col: 1, row: 0, cols: 3, rows: 1 }, sourceLayer: "resource armor icon" },
-  { id: "resource-charm", kind: "icon", width: 72, height: 72, source: "resource-icon-sheet.png", sheet: { col: 2, row: 0, cols: 3, rows: 1 }, sourceLayer: "resource charm icon" }
+  { id: "map-battle", kind: "icon", width: 96, height: 96, source: "imagegen-icon-sheet-v1.png", sheet: { col: 0, row: 0, cols: 4, rows: 4 }, sourceLayer: "map battle icon", imagegen: true },
+  { id: "map-elite", kind: "icon", width: 96, height: 96, source: "imagegen-icon-sheet-v1.png", sheet: { col: 1, row: 0, cols: 4, rows: 4 }, sourceLayer: "map elite icon", imagegen: true },
+  { id: "map-boss", kind: "icon", width: 96, height: 96, source: "imagegen-icon-sheet-v1.png", sheet: { col: 2, row: 0, cols: 4, rows: 4 }, sourceLayer: "map boss icon", imagegen: true },
+  { id: "map-shop", kind: "icon", width: 96, height: 96, source: "imagegen-icon-sheet-v1.png", sheet: { col: 3, row: 0, cols: 4, rows: 4 }, sourceLayer: "map shop icon", imagegen: true },
+  { id: "map-event", kind: "icon", width: 96, height: 96, source: "imagegen-icon-sheet-v1.png", sheet: { col: 0, row: 1, cols: 4, rows: 4 }, sourceLayer: "map event icon", imagegen: true },
+  { id: "map-rest", kind: "icon", width: 96, height: 96, source: "imagegen-icon-sheet-v1.png", sheet: { col: 1, row: 1, cols: 4, rows: 4 }, sourceLayer: "map rest icon", imagegen: true },
+  { id: "map-route", kind: "icon", width: 96, height: 96, source: "imagegen-icon-sheet-v1.png", sheet: { col: 2, row: 1, cols: 4, rows: 4 }, sourceLayer: "map route icon", imagegen: true },
+  { id: "resource-health", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 0, row: 2, cols: 4, rows: 4 }, sourceLayer: "resource health icon", imagegen: true },
+  { id: "resource-coin", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 1, row: 2, cols: 4, rows: 4 }, sourceLayer: "resource coin icon", imagegen: true },
+  { id: "resource-deck", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 2, row: 2, cols: 4, rows: 4 }, sourceLayer: "resource deck icon", imagegen: true },
+  { id: "resource-logbook", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 3, row: 2, cols: 4, rows: 4 }, sourceLayer: "resource logbook icon", imagegen: true },
+  { id: "status-block", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 3, row: 1, cols: 4, rows: 4 }, sourceLayer: "status block icon", imagegen: true },
+  { id: "status-armor", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 0, row: 3, cols: 4, rows: 4 }, sourceLayer: "status armor icon", imagegen: true },
+  { id: "status-mind", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 1, row: 3, cols: 4, rows: 4 }, sourceLayer: "status mind icon", imagegen: true },
+  { id: "status-ink", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 2, row: 3, cols: 4, rows: 4 }, sourceLayer: "status ink icon", imagegen: true },
+  { id: "status-bleed", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 0, row: 2, cols: 4, rows: 4 }, sourceLayer: "status bleed icon", imagegen: true },
+  { id: "status-vulnerable", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 1, row: 0, cols: 4, rows: 4 }, sourceLayer: "status vulnerable icon", imagegen: true },
+  { id: "status-charm", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 1, row: 3, cols: 4, rows: 4 }, sourceLayer: "status charm icon", imagegen: true },
+  { id: "resource-attack", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 2, row: 0, cols: 4, rows: 4 }, sourceLayer: "resource attack icon", imagegen: true },
+  { id: "resource-armor", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 0, row: 3, cols: 4, rows: 4 }, sourceLayer: "resource armor icon", imagegen: true },
+  { id: "resource-charm", kind: "icon", width: 72, height: 72, source: "imagegen-icon-sheet-v1.png", sheet: { col: 1, row: 3, cols: 4, rows: 4 }, sourceLayer: "resource charm icon", imagegen: true }
 ];
 
 const colors = {
@@ -49,12 +61,14 @@ for (const dir of [rawDir, layerDir, runtimeDir, hudSourceDir, cardSourceDir, ic
 }
 
 writeRawReadme();
-ensureRawSources();
+assertRawSourcesExist();
 
 const runtimePngs = new Map();
 for (const asset of runtimeAssets) {
   const source = readPng(join(rawDir, asset.source));
-  const png = asset.sheet ? resizePng(cropSheetCell(source, asset.sheet), asset.width, asset.height) : resizePng(source, asset.width, asset.height);
+  const cropped = asset.sheet ? cropSheetCell(source, asset.sheet) : source;
+  const alphaSource = asset.imagegen ? removePaperBackground(cropped) : cropped;
+  const png = resizePng(alphaSource, asset.width, asset.height);
   const filename = `${asset.id}.png`;
   writePng(join(layerDir, filename), png);
   writePng(join(runtimeDir, filename), png);
@@ -88,24 +102,22 @@ The runtime files are not edited directly. Run:
 node scripts/build-combat-ui-kit.mjs
 \`\`\`
 
-The builder normalizes these files into layered PSD sources, transparent runtime PNG slices, and \`assets/source/ui/combat-hud/combat-ui-kit-manifest.json\`.
+Imagegen source sheets:
+
+- \`imagegen-icon-sheet-v1.png\` - 4x4 imagegen bitmap sheet for map, shop, event, rest, boss, resources, and statuses.
+- \`imagegen-hud-sheet-v1.png\` - 2x3 imagegen bitmap sheet for player/enemy HUD frames, hand shelf, energy orb, intent crest, and pile seal.
+
+The builder preserves these files and never regenerates or overwrites raw AI sources. It normalizes them into layered PSD sources, transparent runtime PNG slices, and \`assets/source/ui/combat-hud/combat-ui-kit-manifest.json\`.
 `
   );
 }
 
-function ensureRawSources() {
-  writePng(join(rawDir, "hud-frame-player.png"), drawHudFrame(420, 128, colors.teal));
-  writePng(join(rawDir, "hud-frame-enemy.png"), drawHudFrame(420, 128, colors.red));
-  writePng(join(rawDir, "intent-crest.png"), drawIntentCrest(156, 156));
-  writePng(join(rawDir, "hand-shelf.png"), drawHandShelf(1680, 320));
-  writePng(join(rawDir, "energy-orb.png"), drawOrb(148, 148, colors.teal));
-  writePng(join(rawDir, "pile-seal.png"), drawOrb(82, 82, colors.gold));
-  writePng(join(rawDir, "card-frame-common.png"), drawCardFrame(340, 476, colors.teal));
-  writePng(join(rawDir, "card-frame-uncommon.png"), drawCardFrame(340, 476, [84, 176, 132, 218]));
-  writePng(join(rawDir, "card-frame-rare.png"), drawCardFrame(340, 476, colors.red));
-  writePng(join(rawDir, "card-frame-event.png"), drawCardFrame(340, 476, colors.violet));
-  writePng(join(rawDir, "status-icon-sheet.png"), drawIconSheet(3, 2, ["shield", "lotus", "ink", "bleed", "crack", "fan"]));
-  writePng(join(rawDir, "resource-icon-sheet.png"), drawIconSheet(3, 1, ["blade", "guard", "fan"]));
+function assertRawSourcesExist() {
+  const missing = [...new Set(runtimeAssets.map((asset) => asset.source))]
+    .filter((source) => !existsSync(join(rawDir, source)));
+  if (missing.length > 0) {
+    throw new Error(`Missing combat UI imagegen raw source(s): ${missing.join(", ")}`);
+  }
 }
 
 function makePng(width, height) {
@@ -302,13 +314,97 @@ function drawIcon(png, cx, cy, symbol) {
 }
 
 function cropSheetCell(source, sheet) {
-  const cellWidth = Math.floor(source.width / sheet.cols);
-  const cellHeight = Math.floor(source.height / sheet.rows);
+  const inset = 4;
+  const left = Math.min(source.width - 1, Math.round((sheet.col * source.width) / sheet.cols) + inset);
+  const top = Math.min(source.height - 1, Math.round((sheet.row * source.height) / sheet.rows) + inset);
+  const right = Math.max(left + 1, Math.round(((sheet.col + 1) * source.width) / sheet.cols) - inset);
+  const bottom = Math.max(top + 1, Math.round(((sheet.row + 1) * source.height) / sheet.rows) - inset);
+  const cellWidth = right - left;
+  const cellHeight = bottom - top;
   const out = makePng(cellWidth, cellHeight);
   for (let y = 0; y < cellHeight; y += 1) {
     for (let x = 0; x < cellWidth; x += 1) {
-      const srcIndex = ((sheet.row * cellHeight + y) * source.width + sheet.col * cellWidth + x) * 4;
+      const srcIndex = ((top + y) * source.width + left + x) * 4;
       const dstIndex = (y * cellWidth + x) * 4;
+      out.data[dstIndex] = source.data[srcIndex];
+      out.data[dstIndex + 1] = source.data[srcIndex + 1];
+      out.data[dstIndex + 2] = source.data[srcIndex + 2];
+      out.data[dstIndex + 3] = source.data[srcIndex + 3];
+    }
+  }
+  return out;
+}
+
+function removePaperBackground(source) {
+  const out = makePng(source.width, source.height);
+  const key = sampleCornerPaper(source);
+  for (let y = 0; y < source.height; y += 1) {
+    for (let x = 0; x < source.width; x += 1) {
+      const srcIndex = (y * source.width + x) * 4;
+      const dstIndex = srcIndex;
+      const r = source.data[srcIndex];
+      const g = source.data[srcIndex + 1];
+      const b = source.data[srcIndex + 2];
+      const a = source.data[srcIndex + 3] ?? 255;
+      const chroma = Math.hypot(r - key[0], g - key[1], b - key[2]);
+      const darkInk = Math.max(0, 165 - (r + g + b) / 3);
+      const warmGold = Math.max(0, r - b - 18) + Math.max(0, g - b - 8);
+      const coolJade = Math.max(0, g - r - 8) + Math.max(0, b - r - 4);
+      const subject = Math.max(chroma - 18, darkInk * 1.25, warmGold * 0.72, coolJade * 0.75);
+      const edgeFade = Math.min(1, x / 10, y / 10, (source.width - x - 1) / 10, (source.height - y - 1) / 10);
+      const alpha = Math.max(0, Math.min(255, subject * 3.1 * edgeFade));
+      out.data[dstIndex] = r;
+      out.data[dstIndex + 1] = g;
+      out.data[dstIndex + 2] = b;
+      out.data[dstIndex + 3] = Math.round((alpha * a) / 255);
+    }
+  }
+  return trimTransparentPadding(out, 18);
+}
+
+function sampleCornerPaper(png) {
+  const samples = [];
+  const points = [
+    [8, 8],
+    [png.width - 9, 8],
+    [8, png.height - 9],
+    [png.width - 9, png.height - 9],
+    [Math.floor(png.width / 2), 8],
+    [8, Math.floor(png.height / 2)]
+  ];
+  for (const [x, y] of points) {
+    const index = (Math.max(0, Math.min(png.height - 1, y)) * png.width + Math.max(0, Math.min(png.width - 1, x))) * 4;
+    samples.push([png.data[index], png.data[index + 1], png.data[index + 2]]);
+  }
+  return [0, 1, 2].map((channel) => Math.round(samples.reduce((sum, sample) => sum + sample[channel], 0) / samples.length));
+}
+
+function trimTransparentPadding(source, padding) {
+  let left = source.width;
+  let top = source.height;
+  let right = 0;
+  let bottom = 0;
+  for (let y = 0; y < source.height; y += 1) {
+    for (let x = 0; x < source.width; x += 1) {
+      const alpha = source.data[(y * source.width + x) * 4 + 3];
+      if (alpha > 20) {
+        left = Math.min(left, x);
+        top = Math.min(top, y);
+        right = Math.max(right, x);
+        bottom = Math.max(bottom, y);
+      }
+    }
+  }
+  if (right <= left || bottom <= top) return source;
+  left = Math.max(0, left - padding);
+  top = Math.max(0, top - padding);
+  right = Math.min(source.width - 1, right + padding);
+  bottom = Math.min(source.height - 1, bottom + padding);
+  const out = makePng(right - left + 1, bottom - top + 1);
+  for (let y = 0; y < out.height; y += 1) {
+    for (let x = 0; x < out.width; x += 1) {
+      const srcIndex = ((top + y) * source.width + left + x) * 4;
+      const dstIndex = (y * out.width + x) * 4;
       out.data[dstIndex] = source.data[srcIndex];
       out.data[dstIndex + 1] = source.data[srcIndex + 1];
       out.data[dstIndex + 2] = source.data[srcIndex + 2];
@@ -415,22 +511,59 @@ function writeCardFramePsd(pngs) {
 }
 
 function writeIconPsd(pngs) {
-  const ids = ["status-block", "status-mind", "status-ink", "status-bleed", "status-vulnerable", "status-charm", "resource-attack", "resource-armor", "resource-charm"];
+  const ids = [
+    "map-battle",
+    "map-elite",
+    "map-boss",
+    "map-shop",
+    "map-event",
+    "map-rest",
+    "map-route",
+    "resource-health",
+    "resource-coin",
+    "resource-deck",
+    "resource-logbook",
+    "status-block",
+    "status-armor",
+    "status-mind",
+    "status-ink",
+    "status-bleed",
+    "status-vulnerable",
+    "status-charm",
+    "resource-attack",
+    "resource-armor",
+    "resource-charm"
+  ];
   const children = ids.map((id, index) => {
     const asset = runtimeAssets.find((item) => item.id === id);
-    const x = 32 + (index % 3) * 96;
-    const y = 28 + Math.floor(index / 3) * 88;
+    const x = 32 + (index % 4) * 104;
+    const y = 28 + Math.floor(index / 4) * 96;
     return layerFromPng(asset.sourceLayer, pngs.get(id), x, y);
   });
-  writePsd(join(iconSourceDir, "status-icon-kit.psd"), 340, 300, children);
+  writePsd(join(iconSourceDir, "status-icon-kit.psd"), 480, 560, children);
 }
 
 function writeManifest() {
+  const imagegenRawSources = [
+    {
+      id: "imagegen-icon-sheet-v1",
+      kind: "imagegen",
+      path: "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+      notes: "4x4 imagegen sheet for map nodes, run resources, and primary combat status icons."
+    },
+    {
+      id: "imagegen-hud-sheet-v1",
+      kind: "imagegen",
+      path: "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+      notes: "2x3 imagegen sheet for HUD plates, hand shelf, intent crest, energy orb, and pile seal."
+    }
+  ];
   const manifest = {
     version: 1,
     name: "combat-ui-kit",
     sourceSpec: "docs/superpowers/specs/2026-05-09-combat-ui-kit-design.md",
     approvedConcept: "docs/superpowers/specs/assets/2026-05-09-combat-ui-kit-concept.png",
+    aiRawSources: imagegenRawSources,
     psdSources: [
       {
         id: "combat-hud",
@@ -445,13 +578,40 @@ function writeManifest() {
       {
         id: "status-icons",
         path: "assets/source/ui/icons/status-icon-kit.psd",
-        requiredLayerNames: ["status block icon", "status mind icon", "status ink icon", "status bleed icon", "status vulnerable icon", "status charm icon", "resource attack icon", "resource armor icon", "resource charm icon"]
+        requiredLayerNames: [
+          "map battle icon",
+          "map elite icon",
+          "map boss icon",
+          "map shop icon",
+          "map event icon",
+          "map rest icon",
+          "map route icon",
+          "resource health icon",
+          "resource coin icon",
+          "resource deck icon",
+          "resource logbook icon",
+          "status block icon",
+          "status armor icon",
+          "status mind icon",
+          "status ink icon",
+          "status bleed icon",
+          "status vulnerable icon",
+          "status charm icon",
+          "resource attack icon",
+          "resource armor icon",
+          "resource charm icon"
+        ]
       }
     ],
     runtime: {
       assets: runtimeAssets.map(({ source, sheet, ...asset }) => ({
         ...asset,
-        src: `/assets/generated/ui/combat-hud/${asset.id}.png`
+        src: `/assets/generated/ui/combat-hud/${asset.id}.png`,
+        rawSource: {
+          kind: "imagegen",
+          path: `assets/source/ui/_ai-raw/combat-ui-kit/${source}`,
+          ...(sheet ? { sheet } : {})
+        }
       }))
     },
     prototype: {

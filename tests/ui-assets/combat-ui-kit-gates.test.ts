@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+const combatUiKitSource = readFileSync(resolve(projectRoot, "src/app/combatUiKit.ts"), "utf8");
 
 const gateDocs = [
   "docs/superpowers/specs/2026-05-13-combat-ui-kit-gate3-reward-shop-design.md",
@@ -57,6 +58,12 @@ const stylesheetHooks = [
   ".profile-run-record--kit"
 ];
 
+const combatUiKitAssetGroups = {
+  status: ["status-block", "status-mind", "status-ink", "status-bleed", "status-vulnerable", "status-charm"],
+  map: ["map-battle", "map-elite", "map-boss", "map-shop", "map-event", "map-rest"],
+  resource: ["resource-health", "resource-coin", "resource-deck", "resource-logbook", "resource-attack", "resource-armor", "resource-charm"]
+} as const;
+
 describe("combat UI kit gate acceptance", () => {
   test("keeps gate specs plans and final acceptance ledger in the repo", () => {
     for (const docPath of gateDocs) {
@@ -80,6 +87,22 @@ describe("combat UI kit gate acceptance", () => {
 
     for (const hook of stylesheetHooks) {
       expect(theme, hook).toContain(hook);
+    }
+  });
+
+  test("keeps generated status, map, and resource asset ids declared in the combat UI kit source", () => {
+    expect(combatUiKitSource, "expected the shared generated asset base").toContain('COMBAT_UI_ASSET_BASE = "/assets/generated/ui/combat-hud/"');
+    expect(combatUiKitSource, "expected the shared asset id array").toContain("combatUiAssetIds");
+    expect(combatUiKitSource, "expected the status icon map").toContain("combatStatusIconByTone");
+    expect(combatUiKitSource, "expected the status lookup map").toContain("combatStatusIconByStatus");
+    expect(combatUiKitSource, "expected the resource icon map").toContain("combatResourceIconByOwner");
+    expect(combatUiKitSource, "expected the run-status icon map").toContain("runStatusIconByKind");
+    expect(combatUiKitSource, "expected the map node icon map").toContain("mapNodeIconByType");
+
+    for (const [groupName, assetIds] of Object.entries(combatUiKitAssetGroups)) {
+      for (const assetId of assetIds) {
+        expect(combatUiKitSource, `${groupName} asset ${assetId}`).toContain(`"${assetId}"`);
+      }
     }
   });
 });

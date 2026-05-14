@@ -5,7 +5,9 @@ import {
   combatStatusIconByStatus,
   combatStatusIconByTone,
   getCombatUiAsset,
-  getCombatUiCardFrameAssetId
+  getCombatUiCardFrameAssetId,
+  mapNodeIconByType,
+  runStatusIconByKind
 } from "./combatUiKit";
 import { loadSettings, saveSettings, type DesktopSettings } from "./settingsPersistence";
 import type { ChallengeProfileId } from "../game/content/challenges";
@@ -20,6 +22,7 @@ import {
   getIntentGlossarySurface,
   type GlossaryEntry
 } from "../game/content/glossary";
+import { relicArtById } from "../game/content/relicArt";
 import { relicsById } from "../game/content/relics";
 import { battlefieldAssets, cardArtById, combatPortraitsById, getCombatAttackSprite, signatureVfxByCue } from "../game/content/visuals";
 import {
@@ -106,6 +109,7 @@ import {
 
 export type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "compendium" | "runSummary" | "victory" | "defeat";
 type CompendiumReturnScreen = Exclude<Screen, "compendium">;
+type ShopTabId = "cards" | "relics" | "services";
 type MapRouteState = "current" | "available" | "visited" | "locked";
 
 const SHOP_REMOVE_PRICE = 50;
@@ -120,6 +124,7 @@ interface ControllerState {
   deckOpen: boolean;
   compendiumFilters: Required<CompendiumFilters>;
   compendiumReturnScreen?: CompendiumReturnScreen;
+  shopTab: ShopTabId;
   settings: DesktopSettings;
   profile: PlayerProfile;
   completedRunSummary?: CompletedRunSummaryView;
@@ -150,6 +155,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     rewardCards: [],
     deckOpen: false,
     compendiumFilters: createDefaultCompendiumFilters(),
+    shopTab: "cards",
     settings: initialSettings,
     profile: loadProfile(options.storage) ?? createProfile(),
     debugToolsEnabled: options.debugToolsEnabled ?? false,
@@ -263,6 +269,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       state.rewardCards = [];
       state.pendingSpoils = undefined;
       state.deckOpen = false;
+      state.shopTab = "cards";
       state.completedRunSummary = undefined;
       state.message = `${charactersById[characterId].name}踏入${getCurrentChapter(state.run).name}。`;
       state.screen = "map";
@@ -280,6 +287,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       state.rewardCards = saved.rewardCardIds.map((id) => cardsById[id]).filter((card): card is CardDefinition => Boolean(card));
       state.pendingSpoils = saved.pendingSpoils;
       state.deckOpen = false;
+      state.shopTab = "cards";
       state.profile = loadProfile(options.storage) ?? state.profile;
       state.completedRunSummary = undefined;
       state.message = saved.message || "旧存档已续上。";
@@ -627,6 +635,7 @@ function createCompendiumPanel(
 
   const list = document.createElement("div");
   list.className = "compendium-list compendium-list--kit";
+  list.dataset.testid = "compendium-scroll-region";
   if (compendium.groups.length === 0) {
     const empty = document.createElement("p");
     empty.className = "compendium-empty";
@@ -652,6 +661,7 @@ function createCompendiumPanel(
   }
 
   const back = createAction(backTitle, backBody, onBack);
+  back.classList.add("compendium-back-action");
   back.dataset.testid = "compendium-back";
 
   panel.append(note, tabs, filters, summary, list, back);
@@ -734,6 +744,35 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
     const chip = document.createElement("span");
     chip.textContent = entry;
     meta.append(chip);
+  }
+
+  if (item.category === "cards" && cardsById[item.id]) {
+    const art = document.createElement("span");
+    article.classList.add("compendium-item--with-art");
+    art.className = "compendium-entry-art compendium-card-art";
+    art.dataset.testid = "compendium-card-art";
+    art.innerHTML = createCardArtMarkup(cardsById[item.id]);
+    article.append(art);
+  }
+
+  if (item.category === "relics" && relicArtById[item.id]) {
+    const artDefinition = relicArtById[item.id];
+    const art = document.createElement("span");
+    article.classList.add("compendium-item--with-art", `compendium-item--accent-${artDefinition.accent}`);
+    art.className = "compendium-entry-art compendium-relic-art";
+    art.dataset.testid = "compendium-relic-art";
+    art.innerHTML = createRelicArtMarkup(item.id);
+    article.append(art);
+  }
+
+  if (item.category === "enemies") {
+    const portrait = getCombatPortrait(item.id);
+    const art = document.createElement("span");
+    article.classList.add("compendium-item--with-art", `compendium-item--accent-${portrait.accent}`);
+    art.className = "compendium-entry-art compendium-enemy-art";
+    art.dataset.testid = "compendium-enemy-art";
+    art.innerHTML = `<img src="${getStandeePath(portrait)}" alt="${escapeAttribute(portrait.alt)}">`;
+    article.append(art);
   }
 
   article.append(heading, subtitle, body, meta);
@@ -858,13 +897,16 @@ function renderMap(
     button.style.gridColumn = `${node.floor + 1}`;
     button.style.gridRow = `${node.lane + 1}`;
     button.innerHTML = `
-      <span class="map-node-icon">${getMapNodeIcon(node.type)}</span>
+      ${createMapNodeIconMarkup(node.type)}
       <span class="map-node-state" data-testid="map-node-state-${escapeAttribute(node.id)}">${formatMapRouteState(routeState)}</span>
-      <strong>${escapeHtml(node.label)}</strong>
+      <strong>${escapeHtml(getMapNodeShortLabel(node))}</strong>
+      <span class="visually-hidden">${escapeHtml(node.label)}</span>
       <small>${escapeHtml(formatMapNodeMeta(node))}</small>
-      <span class="map-node-preview map-node-preview--kit" data-testid="map-node-preview-${escapeAttribute(node.id)}">${escapeHtml(preview.detail)}</span>
-      <span class="map-node-reward map-node-reward--kit" data-testid="map-node-reward-${escapeAttribute(node.id)}">${escapeHtml(preview.reward)}</span>
-      <span class="map-node-tags" aria-hidden="true">${preview.tags.map((tag) => `<i>${escapeHtml(tag)}</i>`).join("")}</span>
+      <span class="map-node-details" data-testid="map-node-details-${escapeAttribute(node.id)}">
+        <span class="map-node-preview map-node-preview--kit" data-testid="map-node-preview-${escapeAttribute(node.id)}">${escapeHtml(preview.detail)}</span>
+        <span class="map-node-reward map-node-reward--kit" data-testid="map-node-reward-${escapeAttribute(node.id)}">${escapeHtml(preview.reward)}</span>
+        <span class="map-node-tags" aria-hidden="true">${preview.tags.map((tag) => `<i>${escapeHtml(tag)}</i>`).join("")}</span>
+      </span>
     `;
     button.disabled = routeState !== "available";
     const connectionTitle = node.connections.length > 0 ? `通向：${node.connections.map((id) => getMapNodeLabel(run, id)).join("、")}` : "本章首领";
@@ -1066,6 +1108,7 @@ function enterNode(state: ControllerState, node: MapNode): void {
 
   if (node.type === "shop") {
     state.message = "游商把残页、药囊和旧剑谱排在茶桌上。";
+    state.shopTab = "cards";
     state.screen = "shop";
     return;
   }
@@ -1154,9 +1197,23 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const top = document.createElement("div");
   top.className = "combat-topbar";
   top.append(
-    createMeter("player-hp", combat.player.name, combat.player.hp, combat.player.maxHp, "朱砂", playerPortrait.assetPath),
+    createCombatHudGroup("player",
+      createMeter("player-hp", combat.player.name, combat.player.hp, combat.player.maxHp, "朱砂", playerPortrait.assetPath),
+      createCombatStatusLine("player", [
+        { label: "护甲", value: `${combat.player.block}`, tone: "block" },
+        { label: "心境", value: formatMind(combat.player.mind), tone: "mind" },
+        { label: "墨痕", value: `${combat.player.inkMarks}`, tone: "ink" }
+      ], combat.player.statuses),
+      createCombatResourcePill("player", combat.player.resource.name, `${combat.player.resource.value}/${combat.player.resource.max}`)
+    ),
     createIntent(enemy.currentIntent),
-    createMeter("enemy-hp", enemy.name, enemy.hp, enemy.maxHp, "青墨", enemyPortrait.assetPath)
+    createCombatHudGroup("enemy",
+      createMeter("enemy-hp", enemy.name, enemy.hp, enemy.maxHp, "青墨", enemyPortrait.assetPath),
+      createCombatStatusLine("enemy", [
+        { label: "护甲", value: `${enemy.block}`, tone: "block" }
+      ], enemy.statuses),
+      createCombatResourcePill("enemy", "敌势", `${enemy.intentIndex + 1}/${enemy.intents.length}`)
+    )
   );
 
   const field = document.createElement("div");
@@ -1165,12 +1222,6 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   field.dataset.intentPressure = intentPresentation.pressure;
   field.innerHTML = `
     <div class="combatant combatant--player ${createCombatantFeedbackClasses(combat, "player")} ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
-      ${createCombatResourcePill("player", combat.player.resource.name, `${combat.player.resource.value}/${combat.player.resource.max}`)}
-      ${createCombatStatusLine("player", [
-        { label: "护甲", value: `${combat.player.block}`, tone: "block" },
-        { label: "心境", value: formatMind(combat.player.mind), tone: "mind" },
-        { label: "墨痕", value: `${combat.player.inkMarks}`, tone: "ink" }
-      ], combat.player.statuses)}
       ${createTargetFeedbackMarkup(combat, "player")}
       <div class="combat-standee combat-standee--player combat-standee--${playerPortrait.accent} ${playerIsAttacking ? "is-attacking" : ""}">
         ${playerSprite ? `<div class="combat-sprite combat-sprite--player is-attacking" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>` : ""}
@@ -1183,10 +1234,6 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       ${createPlayedFeedbackMarkup(combat)}
     </div>
     <div class="combatant combatant--enemy ${createCombatantFeedbackClasses(combat, "enemy")} is-pressure-${intentPresentation.type} is-pressure-${intentPresentation.pressure} ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
-      ${createCombatResourcePill("enemy", "敌势", `${enemy.intentIndex + 1}/${enemy.intents.length}`)}
-      ${createCombatStatusLine("enemy", [
-        { label: "护甲", value: `${enemy.block}`, tone: "block" }
-      ], enemy.statuses)}
       ${createTargetFeedbackMarkup(combat, "enemy")}
       <div class="combat-standee combat-standee--enemy combat-standee--${enemyPortrait.accent} ${enemyIsAttacking ? "is-attacking" : ""}">
         ${enemySprite ? `<div class="combat-sprite combat-sprite--enemy is-attacking" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>` : ""}
@@ -1671,7 +1718,7 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const scene = document.createElement("div");
-  scene.className = "scene-surface shop-scene";
+  scene.className = "scene-surface shop-scene shop-scene--direct";
   scene.dataset.testid = "shop-scene";
   scene.append(createSceneHeader("shop", "商", "茶亭游商", "灯影下挑武学、法宝与修整。"));
 
@@ -1684,6 +1731,17 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
     <span>江湖行货</span>
   `;
   scene.append(marquee);
+
+  const tabs = document.createElement("div");
+  tabs.className = "shop-tabs";
+  tabs.dataset.testid = "shop-tabs";
+  tabs.setAttribute("role", "tablist");
+  tabs.append(
+    createShopTab("cards", "武学札", state.shopTab, state, render),
+    createShopTab("relics", "法宝匣", state.shopTab, state, render),
+    createShopTab("services", "休整事", state.shopTab, state, render)
+  );
+  scene.append(tabs);
 
   const list = document.createElement("div");
   list.className = "shop-list";
@@ -1707,6 +1765,8 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   const cardSection = document.createElement("section");
   cardSection.className = "shop-section shop-section--cards";
   cardSection.dataset.testid = "shop-section-cards";
+  cardSection.dataset.shopPanel = "cards";
+  cardSection.hidden = state.shopTab !== "cards";
   cardSection.innerHTML = `<h3 class="shop-section-title">武学札</h3>`;
   cardSection.append(list);
 
@@ -1736,9 +1796,15 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
     relicList.append(button);
   }
 
+  const marketExtras = document.createElement("div");
+  marketExtras.className = "shop-market-extras";
+  marketExtras.dataset.testid = "shop-market-extras";
+
   const relicSection = document.createElement("section");
   relicSection.className = "shop-section shop-section--relics";
   relicSection.dataset.testid = "shop-section-relics";
+  relicSection.dataset.shopPanel = "relics";
+  relicSection.hidden = state.shopTab !== "relics";
   relicSection.innerHTML = `<h3 class="shop-section-title">法宝匣</h3>`;
   relicSection.append(relicList);
 
@@ -1768,6 +1834,8 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   const serviceSection = document.createElement("section");
   serviceSection.className = "shop-section shop-section--services";
   serviceSection.dataset.testid = "shop-section-services";
+  serviceSection.dataset.shopPanel = "services";
+  serviceSection.hidden = state.shopTab !== "services";
   serviceSection.innerHTML = `<h3 class="shop-section-title">修整事</h3>`;
   serviceSection.append(serviceList);
 
@@ -1782,9 +1850,26 @@ function renderShop(host: HTMLElement, state: ControllerState, render: () => voi
   footer.className = "shop-footer";
   footer.dataset.testid = "shop-footer";
   footer.append(leave);
-  scene.append(cardSection, relicSection, serviceSection, footer);
+  marketExtras.append(cardSection, relicSection, serviceSection);
+  scene.append(marketExtras, footer);
   panel.append(scene);
   mountChapterPanel(host, panel, run);
+}
+
+function createShopTab(id: ShopTabId, label: string, activeTab: ShopTabId, state: ControllerState, render: () => void): HTMLButtonElement {
+  const button = document.createElement("button");
+  const selected = id === activeTab;
+  button.type = "button";
+  button.className = selected ? "shop-tab is-active" : "shop-tab";
+  button.dataset.testid = `shop-tab-${id}`;
+  button.setAttribute("role", "tab");
+  button.setAttribute("aria-selected", `${selected}`);
+  button.textContent = label;
+  button.addEventListener("click", () => {
+    state.shopTab = id;
+    render();
+  });
+  return button;
 }
 
 function createShopCardAction(run: RunState, offer: ReturnType<typeof createShopDraft>["cards"][number], onClick: () => void): HTMLButtonElement {
@@ -1802,23 +1887,55 @@ function createShopCardAction(run: RunState, offer: ReturnType<typeof createShop
   button.dataset.affordable = `${affordable}`;
   button.dataset.shopAffordable = `${affordable}`;
   button.dataset.buildFitTone = fit.tone;
+  button.dataset.flipped = "false";
+  button.title = "点击翻阅详情";
+  button.setAttribute("aria-pressed", "false");
   button.innerHTML = `
-    <span class="shop-meta-row">
-      <span>${escapeHtml(label)}</span>
-      <i class="shop-slot-note">${escapeHtml(note)}</i>
+    <span class="shop-card-face shop-card-front">
+      <span class="shop-meta-row">
+        <span>${escapeHtml(label)}</span>
+      </span>
+      ${createCardArtMarkup(card)}
+      ${createCardChromeMarkup(card)}
+      <span class="card-cost" data-testid="card-cost" aria-label="消耗 ${getDisplayCost(card)}">${getDisplayCost(card)}</span>
+      <strong>${escapeHtml(card.name)}</strong>
+      <small class="card-type-line">${escapeHtml(formatTypes(card.types))}</small>
+      <span class="shop-card-note">${escapeHtml(note)}</span>
+      <span class="shop-card-footer">
+        <span class="shop-price-chip" data-testid="shop-price-chip">${price}铜钱</span>
+      </span>
     </span>
-    ${createCardArtMarkup(card)}
-    ${createCardChromeMarkup(card)}
-    <span class="card-cost" data-testid="card-cost" aria-label="消耗 ${getDisplayCost(card)}">${getDisplayCost(card)}</span>
-    <strong>${escapeHtml(card.name)}</strong>
-    <small class="card-type-line">${escapeHtml(formatTypes(card.types))}</small>
-    ${createCardKeywordRowMarkup(card)}
-    <span class="description card-description">${escapeHtml(card.description ?? "")}</span>
-    <span class="shop-build-fit shop-build-fit--${fit.tone}" data-testid="shop-build-fit">${escapeHtml(fit.label)}</span>
-    <span class="shop-build-fit-detail" data-testid="shop-build-fit-detail">${escapeHtml(fit.detail)}</span>
-    <span class="shop-price-chip" data-testid="shop-price-chip">${price}铜钱</span>
+    <span class="shop-card-face shop-card-back" aria-hidden="true">
+      <span class="shop-card-back-title">${escapeHtml(card.name)}</span>
+      ${createCardKeywordRowMarkup(card)}
+      <span class="description card-description">${escapeHtml(card.description ?? "")}</span>
+      <span class="shop-build-fit shop-build-fit--${fit.tone}" data-testid="shop-build-fit">${escapeHtml(fit.label)}</span>
+      <span class="shop-build-fit-detail" data-testid="shop-build-fit-detail">${escapeHtml(fit.detail)}</span>
+      <span class="shop-card-buy-line">点击价格购入</span>
+      <span class="shop-price-chip">${price}铜钱</span>
+    </span>
+    <span class="shop-flip-hint" aria-hidden="true">翻转查看详细信息</span>
   `;
-  button.addEventListener("click", onClick);
+  button.addEventListener("click", (event) => {
+    const flipped = button.dataset.flipped === "true";
+    const keyboardActivation = event.detail === 0;
+    if ((event.target as HTMLElement | null)?.closest(".shop-price-chip") || (flipped && keyboardActivation)) {
+      onClick();
+      return;
+    }
+
+    if (flipped) {
+      button.dataset.flipped = "false";
+      button.title = "点击翻阅详情";
+      button.setAttribute("aria-pressed", "false");
+      button.querySelector<HTMLElement>(".shop-card-back")?.setAttribute("aria-hidden", "true");
+    } else {
+      button.dataset.flipped = "true";
+      button.title = "再次点击复原";
+      button.setAttribute("aria-pressed", "true");
+      button.querySelector<HTMLElement>(".shop-card-back")?.removeAttribute("aria-hidden");
+    }
+  });
   return button;
 }
 
@@ -1845,6 +1962,7 @@ function createShopRelicAction(
   button.dataset.buildFitTone = fit.tone;
   button.disabled = owned;
   button.innerHTML = `
+    ${createRelicArtMarkup(relic.id, "shop-relic-art")}
     <span class="shop-meta-row">
       <span>${escapeHtml(label)}</span>
       <i class="shop-slot-note">${escapeHtml(note)}</i>
@@ -2808,18 +2926,19 @@ function createRunStatus(
   const archetypeAnalysis = analyzeDeckArchetypes(getRunCardDefinitions(run));
   const chapter = getCurrentChapter(run);
   const challenge = resolveChallengeProfile(run.challengeId);
+  const relicSummary = relicNames || "未得";
   status.innerHTML = `
-    <span data-testid="run-chapter">章节 ${chapter.name}</span>
-    <span data-testid="run-challenge">试炼 ${challenge.name}</span>
-    <span>生命 ${run.hp}/${run.maxHp}</span>
-    <span>铜钱 ${run.gold}</span>
-    <span>牌组 ${run.deck.length}</span>
-    <span data-testid="run-relics">法宝 ${relicNames}</span>
-    <span data-testid="run-methods">心法 ${methodNames}</span>
-    <span data-testid="run-logbook">墨录 ${logbookCount}</span>
-    <span data-testid="run-mind-tendencies">心境 ${formatRunMindTendencies(run)}</span>
-    <span data-testid="run-archetype">流派 ${archetypeAnalysis.summary}</span>
-    <em>${message}</em>
+    <span class="run-status-chip run-status-chip--text" data-testid="run-chapter" title="章节 ${escapeAttribute(chapter.name)}"><small>章节</small><strong>${escapeHtml(chapter.name)}</strong></span>
+    <span class="run-status-chip run-status-chip--text" data-testid="run-challenge" title="试炼 ${escapeAttribute(challenge.name)}"><small>试炼</small><strong>${escapeHtml(challenge.name)}</strong></span>
+    ${createRunStatusIconChip("生命", `${run.hp}/${run.maxHp}`, runStatusIconByKind.health)}
+    ${createRunStatusIconChip("铜钱", `${run.gold}`, runStatusIconByKind.gold)}
+    ${createRunStatusIconChip("牌组", `${run.deck.length}`, runStatusIconByKind.deck)}
+    <span class="run-status-chip run-status-chip--text" data-testid="run-relics" data-status-kind="relics" title="法宝 ${escapeAttribute(relicSummary)}"><small>法宝</small><strong>${escapeHtml(summarizeRunStatusText(relicSummary))}</strong></span>
+    <span class="run-status-chip run-status-chip--text" data-testid="run-methods" data-status-kind="methods" title="心法 ${escapeAttribute(methodNames)}"><small>心法</small><strong>${escapeHtml(summarizeRunStatusText(methodNames))}</strong></span>
+    ${createRunStatusIconChip("墨录", `${logbookCount}`, runStatusIconByKind.logbook, "run-logbook")}
+    <span class="run-status-chip run-status-chip--text" data-testid="run-mind-tendencies" data-status-kind="mind" title="心境 ${escapeAttribute(formatRunMindTendencies(run))}"><small>心境</small><strong>${escapeHtml(summarizeRunStatusText(formatRunMindTendencies(run)))}</strong></span>
+    <span class="run-status-chip run-status-chip--text" data-testid="run-archetype" data-status-kind="archetype" title="流派 ${escapeAttribute(archetypeAnalysis.summary)}"><small>流派</small><strong>${escapeHtml(summarizeRunStatusText(archetypeAnalysis.summary))}</strong></span>
+    <em>${escapeHtml(message)}</em>
   `;
 
   if (onDeckClick) {
@@ -2866,6 +2985,27 @@ function createRunStatus(
   }
 
   return status;
+}
+
+function createRunStatusIconChip(label: string, value: string, iconId: ReturnType<typeof getRunStatusIconId>, testId?: string): string {
+  return `
+    <span class="run-status-chip run-status-chip--icon" ${testId ? `data-testid="${testId}"` : ""} title="${escapeAttribute(`${label} ${value}`)}">
+      <img src="${getCombatUiAsset(iconId)}" alt="" aria-hidden="true">
+      <small>${escapeHtml(label)}</small>
+      <strong>${escapeHtml(value)}</strong>
+    </span>
+  `;
+}
+
+function getRunStatusIconId(iconId: (typeof runStatusIconByKind)[keyof typeof runStatusIconByKind]) {
+  return iconId;
+}
+
+function summarizeRunStatusText(value: string): string {
+  if (value.length <= 8) {
+    return value;
+  }
+  return `${value.slice(0, 7)}…`;
 }
 
 function createSpoilsSummary(spoils: BattleSpoils | undefined): HTMLElement {
@@ -2956,6 +3096,24 @@ function createMeter(testId: string, label: string, value: number, max: number, 
   return meter;
 }
 
+function createCombatHudGroup(owner: "player" | "enemy", meter: HTMLElement, statusLine: string, resourcePill: string): HTMLElement {
+  const group = document.createElement("div");
+  group.className = `combat-hud-group combat-hud-group--${owner}`;
+  group.dataset.testid = `${owner}-hud-group`;
+  const stack = document.createElement("div");
+  stack.className = "combat-hud-stack";
+  stack.insertAdjacentHTML("beforeend", statusLine);
+  stack.insertAdjacentHTML("beforeend", resourcePill);
+  if (owner === "player") {
+    group.append(meter);
+    group.append(stack);
+  } else {
+    group.append(stack);
+    group.append(meter);
+  }
+  return group;
+}
+
 function createCombatResourcePill(owner: "player" | "enemy", label: string, value: string): string {
   const iconId = combatResourceIconByOwner[owner];
   return `
@@ -2982,8 +3140,9 @@ function createCombatStatusLine(
 
 function createStatusChipMarkup(label: string, value: string, tone: "block" | "mind" | "ink"): string {
   const iconId = combatStatusIconByTone[tone];
+  const tooltip = `${label} ${value}`;
   return `
-    <span class="status-chip status-chip--${tone} status-chip--kit">
+    <span class="status-chip status-chip--${tone} status-chip--kit" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}" data-tooltip="${escapeAttribute(tooltip)}" tabindex="0">
       <img class="status-icon" data-testid="status-icon" src="${getCombatUiAsset(iconId)}" alt="">
       <span>${escapeHtml(label)}</span>
       <strong>${escapeHtml(value)}</strong>
@@ -3489,17 +3648,19 @@ function formatMindLabel(mind: Exclude<MindState, "none">): string {
   return labels[mind];
 }
 
-function getMapNodeIcon(type: MapNode["type"]): string {
-  const icons: Record<MapNode["type"], string> = {
-    start: "渡",
-    battle: "战",
-    elite: "煞",
-    event: "事",
-    shop: "商",
-    rest: "息",
-    boss: "魇"
-  };
-  return icons[type];
+function createMapNodeIconMarkup(type: MapNode["type"]): string {
+  const asset = getCombatUiAsset(mapNodeIconByType[type]);
+  return `<span class="map-node-icon map-node-icon--asset" aria-hidden="true"><img src="${asset}" alt=""></span>`;
+}
+
+function getMapNodeShortLabel(node: MapNode): string {
+  if (node.type === "battle") return "敌影";
+  if (node.type === "elite") return "强敌";
+  if (node.type === "boss") return "首领";
+  if (node.type === "shop") return "茶亭";
+  if (node.type === "event") return "奇遇";
+  if (node.type === "rest") return "静修";
+  return node.label;
 }
 
 function formatMapNodeMeta(node: MapNode): string {
@@ -3650,6 +3811,15 @@ function getStandeePath(portrait: ReturnType<typeof getCombatPortrait>): string 
 function createCardArtMarkup(card: CardDefinition): string {
   const art = getCardArt(card);
   return `<span class="card-art card-art--${art.accent} card-art--kit"><img data-testid="card-art" src="${art.assetPath}" alt="${art.alt}"></span>`;
+}
+
+function createRelicArtMarkup(relicId: string, className = "relic-art"): string {
+  const art = relicArtById[relicId];
+  if (!art) {
+    return "";
+  }
+
+  return `<span class="${className} relic-art--${art.accent}" data-testid="${className}"><img src="${art.assetPath}" alt="${escapeAttribute(art.alt)}"></span>`;
 }
 
 function createCardChromeMarkup(card: CardDefinition): string {
@@ -3838,7 +4008,7 @@ function formatStatusBadges(statuses: Partial<Record<StatusId, number>>): string
     const label = formatStatus(status);
     const tooltip = entry ? formatGlossaryTooltip(entry, `${label} ${layers}层。`) : `${label} ${layers}`;
     const iconId = combatStatusIconByStatus[status] ?? "status-ink";
-    return `<span class="status-badge status-badge--kit" data-testid="status-badge" data-glossary-id="${escapeAttribute(entry?.id ?? `status.${status}`)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}"><img class="status-icon" data-testid="status-icon" src="${getCombatUiAsset(iconId)}" alt=""><span>${escapeHtml(label)}</span> <strong>${layers}</strong></span>`;
+    return `<span class="status-badge status-badge--kit" data-testid="status-badge" data-glossary-id="${escapeAttribute(entry?.id ?? `status.${status}`)}" title="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}" data-tooltip="${escapeAttribute(tooltip)}" tabindex="0"><img class="status-icon" data-testid="status-icon" src="${getCombatUiAsset(iconId)}" alt=""><span>${escapeHtml(label)}</span> <strong>${layers}</strong></span>`;
   }).join("");
 }
 

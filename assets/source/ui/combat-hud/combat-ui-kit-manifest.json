@@ -3,6 +3,20 @@
   "name": "combat-ui-kit",
   "sourceSpec": "docs/superpowers/specs/2026-05-09-combat-ui-kit-design.md",
   "approvedConcept": "docs/superpowers/specs/assets/2026-05-09-combat-ui-kit-concept.png",
+  "aiRawSources": [
+    {
+      "id": "imagegen-icon-sheet-v1",
+      "kind": "imagegen",
+      "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+      "notes": "4x4 imagegen sheet for map nodes, run resources, and primary combat status icons."
+    },
+    {
+      "id": "imagegen-hud-sheet-v1",
+      "kind": "imagegen",
+      "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+      "notes": "2x3 imagegen sheet for HUD plates, hand shelf, intent crest, energy orb, and pile seal."
+    }
+  ],
   "psdSources": [
     {
       "id": "combat-hud",
@@ -37,7 +51,19 @@
       "id": "status-icons",
       "path": "assets/source/ui/icons/status-icon-kit.psd",
       "requiredLayerNames": [
+        "map battle icon",
+        "map elite icon",
+        "map boss icon",
+        "map shop icon",
+        "map event icon",
+        "map rest icon",
+        "map route icon",
+        "resource health icon",
+        "resource coin icon",
+        "resource deck icon",
+        "resource logbook icon",
         "status block icon",
+        "status armor icon",
         "status mind icon",
         "status ink icon",
         "status bleed icon",
@@ -63,7 +89,18 @@
           "left": 62
         },
         "sourceLayer": "player status plate",
-        "src": "/assets/generated/ui/combat-hud/hud-frame-player.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/hud-frame-player.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 0,
+            "cols": 2,
+            "rows": 3
+          }
+        }
       },
       {
         "id": "hud-frame-enemy",
@@ -77,7 +114,18 @@
           "left": 62
         },
         "sourceLayer": "enemy status plate",
-        "src": "/assets/generated/ui/combat-hud/hud-frame-enemy.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/hud-frame-enemy.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 0,
+            "cols": 2,
+            "rows": 3
+          }
+        }
       },
       {
         "id": "intent-crest",
@@ -85,7 +133,18 @@
         "width": 156,
         "height": 156,
         "sourceLayer": "enemy intent crest",
-        "src": "/assets/generated/ui/combat-hud/intent-crest.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/intent-crest.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 2,
+            "cols": 2,
+            "rows": 3
+          }
+        }
       },
       {
         "id": "hand-shelf",
@@ -99,7 +158,18 @@
           "left": 180
         },
         "sourceLayer": "hand shelf",
-        "src": "/assets/generated/ui/combat-hud/hand-shelf.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/hand-shelf.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 1,
+            "cols": 2,
+            "rows": 3
+          }
+        }
       },
       {
         "id": "energy-orb",
@@ -107,7 +177,18 @@
         "width": 148,
         "height": 148,
         "sourceLayer": "energy orb",
-        "src": "/assets/generated/ui/combat-hud/energy-orb.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/energy-orb.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 1,
+            "cols": 2,
+            "rows": 3
+          }
+        }
       },
       {
         "id": "pile-seal",
@@ -115,7 +196,18 @@
         "width": 82,
         "height": 82,
         "sourceLayer": "pile counter seals",
-        "src": "/assets/generated/ui/combat-hud/pile-seal.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/pile-seal.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-hud-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 2,
+            "cols": 2,
+            "rows": 3
+          }
+        }
       },
       {
         "id": "card-frame-common",
@@ -123,7 +215,11 @@
         "width": 340,
         "height": 476,
         "sourceLayer": "card frame common",
-        "src": "/assets/generated/ui/combat-hud/card-frame-common.png"
+        "src": "/assets/generated/ui/combat-hud/card-frame-common.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/card-frame-common.png"
+        }
       },
       {
         "id": "card-frame-uncommon",
@@ -131,7 +227,11 @@
         "width": 340,
         "height": 476,
         "sourceLayer": "card frame uncommon",
-        "src": "/assets/generated/ui/combat-hud/card-frame-uncommon.png"
+        "src": "/assets/generated/ui/combat-hud/card-frame-uncommon.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/card-frame-uncommon.png"
+        }
       },
       {
         "id": "card-frame-rare",
@@ -139,7 +239,11 @@
         "width": 340,
         "height": 476,
         "sourceLayer": "card frame rare",
-        "src": "/assets/generated/ui/combat-hud/card-frame-rare.png"
+        "src": "/assets/generated/ui/combat-hud/card-frame-rare.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/card-frame-rare.png"
+        }
       },
       {
         "id": "card-frame-event",
@@ -147,7 +251,220 @@
         "width": 340,
         "height": 476,
         "sourceLayer": "card frame event",
-        "src": "/assets/generated/ui/combat-hud/card-frame-event.png"
+        "src": "/assets/generated/ui/combat-hud/card-frame-event.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/card-frame-event.png"
+        }
+      },
+      {
+        "id": "map-battle",
+        "kind": "icon",
+        "width": 96,
+        "height": 96,
+        "sourceLayer": "map battle icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/map-battle.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 0,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "map-elite",
+        "kind": "icon",
+        "width": 96,
+        "height": 96,
+        "sourceLayer": "map elite icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/map-elite.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 0,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "map-boss",
+        "kind": "icon",
+        "width": 96,
+        "height": 96,
+        "sourceLayer": "map boss icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/map-boss.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 2,
+            "row": 0,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "map-shop",
+        "kind": "icon",
+        "width": 96,
+        "height": 96,
+        "sourceLayer": "map shop icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/map-shop.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 3,
+            "row": 0,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "map-event",
+        "kind": "icon",
+        "width": 96,
+        "height": 96,
+        "sourceLayer": "map event icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/map-event.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 1,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "map-rest",
+        "kind": "icon",
+        "width": 96,
+        "height": 96,
+        "sourceLayer": "map rest icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/map-rest.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 1,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "map-route",
+        "kind": "icon",
+        "width": 96,
+        "height": 96,
+        "sourceLayer": "map route icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/map-route.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 2,
+            "row": 1,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "resource-health",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "resource health icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/resource-health.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 2,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "resource-coin",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "resource coin icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/resource-coin.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 2,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "resource-deck",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "resource deck icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/resource-deck.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 2,
+            "row": 2,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "resource-logbook",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "resource logbook icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/resource-logbook.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 3,
+            "row": 2,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "status-block",
@@ -155,7 +472,37 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "status block icon",
-        "src": "/assets/generated/ui/combat-hud/status-block.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/status-block.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 3,
+            "row": 1,
+            "cols": 4,
+            "rows": 4
+          }
+        }
+      },
+      {
+        "id": "status-armor",
+        "kind": "icon",
+        "width": 72,
+        "height": 72,
+        "sourceLayer": "status armor icon",
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/status-armor.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 3,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "status-mind",
@@ -163,7 +510,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "status mind icon",
-        "src": "/assets/generated/ui/combat-hud/status-mind.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/status-mind.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 3,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "status-ink",
@@ -171,7 +529,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "status ink icon",
-        "src": "/assets/generated/ui/combat-hud/status-ink.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/status-ink.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 2,
+            "row": 3,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "status-bleed",
@@ -179,7 +548,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "status bleed icon",
-        "src": "/assets/generated/ui/combat-hud/status-bleed.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/status-bleed.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 2,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "status-vulnerable",
@@ -187,7 +567,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "status vulnerable icon",
-        "src": "/assets/generated/ui/combat-hud/status-vulnerable.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/status-vulnerable.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 0,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "status-charm",
@@ -195,7 +586,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "status charm icon",
-        "src": "/assets/generated/ui/combat-hud/status-charm.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/status-charm.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 3,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "resource-attack",
@@ -203,7 +605,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "resource attack icon",
-        "src": "/assets/generated/ui/combat-hud/resource-attack.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/resource-attack.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 2,
+            "row": 0,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "resource-armor",
@@ -211,7 +624,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "resource armor icon",
-        "src": "/assets/generated/ui/combat-hud/resource-armor.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/resource-armor.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 0,
+            "row": 3,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       },
       {
         "id": "resource-charm",
@@ -219,7 +643,18 @@
         "width": 72,
         "height": 72,
         "sourceLayer": "resource charm icon",
-        "src": "/assets/generated/ui/combat-hud/resource-charm.png"
+        "imagegen": true,
+        "src": "/assets/generated/ui/combat-hud/resource-charm.png",
+        "rawSource": {
+          "kind": "imagegen",
+          "path": "assets/source/ui/_ai-raw/combat-ui-kit/imagegen-icon-sheet-v1.png",
+          "sheet": {
+            "col": 1,
+            "row": 3,
+            "cols": 4,
+            "rows": 4
+          }
+        }
       }
     ]
   },

@@ -15,7 +15,7 @@ export const wave27EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "diao_moonstep",
-    assetPath: "/assets/generated/cards/wave27-diao-moonstep.svg",
+    assetPath: "/assets/generated/cards/imagegen-diao-moonstep-v1.png",
     alt: "Diao Chan moonlit turning step with ribbon afterimage",
     accent: "teal"
   },
@@ -27,7 +27,7 @@ export const wave27EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "cai_yulan_echo",
-    assetPath: "/assets/generated/cards/wave27-cai-yulan-echo.svg",
+    assetPath: "/assets/generated/cards/imagegen-cai-yulan-echo-v1.png",
     alt: "Cai Wenji orchid echo sound rings in jade ink",
     accent: "teal"
   },
@@ -39,7 +39,7 @@ export const wave27EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "zhuge_star_gate",
-    assetPath: "/assets/generated/cards/wave27-zhuge-star-gate.svg",
+    assetPath: "/assets/generated/cards/imagegen-zhuge-star-gate-v1.png",
     alt: "Zhuge Liang star gate and astrolabe in gold ink",
     accent: "gold"
   },
@@ -69,7 +69,7 @@ export const wave27EaCardArt: CardArtDefinition[] = [
   },
   {
     id: "ink_unwritten_page",
-    assetPath: "/assets/generated/cards/wave27-ink-unwritten-page.svg",
+    assetPath: "/assets/generated/cards/imagegen-ink-unwritten-page-v1.png",
     alt: "Unwritten page with black ink tide and torn red seal",
     accent: "ink"
   }
