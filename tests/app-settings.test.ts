@@ -55,6 +55,7 @@ describe("desktop settings persistence", () => {
     const settings: DesktopSettings = {
       reducedMotion: true,
       fastCombatText: true,
+      developerMode: true,
       muted: true,
       masterVolume: 24,
       musicVolume: 0,
@@ -78,6 +79,7 @@ describe("desktop settings persistence", () => {
       settings: {
         reducedMotion: "yes",
         fastCombatText: true,
+        developerMode: true,
         muted: false,
         masterVolume: 180,
         musicVolume: -20,
@@ -88,6 +90,7 @@ describe("desktop settings persistence", () => {
     expect(loadSettings(storage)).toEqual({
       reducedMotion: false,
       fastCombatText: true,
+      developerMode: true,
       muted: false,
       masterVolume: 100,
       musicVolume: 0,
@@ -331,6 +334,7 @@ describe("settings shell wiring", () => {
     saveSettings(storage, {
       reducedMotion: true,
       fastCombatText: true,
+      developerMode: true,
       muted: false,
       masterVolume: 33,
       musicVolume: 44,
@@ -347,6 +351,7 @@ describe("settings shell wiring", () => {
 
     const reduced = host.querySelector<HTMLInputElement>("[data-testid='setting-reduced-motion']");
     const fastText = host.querySelector<HTMLInputElement>("[data-testid='setting-fast-combat-text']");
+    const developer = host.querySelector<HTMLInputElement>("[data-testid='setting-developer-mode']");
     const muted = host.querySelector<HTMLInputElement>("[data-testid='setting-muted']");
     const master = host.querySelector<HTMLInputElement>("[data-testid='setting-master-volume']");
     const music = host.querySelector<HTMLInputElement>("[data-testid='setting-music-volume']");
@@ -354,7 +359,9 @@ describe("settings shell wiring", () => {
 
     expect(reduced?.checked).toBe(true);
     expect(fastText?.checked).toBe(true);
+    expect(developer?.checked).toBe(true);
     expect(muted?.checked).toBe(false);
+    expect(host.querySelector("[data-testid='debug-run-summary']")).not.toBeNull();
     expect(master?.disabled).toBe(false);
     expect(master?.value).toBe("33");
     expect(music?.disabled).toBe(false);
@@ -372,11 +379,15 @@ describe("settings shell wiring", () => {
     sfx!.dispatchEvent(new Event("input", { bubbles: true }));
     reduced!.checked = false;
     reduced!.dispatchEvent(new Event("change", { bubbles: true }));
+    developer!.checked = false;
+    developer!.dispatchEvent(new Event("change", { bubbles: true }));
 
     expect(host.classList.contains("prefers-reduced-motion")).toBe(false);
+    expect(host.querySelector("[data-testid='debug-run-summary']")).toBeNull();
     expect(loadSettings(storage)).toEqual({
       reducedMotion: false,
       fastCombatText: true,
+      developerMode: false,
       muted: true,
       masterVolume: 12,
       musicVolume: 21,

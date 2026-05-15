@@ -73,6 +73,15 @@ export function mountGameApp(root: HTMLElement, options: MountGameAppOptions = {
       });
       button.classList.add("is-selected");
       button.setAttribute("aria-pressed", "true");
+
+      // Update immersive showcase cards
+      shell.hudHost.querySelectorAll<HTMLDivElement>(".character-showcase-card").forEach((card) => {
+        if (card.dataset.characterId === selectedCharacterId) {
+          card.classList.add("is-active");
+        } else {
+          card.classList.remove("is-active");
+        }
+      });
     });
   });
 
@@ -170,11 +179,11 @@ async function loadDefaultGameRuntime(shell: AppShell, options: GameRuntimeOptio
   };
 }
 
-function shouldEnableDebugTools(): boolean {
+function shouldEnableDebugTools(): boolean | undefined {
   if (typeof window === "undefined") {
-    return false;
+    return undefined;
   }
 
   const params = new URLSearchParams(window.location.search);
-  return params.get("debug") === "1" || params.get("debugTools") === "1";
+  return params.get("debug") === "1" || params.get("debugTools") === "1" ? true : undefined;
 }

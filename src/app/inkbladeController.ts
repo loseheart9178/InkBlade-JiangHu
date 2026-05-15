@@ -130,6 +130,7 @@ interface ControllerState {
   completedRunSummary?: CompletedRunSummaryView;
   debugToolsEnabled: boolean;
   message: string;
+  lastAnnouncedTurn?: number;
   lastRenderedCombatVisualEventId?: number;
 }
 
@@ -159,7 +160,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     shopTab: "cards",
     settings: initialSettings,
     profile: loadProfile(options.storage) ?? createProfile(),
-    debugToolsEnabled: options.debugToolsEnabled ?? false,
+    debugToolsEnabled: options.debugToolsEnabled ?? initialSettings.developerMode,
     message: ""
   };
   audioFeedback.setSettings(state.settings);
@@ -352,7 +353,7 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
     settings.textContent = "设置";
     settings.addEventListener("click", () => {
       audioFeedback.playUi();
-      showSettingsShell(host, state, storage, audioFeedback);
+      showSettingsShell(host, state, storage, audioFeedback, () => installTitleShellControls(host, state, render, storage, audioFeedback));
     });
     actions.append(settings);
   }
@@ -427,7 +428,13 @@ function installTitleShellControls(host: HTMLElement, state: ControllerState, re
   }
 }
 
-function showSettingsShell(host: HTMLElement, state: ControllerState, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
+function showSettingsShell(
+  host: HTMLElement,
+  state: ControllerState,
+  storage: GameStorage | undefined,
+  audioFeedback: AudioFeedback,
+  refreshTitleControls: () => void
+): void {
   removeTitleShellOverlay(host);
   const panel = createPanel("screen-settings", "设置");
   panel.classList.add("settings-screen", "settings-screen--kit", "title-shell-panel", "title-shell-panel--kit");
@@ -464,6 +471,17 @@ function showSettingsShell(host: HTMLElement, state: ControllerState, storage: G
       state.settings.fastCombatText,
       (checked) => {
         updateSettings({ fastCombatText: checked });
+      }
+    ),
+    createSettingToggle(
+      "setting-developer-mode",
+      "开发者模式",
+      "开启作弊功能（地图跳关、战斗秒杀等）。",
+      state.debugToolsEnabled,
+      (checked) => {
+        state.debugToolsEnabled = checked;
+        updateSettings({ developerMode: checked });
+        refreshTitleControls();
       }
     ),
     createSettingToggle(
@@ -1170,6 +1188,7 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
     shuffleDeck: true
   });
   state.lastRenderedCombatVisualEventId = 0;
+  state.lastAnnouncedTurn = 0;
   state.message = `${enemy.name}显出意图。`;
   state.screen = "combat";
 }
@@ -1188,8 +1207,22 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const playerSprite = playerIsAttacking ? getCombatAttackSprite(combat.player.characterId) : undefined;
   const enemySprite = enemyIsAttacking ? getCombatAttackSprite(enemy.definitionId) : undefined;
   const comboTrail = createComboTrailMetadata(combat);
-  const panel = createPanel("screen-combat", "回合 " + combat.turn);
+  const panel = createPanel("screen-combat", "第 " + combat.turn + " 回合");
   panel.classList.add("combat-screen");
+
+  // Turn Start Announcer
+  if (combat.turn > (state.lastAnnouncedTurn ?? 0)) {
+    state.lastAnnouncedTurn = combat.turn;
+    const announcer = document.createElement("div");
+    announcer.className = "turn-announcer";
+    announcer.innerHTML = `
+      <span class="turn-announcer-brush"></span>
+      <strong class="turn-announcer-text">第 ${combat.turn} 回合</strong>
+      <span class="turn-announcer-sub">笔走龙蛇，招式已定</span>
+    `;
+    panel.append(announcer);
+  }
+
   panel.classList.add(`combat-screen--${run.chapterId}`);
   panel.dataset.battlefield = run.chapterId;
   panel.style.setProperty("--ui-kit-hand-shelf", `url("${getCombatUiAsset("hand-shelf")}")`);
@@ -1225,6 +1258,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   field.className = "combat-field";
   field.dataset.intentType = intentPresentation.type;
   field.dataset.intentPressure = intentPresentation.pressure;
+  field.dataset.activeCharacter = combat.player.characterId;
   field.innerHTML = `
     <div class="combatant combatant--player ${createCombatantFeedbackClasses(newVisualEvents, "player")} ${hasRecentVisual(newVisualEvents, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(newVisualEvents, "player", "block") ? "is-guarding" : ""}">
       ${createTargetFeedbackMarkup(newVisualEvents, "player")}
@@ -1318,6 +1352,23 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
     createPileCounter("exhaust", "消耗", combat.piles.exhaust.length),
     endTurn
   );
+
+  if (state.debugToolsEnabled) {
+    const instantKill = document.createElement("button");
+    instantKill.type = "button";
+    instantKill.className = "debug-instant-kill-button";
+    instantKill.dataset.testid = "debug-instant-kill";
+    instantKill.textContent = "一键秒杀";
+    instantKill.addEventListener("click", () => {
+      audioFeedback.playUi();
+      combat.enemies[0].hp = 0;
+      combat.phase = "won";
+      state.message = "调试：已秒杀当前敌人。";
+      handleCombatAfterAction(state, storage, audioFeedback);
+      render();
+    });
+    controls.append(instantKill);
+  }
 
   panel.append(top, createCombatBuildReadout(run, combat), field, createCombatOnboardingRail(state, combat, render, storage, audioFeedback), createMessage(state.message), createCombatLog(combat), hand, controls);
   host.append(panel);
@@ -2982,7 +3033,7 @@ function createRunStatus(
     debugSkipButton.type = "button";
     debugSkipButton.className = "deck-open-button debug-skip-chapter-button";
     debugSkipButton.dataset.testid = "debug-skip-chapter";
-    debugSkipButton.textContent = "调试跳章";
+    debugSkipButton.textContent = "一键跳过本章";
     debugSkipButton.title = nextChapter ? `跳过当前章，进入${nextChapter.name}` : "已经没有下一章";
     debugSkipButton.disabled = !nextChapter;
     debugSkipButton.addEventListener("click", onDebugSkipChapterClick);
@@ -3161,7 +3212,7 @@ function getIntentPresentation(intent: CombatState["enemies"][number]["currentIn
     return {
       type: "attack",
       pressure: totalDamage >= 14 ? "high" : totalDamage >= 8 ? "medium" : "low",
-      icon: "杀"
+      icon: `<img src="/assets/generated/ui/combat-dark-kit-v2/intent-icons/attack-blade.png" alt="攻击" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 4px rgba(212, 90, 60, 0.8));">`
     };
   }
 
@@ -3169,7 +3220,7 @@ function getIntentPresentation(intent: CombatState["enemies"][number]["currentIn
     return {
       type: "block",
       pressure: intent.block >= 12 ? "high" : intent.block >= 7 ? "medium" : "low",
-      icon: "守"
+      icon: `<img src="/assets/generated/ui/combat-dark-kit-v2/intent-icons/defend-shield.png" alt="防御" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 4px rgba(47, 124, 110, 0.8));">`
     };
   }
 
@@ -3193,7 +3244,7 @@ function getIntentPresentation(intent: CombatState["enemies"][number]["currentIn
     return {
       type: "special",
       pressure: hostileWeight >= 12 ? "high" : hostileWeight >= 5 ? "medium" : "low",
-      icon: "术"
+      icon: `<img src="/assets/generated/ui/combat-dark-kit-v2/intent-icons/channel-eye.png" alt="特殊" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 4px rgba(180, 123, 33, 0.8));">`
     };
   }
 
@@ -3215,13 +3266,17 @@ function createIntent(intent: CombatState["enemies"][number]["currentIntent"]): 
   }
   box.title = tooltip;
   box.setAttribute("aria-label", `敌人意图：${tooltip}`);
+
+  let giantNumber = "";
+  if (intent.type === "attack") {
+    giantNumber = intent.hits > 1 ? `${intent.damage}x${intent.hits}` : `${intent.damage}`;
+  } else if (intent.type === "block") {
+    giantNumber = `${intent.block}`;
+  }
+
   box.innerHTML = `
     <span class="combat-intent-icon" aria-hidden="true">${presentation.icon}</span>
-    <span class="combat-intent-kicker">敌意</span>
-    <span class="combat-intent-pressure" data-testid="intent-pressure">${formatIntentPressure(presentation.pressure)}</span>
-    <strong class="combat-intent-title" data-testid="combat-intent-title">${escapeHtml(formatIntentTitle(intent))}</strong>
-    <span class="combat-intent-detail" data-testid="combat-intent-detail">${escapeHtml(intentDetail)}</span>
-    <span class="combat-intent-chips">${formatIntentChips(intent).map(createIntentChipMarkup).join("")}</span>
+    ${giantNumber ? `<strong class="combat-intent-number">${giantNumber}</strong>` : ""}
   `;
   return box;
 }

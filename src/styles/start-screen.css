@@ -1,0 +1,205 @@
+/* Start Screen Immersive Redesign */
+
+/* Inject main landscape background to the app */
+.inkblade-app {
+  background: url("/assets/generated/gpt2-moyuan-battlefield.png") center / cover no-repeat !important;
+}
+
+/* Make title screen float left and add unfurl animation */
+.title-screen.title-screen--kit {
+  position: absolute;
+  top: 50%;
+  left: 6vw;
+  transform: translateY(-50%);
+  width: min(900px, 60vw);
+  animation: scrollUnfurl 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255, 252, 239, 0.46), inset 0 0 0 10px rgba(255, 252, 239, 0.08);
+  border-left: 8px solid rgba(183, 53, 42, 0.9);
+}
+
+@keyframes scrollUnfurl {
+  from { clip-path: inset(0 50% 0 50%); opacity: 0; filter: blur(4px); }
+  to { clip-path: inset(0 0 0 0); opacity: 1; filter: blur(0); }
+}
+
+/* Character Showcase on the right */
+.character-showcase {
+  position: absolute;
+  top: 50%;
+  right: 8vw;
+  transform: translateY(-50%);
+  display: flex;
+  gap: -35px; /* Overlap */
+  z-index: 2;
+  perspective: 1200px;
+}
+
+.character-showcase-card {
+  position: relative;
+  width: 130px;
+  height: 440px;
+  margin-left: -35px;
+  border-radius: 6px;
+  border: 2px solid rgba(255, 252, 239, 0.4);
+  background: linear-gradient(to bottom, rgba(44,41,36,0.7), rgba(17,17,17,0.95));
+  box-shadow: -15px 0 25px rgba(0,0,0,0.6);
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.5s ease, margin 0.5s ease, border-color 0.3s;
+  transform-origin: center right;
+  filter: brightness(0.5) sepia(0.6) hue-rotate(-10deg);
+  cursor: pointer;
+  animation: cardFadeIn 0.8s backwards;
+}
+
+.character-showcase-card:nth-child(1) { animation-delay: 0.1s; z-index: 4; }
+.character-showcase-card:nth-child(2) { animation-delay: 0.2s; z-index: 3; }
+.character-showcase-card:nth-child(3) { animation-delay: 0.3s; z-index: 2; }
+.character-showcase-card:nth-child(4) { animation-delay: 0.4s; z-index: 1; }
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateX(120px) rotateY(-40deg); }
+  to { opacity: 1; transform: translateX(0) rotateY(0); }
+}
+
+.character-showcase-card img {
+  position: absolute;
+  bottom: -20px;
+  left: -60%;
+  width: 220%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
+}
+
+.character-showcase-card.is-active {
+  transform: scale(1.15) translateZ(60px);
+  filter: brightness(1.05) sepia(0) drop-shadow(0 0 15px rgba(183, 53, 42, 0.4));
+  z-index: 10;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-color: #b7352a;
+  box-shadow: 0 0 40px rgba(183, 53, 42, 0.5), -15px 0 25px rgba(0,0,0,0.6);
+}
+
+.character-showcase-card.is-active img {
+  transform: scale(1.1) translateY(-10px);
+}
+
+.character-showcase-card:hover:not(.is-active) {
+  filter: brightness(0.8) sepia(0.3);
+  transform: translateX(-5px) rotateY(5deg);
+}
+
+.character-showcase-card-name {
+  position: absolute;
+  top: 20px;
+  right: 12px;
+  writing-mode: vertical-rl;
+  color: #fffcef;
+  font-size: 26px;
+  font-family: "Noto Serif SC", serif;
+  font-weight: 700;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.9), 0 0 10px rgba(183, 53, 42, 0.8);
+  letter-spacing: 5px;
+}
+
+/* Action Buttons Refinement */
+.title-actions.title-actions--kit {
+  margin-top: 24px;
+  justify-content: center;
+  gap: 18px;
+  padding-bottom: 10px;
+}
+
+.title-actions button {
+  position: relative;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(238, 190, 91, 0.4) !important;
+  background: linear-gradient(180deg, #2c2924, #151311) !important;
+}
+
+.title-actions button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(238, 190, 91, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.title-actions button:hover::after {
+  width: 250px;
+  height: 250px;
+}
+
+.title-actions button:hover:not(:disabled) {
+  border-color: #eebe5b !important;
+  color: #eebe5b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 15px rgba(238, 190, 91, 0.2) !important;
+}
+
+/* Adjust Challenge Select to look like chapters */
+.challenge-select.challenge-select--kit {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 15px;
+}
+
+.challenge-choice.challenge-choice--kit {
+  flex: 1;
+  background: linear-gradient(rgba(255,252,239,0.8), rgba(239,226,195,0.9)), url("/assets/generated/ui/art-gate-a/map-route-scroll-board.png") center/cover !important;
+  border: 1px solid rgba(44,41,36,0.3) !important;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15) !important;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s;
+  text-align: center !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.challenge-choice.challenge-choice--kit:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+  border-color: #2f7c6e !important;
+}
+
+.challenge-choice.challenge-choice--kit.is-selected {
+  border-color: #b7352a !important;
+  background: linear-gradient(rgba(255,252,239,0.9), rgba(239,226,195,1)), url("/assets/generated/ui/art-gate-a/map-route-scroll-board.png") center/cover !important;
+}
+
+/* Hide showcase when game starts */
+.inkblade-app.is-running .character-showcase {
+  display: none;
+}
+
+/* Add subtle environmental animation */
+.inkblade-app::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url("/assets/generated/gpt2-moyuan-battlefield.png") center / cover;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  animation: bgBreathe 10s ease-in-out infinite alternate;
+}
+
+@keyframes bgBreathe {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
