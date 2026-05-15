@@ -130,6 +130,7 @@ interface ControllerState {
   completedRunSummary?: CompletedRunSummaryView;
   debugToolsEnabled: boolean;
   message: string;
+  lastRenderedCombatVisualEventId?: number;
 }
 
 interface ControllerOptions {
@@ -271,6 +272,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       state.deckOpen = false;
       state.shopTab = "cards";
       state.completedRunSummary = undefined;
+      state.lastRenderedCombatVisualEventId = undefined;
       state.message = `${charactersById[characterId].name}踏入${getCurrentChapter(state.run).name}。`;
       state.screen = "map";
       render();
@@ -290,6 +292,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
       state.shopTab = "cards";
       state.profile = loadProfile(options.storage) ?? state.profile;
       state.completedRunSummary = undefined;
+      state.lastRenderedCombatVisualEventId = getLatestCombatVisualEventId(saved.combat);
       state.message = saved.message || "旧存档已续上。";
       state.screen = saved.screen;
       render();
@@ -1166,6 +1169,7 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
     challengeModifiers: getChallengeCombatModifiers(run.challengeId),
     shuffleDeck: true
   });
+  state.lastRenderedCombatVisualEventId = 0;
   state.message = `${enemy.name}显出意图。`;
   state.screen = "combat";
 }
@@ -1176,7 +1180,8 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const enemy = combat.enemies[0];
   const playerPortrait = getCombatPortrait(combat.player.characterId);
   const enemyPortrait = getCombatPortrait(enemy.definitionId);
-  const latestDamageTarget = getLatestDamageTarget(combat);
+  const newVisualEvents = consumeNewCombatVisualEvents(state, combat);
+  const latestDamageTarget = getLatestDamageTarget(newVisualEvents);
   const playerIsAttacking = latestDamageTarget === "enemy";
   const enemyIsAttacking = latestDamageTarget === "player";
   const intentPresentation = getIntentPresentation(enemy.currentIntent);
@@ -1221,8 +1226,8 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   field.dataset.intentType = intentPresentation.type;
   field.dataset.intentPressure = intentPresentation.pressure;
   field.innerHTML = `
-    <div class="combatant combatant--player ${createCombatantFeedbackClasses(combat, "player")} ${hasRecentVisual(combat, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "player", "block") ? "is-guarding" : ""}">
-      ${createTargetFeedbackMarkup(combat, "player")}
+    <div class="combatant combatant--player ${createCombatantFeedbackClasses(newVisualEvents, "player")} ${hasRecentVisual(newVisualEvents, "player", "damage") ? "is-hit" : ""} ${hasRecentVisual(newVisualEvents, "player", "block") ? "is-guarding" : ""}">
+      ${createTargetFeedbackMarkup(newVisualEvents, "player")}
       <div class="combat-standee combat-standee--player combat-standee--${playerPortrait.accent} ${playerIsAttacking ? "is-attacking" : ""}">
         ${playerSprite ? `<div class="combat-sprite combat-sprite--player is-attacking" data-testid="combat-sprite-player" style="--sprite-url: url('${playerSprite.assetPath}')"></div>` : ""}
         <img class="combat-standee-art" data-testid="combat-standee-player" src="${getStandeePath(playerPortrait)}" alt="${playerPortrait.alt}">
@@ -1233,15 +1238,15 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       <div class="combo-trail" data-testid="combo-trail" title="${escapeAttribute(comboTrail.title)}" aria-label="${escapeAttribute(comboTrail.ariaLabel)}" data-glossary-id="${escapeAttribute(comboTrail.glossaryIds.join(" "))}"><span>招式</span><strong>${escapeHtml(comboTrail.text)}</strong></div>
       ${createPlayedFeedbackMarkup(combat)}
     </div>
-    <div class="combatant combatant--enemy ${createCombatantFeedbackClasses(combat, "enemy")} is-pressure-${intentPresentation.type} is-pressure-${intentPresentation.pressure} ${hasRecentVisual(combat, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(combat, "enemy", "status") ? "is-marked" : ""}">
-      ${createTargetFeedbackMarkup(combat, "enemy")}
+    <div class="combatant combatant--enemy ${createCombatantFeedbackClasses(newVisualEvents, "enemy")} is-pressure-${intentPresentation.type} is-pressure-${intentPresentation.pressure} ${hasRecentVisual(newVisualEvents, "enemy", "damage") ? "is-hit" : ""} ${hasRecentVisual(newVisualEvents, "enemy", "status") ? "is-marked" : ""}">
+      ${createTargetFeedbackMarkup(newVisualEvents, "enemy")}
       <div class="combat-standee combat-standee--enemy combat-standee--${enemyPortrait.accent} ${enemyIsAttacking ? "is-attacking" : ""}">
         ${enemySprite ? `<div class="combat-sprite combat-sprite--enemy is-attacking" data-testid="combat-sprite-enemy" style="--sprite-url: url('${enemySprite.assetPath}')"></div>` : ""}
         <img class="combat-standee-art" data-testid="combat-standee-enemy" src="${getStandeePath(enemyPortrait)}" alt="${enemyPortrait.alt}">
       </div>
     </div>
   `;
-  field.append(createCombatVfxLayer(combat), createCombatFloatLayer(combat));
+  field.append(createCombatVfxLayer(newVisualEvents), createCombatFloatLayer(newVisualEvents));
 
   const hand = document.createElement("div");
   hand.className = "hand-zone";
@@ -3441,12 +3446,12 @@ function formatComboName(comboId: string): string {
   return names[comboId] ?? comboId;
 }
 
-function createCombatFloatLayer(combat: CombatState): HTMLElement {
+function createCombatFloatLayer(events: CombatVisualEvent[]): HTMLElement {
   const layer = document.createElement("div");
   layer.className = "combat-float-layer";
   layer.dataset.testid = "combat-floats";
 
-  for (const event of combat.visualEvents.slice(-6)) {
+  for (const event of events.slice(-6)) {
     const item = document.createElement("span");
     item.className = `visual-float visual-float--${event.target} visual-float--${event.tone}`;
     item.dataset.testid = "combat-float";
@@ -3457,12 +3462,12 @@ function createCombatFloatLayer(combat: CombatState): HTMLElement {
   return layer;
 }
 
-function createCombatVfxLayer(combat: CombatState): HTMLElement {
+function createCombatVfxLayer(events: CombatVisualEvent[]): HTMLElement {
   const layer = document.createElement("div");
   layer.className = "combat-vfx-layer";
   layer.dataset.testid = "combat-vfx-layer";
 
-  for (const event of combat.visualEvents.slice(-8)) {
+  for (const event of events.slice(-8)) {
     const effectClass = getCombatVfxClass(event);
     if (!effectClass) {
       continue;
@@ -3502,8 +3507,8 @@ function getCombatVfxTestId(event: CombatVisualEvent): string {
   return "combat-vfx-seal";
 }
 
-function createCombatantFeedbackClasses(combat: CombatState, target: "player" | "enemy"): string {
-  const feedback = getLatestTargetFeedback(combat, target);
+function createCombatantFeedbackClasses(events: CombatVisualEvent[], target: "player" | "enemy"): string {
+  const feedback = getLatestTargetFeedback(events, target);
   if (!feedback) {
     return "";
   }
@@ -3511,8 +3516,8 @@ function createCombatantFeedbackClasses(combat: CombatState, target: "player" | 
   return `is-target-feedback is-feedback-${feedback.kind} is-feedback-${feedback.tone}`;
 }
 
-function createTargetFeedbackMarkup(combat: CombatState, target: "player" | "enemy"): string {
-  const feedback = getLatestTargetFeedback(combat, target);
+function createTargetFeedbackMarkup(events: CombatVisualEvent[], target: "player" | "enemy"): string {
+  const feedback = getLatestTargetFeedback(events, target);
   if (!feedback) {
     return "";
   }
@@ -3526,8 +3531,8 @@ function createTargetFeedbackMarkup(combat: CombatState, target: "player" | "ene
   `;
 }
 
-function getLatestTargetFeedback(combat: CombatState, target: "player" | "enemy"): CombatVisualEvent | undefined {
-  const recentEvents = combat.visualEvents.slice(-6);
+function getLatestTargetFeedback(events: CombatVisualEvent[], target: "player" | "enemy"): CombatVisualEvent | undefined {
+  const recentEvents = events.slice(-6);
   for (let index = recentEvents.length - 1; index >= 0; index -= 1) {
     const event = recentEvents[index];
     if (event.target === target && event.kind !== "turn") {
@@ -3780,19 +3785,30 @@ function getRunCardDefinitions(run: RunState): CardDefinition[] {
   return run.deck.map((entry) => cardsById[entry.cardId]).filter((card): card is CardDefinition => Boolean(card));
 }
 
-function hasRecentVisual(combat: CombatState, target: "player" | "enemy", kind: string): boolean {
-  return combat.visualEvents.slice(-6).some((event) => event.target === target && event.kind === kind);
+function hasRecentVisual(events: CombatVisualEvent[], target: "player" | "enemy", kind: string): boolean {
+  return events.slice(-6).some((event) => event.target === target && event.kind === kind);
 }
 
-function getLatestDamageTarget(combat: CombatState): "player" | "enemy" | undefined {
-  for (let index = combat.visualEvents.length - 1; index >= 0; index -= 1) {
-    const event = combat.visualEvents[index];
+function getLatestDamageTarget(events: CombatVisualEvent[]): "player" | "enemy" | undefined {
+  for (let index = events.length - 1; index >= 0; index -= 1) {
+    const event = events[index];
     if (event.kind === "damage" && (event.target === "player" || event.target === "enemy")) {
       return event.target;
     }
   }
 
   return undefined;
+}
+
+function consumeNewCombatVisualEvents(state: ControllerState, combat: CombatState): CombatVisualEvent[] {
+  const lastRenderedId = state.lastRenderedCombatVisualEventId ?? 0;
+  const events = combat.visualEvents.filter((event) => event.id > lastRenderedId);
+  state.lastRenderedCombatVisualEventId = getLatestCombatVisualEventId(combat);
+  return events;
+}
+
+function getLatestCombatVisualEventId(combat: CombatState | undefined): number {
+  return combat?.visualEvents.at(-1)?.id ?? 0;
 }
 
 function getCombatPortrait(id: string) {
