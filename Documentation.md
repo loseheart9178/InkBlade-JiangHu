@@ -10661,3 +10661,46 @@ Remaining risks:
 
 - Reward-card screenshots show a subtler aggregate delta because the screen is dominated by the larger chapter backdrop and reward stage. The decision-card bitmap is wired, but later art iteration can make the card-local texture stronger if desired.
 - Generated PSD layers are algorithmic separations from the Imagegen composite sources, intended as Photoshop-readable handoff layers rather than fully hand-painted independent source layers.
+
+## 2026-05-15 Combat visual event replay bugfix
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+
+What changed:
+
+- Fixed combat DOM feedback so attack sprites, target feedback, VFX, and floating text consume only newly-added combat visual events for the current render.
+- Preserved the combat system's full `visualEvents` history for logs/state while preventing old `-6` damage events from replaying after later non-attack cards or fresh renders.
+- Reset visual-event consumption when starting or continuing combat so saved/reloaded combats do not replay stale events.
+- Added a jsdom regression test that plays an attack, then a non-attack card, and verifies the player attack sprite and enemy `-6` feedback do not replay.
+
+Verification:
+
+```text
+npm test -- tests/app-settings.test.ts
+Result: passed, 17 tests.
+
+npm run typecheck
+Result: passed.
+
+npm test -- tests/combat/combat-system.test.ts
+Result: passed, 37 tests.
+
+npm test
+Result: passed, 41 files / 290 tests.
+
+npm run build
+Result: passed.
+
+npm run test:e2e -- tests/e2e/visual-smoke.spec.ts --project=chromium
+Result: failed, 3 passed / 2 failed. Failures were existing visual-smoke expectations unrelated to this bugfix: missing `intent-pressure` after the current intent UI rewrite, and the paused mobile viewport width assertion.
+```
+
+Known gaps:
+
+- The visual-smoke suite still needs updating for the current intent UI and the project's desktop-first/mobile-paused rule.

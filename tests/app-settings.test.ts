@@ -263,6 +263,32 @@ describe("settings shell wiring", () => {
     expect(art?.getAttribute("src")).toMatch(/^\/assets\//);
   });
 
+  it("does not replay player attack visuals after a later non-attack card", () => {
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage: new MemoryStorage() });
+
+    controller.startRun("zhaoyun");
+    host.querySelector<HTMLButtonElement>("[data-testid='map-node-battle-1']")?.click();
+
+    const attackCard = Array.from(host.querySelectorAll<HTMLButtonElement>(".combat-card:not([disabled])"))
+      .find((card) => card.classList.contains("card-type-attack"));
+    expect(attackCard).not.toBeUndefined();
+    attackCard?.click();
+
+    expect(host.querySelector("[data-testid='combat-sprite-player']")).not.toBeNull();
+    expect(host.querySelector("[data-testid='target-feedback-enemy']")?.textContent).toContain("-6");
+
+    const nonAttackCard = Array.from(host.querySelectorAll<HTMLButtonElement>(".combat-card:not([disabled])"))
+      .find((card) => !card.classList.contains("card-type-attack"));
+    expect(nonAttackCard).not.toBeUndefined();
+    nonAttackCard?.click();
+
+    expect(host.querySelector("[data-testid='combat-sprite-player']")).toBeNull();
+    expect(host.querySelector("[data-testid='target-feedback-enemy']")).toBeNull();
+    expect(host.querySelector("[data-testid='target-feedback-player']")?.getAttribute("data-feedback-kind")).toBe("block");
+    expect(host.querySelector("[data-testid='combat-floats']")?.textContent).not.toContain("-6");
+  });
+
   it("renders the in-run compendium with a dedicated scroll region before the return action", () => {
     const host = document.createElement("div");
     const controller = createInkbladeController(host, { storage: new MemoryStorage() });
