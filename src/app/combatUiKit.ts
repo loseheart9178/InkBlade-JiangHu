@@ -37,7 +37,26 @@ export const combatUiAssetIds = [
 export type CombatUiAssetId = (typeof combatUiAssetIds)[number];
 
 export const combatUiAssets: Record<CombatUiAssetId, string> = Object.fromEntries(
-  combatUiAssetIds.map((id) => [id, `${COMBAT_UI_ASSET_BASE}${id}.png`])
+  combatUiAssetIds.map((id) => {
+    let path = `${COMBAT_UI_ASSET_BASE}${id}.png`;
+    // Overrides for Dark Wuxia Kit
+    if (id === "hud-frame-player" || id === "hud-frame-enemy") {
+      path = "/assets/generated/ui/combat-dark-kit/top-health-bar-frame.png";
+    } else if (id === "energy-orb") {
+      path = "/assets/generated/ui/combat-dark-kit/energy-orb-button.png";
+    } else if (id.startsWith("card-frame-")) {
+      path = "/assets/generated/ui/combat-dark-kit/card-frame.png";
+    } else if (id === "map-battle" || id === "map-elite") {
+      path = "/assets/generated/ui/combat-dark-kit-v2/map-node-icons/battle-swords.png";
+    } else if (id === "map-boss") {
+      path = "/assets/generated/ui/combat-dark-kit-v2/map-node-icons/boss-mask.png";
+    } else if (id === "map-shop") {
+      path = "/assets/generated/ui/combat-dark-kit-v2/map-node-icons/shop-pavilion.png";
+    } else if (id === "map-rest") {
+      path = "/assets/generated/ui/combat-dark-kit-v2/map-node-icons/rest-brazier.png";
+    }
+    return [id, path];
+  })
 ) as Record<CombatUiAssetId, string>;
 
 export const combatStatusIconByTone = {

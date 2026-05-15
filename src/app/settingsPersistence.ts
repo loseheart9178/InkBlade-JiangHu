@@ -7,6 +7,7 @@ export const SETTINGS_SCHEMA_VERSION = 1;
 export interface DesktopSettings {
   reducedMotion: boolean;
   fastCombatText: boolean;
+  developerMode: boolean;
   muted: boolean;
   masterVolume: number;
   musicVolume: number;
@@ -23,6 +24,7 @@ interface SettingsEnvelope {
 export const DEFAULT_DESKTOP_SETTINGS: DesktopSettings = {
   reducedMotion: false,
   fastCombatText: false,
+  developerMode: false,
   muted: false,
   masterVolume: 80,
   musicVolume: 70,
@@ -74,6 +76,7 @@ export function normalizeSettings(value: unknown): DesktopSettings {
   return {
     reducedMotion: typeof candidate.reducedMotion === "boolean" ? candidate.reducedMotion : DEFAULT_DESKTOP_SETTINGS.reducedMotion,
     fastCombatText: typeof candidate.fastCombatText === "boolean" ? candidate.fastCombatText : DEFAULT_DESKTOP_SETTINGS.fastCombatText,
+    developerMode: typeof candidate.developerMode === "boolean" ? candidate.developerMode : DEFAULT_DESKTOP_SETTINGS.developerMode,
     muted: typeof candidate.muted === "boolean" ? candidate.muted : DEFAULT_DESKTOP_SETTINGS.muted,
     masterVolume: normalizeVolume(candidate.masterVolume, DEFAULT_DESKTOP_SETTINGS.masterVolume),
     musicVolume: normalizeVolume(candidate.musicVolume, DEFAULT_DESKTOP_SETTINGS.musicVolume),

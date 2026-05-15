@@ -170,13 +170,49 @@ export function createAppShell(root: HTMLElement): AppShell {
   clearSaveButton.type = "button";
   clearSaveButton.dataset.testid = "clear-save";
   clearSaveButton.textContent = "清除存档";
+  clearSaveButton.style.display = "none"; // Hidden in UI but kept for logic
 
   const titleActions = document.createElement("div");
   titleActions.className = "title-actions title-actions--kit";
   titleActions.append(startButton, continueButton, clearSaveButton);
 
   menu.append(titleSeal, kicker, title, subtitle, titleLedger, characterSelect, challengeSelect, titleActions);
-  hudHost.append(menu);
+
+  // Create Immersive Character Showcase for the right side
+  const characterShowcase = document.createElement("div");
+  characterShowcase.className = "character-showcase";
+
+  for (const [index, character] of characterList.entries()) {
+    const card = document.createElement("div");
+    card.className = `character-showcase-card ${index === 0 ? "is-active" : ""}`;
+    card.dataset.characterId = character.id;
+
+    const img = document.createElement("img");
+    let standeeSrc = "";
+    if (character.id === "zhaoyun") standeeSrc = "/assets/generated/zhaoyun-standee-gpt-v2-cutout.png";
+    else if (character.id === "diaochan") standeeSrc = "/assets/generated/diaochan-standee-gpt-v2-cutout.png";
+    else if (character.id === "caiwenji") standeeSrc = "/assets/generated/gpt2-caiwenji-standee-cutout.png";
+    else if (character.id === "zhugeliang") standeeSrc = "/assets/generated/gpt2-zhugeliang-standee-cutout.png";
+
+    img.src = standeeSrc;
+    img.alt = character.name;
+
+    const nameLabel = document.createElement("div");
+    nameLabel.className = "character-showcase-card-name";
+    nameLabel.textContent = character.name;
+
+    card.append(img, nameLabel);
+
+    // Add click forwarding to original button
+    card.addEventListener("click", () => {
+      const btn = characterSelect.querySelector(`[data-character-id="${character.id}"]`) as HTMLButtonElement;
+      if (btn) btn.click();
+    });
+
+    characterShowcase.append(card);
+  }
+
+  hudHost.append(menu, characterShowcase);
   root.append(phaserHost, hudHost);
 
   return {
