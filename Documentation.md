@@ -10704,3 +10704,32 @@ Result: failed, 3 passed / 2 failed. Failures were existing visual-smoke expecta
 Known gaps:
 
 - The visual-smoke suite still needs updating for the current intent UI and the project's desktop-first/mobile-paused rule.
+
+## 2026-05-15 GitHub README rewrite
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+
+What changed:
+
+- Rewrote `README.md` for GitHub project presentation rather than internal wave-by-wave handoff notes.
+- Highlighted the current playable vertical slice, core gameplay loop, implemented content, tech stack, quick start, scripts, project layout, playtest route, debug tools, known scope, and bug report template.
+- Removed obsolete wave-heavy framing from the README and kept detailed historical progress in `Documentation.md`.
+
+Verification:
+
+```text
+README content review
+Result: passed. README now presents current playable scope, setup, scripts, layout, QA route, debug tools, and known scope without internal wave-heavy framing.
+
+npm run build
+Result: passed.
+```

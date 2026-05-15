@@ -1,141 +1,147 @@
 # Inkblade: Tales of Jianghu
 
-《云水江湖》 is a desktop-browser EA playable showcase for a 2D ink-wash wuxia deckbuilding roguelike. The current goal is to let outside players see and play the game's distinctive jianghu deckbuilding loop, ink-wash battlefield, character-driven card pools, and commercial-quality content direction in a browser. The prototype uses Phaser for the battlefield, DOM overlays for menus and card UI, and pure TypeScript systems for combat, map, rewards, saves, events, relics, and deterministic playtest tools.
+《云水江湖》 is a browser-playable vertical slice for an ink-wash wuxia deckbuilding roguelike. Players choose a legendary figure, enter a jianghu corrupted by the Ink Calamity, and build a martial arts deck through card battles, route choices, relics, methods, mind states, and risk-heavy ink cards.
+
+The project is currently a desktop-landscape web prototype built with Phaser, TypeScript, Vite, and DOM-based game UI.
+
+## Current Build
+
+The current slice is intended to prove the core promise:
+
+> Playing cards should feel like performing martial arts, shaping a deck, and choosing a state of mind inside an ink-corrupted jianghu.
+
+Implemented content includes:
+
+- 4 playable characters: Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang.
+- 4 chapters: Luoshui, Bamboo Forest, Chang'an, and Ink Abyss.
+- 150 cards across starter, common, character, mind, ink, status, and curse pools.
+- 40 relics, 8 methods, character resources, mind states, ink marks, combo chains, events, shop, rest, rewards, endings, saves, profile unlocks, and compendium views.
+- 19 enemies with chapter-specific encounters and boss fights.
+- Desktop combat UI with ink-wash battlefield presentation, card art, standees, attack strips, HUD chips, intent display, visual events, and floating feedback.
+
+Desktop Chromium is the active QA target. Mobile portrait and touch-specific release support are intentionally paused unless that scope is reopened.
+
+## Gameplay Loop
+
+```text
+Choose a character
+  -> enter a chapter map
+  -> choose a route node
+  -> fight, rest, shop, or resolve an event
+  -> gain cards, relics, methods, gold, mind shifts, or ink risk
+  -> refine the deck
+  -> defeat the chapter boss
+  -> continue toward the Ink Abyss
+```
+
+Combat follows a deterministic card-battler structure:
+
+- Draw cards, spend energy, play attacks/skills/body/mind/ink cards.
+- Read enemy intents before ending the turn.
+- Use block, statuses, character resources, relic triggers, methods, and card order combos.
+- Manage long-term tradeoffs from mind states and ink corruption.
+
+## Tech Stack
+
+- Runtime: TypeScript, Phaser 3, Vite
+- UI: DOM overlays for cards, HUD, map, rewards, event, shop, rest, compendium, and settings
+- Tests: Vitest, Playwright
+- Tooling: deterministic simulators, balance reports, asset audits, handoff report scripts
+
+Gameplay rules live in pure TypeScript systems under `src/game/systems/`. Phaser and DOM code adapt state to presentation.
 
 ## Quick Start
 
-Install dependencies with Node 24 or newer:
+Use Node 24 or newer.
 
 ```bash
 npm install
 npm run dev
 ```
 
-The verified autonomous runtime is Node v24.14.0. Older Node 18 shells cannot run the current Vite/Rolldown toolchain.
+Open the Vite URL shown in the terminal, usually:
 
-Open the Vite URL, usually `http://127.0.0.1:5173/`, in a desktop Chromium browser. Desktop Chromium remains the active external QA target; Wave65 protects narrow mobile layout smoke coverage, while touch QA and mobile release support remain out of current EA scope.
+```text
+http://127.0.0.1:5173/
+```
 
-Autonomous worktrees can run Vite directly with the repo-local toolchain:
+The repo can also run Vite directly through the local toolchain:
 
 ```bash
 node node_modules/vite/bin/vite.js --host 127.0.0.1
 ```
 
-## Test Commands
-
-Normal Node commands:
+## Scripts
 
 ```bash
-npm test
-npm run typecheck
-npm run build
-npm run test:e2e
-node scripts/audit-generated-assets.mjs
-```
-
-Direct Node equivalents:
-
-```bash
-node node_modules/vitest/vitest.mjs run
-node node_modules/typescript/bin/tsc --noEmit
-NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
-NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
-node scripts/audit-generated-assets.mjs
-node scripts/card-art-quality-report.mjs
-node scripts/perf-budget.mjs --build
-```
-
-Wave 66 is the current EA candidate gate: TypeScript, Vitest 37 files / 270 tests, Vite build, 40 Chromium e2e tests, asset audit 228 runtime refs / missing 0 / ink-pass debt 0 / card fallback debt 0 / GPT2 runtime assets 122 / source sheets 21, card-art quality report with 150 cards and missing files 0, performance budget PASS, 12/12 multi-seed balance routes, handoff preflight, and alpha handoff artifact generation. Wave 50 remains the content-count baseline at 150 cards, 40 relics, 45 events, 22 logbook fragments, 19 enemies, 4 chapters, 4 characters, and 8 methods.
-
-## Carry-Forward: Compendium Unlock Depth
-
-The `墨录图鉴` now distinguishes profile-discovered story from alpha reference material:
-
-- Story fragments render as `已录` or `未录` based on `PlayerProfile.unlockedFragments`.
-- Cards, relics, enemies, and combo rules remain `参照` entries so testers can still inspect the full vertical-slice reference.
-- The desktop compendium exposes unlock counts and a compact `收录` filter for `全部 / 参照 / 已录 / 未录`.
-- Unlock classification lives in `src/game/systems/compendium/compendium.ts`; the DOM controller only renders the metadata it receives.
-
-## Alpha Handoff Report
-
-Generate a single Markdown handoff summary for external testers when a current QA artifact is needed:
-
-```bash
-npm run handoff:preflight
+npm test              # Run Vitest unit/system tests
+npm run typecheck     # TypeScript check without emit
+npm run build         # Typecheck and production Vite build
+npm run test:e2e      # Playwright browser tests
+npm run perf:budget   # Build and inspect performance budget
 npm run report:balance
+npm run handoff:preflight
 npm run report:handoff
 ```
 
-The preflight command is read-only; it prints runtime, git, command, and handoff-document status.
-
-Both commands write under `reports/`, which is ignored because it is a local handoff artifact directory.
-
-## Wave 13 Simulator Report Artifacts
-
-Balance reports can now be written to QA/CI artifacts while preserving existing stdout behavior:
+Some autonomous or CI-like environments may need the WASI fallback for Rolldown/Vite:
 
 ```bash
-node scripts/balance-report.mjs --markdown --seeds 9001,9002,9003 --out reports/balance-report.md
+NAPI_RS_FORCE_WASI=1 node node_modules/vite/bin/vite.js build
+NAPI_RS_FORCE_WASI=1 node node_modules/@playwright/test/cli.js test tests/e2e --project=chromium
 ```
 
-The file receives the same rendered payload that stdout receives, and parent directories are created automatically.
+## Project Layout
 
-## Wave 12 Save/Profile Hardening
+```text
+src/app/              DOM app shell, controller, settings, audio feedback, UI asset contract
+src/phaser/           Phaser scene adapter for battlefield presentation
+src/game/content/     Data-driven cards, characters, enemies, relics, events, chapters, visuals
+src/game/systems/     Pure combat, run, rewards, relics, events, save, profile, methods, endings
+src/styles/           Theme and layout CSS
+tests/                Vitest and Playwright coverage
+docs/                 PRD, worldbuilding, gameplay design, QA notes, and playtest scripts
+scripts/              Reports, audits, asset tooling, and handoff helpers
+public/assets/        Runtime art, sprites, generated UI, cards, and battlefield assets
+```
 
-Wave 12 keeps the desktop alpha stable around local persistence:
+## Playtesting
 
-- Legacy saves that accidentally carry stale combat payloads into map/reward/shop/rest/final-choice screens now drop that combat state during pure save normalization.
-- Legacy profiles repair `totalRuns` so it cannot undercount victories plus defeats globally or per character.
-- The changes stay in pure save/profile systems and are covered by focused Vitest migration regressions.
+Recommended desktop smoke route:
 
-## Wave 11 Alpha Backlog Closure
+1. Start a new run and choose a character.
+2. Enter the first battle.
+3. Play at least one card and verify energy/cost validation.
+4. End the turn and verify the enemy intent resolves.
+5. Win the battle, take or skip a card reward, and continue to the map.
+6. Visit event, rest, shop, elite, boss, and boss-reward surfaces.
 
-Wave 11 closes the remaining non-art alpha backlog while preserving the desktop-first release gate:
+The full QA route is in [docs/playtest/desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md).
 
-- Final-choice options expose count, eligibility, and requirement metadata for browser QA and save/reload coverage.
-- Combat status badges now surface glossary ids, titles, and accessible labels alongside card keyword, enemy intent, and combo trail glossary metadata.
-- Vite documents the lazy Phaser runtime chunk with an explicit `1300` kB warning budget so build warnings remain actionable.
+External bug reports can use [docs/playtest/external-bug-intake.md](docs/playtest/external-bug-intake.md).
 
-Milestone 58 is now resolved for the starter/common card-art batch by Wave 21 GPT Image 2 bitmap crops. The remaining optional art-quality backlog is character identity, ink/mind, and bespoke elite strip replacement beyond the alpha gate.
+## Debug Tools
 
-## Wave 10 Card Art Refresh
+Append either query flag to expose internal QA shortcuts:
 
-Wave 10 removes the remaining runtime card-art fallback debt while preserving the desktop alpha behavior verified in Wave 9:
+```text
+?debug=1
+?debugTools=1
+```
 
-- Adds 45 repo-local semantic SVG card faces for common, ink, mind, status, Zhao Yun, Diao Chan, Cai Wenji, and Zhuge Liang fallback targets.
-- Binds those assets through card-art modules imported by `src/game/content/visuals.ts`.
-- Updates the generated asset audit so card-art modules are counted in runtime references and `cardFallbackDebt` reports 0.
+Useful debug surfaces:
 
-Desktop browser remains the active release target. Wave 10 changed art bindings and audit coverage only; the current Wave66 gate covers gameplay pacing with the 12/12 multi-seed balance report and 40 Chromium tests.
+- `调试跳章`: advance to the next chapter map for QA.
+- Continue / clear save on title: verify local persistence and recovery.
+- Browser devtools: capture console errors, asset 404s, failed requests, and save-state symptoms.
+- Playwright output: inspect generated screenshots and traces after browser tests.
 
-## Desktop Playtest Route
+## Current Known Scope
 
-Use [desktop-playtest-checklist.md](docs/playtest/desktop-playtest-checklist.md) for the full smoke script. The short route is:
-
-1. Boot to title, start a new run, and select Zhao Yun or Diao Chan.
-2. Enter the first combat, play at least one card, confirm energy/cost validation, then end turn.
-3. Win the first battle, take or skip card reward, and continue to map.
-4. Visit event, rest, shop, elite, boss, and boss reward bridge surfaces.
-5. Use `?debug=1` only when a QA tester needs to expose `调试跳章` and skip forward through chapters.
-
-External testers should file issues with [external-bug-intake.md](docs/playtest/external-bug-intake.md), which includes severity labels, route tags, evidence requirements, and a copy-ready report template.
-
-## Debug Controls
-
-- Add `?debug=1` or `?debugTools=1` to the browser URL to expose internal QA shortcuts.
-- `调试跳章`: advances the current run to the next chapter map for prototype QA. It is hidden by default and should not be treated as player progression.
-- Title continue / clear save: verifies local save recovery and reset behavior.
-- Browser devtools console: capture uncaught errors, asset 404s, and failed requests when filing bugs.
-- Playwright report: after e2e runs, inspect screenshots and traces under the generated test output.
-
-## Known Gaps
-
-- Runtime card fallback debt is 0. Waves 21, 57, 59, and 64 upgraded the worst starter/common card faces to generated bitmap PNGs; remaining duplicate/generic art queue entries are non-blocking backlog for later review.
-- First-chapter semantic attack strips are now bound for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo`; do not treat the generic `enemy-slash-strip` as an acceptable binding.
-- The Wave66 multi-seed balance gate keeps all 12/12 routes complete with 84 samples, timeout risks 0, unsafe spikes 0, and leaves Zhuge Liang's lowest post-combat HP band at `8/10/15` while keeping him a high-strategy pressure character.
-- Vite keeps the lazy Phaser runtime chunk behind an explicit `1300` kB warning budget; future growth beyond that budget should be treated as actionable.
-- Steam/storefront work, installers, depot setup, and release packaging are outside the current EA plan.
-- No planned post-EA autonomous waves remain after Wave66. Future presentation polish, art-quality replacement, audio atmosphere, reliability work, mobile touch QA, and broad localization should be filed as external review feedback or deferred backlog.
+- Desktop landscape is the supported prototype target.
+- Mobile portrait, touch input, installers, Steam depot work, and storefront packaging are out of current scope.
+- Art assets are a mix of generated bitmap assets, semantic SVGs, transparent PNG standees, sprite strips, and UI kit slices. Remaining art-quality work should be tracked as backlog rather than blocking the current slice.
+- The Phaser runtime chunk is intentionally lazy-loaded and large; future growth beyond the configured budget should be treated as actionable.
 
 ## Bug Report Template
 
