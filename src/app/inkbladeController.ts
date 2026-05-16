@@ -585,9 +585,10 @@ function renderCompendium(host: HTMLElement, state: ControllerState, render: () 
 
   if (state.run) {
     panel.insertBefore(createRunStatus(state.run, "墨录图鉴已展开，当前行旅仍留在原处。"), panel.children[1] ?? null);
+    mountChapterPanel(host, panel, state.run);
+  } else {
+    host.append(panel);
   }
-
-  host.append(panel);
 }
 
 function createCompendiumPanel(
@@ -1868,29 +1869,27 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
 
   const layout = document.createElement("div");
-  layout.className = "scene-surface event-layout event-layout--kit";
+  layout.className = "event-layout event-layout--kit event-layout--split";
   layout.dataset.testid = "event-layout";
-  layout.append(createSceneHeader("event", eventScene.mark, event.title, eventScene.kicker));
-  const hero = document.createElement("section");
-  hero.className = "event-hero";
-  hero.dataset.testid = "event-hero";
-  hero.innerHTML = `
-    <div class="event-scene event-scene--${eventScene.key}" data-testid="event-scene" aria-hidden="true" style="background-image: url('/assets/generated/events/${event.id}.png')">
+
+  layout.innerHTML = `
+    <div class="event-image-pane event-hero" data-testid="event-hero">
+      <div class="event-scene event-scene--${eventScene.key}" data-testid="event-scene" style="position: absolute; inset: 0; background-image: url('/assets/generated/events/${event.id}.png'); background-size: cover; background-position: center;"></div>
       <span class="event-scene-mark">${eventScene.mark}</span>
-      <span class="event-scene-brush event-scene-brush--one"></span>
-      <span class="event-scene-brush event-scene-brush--two"></span>
     </div>
-    <div class="event-copy">
-      <span class="event-kicker" data-testid="event-kicker">${eventScene.kicker}</span>
-      <h3>${event.title}</h3>
-      <p>${event.description}</p>
+    <div class="event-text-pane">
+      <div class="event-text-scroll">
+        <div data-testid="event-scene-header">
+          <span class="event-kicker" data-testid="event-kicker">${eventScene.kicker}</span>
+          <h3>${event.title}</h3>
+        </div>
+        <p>${event.description}</p>
+      </div>
+      <div class="event-choices event-choice-rail event-choices--kit event-choices--split" data-testid="event-choices"></div>
     </div>
   `;
-  layout.append(hero);
 
-  const choices = document.createElement("div");
-  choices.className = "event-choices event-choice-rail event-choices--kit";
-  choices.dataset.testid = "event-choices";
+  const choicesContainer = layout.querySelector(".event-choices")!;
 
   for (const choice of getAvailableEventChoices(event, run.characterId)) {
     const action = createEventChoiceAction(choice, () => {
@@ -1903,10 +1902,12 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
       state.screen = "map";
       render();
     });
-    choices.append(action);
+    // Add specific classes for split layout choices, keeping kit class for e2e tests
+    action.classList.add("choice-action--event-kit");
+    action.classList.add("choice-action--event-split");
+    choicesContainer.append(action);
   }
 
-  layout.append(choices);
   panel.append(layout);
   mountChapterPanel(host, panel, run);
 }
