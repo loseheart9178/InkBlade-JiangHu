@@ -534,6 +534,7 @@ button {
   gap: 14px;
   padding: 18px;
   color: #2c2924;
+  pointer-events: auto;
 }
 
 .chapter-panel {
@@ -1853,21 +1854,6 @@ button {
   transition: filter 160ms ease, transform 160ms ease;
 }
 
-.combatant::before {
-  position: absolute;
-  right: 13%;
-  bottom: 4%;
-  left: 13%;
-  z-index: 0;
-  height: min(36vh, 260px);
-  content: "";
-  border: 1px solid transparent;
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(14px) scale(0.82);
-}
-
 .resource-pill {
   display: inline-flex;
   align-items: center;
@@ -2161,34 +2147,6 @@ button {
 .target-feedback--ink,
 .target-feedback--trigger {
   border-color: rgba(238, 190, 91, 0.54);
-}
-
-.combatant.is-target-feedback::before {
-  opacity: 1;
-  background:
-    radial-gradient(ellipse at center, rgba(255, 252, 239, 0.3), transparent 26%),
-    radial-gradient(ellipse at center, rgba(238, 190, 91, 0.18), transparent 62%);
-  animation: target-ring-pulse 760ms ease-out both;
-}
-
-.combatant.is-feedback-damage::before {
-  border-color: rgba(212, 90, 60, 0.48);
-  background:
-    radial-gradient(ellipse at center, rgba(212, 90, 60, 0.28), transparent 28%),
-    radial-gradient(ellipse at center, rgba(127, 31, 26, 0.22), transparent 66%);
-}
-
-.combatant.is-feedback-block::before,
-.combatant.is-feedback-resource::before,
-.combatant.is-feedback-draw::before {
-  border-color: rgba(47, 124, 110, 0.44);
-  background:
-    radial-gradient(ellipse at center, rgba(47, 124, 110, 0.24), transparent 30%),
-    radial-gradient(ellipse at center, rgba(246, 236, 213, 0.2), transparent 68%);
-}
-
-.combatant--enemy.is-pressure-attack::before {
-  border-color: rgba(127, 31, 26, 0.28);
 }
 
 .combatant--enemy.is-pressure-high .combat-standee-art {
@@ -3469,29 +3427,29 @@ button {
   display: grid;
   gap: 13px;
   width: min(1180px, 94vw);
-  padding: 24px 24px 0; /* No bottom padding to anchor to screen bottom */
+  padding: 24px;
   background: transparent;
   border-radius: 0;
   box-shadow: none;
   border: none;
-  align-self: flex-end; /* Anchor to bottom */
-  margin-top: auto;
+  align-self: center;
+  margin: auto;
 }
 
 .shop-scene::before {
   /* Create a faux table/cloth surface below the items */
   content: "";
   position: absolute;
-  bottom: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: 120vw;
-  height: 60vh;
+  height: 120vh;
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(255, 252, 239, 0.05), transparent 70%),
-    url("/assets/generated/ui/combat-dark-kit-v2/map-route-scroll-background.png") center bottom / cover no-repeat;
-  mask-image: linear-gradient(to top, black 40%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);
+    radial-gradient(ellipse at 50% 50%, rgba(255, 252, 239, 0.05), transparent 60%),
+    url("/assets/generated/ui/combat-dark-kit-v2/map-route-scroll-background.png") center / cover no-repeat;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
   pointer-events: none;
   z-index: -1;
   filter: brightness(0.6) contrast(1.2);
@@ -5767,8 +5725,8 @@ button {
 
 .title-debug-action {
   border-color: rgba(47, 124, 110, 0.5) !important;
-  color: #2c2924 !important;
-  background: rgba(246, 236, 213, 0.84) !important;
+  color: #fffcef !important;
+  background: rgba(246, 236, 213, 0.12) !important;
 }
 
 .title-debug-action--kit {
@@ -5783,7 +5741,7 @@ button {
   align-items: center;
   min-height: 0;
   justify-content: flex-start;
-  overflow-y: auto;
+  overflow: hidden;
   overflow-x: hidden;
 }
 
@@ -5799,7 +5757,16 @@ button {
 .compendium-screen.title-shell-panel {
   width: min(1180px, 94vw);
   max-width: calc(100vw - 32px);
-  overflow: hidden;
+}
+
+.compendium-screen > h2,
+.compendium-screen > .shell-note,
+.compendium-screen > .run-status,
+.compendium-tabs,
+.compendium-filters,
+.compendium-summary,
+.compendium-back-action {
+  flex: 0 0 auto;
 }
 
 .compendium-tabs,
@@ -5876,16 +5843,17 @@ button {
 }
 
 .compendium-list {
-  display: grid;
-  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
   gap: 14px;
   width: 100%;
   max-width: none;
-  max-height: none;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 2px 6px 24px;
+  overscroll-behavior: contain;
 }
 
 .compendium-list--kit {
@@ -7159,22 +7127,6 @@ button {
     translate: 0 -8px;
     scale: 0.98;
     visibility: hidden;
-  }
-}
-
-@keyframes target-ring-pulse {
-  0% {
-    opacity: 0;
-    transform: translateY(14px) scale(0.78);
-  }
-
-  36% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0.38;
-    transform: translateY(0) scale(1.06);
   }
 }
 
