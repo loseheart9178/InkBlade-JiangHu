@@ -775,6 +775,7 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
     art.className = "compendium-entry-art compendium-card-art";
     art.dataset.testid = "compendium-card-art";
     art.innerHTML = createCardArtMarkup(cardsById[item.id]);
+    enableCompendiumImagePreview(art, item.title);
     article.append(art);
   }
 
@@ -785,6 +786,7 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
     art.className = "compendium-entry-art compendium-relic-art";
     art.dataset.testid = "compendium-relic-art";
     art.innerHTML = createRelicArtMarkup(item.id);
+    enableCompendiumImagePreview(art, item.title);
     article.append(art);
   }
 
@@ -795,6 +797,7 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
     art.className = "compendium-entry-art compendium-enemy-art";
     art.dataset.testid = "compendium-enemy-art";
     art.innerHTML = `<img src="${getStandeePath(portrait)}" alt="${escapeAttribute(portrait.alt)}">`;
+    enableCompendiumImagePreview(art, item.title);
     article.append(art);
   }
 
@@ -805,6 +808,7 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
       art.className = "compendium-entry-art compendium-event-art";
       art.dataset.testid = "compendium-event-art";
       art.innerHTML = `<img src="/assets/generated/events/${item.eventId}.png" alt="${escapeAttribute(item.title)}">`;
+      enableCompendiumImagePreview(art, item.title);
       article.append(art);
     } else if (item.bossId) {
       const portrait = getCombatPortrait(item.bossId);
@@ -813,12 +817,89 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
       art.className = "compendium-entry-art compendium-enemy-art";
       art.dataset.testid = "compendium-enemy-art";
       art.innerHTML = `<img src="${getStandeePath(portrait)}" alt="${escapeAttribute(portrait.alt)}">`;
+      enableCompendiumImagePreview(art, item.title);
       article.append(art);
     }
   }
 
   article.append(heading, subtitle, body, meta);
   return article;
+}
+
+function enableCompendiumImagePreview(art: HTMLElement, title: string): void {
+  const image = art.querySelector<HTMLImageElement>("img");
+  const source = image?.getAttribute("src");
+  if (!image || !source) {
+    return;
+  }
+
+  const alt = image.getAttribute("alt") || title;
+  art.classList.add("compendium-entry-art--previewable");
+  art.setAttribute("role", "button");
+  art.setAttribute("tabindex", "0");
+  art.setAttribute("aria-label", `查看原图：${title}`);
+  art.title = "查看原图";
+
+  const openPreview = () => showCompendiumImagePreview(art, source, alt, title);
+  art.addEventListener("click", openPreview);
+  art.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    openPreview();
+  });
+}
+
+function showCompendiumImagePreview(anchor: HTMLElement, source: string, alt: string, title: string): void {
+  const panel = anchor.closest<HTMLElement>(".compendium-screen") ?? anchor.ownerDocument.body;
+  panel.querySelector("[data-testid='compendium-image-preview']")?.remove();
+
+  const overlay = anchor.ownerDocument.createElement("div");
+  overlay.className = "compendium-image-preview";
+  overlay.dataset.testid = "compendium-image-preview";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", `${title}原图`);
+
+  const frame = anchor.ownerDocument.createElement("figure");
+  frame.className = "compendium-image-preview-frame";
+  frame.addEventListener("click", (event) => event.stopPropagation());
+
+  const image = anchor.ownerDocument.createElement("img");
+  image.dataset.testid = "compendium-image-preview-img";
+  image.src = source;
+  image.alt = alt;
+
+  const caption = anchor.ownerDocument.createElement("figcaption");
+  caption.textContent = title;
+
+  const close = anchor.ownerDocument.createElement("button");
+  close.type = "button";
+  close.className = "compendium-image-preview-close";
+  close.dataset.testid = "compendium-image-preview-close";
+  close.textContent = "返回";
+
+  const closePreview = () => {
+    overlay.remove();
+    anchor.focus();
+    anchor.ownerDocument.removeEventListener("keydown", onKeyDown);
+  };
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      closePreview();
+    }
+  };
+
+  close.addEventListener("click", closePreview);
+  overlay.addEventListener("click", closePreview);
+  anchor.ownerDocument.addEventListener("keydown", onKeyDown);
+
+  frame.append(close, image, caption);
+  overlay.append(frame);
+  panel.append(overlay);
+  close.focus();
 }
 
 function formatCompendiumUnlockState(state: NonNullable<CompendiumItem["unlockState"]>): string {

@@ -5950,6 +5950,7 @@ button {
 }
 
 .compendium-screen {
+  position: relative;
   gap: 14px;
   padding: 22px 28px 28px;
   align-items: center;
@@ -6137,6 +6138,69 @@ button {
     radial-gradient(circle at 50% 22%, rgba(255, 252, 239, 0.82), transparent 42%),
     rgba(255, 252, 239, 0.62);
   box-shadow: 0 8px 16px rgba(17, 17, 17, 0.12);
+}
+
+.compendium-entry-art--previewable {
+  cursor: zoom-in;
+}
+
+.compendium-entry-art--previewable:focus-visible {
+  outline: 2px solid rgba(183, 53, 42, 0.84);
+  outline-offset: 3px;
+}
+
+.compendium-image-preview {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 252, 239, 0.14), transparent 42%),
+    rgba(17, 17, 17, 0.72);
+}
+
+.compendium-image-preview-frame {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  width: min(860px, 92vw);
+  max-height: min(760px, 86vh);
+  margin: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 252, 239, 0.42);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255, 252, 239, 0.96), rgba(239, 226, 195, 0.9)),
+    var(--paper-grain);
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.42);
+}
+
+.compendium-image-preview-frame img {
+  display: block;
+  width: 100%;
+  max-height: min(640px, 70vh);
+  object-fit: contain;
+  border: 1px solid rgba(44, 41, 36, 0.18);
+  border-radius: 6px;
+  background: rgba(255, 252, 239, 0.72);
+}
+
+.compendium-image-preview-frame figcaption {
+  color: #5f1d18;
+  font-size: 14px;
+  text-align: center;
+}
+
+.compendium-image-preview-close {
+  justify-self: end;
+  min-height: 34px;
+  min-width: 66px;
+  border: 1px solid rgba(44, 41, 36, 0.38);
+  border-radius: 6px;
+  color: #2c2924;
+  background: rgba(255, 252, 239, 0.78);
 }
 
 .compendium-card-art .card-art {

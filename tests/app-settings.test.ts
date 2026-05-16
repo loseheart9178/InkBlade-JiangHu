@@ -266,6 +266,27 @@ describe("settings shell wiring", () => {
     expect(art?.getAttribute("src")).toMatch(/^\/assets\//);
   });
 
+  it("opens the original compendium image in a dismissible preview", () => {
+    const host = document.createElement("div");
+    const controller = createInkbladeController(host, { storage: new MemoryStorage() });
+
+    controller.startRun("zhaoyun");
+    host.querySelector<HTMLButtonElement>("[data-testid='compendium-open']")?.click();
+
+    const thumbnail = host.querySelector<HTMLImageElement>("[data-category='cards'] [data-testid='card-art']");
+    const source = thumbnail?.getAttribute("src");
+    thumbnail?.click();
+
+    const preview = host.querySelector<HTMLElement>("[data-testid='compendium-image-preview']");
+    const previewImage = preview?.querySelector<HTMLImageElement>("[data-testid='compendium-image-preview-img']");
+    expect(source).toMatch(/^\/assets\//);
+    expect(preview).not.toBeNull();
+    expect(previewImage?.getAttribute("src")).toBe(source);
+
+    host.querySelector<HTMLButtonElement>("[data-testid='compendium-image-preview-close']")?.click();
+    expect(host.querySelector("[data-testid='compendium-image-preview']")).toBeNull();
+  });
+
   it("does not replay player attack visuals after a later non-attack card", () => {
     const host = document.createElement("div");
     const controller = createInkbladeController(host, { storage: new MemoryStorage() });

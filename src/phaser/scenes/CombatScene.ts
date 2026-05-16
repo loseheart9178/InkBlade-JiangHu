@@ -57,7 +57,7 @@ export class CombatScene extends Phaser.Scene {
 
     // Create a dynamic ink drop texture to ensure we don't see "black boxes"
     // Use a radial alpha gradient to make it look like a soft ink wash
-    const graphics = this.make.graphics({ x: 0, y: 0, add: false });
+    const graphics = this.make.graphics({ x: 0, y: 0 }, false);
     graphics.fillStyle(0xffffff);
     graphics.fillCircle(32, 32, 32);
     graphics.generateTexture("ink-drop", 64, 64);
