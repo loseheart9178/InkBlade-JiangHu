@@ -1,0 +1,68 @@
+{
+  "frames": {
+    "vfx_zhaoyun_spear_thrust": {
+      "frame": { "x": 0, "y": 0, "w": 444, "h": 444 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 444, "h": 444 },
+      "sourceSize": { "w": 444, "h": 444 }
+    },
+    "vfx_diaochan_fan_sleeve_slash": {
+      "frame": { "x": 444, "y": 0, "w": 443, "h": 444 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 443, "h": 444 },
+      "sourceSize": { "w": 443, "h": 444 }
+    },
+    "vfx_heavy_hit_ink_splatter": {
+      "frame": { "x": 887, "y": 0, "w": 444, "h": 444 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 444, "h": 444 },
+      "sourceSize": { "w": 444, "h": 444 }
+    },
+    "vfx_zhugeliang_bagua_star_array": {
+      "frame": { "x": 1331, "y": 0, "w": 443, "h": 444 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 443, "h": 444 },
+      "sourceSize": { "w": 443, "h": 444 }
+    },
+    "vfx_caiwenji_healing_sound_wave": {
+      "frame": { "x": 0, "y": 444, "w": 444, "h": 443 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 444, "h": 443 },
+      "sourceSize": { "w": 444, "h": 443 }
+    },
+    "vfx_low_hp_ink_vignette": {
+      "frame": { "x": 444, "y": 444, "w": 443, "h": 443 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 443, "h": 443 },
+      "sourceSize": { "w": 443, "h": 443 }
+    },
+    "vfx_card_play_dissolve": {
+      "frame": { "x": 887, "y": 444, "w": 444, "h": 443 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 444, "h": 443 },
+      "sourceSize": { "w": 444, "h": 443 }
+    },
+    "vfx_fatal_strike_screen_cut": {
+      "frame": { "x": 1331, "y": 444, "w": 443, "h": 443 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 443, "h": 443 },
+      "sourceSize": { "w": 443, "h": 443 }
+    }
+  },
+  "meta": {
+    "app": "imagegen",
+    "version": "2",
+    "image": "inkblade-combat-vfx-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": { "w": 1774, "h": 887 },
+    "scale": "1"
+  }
+}

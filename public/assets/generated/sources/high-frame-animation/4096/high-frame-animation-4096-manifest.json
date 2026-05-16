@@ -1,0 +1,2104 @@
+{
+  "generatedAt": "2026-05-16T13:17:31.665Z",
+  "tool": "scripts/build-high-frame-animation-sheets.mjs",
+  "sheet": {
+    "width": 4096,
+    "height": 4096,
+    "columns": 8,
+    "rows": 8,
+    "frameWidth": 512,
+    "frameHeight": 512,
+    "anchor": "bottom-center",
+    "populatedFramesStartAt": 0
+  },
+  "targets": [
+    {
+      "id": "zhaoyun_dash_spear_combo",
+      "character": "zhaoyun",
+      "source": "../zhaoyun-24f-dash-spear-combo-sheet-source.png",
+      "sourceDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "sourceGrid": "5x5",
+      "frameCount": 24,
+      "output": "zhaoyun-24f-dash-spear-combo-4096-source.png",
+      "outputDimensions": {
+        "width": 4096,
+        "height": 4096
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "../frames-512/zhaoyun/frame_01.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 0,
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 1,
+          "file": "../frames-512/zhaoyun/frame_02.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 1,
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 2,
+          "file": "../frames-512/zhaoyun/frame_03.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 2,
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 3,
+          "file": "../frames-512/zhaoyun/frame_04.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 3,
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 4,
+          "file": "../frames-512/zhaoyun/frame_05.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 4,
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 5,
+          "file": "../frames-512/zhaoyun/frame_06.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 5,
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 6,
+          "file": "../frames-512/zhaoyun/frame_07.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 6,
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 7,
+          "file": "../frames-512/zhaoyun/frame_08.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 7,
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 8,
+          "file": "../frames-512/zhaoyun/frame_09.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 0,
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 9,
+          "file": "../frames-512/zhaoyun/frame_10.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 1,
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 10,
+          "file": "../frames-512/zhaoyun/frame_11.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 2,
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 11,
+          "file": "../frames-512/zhaoyun/frame_12.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 3,
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 12,
+          "file": "../frames-512/zhaoyun/frame_13.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 4,
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 13,
+          "file": "../frames-512/zhaoyun/frame_14.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 5,
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 14,
+          "file": "../frames-512/zhaoyun/frame_15.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 6,
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 15,
+          "file": "../frames-512/zhaoyun/frame_16.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 7,
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 16,
+          "file": "../frames-512/zhaoyun/frame_17.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 0,
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 17,
+          "file": "../frames-512/zhaoyun/frame_18.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 1,
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 18,
+          "file": "../frames-512/zhaoyun/frame_19.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 2,
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 19,
+          "file": "../frames-512/zhaoyun/frame_20.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 3,
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 20,
+          "file": "../frames-512/zhaoyun/frame_21.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 4,
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 21,
+          "file": "../frames-512/zhaoyun/frame_22.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 5,
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 22,
+          "file": "../frames-512/zhaoyun/frame_23.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 6,
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 23,
+          "file": "../frames-512/zhaoyun/frame_24.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 7,
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        }
+      ]
+    },
+    {
+      "id": "diaochan_crimson_dance",
+      "character": "diaochan",
+      "source": "../diaochan-32f-crimson-dance-sheet-source.png",
+      "sourceDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "sourceGrid": "7x6",
+      "frameCount": 32,
+      "output": "diaochan-32f-crimson-dance-4096-source.png",
+      "outputDimensions": {
+        "width": 4096,
+        "height": 4096
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "../frames-512/diaochan/frame_01.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 0,
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 1,
+          "file": "../frames-512/diaochan/frame_02.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 1,
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 2,
+          "file": "../frames-512/diaochan/frame_03.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 2,
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 3,
+          "file": "../frames-512/diaochan/frame_04.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 3,
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 4,
+          "file": "../frames-512/diaochan/frame_05.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 4,
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 5,
+          "file": "../frames-512/diaochan/frame_06.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 5,
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 6,
+          "file": "../frames-512/diaochan/frame_07.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 6,
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 7,
+          "file": "../frames-512/diaochan/frame_08.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 7,
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 8,
+          "file": "../frames-512/diaochan/frame_09.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 0,
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 9,
+          "file": "../frames-512/diaochan/frame_10.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 1,
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 10,
+          "file": "../frames-512/diaochan/frame_11.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 2,
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 11,
+          "file": "../frames-512/diaochan/frame_12.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 3,
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 12,
+          "file": "../frames-512/diaochan/frame_13.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 4,
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 13,
+          "file": "../frames-512/diaochan/frame_14.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 5,
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 14,
+          "file": "../frames-512/diaochan/frame_15.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 6,
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 15,
+          "file": "../frames-512/diaochan/frame_16.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 7,
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 16,
+          "file": "../frames-512/diaochan/frame_17.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 0,
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 17,
+          "file": "../frames-512/diaochan/frame_18.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 1,
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 18,
+          "file": "../frames-512/diaochan/frame_19.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 2,
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 19,
+          "file": "../frames-512/diaochan/frame_20.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 3,
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 20,
+          "file": "../frames-512/diaochan/frame_21.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 4,
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 21,
+          "file": "../frames-512/diaochan/frame_22.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 5,
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 22,
+          "file": "../frames-512/diaochan/frame_23.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 6,
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 23,
+          "file": "../frames-512/diaochan/frame_24.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 7,
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 24,
+          "file": "../frames-512/diaochan/frame_25.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 0,
+            "x": 0,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 25,
+          "file": "../frames-512/diaochan/frame_26.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 1,
+            "x": 512,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 26,
+          "file": "../frames-512/diaochan/frame_27.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 2,
+            "x": 1024,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 27,
+          "file": "../frames-512/diaochan/frame_28.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 3,
+            "x": 1536,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 28,
+          "file": "../frames-512/diaochan/frame_29.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 4,
+            "x": 2048,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 29,
+          "file": "../frames-512/diaochan/frame_30.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 5,
+            "x": 2560,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 30,
+          "file": "../frames-512/diaochan/frame_31.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 6,
+            "x": 3072,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 31,
+          "file": "../frames-512/diaochan/frame_32.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 7,
+            "x": 3584,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        }
+      ]
+    },
+    {
+      "id": "caiwenji_qin_resonance",
+      "character": "caiwenji",
+      "source": "../caiwenji-24f-qin-resonance-sheet-source.png",
+      "sourceDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "sourceGrid": "5x5",
+      "frameCount": 24,
+      "output": "caiwenji-24f-qin-resonance-4096-source.png",
+      "outputDimensions": {
+        "width": 4096,
+        "height": 4096
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "../frames-512/caiwenji/frame_01.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 0,
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 1,
+          "file": "../frames-512/caiwenji/frame_02.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 1,
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 2,
+          "file": "../frames-512/caiwenji/frame_03.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 2,
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 3,
+          "file": "../frames-512/caiwenji/frame_04.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 3,
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 4,
+          "file": "../frames-512/caiwenji/frame_05.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 0,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 4,
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 5,
+          "file": "../frames-512/caiwenji/frame_06.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 5,
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 6,
+          "file": "../frames-512/caiwenji/frame_07.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 6,
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 7,
+          "file": "../frames-512/caiwenji/frame_08.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 7,
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 8,
+          "file": "../frames-512/caiwenji/frame_09.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 0,
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 9,
+          "file": "../frames-512/caiwenji/frame_10.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 1,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 1,
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 10,
+          "file": "../frames-512/caiwenji/frame_11.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 2,
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 11,
+          "file": "../frames-512/caiwenji/frame_12.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 3,
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 12,
+          "file": "../frames-512/caiwenji/frame_13.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 4,
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 13,
+          "file": "../frames-512/caiwenji/frame_14.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 5,
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 14,
+          "file": "../frames-512/caiwenji/frame_15.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 2,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 6,
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 15,
+          "file": "../frames-512/caiwenji/frame_16.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 7,
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 16,
+          "file": "../frames-512/caiwenji/frame_17.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 0,
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 17,
+          "file": "../frames-512/caiwenji/frame_18.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 1,
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 18,
+          "file": "../frames-512/caiwenji/frame_19.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 2,
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 19,
+          "file": "../frames-512/caiwenji/frame_20.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 3,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 3,
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 20,
+          "file": "../frames-512/caiwenji/frame_21.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 4,
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 21,
+          "file": "../frames-512/caiwenji/frame_22.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 5,
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 22,
+          "file": "../frames-512/caiwenji/frame_23.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 6,
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 23,
+          "file": "../frames-512/caiwenji/frame_24.png",
+          "sourceCell": {
+            "columns": 5,
+            "rows": 5,
+            "row": 4,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 7,
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        }
+      ]
+    },
+    {
+      "id": "zhugeliang_qimen_bagua",
+      "character": "zhugeliang",
+      "source": "../zhugeliang-32f-qimen-bagua-sheet-source.png",
+      "sourceDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "sourceGrid": "7x6",
+      "frameCount": 32,
+      "output": "zhugeliang-32f-qimen-bagua-4096-source.png",
+      "outputDimensions": {
+        "width": 4096,
+        "height": 4096
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "../frames-512/zhugeliang/frame_01.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 0,
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 1,
+          "file": "../frames-512/zhugeliang/frame_02.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 1,
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 2,
+          "file": "../frames-512/zhugeliang/frame_03.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 2,
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 3,
+          "file": "../frames-512/zhugeliang/frame_04.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 3,
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 4,
+          "file": "../frames-512/zhugeliang/frame_05.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 4,
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 5,
+          "file": "../frames-512/zhugeliang/frame_06.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 5,
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 6,
+          "file": "../frames-512/zhugeliang/frame_07.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 0,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 6,
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 7,
+          "file": "../frames-512/zhugeliang/frame_08.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 0,
+            "column": 7,
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 8,
+          "file": "../frames-512/zhugeliang/frame_09.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 0,
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 9,
+          "file": "../frames-512/zhugeliang/frame_10.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 1,
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 10,
+          "file": "../frames-512/zhugeliang/frame_11.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 2,
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 11,
+          "file": "../frames-512/zhugeliang/frame_12.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 3,
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 12,
+          "file": "../frames-512/zhugeliang/frame_13.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 4,
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 13,
+          "file": "../frames-512/zhugeliang/frame_14.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 1,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 5,
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 14,
+          "file": "../frames-512/zhugeliang/frame_15.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 6,
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 15,
+          "file": "../frames-512/zhugeliang/frame_16.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 1,
+            "column": 7,
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 16,
+          "file": "../frames-512/zhugeliang/frame_17.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 0,
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 17,
+          "file": "../frames-512/zhugeliang/frame_18.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 1,
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 18,
+          "file": "../frames-512/zhugeliang/frame_19.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 2,
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 19,
+          "file": "../frames-512/zhugeliang/frame_20.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 3,
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 20,
+          "file": "../frames-512/zhugeliang/frame_21.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 2,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 4,
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 21,
+          "file": "../frames-512/zhugeliang/frame_22.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 5,
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 22,
+          "file": "../frames-512/zhugeliang/frame_23.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 6,
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 23,
+          "file": "../frames-512/zhugeliang/frame_24.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 2,
+            "column": 7,
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 24,
+          "file": "../frames-512/zhugeliang/frame_25.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 0,
+            "x": 0,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 25,
+          "file": "../frames-512/zhugeliang/frame_26.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 4
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 1,
+            "x": 512,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 26,
+          "file": "../frames-512/zhugeliang/frame_27.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 5
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 2,
+            "x": 1024,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 27,
+          "file": "../frames-512/zhugeliang/frame_28.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 3,
+            "column": 6
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 3,
+            "x": 1536,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 28,
+          "file": "../frames-512/zhugeliang/frame_29.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 0
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 4,
+            "x": 2048,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 29,
+          "file": "../frames-512/zhugeliang/frame_30.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 1
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 5,
+            "x": 2560,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 30,
+          "file": "../frames-512/zhugeliang/frame_31.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 2
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 6,
+            "x": 3072,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        },
+        {
+          "index": 31,
+          "file": "../frames-512/zhugeliang/frame_32.png",
+          "sourceCell": {
+            "columns": 7,
+            "rows": 6,
+            "row": 4,
+            "column": 3
+          },
+          "sheetFrame": {
+            "row": 3,
+            "column": 7,
+            "x": 3584,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          }
+        }
+      ]
+    }
+  ]
+}

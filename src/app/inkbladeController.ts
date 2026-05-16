@@ -132,6 +132,7 @@ interface ControllerState {
   message: string;
   lastAnnouncedTurn?: number;
   lastRenderedCombatVisualEventId?: number;
+  lastCombatActionDispatched?: boolean;
 }
 
 interface ControllerOptions {
@@ -161,7 +162,8 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     settings: initialSettings,
     profile: loadProfile(options.storage) ?? createProfile(),
     debugToolsEnabled: options.debugToolsEnabled ?? initialSettings.developerMode,
-    message: ""
+    message: "",
+    lastCombatActionDispatched: false
   };
   audioFeedback.setSettings(state.settings);
   applySettingsToHost(host, state.settings);
@@ -796,6 +798,25 @@ function createCompendiumItemCard(item: CompendiumItem): HTMLElement {
     article.append(art);
   }
 
+  if (item.category === "story") {
+    if (item.eventId) {
+      const art = document.createElement("span");
+      article.classList.add("compendium-item--with-art");
+      art.className = "compendium-entry-art compendium-event-art";
+      art.dataset.testid = "compendium-event-art";
+      art.innerHTML = `<img src="/assets/generated/events/${item.eventId}.png" alt="${escapeAttribute(item.title)}">`;
+      article.append(art);
+    } else if (item.bossId) {
+      const portrait = getCombatPortrait(item.bossId);
+      const art = document.createElement("span");
+      article.classList.add("compendium-item--with-art", `compendium-item--accent-${portrait.accent}`);
+      art.className = "compendium-entry-art compendium-enemy-art";
+      art.dataset.testid = "compendium-enemy-art";
+      art.innerHTML = `<img src="${getStandeePath(portrait)}" alt="${escapeAttribute(portrait.alt)}">`;
+      article.append(art);
+    }
+  }
+
   article.append(heading, subtitle, body, meta);
   return article;
 }
@@ -1189,8 +1210,13 @@ function startCombatForNode(state: ControllerState, node: MapNode): void {
   });
   state.lastRenderedCombatVisualEventId = 0;
   state.lastAnnouncedTurn = 0;
+  state.lastCombatActionDispatched = false;
   state.message = `${enemy.name}显出意图。`;
   state.screen = "combat";
+  
+  window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+    detail: { action: "idle", characterId: run.characterId, isPlayer: true }
+  }));
 }
 
 function renderCombat(host: HTMLElement, state: ControllerState, render: () => void, storage: GameStorage | undefined, audioFeedback: AudioFeedback): void {
@@ -1203,6 +1229,39 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
   const latestDamageTarget = getLatestDamageTarget(newVisualEvents);
   const playerIsAttacking = latestDamageTarget === "enemy";
   const enemyIsAttacking = latestDamageTarget === "player";
+
+  if (newVisualEvents.length > 0) {
+
+    if (playerIsAttacking) {
+       window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+          detail: { action: "attack", characterId: combat.player.characterId, isPlayer: true }
+       }));
+       window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+          detail: { action: "hit", characterId: enemy.definitionId, isPlayer: false }
+       }));
+    } else if (enemyIsAttacking) {
+       window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+          detail: { action: "attack", characterId: enemy.definitionId, isPlayer: false }
+       }));
+       window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+          detail: { action: "hit", characterId: combat.player.characterId, isPlayer: true }
+       }));
+    } else if (hasRecentVisual(newVisualEvents, "player", "block") || hasRecentVisual(newVisualEvents, "player", "status")) {
+       window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+          detail: { action: "skill", characterId: combat.player.characterId, isPlayer: true }
+       }));
+    }
+  } else if (!state.lastCombatActionDispatched) {
+    // Initial idle
+    window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+      detail: { action: "idle", characterId: combat.player.characterId, isPlayer: true }
+    }));
+    window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+      detail: { action: "idle", characterId: enemy.definitionId, isPlayer: false }
+    }));
+    state.lastCombatActionDispatched = true;
+  }
+  
   const intentPresentation = getIntentPresentation(enemy.currentIntent);
   const playerSprite = playerIsAttacking ? getCombatAttackSprite(combat.player.characterId) : undefined;
   const enemySprite = enemyIsAttacking ? getCombatAttackSprite(enemy.definitionId) : undefined;
@@ -1326,6 +1385,11 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       state.message = result.ok ? `${definition.name}已出。` : explainPlayFailure(result.reason);
       if (result.ok) {
         audioFeedback.playCard();
+        if (definition.types.includes("skill")) {
+          window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
+            detail: { action: "skill", characterId: combat.player.characterId, isPlayer: true }
+          }));
+        }
       }
       handleCombatAfterAction(state, storage, audioFeedback);
       render();
@@ -1730,7 +1794,7 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   hero.className = "event-hero";
   hero.dataset.testid = "event-hero";
   hero.innerHTML = `
-    <div class="event-scene event-scene--${eventScene.key}" data-testid="event-scene" aria-hidden="true">
+    <div class="event-scene event-scene--${eventScene.key}" data-testid="event-scene" aria-hidden="true" style="background-image: url('/assets/generated/events/${event.id}.png')">
       <span class="event-scene-mark">${eventScene.mark}</span>
       <span class="event-scene-brush event-scene-brush--one"></span>
       <span class="event-scene-brush event-scene-brush--two"></span>
@@ -2127,12 +2191,30 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
   panel.classList.add("chapter-reward-screen", "chapter-reward-screen--kit", "reward-screen", "transition-screen", "transition-screen--kit");
+  
+  // Header: Run Status
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
-  panel.append(
+
+  const header = document.createElement("div");
+  header.className = "transition-header transition-header--kit";
+  header.innerHTML = `<h3>${chapter.name} · 悟境</h3>`;
+  panel.append(header);
+
+  // Main Body: Two-column layout
+  const layout = document.createElement("div");
+  layout.className = "transition-layout-container";
+
+  // Left Column: Recap & Summary
+  const recapCol = document.createElement("div");
+  recapCol.className = "transition-layout-column transition-layout-column--recap";
+  recapCol.append(
     createChapterTransitionHero(run, "chapterReward"),
-    createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`),
     createTransitionSpoilsDossier(state.pendingSpoils, "chapter")
   );
+
+  // Right Column: Growth Choices
+  const choiceCol = document.createElement("div");
+  choiceCol.className = "transition-layout-column transition-layout-column--choices";
 
   const choices = document.createElement("div");
   choices.className = "chapter-reward-list chapter-reward-list--kit";
@@ -2184,7 +2266,14 @@ function renderChapterReward(host: HTMLElement, state: ControllerState, render: 
   `;
   chapterChoices.append(choices);
 
-  panel.append(chapterChoices, advanced);
+  choiceCol.append(
+    createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`),
+    chapterChoices,
+    advanced
+  );
+
+  layout.append(recapCol, choiceCol);
+  panel.append(layout);
   mountChapterPanel(host, panel, run);
 }
 
@@ -2195,11 +2284,27 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   const panel = createPanel("screen-boss-reward", "首领战利");
   panel.classList.add("boss-reward-screen", "boss-reward-screen--kit", "reward-screen", "transition-screen", "transition-screen--kit");
   panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
-  panel.append(
+
+  const header = document.createElement("div");
+  header.className = "transition-header transition-header--kit";
+  header.innerHTML = `<h3>${chapter.name} · 战利</h3>`;
+  panel.append(header);
+
+  // Main Body: Two-column layout
+  const layout = document.createElement("div");
+  layout.className = "transition-layout-container";
+
+  // Left Column: Recap & Summary
+  const recapCol = document.createElement("div");
+  recapCol.className = "transition-layout-column transition-layout-column--recap";
+  recapCol.append(
     createChapterTransitionHero(run, "bossReward"),
-    createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`),
     createTransitionSpoilsDossier(state.pendingSpoils, "boss")
   );
+
+  // Right Column: Continue Action
+  const actionCol = document.createElement("div");
+  actionCol.className = "transition-layout-column transition-layout-column--choices";
 
   const continueButton = createAction(nextChapter ? "前往下一章" : "收束本章", nextChapter ? `带着章末成长进入${nextChapter.name}。` : "带着战利离开此地。", () => {
     state.pendingSpoils = undefined;
@@ -2220,7 +2325,14 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
   });
   continueButton.classList.add("transition-primary-action", "transition-primary-action--kit");
   continueButton.dataset.testid = "boss-reward-continue";
-  panel.append(continueButton);
+
+  actionCol.append(
+    createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`),
+    continueButton
+  );
+
+  layout.append(recapCol, actionCol);
+  panel.append(layout);
   mountChapterPanel(host, panel, run);
 }
 

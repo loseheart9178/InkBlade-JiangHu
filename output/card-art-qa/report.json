@@ -1,0 +1,1031 @@
+[
+  {
+    "surface": "deck-viewer",
+    "index": 0,
+    "text": "攻 初 1 枪击 攻 攻击破势蓄势 造成6点伤害，获得1枪势。",
+    "src": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 173,
+      "y": 283.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 351.8,
+      "bottom": 633.2
+    },
+    "art": {
+      "x": 210.4,
+      "y": 334.2,
+      "width": 104,
+      "height": 132,
+      "right": 314.4,
+      "bottom": 466.2
+    },
+    "img": {
+      "x": 216.4,
+      "y": 340.2,
+      "width": 92,
+      "height": 120,
+      "right": 308.4,
+      "bottom": 460.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 1,
+    "text": "攻 初 1 枪击 攻 攻击破势蓄势 造成6点伤害，获得1枪势。",
+    "src": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 361.8,
+      "y": 283.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 540.6,
+      "bottom": 633.2
+    },
+    "art": {
+      "x": 399.2,
+      "y": 334.2,
+      "width": 104,
+      "height": 132,
+      "right": 503.2,
+      "bottom": 466.2
+    },
+    "img": {
+      "x": 405.2,
+      "y": 340.2,
+      "width": 92,
+      "height": 120,
+      "right": 497.2,
+      "bottom": 460.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 2,
+    "text": "攻 初 1 枪击 攻 攻击破势蓄势 造成6点伤害，获得1枪势。",
+    "src": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 550.6,
+      "y": 283.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 729.4,
+      "bottom": 633.2
+    },
+    "art": {
+      "x": 588,
+      "y": 334.2,
+      "width": 104,
+      "height": 132,
+      "right": 692,
+      "bottom": 466.2
+    },
+    "img": {
+      "x": 594,
+      "y": 340.2,
+      "width": 92,
+      "height": 120,
+      "right": 686,
+      "bottom": 460.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 3,
+    "text": "攻 初 1 枪击 攻 攻击破势蓄势 造成6点伤害，获得1枪势。",
+    "src": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 739.4,
+      "y": 283.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 918.2,
+      "bottom": 633.2
+    },
+    "art": {
+      "x": 776.8,
+      "y": 334.2,
+      "width": 104,
+      "height": 132,
+      "right": 880.8,
+      "bottom": 466.2
+    },
+    "img": {
+      "x": 782.8,
+      "y": 340.2,
+      "width": 92,
+      "height": 120,
+      "right": 874.8,
+      "bottom": 460.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 4,
+    "text": "攻 初 1 枪击 攻 攻击破势蓄势 造成6点伤害，获得1枪势。",
+    "src": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 928.2,
+      "y": 283.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 1107,
+      "bottom": 633.2
+    },
+    "art": {
+      "x": 965.6,
+      "y": 334.2,
+      "width": 104,
+      "height": 132,
+      "right": 1069.6,
+      "bottom": 466.2
+    },
+    "img": {
+      "x": 971.6,
+      "y": 340.2,
+      "width": 92,
+      "height": 120,
+      "right": 1063.6,
+      "bottom": 460.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 5,
+    "text": "技 初 1 架枪 技 技法护甲 获得5点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 173,
+      "y": 643.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 351.8,
+      "bottom": 993.2
+    },
+    "art": {
+      "x": 210.4,
+      "y": 694.2,
+      "width": 104,
+      "height": 132,
+      "right": 314.4,
+      "bottom": 826.2
+    },
+    "img": {
+      "x": 216.4,
+      "y": 700.2,
+      "width": 92,
+      "height": 120,
+      "right": 308.4,
+      "bottom": 820.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 6,
+    "text": "技 初 1 架枪 技 技法护甲 获得5点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 361.8,
+      "y": 643.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 540.6,
+      "bottom": 993.2
+    },
+    "art": {
+      "x": 399.2,
+      "y": 694.2,
+      "width": 104,
+      "height": 132,
+      "right": 503.2,
+      "bottom": 826.2
+    },
+    "img": {
+      "x": 405.2,
+      "y": 700.2,
+      "width": 92,
+      "height": 120,
+      "right": 497.2,
+      "bottom": 820.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 7,
+    "text": "技 初 1 架枪 技 技法护甲 获得5点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 550.6,
+      "y": 643.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 729.4,
+      "bottom": 993.2
+    },
+    "art": {
+      "x": 588,
+      "y": 694.2,
+      "width": 104,
+      "height": 132,
+      "right": 692,
+      "bottom": 826.2
+    },
+    "img": {
+      "x": 594,
+      "y": 700.2,
+      "width": 92,
+      "height": 120,
+      "right": 686,
+      "bottom": 820.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 8,
+    "text": "技 初 1 架枪 技 技法护甲 获得5点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 739.4,
+      "y": 643.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 918.2,
+      "bottom": 993.2
+    },
+    "art": {
+      "x": 776.8,
+      "y": 694.2,
+      "width": 104,
+      "height": 132,
+      "right": 880.8,
+      "bottom": 826.2
+    },
+    "img": {
+      "x": 782.8,
+      "y": 700.2,
+      "width": 92,
+      "height": 120,
+      "right": 874.8,
+      "bottom": 820.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "deck-viewer",
+    "index": 9,
+    "text": "攻 / 技 初 1 龙胆 攻 / 技 攻击技法破势护甲 造成5点伤害，获得4点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-longdan-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 928.2,
+      "y": 643.2,
+      "width": 178.8,
+      "height": 350,
+      "right": 1107,
+      "bottom": 993.2
+    },
+    "art": {
+      "x": 965.6,
+      "y": 694.2,
+      "width": 104,
+      "height": 132,
+      "right": 1069.6,
+      "bottom": 826.2
+    },
+    "img": {
+      "x": 971.6,
+      "y": 700.2,
+      "width": 92,
+      "height": 120,
+      "right": 1063.6,
+      "bottom": 820.2
+    },
+    "artRatio": 1.27,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.38,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "combat-hand",
+    "index": 0,
+    "text": "攻 初 1 枪击 攻 攻击破势蓄势 造成6点伤害，获得1枪势。",
+    "src": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 282,
+      "y": 444,
+      "width": 133,
+      "height": 254,
+      "right": 415,
+      "bottom": 698
+    },
+    "art": {
+      "x": 300.5,
+      "y": 487,
+      "width": 96,
+      "height": 112,
+      "right": 396.5,
+      "bottom": 599
+    },
+    "img": {
+      "x": 306.5,
+      "y": 493,
+      "width": 84,
+      "height": 100,
+      "right": 390.5,
+      "bottom": 593
+    },
+    "artRatio": 1.17,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.44,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "combat-hand",
+    "index": 1,
+    "text": "攻 初 1 枪击 攻 攻击破势蓄势 造成6点伤害，获得1枪势。",
+    "src": "/assets/generated/cards/wave64-zhao-strike-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 427.8,
+      "y": 454,
+      "width": 133,
+      "height": 254,
+      "right": 560.7,
+      "bottom": 708
+    },
+    "art": {
+      "x": 446.2,
+      "y": 497,
+      "width": 96,
+      "height": 112,
+      "right": 542.2,
+      "bottom": 609
+    },
+    "img": {
+      "x": 452.2,
+      "y": 503,
+      "width": 84,
+      "height": 100,
+      "right": 536.2,
+      "bottom": 603
+    },
+    "artRatio": 1.17,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.44,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "combat-hand",
+    "index": 2,
+    "text": "技 初 1 架枪 技 技法护甲 获得5点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 573.5,
+      "y": 454,
+      "width": 133,
+      "height": 254,
+      "right": 706.5,
+      "bottom": 708
+    },
+    "art": {
+      "x": 592,
+      "y": 497,
+      "width": 96,
+      "height": 112,
+      "right": 688,
+      "bottom": 609
+    },
+    "img": {
+      "x": 598,
+      "y": 503,
+      "width": 84,
+      "height": 100,
+      "right": 682,
+      "bottom": 603
+    },
+    "artRatio": 1.17,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.44,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "combat-hand",
+    "index": 3,
+    "text": "技 初 1 架枪 技 技法护甲 获得5点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 719.3,
+      "y": 454,
+      "width": 133,
+      "height": 254,
+      "right": 852.2,
+      "bottom": 708
+    },
+    "art": {
+      "x": 737.8,
+      "y": 497,
+      "width": 96,
+      "height": 112,
+      "right": 833.8,
+      "bottom": 609
+    },
+    "img": {
+      "x": 743.8,
+      "y": 503,
+      "width": 84,
+      "height": 100,
+      "right": 827.8,
+      "bottom": 603
+    },
+    "artRatio": 1.17,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.44,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "combat-hand",
+    "index": 4,
+    "text": "技 初 1 架枪 技 技法护甲 获得5点护甲。",
+    "src": "/assets/generated/cards/wave64-zhao-guard-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 865,
+      "y": 454,
+      "width": 133,
+      "height": 254,
+      "right": 998,
+      "bottom": 708
+    },
+    "art": {
+      "x": 883.5,
+      "y": 497,
+      "width": 96,
+      "height": 112,
+      "right": 979.5,
+      "bottom": 609
+    },
+    "img": {
+      "x": 889.5,
+      "y": 503,
+      "width": 84,
+      "height": 100,
+      "right": 973.5,
+      "bottom": 603
+    },
+    "artRatio": 1.17,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.44,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "reward",
+    "index": 0,
+    "text": "技 奇 2 招式回响 截江守势 技 技法护甲护主抽牌 获得12点护甲和1层护主，抽1张牌。 通用补短 开局定向 可向护主防反流成型。 推荐：契合护主防反流这一流",
+    "src": "/assets/generated/cards/gpt2-zhao-river-guard.png",
+    "natural": {
+      "width": 512,
+      "height": 320
+    },
+    "card": {
+      "x": 266,
+      "y": 568,
+      "width": 240,
+      "height": 459.7,
+      "right": 506,
+      "bottom": 1027.7
+    },
+    "art": {
+      "x": 342,
+      "y": 620,
+      "width": 88,
+      "height": 120,
+      "right": 430,
+      "bottom": 740
+    },
+    "img": {
+      "x": 348,
+      "y": 626,
+      "width": 76,
+      "height": 108,
+      "right": 424,
+      "bottom": 734
+    },
+    "artRatio": 1.36,
+    "imageRatio": 0.63,
+    "artHeightShare": 0.26,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": false
+  },
+  {
+    "surface": "reward",
+    "index": 1,
+    "text": "技 / 攻 凡 1 回马枪 技 / 攻 技法攻击护甲破势 获得5点护甲，造成6点伤害。守势中藏反击。 通用补短 开局定向 可向护主防反流成型。 推荐：契合护主防",
+    "src": "/assets/generated/cards/gpt2-zhao-return-spear.png",
+    "natural": {
+      "width": 512,
+      "height": 384
+    },
+    "card": {
+      "x": 520,
+      "y": 562,
+      "width": 240,
+      "height": 459.7,
+      "right": 760,
+      "bottom": 1021.7
+    },
+    "art": {
+      "x": 596,
+      "y": 614,
+      "width": 88,
+      "height": 120,
+      "right": 684,
+      "bottom": 734
+    },
+    "img": {
+      "x": 602,
+      "y": 620,
+      "width": 76,
+      "height": 108,
+      "right": 678,
+      "bottom": 728
+    },
+    "artRatio": 1.36,
+    "imageRatio": 0.75,
+    "artHeightShare": 0.26,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": false
+  },
+  {
+    "surface": "reward",
+    "index": 2,
+    "text": "技 凡 1 格挡 技 技法护甲 获得7点护甲。 通用补短 开局定向 提供技法基础能力。 推荐：承接蓄势招式回响，补足当前流派节奏。",
+    "src": "/assets/generated/cards/wave57-common-gedang-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 774,
+      "y": 568,
+      "width": 240,
+      "height": 459.7,
+      "right": 1014,
+      "bottom": 1027.7
+    },
+    "art": {
+      "x": 850,
+      "y": 620,
+      "width": 88,
+      "height": 120,
+      "right": 938,
+      "bottom": 740
+    },
+    "img": {
+      "x": 856,
+      "y": 626,
+      "width": 76,
+      "height": 108,
+      "right": 932,
+      "bottom": 734
+    },
+    "artRatio": 1.36,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.26,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": false
+  },
+  {
+    "surface": "shop",
+    "index": 0,
+    "text": "行旅常备 补气护身，稳住行程。 技 凡 1 格挡 技 技法护甲 获得7点护甲。 补足周旋 补充技法能力，缓解当前牌组短板。 35铜钱",
+    "src": "/assets/generated/cards/wave57-common-gedang-gpt2.png",
+    "natural": {
+      "width": 512,
+      "height": 768
+    },
+    "card": {
+      "x": 252,
+      "y": 399.6,
+      "width": 252,
+      "height": 445.5,
+      "right": 504,
+      "bottom": 845.1
+    },
+    "art": {
+      "x": 324,
+      "y": 446.6,
+      "width": 108,
+      "height": 140,
+      "right": 432,
+      "bottom": 586.6
+    },
+    "img": {
+      "x": 330,
+      "y": 452.6,
+      "width": 96,
+      "height": 128,
+      "right": 426,
+      "bottom": 580.6
+    },
+    "artRatio": 1.3,
+    "imageRatio": 1.5,
+    "artHeightShare": 0.31,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "shop",
+    "index": 1,
+    "text": "门路秘招 照顾当前角色的拿牌方向。 攻 凡 1 渡河刺 攻 攻击破势蓄势 造成7点伤害，获得1龙胆。 另开支路 可转向连斩枪势流。 35铜钱",
+    "src": "/assets/generated/cards/gpt2-zhao-return-spear.png",
+    "natural": {
+      "width": 512,
+      "height": 384
+    },
+    "card": {
+      "x": 514,
+      "y": 399.6,
+      "width": 252,
+      "height": 445.5,
+      "right": 766,
+      "bottom": 845.1
+    },
+    "art": {
+      "x": 586,
+      "y": 446.6,
+      "width": 108,
+      "height": 140,
+      "right": 694,
+      "bottom": 586.6
+    },
+    "img": {
+      "x": 592,
+      "y": 452.6,
+      "width": 96,
+      "height": 128,
+      "right": 688,
+      "bottom": 580.6
+    },
+    "artRatio": 1.3,
+    "imageRatio": 0.75,
+    "artHeightShare": 0.31,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  },
+  {
+    "surface": "shop",
+    "index": 2,
+    "text": "偏门异货 更冒险，也更有记忆点。 攻 / 墨灾 墨 1 泼月 攻 / 墨灾 攻击墨灾破势易伤 造成10点伤害，施加1层易伤，获得1墨痕。消耗。 墨灾取势 高收益",
+    "src": "/assets/generated/cards/wave10-ink-heiyu.svg",
+    "natural": {
+      "width": 107,
+      "height": 150
+    },
+    "card": {
+      "x": 776,
+      "y": 399.6,
+      "width": 252,
+      "height": 445.5,
+      "right": 1028,
+      "bottom": 845.1
+    },
+    "art": {
+      "x": 848,
+      "y": 446.6,
+      "width": 108,
+      "height": 140,
+      "right": 956,
+      "bottom": 586.6
+    },
+    "img": {
+      "x": 854,
+      "y": 452.6,
+      "width": 96,
+      "height": 128,
+      "right": 950,
+      "bottom": 580.6
+    },
+    "artRatio": 1.3,
+    "imageRatio": 1.4,
+    "artHeightShare": 0.31,
+    "objectFit": "contain",
+    "overlaps": {
+      "cost": false,
+      "title": false,
+      "chrome": false,
+      "typeLine": false,
+      "keywords": false,
+      "description": false
+    },
+    "hasAnyOverlap": false,
+    "portraitWindowForPortraitImage": true,
+    "sufficientlyLarge": true
+  }
+]
