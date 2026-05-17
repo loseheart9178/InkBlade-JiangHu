@@ -558,8 +558,16 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
     anchor: "bottom-center"
   },
   {
+    id: "faceless_soldier_attack",
+    assetPath: "/assets/sprites/faceless-soldier-attack-strip-gpt-v3.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
     id: "paper_umbrella_attack",
-    assetPath: "/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/paper-umbrella-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -567,7 +575,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "sword_echo_attack",
-    assetPath: "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/sword-echo-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -575,7 +583,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "blood_banner_attack",
-    assetPath: "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/blood-banner-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -583,7 +591,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "ink_dongzhuo_boss_attack",
-    assetPath: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -681,7 +689,7 @@ const combatAttackSpriteSheetIdsByCombatantId: Record<string, string> = {
   "caiwenji": "caiwenji_attack",
   "zhugeliang": "zhugeliang_attack",
   "enemy_ink_bandit": "ink_bandit_attack",
-  "enemy_faceless_soldier": "ink_bandit_attack",
+  "enemy_faceless_soldier": "faceless_soldier_attack",
   "enemy_paper_umbrella": "paper_umbrella_attack",
   "elite_sword_echo": "sword_echo_attack",
   "elite_blood_banner": "blood_banner_attack",

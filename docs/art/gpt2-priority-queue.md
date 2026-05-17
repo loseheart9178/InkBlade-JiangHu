@@ -123,18 +123,22 @@ The observed-bugfix branch quarantined known annotated/marked generated outputs 
 
 Wave 9 Task 3 replaced the standee-only attack feedback with semantic repo-local SVG strips. A later GPT v2 binding pass promoted the clean 2048x512 attack strips for the three first-chapter stand-ins while keeping the quarantined standee cutouts out of runtime. The runtime no longer falls back to generic slash strips or Wave 9 SVG attack placeholders for these enemies.
 
+The paper umbrella normal enemy now uses its dedicated GPT v3 strip at `/assets/sprites/paper-umbrella-attack-strip-gpt-v3.png`, and the faceless soldier now has its own dedicated GPT v3 strip at `/assets/sprites/faceless-soldier-attack-strip-gpt-v3.png`; neither borrows a sibling enemy strip at runtime anymore.
+
+New first-chapter art quality pass also refreshed the runtime attack strips for `elite_sword_echo`, `elite_blood_banner`, and `boss_ink_dongzhuo` with dedicated GPT v3 outputs.
+
 | Enemy | Current standee binding | Current attack binding | Regeneration target |
 |---|---|---|---|
-| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | `/assets/sprites/sword-echo-attack-strip-gpt-v2.png` GPT v2 strip | Generate clean Sword Echo standee when art quality backlog resumes |
-| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | `/assets/sprites/blood-banner-attack-strip-gpt-v2.png` GPT v2 strip | Generate clean Blood Banner standee when art quality backlog resumes |
-| `boss_ink_dongzhuo` / 墨影董卓 | `/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png` vetted boss standee | `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png` GPT v2 strip | Boss standee and strip are covered |
+| `elite_sword_echo` / 剑痴残影 | `/assets/generated/gpt2-bamboo-soldier-standee-cutout.png` vetted stand-in | `/assets/sprites/sword-echo-attack-strip-gpt-v3.png` GPT v3 strip | Generate clean Sword Echo standee when art quality backlog resumes |
+| `elite_blood_banner` / 血旗都尉 | `/assets/generated/gpt2-scribe-officer-standee-cutout.png` vetted stand-in | `/assets/sprites/blood-banner-attack-strip-gpt-v3.png` GPT v3 strip | Generate clean Blood Banner standee when art quality backlog resumes |
+| `boss_ink_dongzhuo` / 墨影董卓 | `/assets/generated/gpt2-ink-dongzhuo-boss-standee-cutout.png` vetted boss standee | `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v3.png` GPT v3 strip | Boss standee and strip are covered |
 
 Do not rebind the quarantined annotated paths without regenerated clean sources:
 
 - `/assets/generated/sword-echo-standee-gpt-v2-cutout.png`
 - `/assets/generated/blood-banner-standee-gpt-v2-cutout.png`
 
-Do not use `/assets/sprites/enemy-slash-strip.svg` as a runtime combatant sprite for these stand-ins. User playtest feedback showed the generic silhouette reads as a different enemy during attacks. The generic slash strip is not an acceptable runtime binding for `elite_sword_echo`, `elite_blood_banner`, or `boss_ink_dongzhuo`; use the GPT v2 attack strips above.
+Do not use `/assets/sprites/enemy-slash-strip.svg` as a runtime combatant sprite for these stand-ins. User playtest feedback showed the generic silhouette reads as a different enemy during attacks. The generic slash strip is not an acceptable runtime binding for `elite_sword_echo`, `elite_blood_banner`, or `boss_ink_dongzhuo`; use the GPT v3 attack strips above.
 
 ## Priority Targets
 

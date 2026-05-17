@@ -1,3 +1,4 @@
+import { afterEach, beforeEach } from "vitest";
 import { createInkbladeController, mapScreenToAudioSurface } from "../src/app/inkbladeController";
 import { createAudioFeedback, type AudioFeedback, type AudioSurface } from "../src/app/audioFeedback";
 import { cardList } from "../src/game/content/cards";
@@ -40,6 +41,7 @@ function createFakeAudioFeedback(surfaces: AudioSurface[]): AudioFeedback {
     playCard() {},
     playVictory() {},
     playDefeat() {},
+    playVoiceCue() {},
     setSurface(surface) {
       surfaces.push(surface);
     },
@@ -50,6 +52,14 @@ function createFakeAudioFeedback(surfaces: AudioSurface[]): AudioFeedback {
 }
 
 describe("desktop settings persistence", () => {
+  beforeEach(() => {
+    delete (window as Window & { Audio?: typeof Audio }).Audio;
+  });
+
+  afterEach(() => {
+    delete (window as Window & { Audio?: typeof Audio }).Audio;
+  });
+
   it("normalizes and persists desktop settings separately from run saves", () => {
     const storage = new MemoryStorage();
     const settings: DesktopSettings = {

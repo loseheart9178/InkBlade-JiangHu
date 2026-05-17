@@ -1,5 +1,6 @@
 node_modules/
 dist/
+release/
 playwright-report/
 test-results/
 coverage/
@@ -8,4 +9,5 @@ reports/
 .superpowers/
 .worktrees
 .worktrees/
+.archived-unbound-assets/
 *.log

@@ -10895,3 +10895,66 @@ Remaining risks:
 
 - `docs/art/event-art-prompts-v1.md` still omits `event_empty_city_wind`; the generated art follows the runtime event definition instead.
 - The generated PNGs are now complete for registry coverage, but individual art-direction approval may still request selected rerolls.
+
+## 2026-05-17 First-chapter attack-strip regeneration
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `src/game/content/enemies.ts`
+- `src/game/content/visuals.ts`
+
+What changed:
+
+- Generated five new enemy-specific attack strip source images with imagegen, using the existing project standees as reference direction:
+  - `paper_umbrella_attack`
+  - `sword_echo_attack`
+  - `blood_banner_attack`
+  - `ink_dongzhuo_boss_attack`
+  - `faceless_soldier_attack`
+- Removed chroma-key backgrounds and normalized the results into runtime-ready 2048x512 PNG strips under `public/assets/sprites/` with `gpt-v3` suffixes.
+- Updated `src/game/content/visuals.ts` so the five enemies now bind to their dedicated attack strips instead of borrowed sibling or Wave 9 fallback assets.
+- Updated `tests/data/content.test.ts` and `docs/art/gpt2-priority-queue.md` to reflect the new runtime asset paths.
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+```
+
+Remaining risks:
+
+- The attack strips are now dedicated and correctly bound, but their visual identity still depends on the generated image quality; any style reroll would be a separate asset pass.
+
+## 2026-05-17 First-chapter attack-strip scale correction
+
+What changed:
+
+- Rebuilt the five GPT v3 first-chapter enemy attack strips from their preserved alpha sources so each frame occupies a height comparable to other enemy strips under `public/assets/sprites/`.
+- Kept the existing imagegen style and character identity unchanged.
+- Recut the generated sources into four 512x512 cells per strip, scaled each subject to the 430-470px visible-height range, and preserved bottom-center anchoring.
+- Runtime paths stayed unchanged:
+  - `/assets/sprites/paper-umbrella-attack-strip-gpt-v3.png`
+  - `/assets/sprites/faceless-soldier-attack-strip-gpt-v3.png`
+  - `/assets/sprites/sword-echo-attack-strip-gpt-v3.png`
+  - `/assets/sprites/blood-banner-attack-strip-gpt-v3.png`
+  - `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v3.png`
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+```
+
+Result: passed. Asset audit reports `missing: 0`; content tests passed 33/33.

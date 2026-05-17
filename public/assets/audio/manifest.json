@@ -2,76 +2,169 @@
   "version": 1,
   "ambience": {
     "title": {
+      "asset": "/assets/audio/ambience/title-loop.ogg",
       "fallback": "procedural:ambience:title",
-      "description": "Reserved title-screen ink ambience bed for the opening shell."
+      "description": "Title-screen ink ambience bed for the opening shell."
     },
     "map": {
+      "asset": "/assets/audio/ambience/map-loop.ogg",
       "fallback": "procedural:ambience:map",
-      "description": "Reserved route-map ambience for travel through the chapter topology."
+      "description": "Route-map ambience for travel through the chapter topology."
     },
     "combat": {
+      "asset": "/assets/audio/ambience/combat-luoshui-loop.ogg",
       "fallback": "procedural:ambience:combat",
-      "description": "Reserved combat ambience bed for battlefield tension."
+      "description": "Combat ambience bed for battlefield tension."
     },
     "reward": {
+      "asset": "/assets/audio/ambience/map-loop.ogg",
       "fallback": "procedural:ambience:reward",
-      "description": "Reserved post-battle reward ambience for card and relic choices."
+      "description": "Post-battle reward ambience for card and relic choices."
     },
     "event": {
+      "asset": "/assets/audio/ambience/event-loop.ogg",
       "fallback": "procedural:ambience:event",
-      "description": "Reserved story-event ambience for ink-corrupted jianghu encounters."
+      "description": "Story-event ambience for ink-corrupted jianghu encounters."
     },
     "shop": {
+      "asset": "/assets/audio/ambience/shop-loop.ogg",
       "fallback": "procedural:ambience:shop",
-      "description": "Reserved shop ambience for merchant and deck-service surfaces."
+      "description": "Shop ambience for merchant and deck-service surfaces."
     },
     "rest": {
+      "asset": "/assets/audio/ambience/rest-loop.ogg",
       "fallback": "procedural:ambience:rest",
-      "description": "Reserved rest-site ambience for healing and card-upgrade pauses."
+      "description": "Rest-site ambience for healing and card-upgrade pauses."
     },
     "final": {
+      "asset": "/assets/audio/ambience/final-loop.ogg",
       "fallback": "procedural:ambience:final",
-      "description": "Reserved finale ambience for victory, defeat, and final-choice screens."
+      "description": "Finale ambience for victory, defeat, and final-choice screens."
     }
   },
   "sfx": {
     "ui": {
       "fallback": "procedural:sfx:ui",
-      "description": "Reserved short UI confirmation sound for buttons and toggles."
+      "description": "Short UI confirmation sound for buttons and toggles."
     },
     "card": {
       "fallback": "procedural:sfx:card",
-      "description": "Reserved card-play sound for martial technique execution."
+      "description": "Card-play sound for martial technique execution."
     },
     "victory": {
       "fallback": "procedural:sfx:victory",
-      "description": "Reserved victory cue for successful combat resolution."
+      "description": "Victory cue for successful combat resolution."
     },
     "defeat": {
       "fallback": "procedural:sfx:defeat",
-      "description": "Reserved defeat cue for failed combat resolution."
+      "description": "Defeat cue for failed combat resolution."
     },
     "final-choice": {
       "fallback": "procedural:sfx:final-choice",
-      "description": "Reserved final-choice cue for chapter-ending decisions."
+      "description": "Final-choice cue for chapter-ending decisions."
     }
   },
   "combatCues": {
     "hit": {
       "fallback": "procedural:combat:hit",
-      "description": "Reserved combat cue for damage impact and hit feedback."
+      "description": "Combat cue for damage impact and hit feedback."
     },
     "block": {
       "fallback": "procedural:combat:block",
-      "description": "Reserved combat cue for guard, armor, and block feedback."
+      "description": "Combat cue for guard, armor, and block feedback."
     },
     "status": {
       "fallback": "procedural:combat:status",
-      "description": "Reserved combat cue for charm, ink, weak, vulnerable, and other status changes."
+      "description": "Combat cue for charm, ink, weak, vulnerable, and other status changes."
     },
     "turn": {
       "fallback": "procedural:combat:turn",
-      "description": "Reserved combat cue for player and enemy turn transitions."
+      "description": "Combat cue for player and enemy turn transitions."
+    }
+  },
+  "voice": {
+    "zhaoyun": {
+      "assets": [
+        "/assets/audio/voice/zhaoyun/zhaoyun-attack-01.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-attack-02.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-attack-03.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-attack-04.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-bark-01.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-bark-02.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-bark-03.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-bark-04.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-guard-01.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-guard-02.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-guard-03.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-lowhp-01.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-ultimate-01.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-ultimate-02.ogg",
+        "/assets/audio/voice/zhaoyun/zhaoyun-victory-01.ogg"
+      ],
+      "description": "Authored battle voice cues for zhaoyun."
+    },
+    "diaochan": {
+      "assets": [
+        "/assets/audio/voice/diaochan/diaochan-attack-01.ogg",
+        "/assets/audio/voice/diaochan/diaochan-attack-02.ogg",
+        "/assets/audio/voice/diaochan/diaochan-attack-03.ogg",
+        "/assets/audio/voice/diaochan/diaochan-attack-04.ogg",
+        "/assets/audio/voice/diaochan/diaochan-bark-01.ogg",
+        "/assets/audio/voice/diaochan/diaochan-bark-02.ogg",
+        "/assets/audio/voice/diaochan/diaochan-bark-03.ogg",
+        "/assets/audio/voice/diaochan/diaochan-bark-04.ogg",
+        "/assets/audio/voice/diaochan/diaochan-charm-01.ogg",
+        "/assets/audio/voice/diaochan/diaochan-charm-02.ogg",
+        "/assets/audio/voice/diaochan/diaochan-charm-03.ogg",
+        "/assets/audio/voice/diaochan/diaochan-charm-04.ogg",
+        "/assets/audio/voice/diaochan/diaochan-lowhp-01.ogg",
+        "/assets/audio/voice/diaochan/diaochan-ultimate-01.ogg",
+        "/assets/audio/voice/diaochan/diaochan-ultimate-02.ogg",
+        "/assets/audio/voice/diaochan/diaochan-victory-01.ogg"
+      ],
+      "description": "Authored battle voice cues for diaochan."
+    },
+    "caiwenji": {
+      "assets": [
+        "/assets/audio/voice/caiwenji/caiwenji-attack-01.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-attack-02.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-attack-03.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-attack-04.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-bark-01.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-bark-02.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-bark-03.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-bark-04.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-cleanse-01.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-cleanse-02.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-cleanse-03.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-cleanse-04.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-lowhp-01.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-ultimate-01.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-ultimate-02.ogg",
+        "/assets/audio/voice/caiwenji/caiwenji-victory-01.ogg"
+      ],
+      "description": "Authored battle voice cues for caiwenji."
+    },
+    "zhugeliang": {
+      "assets": [
+        "/assets/audio/voice/zhugeliang/zhugeliang-attack-01.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-attack-02.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-attack-03.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-attack-04.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-bark-01.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-bark-02.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-bark-03.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-bark-04.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-lowhp-01.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-strategy-01.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-strategy-02.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-strategy-03.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-strategy-04.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-ultimate-01.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-ultimate-02.ogg",
+        "/assets/audio/voice/zhugeliang/zhugeliang-victory-01.ogg"
+      ],
+      "description": "Authored battle voice cues for zhugeliang."
     }
   }
 }

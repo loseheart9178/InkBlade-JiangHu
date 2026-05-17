@@ -3,12 +3,12 @@
   "visualManifest": "src/game/content/visuals.ts",
   "cardManifest": "src/game/content/cards.ts",
   "summary": {
-    "runtimeReferenceCount": 228,
-    "uniqueRuntimeFileCount": 158,
+    "runtimeReferenceCount": 229,
+    "uniqueRuntimeFileCount": 154,
     "missingCount": 0,
     "inkPassDebtCount": 0,
-    "gpt2RuntimeCount": 122,
-    "sourceSheetCount": 21,
+    "gpt2RuntimeCount": 118,
+    "sourceSheetCount": 275,
     "cardFallbackDebtCount": 0
   },
   "missing": [],
@@ -765,13 +765,6 @@
     },
     {
       "kind": "combatSpriteSheet",
-      "id": "blood_banner_attack",
-      "paths": [
-        "/assets/sprites/blood-banner-attack-strip-gpt-v2.png"
-      ]
-    },
-    {
-      "kind": "combatSpriteSheet",
       "id": "broken_scholar_attack",
       "paths": [
         "/assets/sprites/broken-scholar-attack-strip-gpt2.png"
@@ -807,13 +800,6 @@
     },
     {
       "kind": "combatSpriteSheet",
-      "id": "ink_dongzhuo_boss_attack",
-      "paths": [
-        "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png"
-      ]
-    },
-    {
-      "kind": "combatSpriteSheet",
       "id": "lubu_shadow_attack",
       "paths": [
         "/assets/sprites/lubu-shadow-attack-strip-gpt2.png"
@@ -824,13 +810,6 @@
       "id": "nameless_historian_attack",
       "paths": [
         "/assets/sprites/nameless-historian-attack-strip-gpt2.png"
-      ]
-    },
-    {
-      "kind": "combatSpriteSheet",
-      "id": "paper_umbrella_attack",
-      "paths": [
-        "/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png"
       ]
     },
     {
@@ -852,13 +831,6 @@
       "id": "scribe_officer_attack",
       "paths": [
         "/assets/sprites/scribe-officer-attack-strip-gpt2.png"
-      ]
-    },
-    {
-      "kind": "combatSpriteSheet",
-      "id": "sword_echo_attack",
-      "paths": [
-        "/assets/sprites/sword-echo-attack-strip-gpt-v2.png"
       ]
     },
     {
@@ -956,6 +928,1022 @@
     {
       "assetPath": "/assets/generated/sources/gpt2-zhugeliang-standee-source.png",
       "bytes": 2693763
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096-alpha/caiwenji-24f-qin-resonance-4096-alpha.png",
+      "bytes": 9527124
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096-alpha/diaochan-32f-crimson-dance-4096-alpha.png",
+      "bytes": 11241436
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096-alpha/zhaoyun-24f-dash-spear-combo-4096-alpha.png",
+      "bytes": 7397822
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096-alpha/zhugeliang-32f-qimen-bagua-4096-alpha.png",
+      "bytes": 10009582
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096/caiwenji-24f-qin-resonance-4096-source.png",
+      "bytes": 2800977
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096/diaochan-32f-crimson-dance-4096-source.png",
+      "bytes": 3089718
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096/zhaoyun-24f-dash-spear-combo-4096-source.png",
+      "bytes": 2398271
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/4096/zhugeliang-32f-qimen-bagua-4096-source.png",
+      "bytes": 3189475
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/caiwenji-24f-qin-resonance-sheet-source.png",
+      "bytes": 2783322
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/diaochan-32f-crimson-dance-sheet-source.png",
+      "bytes": 2770167
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_01.png",
+      "bytes": 400975
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_02.png",
+      "bytes": 418851
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_03.png",
+      "bytes": 460763
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_04.png",
+      "bytes": 442942
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_05.png",
+      "bytes": 448511
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_06.png",
+      "bytes": 437292
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_07.png",
+      "bytes": 453732
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_08.png",
+      "bytes": 439666
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_09.png",
+      "bytes": 505136
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_10.png",
+      "bytes": 482253
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_11.png",
+      "bytes": 466951
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_12.png",
+      "bytes": 517088
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_13.png",
+      "bytes": 529287
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_14.png",
+      "bytes": 535034
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_15.png",
+      "bytes": 536622
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_16.png",
+      "bytes": 447632
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_17.png",
+      "bytes": 482033
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_18.png",
+      "bytes": 505063
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_19.png",
+      "bytes": 471343
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_20.png",
+      "bytes": 419674
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_21.png",
+      "bytes": 412066
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_22.png",
+      "bytes": 410840
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_23.png",
+      "bytes": 413482
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/caiwenji/frame_24.png",
+      "bytes": 409518
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_01.png",
+      "bytes": 399257
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_02.png",
+      "bytes": 408219
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_03.png",
+      "bytes": 406497
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_04.png",
+      "bytes": 393809
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_05.png",
+      "bytes": 408937
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_06.png",
+      "bytes": 413278
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_07.png",
+      "bytes": 423251
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_08.png",
+      "bytes": 428486
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_09.png",
+      "bytes": 438835
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_10.png",
+      "bytes": 453019
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_11.png",
+      "bytes": 444700
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_12.png",
+      "bytes": 451697
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_13.png",
+      "bytes": 407312
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_14.png",
+      "bytes": 447181
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_15.png",
+      "bytes": 420015
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_16.png",
+      "bytes": 422364
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_17.png",
+      "bytes": 424377
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_18.png",
+      "bytes": 433245
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_19.png",
+      "bytes": 432255
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_20.png",
+      "bytes": 447542
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_21.png",
+      "bytes": 437315
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_22.png",
+      "bytes": 413459
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_23.png",
+      "bytes": 434443
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_24.png",
+      "bytes": 422566
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_25.png",
+      "bytes": 415966
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_26.png",
+      "bytes": 443750
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_27.png",
+      "bytes": 415482
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_28.png",
+      "bytes": 445783
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_29.png",
+      "bytes": 388128
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_30.png",
+      "bytes": 382344
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_31.png",
+      "bytes": 375838
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/diaochan/frame_32.png",
+      "bytes": 368963
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_01.png",
+      "bytes": 369818
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_02.png",
+      "bytes": 320962
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_03.png",
+      "bytes": 424496
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_04.png",
+      "bytes": 373872
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_05.png",
+      "bytes": 395238
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_06.png",
+      "bytes": 362748
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_07.png",
+      "bytes": 391458
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_08.png",
+      "bytes": 379824
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_09.png",
+      "bytes": 395516
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_10.png",
+      "bytes": 340968
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_11.png",
+      "bytes": 378668
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_12.png",
+      "bytes": 392478
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_13.png",
+      "bytes": 436679
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_14.png",
+      "bytes": 379371
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_15.png",
+      "bytes": 405852
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_16.png",
+      "bytes": 391636
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_17.png",
+      "bytes": 355574
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_18.png",
+      "bytes": 355339
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_19.png",
+      "bytes": 406421
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_20.png",
+      "bytes": 352286
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_21.png",
+      "bytes": 327548
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_22.png",
+      "bytes": 386101
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_23.png",
+      "bytes": 329311
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhaoyun/frame_24.png",
+      "bytes": 361061
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_01.png",
+      "bytes": 315005
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_02.png",
+      "bytes": 347029
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_03.png",
+      "bytes": 351288
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_04.png",
+      "bytes": 344036
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_05.png",
+      "bytes": 339720
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_06.png",
+      "bytes": 335656
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_07.png",
+      "bytes": 276758
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_08.png",
+      "bytes": 352690
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_09.png",
+      "bytes": 366729
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_10.png",
+      "bytes": 355396
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_11.png",
+      "bytes": 369760
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_12.png",
+      "bytes": 388111
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_13.png",
+      "bytes": 357548
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_14.png",
+      "bytes": 337672
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_15.png",
+      "bytes": 389321
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_16.png",
+      "bytes": 405306
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_17.png",
+      "bytes": 385926
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_18.png",
+      "bytes": 419658
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_19.png",
+      "bytes": 417751
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_20.png",
+      "bytes": 411489
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_21.png",
+      "bytes": 423449
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_22.png",
+      "bytes": 440877
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_23.png",
+      "bytes": 427160
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_24.png",
+      "bytes": 430991
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_25.png",
+      "bytes": 434239
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_26.png",
+      "bytes": 445243
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_27.png",
+      "bytes": 422634
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_28.png",
+      "bytes": 384140
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_29.png",
+      "bytes": 411286
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_30.png",
+      "bytes": 403384
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_31.png",
+      "bytes": 421424
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512-alpha/zhugeliang/frame_32.png",
+      "bytes": 408889
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_01.png",
+      "bytes": 283397
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_02.png",
+      "bytes": 295549
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_03.png",
+      "bytes": 321291
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_04.png",
+      "bytes": 310234
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_05.png",
+      "bytes": 309623
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_06.png",
+      "bytes": 306621
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_07.png",
+      "bytes": 319062
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_08.png",
+      "bytes": 313283
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_09.png",
+      "bytes": 349424
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_10.png",
+      "bytes": 340429
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_11.png",
+      "bytes": 327859
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_12.png",
+      "bytes": 362323
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_13.png",
+      "bytes": 365850
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_14.png",
+      "bytes": 369735
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_15.png",
+      "bytes": 370692
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_16.png",
+      "bytes": 316424
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_17.png",
+      "bytes": 340269
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_18.png",
+      "bytes": 354481
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_19.png",
+      "bytes": 330612
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_20.png",
+      "bytes": 294850
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_21.png",
+      "bytes": 294055
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_22.png",
+      "bytes": 295395
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_23.png",
+      "bytes": 293862
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/caiwenji/frame_24.png",
+      "bytes": 289398
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_01.png",
+      "bytes": 280636
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_02.png",
+      "bytes": 285975
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_03.png",
+      "bytes": 284991
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_04.png",
+      "bytes": 281210
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_05.png",
+      "bytes": 286914
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_06.png",
+      "bytes": 291168
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_07.png",
+      "bytes": 294850
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_08.png",
+      "bytes": 298906
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_09.png",
+      "bytes": 304043
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_10.png",
+      "bytes": 313859
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_11.png",
+      "bytes": 308988
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_12.png",
+      "bytes": 314066
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_13.png",
+      "bytes": 286413
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_14.png",
+      "bytes": 309222
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_15.png",
+      "bytes": 290305
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_16.png",
+      "bytes": 295286
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_17.png",
+      "bytes": 297163
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_18.png",
+      "bytes": 301293
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_19.png",
+      "bytes": 303605
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_20.png",
+      "bytes": 312100
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_21.png",
+      "bytes": 306090
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_22.png",
+      "bytes": 287609
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_23.png",
+      "bytes": 301837
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_24.png",
+      "bytes": 295616
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_25.png",
+      "bytes": 291057
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_26.png",
+      "bytes": 307965
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_27.png",
+      "bytes": 289170
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_28.png",
+      "bytes": 307209
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_29.png",
+      "bytes": 274094
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_30.png",
+      "bytes": 270834
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_31.png",
+      "bytes": 266857
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/diaochan/frame_32.png",
+      "bytes": 264750
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_01.png",
+      "bytes": 268148
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_02.png",
+      "bytes": 234873
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_03.png",
+      "bytes": 308606
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_04.png",
+      "bytes": 274637
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_05.png",
+      "bytes": 285161
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_06.png",
+      "bytes": 266934
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_07.png",
+      "bytes": 286950
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_08.png",
+      "bytes": 277077
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_09.png",
+      "bytes": 287397
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_10.png",
+      "bytes": 245957
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_11.png",
+      "bytes": 274869
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_12.png",
+      "bytes": 282337
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_13.png",
+      "bytes": 313154
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_14.png",
+      "bytes": 274424
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_15.png",
+      "bytes": 296326
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_16.png",
+      "bytes": 286348
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_17.png",
+      "bytes": 264308
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_18.png",
+      "bytes": 261411
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_19.png",
+      "bytes": 300060
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_20.png",
+      "bytes": 262225
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_21.png",
+      "bytes": 241559
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_22.png",
+      "bytes": 279873
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_23.png",
+      "bytes": 240085
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhaoyun/frame_24.png",
+      "bytes": 260285
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_01.png",
+      "bytes": 228032
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_02.png",
+      "bytes": 250118
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_03.png",
+      "bytes": 258166
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_04.png",
+      "bytes": 255936
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_05.png",
+      "bytes": 254873
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_06.png",
+      "bytes": 256085
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_07.png",
+      "bytes": 211854
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_08.png",
+      "bytes": 251856
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_09.png",
+      "bytes": 262771
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_10.png",
+      "bytes": 259837
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_11.png",
+      "bytes": 270022
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_12.png",
+      "bytes": 280759
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_13.png",
+      "bytes": 262666
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_14.png",
+      "bytes": 244907
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_15.png",
+      "bytes": 271223
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_16.png",
+      "bytes": 284897
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_17.png",
+      "bytes": 276649
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_18.png",
+      "bytes": 299068
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_19.png",
+      "bytes": 297805
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_20.png",
+      "bytes": 290947
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_21.png",
+      "bytes": 292588
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_22.png",
+      "bytes": 297464
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_23.png",
+      "bytes": 292771
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_24.png",
+      "bytes": 305964
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_25.png",
+      "bytes": 307367
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_26.png",
+      "bytes": 313851
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_27.png",
+      "bytes": 298407
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_28.png",
+      "bytes": 267287
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_29.png",
+      "bytes": 285849
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_30.png",
+      "bytes": 283503
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_31.png",
+      "bytes": 299072
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/frames-512/zhugeliang/frame_32.png",
+      "bytes": 290731
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/zhaoyun-24f-dash-spear-combo-sheet-source.png",
+      "bytes": 2387601
+    },
+    {
+      "assetPath": "/assets/generated/sources/high-frame-animation/zhugeliang-32f-qimen-bagua-sheet-source.png",
+      "bytes": 2759181
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/asset-contact-sheet.png",
+      "bytes": 369686
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/intent-icons-sheet-raw.png",
+      "bytes": 2048049
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/intent-icons-sheet.png",
+      "bytes": 1601808
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/map-node-icons-sheet-raw.png",
+      "bytes": 1759236
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/map-node-icons-sheet.png",
+      "bytes": 1186574
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/vfx/_sources/hit-cai-wenji-source.png",
+      "bytes": 1495544
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/vfx/_sources/hit-diao-chan-source.png",
+      "bytes": 1787426
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/vfx/_sources/hit-zhao-yun-source.png",
+      "bytes": 1528045
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/vfx/_sources/hit-zhuge-liang-source.png",
+      "bytes": 1295003
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/vfx/burn-dissolve-sheet.png",
+      "bytes": 1380848
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-dark-kit-v2/vfx/ink-splash-sheet.png",
+      "bytes": 1617885
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-hud/resource-armor.png",
+      "bytes": 15450
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-hud/resource-attack.png",
+      "bytes": 15883
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-hud/resource-charm.png",
+      "bytes": 15822
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-hud/resource-coin.png",
+      "bytes": 15476
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-hud/resource-deck.png",
+      "bytes": 15174
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-hud/resource-health.png",
+      "bytes": 14293
+    },
+    {
+      "assetPath": "/assets/generated/ui/combat-hud/resource-logbook.png",
+      "bytes": 15492
     },
     {
       "assetPath": "/assets/generated/zhaoyun-standee-gpt-v2-source.png",

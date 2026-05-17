@@ -37,7 +37,7 @@ import {
   type SaveableScreen
 } from "../game/systems/save/save";
 import { createCombat, endPlayerTurn, playCard } from "../game/systems/combat/combat";
-import type { CardDefinition, CardEffect, CombatState, CombatVisualEvent, EnemyIntentEffect, MindState, StatusId } from "../game/systems/combat/types";
+import type { CardDefinition, CardEffect, CardRarity, CombatState, CombatVisualEvent, EnemyIntentEffect, MindState, StatusId } from "../game/systems/combat/types";
 import { analyzeDeckArchetypes, getCardArchetypeRole } from "../game/systems/deck/archetype";
 import { createDeckBuildRecap, type DeckBuildRecap } from "../game/systems/deck/buildRecap";
 import { createRewardBuildFit } from "../game/systems/deck/rewardFit";
@@ -102,6 +102,7 @@ import {
   travelToNode,
   upgradeDeckCard,
   type BattleSpoils,
+  type ChapterRewardChoice,
   type MapNode,
   type RunCompletionSnapshot,
   type RunState
@@ -110,6 +111,7 @@ import {
 export type Screen = "title" | "map" | "combat" | "reward" | "methodReward" | "chapterReward" | "event" | "shop" | "rest" | "bossReward" | "finalChoice" | "logbook" | "compendium" | "runSummary" | "victory" | "defeat";
 type CompendiumReturnScreen = Exclude<Screen, "compendium">;
 type ShopTabId = "cards" | "relics" | "services";
+type ChapterTransitionPhase = "recap" | "growths" | "advanced";
 type MapRouteState = "current" | "available" | "visited" | "locked";
 
 const SHOP_REMOVE_PRICE = 50;
@@ -125,6 +127,7 @@ interface ControllerState {
   compendiumFilters: Required<CompendiumFilters>;
   compendiumReturnScreen?: CompendiumReturnScreen;
   shopTab: ShopTabId;
+  chapterTransitionPhase: ChapterTransitionPhase;
   settings: DesktopSettings;
   profile: PlayerProfile;
   completedRunSummary?: CompletedRunSummaryView;
@@ -159,6 +162,7 @@ export function createInkbladeController(host: HTMLElement, options: ControllerO
     deckOpen: false,
     compendiumFilters: createDefaultCompendiumFilters(),
     shopTab: "cards",
+    chapterTransitionPhase: "recap",
     settings: initialSettings,
     profile: loadProfile(options.storage) ?? createProfile(),
     debugToolsEnabled: options.debugToolsEnabled ?? initialSettings.developerMode,
@@ -1467,6 +1471,7 @@ function renderCombat(host: HTMLElement, state: ControllerState, render: () => v
       state.message = result.ok ? `${definition.name}已出。` : explainPlayFailure(result.reason);
       if (result.ok) {
         audioFeedback.playCard();
+        audioFeedback.playVoiceCue(combat.player.characterId, { cardId: definition.id, cardTypes: definition.types });
         if (definition.types.includes("skill")) {
           window.dispatchEvent(new CustomEvent("inkblade:combat-action", {
             detail: { action: "skill", characterId: combat.player.characterId, isPlayer: true }
@@ -1864,29 +1869,39 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
   const current = getCurrentNode(run);
   const event = eventsById[current.eventId ?? "event_black_rain_ferry"];
   const eventScene = getEventScene(event.id);
+
   const panel = createPanel("screen-event", event.title);
-  panel.classList.add("event-screen");
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
+  panel.classList.add("event-screen", "event-screen--immersive");
+  // Purposely omitting createRunStatus to achieve minimalist immersion
 
   const layout = document.createElement("div");
-  layout.className = "event-layout event-layout--kit event-layout--split";
+  layout.className = "immersive-event-layout event-layout event-layout--kit";
   layout.dataset.testid = "event-layout";
 
   layout.innerHTML = `
-    <div class="event-image-pane event-hero" data-testid="event-hero">
-      <div class="event-scene event-scene--${eventScene.key}" data-testid="event-scene" style="position: absolute; inset: 0; background-image: url('/assets/generated/events/${event.id}.png'); background-size: cover; background-position: center;"></div>
-      <span class="event-scene-mark">${eventScene.mark}</span>
+    <!-- Far background layer (blurred/darkened image) -->
+    <div class="parallax-layer parallax-far" style="background-image: url('/assets/generated/events/${event.id}.png')"></div>
+
+    <!-- Mid layer: The main event image with ink filter -->
+    <div class="parallax-layer parallax-mid event-hero" data-testid="event-hero">
+      <div class="ink-image event-scene event-scene--${eventScene.key}" data-testid="event-scene" style="background-image: url('/assets/generated/events/${event.id}.png')"></div>
     </div>
-    <div class="event-text-pane">
-      <div class="event-text-scroll">
-        <div data-testid="event-scene-header">
-          <span class="event-kicker" data-testid="event-kicker">${eventScene.kicker}</span>
-          <h3>${event.title}</h3>
-        </div>
-        <p>${event.description}</p>
-      </div>
-      <div class="event-choices event-choice-rail event-choices--kit event-choices--split" data-testid="event-choices"></div>
+
+    <!-- Near layer: Text and choices -->
+    <div class="parallax-layer parallax-near">
+       <div class="event-location-tag" data-testid="event-scene-header">
+           <span class="event-kicker" data-testid="event-kicker">${eventScene.mark} · ${eventScene.kicker}</span>
+       </div>
+       <h2 class="event-title-calligraphy">${event.title}</h2>
+       <p class="event-description-ink">${event.description}</p>
+
+       <div class="event-choices-immersive event-choices event-choices--kit" data-testid="event-choices"></div>
+
+       <div class="red-seal">奇</div>
     </div>
+
+    <!-- Floating particles container -->
+    <div class="ink-particles"></div>
   `;
 
   const choicesContainer = layout.querySelector(".event-choices")!;
@@ -1902,11 +1917,30 @@ function renderEvent(host: HTMLElement, state: ControllerState, render: () => vo
       state.screen = "map";
       render();
     });
-    // Add specific classes for split layout choices, keeping kit class for e2e tests
-    action.classList.add("choice-action--event-kit");
-    action.classList.add("choice-action--event-split");
+    // Add immersive classes
+    action.classList.add("choice-action--event-kit", "choice-action--immersive");
     choicesContainer.append(action);
   }
+
+  // Parallax Logic
+  layout.addEventListener('mousemove', (e) => {
+    const rect = layout.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const percentX = (x - centerX) / centerX;
+    const percentY = (y - centerY) / centerY;
+
+    layout.style.setProperty('--mouse-x', percentX.toString());
+    layout.style.setProperty('--mouse-y', percentY.toString());
+  });
+
+  layout.addEventListener('mouseleave', () => {
+    layout.style.setProperty('--mouse-x', '0');
+    layout.style.setProperty('--mouse-y', '0');
+  });
 
   panel.append(layout);
   mountChapterPanel(host, panel, run);
@@ -2268,93 +2302,201 @@ function renderRest(host: HTMLElement, state: ControllerState, render: () => voi
   mountChapterPanel(host, panel, run);
 }
 
+function createChapterRewardChoiceCard(
+  run: RunState,
+  choice: ChapterRewardChoice | AdvancedRewardChoice,
+  phase: "chapter" | "advanced",
+  onClick: () => void
+): HTMLElement {
+  let card: CardDefinition;
+  let label = "系统抄录";
+  let note = choice.summary;
+  let artSrc: string = "";
+
+  if (choice.cardId && cardsById[choice.cardId]) {
+    card = cardsById[choice.cardId];
+    label = choice.title;
+  } else {
+    // Mock card for functional rewards
+    artSrc = "/assets/generated/cards/ink-remnant-enlightenment.png";
+    if (choice.type === "upgrade") {
+      artSrc = "/assets/generated/cards/ink-remnant-enlightenment.png";
+      label = "残页点化";
+    } else if (choice.type === "maxHp") {
+      artSrc = "/assets/generated/cards/cleansing-rain-marrow.png";
+      label = "清雨洗髓";
+    } else if (choice.type === "methodUpgrade") {
+      artSrc = "/assets/generated/cards/changban-guard-heart.png";
+      label = "心法进境";
+    }
+
+    card = {
+      id: choice.id,
+      name: choice.title,
+      rarity: "common",
+      types: ["skill"],
+      cost: 0,
+      description: choice.summary,
+      keywords: [],
+      target: "none",
+      effects: [],
+    };
+  }
+
+  const type = card.types[0] ?? "skill";
+  const fit = createRewardBuildFit(getRunCardDefinitions(run), card);
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `choice-action shop-item shop-item--card shop-item--kit card-type-${type}`;
+  button.style.setProperty("--ui-kit-card-frame", `url("${getCombatUiAsset(getCombatUiCardFrameAssetId(card.rarity))}")`);
+  button.dataset.buildFitTone = fit.tone;
+  button.title = "点击选择奖励";
+  button.dataset.testid = phase === "advanced" ? "advanced-reward-choice" : "chapter-reward-choice";
+
+  button.innerHTML = `
+    <span class="shop-card-face shop-card-front">
+      <span class="shop-meta-row">
+        <span>${escapeHtml(label)}</span>
+      </span>
+      ${artSrc ? createChapterRewardCardArtMarkup(artSrc, card.name, choice.type) : createCardArtMarkup(card)}
+      ${createCardChromeMarkup(card)}
+      <span class="card-cost" data-testid="card-cost">${card.cost}</span>
+      <strong>${escapeHtml(card.name)}</strong>
+      <small class="card-type-line">${escapeHtml(formatTypes(card.types))}</small>
+      <span class="shop-card-note">${escapeHtml(note)}</span>
+      <span class="shop-card-footer">
+        <span class="shop-price-chip" data-testid="shop-price-chip">点击选择</span>
+      </span>
+    </span>
+  `;
+
+  button.addEventListener("click", onClick);
+
+  return button;
+}
+
 function renderChapterReward(host: HTMLElement, state: ControllerState, render: () => void): void {
   const run = requireRun(state);
   const chapter = getCurrentChapter(run);
   const panel = createPanel("screen-chapter-reward", "章末悟境");
   panel.classList.add("chapter-reward-screen", "chapter-reward-screen--kit", "reward-screen", "transition-screen", "transition-screen--kit");
-  
+
+  // Cinematic Background Video
+  const videoBg = document.createElement("video");
+  videoBg.className = "transition-cinematic-bg";
+  videoBg.autoplay = true;
+  videoBg.loop = true;
+  videoBg.muted = true;
+  videoBg.playsInline = true;
+  const videoSource = document.createElement("source");
+  videoSource.src = `/assets/generated/ui/transitions/chapter-1-end.mp4`;
+  videoSource.type = "video/mp4";
+  videoBg.append(videoSource);
+  panel.append(videoBg);
+
   // Header: Run Status
-  panel.append(createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render)));
+  const statusContainer = createRunStatus(run, state.message, () => openDeck(state, render), () => openLogbook(state, render), () => openCompendium(state, render), getDebugSkipChapterHandler(state, render));
+
+  // Hide UI Toggle Button
+  const hideUiBtn = document.createElement("button");
+  hideUiBtn.className = "hide-ui-btn";
+  hideUiBtn.textContent = "清屏观赏";
+  hideUiBtn.title = "隐藏界面，沉浸观看视频";
+  hideUiBtn.onclick = () => {
+    panel.classList.toggle("is-ui-hidden");
+    hideUiBtn.textContent = panel.classList.contains("is-ui-hidden") ? "显示界面" : "清屏观赏";
+  };
+  statusContainer.append(hideUiBtn);
+  panel.append(statusContainer);
 
   const header = document.createElement("div");
   header.className = "transition-header transition-header--kit";
-  header.innerHTML = `<h3>${chapter.name} · 悟境</h3>`;
+  header.innerHTML = `<h3>${chapter.name} · ${state.chapterTransitionPhase === "recap" ? "悟境" : state.chapterTransitionPhase === "growths" ? "抄录" : "战利"}</h3>`;
   panel.append(header);
 
-  // Main Body: Two-column layout
   const layout = document.createElement("div");
-  layout.className = "transition-layout-container";
+  layout.className = "transition-layout-container transition-layout-container--centered";
 
-  // Left Column: Recap & Summary
-  const recapCol = document.createElement("div");
-  recapCol.className = "transition-layout-column transition-layout-column--recap";
-  recapCol.append(
-    createChapterTransitionHero(run, "chapterReward"),
-    createTransitionSpoilsDossier(state.pendingSpoils, "chapter")
-  );
+  if (state.chapterTransitionPhase === "recap") {
+    const recapCol = document.createElement("div");
+    recapCol.className = "transition-layout-column transition-layout-column--recap transition-layout-column--centered";
+    recapCol.append(
+      createChapterTransitionHero(run, "chapterReward"),
+      createTransitionSpoilsDossier(state.pendingSpoils, "chapter")
+    );
 
-  // Right Column: Growth Choices
-  const choiceCol = document.createElement("div");
-  choiceCol.className = "transition-layout-column transition-layout-column--choices";
-
-  const choices = document.createElement("div");
-  choices.className = "chapter-reward-list chapter-reward-list--kit";
-
-  for (const choice of createChapterRewardChoices(run)) {
-    const button = createAction(choice.title, choice.summary, () => {
-      const claimed = claimChapterReward(run, choice.id);
-      state.message = claimed ? `章末成长：${claimed.title}。` : "这项成长暂不可得。";
-      state.screen = "bossReward";
+    const nextBtn = createAction("下一步", "感悟此章成长。", () => {
+      state.chapterTransitionPhase = "growths";
       render();
     });
-    button.classList.add("chapter-reward-choice", "chapter-reward-choice--kit");
-    button.dataset.testid = "chapter-reward-choice";
-    button.dataset.choiceId = choice.id;
-    choices.append(button);
-  }
+    nextBtn.classList.add("transition-primary-action", "transition-primary-action--kit", "result-primary-action");
+    
+    layout.append(recapCol, nextBtn);
+  } else if (state.chapterTransitionPhase === "growths") {
+    const growthsContainer = document.createElement("div");
+    growthsContainer.className = "transition-layout-column transition-layout-column--choices transition-layout-column--centered";
+    growthsContainer.append(createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`));
 
-  const advancedDraft = createAdvancedRewardDraft(run, "boss");
-  const advancedClaimed = hasAdvancedRewardClaimed(run, chapter.id);
-  const advanced = document.createElement("div");
-  advanced.className = "advanced-reward-list transition-choice-section transition-choice-section--kit";
-  advanced.dataset.testid = "advanced-reward-dossier";
-  advanced.append(createMessage(advancedDraft.reason));
+    const list = document.createElement("div");
+    list.className = "chapter-reward-list chapter-reward-list--kit";
+    // Force grid for centered layout
+    list.style.display = "grid";
 
-  for (const choice of advancedDraft.choices) {
-    const button = createAction(choice.title, choice.summary, () => {
-      if (advancedClaimed) {
-        state.message = "本章高阶战利已经入囊。";
+    for (const choice of createChapterRewardChoices(run)) {
+      const card = createChapterRewardChoiceCard(run, choice, "chapter", () => {
+        const claimed = claimChapterReward(run, choice.id);
+        state.message = claimed ? `章末成长：${claimed.title}。` : "这项成长暂不可得。";
+        state.chapterTransitionPhase = "advanced";
         render();
-        return;
-      }
+      });
+      list.append(card);
+    }
+    growthsContainer.append(list);
+    layout.append(growthsContainer);
+  } else if (state.chapterTransitionPhase === "advanced") {
+    const advancedDraft = createAdvancedRewardDraft(run, "boss");
+    const advancedClaimed = hasAdvancedRewardClaimed(run, chapter.id);
+    
+    const advancedContainer = document.createElement("div");
+    advancedContainer.className = "transition-layout-column transition-layout-column--choices transition-layout-column--centered";
+    advancedContainer.append(createMessage(advancedDraft.reason));
 
-      state.message = claimAdvancedReward(run, choice, chapter.id);
-      render();
-    });
-    button.classList.add("advanced-reward-choice", "advanced-reward-choice--kit");
-    button.dataset.testid = "advanced-reward-choice";
-    button.dataset.choiceId = choice.id;
-    button.disabled = advancedClaimed;
-    advanced.append(button);
+    const list = document.createElement("div");
+    list.className = "advanced-reward-list transition-choice-section transition-choice-section--kit";
+    // In cinematic mode, this is already a grid from CSS, but let's be explicit
+    list.style.display = "grid";
+
+    for (const choice of advancedDraft.choices) {
+      const card = createChapterRewardChoiceCard(run, choice, "advanced", () => {
+        if (advancedClaimed) {
+          state.message = "本章高阶战利已经入囊。";
+          render();
+          return;
+        }
+
+        state.message = claimAdvancedReward(run, choice, chapter.id);
+        state.screen = "bossReward";
+        render();
+      });
+      if (advancedClaimed) {
+        (card as HTMLButtonElement).disabled = true;
+      }
+      list.append(card);
+    }
+
+    if (advancedDraft.choices.length === 0 || advancedClaimed) {
+        const nextBtn = createAction("下一步", "收束本幕战利。", () => {
+            state.screen = "bossReward";
+            render();
+        });
+        nextBtn.classList.add("transition-primary-action", "transition-primary-action--kit", "result-primary-action");
+        advancedContainer.append(nextBtn);
+    }
+
+    advancedContainer.append(list);
+    layout.append(advancedContainer);
   }
 
-  const chapterChoices = document.createElement("section");
-  chapterChoices.className = "transition-choice-section transition-choice-section--kit chapter-reward-dossier";
-  chapterChoices.dataset.testid = "chapter-reward-dossier";
-  chapterChoices.innerHTML = `
-    <small>章末抄录</small>
-    <h3>${escapeHtml(chapter.name)}留下的成长</h3>
-  `;
-  chapterChoices.append(choices);
-
-  choiceCol.append(
-    createMessage(`${chapter.name}的残页落定，选择一项带入下一段江湖的成长。`),
-    chapterChoices,
-    advanced
-  );
-
-  layout.append(recapCol, choiceCol);
   panel.append(layout);
   mountChapterPanel(host, panel, run);
 }
@@ -2369,27 +2511,24 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
 
   const header = document.createElement("div");
   header.className = "transition-header transition-header--kit";
-  header.innerHTML = `<h3>${chapter.name} · 战利</h3>`;
+  header.innerHTML = `<h3>${chapter.name} · 换幕</h3>`;
   panel.append(header);
 
-  // Main Body: Two-column layout
+  // Centered layout
   const layout = document.createElement("div");
-  layout.className = "transition-layout-container";
+  layout.className = "transition-layout-container transition-layout-container--centered";
 
-  // Left Column: Recap & Summary
   const recapCol = document.createElement("div");
-  recapCol.className = "transition-layout-column transition-layout-column--recap";
+  recapCol.className = "transition-layout-column transition-layout-column--recap transition-layout-column--centered";
   recapCol.append(
     createChapterTransitionHero(run, "bossReward"),
     createTransitionSpoilsDossier(state.pendingSpoils, "boss")
   );
 
-  // Right Column: Continue Action
-  const actionCol = document.createElement("div");
-  actionCol.className = "transition-layout-column transition-layout-column--choices";
-
   const continueButton = createAction(nextChapter ? "前往下一章" : "收束本章", nextChapter ? `带着章末成长进入${nextChapter.name}。` : "带着战利离开此地。", () => {
     state.pendingSpoils = undefined;
+    // Reset phase for next chapter
+    state.chapterTransitionPhase = "recap";
     if (advanceToNextChapter(run)) {
       state.screen = "map";
       state.message = `雨声渐近，${nextChapter?.name ?? "下一章"}展开。`;
@@ -2405,15 +2544,15 @@ function renderBossReward(host: HTMLElement, state: ControllerState, render: () 
     }
     render();
   });
-  continueButton.classList.add("transition-primary-action", "transition-primary-action--kit");
+  continueButton.classList.add("transition-primary-action", "transition-primary-action--kit", "result-primary-action");
   continueButton.dataset.testid = "boss-reward-continue";
 
-  actionCol.append(
+  recapCol.append(
     createMessage(nextChapter ? `${chapter.name}已经写完，下一页通向${nextChapter.name}。` : `${chapter.name}的墨色暂时退去。`),
     continueButton
   );
 
-  layout.append(recapCol, actionCol);
+  layout.append(recapCol);
   panel.append(layout);
   mountChapterPanel(host, panel, run);
 }
@@ -4076,6 +4215,18 @@ function getStandeePath(portrait: ReturnType<typeof getCombatPortrait>): string 
 function createCardArtMarkup(card: CardDefinition): string {
   const art = getCardArt(card);
   return `<span class="card-art card-art--${art.accent} card-art--kit"><img data-testid="card-art" src="${art.assetPath}" alt="${art.alt}"></span>`;
+}
+
+function createChapterRewardCardArtMarkup(assetPath: string, alt: string, choiceType: string): string {
+  const accent = choiceType === "maxHp"
+    ? "teal"
+    : choiceType === "upgrade"
+      ? "red"
+      : choiceType === "methodUpgrade"
+        ? "gold"
+        : "ink";
+
+  return `<span class="card-art card-art--${accent} card-art--kit"><img data-testid="card-art" src="${assetPath}" alt="${escapeAttribute(alt)}"></span>`;
 }
 
 function createRelicArtMarkup(relicId: string, className = "relic-art"): string {
