@@ -1,0 +1,3998 @@
+{
+  "generatedAt": "2026-05-16T13:19:03.980Z",
+  "tool": "scripts/build-high-frame-alpha-and-qa.mjs",
+  "alphaMethod": "shave 20px cell border, resize back to 512, grayscale inverse alpha from white source, level 6%-35%",
+  "sheet": {
+    "width": 4096,
+    "height": 4096,
+    "columns": 8,
+    "frameWidth": 512,
+    "frameHeight": 512
+  },
+  "targets": [
+    {
+      "character": "zhaoyun",
+      "frameCount": 24,
+      "alphaSheetPath": "zhaoyun-24f-dash-spear-combo-4096-alpha.png",
+      "reviewFrames": [
+        "frame_01.png",
+        "frame_02.png",
+        "frame_03.png",
+        "frame_04.png",
+        "frame_05.png",
+        "frame_06.png",
+        "frame_07.png",
+        "frame_08.png",
+        "frame_09.png",
+        "frame_10.png",
+        "frame_11.png",
+        "frame_12.png",
+        "frame_13.png",
+        "frame_14.png",
+        "frame_15.png",
+        "frame_16.png",
+        "frame_17.png",
+        "frame_18.png",
+        "frame_19.png",
+        "frame_20.png",
+        "frame_21.png",
+        "frame_22.png",
+        "frame_23.png",
+        "frame_24.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "frame": "frame_01.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_01.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 492,
+            "height": 489,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.32167,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.01537,
+            "left": 0,
+            "right": 0,
+            "max": 0.01537
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "frame": "frame_02.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_02.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 403,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.26405,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.09781,
+            "right": 0.01521,
+            "max": 0.09781
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "frame": "frame_03.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_03.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 433,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.40424,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.01013,
+            "left": 0.19219,
+            "right": 0.29141,
+            "max": 0.29141
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "frame": "frame_04.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_04.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 499,
+            "height": 429,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33362,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.01894,
+            "right": 0,
+            "max": 0.01894
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 4,
+          "frame": "frame_05.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_05.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 509,
+            "height": 468,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.34832,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.15143,
+            "right": 0.00246,
+            "max": 0.15143
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 5,
+          "frame": "frame_06.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_06.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 466,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.32474,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.10514,
+            "right": 0.03513,
+            "max": 0.10514
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 6,
+          "frame": "frame_07.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_07.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 436,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.3303,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.22427,
+            "right": 0.03348,
+            "max": 0.22427
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 7,
+          "frame": "frame_08.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_08.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 458,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.32698,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.02919,
+            "right": 0.01133,
+            "max": 0.02919
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 8,
+          "frame": "frame_09.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_09.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 487,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33408,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.1747,
+            "right": 0.02824,
+            "max": 0.1747
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 9,
+          "frame": "frame_10.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_10.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 456,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.27607,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.05779,
+            "left": 0.05846,
+            "right": 0.01124,
+            "max": 0.05846
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 10,
+          "frame": "frame_11.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_11.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 496,
+            "height": 506,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.31998,
+          "edgeAlpha": {
+            "top": 0.03704,
+            "bottom": 0.00926,
+            "left": 0.09717,
+            "right": 0,
+            "max": 0.09717
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 11,
+          "frame": "frame_12.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_12.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 474,
+            "height": 506,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33212,
+          "edgeAlpha": {
+            "top": 0.00075,
+            "bottom": 0.00574,
+            "left": 0,
+            "right": 0,
+            "max": 0.00574
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 12,
+          "frame": "frame_13.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_13.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 508,
+            "height": 506,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.36891,
+          "edgeAlpha": {
+            "top": 0.02494,
+            "bottom": 0.00425,
+            "left": 0.00222,
+            "right": 0.11542,
+            "max": 0.11542
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 13,
+          "frame": "frame_14.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_14.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 440,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.29063,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.03854,
+            "right": 0.09597,
+            "max": 0.09597
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 14,
+          "frame": "frame_15.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_15.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 479,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.38736,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.00114,
+            "left": 0.27204,
+            "right": 0.0103,
+            "max": 0.27204
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 15,
+          "frame": "frame_16.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_16.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 471,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.32745,
+          "edgeAlpha": {
+            "top": 0.00023,
+            "bottom": 0,
+            "left": 0.0111,
+            "right": 0.16344,
+            "max": 0.16344
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 16,
+          "frame": "frame_17.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_17.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 414,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.3106,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.20808,
+            "right": 0.01458,
+            "max": 0.20808
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 17,
+          "frame": "frame_18.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_18.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 456,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.29171,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.06046,
+            "right": 0.07343,
+            "max": 0.07343
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 18,
+          "frame": "frame_19.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_19.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 445,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.39529,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.14258,
+            "right": 0.13989,
+            "max": 0.14258
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 19,
+          "frame": "frame_20.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_20.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 403,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.29613,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.1301,
+            "right": 0.1696,
+            "max": 0.1696
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 20,
+          "frame": "frame_21.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_21.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 496,
+            "height": 438,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.30226,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.00153,
+            "right": 0,
+            "max": 0.00153
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 21,
+          "frame": "frame_22.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_22.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 474,
+            "height": 490,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.34957,
+          "edgeAlpha": {
+            "top": 0.08421,
+            "bottom": 0,
+            "left": 0.04117,
+            "right": 0,
+            "max": 0.08421
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 22,
+          "frame": "frame_23.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_23.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 428,
+            "height": 482,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.26818,
+          "edgeAlpha": {
+            "top": 0.08766,
+            "bottom": 0,
+            "left": 0,
+            "right": 0,
+            "max": 0.08766
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 23,
+          "frame": "frame_24.png",
+          "alphaFramePath": "../frames-512-alpha/zhaoyun/frame_24.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 448,
+            "height": 496,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.30857,
+          "edgeAlpha": {
+            "top": 0.05511,
+            "bottom": 0,
+            "left": 0.00664,
+            "right": 0,
+            "max": 0.05511
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "character": "diaochan",
+      "frameCount": 32,
+      "alphaSheetPath": "diaochan-32f-crimson-dance-4096-alpha.png",
+      "reviewFrames": [
+        "frame_01.png",
+        "frame_02.png",
+        "frame_03.png",
+        "frame_04.png",
+        "frame_05.png",
+        "frame_06.png",
+        "frame_07.png",
+        "frame_08.png",
+        "frame_09.png",
+        "frame_10.png",
+        "frame_11.png",
+        "frame_12.png",
+        "frame_13.png",
+        "frame_14.png",
+        "frame_15.png",
+        "frame_16.png",
+        "frame_17.png",
+        "frame_18.png",
+        "frame_19.png",
+        "frame_20.png",
+        "frame_21.png",
+        "frame_22.png",
+        "frame_23.png",
+        "frame_24.png",
+        "frame_25.png",
+        "frame_26.png",
+        "frame_27.png",
+        "frame_28.png",
+        "frame_29.png",
+        "frame_30.png",
+        "frame_31.png",
+        "frame_32.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "frame": "frame_01.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_01.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 475,
+            "height": 486,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.36514,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.00239,
+            "right": 0,
+            "max": 0.00239
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "frame": "frame_02.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_02.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 500,
+            "height": 489,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.37022,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.11232,
+            "right": 0,
+            "max": 0.11232
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "frame": "frame_03.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_03.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 484,
+            "height": 483,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.37178,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.03081,
+            "right": 0,
+            "max": 0.03081
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "frame": "frame_04.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_04.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 455,
+            "height": 485,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.37335,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.00074,
+            "right": 0,
+            "max": 0.00074
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 4,
+          "frame": "frame_05.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_05.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 507,
+            "height": 474,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.3739,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.06973,
+            "right": 0.00337,
+            "max": 0.06973
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 5,
+          "frame": "frame_06.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_06.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 501,
+            "height": 480,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.39035,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.11872,
+            "right": 0,
+            "max": 0.11872
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 6,
+          "frame": "frame_07.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_07.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 496,
+            "height": 481,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.40309,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.12854,
+            "right": 0,
+            "max": 0.12854
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 7,
+          "frame": "frame_08.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_08.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 495,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.42309,
+          "edgeAlpha": {
+            "top": 0.0334,
+            "bottom": 0,
+            "left": 0.07326,
+            "right": 0.08145,
+            "max": 0.08145
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 8,
+          "frame": "frame_09.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_09.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 504,
+            "height": 494,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.44047,
+          "edgeAlpha": {
+            "top": 0.01456,
+            "bottom": 0,
+            "left": 0.1463,
+            "right": 0,
+            "max": 0.1463
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 9,
+          "frame": "frame_10.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_10.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 501,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.42512,
+          "edgeAlpha": {
+            "top": 0.01775,
+            "bottom": 0,
+            "left": 0.16193,
+            "right": 0.03814,
+            "max": 0.16193
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 10,
+          "frame": "frame_11.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_11.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 508,
+            "height": 504,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.41036,
+          "edgeAlpha": {
+            "top": 0.0005,
+            "bottom": 0.00107,
+            "left": 0.09655,
+            "right": 0.00814,
+            "max": 0.09655
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 11,
+          "frame": "frame_12.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_12.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 503,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.40905,
+          "edgeAlpha": {
+            "top": 0.09332,
+            "bottom": 0,
+            "left": 0.14236,
+            "right": 0.07136,
+            "max": 0.14236
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 12,
+          "frame": "frame_13.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_13.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 503,
+            "height": 497,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.36968,
+          "edgeAlpha": {
+            "top": 0.00774,
+            "bottom": 0,
+            "left": 0.09287,
+            "right": 0,
+            "max": 0.09287
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 13,
+          "frame": "frame_14.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_14.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 504,
+            "height": 498,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.423,
+          "edgeAlpha": {
+            "top": 0.00107,
+            "bottom": 0.00705,
+            "left": 0.0606,
+            "right": 0,
+            "max": 0.0606
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "high-ink-coverage"
+            ]
+          }
+        },
+        {
+          "index": 14,
+          "frame": "frame_15.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_15.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 481,
+            "height": 493,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.37549,
+          "edgeAlpha": {
+            "top": 0.00009,
+            "bottom": 0,
+            "left": 0,
+            "right": 0,
+            "max": 0.00009
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 15,
+          "frame": "frame_16.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_16.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 500,
+            "height": 500,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.41112,
+          "edgeAlpha": {
+            "top": 0.00698,
+            "bottom": 0,
+            "left": 0.10025,
+            "right": 0,
+            "max": 0.10025
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 16,
+          "frame": "frame_17.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_17.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 484,
+            "height": 500,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.39893,
+          "edgeAlpha": {
+            "top": 0.00403,
+            "bottom": 0,
+            "left": 0.10281,
+            "right": 0,
+            "max": 0.10281
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 17,
+          "frame": "frame_18.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_18.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 505,
+            "height": 501,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.40069,
+          "edgeAlpha": {
+            "top": 0.00179,
+            "bottom": 0,
+            "left": 0.02688,
+            "right": 0.00013,
+            "max": 0.02688
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 18,
+          "frame": "frame_19.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_19.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 495,
+            "height": 499,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.42769,
+          "edgeAlpha": {
+            "top": 0.00239,
+            "bottom": 0,
+            "left": 0.02555,
+            "right": 0,
+            "max": 0.02555
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "high-ink-coverage"
+            ]
+          }
+        },
+        {
+          "index": 19,
+          "frame": "frame_20.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_20.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 501,
+            "height": 507,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.41917,
+          "edgeAlpha": {
+            "top": 0.15276,
+            "bottom": 0.01415,
+            "left": 0.28122,
+            "right": 0,
+            "max": 0.28122
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 20,
+          "frame": "frame_21.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_21.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 496,
+            "height": 508,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.42423,
+          "edgeAlpha": {
+            "top": 0.12575,
+            "bottom": 0.09274,
+            "left": 0.06298,
+            "right": 0,
+            "max": 0.12575
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 21,
+          "frame": "frame_22.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_22.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 477,
+            "height": 497,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.38585,
+          "edgeAlpha": {
+            "top": 0.11944,
+            "bottom": 0,
+            "left": 0.00174,
+            "right": 0,
+            "max": 0.11944
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 22,
+          "frame": "frame_23.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_23.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 493,
+            "height": 492,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.43448,
+          "edgeAlpha": {
+            "top": 0.00084,
+            "bottom": 0,
+            "left": 0.00882,
+            "right": 0,
+            "max": 0.00882
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "high-ink-coverage"
+            ]
+          }
+        },
+        {
+          "index": 23,
+          "frame": "frame_24.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_24.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 510,
+            "height": 496,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.41454,
+          "edgeAlpha": {
+            "top": 0.0037,
+            "bottom": 0,
+            "left": 0.07421,
+            "right": 0.02127,
+            "max": 0.07421
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 24,
+          "frame": "frame_25.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_25.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 487,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.38972,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.12022,
+            "right": 0.01204,
+            "max": 0.12022
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 25,
+          "frame": "frame_26.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_26.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 494,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.43378,
+          "edgeAlpha": {
+            "top": 0.00228,
+            "bottom": 0,
+            "left": 0.03741,
+            "right": 0.019,
+            "max": 0.03741
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage"
+            ]
+          }
+        },
+        {
+          "index": 26,
+          "frame": "frame_27.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_27.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 506,
+            "height": 485,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.37232,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.06457,
+            "right": 0.00078,
+            "max": 0.06457
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 27,
+          "frame": "frame_28.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_28.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 500,
+            "height": 494,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.42241,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.1434,
+            "right": 0,
+            "max": 0.1434
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 28,
+          "frame": "frame_29.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_29.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 505,
+            "height": 438,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.35425,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.00405,
+            "right": 0.02092,
+            "max": 0.02092
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 29,
+          "frame": "frame_30.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_30.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 494,
+            "height": 447,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.35714,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.03947,
+            "right": 0,
+            "max": 0.03947
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 30,
+          "frame": "frame_31.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_31.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 496,
+            "height": 434,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33294,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.0598,
+            "right": 0,
+            "max": 0.0598
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 31,
+          "frame": "frame_32.png",
+          "alphaFramePath": "../frames-512-alpha/diaochan/frame_32.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 489,
+            "height": 435,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.35734,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.05738,
+            "right": 0,
+            "max": 0.05738
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "character": "caiwenji",
+      "frameCount": 24,
+      "alphaSheetPath": "caiwenji-24f-qin-resonance-4096-alpha.png",
+      "reviewFrames": [
+        "frame_01.png",
+        "frame_02.png",
+        "frame_03.png",
+        "frame_04.png",
+        "frame_05.png",
+        "frame_06.png",
+        "frame_07.png",
+        "frame_08.png",
+        "frame_09.png",
+        "frame_10.png",
+        "frame_11.png",
+        "frame_12.png",
+        "frame_13.png",
+        "frame_14.png",
+        "frame_15.png",
+        "frame_16.png",
+        "frame_17.png",
+        "frame_18.png",
+        "frame_19.png",
+        "frame_20.png",
+        "frame_21.png",
+        "frame_22.png",
+        "frame_23.png",
+        "frame_24.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "frame": "frame_01.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_01.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 443,
+            "height": 493,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.36761,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.00361,
+            "left": 0.00801,
+            "right": 0,
+            "max": 0.00801
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "frame": "frame_02.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_02.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 495,
+            "height": 499,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.39708,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.02302,
+            "left": 0.0685,
+            "right": 0,
+            "max": 0.0685
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "frame": "frame_03.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_03.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 494,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.42295,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.01044,
+            "left": 0.10925,
+            "right": 0.04497,
+            "max": 0.10925
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "frame": "frame_04.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_04.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 485,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.41431,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.02565,
+            "left": 0.07665,
+            "right": 0.01424,
+            "max": 0.07665
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large"
+            ]
+          }
+        },
+        {
+          "index": 4,
+          "frame": "frame_05.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_05.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 498,
+            "height": 478,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.39221,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.00277,
+            "left": 0.11765,
+            "right": 0,
+            "max": 0.11765
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 5,
+          "frame": "frame_06.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_06.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 490,
+            "height": 492,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.39406,
+          "edgeAlpha": {
+            "top": 0.02842,
+            "bottom": 0,
+            "left": 0.10888,
+            "right": 0,
+            "max": 0.10888
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 6,
+          "frame": "frame_07.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_07.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 479,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.41678,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.12225,
+            "right": 0.01135,
+            "max": 0.12225
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 7,
+          "frame": "frame_08.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_08.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 478,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.38587,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.2029,
+            "right": 0.03865,
+            "max": 0.2029
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 8,
+          "frame": "frame_09.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_09.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 491,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.4289,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.28744,
+            "right": 0.01005,
+            "max": 0.28744
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 9,
+          "frame": "frame_10.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_10.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 486,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.43221,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.25977,
+            "right": 0.02278,
+            "max": 0.25977
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 10,
+          "frame": "frame_11.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_11.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 501,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.42243,
+          "edgeAlpha": {
+            "top": 0.0011,
+            "bottom": 0,
+            "left": 0.22334,
+            "right": 0.01848,
+            "max": 0.22334
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 11,
+          "frame": "frame_12.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_12.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 505,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.49175,
+          "edgeAlpha": {
+            "top": 0.00021,
+            "bottom": 0.00072,
+            "left": 0.40635,
+            "right": 0.00445,
+            "max": 0.40635
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 12,
+          "frame": "frame_13.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_13.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 503,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.49343,
+          "edgeAlpha": {
+            "top": 0.00267,
+            "bottom": 0.00027,
+            "left": 0.36033,
+            "right": 0.00601,
+            "max": 0.36033
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 13,
+          "frame": "frame_14.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_14.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 507,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.46801,
+          "edgeAlpha": {
+            "top": 0.0059,
+            "bottom": 0.00085,
+            "left": 0.34157,
+            "right": 0.14041,
+            "max": 0.34157
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 14,
+          "frame": "frame_15.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_15.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 506,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.48524,
+          "edgeAlpha": {
+            "top": 0.00513,
+            "bottom": 0.00054,
+            "left": 0.35502,
+            "right": 0.01513,
+            "max": 0.35502
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 15,
+          "frame": "frame_16.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_16.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 490,
+            "height": 459,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.38721,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.27861,
+            "right": 0,
+            "max": 0.27861
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 16,
+          "frame": "frame_17.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_17.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 504,
+            "height": 448,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.4265,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.34435,
+            "right": 0,
+            "max": 0.34435
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 17,
+          "frame": "frame_18.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_18.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 466,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.44449,
+          "edgeAlpha": {
+            "top": 0.00777,
+            "bottom": 0,
+            "left": 0.44547,
+            "right": 0.01234,
+            "max": 0.44547
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 18,
+          "frame": "frame_19.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_19.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 511,
+            "height": 465,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.43714,
+          "edgeAlpha": {
+            "top": 0.02795,
+            "bottom": 0,
+            "left": 0.21665,
+            "right": 0.02506,
+            "max": 0.21665
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "high-ink-coverage",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 19,
+          "frame": "frame_20.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_20.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 437,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.34697,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.08699,
+            "right": 0.0045,
+            "max": 0.08699
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 20,
+          "frame": "frame_21.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_21.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 502,
+            "height": 461,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.37073,
+          "edgeAlpha": {
+            "top": 0.10316,
+            "bottom": 0,
+            "left": 0.12114,
+            "right": 0,
+            "max": 0.12114
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 21,
+          "frame": "frame_22.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_22.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 470,
+            "height": 463,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.40599,
+          "edgeAlpha": {
+            "top": 0.11511,
+            "bottom": 0,
+            "left": 0.14702,
+            "right": 0,
+            "max": 0.14702
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 22,
+          "frame": "frame_23.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_23.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 497,
+            "height": 467,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.36894,
+          "edgeAlpha": {
+            "top": 0.10932,
+            "bottom": 0,
+            "left": 0.03731,
+            "right": 0,
+            "max": 0.10932
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 23,
+          "frame": "frame_24.png",
+          "alphaFramePath": "../frames-512-alpha/caiwenji/frame_24.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 472,
+            "height": 470,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.3783,
+          "edgeAlpha": {
+            "top": 0.12307,
+            "bottom": 0,
+            "left": 0.09506,
+            "right": 0,
+            "max": 0.12307
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "character": "zhugeliang",
+      "frameCount": 32,
+      "alphaSheetPath": "zhugeliang-32f-qimen-bagua-4096-alpha.png",
+      "reviewFrames": [
+        "frame_01.png",
+        "frame_02.png",
+        "frame_03.png",
+        "frame_04.png",
+        "frame_05.png",
+        "frame_06.png",
+        "frame_07.png",
+        "frame_08.png",
+        "frame_09.png",
+        "frame_10.png",
+        "frame_11.png",
+        "frame_12.png",
+        "frame_13.png",
+        "frame_14.png",
+        "frame_15.png",
+        "frame_16.png",
+        "frame_17.png",
+        "frame_18.png",
+        "frame_19.png",
+        "frame_20.png",
+        "frame_21.png",
+        "frame_22.png",
+        "frame_23.png",
+        "frame_24.png",
+        "frame_25.png",
+        "frame_26.png",
+        "frame_27.png",
+        "frame_28.png",
+        "frame_29.png",
+        "frame_30.png",
+        "frame_31.png",
+        "frame_32.png"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "frame": "frame_01.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_01.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 394,
+            "height": 485,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.30561,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0,
+            "right": 0,
+            "max": 0
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "frame": "frame_02.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_02.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 490,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33894,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.00421,
+            "left": 0.06992,
+            "right": 0.08782,
+            "max": 0.08782
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "frame": "frame_03.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_03.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 493,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.34045,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.00038,
+            "left": 0.28969,
+            "right": 0.19908,
+            "max": 0.28969
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "frame": "frame_04.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_04.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 495,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.29428,
+          "edgeAlpha": {
+            "top": 0.00025,
+            "bottom": 0,
+            "left": 0.39321,
+            "right": 0.31253,
+            "max": 0.39321
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 4,
+          "frame": "frame_05.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_05.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 487,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.29152,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.56783,
+            "right": 0.46988,
+            "max": 0.56783
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 5,
+          "frame": "frame_06.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_06.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 477,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.28232,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.68134,
+            "right": 0.51167,
+            "max": 0.68134
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 6,
+          "frame": "frame_07.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_07.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 410,
+            "height": 478,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.19292,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.68699,
+            "right": 0,
+            "max": 0.68699
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 7,
+          "frame": "frame_08.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_08.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 0,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 493,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.31943,
+          "edgeAlpha": {
+            "top": 0.02334,
+            "bottom": 0,
+            "left": 0.12458,
+            "right": 0.00013,
+            "max": 0.12458
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 8,
+          "frame": "frame_09.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_09.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 494,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.31681,
+          "edgeAlpha": {
+            "top": 0.00218,
+            "bottom": 0,
+            "left": 0.22708,
+            "right": 0.0837,
+            "max": 0.22708
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 9,
+          "frame": "frame_10.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_10.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 504,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.30367,
+          "edgeAlpha": {
+            "top": 0.00654,
+            "bottom": 0,
+            "left": 0.23896,
+            "right": 0.24093,
+            "max": 0.24093
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 10,
+          "frame": "frame_11.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_11.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 505,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.30802,
+          "edgeAlpha": {
+            "top": 0.00638,
+            "bottom": 0.00079,
+            "left": 0.44232,
+            "right": 0.3104,
+            "max": 0.44232
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 11,
+          "frame": "frame_12.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_12.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 509,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.31464,
+          "edgeAlpha": {
+            "top": 0.00771,
+            "bottom": 0.0088,
+            "left": 0.49355,
+            "right": 0.49749,
+            "max": 0.49749
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 12,
+          "frame": "frame_13.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_13.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 497,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.30557,
+          "edgeAlpha": {
+            "top": 0.02262,
+            "bottom": 0,
+            "left": 0.62326,
+            "right": 0.48322,
+            "max": 0.62326
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 13,
+          "frame": "frame_14.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_14.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 508,
+            "height": 509,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.21504,
+          "edgeAlpha": {
+            "top": 0.01362,
+            "bottom": 0.00617,
+            "left": 0.61555,
+            "right": 0.00059,
+            "max": 0.61555
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 14,
+          "frame": "frame_15.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_15.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 512,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33799,
+          "edgeAlpha": {
+            "top": 0.02426,
+            "bottom": 0.00613,
+            "left": 0.12905,
+            "right": 0.00003,
+            "max": 0.12905
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 15,
+          "frame": "frame_16.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_16.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 512,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 512,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33616,
+          "edgeAlpha": {
+            "top": 0.03497,
+            "bottom": 0.00617,
+            "left": 0.27275,
+            "right": 0.21704,
+            "max": 0.27275
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 16,
+          "frame": "frame_17.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_17.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 512,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.31846,
+          "edgeAlpha": {
+            "top": 0.00626,
+            "bottom": 0.01211,
+            "left": 0.32218,
+            "right": 0.28057,
+            "max": 0.32218
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 17,
+          "frame": "frame_18.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_18.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 510,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.31716,
+          "edgeAlpha": {
+            "top": 0.0221,
+            "bottom": 0.00564,
+            "left": 0.44897,
+            "right": 0.4109,
+            "max": 0.44897
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 18,
+          "frame": "frame_19.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_19.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 512,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.34539,
+          "edgeAlpha": {
+            "top": 0.00437,
+            "bottom": 0.0088,
+            "left": 0.48824,
+            "right": 0.45422,
+            "max": 0.48824
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 19,
+          "frame": "frame_20.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_20.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 506,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.32716,
+          "edgeAlpha": {
+            "top": 0.00815,
+            "bottom": 0.0016,
+            "left": 0.57723,
+            "right": 0.44685,
+            "max": 0.57723
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 20,
+          "frame": "frame_21.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_21.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 512,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.29016,
+          "edgeAlpha": {
+            "top": 0.00511,
+            "bottom": 0.02256,
+            "left": 0.52541,
+            "right": 0.05017,
+            "max": 0.52541
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 21,
+          "frame": "frame_22.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_22.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 503,
+            "height": 511,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.37001,
+          "edgeAlpha": {
+            "top": 0.01036,
+            "bottom": 0.00774,
+            "left": 0.1362,
+            "right": 0,
+            "max": 0.1362
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 22,
+          "frame": "frame_23.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_23.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 502,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.36255,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0.00973,
+            "left": 0.17311,
+            "right": 0.11672,
+            "max": 0.17311
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 23,
+          "frame": "frame_24.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_24.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 1024,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 508,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.38338,
+          "edgeAlpha": {
+            "top": 0.00474,
+            "bottom": 0.0009,
+            "left": 0.33995,
+            "right": 0.36555,
+            "max": 0.36555
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 24,
+          "frame": "frame_25.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_25.png",
+          "sheetCell": {
+            "x": 0,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 504,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.36729,
+          "edgeAlpha": {
+            "top": 0.00002,
+            "bottom": 0.00595,
+            "left": 0.44812,
+            "right": 0.4146,
+            "max": 0.44812
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 25,
+          "frame": "frame_26.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_26.png",
+          "sheetCell": {
+            "x": 512,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 505,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.39301,
+          "edgeAlpha": {
+            "top": 0.00004,
+            "bottom": 0.04453,
+            "left": 0.6428,
+            "right": 0.45226,
+            "max": 0.6428
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 26,
+          "frame": "frame_27.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_27.png",
+          "sheetCell": {
+            "x": 1024,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 512,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.31655,
+          "edgeAlpha": {
+            "top": 0.00432,
+            "bottom": 0.01419,
+            "left": 0.59576,
+            "right": 0.57062,
+            "max": 0.59576
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "touches-bottom-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 27,
+          "frame": "frame_28.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_28.png",
+          "sheetCell": {
+            "x": 1536,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 507,
+            "height": 489,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.25345,
+          "edgeAlpha": {
+            "top": 0,
+            "bottom": 0,
+            "left": 0.61645,
+            "right": 0.00601,
+            "max": 0.61645
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 28,
+          "frame": "frame_29.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_29.png",
+          "sheetCell": {
+            "x": 2048,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 500,
+            "height": 484,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.35114,
+          "edgeAlpha": {
+            "top": 0.0045,
+            "bottom": 0,
+            "left": 0.15168,
+            "right": 0.00002,
+            "max": 0.15168
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 29,
+          "frame": "frame_30.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_30.png",
+          "sheetCell": {
+            "x": 2560,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 481,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.33831,
+          "edgeAlpha": {
+            "top": 0.00204,
+            "bottom": 0,
+            "left": 0.23142,
+            "right": 0.20619,
+            "max": 0.23142
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 30,
+          "frame": "frame_31.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_31.png",
+          "sheetCell": {
+            "x": 3072,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 481,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.35893,
+          "edgeAlpha": {
+            "top": 0.01357,
+            "bottom": 0,
+            "left": 0.37889,
+            "right": 0.41731,
+            "max": 0.41731
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        },
+        {
+          "index": 31,
+          "frame": "frame_32.png",
+          "alphaFramePath": "../frames-512-alpha/zhugeliang/frame_32.png",
+          "sheetCell": {
+            "x": 3584,
+            "y": 1536,
+            "width": 512,
+            "height": 512
+          },
+          "alphaBox": {
+            "width": 512,
+            "height": 483,
+            "x": 0,
+            "y": 0
+          },
+          "alphaCoverage": 0.34042,
+          "edgeAlpha": {
+            "top": 0.02031,
+            "bottom": 0,
+            "left": 0.52636,
+            "right": 0.34339,
+            "max": 0.52636
+          },
+          "qa": {
+            "status": "review",
+            "reasons": [
+              "touches-left-edge",
+              "touches-top-edge",
+              "touches-right-edge",
+              "subject-too-large",
+              "edge-alpha-residue"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

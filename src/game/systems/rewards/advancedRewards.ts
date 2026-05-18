@@ -25,7 +25,6 @@ export function createAdvancedRewardDraft(run: RunState, nodeType: MapNodeType =
   const choices: AdvancedRewardChoice[] = [];
   const rareCardId = getRareBuildCard(run);
   const methodId = getUpgradeableMethodId(run);
-  const relicId = getAdvancedRelicId(run, nodeType);
 
   choices.push({
     id: `rare-card-${rareCardId}`,
@@ -34,16 +33,6 @@ export function createAdvancedRewardDraft(run: RunState, nodeType: MapNodeType =
     summary: `获得${cardsById[rareCardId]?.name ?? rareCardId}，补强当前角色流派。`,
     cardId: rareCardId
   });
-
-  if (relicId) {
-    choices.push({
-      id: `relic-${relicId}`,
-      type: "relic",
-      title: relicsById[relicId]?.name ?? "稀有法宝",
-      summary: relicsById[relicId]?.description ?? "获得一件稀有法宝。",
-      relicId
-    });
-  }
 
   if (methodId) {
     const method = methodsById[methodId as MethodId];

@@ -33,6 +33,8 @@ export interface CompendiumItem {
   chapter?: ChapterId;
   unlockState?: CompendiumUnlockState;
   unlockReason?: string;
+  eventId?: string;
+  bossId?: string;
 }
 
 export interface CompendiumGroup {
@@ -141,7 +143,23 @@ const eventChapterById: Record<string, ChapterId> = {
   event_unfinished_chessboard: "changan",
   event_heart_mirror: "moyuan",
   event_unwritten_page: "moyuan",
-  event_broken_brush_altar: "moyuan"
+  event_broken_brush_altar: "moyuan",
+  event_river_bones_lantern: "luoshui",
+  event_mountain_pass_riddle: "luoshui",
+  event_silent_training_yard: "luoshui",
+  event_muddy_ferry_lantern: "luoshui",
+  event_old_roadside_inn: "luoshui",
+  event_qingyin_lost_score: "bamboo",
+  event_bamboo_grave_song: "bamboo",
+  event_spear_oath_pavilion: "bamboo",
+  event_lotus_reflection_stage: "bamboo",
+  event_qin_rain_pavilion: "bamboo",
+  event_star_board_argument: "changan",
+  event_empty_city_wind: "changan",
+  event_ink_seller_contract: "changan",
+  event_broken_name_register: "changan",
+  event_star_board_camp: "changan",
+  event_cloud_water_dream: "moyuan"
 };
 
 const eventsById = Object.fromEntries(eventList.map((event) => [event.id, event]));
@@ -246,7 +264,9 @@ function createCompendiumItems(profile?: PlayerProfile): CompendiumItem[] {
         character: event?.character,
         chapter,
         unlockState,
-        unlockReason: unlockState === "unlocked" ? "已收录残页" : "尚未在本存档中收录"
+        unlockReason: unlockState === "unlocked" ? "已收录残页" : "尚未在本存档中收录",
+        eventId: entry.unlocks.eventId,
+        bossId: entry.unlocks.bossId
       };
     })
   ];

@@ -1,0 +1,214 @@
+{
+  "frames": {
+    "zhaoyun_skill_00_idle": {
+      "frame": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "zhaoyun_skill_01_start": {
+      "frame": { "x": 296, "y": 0, "w": 295, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 222 },
+      "sourceSize": { "w": 295, "h": 222 }
+    },
+    "zhaoyun_skill_02_peak": {
+      "frame": { "x": 591, "y": 0, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "zhaoyun_skill_03_impact": {
+      "frame": { "x": 887, "y": 0, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "zhaoyun_skill_04_recover": {
+      "frame": { "x": 1183, "y": 0, "w": 295, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 222 },
+      "sourceSize": { "w": 295, "h": 222 }
+    },
+    "zhaoyun_skill_05_return": {
+      "frame": { "x": 1478, "y": 0, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "diaochan_skill_00_idle": {
+      "frame": { "x": 0, "y": 222, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "diaochan_skill_01_start": {
+      "frame": { "x": 296, "y": 222, "w": 295, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 222 },
+      "sourceSize": { "w": 295, "h": 222 }
+    },
+    "diaochan_skill_02_peak": {
+      "frame": { "x": 591, "y": 222, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "diaochan_skill_03_impact": {
+      "frame": { "x": 887, "y": 222, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "diaochan_skill_04_recover": {
+      "frame": { "x": 1183, "y": 222, "w": 295, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 222 },
+      "sourceSize": { "w": 295, "h": 222 }
+    },
+    "diaochan_skill_05_return": {
+      "frame": { "x": 1478, "y": 222, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "zhugeliang_skill_00_idle": {
+      "frame": { "x": 0, "y": 444, "w": 296, "h": 221 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 221 },
+      "sourceSize": { "w": 296, "h": 221 }
+    },
+    "zhugeliang_skill_01_start": {
+      "frame": { "x": 296, "y": 444, "w": 295, "h": 221 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 221 },
+      "sourceSize": { "w": 295, "h": 221 }
+    },
+    "zhugeliang_skill_02_peak": {
+      "frame": { "x": 591, "y": 444, "w": 296, "h": 221 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 221 },
+      "sourceSize": { "w": 296, "h": 221 }
+    },
+    "zhugeliang_skill_03_impact": {
+      "frame": { "x": 887, "y": 444, "w": 296, "h": 221 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 221 },
+      "sourceSize": { "w": 296, "h": 221 }
+    },
+    "zhugeliang_skill_04_recover": {
+      "frame": { "x": 1183, "y": 444, "w": 295, "h": 221 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 221 },
+      "sourceSize": { "w": 295, "h": 221 }
+    },
+    "zhugeliang_skill_05_return": {
+      "frame": { "x": 1478, "y": 444, "w": 296, "h": 221 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 221 },
+      "sourceSize": { "w": 296, "h": 221 }
+    },
+    "caiwenji_skill_00_idle": {
+      "frame": { "x": 0, "y": 665, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "caiwenji_skill_01_start": {
+      "frame": { "x": 296, "y": 665, "w": 295, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 222 },
+      "sourceSize": { "w": 295, "h": 222 }
+    },
+    "caiwenji_skill_02_peak": {
+      "frame": { "x": 591, "y": 665, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "caiwenji_skill_03_impact": {
+      "frame": { "x": 887, "y": 665, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    },
+    "caiwenji_skill_04_recover": {
+      "frame": { "x": 1183, "y": 665, "w": 295, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 295, "h": 222 },
+      "sourceSize": { "w": 295, "h": 222 }
+    },
+    "caiwenji_skill_05_return": {
+      "frame": { "x": 1478, "y": 665, "w": 296, "h": 222 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 296, "h": 222 },
+      "sourceSize": { "w": 296, "h": 222 }
+    }
+  },
+  "meta": {
+    "app": "imagegen",
+    "version": "2",
+    "image": "inkblade-combat-character-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": { "w": 1774, "h": 887 },
+    "scale": "1",
+    "animations": {
+      "zhaoyun_skill": [
+        "zhaoyun_skill_00_idle",
+        "zhaoyun_skill_01_start",
+        "zhaoyun_skill_02_peak",
+        "zhaoyun_skill_03_impact",
+        "zhaoyun_skill_04_recover",
+        "zhaoyun_skill_05_return"
+      ],
+      "diaochan_skill": [
+        "diaochan_skill_00_idle",
+        "diaochan_skill_01_start",
+        "diaochan_skill_02_peak",
+        "diaochan_skill_03_impact",
+        "diaochan_skill_04_recover",
+        "diaochan_skill_05_return"
+      ],
+      "zhugeliang_skill": [
+        "zhugeliang_skill_00_idle",
+        "zhugeliang_skill_01_start",
+        "zhugeliang_skill_02_peak",
+        "zhugeliang_skill_03_impact",
+        "zhugeliang_skill_04_recover",
+        "zhugeliang_skill_05_return"
+      ],
+      "caiwenji_skill": [
+        "caiwenji_skill_00_idle",
+        "caiwenji_skill_01_start",
+        "caiwenji_skill_02_peak",
+        "caiwenji_skill_03_impact",
+        "caiwenji_skill_04_recover",
+        "caiwenji_skill_05_return"
+      ]
+    }
+  }
+}

@@ -57,7 +57,7 @@ describe("content data", () => {
       cards: 150,
       relics: 40,
       events: 45,
-      logbookEntries: 22,
+      logbookEntries: 49,
       enemies: 19,
       methods: 8
     });
@@ -771,23 +771,26 @@ describe("content data", () => {
     expect(combatSpriteSheetsById.zhugeliang_attack.assetPath).toBe("/assets/sprites/zhugeliang-formation-strip-gpt2.png");
     expect(combatSpriteSheetsById.ink_bandit_attack.frameCount).toBeGreaterThanOrEqual(4);
     expect(combatSpriteSheetsById.ink_bandit_attack.assetPath).toBe("/assets/sprites/ink-bandit-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.faceless_soldier_attack.frameCount).toBeGreaterThanOrEqual(4);
+    expect(combatSpriteSheetsById.faceless_soldier_attack.assetPath).toBe("/assets/sprites/faceless-soldier-attack-strip-gpt-v3.png");
     expect(combatSpriteSheetsById.paper_umbrella_attack.frameCount).toBeGreaterThanOrEqual(4);
-    expect(combatSpriteSheetsById.paper_umbrella_attack.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
+    expect(combatSpriteSheetsById.paper_umbrella_attack.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v3.png");
   });
 
-  it("binds first chapter stand-in enemies to generated GPT v2 attack strips", () => {
+  it("binds first chapter stand-in enemies to dedicated attack strips", () => {
     const genericSlashBindings = visuals.combatSpriteSheetList
       .filter((sheet) => sheet.assetPath === "/assets/sprites/enemy-slash-strip.svg")
       .map((sheet) => sheet.id);
 
     expect(genericSlashBindings).toEqual([]);
-    expect(visuals.getCombatAttackSprite("elite_sword_echo")?.assetPath).toBe("/assets/sprites/sword-echo-attack-strip-gpt-v2.png");
-    expect(visuals.getCombatAttackSprite("elite_blood_banner")?.assetPath).toBe("/assets/sprites/blood-banner-attack-strip-gpt-v2.png");
-    expect(visuals.getCombatAttackSprite("boss_ink_dongzhuo")?.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png");
-    for (const id of ["elite_sword_echo", "elite_blood_banner", "boss_ink_dongzhuo"]) {
+    expect(visuals.getCombatAttackSprite("enemy_faceless_soldier")?.assetPath).toBe("/assets/sprites/faceless-soldier-attack-strip-gpt-v3.png");
+    expect(visuals.getCombatAttackSprite("enemy_paper_umbrella")?.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v3.png");
+    expect(visuals.getCombatAttackSprite("elite_sword_echo")?.assetPath).toBe("/assets/sprites/sword-echo-attack-strip-gpt-v3.png");
+    expect(visuals.getCombatAttackSprite("elite_blood_banner")?.assetPath).toBe("/assets/sprites/blood-banner-attack-strip-gpt-v3.png");
+    expect(visuals.getCombatAttackSprite("boss_ink_dongzhuo")?.assetPath).toBe("/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v3.png");
+    for (const id of ["enemy_faceless_soldier", "enemy_paper_umbrella", "elite_sword_echo", "elite_blood_banner", "boss_ink_dongzhuo"]) {
       expect(visuals.getCombatAttackSprite(id)?.assetPath).not.toBe("/assets/sprites/enemy-slash-strip.svg");
     }
-    expect(visuals.getCombatAttackSprite("enemy_paper_umbrella")?.assetPath).toBe("/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png");
   });
 
   it("maps every chapter to a dedicated battlefield asset", () => {

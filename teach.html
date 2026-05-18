@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>云水江湖新手教学 | Inkblade</title>
+    <meta
+      name="description"
+      content="给第一次接触《云水江湖》的玩家看的教学网站，讲清楚战斗、路线、心境、墨灾、法宝和四位角色的核心差异。"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --paper: #f4ead1;
+        --paper-2: #fbf4e2;
+        --ink: #201915;
+        --ink-soft: rgba(32, 25, 21, 0.72);
+        --line: rgba(94, 48, 34, 0.18);
+        --line-strong: rgba(123, 58, 41, 0.34);
+        --seal: #a83a2d;
+        --jade: #2f7c6e;
+        --gold: #c79137;
+        --sand: #e6d4ad;
+        --card: rgba(255, 251, 242, 0.86);
+        --shadow: 0 20px 50px rgba(37, 24, 18, 0.12);
+        --radius: 18px;
+        --radius-sm: 12px;
+        --max: 1180px;
+        --gap: clamp(16px, 2vw, 26px);
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(167, 58, 45, 0.09), transparent 30%),
+          radial-gradient(circle at top right, rgba(47, 124, 110, 0.08), transparent 26%),
+          linear-gradient(180deg, #f9f1dc 0%, var(--paper) 36%, #efe0bf 100%);
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(66, 51, 38, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(66, 51, 38, 0.03) 1px, transparent 1px);
+        background-size: 36px 36px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.02) 60%, transparent);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(12px);
+        background: rgba(248, 240, 220, 0.82);
+        border-bottom: 1px solid rgba(94, 48, 34, 0.12);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(47, 124, 110, 0.96), rgba(167, 58, 45, 0.92));
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.32), 0 12px 28px rgba(74, 35, 24, 0.18);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .brand-mark::after {
+        content: "墨";
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: rgba(255, 248, 239, 0.94);
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.1;
+      }
+
+      .brand p {
+        margin: 2px 0 0;
+        color: var(--ink-soft);
+        font-size: 12px;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .nav a,
+      .nav .ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border: 1px solid rgba(94, 48, 34, 0.16);
+        border-radius: 999px;
+        text-decoration: none;
+        background: rgba(255, 252, 246, 0.72);
+        box-shadow: 0 6px 18px rgba(47, 24, 18, 0.05);
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      }
+
+      .nav a:hover,
+      .nav .ghost:hover {
+        transform: translateY(-1px);
+        border-color: rgba(167, 58, 45, 0.32);
+        background: rgba(255, 252, 246, 0.95);
+      }
+
+      .hero {
+        padding: 28px 0 20px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        gap: var(--gap);
+        align-items: stretch;
+      }
+
+      .hero-copy,
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+      }
+
+      .hero-copy {
+        padding: clamp(22px, 3vw, 34px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(47, 124, 110, 0.22);
+        color: var(--jade);
+        background: rgba(47, 124, 110, 0.08);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .hero h2 {
+        margin: 16px 0 12px;
+        font-size: clamp(34px, 4.6vw, 58px);
+        line-height: 1.02;
+        letter-spacing: 0;
+      }
+
+      .hero-lead {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 16px;
+        line-height: 1.85;
+        max-width: 56ch;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn.primary {
+        background: linear-gradient(180deg, #b94739, var(--seal));
+        color: #fff8ef;
+        box-shadow: 0 14px 24px rgba(167, 58, 45, 0.22);
+      }
+
+      .btn.secondary {
+        border-color: rgba(47, 124, 110, 0.26);
+        background: rgba(255, 252, 246, 0.92);
+      }
+
+      .hero-notes {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .note {
+        padding: 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(94, 48, 34, 0.12);
+        background: rgba(255, 255, 255, 0.58);
+      }
+
+      .note strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--seal);
+        font-size: 13px;
+      }
+
+      .note span {
+        color: var(--ink-soft);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .hero-art {
+        position: relative;
+        min-height: 100%;
+        overflow: hidden;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        background:
+          radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.12), transparent 18%),
+          radial-gradient(circle at 80% 24%, rgba(47, 124, 110, 0.14), transparent 20%),
+          linear-gradient(180deg, rgba(31, 25, 22, 0.06), rgba(31, 25, 22, 0.7)),
+          linear-gradient(135deg, #685b4d 0%, #3d332d 56%, #231915 100%);
+      }
+
+      .hero-art::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(245, 235, 209, 0.06) 0%, rgba(245, 235, 209, 0.24) 100%),
+          radial-gradient(circle at 30% 15%, rgba(255, 255, 255, 0.18), transparent 30%);
+      }
+
+      .hero-art-content {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: #fff7eb;
+      }
+
+      .hero-art-badge {
+        align-self: flex-start;
+        display: inline-flex;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(24, 19, 15, 0.48);
+        border: 1px solid rgba(255, 246, 231, 0.16);
+        font-size: 12px;
+      }
+
+      .hero-art-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .hero-art-card {
+        max-width: 340px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(24, 19, 15, 0.52);
+        border: 1px solid rgba(255, 246, 231, 0.12);
+        backdrop-filter: blur(8px);
+      }
+
+      .hero-art-card strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 15px;
+      }
+
+      .hero-art-card p {
+        margin: 0;
+        color: rgba(255, 245, 231, 0.82);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .section {
+        padding: 14px 0 26px;
+      }
+
+      .section h3 {
+        margin: 0 0 12px;
+        font-size: clamp(24px, 2.4vw, 36px);
+        line-height: 1.1;
+      }
+
+      .section-lead {
+        margin: 0 0 18px;
+        max-width: 72ch;
+        color: var(--ink-soft);
+        line-height: 1.8;
+      }
+
+      .grid-3,
+      .grid-4 {
+        display: grid;
+        gap: var(--gap);
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--line);
+        background: rgba(255, 252, 246, 0.82);
+        box-shadow: 0 12px 26px rgba(37, 24, 18, 0.06);
+      }
+
+      .card h4 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+
+      .card p,
+      .card li {
+        color: var(--ink-soft);
+        line-height: 1.75;
+        font-size: 14px;
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 0 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(94, 48, 34, 0.12);
+        background: rgba(255, 255, 255, 0.72);
+        color: rgba(32, 25, 21, 0.78);
+        font-size: 12px;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .flow-step {
+        position: relative;
+        padding: 16px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.68);
+        border: 1px solid rgba(94, 48, 34, 0.14);
+      }
+
+      .flow-step::after {
+        content: "";
+        position: absolute;
+        right: -11px;
+        top: 50%;
+        width: 12px;
+        height: 2px;
+        background: rgba(94, 48, 34, 0.28);
+      }
+
+      .flow-step:last-child::after {
+        display: none;
+      }
+
+      .flow-step strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--seal);
+      }
+
+      .flow-step p {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.7;
+        font-size: 14px;
+      }
+
+      .combat-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+        gap: var(--gap);
+      }
+
+      .phase-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .phase-btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .phase-btn {
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(94, 48, 34, 0.18);
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--ink);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+      }
+
+      .phase-btn[aria-pressed="true"],
+      .tab-btn[aria-selected="true"] {
+        color: #fff8ef;
+        border-color: transparent;
+        background: linear-gradient(180deg, #b94739, var(--seal));
+        box-shadow: 0 12px 20px rgba(167, 58, 45, 0.18);
+      }
+
+      .phase-copy {
+        min-height: 220px;
+        padding: 22px;
+        border-radius: 18px;
+        border: 1px solid rgba(94, 48, 34, 0.14);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 252, 246, 0.78)),
+          linear-gradient(135deg, rgba(47, 124, 110, 0.08), transparent 46%);
+      }
+
+      .phase-copy h4 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+
+      .phase-copy p {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.8;
+      }
+
+      .phase-copy ul {
+        margin: 14px 0 0;
+        padding-left: 18px;
+      }
+
+      .phase-copy li {
+        margin: 8px 0;
+        color: var(--ink-soft);
+        line-height: 1.7;
+      }
+
+      .icon-row {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .icon-card {
+        display: grid;
+        justify-items: center;
+        gap: 8px;
+        padding: 16px 10px;
+        text-align: center;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.68);
+        border: 1px solid rgba(94, 48, 34, 0.14);
+      }
+
+      .icon-card .icon {
+        width: 46px;
+        height: 46px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(47, 124, 110, 0.15), rgba(167, 58, 45, 0.12));
+        border: 1px solid rgba(94, 48, 34, 0.12);
+        color: var(--seal);
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .icon-card strong {
+        font-size: 14px;
+      }
+
+      .icon-card span {
+        color: var(--ink-soft);
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: minmax(250px, 270px) minmax(0, 1fr);
+        gap: var(--gap);
+      }
+
+      .tab-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .tab-btn {
+        display: grid;
+        gap: 4px;
+        text-align: left;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(94, 48, 34, 0.14);
+        background: rgba(255, 255, 255, 0.72);
+        cursor: pointer;
+        font: inherit;
+      }
+
+      .tab-btn small {
+        color: var(--ink-soft);
+      }
+
+      .tab-panel {
+        padding: 22px;
+        border-radius: 18px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 252, 246, 0.78)),
+          linear-gradient(135deg, rgba(183, 53, 42, 0.06), transparent 42%);
+        border: 1px solid rgba(94, 48, 34, 0.14);
+      }
+
+      .tab-panel h4 {
+        margin: 0 0 10px;
+        font-size: 24px;
+      }
+
+      .tab-panel .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .stat {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: rgba(47, 124, 110, 0.12);
+        color: var(--jade);
+        border: 1px solid rgba(47, 124, 110, 0.18);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .tab-panel p,
+      .tab-panel li {
+        color: var(--ink-soft);
+        line-height: 1.8;
+      }
+
+      .tab-panel ul {
+        margin: 12px 0 0;
+        padding-left: 18px;
+      }
+
+      .quiz {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--gap);
+      }
+
+      details {
+        padding: 16px 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(94, 48, 34, 0.14);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      details summary {
+        cursor: pointer;
+        list-style: none;
+        font-weight: 700;
+      }
+
+      details summary::-webkit-details-marker {
+        display: none;
+      }
+
+      details p {
+        margin: 12px 0 0;
+        color: var(--ink-soft);
+        line-height: 1.75;
+      }
+
+      .footer {
+        padding: 18px 0 42px;
+        color: var(--ink-soft);
+        font-size: 13px;
+      }
+
+      .skip {
+        position: absolute;
+        left: -999px;
+        top: 0;
+      }
+
+      .skip:focus {
+        left: 16px;
+        top: 16px;
+        z-index: 30;
+        padding: 10px 14px;
+        background: #fff;
+        border-radius: 999px;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .combat-shell,
+        .tabs,
+        .quiz {
+          grid-template-columns: 1fr;
+        }
+
+        .grid-3,
+        .grid-4,
+        .flow,
+        .icon-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .hero-notes {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .wrap {
+          width: min(var(--max), calc(100% - 22px));
+        }
+
+        .topbar-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav {
+          justify-content: flex-start;
+        }
+
+        .grid-3,
+        .grid-4,
+        .flow,
+        .icon-row,
+        .quiz {
+          grid-template-columns: 1fr;
+        }
+
+        .flow-step::after {
+          display: none;
+        }
+
+        .hero h2 {
+          font-size: clamp(30px, 12vw, 44px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div>
+            <h1>云水江湖新手教学</h1>
+            <p>给第一次玩的人看的机制地图</p>
+          </div>
+        </div>
+        <nav class="nav" aria-label="页面导航">
+          <a href="#combat">战斗</a>
+          <a href="#characters">角色</a>
+          <a href="#systems">特色玩法</a>
+          <a href="#tips">新手建议</a>
+          <a class="ghost" href="./">返回游戏</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">先看 1 页，再进游戏</span>
+            <h2>第一次进《云水江湖》，先记住这 4 件事。</h2>
+            <p class="hero-lead">
+              这不是一款只靠“出高伤牌”的卡牌游戏。你要同时看懂敌人意图、控制能量、经营牌组，
+              还要把“心境”和“墨灾”当成一条长期资源线来算。战斗里打的是招式，地图上走的是江湖，结局里选的是命数。
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#one-minute">一分钟上手</a>
+              <a class="btn secondary" href="#characters">先选角色</a>
+            </div>
+            <div class="hero-notes">
+              <div class="note">
+                <strong>先看敌人要干嘛</strong>
+                <span>每回合都能看到敌意，先防还是先打，差别很大。</span>
+              </div>
+              <div class="note">
+                <strong>别把牌组塞满</strong>
+                <span>你要找的是稳定构筑，不是把所有强牌都捡起来。</span>
+              </div>
+              <div class="note">
+                <strong>墨灾有代价</strong>
+                <span>强力墨牌会带来墨痕，战后会吃生命。</span>
+              </div>
+            </div>
+          </div>
+          <aside class="hero-art" aria-label="游戏视觉预览">
+            <div class="hero-art-content">
+              <span class="hero-art-badge">水墨武侠 · 卡牌构筑 · Roguelike</span>
+              <div class="hero-art-stack">
+                <div class="hero-art-card">
+                  <strong>你会在地图上做选择</strong>
+                  <p>战斗、事件、商店、休息、精英和 Boss 排成一条江湖路。每一步都在改你的牌组。</p>
+                </div>
+                <div class="hero-art-card">
+                  <strong>你也会在回合里做选择</strong>
+                  <p>抽牌、花能量、看意图、打招式、触发连招，最后再把自己留到下回合。</p>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="one-minute">
+        <div class="wrap">
+          <h3>一分钟上手</h3>
+          <p class="section-lead">
+            先把一局游戏的骨架记住：你选一个角色，沿地图前进，在战斗和事件里拿牌、删牌、拿法宝，
+            最后去打章节 Boss。每一局都在搭一套“能打到最后”的构筑。
+          </p>
+          <div class="flow">
+            <article class="flow-step">
+              <strong>1. 选角色</strong>
+              <p>赵云、貂蝉、蔡文姬、诸葛亮的资源体系完全不同，起手牌组也不一样。</p>
+            </article>
+            <article class="flow-step">
+              <strong>2. 走路线</strong>
+              <p>你要在普通战、精英、商店、休息和事件之间取舍，不是每个点都值得去。</p>
+            </article>
+            <article class="flow-step">
+              <strong>3. 打战斗</strong>
+              <p>每回合抽牌、花能量、看敌意、打出招式，尽量用顺序触发连招。</p>
+            </article>
+            <article class="flow-step">
+              <strong>4. 养构筑</strong>
+              <p>拿卡、升牌、买法宝、修心法、控制墨痕，把牌组慢慢推向你的流派。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="combat">
+        <div class="wrap combat-shell">
+          <div class="panel" style="padding: 22px">
+            <h3>战斗到底怎么转</h3>
+            <p class="section-lead">
+              这里最重要的不是“能不能打出伤害”，而是你能不能在正确的回合把防守、资源和爆发排好顺序。
+            </p>
+            <div class="phase-btns" role="tablist" aria-label="战斗回合流程">
+              <button class="phase-btn" role="tab" aria-selected="true" data-phase="start">回合开始</button>
+              <button class="phase-btn" role="tab" aria-selected="false" data-phase="play">出牌阶段</button>
+              <button class="phase-btn" role="tab" aria-selected="false" data-phase="enemy">敌人行动</button>
+              <button class="phase-btn" role="tab" aria-selected="false" data-phase="after">回合结算</button>
+            </div>
+            <div class="phase-copy" id="phase-copy" aria-live="polite"></div>
+          </div>
+          <aside class="panel" style="padding: 22px">
+            <h3>你要看的 6 个东西</h3>
+            <div class="phase-list">
+              <article class="card">
+                <h4>能量</h4>
+                <p>每回合可用资源。卡牌费用总和如果超了，本回合就打不完。</p>
+              </article>
+              <article class="card">
+                <h4>手牌 / 抽牌堆 / 弃牌堆</h4>
+                <p>你不是每回合都能摸到想要的牌，所以删牌、抽牌、保留都很重要。</p>
+              </article>
+              <article class="card">
+                <h4>敌人意图</h4>
+                <p>敌人下回合要攻击、上护甲还是放特殊招，提前知道才有解法。</p>
+              </article>
+              <article class="card">
+                <h4>护甲</h4>
+                <p>先吃伤害的缓冲层。该防的时候不防，后面会直接掉血。</p>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="route">
+        <div class="wrap">
+          <h3>地图节点是什么意思</h3>
+          <p class="section-lead">
+            这不是单纯的爬塔。每个节点都在逼你回答一个问题：我要稳一点，还是冲一把？
+          </p>
+          <div class="icon-row">
+            <div class="icon-card">
+              <div class="icon" aria-hidden="true">战</div>
+              <strong>普通战</strong>
+              <span>最常见的补强方式，拿卡和金币，节奏最稳。</span>
+            </div>
+            <div class="icon-card">
+              <div class="icon" aria-hidden="true">精</div>
+              <strong>精英</strong>
+              <span>更危险，但更容易拿到高质量奖励和法宝。</span>
+            </div>
+            <div class="icon-card">
+              <div class="icon" aria-hidden="true">商</div>
+              <strong>商店</strong>
+              <span>买牌、删牌、买法宝。很多构筑是靠“删掉什么”完成的。</span>
+            </div>
+            <div class="icon-card">
+              <div class="icon" aria-hidden="true">息</div>
+              <strong>休息</strong>
+              <span>回血、升级、修整。血量紧张时，休息点就是你的安全缓冲。</span>
+            </div>
+            <div class="icon-card">
+              <div class="icon" aria-hidden="true">事</div>
+              <strong>事件</strong>
+              <span>拿资源、改心境、拿特殊牌，也可能付出生命或墨痕代价。</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="characters">
+        <div class="wrap">
+          <h3>四位角色怎么选</h3>
+          <p class="section-lead">
+            角色不是换皮。你会明显感觉到：每个人的起手资源、构筑方向、奖励偏好都不一样。
+          </p>
+          <div class="tabs">
+            <div class="tab-list" role="tablist" aria-label="角色选择">
+              <button class="tab-btn" role="tab" aria-selected="true" data-character="zhaoyun">
+                赵云
+                <small>稳攻稳守，适合喜欢正面打节奏的人</small>
+              </button>
+              <button class="tab-btn" role="tab" aria-selected="false" data-character="diaochan">
+                貂蝉
+                <small>控制、魅惑、闪避，偏灵巧和连携</small>
+              </button>
+              <button class="tab-btn" role="tab" aria-selected="false" data-character="caiwenji">
+                蔡文姬
+                <small>琴音、净化、余韵，擅长稳态循环</small>
+              </button>
+              <button class="tab-btn" role="tab" aria-selected="false" data-character="zhugeliang">
+                诸葛亮
+                <small>观星、阵法、筹策，偏规划和控场</small>
+              </button>
+            </div>
+            <div class="tab-panel" id="character-panel" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="systems">
+        <div class="wrap">
+          <h3>这游戏真正特别的地方</h3>
+          <p class="section-lead">
+            如果只把它当成“国风卡牌”，会少看很多东西。它真正的味道在于：出牌顺序、心境、墨灾和路线一起工作。
+          </p>
+          <div class="grid-4">
+            <article class="card">
+              <h4>招式链</h4>
+              <p>不是每张牌单独算，而是看你上一张是什么类型。顺序对了，牌会互相抬一手。</p>
+            </article>
+            <article class="card">
+              <h4>心境</h4>
+              <p>宁、怒、悲、魅、乱、悟不只是标签，还会影响事件、卡牌效果和结局倾向。</p>
+            </article>
+            <article class="card">
+              <h4>墨灾与墨痕</h4>
+              <p>墨牌很强，但会留下长期风险。打赢当前回合，不代表你已经赢下整局。</p>
+            </article>
+            <article class="card">
+              <h4>法宝与心法</h4>
+              <p>法宝是被动改变节奏的常驻效果，心法则把你的整局构筑推向更明确的方向。</p>
+            </article>
+          </div>
+          <div class="grid-3" style="margin-top: var(--gap)">
+            <article class="card">
+              <h4>角色资源</h4>
+              <p>赵云的枪势、貂蝉的舞势、蔡文姬的音律、诸葛亮的筹策，都是各自流派的发动机。</p>
+            </article>
+            <article class="card">
+              <h4>路线抉择</h4>
+              <p>精英更危险，但奖励更好；商店能修构筑；休息能稳血线；事件常常是“赌一把”。</p>
+            </article>
+            <article class="card">
+              <h4>章节推进</h4>
+              <p>洛水残照、竹林听雨、长安墨城、墨渊照心，四章是在把“江湖”和“命运”往前推。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="tips">
+        <div class="wrap">
+          <h3>新手别踩的坑</h3>
+          <p class="section-lead">
+            下面这些，比“多拿几张强牌”更重要。新手能少掉一次血，后面就能多拿一次选择权。
+          </p>
+          <div class="quiz">
+            <details open>
+              <summary>我是不是应该每张看起来强的牌都拿？</summary>
+              <p>
+                不要。牌组越大，关键牌越难抽到。你要拿的是能把同一个思路连起来的牌，
+                不是把所有好东西都塞进去。
+              </p>
+            </details>
+            <details open>
+              <summary>为什么我总是打不过精英？</summary>
+              <p>
+                因为精英不是“奖励更好一点的普通怪”，而是逼你验证构筑是否成型。前期没有防守、抽牌和资源，
+                就别太早硬冲。
+              </p>
+            </details>
+            <details>
+              <summary>墨牌要不要碰？</summary>
+              <p>
+                可以碰，但别贪。墨灾是高收益高代价的工具，适合在你已经有回血、净化或稳定构筑时使用。
+              </p>
+            </details>
+            <details>
+              <summary>我玩到一半不知道该走哪条路了。</summary>
+              <p>
+                先问自己三个问题：我缺输出吗？我缺防守吗？我缺删牌或修整吗？路线永远是服务你当前短板的。
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="wrap">
+          记住一句话：在《云水江湖》里，赢不是“打出最大伤害”，而是把一整局的牌组、心境和风险都收束到你想要的流派里。
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      const phaseData = {
+        start: {
+          title: "回合开始先看局势",
+          body:
+            "先结算回合开始效果，再抽牌、拿能量、看敌人意图。很多时候，你这一回合该做什么，在看见敌意那一刻就已经定了。",
+          list: [
+            "抽牌堆不够时，会把弃牌堆洗回去继续抽。",
+            "保留牌不会在回合结束自动弃掉。",
+            "你要留意的是本回合有没有关键牌、关键防御和关键资源。"
+          ]
+        },
+        play: {
+          title: "出牌阶段是在排顺序",
+          body:
+            "这里不是单纯把伤害牌全砸出去。你要先铺资源、再铺防守、最后打爆发，尽量让顺序触发连招和法宝。",
+          list: [
+            "攻击、技法、身法、心境、墨灾各有不同的节奏价值。",
+            "连斩、蓄势、追影、静守、心刃、固守都依赖出牌顺序。",
+            "有时先防守再进攻，比硬抢伤害更容易活过下一轮。"
+          ]
+        },
+        enemy: {
+          title: "敌人行动不是黑盒",
+          body:
+            "敌人会按照意图行动。你提前知道它要攻击还是上护甲，就能提前留护甲、闪避、净化或压制。", 
+          list: [
+            "杀意代表攻击，运功代表上护甲，特殊意图常常混合多种效果。",
+            "Boss 的特殊招数往往会逼你在输出和生存之间做选择。",
+            "会看意图，就等于少挨很多不必要的刀。"
+          ]
+        },
+        after: {
+          title: "回合后别忘了长线代价",
+          body:
+            "回合打完不代表战斗结束。很多状态、墨痕和资源变化会在战后结算，整局压力也会继续往前滚。",
+          list: [
+            "墨痕会在战后吃生命，是墨灾系统的长期代价。",
+            "战斗胜利后的奖励，决定你这局的构筑方向。",
+            "有时候跳过奖励，比勉强拿一张不合适的牌更值。"
+          ]
+        }
+      };
+
+      const characterData = {
+        zhaoyun: {
+          name: "赵云",
+          tagline: "枪势、连斩、护主",
+          hp: "82 生命 / 3 能量 / 5 抽牌",
+          summary:
+            "赵云适合喜欢正面推进的人。他的枪势会鼓励你持续打攻击牌，同时保留足够的防守手段，让你在稳住血线的前提下把连招打完整。",
+          bullets: [
+            "代表资源：枪势",
+            "核心思路：攻击和防守并进，靠连斩和第三张攻击的节奏赚收益",
+            "推荐心法：龙胆连势、长坂守心",
+            "推荐法宝：白龙枪缨、鳞锋枪尖、长坂铁印"
+          ]
+        },
+        diaochan: {
+          name: "貂蝉",
+          tagline: "舞势、魅惑、闪避",
+          hp: "68 生命 / 3 能量 / 5 抽牌",
+          summary:
+            "貂蝉偏灵巧和控制。你会围绕舞势、魅惑和闪避来拆敌人的攻击节奏，让对方先乱起来，再补上爆发。",
+          bullets: [
+            "代表资源：舞势",
+            "核心思路：先扰乱敌人，再用连携伤害收尾",
+            "推荐心法：惊鸿舞谱、倾城心诀",
+            "推荐法宝：闭月香囊、莲步铃、半月钗"
+          ]
+        },
+        caiwenji: {
+          name: "蔡文姬",
+          tagline: "音律、琴音、净化",
+          hp: "72 生命 / 3 能量 / 5 抽牌",
+          summary:
+            "蔡文姬是稳态型角色。她擅长用琴音和余韵把回合做成循环，用净化把污染和负面状态处理掉，再靠音律把价值滚起来。",
+          bullets: [
+            "代表资源：音律",
+            "核心思路：维持循环、净化污染、靠余韵放大收益",
+            "推荐心法：清音回响、胡笳净心",
+            "推荐法宝：青玉琴徽、回音玉磬、清音玉"
+          ]
+        },
+        zhugeliang: {
+          name: "诸葛亮",
+          tagline: "筹策、观星、阵法",
+          hp: "66 生命 / 3 能量 / 5 抽牌",
+          summary:
+            "诸葛亮最像在下棋。你会通过观星调整牌序，通过阵法控制战场，再靠筹策把节奏稳定地推向你想要的回合。",
+          bullets: [
+            "代表资源：筹策",
+            "核心思路：规划下一回合，而不是只看当前回合",
+            "推荐心法：观星定策、借风布阵",
+            "推荐法宝：白羽扇、星照阵图、风阵相关阵法牌"
+          ]
+        }
+      };
+
+      const phaseButtons = document.querySelectorAll("[data-phase]");
+      const phaseCopy = document.getElementById("phase-copy");
+
+      function renderPhase(key) {
+        const data = phaseData[key];
+        phaseCopy.innerHTML = `
+          <h4>${data.title}</h4>
+          <p>${data.body}</p>
+          <ul>${data.list.map((item) => `<li>${item}</li>`).join("")}</ul>
+        `;
+        phaseButtons.forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.phase === key));
+        });
+      }
+
+      phaseButtons.forEach((button) => {
+        button.addEventListener("click", () => renderPhase(button.dataset.phase));
+      });
+
+      const tabButtons = document.querySelectorAll("[data-character]");
+      const characterPanel = document.getElementById("character-panel");
+
+      function renderCharacter(key) {
+        const data = characterData[key];
+        characterPanel.innerHTML = `
+          <h4>${data.name}</h4>
+          <div class="meta">
+            <span class="stat">${data.tagline}</span>
+            <span class="stat">${data.hp}</span>
+          </div>
+          <p>${data.summary}</p>
+          <ul>${data.bullets.map((item) => `<li>${item}</li>`).join("")}</ul>
+        `;
+        tabButtons.forEach((button) => {
+          button.setAttribute("aria-selected", String(button.dataset.character === key));
+        });
+      }
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => renderCharacter(button.dataset.character));
+      });
+
+      renderPhase("start");
+      renderCharacter("zhaoyun");
+    </script>
+  </body>
+</html>

@@ -65,6 +65,16 @@ Open the Vite URL shown in the terminal, usually:
 http://127.0.0.1:5173/
 ```
 
+## Packaging
+
+Build a distributable folder that others can open without installing project dependencies:
+
+```bash
+npm run package
+```
+
+The packaged game is written to `release/InkBlade-JiangHu/`. On macOS, double click `Play InkBlade.command` to launch the bundled local server. On Windows, use `Play InkBlade.bat`.
+
 The repo can also run Vite directly through the local toolchain:
 
 ```bash

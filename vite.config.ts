@@ -12,6 +12,12 @@ export default defineConfig({
   build: {
     // Phaser remains isolated behind the lazy runtime import; the explicit budget keeps build warnings actionable.
     chunkSizeWarningLimit: 1300,
+    rollupOptions: {
+      input: {
+        main: "index.html",
+        teach: "teach.html"
+      }
+    },
     // Keep CSS minification on the safe path for this Codex runtime; lightningcss native loading is not usable here.
     cssMinify: false
   }

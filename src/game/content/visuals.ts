@@ -558,8 +558,16 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
     anchor: "bottom-center"
   },
   {
+    id: "faceless_soldier_attack",
+    assetPath: "/assets/sprites/faceless-soldier-attack-strip-gpt-v3.png",
+    frameCount: 4,
+    frameWidth: 512,
+    frameHeight: 512,
+    anchor: "bottom-center"
+  },
+  {
     id: "paper_umbrella_attack",
-    assetPath: "/assets/sprites/paper-umbrella-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/paper-umbrella-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -567,7 +575,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "sword_echo_attack",
-    assetPath: "/assets/sprites/sword-echo-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/sword-echo-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -575,7 +583,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "blood_banner_attack",
-    assetPath: "/assets/sprites/blood-banner-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/blood-banner-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -583,7 +591,7 @@ export const combatSpriteSheetList: CombatSpriteSheetDefinition[] = [
   },
   {
     id: "ink_dongzhuo_boss_attack",
-    assetPath: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v2.png",
+    assetPath: "/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v3.png",
     frameCount: 4,
     frameWidth: 512,
     frameHeight: 512,
@@ -676,27 +684,29 @@ export const combatSpriteSheetsById: Record<string, CombatSpriteSheetDefinition>
 );
 
 const combatAttackSpriteSheetIdsByCombatantId: Record<string, string> = {
-  zhaoyun: "zhaoyun_attack",
-  diaochan: "diaochan_attack",
-  caiwenji: "caiwenji_attack",
-  zhugeliang: "zhugeliang_attack",
-  enemy_paper_umbrella: "paper_umbrella_attack",
-  elite_sword_echo: "sword_echo_attack",
-  elite_blood_banner: "blood_banner_attack",
-  boss_ink_dongzhuo: "ink_dongzhuo_boss_attack",
-  enemy_bamboo_wraith: "bamboo_wraith_attack",
-  elite_qin_score: "qin_score_attack",
-  enemy_broken_scholar: "broken_scholar_attack",
-  enemy_bamboo_soldier: "bamboo_soldier_attack",
-  elite_bamboo_phalanx: "bamboo_phalanx_attack",
-  boss_qin_demon_echo: "qin_demon_attack",
-  elite_lubu_shadow: "lubu_shadow_attack",
-  enemy_history_scribe: "history_scribe_attack",
-  enemy_ink_market_guard: "history_scribe_attack",
-  enemy_nameless_citizen: "history_scribe_attack",
-  elite_memory_stela: "history_scribe_attack",
-  boss_scribe_officer: "scribe_officer_attack",
-  boss_nameless_historian: "nameless_historian_attack"
+  "zhaoyun": "zhaoyun_attack",
+  "diaochan": "diaochan_attack",
+  "caiwenji": "caiwenji_attack",
+  "zhugeliang": "zhugeliang_attack",
+  "enemy_ink_bandit": "ink_bandit_attack",
+  "enemy_faceless_soldier": "faceless_soldier_attack",
+  "enemy_paper_umbrella": "paper_umbrella_attack",
+  "elite_sword_echo": "sword_echo_attack",
+  "elite_blood_banner": "blood_banner_attack",
+  "boss_ink_dongzhuo": "ink_dongzhuo_boss_attack",
+  "enemy_bamboo_wraith": "bamboo_wraith_attack",
+  "elite_qin_score": "qin_score_attack",
+  "enemy_broken_scholar": "broken_scholar_attack",
+  "enemy_bamboo_soldier": "bamboo_soldier_attack",
+  "elite_bamboo_phalanx": "bamboo_phalanx_attack",
+  "boss_qin_demon_echo": "qin_demon_attack",
+  "elite_lubu_shadow": "lubu_shadow_attack",
+  "enemy_history_scribe": "history_scribe_attack",
+  "enemy_ink_market_guard": "history_scribe_attack",
+  "enemy_nameless_citizen": "history_scribe_attack",
+  "elite_memory_stela": "history_scribe_attack",
+  "boss_scribe_officer": "scribe_officer_attack",
+  "boss_nameless_historian": "nameless_historian_attack"
 };
 
 export function getCombatAttackSprite(id: string): CombatSpriteSheetDefinition | undefined {

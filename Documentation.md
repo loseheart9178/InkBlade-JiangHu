@@ -2,6 +2,54 @@
 
 ## Status Log
 
+### 2026-05-16 11:29 Asia/Shanghai
+
+Prepared optimized combat animation image-generation prompts for the Inkblade art pass.
+
+Docs read:
+
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `AGENTS.md`
+- `docs/art/combat-animation-prompts-v1.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+
+What changed:
+
+- Added `docs/art/combat-animation-prompts-inkblade-v2.md`.
+- Reworked the raw combat-animation prompt list into two production atlas prompts: one four-character combat sprite sheet atlas and one eight-cell ink-wash VFX atlas.
+- Strengthened prompts with the Ink Calamity, heart-obession martial arts, role-specific visual symbols, and practical atlas constraints for later Phaser slicing.
+
+Verification:
+
+```text
+Prompt document created and ready for image generation.
+```
+
+Generated assets:
+
+- `public/assets/generated/sprites/inkblade-combat-character-atlas-v2.png`
+- `public/assets/generated/sprites/inkblade-combat-character-atlas-v2.json`
+- `public/assets/generated/ui/combat-dark-kit-v2/vfx/inkblade-combat-vfx-atlas-v2.png`
+- `public/assets/generated/ui/combat-dark-kit-v2/vfx/inkblade-combat-vfx-atlas-v2.json`
+
+Generation mode:
+
+- Built-in imagegen.
+- Source outputs retained under `/Users/lushihao/.codex/generated_images/019e2ed3-7d32-7680-bd8d-deb6be44ac18/`.
+- Added Phaser JSON Hash atlas mappings because the generated atlas dimensions are not evenly divisible into fixed integer frame sizes.
+
+Next step:
+
+- Slice accepted atlas cells into runtime animation frames and wire selected effects into the Phaser/DOM visual adapters.
+
 ### 2026-05-12 23:45 Asia/Shanghai
 
 Prepared the Combat UI Kit Gate 1 desktop approval package.
@@ -10733,3 +10781,180 @@ Result: passed. README now presents current playable scope, setup, scripts, layo
 npm run build
 Result: passed.
 ```
+
+## 2026-05-16 High-frame combat animation source sheets
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/yunshui_game_prd_v1.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/character_settings/赵云_角色设定文档.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `docs/character_settings/蔡文姬_角色设定文档.md`
+- `docs/character_settings/诸葛亮_角色设定文档.md`
+- `src/game/content/visuals.ts`
+- `src/app/appShell.ts`
+
+What changed:
+
+- Generated high-frame Imagegen source sheets using the currently bound playable character standees as identity references.
+- Added source sheets under `public/assets/generated/sources/high-frame-animation/`:
+  - `zhaoyun-24f-dash-spear-combo-sheet-source.png`
+  - `diaochan-32f-crimson-dance-sheet-source.png`
+  - `caiwenji-24f-qin-resonance-sheet-source.png`
+  - `zhugeliang-32f-qimen-bagua-sheet-source.png`
+- Added a visual contact sheet at `output/high-frame-sheets/selected-contact.png`.
+- Added handoff notes at `docs/art/high-frame-animation-assets-2026-05-16.md`.
+
+Verification:
+
+```text
+identify -format '%f %wx%h\n' public/assets/generated/sources/high-frame-animation/*.png
+Result: passed. All four selected source sheets are 1254x1254 PNGs.
+
+Visual inspection
+Result: passed for source-review use. The sheets preserve the four character identities and requested motion families, but are not yet normalized runtime sprites.
+```
+
+Remaining risks:
+
+- The built-in Imagegen output size is 1254x1254, not the requested 4096x4096 production target.
+- These are source sheets only. They still need frame slicing, transparent alpha cleanup, scale normalization, and runtime registration before replacing existing combat strips.
+
+## 2026-05-16 High-frame 4096 working masters
+
+What changed:
+
+- Added `scripts/build-high-frame-animation-sheets.mjs`.
+- Added `npm run assets:high-frame-sheets`.
+- Sliced the accepted source sheets into `512x512` frame files under `public/assets/generated/sources/high-frame-animation/frames-512/`.
+- Assembled true `4096x4096` 8x8 working masters under `public/assets/generated/sources/high-frame-animation/4096/`.
+- Wrote `public/assets/generated/sources/high-frame-animation/4096/high-frame-animation-4096-manifest.json` with source-cell and 4096-sheet coordinates for every populated frame.
+- Added a populated-row preview at `output/high-frame-sheets/4096-populated-preview.png`.
+
+Verification:
+
+```text
+npm run assets:high-frame-sheets
+Result: passed. Wrote 4 normalized 4096 source sheets.
+
+identify -format '%f %wx%h\n' public/assets/generated/sources/high-frame-animation/4096/*.png
+Result: passed. All four generated sheets are 4096x4096.
+
+find public/assets/generated/sources/high-frame-animation/frames-512 -type f -name 'frame_*.png' | wc -l
+Result: passed. 112 frame files generated.
+
+Manifest summary
+Result: passed. zhaoyun:24, diaochan:32, caiwenji:24, zhugeliang:32, all 4096x4096 outputs.
+```
+
+Remaining risks:
+
+- These 4096 masters are deterministic upscaled working assets from the 1254 source sheets, not native 4096 model renders.
+- Runtime use still needs alpha cleanup and in-engine binding after frame-level visual review.
+
+## 2026-05-16 Event art completion pass
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/art/event-art-prompts-v1.md`
+- `src/game/content/events.ts`
+- `src/game/content/visuals.ts`
+
+What changed:
+
+- Confirmed the event prompt document lists 44 prompts while `src/game/content/events.ts` defines 45 event IDs; added `event_empty_city_wind.png` using the code event copy as the missing source prompt.
+- Generated the remaining 18 event illustrations with the built-in Imagegen workflow, using currently bound combat standees as references only for character-exclusive events.
+- Copied and normalized all new assets to `public/assets/generated/events/event_[event_id].png` at 1280x720.
+- Added visual QA contact sheet at `output/event-art-missing-18-contact.png`.
+
+Verification:
+
+```text
+Event registry coverage
+Result: passed. eventIds: 45, eventPngs: 45, missing: [], extra: [].
+
+PNG delivery size check
+Result: passed. Checked 45 event PNGs; all are 1280x720.
+
+Visual contact sheet review
+Result: passed. The 18 new images match their event themes; character-exclusive events include Zhao Yun, Diao Chan, Cai Wenji, or Zhuge Liang as scene-integrated references.
+```
+
+Remaining risks:
+
+- `docs/art/event-art-prompts-v1.md` still omits `event_empty_city_wind`; the generated art follows the runtime event definition instead.
+- The generated PNGs are now complete for registry coverage, but individual art-direction approval may still request selected rerolls.
+
+## 2026-05-17 First-chapter attack-strip regeneration
+
+Docs read:
+
+- `AGENTS.md`
+- `Prompt.md`
+- `Plan.md`
+- `Implement.md`
+- `Documentation.md`
+- `docs/art/gpt2-priority-queue.md`
+- `docs/云水江湖_世界观与背景故事设定文档_v0.3.md`
+- `docs/chapters/chapter_01.md`
+- `docs/云水江湖_游戏核心玩法机制文档_v1.0.md`
+- `docs/character_settings/貂蝉_角色设定文档.md`
+- `src/game/content/enemies.ts`
+- `src/game/content/visuals.ts`
+
+What changed:
+
+- Generated five new enemy-specific attack strip source images with imagegen, using the existing project standees as reference direction:
+  - `paper_umbrella_attack`
+  - `sword_echo_attack`
+  - `blood_banner_attack`
+  - `ink_dongzhuo_boss_attack`
+  - `faceless_soldier_attack`
+- Removed chroma-key backgrounds and normalized the results into runtime-ready 2048x512 PNG strips under `public/assets/sprites/` with `gpt-v3` suffixes.
+- Updated `src/game/content/visuals.ts` so the five enemies now bind to their dedicated attack strips instead of borrowed sibling or Wave 9 fallback assets.
+- Updated `tests/data/content.test.ts` and `docs/art/gpt2-priority-queue.md` to reflect the new runtime asset paths.
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+```
+
+Remaining risks:
+
+- The attack strips are now dedicated and correctly bound, but their visual identity still depends on the generated image quality; any style reroll would be a separate asset pass.
+
+## 2026-05-17 First-chapter attack-strip scale correction
+
+What changed:
+
+- Rebuilt the five GPT v3 first-chapter enemy attack strips from their preserved alpha sources so each frame occupies a height comparable to other enemy strips under `public/assets/sprites/`.
+- Kept the existing imagegen style and character identity unchanged.
+- Recut the generated sources into four 512x512 cells per strip, scaled each subject to the 430-470px visible-height range, and preserved bottom-center anchoring.
+- Runtime paths stayed unchanged:
+  - `/assets/sprites/paper-umbrella-attack-strip-gpt-v3.png`
+  - `/assets/sprites/faceless-soldier-attack-strip-gpt-v3.png`
+  - `/assets/sprites/sword-echo-attack-strip-gpt-v3.png`
+  - `/assets/sprites/blood-banner-attack-strip-gpt-v3.png`
+  - `/assets/sprites/ink-dongzhuo-boss-attack-strip-gpt-v3.png`
+
+Verification:
+
+```bash
+node scripts/audit-generated-assets.mjs
+npm test -- tests/data/content.test.ts
+```
+
+Result: passed. Asset audit reports `missing: 0`; content tests passed 33/33.
